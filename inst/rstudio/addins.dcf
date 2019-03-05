@@ -1,0 +1,4 @@
+Name: Pin Data
+Description: Pin data using a RAI connection
+Binding: rai_addin_pin
+Interactive: true

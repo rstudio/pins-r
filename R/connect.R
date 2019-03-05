@@ -1,0 +1,2 @@
+rai_connect <- function() {
+}
