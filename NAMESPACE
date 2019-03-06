@@ -3,4 +3,5 @@
 export(active_board)
 export(find_pins)
 export(pin)
+export(pinboard_connection_create)
 export(use_board)

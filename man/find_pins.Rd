@@ -4,7 +4,7 @@
 \alias{find_pins}
 \title{Find Pins}
 \usage{
-find_pins(name = NULL, board = default_board())
+find_pins(name = NULL, board = active_board())
 }
 \arguments{
 \item{name}{The name for the pin}

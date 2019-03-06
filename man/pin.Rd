@@ -4,7 +4,7 @@
 \alias{pin}
 \title{Pin Dataset}
 \usage{
-pin(dataset = NULL, name, description = "", board = default_board())
+pin(dataset = NULL, name, description = "", board = active_board())
 }
 \arguments{
 \item{dataset}{The dataset to pin.}
