@@ -1,25 +1,25 @@
-rai_viewer_register <- function(host = "rai://localhost") {
+pinboard_viewer_register <- function(backend = "local") {
   observer <- getOption("connectionObserver")
-  icons <- system.file(file.path("icons"), package = "rai")
+  if (identical(observer, NULL)) return()
 
-  if (is.null(observer)) return()
+  icons <- system.file(file.path("icons"), package = "pinboard")
 
   observer$connectionOpened(
     # connection type
-    type = "Rai",
+    type = "PinBoard",
 
     # name displayed in connection pane
-    displayName = host,
+    displayName = backend,
 
     # host key
-    host = host,
+    host = backend,
 
     # connection code
-    connectCode = paste0("rai_connect(\"", host, "\")"),
+    connectCode = paste0("use_board(\"", backend, "\")"),
 
     # disconnection code
     disconnect = function() {
-      observer$connectionClosed(type = "Rai", host = host)
+      observer$connectionClosed(type = "PinBoard", host = backend)
     },
 
     listObjectTypes = function () {
@@ -30,11 +30,12 @@ rai_viewer_register <- function(host = "rai://localhost") {
 
     # table enumeration code
     listObjects = function(type = "table") {
-      # data.frame(
-      #   name = c("table1", "table2"),
-      #   type = c("table", "table"),
-      #   stringsAsFactors = FALSE
-      # )
+      objects <- find_pins()
+      data.frame(
+        name = objects$name,
+        type = rep("table", length(objects$name)),
+        stringsAsFactors = FALSE
+      )
     },
 
     # column enumeration code
@@ -61,6 +62,12 @@ rai_viewer_register <- function(host = "rai://localhost") {
     ),
 
     # raw connection object
-    connectionObject = list(name = host)
+    connectionObject = list(name = backend)
   )
+}
+
+pinboard_viewer_updated <- function() {
+  viewer <- getOption("connectionObserver")
+  if (!is.null(viewer))
+    viewer$connectionUpdated(type = "PinBoard", host = "local", hint = "")
 }

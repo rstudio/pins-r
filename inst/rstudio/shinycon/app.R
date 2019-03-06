@@ -1,10 +1,10 @@
-library(rai)
+library(pinboard)
 
-rai_connection_server_choices <- function() {
+pinboard_connection_server_choices <- function() {
 }
 
 #' @import rstudioapi
-rai_connection_ui <- function() {
+pinboard_connection_ui <- function() {
   elementSpacing <- if (.Platform$OS.type == "windows") 2 else 7
 
   tags$div(
@@ -56,7 +56,7 @@ rai_connection_ui <- function() {
           "Server:",
           choices = c(
             list("local" = "local"),
-            rai_connection_server_choices()
+            pinboard_connection_server_choices()
           ),
           selectize = FALSE
         )
@@ -67,8 +67,8 @@ rai_connection_ui <- function() {
   )
 }
 
-rai_connection_server <- function(input, output, session) {
+pinboard_connection_server <- function(input, output, session) {
 
 }
 
-shinyApp(rai_connection_ui, rai_connection_server)
+shinyApp(pinboard_connection_ui, pinboard_connection_server)

@@ -1,4 +1,4 @@
-Name: Pin Data
-Description: Pin data using a RAI connection
-Binding: rai_addin_pin
+Name: Pin Dataset
+Description: Pin dataset to the active board
+Binding: pinboard_addin_pin
 Interactive: true

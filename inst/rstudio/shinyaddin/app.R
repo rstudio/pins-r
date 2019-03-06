@@ -1,10 +1,10 @@
-library(rai)
+library(pinboard)
 
-rai_addin_source_choices <- function() {
+pinboard_addin_source_choices <- function() {
 }
 
 #' @import rstudioapi
-rai_addin_ui <- function() {
+pinboard_addin_ui <- function() {
   elementSpacing <- if (.Platform$OS.type == "windows") 2 else 7
 
   tags$div(
@@ -56,7 +56,7 @@ rai_addin_ui <- function() {
           "Source:",
           choices = c(
             list("dataframe" = "Data Frame"),
-            rai_addin_source_choices()
+            pinboard_addin_source_choices()
           ),
           selectize = FALSE
         )
@@ -67,8 +67,8 @@ rai_addin_ui <- function() {
   )
 }
 
-rai_addin_server <- function(input, output, session) {
+pinboard_addin_server <- function(input, output, session) {
 
 }
 
-shinyApp(rai_addin_ui, rai_addin_server)
+shinyApp(pinboard_addin_ui, pinboard_addin_server)
