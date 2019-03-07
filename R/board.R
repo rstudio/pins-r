@@ -3,7 +3,7 @@
 #' Use Board
 #'
 #' Defines which board to use, defaults to a board storing data
-#' locally under a \code{~/pinboard} folder.
+#' locally under a \code{~/pins} folder.
 #'
 #' @param ... A list of boards to use, defaults to \code{"local"}.
 #'
@@ -14,11 +14,12 @@ use_board <- function(...) {
 
   .globals$backends <- backends
 
-  pinboard_viewer_register()
+  pins_viewer_register()
 }
 
 #' @name board
 #' @export
 active_board <- function() {
-  .globals$backends[[1]]
+  board <- .globals$backends[[1]]
+  if (is.null(board)) "local" else board
 }

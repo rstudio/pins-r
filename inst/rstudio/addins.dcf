@@ -1,4 +1,4 @@
 Name: Pin Dataset
 Description: Pin dataset to the active board
-Binding: pinboard_addin_pin
+Binding: pins_addin_pin
 Interactive: true

@@ -1,12 +1,12 @@
-pinboard_viewer_register <- function(backend = "local") {
+pins_viewer_register <- function(backend = "local") {
   observer <- getOption("connectionObserver")
   if (identical(observer, NULL)) return()
 
-  icons <- system.file(file.path("icons"), package = "pinboard")
+  icons <- system.file(file.path("icons"), package = "pins")
 
   observer$connectionOpened(
     # connection type
-    type = "PinBoard",
+    type = "Pins",
 
     # name displayed in connection pane
     displayName = backend,
@@ -19,7 +19,7 @@ pinboard_viewer_register <- function(backend = "local") {
 
     # disconnection code
     disconnect = function() {
-      observer$connectionClosed(type = "PinBoard", host = backend)
+      observer$connectionClosed(type = "Pins", host = backend)
     },
 
     listObjectTypes = function () {
@@ -30,7 +30,7 @@ pinboard_viewer_register <- function(backend = "local") {
 
     # table enumeration code
     listObjects = function(type = "table") {
-      objects <- find_pins()
+      objects <- find_pin()
       data.frame(
         name = objects$name,
         type = rep("table", length(objects$name)),
@@ -66,8 +66,8 @@ pinboard_viewer_register <- function(backend = "local") {
   )
 }
 
-pinboard_viewer_updated <- function() {
+pins_viewer_updated <- function() {
   viewer <- getOption("connectionObserver")
   if (!is.null(viewer))
-    viewer$connectionUpdated(type = "PinBoard", host = "local", hint = "")
+    viewer$connectionUpdated(type = "Pins", host = "local", hint = "")
 }

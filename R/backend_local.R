@@ -1,12 +1,12 @@
 local_path <- function() {
   paths <- list(
-    unix = "~/pinboard",
-    windows = "%LOCALAPPDATA%/pinboard"
+    unix = "~/pins",
+    windows = "%LOCALAPPDATA%/pins"
   )
 
   path <- paths[[.Platform$OS.type]]
 
-  if (!identical(getOption("pinboard.path"), NULL)) path <- getOption("pinboard.path")
+  if (!identical(getOption("pins.path"), NULL)) path <- getOption("pins.path")
 
   if (!dir.exists(path)) dir.create(path, recursive = TRUE)
 
@@ -46,7 +46,7 @@ pin_create.local <- function(config, dataset) {
   local_save_entries(entries)
 }
 
-pin_list.local <- function(config, name, contains) {
+pin_find.local <- function(config, name, contains) {
   entries <- local_load_entries()
 
   names <- sapply(entries, function(e) e$name)
@@ -57,4 +57,37 @@ pin_list.local <- function(config, name, contains) {
     description = descriptions,
     stringsAsFactors = FALSE
   )
+}
+
+pin_retrieve.local <- function(config) {
+  entries <- local_load_entries()
+
+  names <- sapply(entries, function(e) e$name)
+  paths <- sapply(entries, function(e) e$path)
+
+  entries <- data.frame(
+    name = names,
+    path = paths,
+    stringsAsFactors = FALSE
+  )
+
+  entry <- entries[entries$name == "iris-small-width", ]
+
+  readRDS(entry$path)
+}
+
+pin_remove.local <- function(config) {
+  entries <- local_load_entries()
+
+  remove <- Filter(function(x) x$name == config$name, entries)
+  if (length(remove) > 0)
+    remove <- remove[[1]]
+  else
+    return()
+
+  entries <- Filter(function(x) x$name != config$name, entries)
+
+  unlink(remove$path)
+
+  local_save_entries(entries)
 }
