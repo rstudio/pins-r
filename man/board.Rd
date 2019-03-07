@@ -15,5 +15,5 @@ active_board()
 }
 \description{
 Defines which board to use, defaults to a board storing data
-locally under a \code{~/pinboard} folder.
+locally under a \code{~/pins} folder.
 }
