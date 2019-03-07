@@ -1,0 +1,52 @@
+---
+title: "pins: manage, discover and share datasets in R."
+output:
+  github_document:
+    fig_width: 9
+    fig_height: 5
+---
+
+[![Build Status](https://travis-ci.org/javierluraschi/datapins.svg?branch=master)](https://travis-ci.org/javierluraschi/datapins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/datapins)](https://cran.r-project.org/package=datapins)
+
+- **Manage** your personal datasets by pinning and retrieving them with `pin()`.
+- **Discover** new datasets from R packages, online and in your organization using `find_pin()`.
+- **Share** existing **datasets** online and within your organization using `publish_pin()`.
+- **Extend** storage locations using **boards** through `use_board()`, you decide where your data lives.
+
+## Installation
+
+You can install `datapins` using the `remotes` package:
+
+```{r eval=FALSE}
+install.packages("remotes")
+remotes::install_github("javierluraschi/datapins")
+```
+
+## Personal datasets
+
+You can track personal dataset by pinning them as follows:
+
+```{r}
+library(dplyr)
+library(pins)
+
+iris %>%
+  filter(Sepal.Width < 3, Petal.Width < 1) %>%
+  pin("iris-small-width", "A subset of 'iris' with only small widths.")
+```
+
+You can then use this dataset as,
+
+```{r}
+pin("iris-small-width")
+```
+
+A pin is a tool to help you organize content, not the content itself. Therefore, you should not use a pin to store your findings; instead, you should still persist files or check-in reproducible code into GitHub. Pins are here to help retrieve and find datasets.
+
+The motivation behind pinning is to allow you to easily fetch results from past data analysis sessions. This can be useful after tidying your data, since once a dataset is tidy you are likely to reuse this several times and. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset, that's another good case for using a pin. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
+
+You can find previous datasets using `find_pin()`:
+
+```{r}
+find_pin(board = "local")
+```
