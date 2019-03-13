@@ -5,14 +5,21 @@
 #' Defines which board to use, defaults to a board storing data
 #' locally under a \code{~/pins} folder.
 #'
-#' @param ... A list of boards to use, defaults to \code{"local"}.
+#' @param name The name of the board to activate.
+#' @param ... Additional parameters used in \code{"board_initialize"}.
 #'
 #' @name board
 #' @export
-use_board <- function(...) {
-  backends <- list(...)
+use_board <- function(name, ...) {
+  args <- list(...)
 
-  .globals$backends <- backends
+  class(args) <- name
+  backend <- board_initialize(args, ...)
+  backend$name <- name
+
+  if (identical(.globals$backends, NULL)) .globals$backends <- list()
+
+  .globals$backends[[name]] <- backend
 
   pins_viewer_register()
 }
@@ -20,6 +27,10 @@ use_board <- function(...) {
 #' @name board
 #' @export
 active_board <- function() {
-  board <- .globals$backends[[1]]
-  if (is.null(board)) "local" else board
+  if (length(.globals$backends) > 0)
+    .globals$backends[[length(.globals$backends)]]
+  else
+    structure(list(
+      name = "local"
+    ), class = "local")
 }

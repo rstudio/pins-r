@@ -31,22 +31,26 @@ local_save_entries <- function(entries) {
   yaml::write_yaml(entries, local_entries_path())
 }
 
-pin_create.local <- function(config, dataset) {
+pin_create.local <- function(board, x, name, description) {
   path <- local_path()
   entries <- local_load_entries()
 
-  config$path <- file.path(path, local_random_string("dataset_", ".rds"))
+  path <- file.path(path, local_random_string("dataset_", ".rds"))
 
-  saveRDS(dataset, config$path)
+  saveRDS(x, path)
 
-  entries <- c(entries, list(
-    config
-  ))
+  if (identical(entries, NULL)) entries <- list()
+
+  entries[[length(entries) + 1]] <- list(
+    name = name,
+    description = description,
+    path = path
+  )
 
   local_save_entries(entries)
 }
 
-pin_find.local <- function(config, name, contains) {
+pin_find.local <- function(board, name) {
   entries <- local_load_entries()
 
   names <- sapply(entries, function(e) e$name)
@@ -59,7 +63,7 @@ pin_find.local <- function(config, name, contains) {
   )
 }
 
-pin_retrieve.local <- function(config) {
+pin_retrieve.local <- function(board, name) {
   entries <- local_load_entries()
 
   names <- sapply(entries, function(e) e$name)
@@ -71,23 +75,29 @@ pin_retrieve.local <- function(config) {
     stringsAsFactors = FALSE
   )
 
-  entry <- entries[entries$name == "iris-small-width", ]
+  entry <- entries[entries$name == name, ]
+
+  if (nrow(entry) != 1) stop("Pin '", name, "' not found in '", board$name, "' board.")
 
   readRDS(entry$path)
 }
 
-pin_remove.local <- function(config) {
+pin_remove.local <- function(board, name) {
   entries <- local_load_entries()
 
-  remove <- Filter(function(x) x$name == config$name, entries)
+  remove <- Filter(function(x) x$name == name, entries)
   if (length(remove) > 0)
     remove <- remove[[1]]
   else
     return()
 
-  entries <- Filter(function(x) x$name != config$name, entries)
+  entries <- Filter(function(x) x$name != name, entries)
 
   unlink(remove$path)
 
   local_save_entries(entries)
+}
+
+board_initialize.local <- function(...) {
+
 }
