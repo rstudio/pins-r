@@ -6,22 +6,26 @@
 #' locally under a \code{~/pins} folder.
 #'
 #' @param name The name of the board to activate.
-#' @param ... Additional parameters used in \code{"board_initialize"}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @name board
 #' @export
 use_board <- function(name, ...) {
-  args <- list(...)
+  class(name) <- name
 
-  class(args) <- name
-  backend <- board_initialize(args, ...)
+  backend <- board_initialize(name, ...)
   backend$name <- name
+  class(backend) <- as.character(name)
 
   if (identical(.globals$backends, NULL)) .globals$backends <- list()
 
   .globals$backends[[name]] <- backend
 
   pins_viewer_register()
+}
+
+board_initialize <- function(name, ...) {
+  UseMethod("board_initialize")
 }
 
 #' @name board
