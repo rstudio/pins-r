@@ -6,7 +6,7 @@ output:
     fig_height: 5
 ---
 
-[![Build Status](https://travis-ci.org/javierluraschi/datapins.svg?branch=master)](https://travis-ci.org/javierluraschi/datapins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/datapins)](https://cran.r-project.org/package=datapins)
+[![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 
 - **Manage** your personal datasets by pinning and retrieving them with `pin()`.
 - **Discover** new datasets from R packages, online and in your organization using `find_pin()`.
@@ -15,11 +15,11 @@ output:
 
 ## Installation
 
-You can install `datapins` using the `remotes` package:
+You can install `pins` using the `remotes` package:
 
 ```{r eval=FALSE}
 install.packages("remotes")
-remotes::install_github("javierluraschi/datapins")
+remotes::install_github("javierluraschi/pins")
 ```
 
 ## Personal datasets
@@ -48,5 +48,5 @@ The motivation behind pinning is to allow you to easily fetch results from past 
 You can find previous datasets using `find_pin()`:
 
 ```{r}
-find_pin(board = "local")
+find_pin()
 ```
