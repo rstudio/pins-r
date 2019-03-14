@@ -21,7 +21,7 @@ pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = ac
 
     pins_viewer_updated()
 
-    x
+    pin(name)
   }
 }
 
