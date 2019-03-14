@@ -45,7 +45,7 @@ pin_create.database <- function(board, dataset, name, description) {
   deps <- board_dependencies()
 
   table_name <- paste0(board$table_preffix, database_sanitize_table(name))
-  if (table_name %in% deps$list_tables(con)) {
+  if (table_name %in% deps$list_tables(board$con)) {
     table_name <- paste0(board$table_preffix, database_auto_table())
   }
 
@@ -68,7 +68,7 @@ pin_create.database <- function(board, dataset, name, description) {
     )))
   )
 
-  if (!table_index %in% deps$list_tables(con)) {
+  if (!table_index %in% deps$list_tables(board$con)) {
     deps$write_table(
       board$con,
       table_index,
@@ -77,12 +77,12 @@ pin_create.database <- function(board, dataset, name, description) {
   }
   else {
     delete_rows <- DBI::sqlInterpolate(
-      con,
+      board$con,
       "DELETE FROM ?table WHERE name = ?name",
       table = table_index,
       name = name)
 
-    DBI::sqlAppendTable(con, table_index, entry)
+    DBI::sqlAppendTable(board$con, table_index, entry)
   }
 }
 
@@ -90,7 +90,7 @@ pin_find.database <- function(board, name) {
   deps <- board_dependencies()
 
   table_index <- database_index_table(board)
-  if (!table_index %in% deps$list_tables(con)) {
+  if (!table_index %in% deps$list_tables(board$con)) {
     data.frame(name = c(), description = c())
   }
   else {
