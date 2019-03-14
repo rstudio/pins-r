@@ -11,17 +11,19 @@
 #' @name board
 #' @export
 use_board <- function(name, ...) {
+  board_call <- deparse(match.call(), width.cutoff = 500)
+
   class(name) <- name
 
-  backend <- board_initialize(name, ...)
-  backend$name <- name
-  class(backend) <- as.character(name)
+  board <- board_initialize(name, ...)
+  board$name <- as.character(name)
+  class(board) <- board$name
 
-  if (identical(.globals$backends, NULL)) .globals$backends <- list()
+  if (identical(.globals$board, NULL)) .globals$board <- list()
 
-  .globals$backends[[name]] <- backend
+  .globals$board[[name]] <- board
 
-  pins_viewer_register()
+  pins_viewer_register(board, board_call)
 }
 
 board_initialize <- function(name, ...) {
@@ -31,8 +33,8 @@ board_initialize <- function(name, ...) {
 #' @name board
 #' @export
 active_board <- function() {
-  if (length(.globals$backends) > 0)
-    .globals$backends[[length(.globals$backends)]]
+  if (length(.globals$board) > 0)
+    .globals$board[[length(.globals$board)]]
   else
     structure(list(
       name = "local"

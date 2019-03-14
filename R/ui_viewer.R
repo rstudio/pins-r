@@ -1,4 +1,4 @@
-pins_viewer_register <- function(backend = "local") {
+pins_viewer_register <- function(board = "local", board_call) {
   observer <- getOption("connectionObserver")
   if (identical(observer, NULL)) return()
 
@@ -9,20 +9,20 @@ pins_viewer_register <- function(backend = "local") {
     type = "Pins",
 
     # name displayed in connection pane
-    displayName = backend,
+    displayName = board$name,
 
     # host key
-    host = backend,
+    host = board$name,
 
     # icon for connection
     icon = file.path(icons, "pins.png"),
 
     # connection code
-    connectCode = paste0("use_board(\"", backend, "\")"),
+    connectCode = board_call,
 
     # disconnection code
     disconnect = function() {
-      observer$connectionClosed(type = "Pins", host = backend)
+      observer$connectionClosed(type = "Pins", host = board$name)
     },
 
     listObjectTypes = function () {
@@ -33,7 +33,7 @@ pins_viewer_register <- function(backend = "local") {
 
     # table enumeration code
     listObjects = function(type = "table") {
-      objects <- find_pin()
+      objects <- find_pin(board = board)
       data.frame(
         name = objects$name,
         type = rep("table", length(objects$name)),
@@ -65,7 +65,7 @@ pins_viewer_register <- function(backend = "local") {
     ),
 
     # raw connection object
-    connectionObject = list(name = backend)
+    connectionObject = list(name = board)
   )
 }
 
