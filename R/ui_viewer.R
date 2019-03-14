@@ -14,6 +14,9 @@ pins_viewer_register <- function(backend = "local") {
     # host key
     host = backend,
 
+    # icon for connection
+    icon = file.path(icons, "pins.png"),
+
     # connection code
     connectCode = paste0("use_board(\"", backend, "\")"),
 
@@ -69,5 +72,5 @@ pins_viewer_register <- function(backend = "local") {
 pins_viewer_updated <- function() {
   viewer <- getOption("connectionObserver")
   if (!is.null(viewer))
-    viewer$connectionUpdated(type = "Pins", host = "local", hint = "")
+    viewer$connectionUpdated(type = "Pins", host = "pins", hint = "")
 }

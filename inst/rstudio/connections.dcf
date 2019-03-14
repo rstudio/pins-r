@@ -1,3 +1,4 @@
-Name: PinBoard
+Name: Pins
 ShinyApp: pins_connection_create
 HelpUrl: http://github.com/javierluraschi/pins
+Icon: icons/pins.png
