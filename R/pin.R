@@ -60,8 +60,17 @@ pin_remove <- function(board, name) {
 #' @param board The board where this pin will be placed.
 #'
 #' @export
-find_pin <- function(name = NULL, board = active_board()) {
-  pin_find(board, name)
+find_pin <- function(name = NULL, board = NULL) {
+  if (is.null(board)) board <- all_boards()
+
+  all_pins <- data.frame(name = character(), description = character())
+
+  for (board_name in board) {
+    board_pins <- pin_find(board = get_board(board_name), name)
+    all_pins <- rbind(all_pins, board_pins)
+  }
+
+  all_pins
 }
 
 pin_find <- function(board, name) {

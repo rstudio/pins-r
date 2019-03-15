@@ -24,6 +24,8 @@ use_board <- function(name, ...) {
   .globals$boards[[name]] <- board
 
   pins_viewer_register(board, board_call)
+
+  invisible(name)
 }
 
 board_initialize <- function(name, ...) {
@@ -36,13 +38,26 @@ active_board <- function() {
   if (length(.globals$boards) > 0)
     .globals$boards[[length(.globals$boards)]]
   else
-    structure(list(
-      name = "local"
-    ), class = "local")
+    get_board("local")
 }
 
 #' @name board
 #' @export
 all_boards <- function() {
-  names(.globals$boards)
+  if (is.null(.globals$boards))
+    "local"
+  else
+    names(.globals$boards)
+}
+
+get_board <- function(name) {
+  if (!name %in% all_boards())
+    stop("Board 'name' not a board, available boards: ", paste(all_boards(), collapse = ", "))
+
+  if (identical(name, "local"))
+    structure(list(
+      name = "local"
+    ), class = "local")
+  else
+    .globals$boards[[name]]
 }
