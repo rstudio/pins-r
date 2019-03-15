@@ -11,8 +11,11 @@
 #'
 #' @export
 pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = active_board()) {
-  if (is.null(name)) {
+  if (is.null(name) && !is.null(x)) {
     pin_retrieve(board, x)
+  }
+  else if (!is.null(name) && is.null(x)) {
+    pin_retrieve(board, name)
   }
   else {
     unpin(name, board = board)
