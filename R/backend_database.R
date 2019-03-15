@@ -105,7 +105,18 @@ database_find_pins <- function(board, name) {
   }
 }
 
-pin_find.database <- database_find_pins
+pin_find.database <- function(board, name) {
+  index_table <- database_find_pins(board, name)
+
+  names <- index_table$name
+  descriptions <- unname(sapply(index_table$metadata, function(e) jsonlite::fromJSON(e)$description))
+
+  data.frame(
+    name = names,
+    description = descriptions,
+    stringsAsFactors = FALSE
+  )
+}
 
 pin_retrieve.database <- function(board, name) {
   deps <- board_dependencies()
