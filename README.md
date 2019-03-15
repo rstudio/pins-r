@@ -23,26 +23,12 @@ install.packages("remotes")
 remotes::install_github("javierluraschi/pins")
 ```
 
-## Personal datasets
+## Private pins
 
-You can track personal dataset by pinning them as follows:
-
-``` r
-library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+You can track your datasets privately by pinning them as follows:
 
 ``` r
+library(dplyr, warn.conflicts = FALSE)
 library(pins)
 
 iris %>%
@@ -85,51 +71,75 @@ find_pin()
 ```
 
     ##               name                                description
-    ## 1             iris                 The entire 'iris' dataset.
-    ## 2 iris-small-width A subset of 'iris' with only small widths.
-
-## Shared datasets
-
-`pins` supports shared storage locations using boards. A board is a
-remote location for you to share datasets with your team privately, or
-with the world, publicly. Use `use_board()` to choose a board, currently
-only databases are supported; however, `pins` provide an extensible API
-you can use to store pins anywhere.
+    ## 1 iris-small-width A subset of 'iris' with only small widths.
 
 ### Databases
 
-First, you will need to create a database connection using `DBI`, it is
-outside the scope of this tutorial to teach you how to connect to a
-database using `DBI`; however, there are many resources available
-online.
-
-For instance, you can use a `bigrquery` connection to define our
-database-backed
-board,
+Some datasets are stored in datasets which you usually access with `DBI`
+and `dplyr`. Let’s access a public dataset stored in
+`bigrquery`:
 
 ``` r
-use_board("database", DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset))
+con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
 ```
 
-    ## NULL
+Which we can analyze an pin with
+`DBI`:
 
-Which we can also use to pin a
-    dataset,
+``` r
+DBI::dbGetQuery(con, "SELECT score, count(*) as n FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full` WHERE score <= 2000) GROUP BY score") %>%
+  pin("hacker-news-scores", "Hacker News scores grouped by tens.")
+```
+
+    ## # A tibble: 193 x 2
+    ##    score       n
+    ##    <dbl>   <int>
+    ##  1     0 2680782
+    ##  2   250    1620
+    ##  3   510     209
+    ##  4   260    1467
+    ##  5    10  109811
+    ##  6   520     201
+    ##  7  1040      14
+    ##  8   270    1378
+    ##  9    20   47378
+    ## 10    30   33733
+    ## # … with 183 more rows
+
+Which we could then use at a later time to experiment with plots and
+avoid rerunning this query as out session restarts:
+
+``` r
+library(ggplot2)
+
+pin("hacker-news-scores") %>%
+  ggplot() + geom_bar(aes(x = score, y = n), stat="identity") + scale_y_log10() + theme_light()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+## Sharing pins
+
+`pins` supports shared storage locations using boards. A board is a
+remote location for you to share pins with your team privately, or with
+the world, publicly. Use `use_board()` to choose a board, currently only
+databases are supported; however, `pins` provide an extensible API you
+can use to store pins anywhere.
+
+### Databases
+
+We can reuse our `bigrquery` connection to define a database-backed
+shared board,
+
+``` r
+use_board("database", con)
+```
+
+Which we can also use to pin a dataset,
 
 ``` r
 pin(iris, "iris", "The entire 'iris' dataset.")
 ```
-
-    ## Warning in class(obj) <- c("scalar", class(obj)): Setting class(x) to
-    ## multiple strings ("scalar", "SQL", ...); result will no longer be an S4
-    ## object
-
-    ## Warning: Do not rely on the default value of the row.names argument for
-    ## sqlAppendTable(), it will change in the future.
-
-    ## Warning in class(obj) <- c("scalar", class(obj)): Setting class(x) to
-    ## multiple strings ("scalar", "SQL", ...); result will no longer be an S4
-    ## object
 
     ## # A tibble: 150 x 5
     ##    Species    Petal_Width Petal_Length Sepal_Width Sepal_Length
@@ -146,7 +156,7 @@ pin(iris, "iris", "The entire 'iris' dataset.")
     ## 10 versicolor         1.5          4.5         3            5.6
     ## # … with 140 more rows
 
-Find pins,
+find pins,
 
 ``` r
 find_pin()
@@ -155,7 +165,7 @@ find_pin()
     ##   name                description
     ## 1 iris The entire 'iris' dataset.
 
-And retrieve datasets,
+and retrieve shared datasets.
 
 ``` r
 pin("iris")
