@@ -50,3 +50,39 @@ You can find previous datasets using `find_pin()`:
 ```{r}
 find_pin()
 ```
+
+## Shared datasets
+
+`pins` supports shared storage locations using boards. A board is a remote location for you to share datasets with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently only databases are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
+
+### Databases
+
+First, you will need to create a database connection using `DBI`, it is outside the scope of this tutorial to teach you how to connect to a database using `DBI`; however, there are many resources available online.
+
+For instance, you can use a `bigrquery` connection to define our database-backed board,
+
+```{r echo=FALSE}
+bq_project <- Sys.getenv("BQ_PROJECT")
+bq_dataset <- Sys.getenv("BQ_DATASET")
+```
+```{r}
+use_board("database", DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset))
+```
+
+Which we can also use to pin a dataset,
+
+```{r}
+pin(iris, "iris", "The entire 'iris' dataset.")
+```
+
+Find pins,
+
+```{r}
+find_pin()
+```
+
+And retrieve datasets,
+
+```{r}
+pin("iris")
+```
