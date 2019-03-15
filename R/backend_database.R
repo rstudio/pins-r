@@ -3,7 +3,11 @@ board_dependencies <- function() {
 
   list (
     list_tables = get("dbListTables", envir = asNamespace("DBI")),
-    write_table = get("dbWriteTable", envir = asNamespace("DBI"))
+    write_table = get("dbWriteTable", envir = asNamespace("DBI")),
+    send_query = get("dbSendQuery", envir = asNamespace("DBI")),
+    get_query = get("dbGetQuery", envir = asNamespace("DBI")),
+    interpolate = get("sqlInterpolate", envir = asNamespace("DBI")),
+    append_table = get("sqlAppendTable", envir = asNamespace("DBI"))
   )
 }
 
@@ -76,13 +80,14 @@ pin_create.database <- function(board, dataset, name, description) {
     )
   }
   else {
-    delete_rows <- DBI::sqlInterpolate(
+    delete_sql <- deps$interpolate(
       board$con,
-      "DELETE FROM ?table WHERE name = ?name",
-      table = table_index,
+      paste0("DELETE FROM ", table_index, " WHERE name = ?name"),
       name = name)
+    deps$send_query(board$con, delete_sql)
 
-    DBI::sqlAppendTable(board$con, table_index, entry)
+    insert_sql <- deps$append_table(board$con, table_index, entry)
+    deps$send_query(board$con, insert_sql)
   }
 }
 
@@ -94,7 +99,7 @@ pin_find.database <- function(board, name) {
     data.frame(name = c(), description = c())
   }
   else {
-    DBI::dbGetQuery(board$con, paste0("SELECT * FROM ", table_index))
+    deps$get_query(board$con, paste0("SELECT * FROM ", table_index))
   }
 }
 
