@@ -52,7 +52,7 @@ pins_viewer_register <- function(board = "local", board_call) {
 
     # table preview code
     previewObject = function(rowLimit, table) {
-      View(iris)
+      pin(name = table, board = board)
     },
 
     # other actions that can be executed on this connection
