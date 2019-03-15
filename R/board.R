@@ -19,9 +19,9 @@ use_board <- function(name, ...) {
   board$name <- as.character(name)
   class(board) <- board$name
 
-  if (identical(.globals$board, NULL)) .globals$board <- list()
+  if (identical(.globals$boards, NULL)) .globals$boards <- list()
 
-  .globals$board[[name]] <- board
+  .globals$boards[[name]] <- board
 
   pins_viewer_register(board, board_call)
 }
@@ -33,10 +33,16 @@ board_initialize <- function(name, ...) {
 #' @name board
 #' @export
 active_board <- function() {
-  if (length(.globals$board) > 0)
-    .globals$board[[length(.globals$board)]]
+  if (length(.globals$boards) > 0)
+    .globals$boards[[length(.globals$boards)]]
   else
     structure(list(
       name = "local"
     ), class = "local")
+}
+
+#' @name board
+#' @export
+all_boards <- function() {
+  names(.globals$boards)
 }
