@@ -22,7 +22,9 @@ board_initialize.database <- function(board, ...) {
 }
 
 database_auto_table <- function(prefix = "table") {
-  paste0("Data", toupper(basename(tempfile(""))))
+  database_sanitize_table(
+    paste0("Data", toupper(basename(tempfile(""))))
+  )
 }
 
 database_sanitize_table <- function(name) {
@@ -91,7 +93,7 @@ pin_create.database <- function(board, dataset, name, description) {
   }
 }
 
-pin_find.database <- function(board, name) {
+database_find_pins <- function(board, name) {
   deps <- board_dependencies()
 
   table_index <- database_index_table(board)
@@ -103,8 +105,17 @@ pin_find.database <- function(board, name) {
   }
 }
 
-pin_retrieve.database <- function(board, name) {
+pin_find.database <- database_find_pins
 
+pin_retrieve.database <- function(board, name) {
+  deps <- board_dependencies()
+
+  index_table <- database_find_pins(board)
+
+  entry <- index_table[index_table$name == name,]
+  table_name <- database_sanitize_table(entry$table)
+
+  deps$get_query(board$con, paste0("SELECT * FROM ", table_name))
 }
 
 pin_remove.database <- function(board, name) {
