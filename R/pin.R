@@ -24,7 +24,12 @@ pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = ac
 
     pins_viewer_updated()
 
-    pin(name)
+    result <- pin(name)
+
+    if (!"data.frame" %in% class(result)) {
+      unpin(name, board = board)
+      stop("Failed to create pin, expected data frame but got instead: ", paste(class(result), ", "), ".")
+    }
   }
 }
 
