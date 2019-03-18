@@ -11,6 +11,8 @@
 #'
 #' @export
 pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = active_board()) {
+  pins_viewer_ensure(board)
+
   if (is.null(name) && !is.null(x)) {
     pin_retrieve(board, x)
   }
@@ -50,6 +52,8 @@ pin_retrieve <- function(board, name) {
 #'
 #' @export
 unpin <- function(name, board = active_board()) {
+  pins_viewer_ensure(board)
+
   pin_remove(board, name)
 }
 
@@ -71,7 +75,9 @@ find_pin <- function(name = NULL, board = NULL) {
   all_pins <- data.frame(name = character(), description = character())
 
   for (board_name in board) {
-    board_pins <- pin_find(board = get_board(board_name), name)
+    board_object <- get_board(board_name)
+
+    board_pins <- pin_find(board = board_object, name)
     all_pins <- rbind(all_pins, board_pins)
   }
 

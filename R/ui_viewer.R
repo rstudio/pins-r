@@ -1,4 +1,4 @@
-pins_viewer_register <- function(board = "local", board_call) {
+pins_viewer_register <- function(board, board_call) {
   observer <- getOption("connectionObserver")
   if (identical(observer, NULL)) return()
 
@@ -22,6 +22,7 @@ pins_viewer_register <- function(board = "local", board_call) {
 
     # disconnection code
     disconnect = function() {
+      .globals$ui_viewer$active[[board$name]] <- FALSE
       observer$connectionClosed(type = "Pins", host = board$name)
     },
 
@@ -73,4 +74,16 @@ pins_viewer_updated <- function() {
   viewer <- getOption("connectionObserver")
   if (!is.null(viewer))
     viewer$connectionUpdated(type = "Pins", host = "pins", hint = "")
+}
+
+pins_viewer_ensure <- function(board) {
+  if (identical(.globals$ui_viewer, NULL)) .globals$ui_viewer <- list(active = list())
+  if (!board %in% .globals$ui_viewer$active ||
+      identical(.globals$ui_viewer$active[[board$name]], FALSE)) {
+    if (identical(board$name, "local")) {
+      pins_viewer_register(board, "use_board(name = \"local\")")
+    }
+  }
+
+  .globals$ui_viewer$active[[board$name]] <- TRUE
 }
