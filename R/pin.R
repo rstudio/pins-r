@@ -11,8 +11,6 @@
 #'
 #' @export
 pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = active_board()) {
-  pins_viewer_ensure(board)
-
   if (is.null(name) && !is.null(x)) {
     pin_retrieve(board, x)
   }
@@ -22,17 +20,25 @@ pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = ac
   else {
     unpin(name, board = board)
 
+    x <- pin_prepare(x)
     pin_create(board, x, name, description)
 
     pins_viewer_updated()
 
     result <- pin(name)
+    attr(result, "pin_name") <- name
 
-    if (!"data.frame" %in% class(result)) {
-      unpin(name, board = board)
-      stop("Failed to create pin, expected data frame but got instead: ", paste(class(result), ", "), ".")
-    }
+    pins_viewer_ensure(board)
+    result
   }
+}
+
+pin_prepare <- function(x) {
+  UseMethod("pin_prepare")
+}
+
+pin_prepare.default <- function(x) {
+  x
 }
 
 pin_create <- function(board, x, name, description) {
