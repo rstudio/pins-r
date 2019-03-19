@@ -53,7 +53,7 @@ pins_viewer_register <- function(board, board_call) {
 
     # table preview code
     previewObject = function(rowLimit, table) {
-      pin(name = table, board = board)
+      get_pin(name = table, board = board)
     },
 
     # other actions that can be executed on this connection

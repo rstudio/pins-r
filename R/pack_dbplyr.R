@@ -55,7 +55,7 @@ pin_unpack.dbplyr_pin <- function(x, board, ...) {
     con <- get(x$connection_name, envir = sys.frame())
   }
   else if (!identical(x$connection_pin, NULL)) {
-    con <- pin(x$connection_pin, board = board)
+    con <- get_pin(x$connection_pin, board = board)
     assign(x$connection_name, con, envir = sys.frame())
   }
 
