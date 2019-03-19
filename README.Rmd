@@ -1,5 +1,5 @@
 ---
-title: "pins: manage, discover and share datasets in R."
+title: "pins: Track, Discover and Share Datasets"
 output:
   github_document:
     fig_width: 9
@@ -7,6 +7,7 @@ output:
 ---
 
 ```{r echo=FALSE, message=FALSE}
+pins::unpin("iris-small-width")
 pins::unpin("hacker-news-scores")
 pins::unpin("bigquery")
 pins::unpin("hacker-news-full")
@@ -17,23 +18,27 @@ bq_dataset <- Sys.getenv("BQ_DATASET")
 
 [![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 
-- **Manage** your personal datasets by pinning and retrieving them with `pin()`.
-- **Discover** new datasets from R packages, online and in your organization using `find_pin()`.
-- **Share** existing **datasets** online and within your organization using `publish_pin()`.
-- **Extend** storage locations using **boards** through `use_board()`, you decide where your data lives.
+- **Track** local and remote datasets using `pin()` and `get_pin()`.
+- **Discover** new datasets from R packages, online and your organization using `find_pin()`.
+- **Share** datasets with your team, or the world, using customizable boards through `use_board()`.
+- **Extend** storage locations with custom **boards**, you decide where your data lives.
 
 ## Installation
 
 You can install `pins` using the `remotes` package:
 
-```{r eval=FALSE}
+```{r eval = FALSE}
 install.packages("remotes")
 remotes::install_github("javierluraschi/pins")
 ```
 
-## Private pins
+## Tracking Datasets
 
-You can track your datasets privately by pinning them as follows:
+It's easy to track local datasets using `pin()` and `get_pin()`. In addition, you can retrive remote datasets using `DBI` or pin remote datasets without retrieving them using `dplyr`.
+
+### Local Datasets
+
+You can track your datasets privately by pinning with `pin()`.
 
 ```{r}
 library(dplyr, warn.conflicts = FALSE)
@@ -44,57 +49,48 @@ iris %>%
   pin("iris-small-width", "A subset of 'iris' with only small widths.")
 ```
 
-You can then use this dataset as,
+You can then retrieve them back with `get_pin()`.
 
 ```{r}
-pin("iris-small-width")
+get_pin("iris-small-width")
 ```
 
-A pin is a tool to help you organize content, not the content itself. Therefore, you should not use a pin to store your findings; instead, you should still persist files or check-in reproducible code into GitHub. Pins are here to help retrieve and find datasets.
+A pin is a tool to help you organize your datasets to easily fetch results from past data analysis sessions.
 
-The motivation behind pinning is to allow you to easily fetch results from past data analysis sessions. This can be useful after tidying your data, since once a dataset is tidy you are likely to reuse this several times and. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset, that's another good case for using a pin. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
+For instance, once a dataset is tidy, you are likely to reuse it several times. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
 
-You can find previous datasets using `find_pin()`:
+### Remote Datasets
 
-```{r}
-find_pin()
-```
-
-### Databases
-
-Some datasets are stored in datasets which you usually access with `DBI` and `dplyr`. Let's access a public dataset stored in `bigrquery`:
+Some datasets are stored in datasets which you usually access with `DBI` or `dplyr`. For instance, you might want to access a public dataset stored in `bigrquery`:
 
 ```{r}
 con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
 ```
 
-Which we can analyze and pin with `DBI`:
+Which we can analyze with `DBI` and then pin the results locally:
 
-```{r}
-DBI::dbGetQuery(con, "SELECT score, count(*) as n FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full` WHERE score <= 2000) GROUP BY score") %>%
+```{r results = 'hide'}
+DBI::dbGetQuery(con, "
+  SELECT score, count(*) as n
+  FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full`)
+  GROUP BY score") %>%
   pin("hacker-news-scores", "Hacker News scores grouped by tens.")
 ```
 
-Which we could then use at a later time to experiment with plots and avoid rerunning this query after our session restarts:
+However, you can only use `DBI` when you can fetch all the data back into R, this is not feasible in many cases. Instead, when using `dplyr`, you can pin large datasets and transform them without having to fetch any data at all.
+
+Lets pin the entire dataset using `dplyr`:
 
 ```{r}
-library(ggplot2)
-
-pin("hacker-news-scores") %>%
-  ggplot() + geom_bar(aes(x = score, y = n), stat="identity") + scale_y_log10() + theme_light()
-```
-
-However, you can only using `DBI` when you can fetch all the data back in R; instead, when using `dplyr`, you can pin large datasets and transform them without having to fetch any data at all. For instance, lets pin the entire dataset using `dplyr`:
-
-```{r}
-tbl(con, "bigquery-public-data.hacker_news.full") %>% pin("hacker-news-full")
+tbl(con, "bigquery-public-data.hacker_news.full") %>%
+  pin("hacker-news-full")
 ```
 
 This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:
 
-```{r}
+```{r results = 'hide'}
 con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
-pin("hacker-news-full")
+get_pin("hacker-news-full")
 ```
 
 This is acceptable but not ideal -- it's hard to remember what connection to use for each dataset. So instead, pin a connection:
@@ -105,34 +101,37 @@ con <- pin(~DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset 
 
 Then pin your dataset as you would usually would,
 
-```{r}
+```{r results = 'hide'}
 tbl(con, "bigquery-public-data.hacker_news.full") %>% pin("hacker-news-full")
 ```
 
-From now on, after restarting your R session and retrieving the pin, the pin will initialize the connection before retrieving a `dplyr` reference to it:
-
-```{r}
-pin("hacker-news-full")
-```
+From now on, after restarting your R session and retrieving the pin, the pin will initialize the connection before retrieving a `dplyr` reference to it with `pin("hacker-news-full")`.
 
 Which in turn, allows you to further process the datset using `dplyr` and pin additional remote datasets.
 
-```{r}
-pin("hacker-news-full") %>%
+```{r results = 'hide'}
+get_pin("hacker-news-full") %>%
   transmute(score = 10 * floor(score/10)) %>%
-  group_by(score) %>% summarize(n = n()) %>%
+  group_by(score) %>%
+  summarize(n = n()) %>%
+  filter(score < 2000) %>%
   pin("hacker-news-scores")
 ```
 
-To store this pin locally, you can retrieve it, collect it, and re-pin it.
+You can then use this `dplyr` pin to process data further; for instance, by visualizing it with ease:
 
 ```{r}
-pin("hacker-news-scores") %>%
-  collect() %>%
-  pin("hacker-news-scores")
+library(ggplot2)
+
+get_pin("hacker-news-scores") %>%
+  ggplot() +
+    geom_bar(aes(x = score, y = n), stat="identity") +
+    scale_y_log10() + theme_light()
 ```
 
-## Sharing pins
+You can also cache this dataset locally by running `collect()` on the pin and then re-pinning it with `pin()`.
+
+## Sharing Datasets
 
 `pins` supports shared storage locations using boards. A board is a remote location for you to share pins with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently only databases are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
 
@@ -146,7 +145,7 @@ use_board("database", con)
 
 Which we can also use to pin a dataset,
 
-```{r warning=FALSE}
+```{r warning = FALSE}
 pin(iris, "iris", "The entire 'iris' dataset.")
 ```
 
@@ -159,5 +158,5 @@ find_pin()
 and retrieve shared datasets.
 
 ```{r}
-pin("iris")
+get_pin("iris")
 ```
