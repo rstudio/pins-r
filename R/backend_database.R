@@ -45,7 +45,7 @@ database_index_table <- function(board) {
 
 pin_create.database <- function(board, dataset, name, description) {
   if (!is.data.frame(dataset)) {
-    stop("Only data frames are supported in 'databse' boards.")
+    stop("Only data frames are supported in 'database' boards.")
   }
 
   deps <- board_dependencies()

@@ -82,6 +82,8 @@ unpin <- function(name, board = active_board()) {
   pins_viewer_ensure(board)
 
   pin_remove(board, name)
+
+  invisible(name)
 }
 
 pin_remove <- function(board, name) {
