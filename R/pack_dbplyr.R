@@ -8,7 +8,7 @@ dplyr_dependencies <- function() {
   )
 }
 
-pin_pack.tbl_sql <- function(x, ...) {
+pin_pack.tbl_sql <- function(x, board, ...) {
   deps <- dplyr_dependencies()
   params <- list(...)
 
@@ -39,17 +39,25 @@ pin_pack.tbl_sql <- function(x, ...) {
 
   structure(list(
       sql = sql,
-      connection_name = con_name
+      connection_name = con_name,
+      connection_pin = attr(con, "pin_name")
     ),
-    class = "dplyr_pin"
+    class = "dbplyr_pin"
   )
 }
 
-pin_unpack.dplyr_pin <- function(x, ...) {
+pin_unpack.dbplyr_pin <- function(x, board, ...) {
   deps <- dplyr_dependencies()
   params <- list(...)
 
-  con <- get(x$connection_name, envir = sys.frame())
+  if (!identical(x$connection_name, NULL) &&
+      exists(x$connection_name, envir = sys.frame())) {
+    con <- get(x$connection_name, envir = sys.frame())
+  }
+  else if (!identical(x$connection_pin, NULL)) {
+    con <- pin(x$connection_pin, board = board)
+    assign(x$connection_name, con, envir = sys.frame())
+  }
 
   deps$tbl(con, deps$sql(x$sql))
 }

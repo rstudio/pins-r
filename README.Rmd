@@ -115,7 +115,7 @@ From now on, after restarting your R session and retrieving the pin, the pin wil
 pin("hacker-news-full")
 ```
 
-Which in turn, allows you to further process the datset using `dplyr` and pin additional datasets without retrieving any data.
+Which in turn, allows you to further process the datset using `dplyr` and pin additional remote datasets.
 
 ```{r}
 pin("hacker-news-full") %>%

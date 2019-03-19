@@ -21,7 +21,7 @@ pin <- function(x = NULL, name = NULL, description = "", board = active_board(),
   else {
     unpin(name, board = board)
 
-    x <- pin_pack(x, ...)
+    x <- pin_pack(x, board, ...)
     pin_create(board, x, name, description)
 
     pins_viewer_updated()
@@ -29,7 +29,7 @@ pin <- function(x = NULL, name = NULL, description = "", board = active_board(),
     result <- pin(name)
   }
 
-  result <- pin_unpack(result, ...)
+  result <- pin_unpack(result, board, ...)
 
   attr(result, "pin_name") <- name
 
@@ -37,19 +37,19 @@ pin <- function(x = NULL, name = NULL, description = "", board = active_board(),
   result
 }
 
-pin_pack <- function(x, ...) {
+pin_pack <- function(x, board, ...) {
   UseMethod("pin_pack")
 }
 
-pin_unpack <- function(x, ...) {
+pin_unpack <- function(x, board, ...) {
   UseMethod("pin_unpack")
 }
 
-pin_pack.default <- function(x, ...) {
+pin_pack.default <- function(x, board, ...) {
   x
 }
 
-pin_unpack.default <- function(x, ...) {
+pin_unpack.default <- function(x, board, ...) {
   x
 }
 
