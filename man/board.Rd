@@ -4,14 +4,19 @@
 \alias{board}
 \alias{use_board}
 \alias{active_board}
+\alias{all_boards}
 \title{Use Board}
 \usage{
-use_board(...)
+use_board(name, ...)
 
 active_board()
+
+all_boards()
 }
 \arguments{
-\item{...}{A list of boards to use, defaults to \code{"local"}.}
+\item{name}{The name of the board to activate.}
+
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 Defines which board to use, defaults to a board storing data

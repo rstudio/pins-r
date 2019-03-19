@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin.R
 \name{unpin}
 \alias{unpin}
-\title{Unpin Dataset}
+\title{Remove Pin}
 \usage{
 unpin(name, board = active_board())
 }

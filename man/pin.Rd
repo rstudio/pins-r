@@ -2,21 +2,21 @@
 % Please edit documentation in R/pin.R
 \name{pin}
 \alias{pin}
-\title{Dataset Pin}
+\title{Create Pin}
 \usage{
-pin(x = NULL, name = NULL, description = "",
-  board = active_board())
+pin(x, name, description = "", board = active_board(), ...)
 }
 \arguments{
-\item{x}{A dataset to pin or the named pin to retrieve.}
+\item{x}{The dataset or object to pin.}
 
-\item{name}{The name for the dataset.}
+\item{name}{The name for the dataset or object.}
 
 \item{description}{Optional description for this pin.}
 
 \item{board}{The board where this pin will be placed.}
+
+\item{...}{Additional parameters.}
 }
 \description{
-Pins the given dataset in the active board or retrieves
-a named pin from the active board.
+Pins the given dataset or object in the active board.
 }
