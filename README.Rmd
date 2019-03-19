@@ -66,14 +66,14 @@ Some datasets are stored in datasets which you usually access with `DBI` and `dp
 con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
 ```
 
-Which we can analyze an pin with `DBI`:
+Which we can analyze and pin with `DBI`:
 
 ```{r}
 DBI::dbGetQuery(con, "SELECT score, count(*) as n FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full` WHERE score <= 2000) GROUP BY score") %>%
   pin("hacker-news-scores", "Hacker News scores grouped by tens.")
 ```
 
-Which we could then use at a later time to experiment with plots and avoid rerunning this query as out session restarts:
+Which we could then use at a later time to experiment with plots and avoid rerunning this query after our session restarts:
 
 ```{r}
 library(ggplot2)
@@ -82,6 +82,18 @@ pin("hacker-news-scores") %>%
   ggplot() + geom_bar(aes(x = score, y = n), stat="identity") + scale_y_log10() + theme_light()
 ```
 
+However, you can only using `DBI` when you can fetch all the data back in R; instead, when using `dplyr`, you can pin large datasets and transform them without having to fetch any data at all. For instance, lets pin the previous query using `dplyr`:
+
+```{r}
+tbl(con, "bigquery-public-data.hacker_news.full") %>% head() %>% pin("hacker-news-head")
+```
+
+This works well while you provide the connection, if your R session gets restarted, you would have to run:
+
+```{r}
+con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
+pin("hacker-news-head")
+```
 ## Sharing pins
 
 `pins` supports shared storage locations using boards. A board is a remote location for you to share pins with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently only databases are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
