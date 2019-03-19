@@ -1,0 +1,55 @@
+dplyr_dependencies <- function() {
+  if (!"dplyr" %in% installed.packages()) stop("Package 'dplyr' needs to be installed to prepare pin.")
+
+  list (
+    sql_render = get("sql_render", envir = asNamespace("dbplyr")),
+    tbl = get("tbl", envir = asNamespace("dplyr")),
+    sql = get("sql", envir = asNamespace("dplyr"))
+  )
+}
+
+pin_pack.tbl_sql <- function(x, ...) {
+  deps <- dplyr_dependencies()
+  params <- list(...)
+
+  sql <- x %>% deps$sql_render() %>% as.character()
+  con <- dbplyr::remote_con(x)
+
+  if (identical(params$connection, NULL)) {
+    con_maybe <- objects(envir = sys.frame())
+    con_search <- Filter(function(x) identical(con, get(x, envir = sys.frame())), con_maybe)
+    if (length(con_search) < 1)
+      stop(
+        "Can't find global connection for 'dply' expression. ",
+        "Try setting connection explicitly with 'connection' parameter"
+      )
+    else if (length(con_search) > 1)
+      stop(
+        "Multiple global "
+      )
+
+    con_name <- con_search[[1]]
+  }
+  else {
+    if (!is.character(params$connection))
+      stop("The 'connection' parameter must be the name of the object containing the connection.")
+
+    con_name <- params$connection
+  }
+
+  structure(list(
+      sql = sql,
+      connection_name = con_name
+    ),
+    class = "dplyr_pin"
+  )
+}
+
+pin_unpack.dplyr_pin <- function(x, ...) {
+  deps <- dplyr_dependencies()
+  params <- list(...)
+
+  con <- get(x$connection_name, envir = sys.frame())
+
+  deps$tbl(con, deps$sql(x$sql))
+}

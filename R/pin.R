@@ -6,38 +6,50 @@
 #' @param x A dataset to pin or the named pin to retrieve.
 #' @param name The name for the dataset.
 #' @param description Optional description for this pin.
-#' @param path Optional location where this dataset was stored.
 #' @param board The board where this pin will be placed.
+#' @param ... Additional parameters.
 #'
 #' @export
-pin <- function(x = NULL, name = NULL, description = "", path = NULL, board = active_board()) {
+pin <- function(x = NULL, name = NULL, description = "", board = active_board(), ...) {
   if (is.null(name) && !is.null(x)) {
-    pin_retrieve(board, x)
+    name <- x
+    result <- pin_retrieve(board, name)
   }
   else if (!is.null(name) && is.null(x)) {
-    pin_retrieve(board, name)
+    result <- pin_retrieve(board, name)
   }
   else {
     unpin(name, board = board)
 
-    x <- pin_prepare(x)
+    x <- pin_pack(x, ...)
     pin_create(board, x, name, description)
 
     pins_viewer_updated()
 
     result <- pin(name)
-    attr(result, "pin_name") <- name
-
-    pins_viewer_ensure(board)
-    result
   }
+
+  result <- pin_unpack(result, ...)
+
+  attr(result, "pin_name") <- name
+
+  pins_viewer_ensure(board)
+  result
 }
 
-pin_prepare <- function(x) {
-  UseMethod("pin_prepare")
+pin_pack <- function(x, ...) {
+  UseMethod("pin_pack")
 }
 
-pin_prepare.default <- function(x) {
+pin_unpack <- function(x, ...) {
+  UseMethod("pin_unpack")
+}
+
+pin_pack.default <- function(x, ...) {
+  x
+}
+
+pin_unpack.default <- function(x, ...) {
   x
 }
 
