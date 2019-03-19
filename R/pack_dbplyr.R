@@ -1,5 +1,5 @@
 dplyr_dependencies <- function() {
-  if (!"dplyr" %in% installed.packages()) stop("Package 'dplyr' needs to be installed to prepare pin.")
+  if (!"dplyr" %in% installed.packages()) stop("Package 'dplyr' needs to be installed to process a 'dplyr' pin.")
 
   list (
     sql_render = get("sql_render", envir = asNamespace("dbplyr")),
