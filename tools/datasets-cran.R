@@ -2,7 +2,7 @@
 # locally or in Spark clusters.
 #
 # Local:
-#   cran_find_local()
+#   cran_index <- cran_find_local()
 #
 # Cluster:
 #   library(sparklyr)
@@ -11,7 +11,10 @@
 #   data <- cran_find_datasets(sc, 100)
 #   data <- cran_find_datasets(sc, 10^5)
 #
-#   data %>% collect() %>% saveRDS("cran-datasets.rds)
+#   cran_index <- data %>% collect()
+#
+# Saving:
+#   cran_save_dataset(cran_index)
 
 cran_process_file <- function(package_path, file_path) {
   dataset_title <- NULL
@@ -132,4 +135,17 @@ cran_find_config <- function(workers = 3, worker_cpus = 8) {
   config["sparklyr.shell.num-executors"] <- workers * worker_cpus
 
   config
+}
+
+cran_save_dataset <- function(cran_index) {
+  if (!dir.exists("data")) dir.create("data")
+
+  crandatasets <- dplyr::transmute(
+    cran_index,
+    package = gsub(":.*", "", name),
+    dataset = gsub(".*:", "", name),
+    description = description
+  )
+
+  save(crandatasets, file = "data/crandatasets.rda")
 }
