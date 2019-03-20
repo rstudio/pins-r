@@ -8,8 +8,8 @@
 #   library(sparklyr)
 #   sc <- spark_connect(master = "yarn", config = cran_find_config())
 #
-#   data <- cran_find_datasets(sc, 1:100)
-#   data <- cran_find_datasets(sc, NULL)
+#   data <- cran_find_datasets(sc, 100)
+#   data <- cran_find_datasets(sc, 10^5)
 #
 #   data %>% collect() %>% saveRDS("cran-datasets.rds)
 
@@ -24,7 +24,7 @@ cran_process_file <- function(package_path, file_path) {
       dataset_title <- Filter(function(e) identical(attr(e, "Rd_tag"), "\\title"), dataset_doc)
       if (length(dataset_title) > 0) {
         dataset_title <- gsub(
-          "\n|^ *\\\"?[ \n]*|[ \n]*\\\"? +$| *[.].*$",
+          "\n|^ *\\\"?[ \n]*|[ \n]*\\\"? +$",
           "",
           paste(as.character(dataset_title[[1]]), collapse = " "))
         dataset_title <- gsub("  +", " ", dataset_title)
@@ -41,53 +41,71 @@ cran_process_file <- function(package_path, file_path) {
   }
 }
 
+cran_process_package <- function(package) {
+  results <- data.frame(name = c(), description = c())
+
+  if (!dir.exists(file.path("packages", package))) {
+    download.packages(package, "packages", repos = "https://cran.rstudio.com/")
+
+    tar <- dir("packages", pattern = "*.tar.gz", full.names = TRUE)[1]
+    untar(tar, exdir = "packages")
+
+    unlink("packages/*.gz")
+  }
+
+  package_path <- file.path("packages", package)
+  dataset_paths <- dir(file.path(package_path, "data"), full.names = TRUE)
+  for (dataset_path in dataset_paths) {
+    new_result <- tryCatch({
+      cran_process_file(package_path, dataset_path)
+    }, error = function(e) {
+      data.frame(name = paste("error", package, sep = ":"), description = e$message)
+    })
+
+    results <- rbind(
+      results,
+      new_result
+    )
+  }
+
+  results
+}
+
 cran_process_packages <- function(packages) {
   if (!dir.exists("packages")) dir.create("packages")
 
   results <- data.frame(name = c(), description = c())
 
   for (package in packages) {
-    if (!dir.exists(file.path("packages", package))) {
-      download.packages(package, "packages", repos = "https://cran.rstudio.com/")
+    new_result <- tryCatch({
+      cran_process_package(package)
+    }, error = function(e) {
+      data.frame(name = paste("error", package, sep = ":"), description = e$message)
+    })
 
-      tar <- dir("packages", pattern = "*.tar.gz", full.names = TRUE)[1]
-      untar(tar, exdir = "packages")
-
-      unlink("packages/*.gz")
-    }
-
-    package_path <- file.path("packages", package)
-    dataset_paths <- dir(file.path(package_path, "data"), full.names = TRUE)
-    for (dataset_path in dataset_paths) {
-      new_result <- tryCatch({
-        cran_process_file(package_path, dataset_path)
-      }, error = function(e) {
-        data.frame(name = paste("error", package, sep = ":"), description = e$message)
-      })
-
-      results <- rbind(
-        results,
-        new_result
-      )
-    }
+    results <- rbind(
+      results,
+      new_result
+    )
   }
 
   results
 }
 
-cran_find_datasets <- function(sc, samples = 1:2) {
+cran_find_datasets <- function(sc, samples = 2) {
   pkgnames <- available.packages()[,1]
-  repartition <- sc$config[["sparklyr.shell.executor-cores"]]
+  repartition <- sc$config[["sparklyr.shell.num-executors"]]
 
   packages <- copy_to(
     sc,
-    data.frame(package = pkgnames[samples]),
+    data.frame(package = pkgnames[1:samples]),
     repartition = ifelse(is.null(repartition), 0, repartition),
     overwrite = T)
 
   # package dependencies
   context <- list(
     cran_process_packages = cran_process_packages,
+    cran_process_package = cran_process_package,
     cran_process_file = cran_process_file
   )
 
@@ -101,8 +119,8 @@ cran_find_datasets <- function(sc, samples = 1:2) {
     name = "cran_datasets")
 }
 
-cran_find_local <- function(samples = 1:2) {
-  cran_process_packages(pkgnames[samples])
+cran_find_local <- function(samples = 2) {
+  cran_process_packages(pkgnames[1:samples])
 }
 
 cran_find_config <- function(workers = 3, worker_cpus = 8) {
