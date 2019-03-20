@@ -64,10 +64,14 @@ find_datasets_spark <- function(sc, samples = 2) {
     process_file = process_file
   )
 
-  packages %>% spark_apply(function(df, context) {
-    for (name in names(context)) assign(name, context[[name]], envir = .GlobalEnv)
-    process_packages(df$package, package_tools)
-  }, context = context, columns = list(name = "character", description = "character"))
+  packages %>% spark_apply(
+    function(df, context) {
+      for (name in names(context)) assign(name, context[[name]], envir = .GlobalEnv)
+      process_packages(df$package, package_tools)
+    },
+    context = context,
+    columns = list(name = "character", description = "character"),
+    name = "cran_datasets")
 }
 
 find_datasets_local <- function(samples = 2) {
