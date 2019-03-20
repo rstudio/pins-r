@@ -9,7 +9,7 @@
 #   sc <- spark_connect(master = "yarn", config = cran_find_config())
 #
 #   data <- cran_find_datasets(sc, 100)
-#   data <- cran_find_datasets(sc, 10^5)
+#   data <- cran_find_datasets(sc, 10^5, 10^3)
 #
 #   cran_index <- data %>% collect()
 #
@@ -95,9 +95,10 @@ cran_process_packages <- function(packages) {
   results
 }
 
-cran_find_datasets <- function(sc, samples = 2) {
+cran_find_datasets <- function(sc,
+                               samples = 2,
+                               repartition = sc$config[["sparklyr.shell.num-executors"]]) {
   pkgnames <- available.packages()[,1]
-  repartition <- sc$config[["sparklyr.shell.num-executors"]]
 
   packages <- copy_to(
     sc,
