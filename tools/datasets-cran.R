@@ -35,7 +35,7 @@ process_packages <- function(packages, context = NULL) {
     if (!dir.exists(file.path("packages", package))) {
       download.packages(package, "packages", repos = "https://cran.rstudio.com/")
 
-      tar <- dir("packages/", pattern = "*.tar.gz", full.names = TRUE)[1]
+      tar <- dir("packages", pattern = "*.tar.gz", full.names = TRUE)[1]
       untar(tar, exdir = "packages")
 
       unlink("packages/*.gz")
