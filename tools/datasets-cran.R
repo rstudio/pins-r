@@ -6,10 +6,11 @@
 #
 # Cluster:
 #   library(sparklyr)
-#   sc <- spark_connect(master = "yarn", config = cran_find_config())
+#   sc <- spark_connect(master = "yarn", config = cran_find_config(10))
 #
-#   data <- cran_find_datasets(sc, 100)
-#   data <- cran_find_datasets(sc, 10^5, 10^3)
+#   data <- cran_find_datasets(sc, 10^2, 10^1)
+#   data <- cran_find_datasets(sc, 10^3, 10^2)
+#   data <- cran_find_datasets(sc, 10^5, 10^4)
 #
 #   cran_index <- data %>% collect()
 #
@@ -133,6 +134,8 @@ cran_find_config <- function(workers = 3, worker_cpus = 8) {
   config["sparklyr.shell.executor-memory"] <- "1g"
   config["sparklyr.shell.executor-cores"] <- 1
   config["sparklyr.shell.num-executors"] <- workers * worker_cpus
+  config["spark.speculation"] <- TRUE
+  config["spark.speculation.multiplier"] <- 4
 
   config
 }
