@@ -44,9 +44,15 @@ process_packages <- function(packages, context = NULL) {
     package_path <- file.path("packages", package)
     dataset_paths <- dir(file.path(package_path, "data"), full.names = TRUE)
     for (dataset_path in dataset_paths) {
+      new_result <- tryCatch({
+        process_file(package_path, dataset_path)
+      }, error = function(e) {
+        data.frame(name = paste("error", package, sep = ":"), description = e$message)
+      })
+
       results <- rbind(
         results,
-        process_file(package_path, dataset_path)
+        new_result
       )
     }
   }
