@@ -1,5 +1,19 @@
+# Provides support to find and index CRAN datasets, supports running
+# locally or in Spark clusters.
+#
+# Local:
+#   cran_find_local()
+#
+# Cluster:
+#   library(sparklyr)
+#   sc <- spark_connect(master = "yarn", config = cran_find_config())
+#
+#   data <- cran_find_datasets(sc, 1:100)
+#   data <- cran_find_datasets(sc, NULL)
+#
+#   data %>% collect() %>% saveRDS("cran-datasets.rds)
 
-process_file <- function(package_path, file_path) {
+cran_process_file <- function(package_path, file_path) {
   dataset_title <- NULL
   file_name <- basename(file_path)
   dataset_name <- tools::file_path_sans_ext(file_name)
@@ -10,7 +24,7 @@ process_file <- function(package_path, file_path) {
       dataset_title <- Filter(function(e) identical(attr(e, "Rd_tag"), "\\title"), dataset_doc)
       if (length(dataset_title) > 0) {
         dataset_title <- gsub(
-          "\n|^\\\"? +| +\\\"?$",
+          "\n| +^\\\"? +| +\\\"? +$",
           "",
           paste(as.character(dataset_title[[1]]), collapse = " "))
         dataset_content <- get(load(file_path))
@@ -26,7 +40,7 @@ process_file <- function(package_path, file_path) {
   }
 }
 
-process_packages <- function(packages, context = NULL) {
+cran_process_packages <- function(packages, context = NULL) {
   if (!dir.exists("packages")) dir.create("packages")
 
   results <- data.frame(name = c(), description = c())
@@ -45,7 +59,7 @@ process_packages <- function(packages, context = NULL) {
     dataset_paths <- dir(file.path(package_path, "data"), full.names = TRUE)
     for (dataset_path in dataset_paths) {
       new_result <- tryCatch({
-        process_file(package_path, dataset_path)
+        cran_process_file(package_path, dataset_path)
       }, error = function(e) {
         data.frame(name = paste("error", package, sep = ":"), description = e$message)
       })
@@ -60,26 +74,43 @@ process_packages <- function(packages, context = NULL) {
   results
 }
 
-find_datasets_spark <- function(sc, samples = 2) {
+cran_find_datasets <- function(sc, samples = 1:2) {
   pkgnames <- available.packages()[,1]
-  packages <- copy_to(sc, data.frame(package = pkgnames[1:samples]), overwrite = T)
+  repartition <- sc$config[["sparklyr.shell.executor-cores"]]
+
+  packages <- copy_to(
+    sc,
+    data.frame(package = pkgnames[samples]),
+    repartition = ifelse(is.null(repartition), 0, repartition),
+    overwrite = T)
 
   # package dependencies
   context <- list(
-    process_packages = process_packages,
-    process_file = process_file
+    cran_process_packages = cran_process_packages,
+    cran_process_file = cran_process_file
   )
 
   packages %>% spark_apply(
     function(df, context) {
       for (name in names(context)) assign(name, context[[name]], envir = .GlobalEnv)
-      process_packages(df$package, package_tools)
+      cran_process_packages(df$package, package_tools)
     },
     context = context,
     columns = list(name = "character", description = "character"),
     name = "cran_datasets")
 }
 
-find_datasets_local <- function(samples = 2) {
-  process_packages(pkgnames[1:samples])
+cran_find_local <- function(samples = 1:2) {
+  cran_process_packages(pkgnames[samples])
+}
+
+cran_find_config <- function(workers = 3, worker_cpus = 8) {
+  config <- spark_config()
+
+  config["sparklyr.shell.driver-memory"] <- "8g"
+  config["sparklyr.shell.executor-memory"] <- "1g"
+  config["sparklyr.shell.executor-cores"] <- 1
+  config["sparklyr.shell.num-executors"] <- workers * worker_cpus
+
+  config
 }
