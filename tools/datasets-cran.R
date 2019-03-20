@@ -31,7 +31,6 @@ cran_process_file <- function(package_path, file_path) {
           "",
           paste(as.character(dataset_title[[1]]), collapse = " "))
         dataset_title <- gsub("  +", " ", dataset_title)
-        dataset_content <- get(load(file_path))
       }
     }
   }
