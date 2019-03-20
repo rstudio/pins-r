@@ -24,7 +24,7 @@ cran_process_file <- function(package_path, file_path) {
       dataset_title <- Filter(function(e) identical(attr(e, "Rd_tag"), "\\title"), dataset_doc)
       if (length(dataset_title) > 0) {
         dataset_title <- gsub(
-          "\n| +^\\\"? +| +\\\"? +$",
+          "\n|^ *\\\"?[ \n]*|[ \n]*\\\"? +$",
           "",
           paste(as.character(dataset_title[[1]]), collapse = " "))
         dataset_content <- get(load(file_path))
@@ -40,7 +40,7 @@ cran_process_file <- function(package_path, file_path) {
   }
 }
 
-cran_process_packages <- function(packages, context = NULL) {
+cran_process_packages <- function(packages) {
   if (!dir.exists("packages")) dir.create("packages")
 
   results <- data.frame(name = c(), description = c())
@@ -93,7 +93,7 @@ cran_find_datasets <- function(sc, samples = 1:2) {
   packages %>% spark_apply(
     function(df, context) {
       for (name in names(context)) assign(name, context[[name]], envir = .GlobalEnv)
-      cran_process_packages(df$package, package_tools)
+      cran_process_packages(df$package)
     },
     context = context,
     columns = list(name = "character", description = "character"),
