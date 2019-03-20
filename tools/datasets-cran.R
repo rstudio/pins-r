@@ -24,7 +24,7 @@ cran_process_file <- function(package_path, file_path) {
       dataset_title <- Filter(function(e) identical(attr(e, "Rd_tag"), "\\title"), dataset_doc)
       if (length(dataset_title) > 0) {
         dataset_title <- gsub(
-          "\n|^ *\\\"?[ \n]*|[ \n]*\\\"? +$",
+          "\n|^ *\\\"?[ \n]*|[ \n]*\\\"? +$|[.].*$",
           "",
           paste(as.character(dataset_title[[1]]), collapse = " "))
         dataset_content <- get(load(file_path))
