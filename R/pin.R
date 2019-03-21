@@ -92,13 +92,13 @@ pin_remove <- function(board, name) {
 
 #' Find Pin
 #'
-#' Find a pin in the active board.
+#' Find a pin in any board registered using \code{use_board()}.
 #'
-#' @param name The name for the pin
-#' @param board The board where this pin will be placed.
+#' @param text The text to find in the pin description or name.
+#' @param board The board name used to find the pin.
 #'
 #' @export
-find_pin <- function(name = NULL, board = NULL) {
+find_pin <- function(text = NULL, board = NULL) {
   if (is.null(board)) board <- all_boards()
 
   all_pins <- data.frame(name = character(), description = character())
@@ -106,13 +106,19 @@ find_pin <- function(name = NULL, board = NULL) {
   for (board_name in board) {
     board_object <- get_board(board_name)
 
-    board_pins <- pin_find(board = board_object, name)
+    board_pins <- pin_find(board = board_object, text)
     all_pins <- rbind(all_pins, board_pins)
+  }
+
+  if (!is.null(text)) {
+    find_names <- grepl(text, all_pins$name)
+    find_description <- grepl(text, all_pins$description)
+    all_pins <- all_pins[find_names | find_description,]
   }
 
   all_pins
 }
 
-pin_find <- function(board, name) {
+pin_find <- function(board, text) {
   UseMethod("pin_find")
 }

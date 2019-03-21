@@ -50,7 +50,7 @@ pin_create.local <- function(board, x, name, description) {
   local_save_entries(entries)
 }
 
-pin_find.local <- function(board, name) {
+pin_find.local <- function(board, text) {
   entries <- local_load_entries()
 
   names <- sapply(entries, function(e) e$name)

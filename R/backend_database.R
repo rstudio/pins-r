@@ -93,7 +93,7 @@ pin_create.database <- function(board, dataset, name, description) {
   }
 }
 
-database_find_pins <- function(board, name) {
+database_find_pins <- function(board, text) {
   deps <- board_dependencies()
 
   table_index <- database_index_table(board)
@@ -105,8 +105,8 @@ database_find_pins <- function(board, name) {
   }
 }
 
-pin_find.database <- function(board, name) {
-  index_table <- database_find_pins(board, name)
+pin_find.database <- function(board, text) {
+  index_table <- database_find_pins(board, text)
 
   names <- index_table$name
   descriptions <- unname(sapply(index_table$metadata, function(e) jsonlite::fromJSON(e)$description))
