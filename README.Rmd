@@ -131,6 +131,22 @@ get_pin("hacker-news-scores") %>%
 
 You can also cache this dataset locally by running `collect()` on the pin and then re-pinning it with `pin()`.
 
+## Discovering Datasets
+
+The `pins` package can help you discover interesting datasets, currently it searches datasets inside CRAN packages but we are planning to extend this further.
+
+You can search datasets that contain "baby" in their description or name as follows:
+
+```{r}
+find_pin("baby")
+```
+
+You can the retrieve a specific dataset with `get_pin()`:
+
+```{r eval=FALSE}
+get_pin("baby.walk")
+```
+
 ## Sharing Datasets
 
 `pins` supports shared storage locations using boards. A board is a remote location for you to share pins with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently only databases are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
