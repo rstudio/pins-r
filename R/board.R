@@ -64,7 +64,7 @@ get_board <- function(name) {
     structure(list(
       name = "local"
     ), class = "local")
-  else if (name %in% .globals$boards)
+  else if (name %in% names(.globals$boards))
     .globals$boards[[name]]
   else
     .globals$boards_registered[[name]]
