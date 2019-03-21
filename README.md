@@ -100,18 +100,18 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
 
     ## # Source:   SQL [?? x 14]
     ## # Database: BigQueryConnection
-    ##    by    score   time timestamp           title type  url   text  parent
-    ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>  <int>
-    ##  1 MrMe…    NA 1.36e9 2013-03-03 23:04:40 ""    comm… ""    "The… 5.32e6
-    ##  2 elor…    NA 1.44e9 2015-07-09 16:39:07 ""    comm… ""    We d… 9.86e6
-    ##  3 rlpb     NA 1.27e9 2010-04-29 06:02:03 ""    comm… ""    It's… 1.30e6
-    ##  4 jboy…    NA 1.46e9 2016-04-19 07:54:35 ""    comm… ""    "Sli… 1.15e7
-    ##  5 nivs…    NA 1.37e9 2013-05-22 12:10:05 ""    comm… ""    Noth… 5.75e6
-    ##  6 RexR…    NA 1.44e9 2015-09-17 00:15:00 ""    comm… ""    It w… 1.02e7
-    ##  7 Estr…    NA 1.24e9 2009-06-07 13:50:13 ""    comm… ""    Ther… 6.46e5
-    ##  8 stre…    NA 1.30e9 2011-03-25 13:43:20 ""    comm… ""    TLDR… 2.37e6
-    ##  9 dman     NA 1.38e9 2013-08-08 22:40:08 ""    comm… ""    Whis… 6.18e6
-    ## 10 tedu…    NA 1.54e9 2018-09-18 19:05:30 ""    comm… ""    Seem… 1.80e7
+    ##    by    score   time timestamp           title type  url   text   parent
+    ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
+    ##  1 cook…    NA 1.50e9 2017-05-18 18:49:23 ""    comm… ""    Yeah…  1.44e7
+    ##  2 mask…    NA 1.31e9 2011-07-06 13:11:01 ""    comm… ""    The …  2.73e6
+    ##  3 NamT…    NA 1.48e9 2017-01-05 12:03:42 ""    comm… ""    I th…  1.33e7
+    ##  4 bpou…    NA 1.29e9 2010-11-23 07:42:08 ""    comm… ""    Ther…  1.93e6
+    ##  5 ""       NA 1.54e9 2018-10-07 18:48:52 ""    comm… ""    ""     1.82e7
+    ##  6 abal…    NA 1.48e9 2016-12-14 07:25:46 ""    comm… ""    It&#…  1.32e7
+    ##  7 jarv…    NA 1.54e9 2018-10-13 17:18:39 ""    comm… ""    "It …  1.82e7
+    ##  8 stor…    NA 1.50e9 2017-08-01 17:07:47 ""    comm… ""    Adve…  1.49e7
+    ##  9 pdevr    15 1.41e9 2014-07-15 20:16:44 Goog… story http… ""    NA     
+    ## 10 Clou…     1 1.50e9 2017-07-26 19:02:15 The … story http… ""    NA     
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -172,6 +172,50 @@ get_pin("hacker-news-scores") %>%
 
 You can also cache this dataset locally by running `collect()` on the
 pin and then re-pinning it with `pin()`.
+
+## Discovering Datasets
+
+The `pins` package can help you discover interesting datasets, currently
+it searches datasets inside CRAN packages but we are planning to extend
+this further.
+
+You can search datasets that contain “baby” in their description or name
+as follows:
+
+``` r
+find_pin("baby")
+```
+
+    ##           name
+    ## 1   RioChillon
+    ## 2    baby.walk
+    ## 3   applicants
+    ## 4    babynames
+    ## 5       births
+    ## 6   lifetables
+    ## 7     babyfood
+    ## 8    Girls2004
+    ## 9     rankings
+    ## 10 ukbabynames
+    ## 11    babyboom
+    ##                                                                                                   description
+    ## 1                                            Data and analysis Mother and baby trials from agricolae package.
+    ## 2                                                    Baby walking times experimental data from asbio package.
+    ## 3                                                                          Applicants from babynames package.
+    ## 4                                                                          Baby names from babynames package.
+    ## 5                                                                              Births from babynames package.
+    ## 6                                                                          Lifetables from babynames package.
+    ## 7                             Respiratory disease rates of babies fed in different ways from faraway package.
+    ## 8  Random sample of 40 baby girls born in Alaska and 40 baby girls born in Wyoming from resampledata package.
+    ## 9                                                     UK top-100 baby names by year from ukbabynames package.
+    ## 10                                                                    UK baby names from ukbabynames package.
+    ## 11                               Babyboom: data for 44 babies born in one 24-hour period from UsingR package.
+
+You can the retrieve a specific dataset with `get_pin()`:
+
+``` r
+get_pin("baby.walk")
+```
 
 ## Sharing Datasets
 
