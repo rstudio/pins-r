@@ -100,18 +100,18 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
 
     ## # Source:   SQL [?? x 14]
     ## # Database: BigQueryConnection
-    ##    by    score   time timestamp           title type  url   text   parent
-    ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 cook…    NA 1.50e9 2017-05-18 18:49:23 ""    comm… ""    Yeah…  1.44e7
-    ##  2 mask…    NA 1.31e9 2011-07-06 13:11:01 ""    comm… ""    The …  2.73e6
-    ##  3 NamT…    NA 1.48e9 2017-01-05 12:03:42 ""    comm… ""    I th…  1.33e7
-    ##  4 bpou…    NA 1.29e9 2010-11-23 07:42:08 ""    comm… ""    Ther…  1.93e6
-    ##  5 ""       NA 1.54e9 2018-10-07 18:48:52 ""    comm… ""    ""     1.82e7
-    ##  6 abal…    NA 1.48e9 2016-12-14 07:25:46 ""    comm… ""    It&#…  1.32e7
-    ##  7 jarv…    NA 1.54e9 2018-10-13 17:18:39 ""    comm… ""    "It …  1.82e7
-    ##  8 stor…    NA 1.50e9 2017-08-01 17:07:47 ""    comm… ""    Adve…  1.49e7
-    ##  9 pdevr    15 1.41e9 2014-07-15 20:16:44 Goog… story http… ""    NA     
-    ## 10 Clou…     1 1.50e9 2017-07-26 19:02:15 The … story http… ""    NA     
+    ##    by    score   time timestamp           title type  url   text  parent
+    ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>  <int>
+    ##  1 user…    NA 1.49e9 2017-03-19 17:22:04 ""    comm… ""    &gt;… 1.39e7
+    ##  2 ange…    NA 1.46e9 2016-02-25 03:48:40 ""    comm… ""    I re… 1.12e7
+    ##  3 md2be    NA 1.52e9 2018-01-18 16:22:27 ""    comm… ""    Imag… 1.62e7
+    ##  4 radl…    NA 1.21e9 2008-07-01 21:30:11 ""    comm… ""    "<a … 2.33e5
+    ##  5 pmon…    NA 1.48e9 2016-12-02 15:56:20 ""    comm… ""    "No … 1.31e7
+    ##  6 dmix     NA 1.35e9 2012-08-18 00:01:42 ""    comm… ""    "I t… 4.40e6
+    ##  7 Alre…    NA 1.43e9 2015-04-29 12:25:07 ""    comm… ""    I ag… 9.46e6
+    ##  8 danso    NA 1.52e9 2018-04-19 14:16:30 ""    comm… ""    You … 1.69e7
+    ##  9 meric    NA 1.45e9 2015-11-19 01:46:16 ""    comm… ""    Is i… 1.06e7
+    ## 10 offy…    NA 1.26e9 2009-10-27 21:41:03 ""    comm… ""    "We'… 9.02e5
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -186,30 +186,20 @@ as follows:
 find_pin("baby")
 ```
 
-    ##           name
-    ## 1   RioChillon
-    ## 2    baby.walk
-    ## 3   applicants
-    ## 4    babynames
-    ## 5       births
-    ## 6   lifetables
-    ## 7     babyfood
-    ## 8    Girls2004
-    ## 9     rankings
-    ## 10 ukbabynames
-    ## 11    babyboom
-    ##                                                                                                   description
-    ## 1                                            Data and analysis Mother and baby trials from agricolae package.
-    ## 2                                                    Baby walking times experimental data from asbio package.
-    ## 3                                                                          Applicants from babynames package.
-    ## 4                                                                          Baby names from babynames package.
-    ## 5                                                                              Births from babynames package.
-    ## 6                                                                          Lifetables from babynames package.
-    ## 7                             Respiratory disease rates of babies fed in different ways from faraway package.
-    ## 8  Random sample of 40 baby girls born in Alaska and 40 baby girls born in Wyoming from resampledata package.
-    ## 9                                                     UK top-100 baby names by year from ukbabynames package.
-    ## 10                                                                    UK baby names from ukbabynames package.
-    ## 11                               Babyboom: data for 44 babies born in one 24-hour period from UsingR package.
+    ## # A tibble: 11 x 2
+    ##    name       description                                                  
+    ##    <fct>      <fct>                                                        
+    ##  1 RioChillon Data and analysis Mother and baby trials from agricolae pack…
+    ##  2 baby.walk  Baby walking times experimental data from asbio package.     
+    ##  3 applicants Applicants from babynames package.                           
+    ##  4 babynames  Baby names from babynames package.                           
+    ##  5 births     Births from babynames package.                               
+    ##  6 lifetables Lifetables from babynames package.                           
+    ##  7 babyfood   Respiratory disease rates of babies fed in different ways fr…
+    ##  8 Girls2004  Random sample of 40 baby girls born in Alaska and 40 baby gi…
+    ##  9 rankings   UK top-100 baby names by year from ukbabynames package.      
+    ## 10 ukbabynam… UK baby names from ukbabynames package.                      
+    ## 11 babyboom   Babyboom: data for 44 babies born in one 24-hour period from…
 
 You can the retrieve a specific dataset with `get_pin()`:
 
@@ -261,8 +251,10 @@ find pins,
 find_pin()
 ```
 
-    ##   name                description
-    ## 1 iris The entire 'iris' dataset.
+    ## # A tibble: 1 x 2
+    ##   name  description               
+    ##   <chr> <chr>                     
+    ## 1 iris  The entire 'iris' dataset.
 
 and retrieve shared datasets.
 
