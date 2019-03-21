@@ -116,7 +116,7 @@ find_pin <- function(text = NULL, board = NULL) {
     all_pins <- all_pins[find_names | find_description,]
   }
 
-  all_pins
+  maybe_tibble(all_pins)
 }
 
 pin_find <- function(board, text) {
