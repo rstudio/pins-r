@@ -16,6 +16,7 @@
 #
 # Saving:
 #   cran_save_dataset(cran_index)
+#   cran_clean_dataset()
 
 cran_process_file <- function(package_path, file_path) {
   dataset_title <- NULL
@@ -150,5 +151,11 @@ cran_save_dataset <- function(cran_index) {
     description = description
   )
 
+  save(crandatasets, file = "data/crandatasets.rda")
+}
+
+cran_clean_dataset <- function(cran_index) {
+  crandatasets <- get(load("data/crandatasets.rda"))
+  crandatasets <- crandatasets[crandatasets$package != "error",]
   save(crandatasets, file = "data/crandatasets.rda")
 }
