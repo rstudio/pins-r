@@ -4,13 +4,13 @@
 \alias{find_pin}
 \title{Find Pin}
 \usage{
-find_pin(name = NULL, board = NULL)
+find_pin(text = NULL, board = NULL)
 }
 \arguments{
-\item{name}{The name for the pin}
+\item{text}{The text to find in the pin description or name.}
 
-\item{board}{The board where this pin will be placed.}
+\item{board}{The board name used to find the pin.}
 }
 \description{
-Find a pin in the active board.
+Find a pin in any board registered using \code{use_board()}.
 }
