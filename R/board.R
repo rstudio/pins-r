@@ -45,9 +45,15 @@ active_board <- function() {
 #' @export
 all_boards <- function() {
   if (is.null(.globals$boards))
-    "local"
+    c(
+      "packages",
+      "local"
+    )
   else
-    names(.globals$boards)
+    c(
+      names(.globals$boards),
+      names(.globals$boards_registered)
+    )
 }
 
 get_board <- function(name) {
@@ -58,6 +64,33 @@ get_board <- function(name) {
     structure(list(
       name = "local"
     ), class = "local")
-  else
+  else if (name %in% .globals$boards)
     .globals$boards[[name]]
+  else
+    .globals$boards_registered[[name]]
+}
+
+#' Register Board
+#'
+#' Registers a board without making it active, useful to add sources to
+#' \code{find_pin()}. This function is meant to be used while building extension
+#' not by users directly.
+#'
+#' @param name The name of the board to activate.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @keywords internal
+#' @export
+register_board <- function(name, ...) {
+  class(name) <- name
+
+  board <- board_initialize(name, ...)
+  board$name <- as.character(name)
+  class(board) <- board$name
+
+  if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()
+
+  .globals$boards_registered[[name]] <- board
+
+  invisible(name)
 }
