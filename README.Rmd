@@ -6,7 +6,7 @@ output:
     fig_height: 5
 ---
 
-```{r echo=FALSE, message=FALSE}
+```{r setup, echo=FALSE, message=FALSE}
 pins::unpin("iris-small-width")
 pins::unpin("hacker-news-scores")
 pins::unpin("bigquery")
@@ -27,7 +27,7 @@ bq_dataset <- Sys.getenv("BQ_DATASET")
 
 You can install `pins` using the `remotes` package:
 
-```{r eval = FALSE}
+```{r install, eval = FALSE}
 install.packages("remotes")
 remotes::install_github("javierluraschi/pins")
 ```
@@ -40,7 +40,7 @@ It's easy to track local datasets using `pin()` and `get_pin()`. In addition, yo
 
 You can track your datasets privately by pinning with `pin()`.
 
-```{r}
+```{r local-pin}
 library(dplyr, warn.conflicts = FALSE)
 library(pins)
 
@@ -51,7 +51,7 @@ iris %>%
 
 You can then retrieve them back with `get_pin()`.
 
-```{r}
+```{r local-get-pin}
 get_pin("iris-small-width")
 ```
 
@@ -63,13 +63,13 @@ For instance, once a dataset is tidy, you are likely to reuse it several times. 
 
 Some datasets are stored in datasets which you usually access with `DBI` or `dplyr`. For instance, you might want to access a public dataset stored in `bigrquery`:
 
-```{r}
+```{r remote-con}
 con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
 ```
 
 Which we can analyze with `DBI` and then pin the results locally:
 
-```{r results = 'hide'}
+```{r remote-dbi, results = 'hide'}
 DBI::dbGetQuery(con, "
   SELECT score, count(*) as n
   FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full`)
@@ -81,27 +81,27 @@ However, you can only use `DBI` when you can fetch all the data back into R, thi
 
 Lets pin the entire dataset using `dplyr`:
 
-```{r}
+```{r remote-dplyr-pin}
 tbl(con, "bigquery-public-data.hacker_news.full") %>%
   pin("hacker-news-full")
 ```
 
 This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:
 
-```{r results = 'hide'}
+```{r remote-dplyr-get, results = 'hide'}
 con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
 get_pin("hacker-news-full")
 ```
 
 This is acceptable but not ideal -- it's hard to remember what connection to use for each dataset. So instead, pin a connection:
 
-```{r}
+```{r remote-dplyr-con}
 con <- pin(~DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset), "bigquery")
 ```
 
 Then pin your dataset as you would usually would,
 
-```{r results = 'hide'}
+```{r remote-dplyr-con-pin, results = 'hide'}
 tbl(con, "bigquery-public-data.hacker_news.full") %>% pin("hacker-news-full")
 ```
 
@@ -109,7 +109,7 @@ From now on, after restarting your R session and retrieving the pin, the pin wil
 
 Which in turn, allows you to further process the datset using `dplyr` and pin additional remote datasets.
 
-```{r results = 'hide'}
+```{r remote-dplyr-query-pin, results = 'hide'}
 get_pin("hacker-news-full") %>%
   transmute(score = 10 * floor(score/10)) %>%
   group_by(score) %>%
@@ -120,7 +120,7 @@ get_pin("hacker-news-full") %>%
 
 You can then use this `dplyr` pin to process data further; for instance, by visualizing it with ease:
 
-```{r}
+```{r remote-dplyr-plot}
 library(ggplot2)
 
 get_pin("hacker-news-scores") %>%
@@ -137,13 +137,13 @@ The `pins` package can help you discover interesting datasets, currently it sear
 
 You can search datasets that contain "baby" in their description or name as follows:
 
-```{r}
+```{r discover-pin}
 find_pin("seattle")
 ```
 
 You can the retrieve a specific dataset with `get_pin()`:
 
-```{r}
+```{r discover-get-pin}
 get_pin("seattle_sales")
 ```
 
@@ -155,24 +155,24 @@ get_pin("seattle_sales")
 
 We can reuse our `bigrquery` connection to define a database-backed shared board,
 
-```{r}
+```{r db-board}
 use_board("database", con)
 ```
 
 Which we can also use to pin a dataset,
 
-```{r warning = FALSE}
+```{r db-pin, warning = FALSE}
 pin(iris, "iris", "The entire 'iris' dataset.")
 ```
 
 find pins,
 
-```{r}
+```{r db-find-pin}
 find_pin()
 ```
 
 and retrieve shared datasets.
 
-```{r}
+```{r db-get-pin}
 get_pin("iris")
 ```
