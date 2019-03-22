@@ -59,7 +59,7 @@ You can then retrieve them back with `get_pin()`.
 get_pin("iris-small-width")
 ```
 
-A pin is a tool to help you organize your datasets to easily fetch results from past data analysis sessions.
+A pin is a tool to help you track your datasets to easily fetch results from past data analysis sessions.
 
 For instance, once a dataset is tidy, you are likely to reuse it several times. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
 
@@ -139,7 +139,7 @@ You can also cache this dataset locally by running `collect()` on the pin and th
 
 The `pins` package can help you discover interesting datasets, currently it searches datasets inside CRAN packages but we are planning to extend this further.
 
-You can search datasets that contain "baby" in their description or name as follows:
+You can search datasets that contain "seattle" in their description or name as follows:
 
 ```{r discover-pin}
 find_pin("seattle")

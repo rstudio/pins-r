@@ -183,7 +183,7 @@ The `pins` package can help you discover interesting datasets, currently
 it searches datasets inside CRAN packages but we are planning to extend
 this further.
 
-You can search datasets that contain “baby” in their description or name
+You can search datasets that contain “seattle” in their description or name
 as follows:
 
 ``` r
