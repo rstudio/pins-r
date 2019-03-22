@@ -46,7 +46,10 @@ get_pin <- function(name, board = NULL, ...) {
 
   attr(result, "pin_name") <- name
 
-  maybe_tibble(result)
+  if (is.data.frame(result))
+    maybe_tibble(result)
+  else
+    result
 }
 
 pin_pack <- function(x, board, ...) {
