@@ -8,7 +8,9 @@ pins_local_path <- function(component) {
 
   if (!identical(getOption("pins.path"), NULL)) path <- getOption("pins.path")
 
-  if (!dir.exists(path)) dir.create(path, recursive = TRUE)
+  component_path <- file.path(path, component)
 
-  normalizePath(file.path(path, component), mustWork = FALSE)
+  if (!dir.exists(component_path)) dir.create(component_path, recursive = TRUE)
+
+  normalizePath(component_path, mustWork = FALSE)
 }

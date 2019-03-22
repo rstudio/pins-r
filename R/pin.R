@@ -17,7 +17,7 @@ pin <- function(x, name, description = "", board = active_board(), ...) {
 
   pins_viewer_updated()
 
-  result <- get_pin(name)
+  result <- get_pin(name, board$name)
 
   result <- pin_unpack(result, board, ...)
 

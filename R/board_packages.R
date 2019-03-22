@@ -14,10 +14,15 @@ pin_find.packages <- function(board, text) {
   find_description <- grepl(text, crandatasets$description)
   package_pins <- crandatasets[find_packages | find_names | find_description,]
 
-  data.frame(
-    name = package_pins$dataset,
-    description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package.")
-  )
+  if (length(package_pins$dataset) > 0) {
+    data.frame(
+      name = package_pins$dataset,
+      description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package.")
+    )
+  }
+  else {
+    data.frame(name = c(), description = c())
+  }
 }
 
 pin_retrieve.packages <- function(board, name) {
