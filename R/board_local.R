@@ -1,24 +1,9 @@
-local_path <- function() {
-  paths <- list(
-    unix = "~/pins",
-    windows = "%LOCALAPPDATA%/pins"
-  )
-
-  path <- paths[[.Platform$OS.type]]
-
-  if (!identical(getOption("pins.path"), NULL)) path <- getOption("pins.path")
-
-  if (!dir.exists(path)) dir.create(path, recursive = TRUE)
-
-  path
-}
-
 local_random_string <- function(prefix, suffix = "") {
   paste0(basename(tempfile(prefix)), suffix)
 }
 
 local_entries_path <- function() {
-  file.path(local_path(), "config.yml")
+  file.path(pins_local_path("local"), "config.yml")
 }
 
 local_load_entries <- function() {
@@ -32,7 +17,7 @@ local_save_entries <- function(entries) {
 }
 
 pin_create.local <- function(board, x, name, description) {
-  path <- local_path()
+  path <- pins_local_path("local")
   entries <- local_load_entries()
 
   path <- file.path(path, local_random_string("dataset_", ".rds"))
