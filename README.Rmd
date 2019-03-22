@@ -21,7 +21,7 @@ bq_dataset <- Sys.getenv("BQ_DATASET")
 - **Track** local and remote datasets using `pin()` and `get_pin()`.
 - **Discover** new datasets from R packages, online and your organization using `find_pin()`.
 - **Share** datasets with your team, or the world, using customizable boards through `use_board()`.
-- **Extend** storage locations with custom **boards**, you decide where your data lives.
+- **Extend** storage locations with custom boards, you decide where your data lives.
 
 ## Installation
 
@@ -138,13 +138,13 @@ The `pins` package can help you discover interesting datasets, currently it sear
 You can search datasets that contain "baby" in their description or name as follows:
 
 ```{r}
-find_pin("baby")
+find_pin("seattle")
 ```
 
 You can the retrieve a specific dataset with `get_pin()`:
 
-```{r eval=FALSE}
-get_pin("baby.walk")
+```{r}
+get_pin("seattle_sales")
 ```
 
 ## Sharing Datasets
