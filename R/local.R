@@ -10,5 +10,5 @@ pins_local_path <- function(component) {
 
   if (!dir.exists(path)) dir.create(path, recursive = TRUE)
 
-  normalizePath(file.path(path, component))
+  normalizePath(file.path(path, component), mustWork = FALSE)
 }
