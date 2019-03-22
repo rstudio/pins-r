@@ -36,10 +36,13 @@ pin <- function(x, name, description = "", board = active_board(), ...) {
 #' @param ... Additional parameters.
 #'
 #' @export
-get_pin <- function(name, board = active_board(), ...) {
-  result <- pin_retrieve(board, name)
+get_pin <- function(name, board = NULL, ...) {
+  if (is.null(board)) board <- find_pin(name)[1,]$board
+  board_object <- get_board(board)
 
-  result <- pin_unpack(result, board, ...)
+  result <- pin_retrieve(board_object, name)
+
+  result <- pin_unpack(result, board_object, ...)
 
   attr(result, "pin_name") <- name
 

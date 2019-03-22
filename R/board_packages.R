@@ -20,7 +20,7 @@ pin_find.packages <- function(board, text) {
   )
 }
 
-pin_retrieve.packages <- function(name) {
+pin_retrieve.packages <- function(board, name) {
   package_pin <- crandatasets[crandatasets$dataset == name,][1,]
   packages_path <- pins_local_path("packages")
 
