@@ -14,6 +14,10 @@ pins::unpin("hacker-news-full")
 
 bq_project <- Sys.getenv("BQ_PROJECT")
 bq_dataset <- Sys.getenv("BQ_DATASET")
+
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 ```
 
 [![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
