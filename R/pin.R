@@ -101,12 +101,13 @@ pin_remove <- function(board, name) {
 find_pin <- function(text = NULL, board = NULL) {
   if (is.null(board)) board <- all_boards()
 
-  all_pins <- data.frame(name = character(), description = character())
+  all_pins <- data.frame(name = character(), description = character(), board = character())
 
   for (board_name in board) {
     board_object <- get_board(board_name)
 
     board_pins <- pin_find(board = board_object, text)
+    board_pins$board <- rep(board_name, nrow(board_pins))
     all_pins <- rbind(all_pins, board_pins)
   }
 
