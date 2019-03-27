@@ -198,3 +198,5 @@ sc <- pin(connection(
   config = list("sparklyr.shell.driver-memory" = "4g")
 ), "spark-local")
 ```
+
+**Note:** Remove username, password and other sensitive information from your pinned connections. By default, `username` and `password` fields will be replaced with "@prompt", which will prompt the user when connecting.
