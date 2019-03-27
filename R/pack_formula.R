@@ -6,14 +6,14 @@ rlang_dependencies <- function() {
   )
 }
 
-pin_pack.formula <- function(x, ...) {
+pin_pack.formula <- function(x, board, ...) {
   structure(
     paste(as.character(x), collapse = " "),
     class = "formula_pin"
   )
 }
 
-pin_unpack.formula_pin <- function(x, ...) {
+pin_unpack.formula_pin <- function(x, board, name, ...) {
   deps <- rlang_dependencies()
 
   deps$as_function(as.formula(x))()

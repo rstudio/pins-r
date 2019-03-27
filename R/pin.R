@@ -19,7 +19,7 @@ pin <- function(x, name, description = "", board = active_board(), ...) {
 
   result <- get_pin(name, board$name)
 
-  result <- pin_unpack(result, board, ...)
+  result <- pin_unpack(result, board, name, ...)
 
   attr(result, "pin_name") <- name
 
@@ -42,7 +42,7 @@ get_pin <- function(name, board = NULL, ...) {
 
   result <- pin_retrieve(board_object, name)
 
-  result <- pin_unpack(result, board_object, ...)
+  result <- pin_unpack(result, board_object, name, ...)
 
   attr(result, "pin_name") <- name
 
@@ -56,7 +56,7 @@ pin_pack <- function(x, board, ...) {
   UseMethod("pin_pack")
 }
 
-pin_unpack <- function(x, board, ...) {
+pin_unpack <- function(x, board, name, ...) {
   UseMethod("pin_unpack")
 }
 

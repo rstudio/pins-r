@@ -46,7 +46,7 @@ pin_pack.tbl_sql <- function(x, board, ...) {
   )
 }
 
-pin_unpack.dbplyr_pin <- function(x, board, ...) {
+pin_unpack.dbplyr_pin <- function(x, board, name, ...) {
   deps <- dplyr_dependencies()
   params <- list(...)
 
