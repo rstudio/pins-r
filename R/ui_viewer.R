@@ -44,11 +44,29 @@ pins_viewer_register <- function(board, board_call) {
 
     # column enumeration code
     listColumns = function(table) {
-      # data.frame(
-      #   name = c("col1", "col2"),
-      #   type = c("character", "numeric"),
-      #   stringsAsFactors = FALSE
-      # )
+      attr_names <- c()
+      attr_values <- c()
+
+      pin_index <- find_pin(table, board = board)
+      if (nchar(pin_index$description) > 0) {
+        attr_names <- c(attr_names, "description")
+        attr_values <- c(attr_values, pin_index$description)
+      }
+
+      pin_value <- get_pin(table, board = board)
+      attr_names <- c(attr_names, "type")
+      if (class(pin_value)[[1]] %in% c("tbl_df", "data.frame")) {
+        attr_values <- c(attr_values, "data.frame")
+      }
+      else {
+        attr_values <- c(attr_values, class(pin_value)[[1]])
+      }
+
+      data.frame(
+        name = attr_names,
+        type = attr_values,
+        stringsAsFactors = FALSE
+      )
     },
 
     # table preview code
