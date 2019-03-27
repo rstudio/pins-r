@@ -59,8 +59,8 @@ get_pin("iris-small-width")
     ## 1          4.4         2.9          1.4         0.2 setosa 
     ## 2          4.5         2.3          1.3         0.3 setosa
 
-A pin is a tool to help you organize your datasets to easily fetch
-results from past data analysis sessions.
+A pin is a tool to help you track your datasets to easily fetch results
+from past data analysis sessions.
 
 For instance, once a dataset is tidy, you are likely to reuse it several
 times. You might also have a past analysis in GitHub, but you might not
@@ -90,6 +90,8 @@ DBI::dbGetQuery(con, "
   pin("hacker-news-scores", "Hacker News scores grouped by tens.")
 ```
 
+    ## Auto-refreshing stale OAuth token.
+
 However, you can only use `DBI` when you can fetch all the data back
 into R, this is not feasible in many cases. Instead, when using `dplyr`,
 you can pin large datasets and transform them without having to fetch
@@ -104,18 +106,18 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
 
     ## # Source:   SQL [?? x 14]
     ## # Database: BigQueryConnection
-    ##    by    score   time timestamp           title type  url   text  parent
-    ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>  <int>
-    ##  1 user…    NA 1.49e9 2017-03-19 17:22:04 ""    comm… ""    &gt;… 1.39e7
-    ##  2 ange…    NA 1.46e9 2016-02-25 03:48:40 ""    comm… ""    I re… 1.12e7
-    ##  3 md2be    NA 1.52e9 2018-01-18 16:22:27 ""    comm… ""    Imag… 1.62e7
-    ##  4 radl…    NA 1.21e9 2008-07-01 21:30:11 ""    comm… ""    "<a … 2.33e5
-    ##  5 pmon…    NA 1.48e9 2016-12-02 15:56:20 ""    comm… ""    "No … 1.31e7
-    ##  6 dmix     NA 1.35e9 2012-08-18 00:01:42 ""    comm… ""    "I t… 4.40e6
-    ##  7 Alre…    NA 1.43e9 2015-04-29 12:25:07 ""    comm… ""    I ag… 9.46e6
-    ##  8 danso    NA 1.52e9 2018-04-19 14:16:30 ""    comm… ""    You … 1.69e7
-    ##  9 meric    NA 1.45e9 2015-11-19 01:46:16 ""    comm… ""    Is i… 1.06e7
-    ## 10 offy…    NA 1.26e9 2009-10-27 21:41:03 ""    comm… ""    "We'… 9.02e5
+    ##    by    score   time timestamp           title type  url   text   parent
+    ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
+    ##  1 Uchi…    NA 1.37e9 2013-06-19 07:27:26 ""    comm… ""    "Fro…  5.90e6
+    ##  2 sara…    NA 1.34e9 2012-07-28 07:35:13 ""    comm… ""    "&#6…  4.30e6
+    ##  3 chin…     1 1.53e9 2018-05-25 07:10:43 Hrft  story http… ""    NA     
+    ##  4 21       NA 1.53e9 2018-06-04 00:17:48 ""    comm… ""    Next…  1.72e7
+    ##  5 cma      NA 1.42e9 2015-02-03 05:54:17 ""    comm… ""    Or G…  8.99e6
+    ##  6 walt…     8 1.44e9 2015-08-10 06:38:36 HTC … story http… ""    NA     
+    ##  7 febe…    NA 1.33e9 2012-04-02 19:49:45 ""    comm… ""    "198…  3.79e6
+    ##  8 wool…    NA 1.54e9 2018-10-26 19:07:52 ""    comm… ""    How …  1.83e7
+    ##  9 _ran…    NA 1.39e9 2013-11-27 22:18:04 ""    comm… ""    Some…  6.81e6
+    ## 10 dmit…    NA 1.53e9 2018-06-02 22:58:01 ""    comm… ""    Beca…  1.72e7
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -183,8 +185,8 @@ The `pins` package can help you discover interesting datasets, currently
 it searches datasets inside CRAN packages but we are planning to extend
 this further.
 
-You can search datasets that contain “seattle” in their description or name
-as follows:
+You can search datasets that contain “seattle” in their description or
+name as follows:
 
 ``` r
 find_pin("seattle")
@@ -290,3 +292,29 @@ get_pin("iris")
     ##  9 versicolor         1.5          4.5         3.2          6.4
     ## 10 versicolor         1.5          4.5         3            5.6
     ## # … with 140 more rows
+
+### Connections
+
+Connections can also be pinned to shared boards; however, you should pin
+them using a proper connection object, not an R
+formula:
+
+``` r
+con <- pin(connection(driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset), "bigquery")
+```
+
+Other packages that don’t use `DBI` connections, like `sparklyr`, can
+use an explicit `initializer` function:
+
+``` r
+sc <- pin(connection(
+  "sparklyr::spark_connect",
+  master = "local",
+  config = list("sparklyr.shell.driver-memory" = "4g")
+), "spark-local")
+```
+
+**Note:** Remove username, password and other sensitive information from
+your pinned connections. By default, `username` and `password` fields
+will be replaced with “@prompt”, which will prompt the user when
+connecting.
