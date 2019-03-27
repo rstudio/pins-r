@@ -4,7 +4,7 @@
 \alias{get_pin}
 \title{Retrieve Pin}
 \usage{
-get_pin(name, board = active_board(), ...)
+get_pin(name, board = NULL, ...)
 }
 \arguments{
 \item{name}{The name of the pin.}

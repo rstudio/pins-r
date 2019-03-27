@@ -2,6 +2,7 @@
 
 export(active_board)
 export(all_boards)
+export(connection)
 export(find_pin)
 export(get_pin)
 export(pin)
