@@ -12,10 +12,24 @@ connection <- function(initializer = "DBI::dbConnect", driver = NULL, ...) {
     stop("Parameter 'driver' required for 'DBI' connection initializer.")
   }
 
+  params <- list(...)
+
+  secrets <- intersect(names(params), connection_secrets())
+  for (secret in secrets)
+    params[[secret]] <- "@prompt"
+
   list(
     initializer = initializer,
     driver = driver,
-    params = list(...)
+    params = params
+  )
+}
+
+connection_secrets <- function() {
+  c(
+    "user",
+    "username",
+    "password"
   )
 }
 
