@@ -60,7 +60,7 @@ get_board <- function(name) {
   if (!name %in% all_boards())
     stop("Board 'name' not a board, available boards: ", paste(all_boards(), collapse = ", "))
 
-  if (identical(name, "local"))
+  if (identical(as.character(name), "local"))
     structure(list(
       name = "local"
     ), class = "local")
