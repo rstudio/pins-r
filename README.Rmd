@@ -180,3 +180,21 @@ and retrieve shared datasets.
 ```{r db-get-pin}
 get_pin("iris")
 ```
+
+### Connections
+
+Connections can also be pinned to shared boards; however, you should pin them using a proper connection object, not an R formula:
+
+```{r shared-connection-dbi}
+con <- pin(connection(driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset), "bigquery")
+```
+
+Other packages that don't use `DBI` connections, like `sparklyr`, can use an explicit `initializer` function:
+
+```{r shared-connection-sparklyr}
+sc <- pin(connection(
+  "sparklyr::spark_connect",
+  master = "local",
+  config = list("sparklyr.shell.driver-memory" = "4g")
+), "spark-local")
+```
