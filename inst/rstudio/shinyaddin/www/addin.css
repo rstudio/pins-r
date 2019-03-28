@@ -1,0 +1,28 @@
+body {
+  font-family : "Lucida Sans", "DejaVu Sans", "Lucida Grande", "Segoe UI", Verdana, Helvetica, sans-serif;
+  font-size : 12px;
+  -ms-user-select : none;
+  -moz-user-select : none;
+  -webkit-user-select : none;
+  user-select : none;
+
+  margin: 12px;
+  background: #FFF;
+}
+
+table {
+  width: 100%;
+}
+
+select {
+  background: #FFF;
+}
+
+#search {
+  width: 300px;
+  height: 16px;
+}
+
+#board {
+  width: 100px;
+}
