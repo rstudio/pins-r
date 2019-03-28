@@ -90,8 +90,6 @@ DBI::dbGetQuery(con, "
   pin("hacker-news-scores", "Hacker News scores grouped by tens.")
 ```
 
-    ## Auto-refreshing stale OAuth token.
-
 However, you can only use `DBI` when you can fetch all the data back
 into R, this is not feasible in many cases. Instead, when using `dplyr`,
 you can pin large datasets and transform them without having to fetch
@@ -192,13 +190,13 @@ name as follows:
 find_pin("seattle")
 ```
 
-    ## # A tibble: 4 x 3
-    ##   name           description                                         board 
-    ##   <fct>          <fct>                                               <chr> 
-    ## 1 seattle_sales  Seattle Home Sales from hpiR package.               packa…
-    ## 2 seattledmi     Data for a crime intervention in Seattle, Washingt… packa…
-    ## 3 data_seattle_… Example dataset: Seattle daily weather from vegawi… packa…
-    ## 4 data_seattle_… Example dataset: Seattle hourly temperatures from … packa…
+    ## # A tibble: 4 x 4
+    ##   name          description                                   type   board 
+    ##   <chr>         <chr>                                         <chr>  <chr> 
+    ## 1 seattle_sales Seattle Home Sales from hpiR package.         packa… packa…
+    ## 2 seattledmi    Data for a crime intervention in Seattle, Wa… packa… packa…
+    ## 3 data_seattle… Example dataset: Seattle daily weather from … packa… packa…
+    ## 4 data_seattle… Example dataset: Seattle hourly temperatures… packa… packa…
 
 You can the retrieve a specific dataset with `get_pin()`:
 
@@ -267,10 +265,14 @@ find pins,
 find_pin()
 ```
 
-    ## # A tibble: 1 x 3
-    ##   name  description                board   
-    ##   <chr> <chr>                      <chr>   
-    ## 1 iris  The entire 'iris' dataset. database
+    ## # A tibble: 5 x 4
+    ##   name              description                             type    board  
+    ##   <chr>             <chr>                                   <chr>   <chr>  
+    ## 1 iris              The entire 'iris' dataset.              table   databa…
+    ## 2 iris-small-width  A subset of 'iris' with only small wid… table   local  
+    ## 3 bigquery          ""                                      formula local  
+    ## 4 hacker-news-full  ""                                      dbplyr  local  
+    ## 5 hacker-news-scor… ""                                      dbplyr  local
 
 and retrieve shared datasets.
 
