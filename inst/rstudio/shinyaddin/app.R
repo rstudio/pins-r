@@ -30,39 +30,49 @@ pins_addin_ui <- function() {
           }
 
           .shiny-input-container {
-            min-width: 100%;
-            margin-bottom: ", elementSpacing, "px;
+            display: table-cell;
           }
 
-          .shiny-input-container > .control-label {
-            display: table-cell;
-            width: 295px;
+          .shiny-input-container:nth-child(2) {
+            width: 140px;
           }
 
           .shiny-input-container > div {
-            display: table-cell;
+            display: inline-block;
+          }
+
+          #search {
             width: 300px;
           }
 
-          #shiny-disconnected-overlay {
-            display: none;
+          #board {
+            width: 120px;
           }
         ", sep = ""))
       )
     ),
-    div(style = "table-row",
+    div(
+        style = paste("display: table; width: 100%;"),
+        textInput(
+          "search",
+          "Search:"
+        ),
         selectInput(
-          "source",
-          "Source:",
+          "board",
+          "Board:",
           choices = c(
-            list("dataframe" = "Data Frame"),
+            list(
+              "All" = "all",
+              "Local" = "local",
+              "Packages" = "packages"
+            ),
             pins_addin_source_choices()
           ),
           selectize = FALSE
         )
     ),
     div(
-      style = paste("display: table-row; height: 10px")
+      style = paste("display: table-row; height: 30px;")
     )
   )
 }
