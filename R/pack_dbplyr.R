@@ -18,15 +18,12 @@ pin_pack.tbl_sql <- function(x, board, ...) {
   if (identical(params$connection, NULL)) {
     con_maybe <- objects(envir = sys.frame())
     con_search <- Filter(function(x) identical(con, get(x, envir = sys.frame())), con_maybe)
-    if (length(con_search) < 1)
+    if (length(con_search) < 1) {
       stop(
         "Can't find global connection for 'dply' expression. ",
         "Try setting connection explicitly with 'connection' parameter"
       )
-    else if (length(con_search) > 1)
-      stop(
-        "Multiple global "
-      )
+    }
 
     con_name <- con_search[[1]]
   }
@@ -37,16 +34,20 @@ pin_pack.tbl_sql <- function(x, board, ...) {
     con_name <- params$connection
   }
 
-  structure(list(
-      sql = sql,
-      connection_name = con_name,
-      connection_pin = attr(con, "pin_name")
-    ),
-    class = "dbplyr_pin"
+  result <- list(
+    sql = sql,
+    connection_name = con_name,
+    connection_pin = attr(con, "pin_name")
   )
+
+  result <- as.character(jsonlite::toJSON(result))
+  attr(result, "pin_type") <- "dbplyr"
+  result
 }
 
 pin_unpack.dbplyr_pin <- function(x, board, name, ...) {
+  x <- jsonlite::fromJSON(x)
+
   deps <- dplyr_dependencies()
   params <- list(...)
 

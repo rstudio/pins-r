@@ -16,7 +16,7 @@ local_save_entries <- function(entries) {
   yaml::write_yaml(entries, local_entries_path())
 }
 
-pin_create.local <- function(board, x, name, description) {
+pin_create.local <- function(board, x, name, description, type, metadata) {
   path <- pins_local_path("local")
   entries <- local_load_entries()
 
@@ -29,7 +29,9 @@ pin_create.local <- function(board, x, name, description) {
   entries[[length(entries) + 1]] <- list(
     name = name,
     description = description,
-    path = path
+    path = path,
+    type = type,
+    metadata = as.character(jsonlite::toJSON(metadata))
   )
 
   local_save_entries(entries)
@@ -40,10 +42,14 @@ pin_find.local <- function(board, text) {
 
   names <- sapply(entries, function(e) e$name)
   descriptions <- sapply(entries, function(e) e$description)
+  types <- sapply(entries, function(e) if (is.null(e$type)) "table" else e$type)
+  metadata <- sapply(entries, function(e) if (is.null(e$metadata)) "" else e$metadata)
 
   data.frame(
     name = names,
     description = descriptions,
+    type = types,
+    metadata = metadata,
     stringsAsFactors = FALSE
   )
 }

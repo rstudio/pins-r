@@ -7,10 +7,9 @@ rlang_dependencies <- function() {
 }
 
 pin_pack.formula <- function(x, board, ...) {
-  structure(
-    paste(as.character(x), collapse = " "),
-    class = "formula_pin"
-  )
+  result <- paste(as.character(x), collapse = " ")
+  attr(result, "pin_type") <- "formula"
+  result
 }
 
 pin_unpack.formula_pin <- function(x, board, name, ...) {

@@ -43,7 +43,7 @@ database_index_table <- function(board) {
   database_sanitize_table(paste0(board$table_preffix, "Index"))
 }
 
-pin_create.database <- function(board, dataset, name, description) {
+pin_create.database <- function(board, dataset, name, description, type, metadata) {
   if (!is.data.frame(dataset)) {
     stop("Only data frames are supported in 'database' boards.")
   }
@@ -69,9 +69,9 @@ pin_create.database <- function(board, dataset, name, description) {
   entry <- data.frame(
     table = table_name,
     name = name,
-    metadata = as.character(jsonlite::toJSON(list(
-      description = description
-    )))
+    type = type,
+    description = description,
+    metadata = as.character(jsonlite::toJSON(metadata))
   )
 
   if (!table_index %in% deps$list_tables(board$con)) {
@@ -98,7 +98,7 @@ database_find_pins <- function(board, text) {
 
   table_index <- database_index_table(board)
   if (!table_index %in% deps$list_tables(board$con)) {
-    data.frame(name = c(), description = c())
+    data.frame(name = c(), description = c(), type = c(), metadata = c())
   }
   else {
     deps$get_query(board$con, paste0("SELECT * FROM ", table_index))
@@ -108,12 +108,11 @@ database_find_pins <- function(board, text) {
 pin_find.database <- function(board, text) {
   index_table <- database_find_pins(board, text)
 
-  names <- index_table$name
-  descriptions <- unname(sapply(index_table$metadata, function(e) jsonlite::fromJSON(e)$description))
-
   data.frame(
-    name = names,
-    description = descriptions,
+    name = index_table$name,
+    description = index_table$description,
+    type = index_table$type,
+    metadata = index_table$metadata,
     stringsAsFactors = FALSE
   )
 }

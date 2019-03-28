@@ -28,16 +28,22 @@ pins_viewer_register <- function(board, board_call) {
 
     listObjectTypes = function () {
       list(
-        table = list(contains = "data")
+        table = list(contains = "data"),
+        formula = list(contains = "formula"),
+        connection = list(contains = "connection")
       )
     },
 
     # table enumeration code
     listObjects = function(type = "table") {
-      objects <- find_pin(board = board)
+      objects <- find_pin(board = board$name)
+      types <- objects$type
+
+      types <- gsub("dbplyr", "table", types)
+
       data.frame(
         name = objects$name,
-        type = rep("table", length(objects$name)),
+        type = types,
         stringsAsFactors = FALSE
       )
     },
@@ -47,13 +53,13 @@ pins_viewer_register <- function(board, board_call) {
       attr_names <- c()
       attr_values <- c()
 
-      pin_index <- find_pin(table, board = board)
+      pin_index <- find_pin(table, board = board$name)
       if (nchar(pin_index$description) > 0) {
         attr_names <- c(attr_names, "description")
         attr_values <- c(attr_values, pin_index$description)
       }
 
-      pin_value <- get_pin(table, board = board)
+      pin_value <- get_pin(table, board = board$name)
       attr_names <- c(attr_names, "type")
       if (class(pin_value)[[1]] %in% c("tbl_df", "data.frame")) {
         attr_values <- c(attr_values, "data.frame")
@@ -71,7 +77,7 @@ pins_viewer_register <- function(board, board_call) {
 
     # table preview code
     previewObject = function(rowLimit, table) {
-      get_pin(name = table, board = board)
+      get_pin(name = table, board = board$name)
     },
 
     # other actions that can be executed on this connection

@@ -5,7 +5,7 @@ board_initialize.packages <- function(...) {
 pin_find.packages <- function(board, text) {
   if (is.null(text)) {
     return(
-      data.frame(name = c(), description = c())
+      data.frame(name = c(), description = c(), type = c(), metadata = c())
     )
   }
 
@@ -17,11 +17,13 @@ pin_find.packages <- function(board, text) {
   if (length(package_pins$dataset) > 0) {
     data.frame(
       name = package_pins$dataset,
-      description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package.")
+      description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package."),
+      type = rep("package", length(package_pins$dataset)),
+      metadata = rep(as.character(jsonlite::toJSON(list())), length(package_pins$dataset))
     )
   }
   else {
-    data.frame(name = c(), description = c())
+    data.frame(name = c(), description = c(), type = c(), metadata = c())
   }
 }
 

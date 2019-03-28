@@ -13,15 +13,16 @@ pin <- function(x, name, description = "", board = active_board(), ...) {
   unpin(name, board = board)
 
   x <- pin_pack(x, board, ...)
-  pin_create(board, x, name, description)
+  type <- attr(x, "pin_type")
+  if (is.null(type))
+    stop("Packing a pin requires 'pin_type' attribute to be specified.")
+
+  metadata <- ""
+  pin_create(board, x, name, description, type, metadata)
 
   pins_viewer_updated()
 
   result <- get_pin(name, board$name)
-
-  result <- pin_unpack(result, board, name, ...)
-
-  attr(result, "pin_name") <- name
 
   pins_viewer_ensure(board)
   result
@@ -37,10 +38,14 @@ pin <- function(x, name, description = "", board = active_board(), ...) {
 #'
 #' @export
 get_pin <- function(name, board = NULL, ...) {
-  if (is.null(board)) board <- find_pin(name)[1,]$board
+  pin_index <- find_pin(name, board = board)[1,]
+  if (is.null(board)) board <- pin_index$board
+
   board_object <- get_board(board)
 
   result <- pin_retrieve(board_object, name)
+
+  class(result) <- c(paste0(pin_index$type, "_pin"), class(result))
 
   result <- pin_unpack(result, board_object, name, ...)
 
@@ -68,7 +73,7 @@ pin_unpack.default <- function(x, board, ...) {
   x
 }
 
-pin_create <- function(board, x, name, description) {
+pin_create <- function(board, x, name, description, type, metadata) {
   UseMethod("pin_create")
 }
 
@@ -102,12 +107,19 @@ pin_remove <- function(board, name) {
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
+#' @param ... Additional parameters.
 #'
 #' @export
-find_pin <- function(text = NULL, board = NULL) {
+find_pin <- function(text = NULL, board = NULL, ...) {
   if (is.null(board)) board <- all_boards()
+  metadata <- identical(list(...)$metadata, TRUE)
 
-  all_pins <- data.frame(name = character(), description = character(), board = character())
+  all_pins <- data.frame(
+    name = character(),
+    description = character(),
+    type = character(),
+    metadata = character(),
+    board = character())
 
   for (board_name in board) {
     board_object <- get_board(board_name)
@@ -121,6 +133,10 @@ find_pin <- function(text = NULL, board = NULL) {
     find_names <- grepl(text, all_pins$name)
     find_description <- grepl(text, all_pins$description)
     all_pins <- all_pins[find_names | find_description,]
+  }
+
+  if (!metadata) {
+    all_pins <- all_pins[, names(all_pins) != "metadata"]
   }
 
   maybe_tibble(all_pins)
