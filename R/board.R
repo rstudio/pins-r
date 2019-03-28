@@ -44,16 +44,10 @@ active_board <- function() {
 #' @name board
 #' @export
 all_boards <- function() {
-  if (is.null(.globals$boards))
-    c(
-      "packages",
-      "local"
-    )
-  else
-    c(
-      names(.globals$boards),
-      names(.globals$boards_registered)
-    )
+  c(
+    names(.globals$boards),
+    names(.globals$boards_registered)
+  )
 }
 
 get_board <- function(name) {
