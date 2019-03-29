@@ -12,6 +12,9 @@ body {
 
 table {
   width: 100%;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: solid 1px #DFDFDF;
 }
 
 select {
