@@ -2,35 +2,45 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="addin.css"/>
+    <script src="shared/jquery.js" type="text/javascript"></script>
+    <script src="shared/shiny.js" type="text/javascript"></script>
     <script src="vue.min.js" type="text/javascript"></script>
   </head>
   <body>
-    <table>
-      <tr>
-        <td>
-          Search:
-          <input id="search" type="text">
-        </td>
-        <td>
-          Board:
-          <select id="board">
-            <option value="all" selected="">All</option>
-            <option value="local">Local</option>
-            <option value="packages">Packages</option>
-          </select>
-        </td>
-      </tr>
-    </table>
     <div id="app">
-      <span v-text="message"></span>
+      <table>
+        <tr>
+          <td>
+            Search:
+            <input id="search" type="text" v-model="message">
+          </td>
+          <td>
+            Board:
+            <select id="board" v-model="board">
+              <option value="all" selected="">All</option>
+              <option value="local">Local</option>
+              <option value="packages">Packages</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <span v-text="message"></span>
+        <span v-text="board"></span>
+      </div>
+      <script type="text/javascript">
+        var app = new Vue({
+          el: '#app',
+          data: {
+            message: "",
+            board: "all"
+          }
+        })
+
+        $(document).on('shiny:connected', function(event) {
+          // Shiny.setInputValue("name", "1234");
+        });
+      </script>
     </div>
-    <script type="text/javascript">
-      var app = new Vue({
-        el: '#app',
-        data: {
-          message: 'Hello Vue!'
-        }
-      })
-    </script>
   </body>
 </html>
