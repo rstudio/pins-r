@@ -12,7 +12,7 @@
         <tr>
           <td>
             Search:
-            <input id="search" type="text" v-model="message">
+            <input id="search" type="text" v-model="search">
           </td>
           <td>
             Board:
@@ -25,20 +25,29 @@
         </tr>
       </table>
       <div>
-        <span v-text="message"></span>
+        <span v-text="search"></span>
         <span v-text="board"></span>
       </div>
       <script type="text/javascript">
-        var app = new Vue({
-          el: '#app',
-          data: {
-            message: "",
-            board: "all"
-          }
-        })
+        var app = null;
+        var initialize = function() {
+          app = new Vue({
+            el: '#app',
+            data: {
+              search: "",
+              board: "all"
+            },
+            watch: {
+              'search': function(val, oldVal){
+                console.log("Search: " + val);
+              }
+            }
+          });
+        };
 
         $(document).on('shiny:connected', function(event) {
           // Shiny.setInputValue("name", "1234");
+          initialize();
         });
       </script>
     </div>
