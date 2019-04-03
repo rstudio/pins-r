@@ -5,6 +5,37 @@
     <script src="shared/jquery.js" type="text/javascript"></script>
     <script src="shared/shiny.js" type="text/javascript"></script>
     <script src="vue.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var app = null;
+        var initialize = function() {
+          app = new Vue({
+            el: '#app',
+            data: {
+              search: "",
+              board: "all",
+              results: ""
+            },
+            watch: {
+              'search': function(val, oldVal){
+                Shiny.setInputValue("search", val);
+              }
+            }
+          });
+        };
+
+        $(document).on('shiny:connected', function(event) {
+          Shiny.addCustomMessageHandler("search-results", function(results) {
+            var description = "";
+            if (results.description) {
+              description = results.description[0];
+            }
+
+            app.$set(app.$data, 'results', description);
+          });
+
+          initialize();
+        });
+      </script>
   </head>
   <body>
     <div id="app">
@@ -29,32 +60,6 @@
         <p>Board: <span v-text="board"></span></p>
         <p>Results: <span v-text="results"></span></p>
       </div>
-      <script type="text/javascript">
-        var app = null;
-        var initialize = function() {
-          app = new Vue({
-            el: '#app',
-            data: {
-              search: "",
-              board: "all",
-              results: ""
-            },
-            watch: {
-              'search': function(val, oldVal){
-                Shiny.setInputValue("search", val);
-              }
-            }
-          });
-        };
-
-        $(document).on('shiny:connected', function(event) {
-          Shiny.addCustomMessageHandler("search-results", function(results) {
-            app.$set(app.$data, 'results', results);
-          });
-
-          initialize();
-        });
-      </script>
     </div>
   </body>
 </html>
