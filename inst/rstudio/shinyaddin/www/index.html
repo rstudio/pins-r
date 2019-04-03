@@ -25,8 +25,9 @@
         </tr>
       </table>
       <div>
-        <span v-text="search"></span>
-        <span v-text="board"></span>
+        <p>Search: <span v-text="search"></span></p>
+        <p>Board: <span v-text="board"></span></p>
+        <p>Results: <span v-text="results"></span></p>
       </div>
       <script type="text/javascript">
         var app = null;
@@ -35,18 +36,22 @@
             el: '#app',
             data: {
               search: "",
-              board: "all"
+              board: "all",
+              results: ""
             },
             watch: {
               'search': function(val, oldVal){
-                console.log("Search: " + val);
+                Shiny.setInputValue("search", val);
               }
             }
           });
         };
 
         $(document).on('shiny:connected', function(event) {
-          // Shiny.setInputValue("name", "1234");
+          Shiny.addCustomMessageHandler("search-results", function(results) {
+            app.$set(app.$data, 'results', results);
+          });
+
           initialize();
         });
       </script>
