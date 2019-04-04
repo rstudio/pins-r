@@ -111,7 +111,8 @@ pin_remove <- function(board, name) {
 #'
 #' @export
 find_pin <- function(text = NULL, board = NULL, ...) {
-  if (is.null(board)) board <- all_boards()
+  if (is.null(board) ||
+      (is.character(board) && (nchar(board) == 0 || identical(board, "all")))) board <- all_boards()
   metadata <- identical(list(...)$metadata, TRUE)
 
   all_pins <- data.frame(
