@@ -27,14 +27,45 @@
               search: "",
               board: "all",
               results: {},
-              datasets: []
+              datasets: [],
+              page: 0
+            },
+            methods: {
+              updatePage: function(page) {
+                if (page == 0) {
+                  app.$set(app.$data, 'datasets', []);
+                  return;
+                }
+
+                var maxResults = 7;
+                var results = this.results;
+                var resultStart = (page - 1) * maxResults;
+                var resultEnd = Math.min(results.description.length, page * maxResults);
+
+                var datasets = [];
+                for (var idx = resultStart; idx < resultEnd; idx++) {
+                  datasets.push({
+                    name: results.name[idx],
+                    description: results.description[idx]
+                  })
+                }
+
+                app.$set(app.$data, 'datasets', datasets);
+              }
             },
             watch: {
-              'search': function(val, oldVal){
+              'search': function(val, oldVal) {
                 Shiny.setInputValue("search", val);
               },
-              'board': function(val, oldVal){
+              'board': function(val, oldVal) {
                 Shiny.setInputValue("board", val);
+              },
+              'page': function(val, oldVal) {
+                this.updatePage(val);
+              },
+              'results': function(val, oldVal) {
+                if (val == oldVal) return;
+                this.updatePage(1);
               }
             }
           });
@@ -42,15 +73,6 @@
 
         $(document).on('shiny:connected', function(event) {
           Shiny.addCustomMessageHandler("search-results", function(results) {
-            var datasets = [];
-            for (var idx = 0; idx < Math.min(results.description.length, 20); idx++) {
-              datasets.push({
-                name: results.name[idx],
-                description: results.description[idx]
-              })
-            }
-
-            app.$set(app.$data, 'datasets', datasets);
             app.$set(app.$data, 'results', results);
           });
 
