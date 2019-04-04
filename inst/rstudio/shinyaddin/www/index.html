@@ -7,13 +7,27 @@
     <script src="vue.js" type="text/javascript"></script>
     <script type="text/javascript">
         var app = null;
+
+        Vue.component('result-entry', {
+          template: `
+            <div>
+              <p>Name: <span v-text="dataset.name" /></p>
+              <p>Description: <span v-text="dataset.description" /></p>
+            </div>
+          `,
+          props: {
+            dataset: Object
+          }
+        })
+
         var initialize = function() {
           app = new Vue({
             el: '#app',
             data: {
               search: "",
               board: "all",
-              results: ""
+              results: {},
+              datasets: []
             },
             watch: {
               'search': function(val, oldVal){
@@ -25,12 +39,16 @@
 
         $(document).on('shiny:connected', function(event) {
           Shiny.addCustomMessageHandler("search-results", function(results) {
-            var description = "";
-            if (results.description) {
-              description = results.description[0];
+            var datasets = [];
+            for (var idx = 0; idx < Math.min(results.description.length, 20); idx++) {
+              datasets.push({
+                name: results.name[idx],
+                description: results.description[idx]
+              })
             }
 
-            app.$set(app.$data, 'results', description);
+            app.$set(app.$data, 'datasets', datasets);
+            app.$set(app.$data, 'results', results);
           });
 
           initialize();
@@ -56,9 +74,7 @@
         </tr>
       </table>
       <div>
-        <p>Search: <span v-text="search"></span></p>
-        <p>Board: <span v-text="board"></span></p>
-        <p>Results: <span v-text="results"></span></p>
+        <result-entry v-for="dataset in datasets" :dataset="dataset" />
       </div>
     </div>
   </body>
