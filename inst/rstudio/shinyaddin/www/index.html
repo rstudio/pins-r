@@ -32,6 +32,9 @@
             watch: {
               'search': function(val, oldVal){
                 Shiny.setInputValue("search", val);
+              },
+              'board': function(val, oldVal){
+                Shiny.setInputValue("board", val);
               }
             }
           });
