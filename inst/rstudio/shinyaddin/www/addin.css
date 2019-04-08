@@ -54,3 +54,41 @@ select {
   height: 30px;
   width: 440px;
 }
+
+.result-entry-table {
+  display: flex;
+  overflow: hidden;
+  width: 50px;
+  height: 55px;
+  font-size: 3px;
+  padding: 2px 5px 3px 5px;
+}
+
+.result-entry-table > div {
+  width: 100%;
+}
+
+.result-entry-table > div {
+  height: 3px;
+}
+
+/* entry table: row style */
+.result-entry-table > div > div:nth-child(even) {
+  background: #ffebcb;
+}
+
+/* entry table: row style */
+.result-entry-table > div > div:nth-child(odd) {
+  background: #fff9f0;
+}
+
+/* entry table: column style odd */
+.result-entry-table > div {
+  margin-right: 1px;
+}
+
+/* entry table: header style */
+.result-entry-table > div > div:nth-child(1) {
+  background: #f5b348;
+}
+

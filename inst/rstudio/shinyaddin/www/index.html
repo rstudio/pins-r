@@ -11,15 +11,19 @@
         Vue.component('result-entry', {
           template: `
             <div class="result-entry">
-              <canvas width="60" height="60"></canvas>
+              <div width="60" height="60" class="result-entry-table">
+                <div v-for="coln in entry.cols">
+                  <div v-for="rown in entry.rows">&nbsp;</div>
+                </div>
+              </div>
               <div class="result-entry-info">
-                <div class="result-entry-info-name">Name: <span v-text="dataset.name" /><div>
-                <div class="result-entry-info-desc">Description: <span v-text="dataset.description" /><div>
+                <div class="result-entry-info-name">Name: <span v-text="entry.name" /><div>
+                <div class="result-entry-info-desc">Description: <span v-text="entry.description" /><div>
               </div>
             </div>
           `,
           props: {
-            dataset: Object
+            entry: Object
           }
         })
 
@@ -49,7 +53,9 @@
                 for (var idx = resultStart; idx < resultEnd; idx++) {
                   datasets.push({
                     name: results.name[idx],
-                    description: results.description[idx]
+                    description: results.description[idx],
+                    rows: Math.min(13, 2 + Math.floor(11 * Math.random())),
+                    cols: Math.min(11, 2 + Math.floor(19 * Math.random()))
                   })
                 }
 
@@ -102,7 +108,7 @@
         </tr>
       </table>
       <div>
-        <result-entry v-for="dataset in datasets" :dataset="dataset" />
+        <result-entry v-for="entry in datasets" :entry="entry" />
       </div>
     </div>
   </body>
