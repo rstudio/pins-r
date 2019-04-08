@@ -42,17 +42,20 @@ select {
   width: 440px;
   display: inline-block;
   overflow: hidden;
-  overflow: hidden;
 }
 
 .result-entry-info-name {
-  height: 20px;
+  height: 16px;
   width: 440px;
+  color: #464646;
+  font-weight: bold;
 }
 
 .result-entry-info-desc {
   height: 30px;
   width: 440px;
+  color: #7c7c7c;
+  overflow: hidden;
 }
 
 .result-entry-table {
