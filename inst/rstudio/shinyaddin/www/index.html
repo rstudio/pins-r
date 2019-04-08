@@ -11,9 +11,10 @@
         Vue.component('result-entry', {
           template: `
             <div class="result-entry">
-              <div width="60" height="60" class="result-entry-table">
+              <div width="60" height="60" v-bind:class="{ 'result-entry-table': true, 'result-entry-table-nodims': entry.nodims }">
                 <div v-for="coln in entry.cols">
                   <div v-for="rown in entry.rows">&nbsp;</div>
+                  <div v-for="rown in (10 - entry.rows)" class="row-padding">&nbsp;</div>
                 </div>
               </div>
               <div class="result-entry-info">
@@ -49,13 +50,21 @@
                 var resultStart = (page - 1) * maxResults;
                 var resultEnd = Math.min(results.description.length, page * maxResults);
 
+                var rows = 1000;
+                var cols = 10;
+                var nodims = true;
+                if (results.metadata && results.metadata.rows) rows = results.metadata.rows;
+                if (results.metadata && results.metadata.cols) cols = results.metadata.cols;
+                if ((results.metadata && results.metadata.rows && results.metadata.cols)) nodims = false;
+
                 var datasets = [];
                 for (var idx = resultStart; idx < resultEnd; idx++) {
                   datasets.push({
                     name: results.name[idx],
                     description: results.description[idx],
-                    rows: Math.min(13, 2 + Math.floor(11 * Math.random())),
-                    cols: Math.min(11, 2 + Math.floor(19 * Math.random()))
+                    rows: Math.min(13, 1 + Math.ceil(Math.log(rows) / Math.log(10))),
+                    cols: Math.min(11, Math.ceil(Math.log(cols) / Math.log(2))),
+                    nodims: true
                   })
                 }
 

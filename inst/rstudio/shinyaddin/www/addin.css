@@ -95,3 +95,22 @@ select {
   background: #f5b348;
 }
 
+/* entry table: row padding */
+.result-entry-table > div > div.row-padding {
+  background: #fffdfa;
+}
+
+/* disabled */
+.result-entry-table.result-entry-table-nodims > div > div:nth-child(even) {
+  background: #eeeeee;
+}
+.result-entry-table.result-entry-table-nodims > div > div:nth-child(odd) {
+  background: #fcfcfc;
+}
+.result-entry-table.result-entry-table-nodims > div > div:nth-child(1) {
+  background: #929292;
+}
+.result-entry-table.result-entry-table-nodims > div > div.row-padding {
+  background: #fafafa;
+}
+
