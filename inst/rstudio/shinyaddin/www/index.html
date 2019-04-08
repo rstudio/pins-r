@@ -10,9 +10,12 @@
 
         Vue.component('result-entry', {
           template: `
-            <div>
-              <p>Name: <span v-text="dataset.name" /></p>
-              <p>Description: <span v-text="dataset.description" /></p>
+            <div class="result-entry">
+              <canvas width="60" height="60"></canvas>
+              <div class="result-entry-info">
+                <div class="result-entry-info-name">Name: <span v-text="dataset.name" /><div>
+                <div class="result-entry-info-desc">Description: <span v-text="dataset.description" /><div>
+              </div>
             </div>
           `,
           props: {
@@ -37,7 +40,7 @@
                   return;
                 }
 
-                var maxResults = 7;
+                var maxResults = 8;
                 var results = this.results;
                 var resultStart = (page - 1) * maxResults;
                 var resultEnd = Math.min(results.description.length, page * maxResults);

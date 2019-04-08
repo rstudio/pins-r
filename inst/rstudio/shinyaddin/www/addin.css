@@ -29,3 +29,28 @@ select {
 #board {
   width: 100px;
 }
+
+.result-entry {
+  height: 50px;
+  width: 500px;
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.result-entry-info {
+  height: 50px;
+  width: 440px;
+  display: inline-block;
+  overflow: hidden;
+  overflow: hidden;
+}
+
+.result-entry-info-name {
+  height: 20px;
+  width: 440px;
+}
+
+.result-entry-info-desc {
+  height: 30px;
+  width: 440px;
+}
