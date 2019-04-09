@@ -32,11 +32,24 @@ pin_metadata <- function(x) {
   UseMethod("pin_metadata")
 }
 
-pin_metadata.data.frame <- function(x) {
+#' Pin Extension Metadata
+#'
+#' Creates metadata for a pin when extending boards.
+#'
+#' @param name The name of the pin.
+#' @param board The board where this pin will be retrieved from.
+#' @param ... Additional parameters.
+#'
+#' @export
+pins_metadata_create <- function(rows, cols) {
   list(
-    rows = nrow(x),
-    cols = ncol(x)
+    rows = rows,
+    cols = cols
   )
+}
+
+pin_metadata.data.frame <- function(x) {
+  pins_metadata_create(nrow(x), ncol(x))
 }
 
 pin_metadata.default <- function(x) {
@@ -53,7 +66,10 @@ pin_metadata.default <- function(x) {
 #'
 #' @export
 get_pin <- function(name, board = NULL, ...) {
-  pin_index <- find_pin(name, board = board)[1,]
+  pin_index <- find_pin(name, board = board)
+  if (nrow(pin_index) == 0) stop("'", name, "' not found.")
+
+  pin_index <- pin_index[1,]
   if (is.null(board)) board <- pin_index$board
 
   board_object <- get_board(board)
