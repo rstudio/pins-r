@@ -4,7 +4,9 @@ dplyr_dependencies <- function() {
   list (
     sql_render = get("sql_render", envir = asNamespace("dbplyr")),
     tbl = get("tbl", envir = asNamespace("dplyr")),
-    sql = get("sql", envir = asNamespace("dplyr"))
+    sql = get("sql", envir = asNamespace("dplyr")),
+    count = get("count", envir = asNamespace("dplyr")),
+    pull = get("pull", envir = asNamespace("dplyr"))
   )
 }
 
@@ -61,4 +63,10 @@ pin_unpack.dbplyr_pin <- function(x, board, name, ...) {
   }
 
   deps$tbl(con, deps$sql(x$sql))
+}
+
+pin_metadata.tbl_sql <- function(x) {
+  deps <- dplyr_dependencies()
+
+  pins_metadata_create(deps$pull(deps$count(x)), ncol(x))
 }
