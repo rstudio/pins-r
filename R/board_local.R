@@ -31,7 +31,7 @@ pin_create.local <- function(board, x, name, description, type, metadata) {
     description = description,
     path = path,
     type = type,
-    metadata = as.character(jsonlite::toJSON(metadata))
+    metadata = as.character(metadata)
   )
 
   local_save_entries(entries)

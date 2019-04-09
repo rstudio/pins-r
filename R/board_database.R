@@ -71,7 +71,7 @@ pin_create.database <- function(board, dataset, name, description, type, metadat
     name = name,
     type = type,
     description = description,
-    metadata = as.character(jsonlite::toJSON(metadata))
+    metadata = as.character(metadata)
   )
 
   if (!table_index %in% deps$list_tables(board$con)) {

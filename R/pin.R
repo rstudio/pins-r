@@ -12,12 +12,12 @@
 pin <- function(x, name, description = "", board = active_board(), ...) {
   unpin(name, board = board)
 
+  metadata <- jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE)
   x <- pin_pack(x, board, ...)
   type <- attr(x, "pin_type")
   if (is.null(type))
     stop("Packing a pin requires 'pin_type' attribute to be specified.")
 
-  metadata <- ""
   pin_create(board, x, name, description, type, metadata)
 
   pins_viewer_updated()
@@ -26,6 +26,21 @@ pin <- function(x, name, description = "", board = active_board(), ...) {
 
   pins_viewer_ensure(board)
   result
+}
+
+pin_metadata <- function(x) {
+  UseMethod("pin_metadata")
+}
+
+pin_metadata.data.frame <- function(x) {
+  list(
+    rows = nrow(x),
+    cols = ncol(x)
+  )
+}
+
+pin_metadata.default <- function(x) {
+  list()
 }
 
 #' Retrieve Pin
