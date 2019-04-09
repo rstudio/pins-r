@@ -106,16 +106,16 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
     ## # Database: BigQueryConnection
     ##    by    score   time timestamp           title type  url   text   parent
     ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 Uchi…    NA 1.37e9 2013-06-19 07:27:26 ""    comm… ""    "Fro…  5.90e6
-    ##  2 sara…    NA 1.34e9 2012-07-28 07:35:13 ""    comm… ""    "&#6…  4.30e6
-    ##  3 chin…     1 1.53e9 2018-05-25 07:10:43 Hrft  story http… ""    NA     
-    ##  4 21       NA 1.53e9 2018-06-04 00:17:48 ""    comm… ""    Next…  1.72e7
-    ##  5 cma      NA 1.42e9 2015-02-03 05:54:17 ""    comm… ""    Or G…  8.99e6
-    ##  6 walt…     8 1.44e9 2015-08-10 06:38:36 HTC … story http… ""    NA     
-    ##  7 febe…    NA 1.33e9 2012-04-02 19:49:45 ""    comm… ""    "198…  3.79e6
-    ##  8 wool…    NA 1.54e9 2018-10-26 19:07:52 ""    comm… ""    How …  1.83e7
-    ##  9 _ran…    NA 1.39e9 2013-11-27 22:18:04 ""    comm… ""    Some…  6.81e6
-    ## 10 dmit…    NA 1.53e9 2018-06-02 22:58:01 ""    comm… ""    Beca…  1.72e7
+    ##  1 walt…     8 1.44e9 2015-08-10 06:38:36 HTC … story http… ""    NA     
+    ##  2 _ran…    NA 1.39e9 2013-11-27 22:18:04 ""    comm… ""    Some…  6.81e6
+    ##  3 prit…    NA 1.42e9 2015-02-04 18:50:36 ""    comm… ""    Look…  9.00e6
+    ##  4 nick…    NA 1.48e9 2016-10-28 23:46:34 ""    comm… ""    "Fro…  1.28e7
+    ##  5 happ…     2 1.50e9 2017-07-01 13:29:09 To S… story http… ""    NA     
+    ##  6 devx…    NA 1.53e9 2018-08-10 05:07:22 ""    comm… ""    "<a …  1.77e7
+    ##  7 fath…    NA 1.43e9 2015-04-13 12:15:12 ""    comm… ""    "Not…  9.37e6
+    ##  8 myli…    NA 1.47e9 2016-09-01 20:54:24 ""    comm… ""    "Shi…  1.24e7
+    ##  9 pjmlp    NA 1.51e9 2017-09-14 13:17:59 ""    comm… ""    Sure…  1.52e7
+    ## 10 eli      NA 1.31e9 2011-06-06 21:28:28 ""    comm… ""    "<i>…  2.63e6
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -137,11 +137,11 @@ connection:
 con <- pin(~DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset), "bigquery")
 ```
 
-Then pin your dataset as you would usually
-would,
+Then pin your dataset as you would usually would,
 
 ``` r
-tbl(con, "bigquery-public-data.hacker_news.full") %>% pin("hacker-news-full")
+tbl(con, "bigquery-public-data.hacker_news.full") %>%
+  pin("hacker-news-full", "The Hacker News dataset in Google BigQuery.")
 ```
 
 From now on, after restarting your R session and retrieving the pin, the
@@ -191,12 +191,12 @@ find_pin("seattle")
 ```
 
     ## # A tibble: 4 x 4
-    ##   name          description                                   type   board 
-    ##   <chr>         <chr>                                         <chr>  <chr> 
-    ## 1 seattle_sales Seattle Home Sales from hpiR package.         packa… packa…
-    ## 2 seattledmi    Data for a crime intervention in Seattle, Wa… packa… packa…
-    ## 3 data_seattle… Example dataset: Seattle daily weather from … packa… packa…
-    ## 4 data_seattle… Example dataset: Seattle hourly temperatures… packa… packa…
+    ##   name          description                                    type  board 
+    ##   <chr>         <chr>                                          <chr> <chr> 
+    ## 1 seattle_sales Seattle Home Sales from hpiR package.          table packa…
+    ## 2 seattledmi    Data for a crime intervention in Seattle, Was… table packa…
+    ## 3 data_seattle… Example dataset: Seattle daily weather from v… table packa…
+    ## 4 data_seattle… Example dataset: Seattle hourly temperatures … table packa…
 
 You can the retrieve a specific dataset with `get_pin()`:
 
@@ -266,13 +266,13 @@ find_pin()
 ```
 
     ## # A tibble: 5 x 4
-    ##   name              description                             type    board  
-    ##   <chr>             <chr>                                   <chr>   <chr>  
-    ## 1 iris              The entire 'iris' dataset.              table   databa…
-    ## 2 iris-small-width  A subset of 'iris' with only small wid… table   local  
-    ## 3 bigquery          ""                                      formula local  
-    ## 4 hacker-news-full  ""                                      dbplyr  local  
-    ## 5 hacker-news-scor… ""                                      dbplyr  local
+    ##   name              description                              type   board  
+    ##   <chr>             <chr>                                    <chr>  <chr>  
+    ## 1 iris              The entire 'iris' dataset.               table  databa…
+    ## 2 iris-small-width  A subset of 'iris' with only small widt… table  local  
+    ## 3 bigquery          ""                                       formu… local  
+    ## 4 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
+    ## 5 hacker-news-scor… ""                                       dbplyr local
 
 and retrieve shared datasets.
 
@@ -320,3 +320,16 @@ sc <- pin(connection(
 your pinned connections. By default, `username` and `password` fields
 will be replaced with “@prompt”, which will prompt the user when
 connecting.
+
+## RStudio
+
+This package provides an [RStudio
+Addin](https://rstudio.github.io/rstudio-extensions/rstudio_addins.html)
+to search for datasets and an [RStudio
+Connection](https://rstudio.github.io/rstudio-extensions/rstudio-connections.html)
+extension to track local or remote datasets.
+
+![](tools/readme/rstudio-pins-addmin.png)
+
+The addin provides a list of datasets and visual clues that describe how
+large and wide eachd dataset is.
