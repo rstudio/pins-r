@@ -18,7 +18,7 @@ pin_find.packages <- function(board, text) {
     data.frame(
       name = package_pins$dataset,
       description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package."),
-      type = rep("package", length(package_pins$dataset)),
+      type = rep("table", length(package_pins$dataset)),
       metadata = rep(as.character(jsonlite::toJSON(list())), length(package_pins$dataset))
     )
   }

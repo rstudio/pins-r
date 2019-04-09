@@ -28,22 +28,19 @@ pins_viewer_register <- function(board, board_call) {
 
     listObjectTypes = function () {
       list(
-        table = list(contains = "data"),
-        formula = list(contains = "formula"),
-        connection = list(contains = "connection")
+        table = list(contains = "data")
       )
     },
 
     # table enumeration code
     listObjects = function(type = "table") {
       objects <- find_pin(board = board$name)
-      types <- objects$type
 
-      types <- gsub("dbplyr", "table", types)
+      names <- objects$name[objects$type %in% pin_is_table_subtype()]
 
       data.frame(
-        name = objects$name,
-        type = types,
+        name = names,
+        type = rep("table", length(names)),
         stringsAsFactors = FALSE
       )
     },

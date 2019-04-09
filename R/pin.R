@@ -145,6 +145,7 @@ find_pin <- function(text = NULL, board = NULL, ...) {
   if (is.null(board) ||
       (is.character(board) && (nchar(board) == 0 || identical(board, "all")))) board <- all_boards()
   metadata <- identical(list(...)$metadata, TRUE)
+  type <- if (identical(list(...)$type, "table")) pin_is_table_subtype() else list(...)$type
 
   all_pins <- data.frame(
     name = character(),
@@ -158,6 +159,11 @@ find_pin <- function(text = NULL, board = NULL, ...) {
 
     board_pins <- pin_find(board = board_object, text)
     board_pins$board <- rep(board_name, nrow(board_pins))
+
+    if (!identical(type, NULL)) {
+      board_pins <- board_pins[board_pins$type %in% type,]
+    }
+
     all_pins <- rbind(all_pins, board_pins)
   }
 
@@ -201,4 +207,11 @@ pin_preview.data.frame <- function(x) {
 
 pin_preview.default <- function(x) {
   stop("Preview unsupported for '", class(x)[[1]], "'")
+}
+
+pin_is_table_subtype <- function() {
+  c(
+    "table",
+    "dbplyr"
+  )
 }
