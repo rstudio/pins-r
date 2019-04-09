@@ -44,9 +44,11 @@ active_board <- function() {
 #' @name board
 #' @export
 all_boards <- function() {
-  c(
-    names(.globals$boards),
-    names(.globals$boards_registered)
+  unique(
+    c(
+      names(.globals$boards),
+      names(.globals$boards_registered)
+    )
   )
 }
 
