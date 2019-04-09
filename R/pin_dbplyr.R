@@ -6,7 +6,8 @@ dplyr_dependencies <- function() {
     tbl = get("tbl", envir = asNamespace("dplyr")),
     sql = get("sql", envir = asNamespace("dplyr")),
     count = get("count", envir = asNamespace("dplyr")),
-    pull = get("pull", envir = asNamespace("dplyr"))
+    pull = get("pull", envir = asNamespace("dplyr")),
+    head = get("head", envir = asNamespace("dplyr"))
   )
 }
 
@@ -69,4 +70,10 @@ pin_metadata.tbl_sql <- function(x) {
   deps <- dplyr_dependencies()
 
   pins_metadata_create(deps$pull(deps$count(x)), ncol(x))
+}
+
+pin_preview.tbl_sql <- function(x) {
+  deps <- dplyr_dependencies()
+
+  deps$head(x, n = 1000)
 }

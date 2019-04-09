@@ -177,3 +177,28 @@ find_pin <- function(text = NULL, board = NULL, ...) {
 pin_find <- function(board, text) {
   UseMethod("pin_find")
 }
+
+#' Preview Pin
+#'
+#' Previews a named pin from the active board.
+#'
+#' @param name The name of the pin.
+#' @param board The board where this pin will be retrieved from.
+#' @param ... Additional parameters.
+#'
+#' @export
+preview_pin <- function(name, board = NULL, ...) {
+  pin_preview(get_pin(name, board = board))
+}
+
+pin_preview <- function(x) {
+  UseMethod("pin_preview")
+}
+
+pin_preview.data.frame <- function(x) {
+  x
+}
+
+pin_preview.default <- function(x) {
+  stop("Preview unsupported for '", class(x)[[1]], "'")
+}
