@@ -106,7 +106,8 @@ con <- pin(~DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset 
 Then pin your dataset as you would usually would,
 
 ```{r remote-dplyr-con-pin, results = 'hide'}
-tbl(con, "bigquery-public-data.hacker_news.full") %>% pin("hacker-news-full")
+tbl(con, "bigquery-public-data.hacker_news.full") %>%
+  pin("hacker-news-full", "The Hacker News dataset in Google BigQuery.")
 ```
 
 From now on, after restarting your R session and retrieving the pin, the pin will initialize the connection before retrieving a `dplyr` reference to it with `pin("hacker-news-full")`.
@@ -200,3 +201,11 @@ sc <- pin(connection(
 ```
 
 **Note:** Remove username, password and other sensitive information from your pinned connections. By default, `username` and `password` fields will be replaced with "@prompt", which will prompt the user when connecting.
+
+## RStudio
+
+This package provides an [RStudio Addin](https://rstudio.github.io/rstudio-extensions/rstudio_addins.html) to search for datasets and an [RStudio Connection](https://rstudio.github.io/rstudio-extensions/rstudio-connections.html) extension to track local or remote datasets.
+
+![](tools/readme/rstudio-pins-addmin.png)
+
+The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.
