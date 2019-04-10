@@ -57,7 +57,7 @@ cran_process_file <- function(package_path, file_path) {
         dataset_class <- class(dataset_content)[[1]]
         if (typeof(dataset_class) != "character" || length(dataset_class) != 1) dataset_class <- typeof(dataset_content)
 
-        dataset_content <- NULL
+        rm(dataset_content)
       }
     }
   }
@@ -167,6 +167,7 @@ cran_find_config <- function(workers = 3, worker_cpus = 8) {
   config["sparklyr.shell.num-executors"] <- workers * worker_cpus
   config["spark.speculation"] <- TRUE
   config["spark.speculation.multiplier"] <- 4
+  config["spark.memory.fraction"] <- 0.8
 
   config
 }
