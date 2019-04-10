@@ -33,20 +33,50 @@ cran_process_file <- function(package_path, file_path) {
           "",
           paste(as.character(dataset_title[[1]]), collapse = " "))
         dataset_title <- gsub("  +", " ", dataset_title)
+
+        dataset_content <- tryCatch({
+          get(load(file_path))
+        }, error = function(e) {
+          stop("Failed to load '", file_name, "'")
+        })
+
+        rows <- tryCatch({
+          nrow(dataset_content)
+        }, error = function(e) {
+          stop("Failed to retrieve rows for '", file_name, "' and class '", class(dataset_content)[[1]], "'")
+        })
+
+        if (typeof(rows) != "integer") stop("Expected rows to be an integer but found '", typeof(rows), "'")
+        if (length(rows) != 1) stop("Expected rows to be a constant but found '", length(rows), "'")
+
+        cols <- tryCatch({
+          ncol(dataset_content)
+        }, error = function(e) {
+          stop("Failed to retrieve cols for '", file_name, "' and class '", class(dataset_content)[[1]], "'")
+        })
+
+        if (typeof(cols) != "integer") stop("Expected cols to be an integer but found '", typeof(cols), "'")
+        if (length(cols) != 1) stop("Expected cols to be a constant but found '", length(cols), "'")
+
+        dataset_content <- NULL
       }
     }
   }
 
   if (is.null(dataset_title)) {
-    data.frame(name = c(), description = c())
+    data.frame(name = c(), description = c(), rows = c(), cols = c())
   }
   else {
-    data.frame(name = paste(basename(package_path), dataset_name, sep = ":"), description = dataset_title)
+    data.frame(
+      name = paste(basename(package_path), dataset_name, sep = ":"),
+      description = dataset_title,
+      rows = rows,
+      cols = cols)
   }
 }
 
 cran_process_package <- function(package) {
-  results <- data.frame(name = c(), description = c())
+  results <- data.frame(name = c(), description = c(), rows = c(), cols = c())
 
   if (!dir.exists(file.path("packages", package))) {
     download.packages(package, "packages", repos = "https://cran.rstudio.com/")
@@ -63,7 +93,7 @@ cran_process_package <- function(package) {
     new_result <- tryCatch({
       cran_process_file(package_path, dataset_path)
     }, error = function(e) {
-      data.frame(name = paste("error", package, sep = ":"), description = e$message)
+      data.frame(name = paste("error", package, sep = ":"), description = e$message, rows = -1L, cols = -1L)
     })
 
     results <- rbind(
@@ -78,13 +108,13 @@ cran_process_package <- function(package) {
 cran_process_packages <- function(packages) {
   if (!dir.exists("packages")) dir.create("packages")
 
-  results <- data.frame(name = c(), description = c())
+  results <- data.frame(name = c(), description = c(), rows = c(), cols = c())
 
   for (package in packages) {
     new_result <- tryCatch({
       cran_process_package(package)
     }, error = function(e) {
-      data.frame(name = paste("error", package, sep = ":"), description = e$message)
+      data.frame(name = paste("error", package, sep = ":"), description = e$message, rows = -1L, cols = -1L)
     })
 
     results <- rbind(
@@ -120,7 +150,7 @@ cran_find_datasets <- function(sc,
       cran_process_packages(df$package)
     },
     context = context,
-    columns = list(name = "character", description = "character"),
+    columns = list(name = "character", description = "character", rows = "integer", cols = "integer"),
     name = "cran_datasets")
 }
 
@@ -148,7 +178,9 @@ cran_save_dataset <- function(cran_index) {
     cran_index,
     package = gsub(":.*", "", name),
     dataset = gsub(".*:", "", name),
-    description = description
+    description = description,
+    rows = rows,
+    cols = cols
   )
 
   save(crandatasets, file = "data/crandatasets.rda")
