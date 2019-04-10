@@ -67,6 +67,7 @@ pin_metadata.default <- function(x) {
 #' @export
 get_pin <- function(name, board = NULL, ...) {
   pin_index <- find_pin(name, board = board)
+  pin_index <- pin_index[pin_index$name == name,]
   if (nrow(pin_index) == 0) stop("'", name, "' not found.")
 
   pin_index <- pin_index[1,]
