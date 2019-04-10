@@ -40,23 +40,22 @@ cran_process_file <- function(package_path, file_path) {
           stop("Failed to load '", file_name, "'")
         })
 
-        rows <- tryCatch({
+        dataset_rows <- tryCatch({
           nrow(dataset_content)
         }, error = function(e) {
           stop("Failed to retrieve rows for '", file_name, "' and class '", class(dataset_content)[[1]], "'")
         })
+        if (typeof(dataset_rows) != "integer" || length(dataset_rows) != 1) dataset_rows <- -1L
 
-        if (typeof(rows) != "integer") stop("Expected rows to be an integer but found '", typeof(rows), "'")
-        if (length(rows) != 1) stop("Expected rows to be a constant but found '", length(rows), "'")
-
-        cols <- tryCatch({
+        dataset_cols <- tryCatch({
           ncol(dataset_content)
         }, error = function(e) {
           stop("Failed to retrieve cols for '", file_name, "' and class '", class(dataset_content)[[1]], "'")
         })
+        if (typeof(dataset_cols) != "integer" || length(dataset_cols) != 1) dataset_cols <- -1L
 
-        if (typeof(cols) != "integer") stop("Expected cols to be an integer but found '", typeof(cols), "'")
-        if (length(cols) != 1) stop("Expected cols to be a constant but found '", length(cols), "'")
+        dataset_class <- class(dataset_content)[[1]]
+        if (typeof(dataset_class) != "character" || length(dataset_class) != 1) dataset_class <- typeof(dataset_content)
 
         dataset_content <- NULL
       }
@@ -64,19 +63,20 @@ cran_process_file <- function(package_path, file_path) {
   }
 
   if (is.null(dataset_title)) {
-    data.frame(name = c(), description = c(), rows = c(), cols = c())
+    data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
   }
   else {
     data.frame(
       name = paste(basename(package_path), dataset_name, sep = ":"),
       description = dataset_title,
-      rows = rows,
-      cols = cols)
+      rows = dataset_rows,
+      cols = dataset_cols,
+      class = dataset_class)
   }
 }
 
 cran_process_package <- function(package) {
-  results <- data.frame(name = c(), description = c(), rows = c(), cols = c())
+  results <- data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
 
   if (!dir.exists(file.path("packages", package))) {
     download.packages(package, "packages", repos = "https://cran.rstudio.com/")
@@ -93,7 +93,7 @@ cran_process_package <- function(package) {
     new_result <- tryCatch({
       cran_process_file(package_path, dataset_path)
     }, error = function(e) {
-      data.frame(name = paste("error", package, sep = ":"), description = e$message, rows = -1L, cols = -1L)
+      data.frame(name = paste("error", package, sep = ":"), description = e$message, rows = -1L, cols = -1L, class = "")
     })
 
     results <- rbind(
@@ -108,13 +108,13 @@ cran_process_package <- function(package) {
 cran_process_packages <- function(packages) {
   if (!dir.exists("packages")) dir.create("packages")
 
-  results <- data.frame(name = c(), description = c(), rows = c(), cols = c())
+  results <- data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
 
   for (package in packages) {
     new_result <- tryCatch({
       cran_process_package(package)
     }, error = function(e) {
-      data.frame(name = paste("error", package, sep = ":"), description = e$message, rows = -1L, cols = -1L)
+      data.frame(name = paste("error", package, sep = ":"), description = e$message, rows = -1L, cols = -1L, class = "")
     })
 
     results <- rbind(
@@ -150,7 +150,7 @@ cran_find_datasets <- function(sc,
       cran_process_packages(df$package)
     },
     context = context,
-    columns = list(name = "character", description = "character", rows = "integer", cols = "integer"),
+    columns = list(name = "character", description = "character", rows = "integer", cols = "integer", class = "character"),
     name = "cran_datasets")
 }
 
@@ -180,7 +180,8 @@ cran_save_dataset <- function(cran_index) {
     dataset = gsub(".*:", "", name),
     description = description,
     rows = rows,
-    cols = cols
+    cols = cols,
+    class = class
   )
 
   save(crandatasets, file = "data/crandatasets.rda")
