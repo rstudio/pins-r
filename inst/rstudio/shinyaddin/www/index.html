@@ -10,7 +10,7 @@
 
         Vue.component('result-entry', {
           template: `
-            <div class="result-entry">
+            <div class="result-entry" v-on:click="select">
               <div width="60" height="60" v-bind:class="{ 'result-entry-table': true, 'result-entry-table-nodims': entry.nodims }">
                 <div v-for="coln in entry.cols">
                   <div v-for="rown in entry.rows">&nbsp;</div>
@@ -25,6 +25,11 @@
           `,
           props: {
             entry: Object
+          },
+          methods: {
+            select: function() {
+              Shiny.setInputValue("dataset", this.entry.name);
+            }
           }
         })
 

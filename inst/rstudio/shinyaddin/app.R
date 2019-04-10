@@ -8,6 +8,17 @@ pins_addin_server <- function(input, output, session) {
     results <- find_pin(input$search, board = input$board, type = "table", metadata = TRUE)
     session$sendCustomMessage("search-results", results)
   })
+
+  observe({
+    dataset <- input$dataset
+    if (is.character(dataset) && nchar(dataset) > 0) {
+      rstudioapi::sendToConsole(paste0(
+        "View(pins::get_pin(\"", dataset , "\")", ", \"", dataset , "\")"
+      ))
+
+      stopApp(dataset)
+    }
+  })
 }
 
 shinyApp(htmlTemplate("www/index.html"), pins_addin_server)

@@ -35,25 +35,26 @@ select {
   width: 500px;
   margin-bottom: 8px;
   display: flex;
+  cursor: pointer;
 }
 
 .result-entry-info {
   height: 50px;
-  width: 440px;
+  width: 400px;
   display: inline-block;
   overflow: hidden;
 }
 
 .result-entry-info-name {
   height: 16px;
-  width: 440px;
+  width: 400px;
   color: #464646;
   font-weight: bold;
 }
 
 .result-entry-info-desc {
   height: 30px;
-  width: 440px;
+  width: 400px;
   color: #7c7c7c;
   overflow: hidden;
 }
