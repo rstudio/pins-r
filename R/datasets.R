@@ -15,6 +15,7 @@
 #'
 #' @source \href{https://cran.rstudio.com/}{CRAN}
 #'
+#' @keywords internal
 #' @examples
 #' data(crandatasets)
 "crandatasets"

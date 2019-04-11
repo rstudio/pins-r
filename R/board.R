@@ -8,7 +8,6 @@
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
-#' @name board
 #' @export
 use_board <- function(name, ...) {
   board_call <- deparse(match.call(), width.cutoff = 500)
@@ -32,8 +31,6 @@ board_initialize <- function(name, ...) {
   UseMethod("board_initialize")
 }
 
-#' @name board
-#' @export
 active_board <- function() {
   if (length(.globals$boards) > 0)
     .globals$boards[[length(.globals$boards)]]
@@ -41,8 +38,6 @@ active_board <- function() {
     get_board("local")
 }
 
-#' @name board
-#' @export
 all_boards <- function() {
   unique(
     c(
@@ -75,7 +70,6 @@ get_board <- function(name) {
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
-#' @keywords internal
 #' @export
 register_board <- function(name, ...) {
   class(name) <- name

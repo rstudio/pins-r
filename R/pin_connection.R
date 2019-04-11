@@ -67,3 +67,45 @@ pin_unpack.connection_pin <- function(x, board, name, ..) {
 
   do.call(initializer$func, args = params, envir = asNamespace(initializer$library))
 }
+
+#' Pin Connection
+#'
+#' Describe a connection to be able to \code{pin()} it.
+#'
+#' @param name The name for this pin.
+#' @param initializer Function used to connect. Defaults to \code{"DBI::dbConnect"}.
+#' @param driver The name of the driver with an optional library
+#' @param ... Additional parameters to initialize the connection.
+#'
+#' @export
+pin_connection <- function(name, initializer = "DBI::dbConnect", driver = NULL, ...) {
+  if (identical(initializer, "DBI::dbConnect") && is.null(driver)) {
+    stop("Parameter 'driver' required for 'DBI' connection initializer.")
+  }
+
+  params <- list(...)
+
+  secrets <- intersect(names(params), connection_secrets())
+  for (secret in secrets)
+    params[[secret]] <- "@prompt"
+
+  pin(
+    name,
+    structure(
+      list(
+        initializer = initializer,
+        driver = driver,
+        params = params
+      ),
+      class = "connection"
+    )
+  )
+}
+
+connection_secrets <- function() {
+  c(
+    "user",
+    "username",
+    "password"
+  )
+}

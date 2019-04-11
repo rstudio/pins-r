@@ -40,6 +40,7 @@ pin_metadata <- function(x) {
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
+#' @keywords internal
 #' @export
 pins_metadata_create <- function(rows, cols) {
   list(
@@ -135,7 +136,8 @@ pin_remove <- function(board, name) {
 
 #' Find Pin
 #'
-#' Find a pin in any board registered using \code{use_board()}.
+#' Find a pin in any board registered using \code{use_board()} or
+#' \code{register_board()}.
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
@@ -193,6 +195,7 @@ pin_find <- function(board, text) {
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
+#' @keywords internal
 #' @export
 preview_pin <- function(name, board = NULL, ...) {
   pin_preview(get_pin(name, board = board))
