@@ -20,6 +20,8 @@ knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 ```
 
+# pins 
+
 [![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 
 - **Track** local and remote datasets using `pin()` and `get_pin()`.
@@ -187,17 +189,18 @@ get_pin("iris")
 Connections can also be pinned to shared boards; however, you should pin them using a proper connection object, not an R formula:
 
 ```{r shared-connection-dbi, eval=FALSE}
-con <- pin(connection(driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset), "bigquery")
+con <- pin_connection("bigquery", driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset))
 ```
 
 Other packages that don't use `DBI` connections, like `sparklyr`, can use an explicit `initializer` function:
 
 ```{r shared-connection-sparklyr, eval=FALSE}
-sc <- pin(connection(
+sc <- pin_connection(
+  "spark-local",
   "sparklyr::spark_connect",
   master = "local",
   config = list("sparklyr.shell.driver-memory" = "4g")
-), "spark-local")
+)
 ```
 
 **Note:** Remove username, password and other sensitive information from your pinned connections. By default, `username` and `password` fields will be replaced with "@prompt", which will prompt the user when connecting.
