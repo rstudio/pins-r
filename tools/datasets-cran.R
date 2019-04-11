@@ -191,5 +191,6 @@ cran_save_dataset <- function(cran_index) {
 cran_clean_dataset <- function(cran_index) {
   crandatasets <- get(load("data/crandatasets.rda"))
   crandatasets <- crandatasets[crandatasets$package != "error" & crandatasets$rows > 0 & crandatasets$cols > 0,]
+  crandatasets$metadata <- sapply(1:nrow(crandatasets), function(e) paste0('{"rows":', crandatasets[e,]$rows, ',"cols":', crandatasets[e,]$cols, '}'))
   save(crandatasets, file = "data/crandatasets.rda")
 }
