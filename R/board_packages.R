@@ -9,17 +9,22 @@ pin_find.packages <- function(board, text) {
     )
   }
 
-  find_packages <- grepl(text, crandatasets$package)
+  parts <- strsplit(text, "_")[[1]]
+  if (length(parts) > 1) {
+    # remove package name
+    text <- parts[2:length(parts)]
+  }
+
   find_names <- grepl(text, crandatasets$dataset)
   find_description <- grepl(text, crandatasets$description)
-  package_pins <- crandatasets[find_packages | find_names | find_description,]
+  package_pins <- crandatasets[find_names | find_description,]
 
   if (length(package_pins$dataset) > 0) {
     data.frame(
-      name = package_pins$dataset,
+      name = paste(package_pins$package, package_pins$dataset, sep = "_"),
       description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package."),
       type = rep("table", length(package_pins$dataset)),
-      metadata = rep(as.character(jsonlite::toJSON(list())), length(package_pins$dataset))
+      metadata = package_pins$metadata
     )
   }
   else {
@@ -28,7 +33,14 @@ pin_find.packages <- function(board, text) {
 }
 
 pin_retrieve.packages <- function(board, name) {
-  package_pin <- crandatasets[crandatasets$dataset == name,][1,]
+  parts <- strsplit(name, "_")[[1]]
+
+  if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
+
+  package <- parts[1]
+  name <- parts[2:length(parts)]
+
+  package_pin <- crandatasets[which(crandatasets$package == package, crandatasets$dataset == name),]
   packages_path <- pins_local_path("packages")
 
   package_path <- dir(
