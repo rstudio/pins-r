@@ -190,6 +190,6 @@ cran_save_dataset <- function(cran_index) {
 
 cran_clean_dataset <- function(cran_index) {
   crandatasets <- get(load("data/crandatasets.rda"))
-  crandatasets <- crandatasets[crandatasets$package != "error",]
+  crandatasets <- crandatasets[crandatasets$package != "error" & crandatasets$rows > 0 & crandatasets$cols > 0,]
   save(crandatasets, file = "data/crandatasets.rda")
 }
