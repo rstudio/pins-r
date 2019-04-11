@@ -71,7 +71,7 @@
                     name: results.name[idx],
                     description: results.description[idx],
                     rows: Math.min(13, 1 + Math.ceil(Math.log(Math.max(2, rows)) / Math.log(10))),
-                    cols: Math.min(11, Math.ceil(Math.log(Math.max(2, cols)) / Math.log(2))),
+                    cols: Math.min(11, Math.ceil(Math.log(cols + 1)/ Math.log(2))),
                     nodims: nodims
                   })
                 }
