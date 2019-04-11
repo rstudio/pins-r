@@ -129,18 +129,18 @@
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"hacker-news-full"</span>)</a></code></pre></div>
 <pre><code>## # Source:   SQL [?? x 14]
 ## # Database: BigQueryConnection
-##    by    score   time timestamp           title type  url   text  parent
-##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
-##  1 user…    NA 1.49e9 2017-03-19 17:22:04 ""    comm… ""    &amp;gt;… 1.39e7
-##  2 ange…    NA 1.46e9 2016-02-25 03:48:40 ""    comm… ""    I re… 1.12e7
-##  3 md2be    NA 1.52e9 2018-01-18 16:22:27 ""    comm… ""    Imag… 1.62e7
-##  4 radl…    NA 1.21e9 2008-07-01 21:30:11 ""    comm… ""    "&lt;a … 2.33e5
-##  5 pmon…    NA 1.48e9 2016-12-02 15:56:20 ""    comm… ""    "No … 1.31e7
-##  6 nabl…    NA 1.55e9 2019-02-28 14:40:01 ""    comm… ""    You … 1.93e7
-##  7 dmix     NA 1.35e9 2012-08-18 00:01:42 ""    comm… ""    "I t… 4.40e6
-##  8 Alre…    NA 1.43e9 2015-04-29 12:25:07 ""    comm… ""    I ag… 9.46e6
-##  9 danso    NA 1.52e9 2018-04-19 14:16:30 ""    comm… ""    You … 1.69e7
-## 10 meric    NA 1.45e9 2015-11-19 01:46:16 ""    comm… ""    Is i… 1.06e7
+##    by    score   time timestamp           title type  url   text   parent
+##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;
+##  1 shel…     2 1.29e9 2010-10-10 22:15:54 Runn… story http… ""    NA     
+##  2 Gibb…    NA 1.55e9 2019-03-19 20:28:46 ""    comm… ""    No i…  1.94e7
+##  3 bcook    NA 1.46e9 2016-04-19 10:20:24 ""    comm… ""    Whic…  1.15e7
+##  4 matt…    NA 1.49e9 2017-03-01 20:30:46 ""    comm… ""    I ho…  1.38e7
+##  5 scho…     1 1.38e9 2013-09-07 15:01:19 Yaho… story http… ""    NA     
+##  6 Fice     NA 1.49e9 2017-03-16 23:55:05 ""    comm… ""    Nota…  1.39e7
+##  7 dark…    NA 1.36e9 2013-04-01 14:45:48 ""    comm… ""    &amp;#62…  5.47e6
+##  8 arav…    NA 1.35e9 2012-11-23 08:01:24 ""    comm… ""    You …  4.82e6
+##  9 robr…    NA 1.49e9 2017-04-08 10:32:21 ""    comm… ""    I&amp;#x…  1.41e7
+## 10 eries    NA 1.43e9 2015-04-14 17:20:46 ""    comm… ""    Than…  9.37e6
 ## # … with more rows, and 5 more variables: deleted &lt;lgl&gt;, dead &lt;lgl&gt;,
 ## #   descendants &lt;int&gt;, id &lt;int&gt;, ranking &lt;int&gt;</code></pre>
 <p>This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:</p>
@@ -177,14 +177,14 @@
 <p>You can search datasets that contain “seattle” in their description or name as follows:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="reference/find_pin.html">find_pin</a></span>(<span class="st">"seattle"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 4
-##   name          description                                    type  board 
-##   &lt;chr&gt;         &lt;chr&gt;                                          &lt;chr&gt; &lt;chr&gt; 
-## 1 seattle_sales Seattle Home Sales from hpiR package.          table packa…
-## 2 seattledmi    Data for a crime intervention in Seattle, Was… table packa…
-## 3 data_seattle… Example dataset: Seattle daily weather from v… table packa…
-## 4 data_seattle… Example dataset: Seattle hourly temperatures … table packa…</code></pre>
+##   name               description                               type  board 
+##   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; 
+## 1 hpiR_seattle_sales Seattle Home Sales from hpiR package.     table packa…
+## 2 microsynth_seattl… Data for a crime intervention in Seattle… table packa…
+## 3 vegawidget_data_s… Example dataset: Seattle daily weather f… table packa…
+## 4 vegawidget_data_s… Example dataset: Seattle hourly temperat… table packa…</code></pre>
 <p>You can the retrieve a specific dataset with <code><a href="reference/get_pin.html">get_pin()</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"seattle_sales"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"hpiR_seattle_sales"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 43,313 x 16
 ##    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
 ##    &lt;chr&gt; &lt;chr&gt;        &lt;int&gt; &lt;date&gt;     &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;
@@ -258,7 +258,7 @@
 <h3 class="hasAnchor">
 <a href="#connections" class="anchor"></a>Connections</h3>
 <p>Connections can also be pinned to shared boards; however, you should pin them using a proper connection object, not an R formula:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_connection.html">pin_connection</a></span>(<span class="st">"bigquery"</span>, <span class="dt">driver =</span> <span class="st">"bigrquery::bigquery"</span>, <span class="dt">project =</span> bq_project, <span class="dt">dataset =</span> bq_dataset)<span class="er">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_connection.html">pin_connection</a></span>(<span class="st">"bigquery"</span>, <span class="dt">driver =</span> <span class="st">"bigrquery::bigquery"</span>, <span class="dt">project =</span> bq_project, <span class="dt">dataset =</span> bq_dataset)</a></code></pre></div>
 <p>Other packages that don’t use <code>DBI</code> connections, like <code>sparklyr</code>, can use an explicit <code>initializer</code> function:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">sc &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_connection.html">pin_connection</a></span>(</a>
 <a class="sourceLine" id="cb27-2" title="2">  <span class="st">"spark-local"</span>,</a>

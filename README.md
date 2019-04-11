@@ -1,6 +1,8 @@
 pins: Track, Discover and Share Datasets
 ================
 
+# pins
+
 [![Build
 Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
@@ -106,16 +108,16 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
     ## # Database: BigQueryConnection
     ##    by    score   time timestamp           title type  url   text   parent
     ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 walt…     8 1.44e9 2015-08-10 06:38:36 HTC … story http… ""    NA     
-    ##  2 _ran…    NA 1.39e9 2013-11-27 22:18:04 ""    comm… ""    Some…  6.81e6
-    ##  3 prit…    NA 1.42e9 2015-02-04 18:50:36 ""    comm… ""    Look…  9.00e6
-    ##  4 nick…    NA 1.48e9 2016-10-28 23:46:34 ""    comm… ""    "Fro…  1.28e7
-    ##  5 happ…     2 1.50e9 2017-07-01 13:29:09 To S… story http… ""    NA     
-    ##  6 devx…    NA 1.53e9 2018-08-10 05:07:22 ""    comm… ""    "<a …  1.77e7
-    ##  7 fath…    NA 1.43e9 2015-04-13 12:15:12 ""    comm… ""    "Not…  9.37e6
-    ##  8 myli…    NA 1.47e9 2016-09-01 20:54:24 ""    comm… ""    "Shi…  1.24e7
-    ##  9 pjmlp    NA 1.51e9 2017-09-14 13:17:59 ""    comm… ""    Sure…  1.52e7
-    ## 10 eli      NA 1.31e9 2011-06-06 21:28:28 ""    comm… ""    "<i>…  2.63e6
+    ##  1 shel…     2 1.29e9 2010-10-10 22:15:54 Runn… story http… ""    NA     
+    ##  2 Gibb…    NA 1.55e9 2019-03-19 20:28:46 ""    comm… ""    No i…  1.94e7
+    ##  3 bcook    NA 1.46e9 2016-04-19 10:20:24 ""    comm… ""    Whic…  1.15e7
+    ##  4 matt…    NA 1.49e9 2017-03-01 20:30:46 ""    comm… ""    I ho…  1.38e7
+    ##  5 scho…     1 1.38e9 2013-09-07 15:01:19 Yaho… story http… ""    NA     
+    ##  6 Fice     NA 1.49e9 2017-03-16 23:55:05 ""    comm… ""    Nota…  1.39e7
+    ##  7 dark…    NA 1.36e9 2013-04-01 14:45:48 ""    comm… ""    &#62…  5.47e6
+    ##  8 arav…    NA 1.35e9 2012-11-23 08:01:24 ""    comm… ""    You …  4.82e6
+    ##  9 robr…    NA 1.49e9 2017-04-08 10:32:21 ""    comm… ""    I&#x…  1.41e7
+    ## 10 eries    NA 1.43e9 2015-04-14 17:20:46 ""    comm… ""    Than…  9.37e6
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -191,17 +193,17 @@ find_pin("seattle")
 ```
 
     ## # A tibble: 4 x 4
-    ##   name          description                                    type  board 
-    ##   <chr>         <chr>                                          <chr> <chr> 
-    ## 1 seattle_sales Seattle Home Sales from hpiR package.          table packa…
-    ## 2 seattledmi    Data for a crime intervention in Seattle, Was… table packa…
-    ## 3 data_seattle… Example dataset: Seattle daily weather from v… table packa…
-    ## 4 data_seattle… Example dataset: Seattle hourly temperatures … table packa…
+    ##   name               description                               type  board 
+    ##   <chr>              <chr>                                     <chr> <chr> 
+    ## 1 hpiR_seattle_sales Seattle Home Sales from hpiR package.     table packa…
+    ## 2 microsynth_seattl… Data for a crime intervention in Seattle… table packa…
+    ## 3 vegawidget_data_s… Example dataset: Seattle daily weather f… table packa…
+    ## 4 vegawidget_data_s… Example dataset: Seattle hourly temperat… table packa…
 
 You can the retrieve a specific dataset with `get_pin()`:
 
 ``` r
-get_pin("seattle_sales")
+get_pin("hpiR_seattle_sales")
 ```
 
     ## # A tibble: 43,313 x 16
@@ -302,18 +304,19 @@ them using a proper connection object, not an R
 formula:
 
 ``` r
-con <- pin(connection(driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset), "bigquery")
+con <- pin_connection("bigquery", driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset)
 ```
 
 Other packages that don’t use `DBI` connections, like `sparklyr`, can
 use an explicit `initializer` function:
 
 ``` r
-sc <- pin(connection(
+sc <- pin_connection(
+  "spark-local",
   "sparklyr::spark_connect",
   master = "local",
   config = list("sparklyr.shell.driver-memory" = "4g")
-), "spark-local")
+)
 ```
 
 **Note:** Remove username, password and other sensitive information from
