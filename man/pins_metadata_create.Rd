@@ -16,3 +16,4 @@ pins_metadata_create(rows, cols)
 \description{
 Creates metadata for a pin when extending boards.
 }
+\keyword{internal}

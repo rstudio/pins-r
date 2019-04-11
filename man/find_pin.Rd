@@ -14,5 +14,6 @@ find_pin(text = NULL, board = NULL, ...)
 \item{...}{Additional parameters.}
 }
 \description{
-Find a pin in any board registered using \code{use_board()}.
+Find a pin in any board registered using \code{use_board()} or
+\code{register_board()}.
 }

@@ -16,4 +16,3 @@ Registers a board without making it active, useful to add sources to
 \code{find_pin()}. This function is meant to be used while building extension
 not by users directly.
 }
-\keyword{internal}

@@ -16,3 +16,4 @@ preview_pin(name, board = NULL, ...)
 \description{
 Previews a named pin from the active board.
 }
+\keyword{internal}
