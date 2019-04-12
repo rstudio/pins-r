@@ -8,4 +8,7 @@ setup(name='pins',
       author_email='javier@rstudio.com',
       license='Apache License 2.0',
       packages=['pins'],
-      zip_safe=False)
+      zip_safe=False,
+      install_requires=[
+          'arrow',
+      ])
