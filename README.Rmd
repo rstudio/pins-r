@@ -156,7 +156,24 @@ get_pin("hpiR_seattle_sales")
 
 ## Sharing Datasets
 
-`pins` supports shared storage locations using boards. A board is a remote location for you to share pins with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently only databases are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
+`pins` supports shared storage locations using boards. A board is a remote location for you to share pins with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently `database` and `arrow` boards are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
+
+### Arrow
+
+In order to share datasets with other programming languages, an `arrow` board can be used. This board uses Apache Arrow to share datasets across R and Python and can be easily activated as follows:
+
+```{r}
+use_board("arrow")
+```
+
+The you can pin and retrieve pins as usual.
+
+```{r}
+mtcars %>% pin("cars")
+get_pin("cars")
+```
+
+While the functionality is similar, pins are stored using the Apache Arrow format which can be easily read from Python and many other languages.
 
 ### Databases
 
