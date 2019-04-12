@@ -10,5 +10,6 @@ setup(name='pins',
       packages=['pins'],
       zip_safe=False,
       install_requires=[
+          'pyyaml',
           'arrow',
       ])
