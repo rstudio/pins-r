@@ -21,7 +21,7 @@ You can install `pins` using the `remotes` package:
 
 ``` r
 install.packages("remotes")
-remotes::install_github("javierluraschi/pins")
+remotes::install_github("rstudio/pins")
 ```
 
 ## Tracking Datasets
@@ -108,16 +108,16 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
     ## # Database: BigQueryConnection
     ##    by    score   time timestamp           title type  url   text   parent
     ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 shel…     2 1.29e9 2010-10-10 22:15:54 Runn… story http… ""    NA     
-    ##  2 Gibb…    NA 1.55e9 2019-03-19 20:28:46 ""    comm… ""    No i…  1.94e7
-    ##  3 bcook    NA 1.46e9 2016-04-19 10:20:24 ""    comm… ""    Whic…  1.15e7
-    ##  4 matt…    NA 1.49e9 2017-03-01 20:30:46 ""    comm… ""    I ho…  1.38e7
-    ##  5 scho…     1 1.38e9 2013-09-07 15:01:19 Yaho… story http… ""    NA     
-    ##  6 Fice     NA 1.49e9 2017-03-16 23:55:05 ""    comm… ""    Nota…  1.39e7
-    ##  7 dark…    NA 1.36e9 2013-04-01 14:45:48 ""    comm… ""    &#62…  5.47e6
-    ##  8 arav…    NA 1.35e9 2012-11-23 08:01:24 ""    comm… ""    You …  4.82e6
-    ##  9 robr…    NA 1.49e9 2017-04-08 10:32:21 ""    comm… ""    I&#x…  1.41e7
-    ## 10 eries    NA 1.43e9 2015-04-14 17:20:46 ""    comm… ""    Than…  9.37e6
+    ##  1 mnem…    NA 1.28e9 2010-09-08 23:13:50 ""    comm… ""    "<a …  1.67e6
+    ##  2 anam…    NA 1.27e9 2010-05-18 14:58:50 ""    comm… ""    "&#6…  1.36e6
+    ##  3 daken    NA 1.39e9 2014-02-05 21:51:05 ""    comm… ""    This…  7.19e6
+    ##  4 jcra…    NA 1.55e9 2019-03-11 00:27:59 ""    comm… ""    &gt;…  1.94e7
+    ##  5 dani…     1 1.36e9 2013-03-20 21:32:19 Save… story http… ""    NA     
+    ##  6 ehud…    NA 1.47e9 2016-08-07 22:04:01 ""    comm… ""    Dann…  1.22e7
+    ##  7 huan…    NA 1.54e9 2018-10-18 22:54:38 ""    comm… ""    Cool…  1.82e7
+    ##  8 wich…    NA 1.50e9 2017-05-25 01:38:41 ""    comm… ""    i am…  1.44e7
+    ##  9 mich…    NA 1.38e9 2013-08-05 18:13:19 ""    comm… ""    "Clo…  6.16e6
+    ## 10 Ani       4 1.25e9 2009-08-31 13:22:45 Ask … story ""    I se… NA     
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -227,9 +227,63 @@ get_pin("hpiR_seattle_sales")
 
 `pins` supports shared storage locations using boards. A board is a
 remote location for you to share pins with your team privately, or with
-the world, publicly. Use `use_board()` to choose a board, currently only
-databases are supported; however, `pins` provide an extensible API you
-can use to store pins anywhere.
+the world, publicly. Use `use_board()` to choose a board, currently
+`database` and `arrow` boards are supported; however, `pins` provide an
+extensible API you can use to store pins anywhere.
+
+### Arrow
+
+In order to share datasets with other programming languages, an `arrow`
+board can be used. This board uses Apache Arrow to share datasets across
+R and Python and can be easily activated as follows:
+
+``` r
+use_board("arrow")
+```
+
+The you can pin and retrieve pins as usual.
+
+``` r
+mtcars %>% pin("cars")
+```
+
+    ## # A tibble: 32 x 11
+    ##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+    ##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+    ##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+    ##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+    ##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+    ##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+    ##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+    ##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+    ##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+    ##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+    ## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+    ## # … with 22 more rows
+
+``` r
+get_pin("cars")
+```
+
+    ## # A tibble: 32 x 11
+    ##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+    ##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+    ##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+    ##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+    ##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+    ##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+    ##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+    ##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+    ##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+    ##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+    ## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+    ## # … with 22 more rows
+
+While the functionality is similar, pins are stored using the Apache
+Arrow format which can be easily read from Python and many other
+languages.
 
 ### Databases
 
@@ -267,14 +321,15 @@ find pins,
 find_pin()
 ```
 
-    ## # A tibble: 5 x 4
+    ## # A tibble: 6 x 4
     ##   name              description                              type   board  
     ##   <chr>             <chr>                                    <chr>  <chr>  
-    ## 1 iris              The entire 'iris' dataset.               table  databa…
-    ## 2 iris-small-width  A subset of 'iris' with only small widt… table  local  
-    ## 3 bigquery          ""                                       formu… local  
-    ## 4 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
-    ## 5 hacker-news-scor… ""                                       dbplyr local
+    ## 1 cars              ""                                       table  arrow  
+    ## 2 iris              The entire 'iris' dataset.               table  databa…
+    ## 3 iris-small-width  A subset of 'iris' with only small widt… table  local  
+    ## 4 bigquery          ""                                       formu… local  
+    ## 5 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
+    ## 6 hacker-news-scor… ""                                       dbplyr local
 
 and retrieve shared datasets.
 
