@@ -8,7 +8,8 @@ pin_create.local <- function(board, x, name, description, type, metadata) {
     description = description,
     type = type,
     metadata = metadata,
-    component = "local")
+    component = "local",
+    extension = ".rds")
 
   saveRDS(x, path)
 }

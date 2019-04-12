@@ -18,7 +18,8 @@ pin_create.arrow <- function(board, x, name, description, type, metadata) {
     description = description,
     type = type,
     metadata = metadata,
-    component = "arrow")
+    component = "arrow",
+    extension = ".arrow")
   deps$write(x, path)
 }
 
