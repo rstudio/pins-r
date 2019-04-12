@@ -35,7 +35,7 @@ You can install `pins` using the `remotes` package:
 
 ```{r install, eval = FALSE}
 install.packages("remotes")
-remotes::install_github("javierluraschi/pins")
+remotes::install_github("rstudio/pins")
 ```
 
 ## Tracking Datasets
