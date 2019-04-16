@@ -37,7 +37,10 @@ def open_rlib():
 def start():
     os.environ['R_HOME'] = get_rhome()
     rlib = open_rlib()
-    status = rlib.Rf_initialize_R(ffi.cast('int', 0), [])
+
+    options = ('pins', '--quiet', '--vanilla', '--no-save')
+    options_raw = [ffi.new('char[]', o.encode('ASCII')) for o in options]
+    status = rlib.Rf_initialize_R(ffi.cast('int', len(options_raw)), options_raw)
 
 def find_pin():
     """
