@@ -124,3 +124,6 @@ dmypy.json
 
 # PyCharm
 .idea/
+
+# cffi
+_pins_cffi.py
