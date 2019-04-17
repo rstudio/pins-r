@@ -41,6 +41,18 @@ def start():
     options = ('pins', '--quiet', '--vanilla', '--no-save')
     options_raw = [ffi.new('char[]', o.encode('ASCII')) for o in options]
     status = rlib.Rf_initialize_R(ffi.cast('int', len(options_raw)), options_raw)
+    return rlib
+
+def parse(rlib, code):
+    cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
+    rlib.Rf_protect(cmdSexp)
+    rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
+    
+    status = ffi.new("int *")
+    cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue));
+
+    rlib.Rf_unprotect(2)
+    status[0]
 
 def find_pin():
     """
