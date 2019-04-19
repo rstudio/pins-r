@@ -48,7 +48,7 @@ def parse(rlib, code):
     rlib.Rf_protect(cmdSexp)
     rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
     
-    status = ffi.new("int *")
+    status = ffi.new("ParseStatus *")
     cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue));
 
     rlib.Rf_unprotect(2)
