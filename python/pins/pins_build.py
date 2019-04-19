@@ -211,6 +211,10 @@ ffibuilder.cdef("""
 void SET_STRING_ELT(SEXP x, R_xlen_t i, SEXP v);
 """)
 
+ffibuilder.cdef("""
+void setup_Rmainloop(void);
+""")
+
 ffibuilder.set_source("_pins_cffi", None)
 
 if __name__ == "__main__":

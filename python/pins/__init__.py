@@ -41,6 +41,8 @@ def start():
     options = ('pins', '--quiet', '--vanilla', '--no-save')
     options_raw = [ffi.new('char[]', o.encode('ASCII')) for o in options]
     status = rlib.Rf_initialize_R(ffi.cast('int', len(options_raw)), options_raw)
+
+    rlib.setup_Rmainloop()
     return rlib
 
 def parse(rlib, code):
