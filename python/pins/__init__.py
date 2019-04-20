@@ -23,10 +23,10 @@ def get_rhome():
 def get_rlib():
     r_home = get_rhome()
     system = platform.system()
-    if system == 'Linux':
-        lib_path = os.path.join(r_home, 'lib', 'libR.so')
-    elif system == 'Darwin':
-        lib_path = os.path.join(r_home, 'lib', 'libR.dylib')
+    if system == "Linux":
+        lib_path = os.path.join(r_home, "lib", "libR.so")
+    elif system == "Darwin":
+        lib_path = os.path.join(r_home, "lib", "libR.dylib")
     else:
         raise ValueError("System '%s' is unsupported.")
     return lib_path
@@ -35,12 +35,12 @@ def open_rlib():
     return ffi.dlopen(get_rlib())
 
 def start():
-    os.environ['R_HOME'] = get_rhome()
+    os.environ["R_HOME"] = get_rhome()
     rlib = open_rlib()
 
-    options = ('pins', '--quiet', '--vanilla', '--no-save')
-    options_raw = [ffi.new('char[]', o.encode('ASCII')) for o in options]
-    status = rlib.Rf_initialize_R(ffi.cast('int', len(options_raw)), options_raw)
+    options = ("pins", "--quiet", "--vanilla", "--no-save")
+    options_raw = [ffi.new("char[]", o.encode("ASCII")) for o in options]
+    status = rlib.Rf_initialize_R(ffi.cast("int", len(options_raw)), options_raw)
 
     rlib.setup_Rmainloop()
     return rlib
@@ -54,7 +54,8 @@ def parse(rlib, code):
     cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue));
 
     rlib.Rf_unprotect(2)
-    status[0]
+    if status[0] <> rlib.PARSE_OK:
+        raise RuntimeError("Failed to parse: " + code)
 
 def find_pin():
     """
