@@ -223,6 +223,33 @@ SEXP R_tryEval(SEXP, SEXP, int*);
 SEXP R_GlobalEnv;
 """)
 
+ffibuilder.cdef("""
+typedef enum {
+    SA_NORESTORE,/* = 0 */
+    SA_RESTORE,
+    SA_DEFAULT,/* was === SA_RESTORE */
+    SA_NOSAVE,
+    SA_SAVE,
+    SA_SAVEASK,
+    SA_SUICIDE
+} SA_TYPE;
+""")
+
+ffibuilder.cdef("""
+extern FILE *R_Consolefile;
+extern FILE *R_Outputfile;
+extern void (*ptr_R_Suicide)(const char *);
+extern void (*ptr_R_ShowMessage)(const char *);
+extern int  (*ptr_R_ReadConsole)(const char *, unsigned char *, int, int);
+extern void (*ptr_R_WriteConsole)(const char *, int);
+extern void (*ptr_R_WriteConsoleEx)(const char *, int, int);
+extern void (*ptr_R_ResetConsole)(void);
+extern void (*ptr_R_FlushConsole)(void);
+extern void (*ptr_R_ClearerrConsole)(void);
+extern void (*ptr_R_Busy)(int);
+extern void (*ptr_R_CleanUp)(SA_TYPE, int, int);
+""")
+
 ffibuilder.set_source("_pins_cffi", None)
 
 if __name__ == "__main__":
