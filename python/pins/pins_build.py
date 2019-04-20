@@ -215,6 +215,14 @@ ffibuilder.cdef("""
 void setup_Rmainloop(void);
 """)
 
+ffibuilder.cdef("""
+R_len_t Rf_length(SEXP x);
+SEXP (VECTOR_ELT)(SEXP x, R_xlen_t i);
+SEXP Rf_eval(SEXP, SEXP);
+SEXP R_tryEval(SEXP, SEXP, int*);
+SEXP R_GlobalEnv;
+""")
+
 ffibuilder.set_source("_pins_cffi", None)
 
 if __name__ == "__main__":

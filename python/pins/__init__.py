@@ -45,7 +45,7 @@ def start():
     rlib.setup_Rmainloop()
     return rlib
 
-def parse(rlib, code):
+def eval(rlib, code):
     cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
     rlib.Rf_protect(cmdSexp)
     rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
@@ -56,6 +56,17 @@ def parse(rlib, code):
     rlib.Rf_unprotect(2)
     if status[0] <> rlib.PARSE_OK:
         raise RuntimeError("Failed to parse: " + code)
+
+    environment = rlib.R_GlobalEnv
+    error = ffi.new("int *")
+
+    for idx in range(0, rlib.Rf_length(cmdexpr)):
+        rlib.R_tryEval(rlib.VECTOR_ELT(cmdexpr, idx), environment, error);
+        if (error[0]):
+            break;
+
+    if (error[0]):
+        raise RuntimeError("Error (" + str(error[0]) + ") evaluating: " + code)
 
 def find_pin():
     """
