@@ -88,6 +88,12 @@ def eval(code):
 
 def find_pin():
     """
-    Find pins in the active board.
+    Find Pin.
     """
     eval("print(pins::find_pin())")
+
+def get_pin(name, board = None):
+    """
+    Retrieve Pin.
+    """
+    eval("pins::as_arrow(pins::get_pin(\"" + name + "\"))")
