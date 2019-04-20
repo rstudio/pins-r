@@ -1,3 +1,5 @@
+#' @keywords internal
+#' @export
 as_arrow <- function(x) {
   UseMethod("as_arrow")
 }
@@ -10,8 +12,18 @@ as_arrow_dependencies <- function() {
   )
 }
 
+#' @keywords internal
+#' @export
 as_arrow.data.frame <- function(x) {
-  deps <- as_arrow_dependencies
+  deps <- as_arrow_dependencies()
+
+  deps$write(x, raw())
+}
+
+#' @keywords internal
+#' @export
+as_arrow.default <- function(x) {
+  deps <- as_arrow_dependencies()
 
   deps$write(x, raw())
 }
