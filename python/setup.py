@@ -11,7 +11,6 @@ setup(name='pins',
       zip_safe=False,
       install_requires=[
           'cffi>=1.0.0',
-          'pyyaml',
           'arrow',
       ],
       setup_requires=["cffi>=1.0.0"],
