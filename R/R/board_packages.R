@@ -9,6 +9,8 @@ pin_find.packages <- function(board, text) {
     )
   }
 
+  crandatasets <- get_crandatasets()
+
   parts <- strsplit(text, "_")[[1]]
   if (length(parts) > 1) {
     # remove package name
@@ -36,6 +38,8 @@ pin_retrieve.packages <- function(board, name) {
   parts <- strsplit(name, "_")[[1]]
 
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
+
+  crandatasets <- get_crandatasets()
 
   package <- parts[1]
   name <- parts[2:length(parts)]
@@ -74,4 +78,16 @@ pin_retrieve.packages <- function(board, name) {
     full.names = TRUE)[1]
 
   get(load(data_file))
+}
+
+get_crandatasets <- function() {
+  if (is.null(.globals$datasets)) {
+    .globals$datasets <- new.env()
+  }
+
+  if (is.null(.globals$datasets$crandatasets)) {
+    data(crandatasets, envir = .globals$datasets)
+  }
+
+  .globals$datasets$crandatasets
 }
