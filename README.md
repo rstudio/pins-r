@@ -86,7 +86,7 @@ Please reference the [R README](R/README.md) for additional functionality and de
 You can install `pins` using `pip`:
 
 ``` python
-pip install git+git://github.com/rstudio/pins.git
+pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python --user
 ```
 
 You can then track your datasets privately with `pin()`,
