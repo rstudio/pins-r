@@ -59,6 +59,7 @@ def _start():
     rlib.ptr_R_WriteConsole = ffi.NULL
 
     rlib.setup_Rmainloop()
+
     return rlib
 
 rlib = _start()
@@ -86,11 +87,13 @@ def eval(code):
     if (error[0]):
         raise RuntimeError("Error (" + str(error[0]) + ") evaluating: " + code)
 
-def find_pin():
+eval("library(pins)")
+
+def find_pin(text = None):
     """
     Find Pin.
     """
-    eval("print(pins::find_pin())")
+    eval("print(pins::find_pin(\"" + text + "\"))")
 
 def get_pin(name, board = None):
     """
