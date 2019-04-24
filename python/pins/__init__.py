@@ -108,7 +108,7 @@ def _init_pins():
         library("pins")
     """)
 
-def find_pin(text = None):
+def find_pin(text = ""):
     """
     Find Pin.
     """
