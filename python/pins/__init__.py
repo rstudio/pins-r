@@ -96,16 +96,28 @@ def eval(code):
 
     return result
 
-eval("library(pins)")
+def _init_pins():
+    pins.eval("""
+        if (!require("pins")) {
+            if (!require("remotes"))
+                install.packages("remotes")
+
+            remotes::install_github("rstudio/pins", subdir = "R")
+        }
+
+        library("pins")
+    """)
 
 def find_pin(text = None):
     """
     Find Pin.
     """
+    _init_pins()
     eval("print(pins::find_pin(\"" + text + "\"))")
 
 def get_pin(name, board = None):
     """
     Retrieve Pin.
     """
+    _init_pins()
     eval("pins::as_arrow(pins::get_pin(\"" + name + "\"))")
