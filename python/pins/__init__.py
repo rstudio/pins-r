@@ -97,7 +97,7 @@ def eval(code):
     return result
 
 def _init_pins():
-    pins.eval("""
+    eval("""
         if (!require("pins")) {
             if (!require("remotes"))
                 install.packages("remotes")
