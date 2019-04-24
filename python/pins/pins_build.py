@@ -208,6 +208,7 @@ SEXP Rf_mkString(const char *);
 """)
 
 ffibuilder.cdef("""
+SEXP (STRING_ELT)(SEXP x, R_xlen_t i);
 void SET_STRING_ELT(SEXP x, R_xlen_t i, SEXP v);
 """)
 

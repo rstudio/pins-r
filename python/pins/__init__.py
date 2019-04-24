@@ -73,19 +73,28 @@ def eval(code):
     cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue));
 
     rlib.Rf_unprotect(2)
-    if status[0] <> rlib.PARSE_OK:
+    if status[0] != rlib.PARSE_OK:
         raise RuntimeError("Failed to parse: " + code)
 
     environment = rlib.R_GlobalEnv
     error = ffi.new("int *")
 
     for idx in range(0, rlib.Rf_length(cmdexpr)):
-        rlib.R_tryEval(rlib.VECTOR_ELT(cmdexpr, idx), environment, error);
+        result = rlib.R_tryEval(rlib.VECTOR_ELT(cmdexpr, idx), environment, error);
         if (error[0]):
             break;
 
     if (error[0]):
-        raise RuntimeError("Error (" + str(error[0]) + ") evaluating: " + code)
+        message = eval("gsub('\\\n', '', geterrmessage())")
+        raise RuntimeError(message + " at " + code)
+
+    rtype = result.sxpinfo.type
+    if (rtype == rlib.CHARSXP):
+        return ffi.string(rlib.R_CHAR(result))
+    elif (rtype == rlib.STRSXP):
+        return ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0)))
+
+    return result
 
 eval("library(pins)")
 
