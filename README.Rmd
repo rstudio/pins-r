@@ -242,7 +242,7 @@ pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python -
 
 You can then track your datasets privately with `pin()`,
 
-``` r
+``` python
 import pins
 
 # TODO: pins.pin()
@@ -250,7 +250,7 @@ import pins
 
 and retrieve them back with `get_pin()`.
 
-``` r
+``` python
 pins.get_pin("iris-small-width")
 ```
 
@@ -259,7 +259,7 @@ pins.get_pin("iris-small-width")
 You can search datasets that contain “seattle” in their description or
 name as follows:
 
-``` r
+``` python
 pins.find_pin("seattle")
 ```
 
@@ -273,7 +273,7 @@ pins.find_pin("seattle")
 
 You can then retrieve a specific dataset with `get_pin()`:
 
-``` r
+``` python
 pins.get_pin("hpiR_seattle_sales")
 ```
 
