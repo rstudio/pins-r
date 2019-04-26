@@ -6,7 +6,7 @@ output:
     fig_height: 5
 ---
 
-```{r setup2, echo=FALSE, message=FALSE}
+```{r setup, echo=FALSE, message=FALSE}
 pins::unpin("iris-small-width")
 pins::unpin("hacker-news-scores")
 pins::unpin("bigquery")
@@ -33,7 +33,7 @@ knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 
 You can install `pins` using the `remotes` package:
 
-```{r install, eval = FALSE}
+``` r
 install.packages("remotes")
 remotes::install_github("rstudio/pins")
 ```
@@ -240,22 +240,20 @@ pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python -
 
 You can then track your datasets privately with `pin()`,
 
-```{python}
+```{python eval=FALSE}
 import pins
 import pandas as pd
 
 df = pd.DataFrame({"a": [1, 2, 3]})
 
-# TODO: pins.pin()
+pins.pin(df, "python-df)
 ```
 
 and retrieve them back with `get_pin()`.
 
-```{python eval=FALSE}
+```{python}
 pins.get_pin("iris-small-width")
 ```
-
-    ## TODO
 
 You can search datasets that contain “seattle” in their description or
 name as follows:
