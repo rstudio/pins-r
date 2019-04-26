@@ -1,4 +1,2 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.httr-oauth$
-^packages$
