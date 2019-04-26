@@ -68,14 +68,18 @@
 
 <ul>
 <li>
-<strong>Track</strong> local and remote datasets using <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/get_pin.html">get_pin()</a></code>.</li>
+<strong>Track</strong> local and remote datasets from Python and R using <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/get_pin.html">get_pin()</a></code>.</li>
 <li>
-<strong>Discover</strong> new datasets from R packages, online and your organization using <code><a href="reference/find_pin.html">find_pin()</a></code>.</li>
+<strong>Discover</strong> new datasets from packages, online and your organization using <code><a href="reference/find_pin.html">find_pin()</a></code>.</li>
 <li>
 <strong>Share</strong> datasets with your team, or the world, using customizable boards through <code><a href="reference/use_board.html">use_board()</a></code>.</li>
 <li>
 <strong>Extend</strong> storage locations with custom boards, you decide where your data lives.</li>
 </ul>
+</div>
+<div id="r" class="section level1">
+<h1 class="hasAnchor">
+<a href="#r" class="anchor"></a>R</h1>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -129,18 +133,18 @@
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"hacker-news-full"</span>)</a></code></pre></div>
 <pre><code>## # Source:   SQL [?? x 14]
 ## # Database: BigQueryConnection
-##    by    score   time timestamp           title type  url   text   parent
-##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;
-##  1 vala…    NA 1.47e9 2016-08-17 13:12:23 ""    comm… ""    1)&lt;p…  1.23e7
-##  2 rene…    NA 1.54e9 2018-11-14 06:25:15 ""    comm… ""    I&amp;#x…  1.84e7
-##  3 awws…     1 1.38e9 2013-08-20 21:53:06 40 l… story http… ""    NA     
-##  4 bett…    NA 1.33e9 2011-12-27 20:03:05 ""    comm… ""    Don'…  3.40e6
-##  5 cand…     2 1.55e9 2019-03-08 10:20:37 Ask … story ""    I&amp;#x… NA     
-##  6 NKCSS     2 1.48e9 2016-12-13 19:10:48 Ask … story ""    I am… NA     
-##  7 nzmsv    NA 1.27e9 2010-04-11 22:35:53 ""    comm… ""    I ac…  1.26e6
-##  8 belo…    NA 1.39e9 2013-11-23 16:09:51 ""    comm… ""    And …  6.78e6
-##  9 Dosh…     1 1.55e9 2019-01-02 05:01:14 Ecom… story ""    Webc… NA     
-## 10 lewq     NA 1.52e9 2018-02-07 19:35:42 ""    comm… ""    "Hey…  1.63e7
+##    by    score   time timestamp           title type  url   text  parent
+##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+##  1 user…    NA 1.49e9 2017-03-19 17:22:04 ""    comm… ""    &amp;gt;… 1.39e7
+##  2 ange…    NA 1.46e9 2016-02-25 03:48:40 ""    comm… ""    I re… 1.12e7
+##  3 md2be    NA 1.52e9 2018-01-18 16:22:27 ""    comm… ""    Imag… 1.62e7
+##  4 radl…    NA 1.21e9 2008-07-01 21:30:11 ""    comm… ""    "&lt;a … 2.33e5
+##  5 pmon…    NA 1.48e9 2016-12-02 15:56:20 ""    comm… ""    "No … 1.31e7
+##  6 nabl…    NA 1.55e9 2019-02-28 14:40:01 ""    comm… ""    You … 1.93e7
+##  7 dmix     NA 1.35e9 2012-08-18 00:01:42 ""    comm… ""    "I t… 4.40e6
+##  8 Alre…    NA 1.43e9 2015-04-29 12:25:07 ""    comm… ""    I ag… 9.46e6
+##  9 danso    NA 1.52e9 2018-04-19 14:16:30 ""    comm… ""    You … 1.69e7
+## 10 meric    NA 1.45e9 2015-11-19 01:46:16 ""    comm… ""    Is i… 1.06e7
 ## # … with more rows, and 5 more variables: deleted &lt;lgl&gt;, dead &lt;lgl&gt;,
 ## #   descendants &lt;int&gt;, id &lt;int&gt;, ranking &lt;int&gt;</code></pre>
 <p>This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:</p>
@@ -315,6 +319,32 @@
 <p><img src="tools/readme/rstudio-pins-addmin.png"></p>
 <p>The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.</p>
 </div>
+</div>
+<div id="python" class="section level1">
+<h1 class="hasAnchor">
+<a href="#python" class="anchor"></a>Python</h1>
+<p>You can install <code>pins</code> using <code>pip</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" title="1">pip install git<span class="op">+</span>https:<span class="op">//</span>github.com<span class="op">/</span>rstudio<span class="op">/</span>pins<span class="op">/</span><span class="co">#egg=pins\&amp;subdirectory=python --user</span></a></code></pre></div>
+<p>You can then track your datasets privately with <code><a href="reference/pin.html">pin()</a></code>,</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" title="1"><span class="im">import</span> pins</a>
+<a class="sourceLine" id="cb34-2" title="2"></a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="co"># </span><span class="al">TODO</span><span class="co">: pins.pin()</span></a></code></pre></div>
+<p>and retrieve them back with <code><a href="reference/get_pin.html">get_pin()</a></code>.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb35-1" title="1">pins.get_pin(<span class="st">"iris-small-width"</span>)</a></code></pre></div>
+<pre><code>## TODO</code></pre>
+<p>You can search datasets that contain “seattle” in their description or name as follows:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb37-1" title="1">pins.find_pin(<span class="st">"seattle"</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 4 x 4
+##   name               description                               type  board
+##   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt;
+## 1 hpiR_seattle_sales Seattle Home Sales from hpiR package.     table packa…
+## 2 microsynth_seattl… Data for a crime intervention in Seattle… table packa…
+## 3 vegawidget_data_s… Example dataset: Seattle daily weather f… table packa…
+## 4 vegawidget_data_s… Example dataset: Seattle hourly temperat… table packa…</code></pre>
+<p>You can then retrieve a specific dataset with <code><a href="reference/get_pin.html">get_pin()</a></code>:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb39-1" title="1">pins.get_pin(<span class="st">"hpiR_seattle_sales"</span>)</a></code></pre></div>
+<pre><code>## TODO</code></pre>
+<p>Please reference the <a href="Python/README.html">Python README</a> for additional functionality and details.</p>
 </div>
   </div>
 
