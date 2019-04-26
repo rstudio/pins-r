@@ -47,10 +47,21 @@ def _console_write(buffer, size, otype):
 def _showmessage(buffer):
     _print(ffi.string(buffer).decode("utf-8"))
 
-def _start():
+def _main_loop_started():
+    return rlib.ptr_R_WriteConsoleEx != ffi.NULL
+
+rlib = None
+def r_start():
+    global rlib
+    if (rlib != None):
+        return rlib
+        
     os.environ["R_HOME"] = _get_rhome()
     rlib = _open_rlib()
 
+    if (_main_loop_started()):
+        return rlib
+        
     options = ("pins", "--quiet", "--vanilla", "--no-save")
     options_raw = [ffi.new("char[]", o.encode("ASCII")) for o in options]
     status = rlib.Rf_initialize_R(ffi.cast("int", len(options_raw)), options_raw)
@@ -62,9 +73,7 @@ def _start():
 
     return rlib
 
-rlib = _start()
-
-def eval(code):
+def r_eval(code):
     cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
     rlib.Rf_protect(cmdSexp)
     rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
@@ -85,7 +94,7 @@ def eval(code):
             break;
 
     if (error[0]):
-        message = eval("gsub('\\\n', '', geterrmessage())")
+        message = r_eval("gsub('\\\n', '', geterrmessage())")
         raise RuntimeError(message + " at " + code)
 
     rtype = result.sxpinfo.type
@@ -97,7 +106,8 @@ def eval(code):
     return result
 
 def _init_pins():
-    eval("""
+    r_start()
+    r_eval("""
         if (!require("pins")) {
             if (!require("remotes"))
                 install.packages("remotes")
@@ -113,7 +123,7 @@ def find_pin(text = ""):
     Find Pin.
     """
     _init_pins()
-    eval("print(pins::find_pin(\"" + text + "\"))")
+    r_eval("print(pins::find_pin(\"" + text + "\"))")
 
 def get_pin(name, board = None):
     """
