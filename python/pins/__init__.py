@@ -102,6 +102,9 @@ def r_eval(code):
         return ffi.string(rlib.R_CHAR(result))
     elif (rtype == rlib.STRSXP):
         return ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0)))
+    elif (rtype == rlib.RAWSXP):
+        n = rlib.Rf_xlength(result)
+        return bytes(ffi.buffer(rlib.RAW(result), n))
 
     return result
 

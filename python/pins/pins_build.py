@@ -251,6 +251,15 @@ extern void (*ptr_R_Busy)(int);
 extern void (*ptr_R_CleanUp)(SA_TYPE, int, int);
 """)
 
+ffibuilder.cdef("""
+Rbyte *(RAW)(SEXP x);
+Rbyte (RAW_ELT)(SEXP x, R_xlen_t i);
+""")
+
+ffibuilder.cdef("""
+R_xlen_t Rf_xlength(SEXP);
+""")
+
 ffibuilder.set_source("_pins_cffi", None)
 
 if __name__ == "__main__":
