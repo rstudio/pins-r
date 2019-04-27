@@ -48,7 +48,7 @@ def _showmessage(buffer):
     _print(ffi.string(buffer).decode("utf-8"))
 
 def _main_loop_started():
-    return rlib.ptr_R_WriteConsoleEx != ffi.NULL
+    return rlib.ptr_R_WriteConsoleEx != ffi.NULL or rlib.R_GlobalEnv != ffi.NULL
 
 rlib = None
 def r_start():
@@ -115,11 +115,10 @@ def _init_pins():
             if (!"remotes" %in% installed.packages())
                 install.packages("remotes")
 
-            remotes::install_github("rstudio/pins", subdir = "R")
+            remotes::install_github("rstudio/pins")
         }
-
-        library("pins")
     """)
+    r_eval("library('pins')")
 
 def find_pin(text = ""):
     """
