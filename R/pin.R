@@ -99,6 +99,7 @@ pin_unpack <- function(x, board, name, ...) {
 }
 
 pin_pack.default <- function(x, board, ...) {
+  attr(x, pin_type) <- "default"
   x
 }
 
