@@ -137,3 +137,9 @@ def get_pin(name, board = None):
     
     import pyarrow as pa
     return pa.ipc.open_stream(buffer).read_pandas()
+
+def pin(x, name, description = "", board = None):
+    """
+    Create Pin.
+    """
+    _init_pins()
