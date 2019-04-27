@@ -1,22 +1,19 @@
 pins: Track, Discover and Share Datasets
 ================
 
-# pins
+# pins: Track, Discover and Share Datasets
 
 [![Build
 Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 
-  - **Track** local and remote datasets from Python and R using `pin()`
-    and `get_pin()`.
+  - **Track** local and remote datasets using `pin()` and `get_pin()`.
   - **Discover** new datasets from packages, online and your
     organization using `find_pin()`.
   - **Share** datasets with your team, or the world, using customizable
     boards through `use_board()`.
   - **Extend** storage locations with custom boards, you decide where
     your data lives.
-
-# R
 
 ## Installation
 
@@ -111,16 +108,16 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
     ## # Database: BigQueryConnection
     ##    by    score   time timestamp           title type  url   text   parent
     ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 shel…     2 1.29e9 2010-10-10 22:15:54 Runn… story http… ""    NA     
-    ##  2 Gibb…    NA 1.55e9 2019-03-19 20:28:46 ""    comm… ""    No i…  1.94e7
-    ##  3 bcook    NA 1.46e9 2016-04-19 10:20:24 ""    comm… ""    Whic…  1.15e7
-    ##  4 matt…    NA 1.49e9 2017-03-01 20:30:46 ""    comm… ""    I ho…  1.38e7
-    ##  5 scho…     1 1.38e9 2013-09-07 15:01:19 Yaho… story http… ""    NA     
-    ##  6 Fice     NA 1.49e9 2017-03-16 23:55:05 ""    comm… ""    Nota…  1.39e7
-    ##  7 dark…    NA 1.36e9 2013-04-01 14:45:48 ""    comm… ""    &#62…  5.47e6
-    ##  8 arav…    NA 1.35e9 2012-11-23 08:01:24 ""    comm… ""    You …  4.82e6
-    ##  9 robr…    NA 1.49e9 2017-04-08 10:32:21 ""    comm… ""    I&#x…  1.41e7
-    ## 10 eries    NA 1.43e9 2015-04-14 17:20:46 ""    comm… ""    Than…  9.37e6
+    ##  1 Myth…    NA 1.35e9 2012-10-30 19:17:25 ""    comm… ""    Like…  4.72e6
+    ##  2 keln…    NA 1.51e9 2017-11-22 09:49:51 ""    comm… ""    &gt;…  1.58e7
+    ##  3 keefe    NA 1.28e9 2010-06-07 22:24:28 ""    comm… ""    to s…  1.41e6
+    ##  4 phug…    NA 1.25e9 2009-07-04 15:10:15 ""    comm… ""    The …  6.87e5
+    ##  5 laum…    NA 1.46e9 2016-03-21 18:01:20 ""    comm… ""    &gt;…  1.13e7
+    ##  6 amel…    NA 1.45e9 2016-02-02 16:15:16 ""    comm… ""    In t…  1.10e7
+    ##  7 eric…     1 1.39e9 2013-12-03 17:47:15 13 s… story http… ""    NA     
+    ##  8 tpta…    NA 1.48e9 2016-12-08 19:09:01 ""    comm… ""    This…  1.31e7
+    ##  9 geof…    NA 1.48e9 2017-01-17 20:55:05 ""    comm… ""    I&#x…  1.34e7
+    ## 10 pare…    NA 1.23e9 2008-12-31 13:51:40 ""    comm… ""    I pa…  4.15e5
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -324,15 +321,17 @@ find pins,
 find_pin()
 ```
 
-    ## # A tibble: 6 x 4
+    ## # A tibble: 8 x 4
     ##   name              description                              type   board  
     ##   <chr>             <chr>                                    <chr>  <chr>  
     ## 1 cars              ""                                       table  arrow  
     ## 2 iris              The entire 'iris' dataset.               table  databa…
-    ## 3 iris-small-width  A subset of 'iris' with only small widt… table  local  
-    ## 4 bigquery          ""                                       formu… local  
-    ## 5 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
-    ## 6 hacker-news-scor… ""                                       dbplyr local
+    ## 3 iris              The entire 'iris' dataset.               table  local  
+    ## 4 x                 ""                                       table  local  
+    ## 5 iris-small-width  A subset of 'iris' with only small widt… table  local  
+    ## 6 bigquery          ""                                       formu… local  
+    ## 7 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
+    ## 8 hacker-news-scor… ""                                       dbplyr local
 
 and retrieve shared datasets.
 
@@ -395,12 +394,12 @@ extension to track local or remote datasets.
 The addin provides a list of datasets and visual clues that describe how
 large and wide eachd dataset is.
 
-# Python
+## Python
 
 You can install `pins` using
 `pip`:
 
-``` python
+``` bash
 pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python --user
 ```
 
@@ -408,8 +407,11 @@ You can then track your datasets privately with `pin()`,
 
 ``` python
 import pins
+import pandas as pd
 
-# TODO: pins.pin()
+df = pd.DataFrame({"a": [1, 2, 3]})
+
+pins.pin(df, "python-df")
 ```
 
 and retrieve them back with `get_pin()`.
@@ -418,7 +420,9 @@ and retrieve them back with `get_pin()`.
 pins.get_pin("iris-small-width")
 ```
 
-    ## TODO
+    ##    Sepal.Length  Sepal.Width  Petal.Length  Petal.Width Species
+    ## 0           4.4          2.9           1.4          0.2  setosa
+    ## 1           4.5          2.3           1.3          0.3  setosa
 
 You can search datasets that contain “seattle” in their description or
 name as follows:
@@ -427,14 +431,6 @@ name as follows:
 pins.find_pin("seattle")
 ```
 
-    ## # A tibble: 4 x 4
-    ##   name               description                               type  board
-    ##   <chr>              <chr>                                     <chr> <chr>
-    ## 1 hpiR_seattle_sales Seattle Home Sales from hpiR package.     table packa…
-    ## 2 microsynth_seattl… Data for a crime intervention in Seattle… table packa…
-    ## 3 vegawidget_data_s… Example dataset: Seattle daily weather f… table packa…
-    ## 4 vegawidget_data_s… Example dataset: Seattle hourly temperat… table packa…
-
 You can then retrieve a specific dataset with `get_pin()`:
 
 ``` python
@@ -442,6 +438,3 @@ pins.get_pin("hpiR_seattle_sales")
 ```
 
     ## TODO
-
-Please reference the [Python README](Python/README.md) for additional
-functionality and details.
