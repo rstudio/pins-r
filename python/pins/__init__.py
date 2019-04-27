@@ -111,8 +111,8 @@ def r_eval(code):
 def _init_pins():
     r_start()
     r_eval("""
-        if (!require("pins")) {
-            if (!require("remotes"))
+        if (!"pins" %in% installed.packages()) {
+            if (!"remotes" %in% installed.packages())
                 install.packages("remotes")
 
             remotes::install_github("rstudio/pins", subdir = "R")
