@@ -240,13 +240,13 @@ pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python -
 
 You can then track your datasets privately with `pin()`,
 
-```{python eval=FALSE}
+```{python}
 import pins
 import pandas as pd
 
 df = pd.DataFrame({"a": [1, 2, 3]})
 
-pins.pin(df, "python-df)
+pins.pin(df, "python-df")
 ```
 
 and retrieve them back with `get_pin()`.
