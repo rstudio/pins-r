@@ -79,7 +79,7 @@ def r_eval(code):
     rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
     
     status = ffi.new("ParseStatus *")
-    cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue));
+    cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue))
 
     rlib.Rf_unprotect(2)
     if status[0] != rlib.PARSE_OK:
@@ -88,10 +88,7 @@ def r_eval(code):
     environment = rlib.R_GlobalEnv
     error = ffi.new("int *")
 
-    for idx in range(0, rlib.Rf_length(cmdexpr)):
-        result = rlib.R_tryEval(rlib.VECTOR_ELT(cmdexpr, idx), environment, error);
-        if (error[0]):
-            break;
+    result = rlib.Rf_protect(rlib.R_tryEval(rlib.VECTOR_ELT(cmdexpr, 0), environment, error))
 
     if (error[0]):
         message = r_eval("gsub('\\\n', '', geterrmessage())")
@@ -99,13 +96,14 @@ def r_eval(code):
 
     rtype = result.sxpinfo.type
     if (rtype == rlib.CHARSXP):
-        return ffi.string(rlib.R_CHAR(result))
+        result = ffi.string(rlib.R_CHAR(result))
     elif (rtype == rlib.STRSXP):
-        return ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0)))
+        result = ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0)))
     elif (rtype == rlib.RAWSXP):
         n = rlib.Rf_xlength(result)
-        return ffi.buffer(rlib.RAW(result), n)
+        result = ffi.buffer(rlib.RAW(result), n)
 
+    rlib.Rf_unprotect(1)
     return result
 
 def _init_pins():
@@ -125,7 +123,7 @@ def find_pin(text = ""):
     Find Pin.
     """
     _init_pins()
-    r_eval("print(pins::find_pin(\"" + text + "\"))")
+    return r_eval("pins::as_arrow(pins::find_pin(\"" + text + "\"))")
 
 def get_pin(name, board = None):
     """
