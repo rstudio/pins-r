@@ -14,7 +14,7 @@ pin_find.packages <- function(board, text) {
   parts <- strsplit(text, "_")[[1]]
   if (length(parts) > 1) {
     # remove package name
-    text <- parts[2:length(parts)]
+    text <- paste(parts[2:length(parts)], collapse = "_")
   }
 
   find_names <- grepl(text, crandatasets$dataset)
@@ -42,7 +42,7 @@ pin_retrieve.packages <- function(board, name) {
   crandatasets <- get_crandatasets()
 
   package <- parts[1]
-  name <- parts[2:length(parts)]
+  name <- paste(parts[2:length(parts)], collapse = "_")
 
   package_pin <- crandatasets[which(crandatasets$package == package, crandatasets$dataset == name),]
   packages_path <- pins_local_path("packages")
