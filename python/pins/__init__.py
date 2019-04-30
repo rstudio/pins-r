@@ -147,23 +147,24 @@ def _init_pins():
         }
     """)
     r_eval("library('pins')")
+    
+def _from_arrow(buffer):
+    import pyarrow as pa
+    return pa.ipc.open_stream(buffer).read_pandas()
 
 def find_pin(text = ""):
     """
     Find Pin.
     """
     _init_pins()
-    return r_eval("pins::as_arrow(pins::find_pin(\"" + text + "\"))")
+    return _from_arrow(r_eval("pins::as_arrow(pins::find_pin(\"" + text + "\"))"))
 
 def get_pin(name, board = None):
     """
     Retrieve Pin.
     """
     _init_pins()
-    buffer = r_eval("pins::as_arrow(pins::get_pin(\"" + name + "\"))")
-    
-    import pyarrow as pa
-    return pa.ipc.open_stream(buffer).read_pandas()
+    return _from_arrow(r_eval("pins::as_arrow(pins::get_pin(\"" + name + "\"))"))
 
 def pin(x, name, description = "", board = None):
     """
