@@ -47,6 +47,18 @@ def _console_write(buffer, size, otype):
 def _showmessage(buffer):
     _print(ffi.string(buffer).decode("utf-8"))
 
+@ffi.callback('void(SA_TYPE, int, int)')
+def _cleanup(saveact, status, runlast):
+    pass
+
+@ffi.callback('void(void)')
+def _processevents():
+    pass
+
+@ffi.callback('void(int)')
+def _busy(which):
+    pass
+    
 def _main_loop_started():
     return rlib.ptr_R_WriteConsoleEx != ffi.NULL or rlib.R_GlobalEnv != ffi.NULL
 
@@ -68,6 +80,9 @@ def r_start():
 
     rlib.ptr_R_WriteConsoleEx = _console_write
     rlib.ptr_R_WriteConsole = ffi.NULL
+    rlib.ptr_R_CleanUp = _cleanup
+    rlib.ptr_R_ProcessEvents = _processevents
+    rlib.ptr_R_Busy = _busy
 
     rlib.setup_Rmainloop()
 
@@ -88,7 +103,7 @@ def r_eval(code, environment = None):
         raise RuntimeError("Failed to parse: " + code)
 
     if environment == None:
-    environment = rlib.R_GlobalEnv
+        environment = rlib.R_GlobalEnv
         
     error = ffi.new("int *")
 
