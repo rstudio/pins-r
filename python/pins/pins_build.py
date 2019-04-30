@@ -213,18 +213,6 @@ void SET_STRING_ELT(SEXP x, R_xlen_t i, SEXP v);
 """)
 
 ffibuilder.cdef("""
-void setup_Rmainloop(void);
-""")
-
-ffibuilder.cdef("""
-R_len_t Rf_length(SEXP x);
-SEXP (VECTOR_ELT)(SEXP x, R_xlen_t i);
-SEXP Rf_eval(SEXP, SEXP);
-SEXP R_tryEval(SEXP, SEXP, int*);
-SEXP R_GlobalEnv;
-""")
-
-ffibuilder.cdef("""
 typedef enum {
     SA_NORESTORE,/* = 0 */
     SA_RESTORE,
@@ -234,6 +222,44 @@ typedef enum {
     SA_SAVEASK,
     SA_SUICIDE
 } SA_TYPE;
+""")
+
+ffibuilder.cdef("""
+typedef struct
+{
+    Rboolean R_Quiet;
+    Rboolean R_Slave;
+    Rboolean R_Interactive;
+    Rboolean R_Verbose;
+    Rboolean LoadSiteFile;
+    Rboolean LoadInitFile;
+    Rboolean DebugInitFile;
+    SA_TYPE RestoreAction;
+    SA_TYPE SaveAction;
+    size_t vsize;
+    size_t nsize;
+    size_t max_vsize;
+    size_t max_nsize;
+    size_t ppsize;
+    int NoRenviron;
+} structRstart;
+typedef structRstart *Rstart;
+void R_DefParams(Rstart);
+void R_SetParams(Rstart);
+void R_SetWin32(Rstart);
+void R_SizeFromEnv(Rstart);
+void R_common_command_line(int *, char **, Rstart);
+void R_set_command_line_arguments(int argc, char **argv);
+
+void setup_Rmainloop(void);
+""")
+
+ffibuilder.cdef("""
+R_len_t Rf_length(SEXP x);
+SEXP (VECTOR_ELT)(SEXP x, R_xlen_t i);
+SEXP Rf_eval(SEXP, SEXP);
+SEXP R_tryEval(SEXP, SEXP, int*);
+SEXP R_GlobalEnv;
 """)
 
 ffibuilder.cdef("""
@@ -249,6 +275,19 @@ extern void (*ptr_R_FlushConsole)(void);
 extern void (*ptr_R_ClearerrConsole)(void);
 extern void (*ptr_R_Busy)(int);
 extern void (*ptr_R_CleanUp)(SA_TYPE, int, int);
+extern int  (*ptr_R_ShowFiles)(int, const char **, const char **,
+                               const char *, Rboolean, const char *);
+extern int  (*ptr_R_ChooseFile)(int, char *, int);
+extern int  (*ptr_R_EditFile)(const char *);
+extern void (*ptr_R_loadhistory)(SEXP, SEXP, SEXP, SEXP);
+extern void (*ptr_R_savehistory)(SEXP, SEXP, SEXP, SEXP);
+extern void (*ptr_R_addhistory)(SEXP, SEXP, SEXP, SEXP);
+extern int  (*ptr_R_EditFiles)(int, const char **,
+                               const char **, const char *);
+extern SEXP (*ptr_do_selectlist)(SEXP, SEXP, SEXP, SEXP);
+extern SEXP (*ptr_do_dataentry)(SEXP, SEXP, SEXP, SEXP);
+extern SEXP (*ptr_do_dataviewer)(SEXP, SEXP, SEXP, SEXP);
+extern void (*ptr_R_ProcessEvents)();
 """)
 
 ffibuilder.cdef("""
