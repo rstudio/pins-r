@@ -63,22 +63,26 @@ pin_metadata.default <- function(x) {
 #'
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
+#' @param type The type of pin to retrieve.
 #' @param ... Additional parameters.
 #'
 #' @export
-get_pin <- function(name, board = NULL, ...) {
-  pin_index <- find_pin(name, board = board)
-  pin_index <- pin_index[pin_index$name == name,]
-  if (nrow(pin_index) == 0) stop("'", name, "' not found.")
+get_pin <- function(name, board = NULL, type = NULL, ...) {
+  if (is.null(board) || is.null(type)) {
+    pin_index <- find_pin(name, board = board)
+    pin_index <- pin_index[pin_index$name == name,]
+    if (nrow(pin_index) == 0) stop("'", name, "' not found.")
 
-  pin_index <- pin_index[1,]
-  if (is.null(board)) board <- pin_index$board
+    pin_index <- pin_index[1,]
+    if (is.null(board)) board <- pin_index$board
+    type <- pin_index$type
+  }
 
   board_object <- get_board(board)
 
   result <- pin_retrieve(board_object, name)
 
-  class(result) <- c(paste0(pin_index$type, "_pin"), class(result))
+  class(result) <- c(paste0(type, "_pin"), class(result))
 
   result <- pin_unpack(result, board_object, name, ...)
 
