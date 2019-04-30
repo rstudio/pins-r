@@ -74,6 +74,8 @@ def r_start():
     return rlib
 
 def r_eval(code):
+    r_start()
+    
     cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
     rlib.Rf_protect(cmdSexp)
     rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
