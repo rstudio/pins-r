@@ -299,6 +299,12 @@ ffibuilder.cdef("""
 R_xlen_t Rf_xlength(SEXP);
 """)
 
+ffibuilder.cdef("""
+void R_ClearExternalPtr(SEXP s);
+void R_dot_Last(void);
+void	R_gc(void);
+""")
+
 ffibuilder.set_source("_pins_cffi", None)
 
 if __name__ == "__main__":

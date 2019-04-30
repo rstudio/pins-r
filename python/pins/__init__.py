@@ -74,6 +74,9 @@ def r_start():
     if (_main_loop_started()):
         return rlib
         
+    import atexit
+    atexit.register(r_end, 0)
+        
     options = ("pins", "--quiet", "--vanilla", "--no-save")
     options_raw = [ffi.new("char[]", o.encode("ASCII")) for o in options]
     status = rlib.Rf_initialize_R(ffi.cast("int", len(options_raw)), options_raw)
@@ -87,6 +90,14 @@ def r_start():
     rlib.setup_Rmainloop()
 
     return rlib
+
+def r_end(fatal):
+    rlib.R_dot_Last()
+    rlib.R_RunExitFinalizers()
+    rlib.Rf_KillAllDevices()
+    rlib.R_CleanTempDir()
+    rlib.R_gc()
+    rlib.Rf_endEmbeddedR(fatal)
 
 def r_eval(code, environment = None):
     r_start()
