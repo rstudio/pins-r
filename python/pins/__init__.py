@@ -73,7 +73,7 @@ def r_start():
 
     return rlib
 
-def r_eval(code):
+def r_eval(code, environment = None):
     r_start()
     
     cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
@@ -87,7 +87,9 @@ def r_eval(code):
     if status[0] != rlib.PARSE_OK:
         raise RuntimeError("Failed to parse: " + code)
 
+    if environment == None:
     environment = rlib.R_GlobalEnv
+        
     error = ffi.new("int *")
 
     result = rlib.Rf_protect(rlib.R_tryEval(rlib.VECTOR_ELT(cmdexpr, 0), environment, error))
