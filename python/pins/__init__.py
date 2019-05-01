@@ -152,22 +152,57 @@ def _from_arrow(buffer):
     import pyarrow as pa
     return pa.ipc.open_stream(buffer).read_pandas()
 
-def find_pin(text = ""):
+def _to_arrow(x):
+    import pyarrow as pa
+    return pa.ipc.open_stream(buffer).read_pandas()
+
+def _to_feather(x):
+    import feather
+    feather_path = r_eval('tempfile(fileext = ".feather")')
+    feather.write_dataframe(x, feather_path)
+    return feather_path
+    
+def _from_feather(path):
+    import feather
+    return feather.read_dataframe(path)
+    
+def _eval_deserialize(operation, serializer):
+    if serializer == "arrow":
+        return _from_arrow(r_eval("pins::as_arrow(" + operation + ")"))
+    else:
+        feather_path = r_eval('tempfile(fileext = ".feather")')
+        r_eval("feather::write_feather(" + operation + ", \"" + feather_path + "\")")
+        result = _from_feather(feather_path)
+        os.remove(feather_path)
+        return result
+
+def find_pin(text = "", serializer = "feather"):
     """
     Find Pin.
     """
     _init_pins()
-    return _from_arrow(r_eval("pins::as_arrow(pins::find_pin(\"" + text + "\"))"))
+    return _eval_deserialize("pins::find_pin(\"" + text + "\")", serializer)
 
-def get_pin(name, board = None):
+def get_pin(name, board = None, serializer = "feather"):
     """
     Retrieve Pin.
     """
     _init_pins()
-    return _from_arrow(r_eval("pins::as_arrow(pins::get_pin(\"" + name + "\"))"))
+    return _eval_deserialize("pins::get_pin(\"" + name + "\")", serializer)
 
-def pin(x, name, description = "", board = None):
+def pin(x, name, description = "", board = None, serializer = "feather"):
     """
     Create Pin.
     """
     _init_pins()
+    retult = None
+    
+    if serializer == "arrow":
+      raise RuntimeError("Serializing pin() with 'arrow' currently unsupported, use 'feather' instead.")
+    else:
+      path = _to_feather(x)
+      _from_feather(r_eval("feather::write_feather(pins::pin(feather::read_feather(\"" + path + "\"), \"" + name + "\"), \"" + path + "\")"))
+      result = _from_feather(path)
+      os.remove(path)
+      
+    return result
