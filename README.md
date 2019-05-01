@@ -1,8 +1,6 @@
 pins: Track, Discover and Share Datasets
 ================
 
-# pins: Track, Discover and Share Datasets
-
 [![Build
 Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
@@ -92,6 +90,8 @@ DBI::dbGetQuery(con, "
   pin("hacker-news-scores", "Hacker News scores grouped by tens.")
 ```
 
+    ## Auto-refreshing stale OAuth token.
+
 However, you can only use `DBI` when you can fetch all the data back
 into R, this is not feasible in many cases. Instead, when using `dplyr`,
 you can pin large datasets and transform them without having to fetch
@@ -108,16 +108,16 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
     ## # Database: BigQueryConnection
     ##    by    score   time timestamp           title type  url   text   parent
     ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 Myth…    NA 1.35e9 2012-10-30 19:17:25 ""    comm… ""    Like…  4.72e6
-    ##  2 keln…    NA 1.51e9 2017-11-22 09:49:51 ""    comm… ""    &gt;…  1.58e7
-    ##  3 keefe    NA 1.28e9 2010-06-07 22:24:28 ""    comm… ""    to s…  1.41e6
-    ##  4 phug…    NA 1.25e9 2009-07-04 15:10:15 ""    comm… ""    The …  6.87e5
-    ##  5 laum…    NA 1.46e9 2016-03-21 18:01:20 ""    comm… ""    &gt;…  1.13e7
-    ##  6 amel…    NA 1.45e9 2016-02-02 16:15:16 ""    comm… ""    In t…  1.10e7
-    ##  7 eric…     1 1.39e9 2013-12-03 17:47:15 13 s… story http… ""    NA     
-    ##  8 tpta…    NA 1.48e9 2016-12-08 19:09:01 ""    comm… ""    This…  1.31e7
-    ##  9 geof…    NA 1.48e9 2017-01-17 20:55:05 ""    comm… ""    I&#x…  1.34e7
-    ## 10 pare…    NA 1.23e9 2008-12-31 13:51:40 ""    comm… ""    I pa…  4.15e5
+    ##  1 mnem…    NA 1.28e9 2010-09-08 23:13:50 ""    comm… ""    "<a …  1.67e6
+    ##  2 anam…    NA 1.27e9 2010-05-18 14:58:50 ""    comm… ""    "&#6…  1.36e6
+    ##  3 daken    NA 1.39e9 2014-02-05 21:51:05 ""    comm… ""    This…  7.19e6
+    ##  4 jcra…    NA 1.55e9 2019-03-11 00:27:59 ""    comm… ""    &gt;…  1.94e7
+    ##  5 dani…     1 1.36e9 2013-03-20 21:32:19 Save… story http… ""    NA     
+    ##  6 ehud…    NA 1.47e9 2016-08-07 22:04:01 ""    comm… ""    Dann…  1.22e7
+    ##  7 huan…    NA 1.54e9 2018-10-18 22:54:38 ""    comm… ""    Cool…  1.82e7
+    ##  8 wich…    NA 1.50e9 2017-05-25 01:38:41 ""    comm… ""    i am…  1.44e7
+    ##  9 mich…    NA 1.38e9 2013-08-05 18:13:19 ""    comm… ""    "Clo…  6.16e6
+    ## 10 Ani       4 1.25e9 2009-08-31 13:22:45 Ask … story ""    I se… NA     
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -321,17 +321,16 @@ find pins,
 find_pin()
 ```
 
-    ## # A tibble: 8 x 4
+    ## # A tibble: 7 x 4
     ##   name              description                              type   board  
     ##   <chr>             <chr>                                    <chr>  <chr>  
     ## 1 cars              ""                                       table  arrow  
     ## 2 iris              The entire 'iris' dataset.               table  databa…
-    ## 3 iris              The entire 'iris' dataset.               table  local  
-    ## 4 x                 ""                                       table  local  
-    ## 5 iris-small-width  A subset of 'iris' with only small widt… table  local  
-    ## 6 bigquery          ""                                       formu… local  
-    ## 7 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
-    ## 8 hacker-news-scor… ""                                       dbplyr local
+    ## 3 python-df         ""                                       table  local  
+    ## 4 iris-small-width  A subset of 'iris' with only small widt… table  local  
+    ## 5 bigquery          ""                                       formu… local  
+    ## 6 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
+    ## 7 hacker-news-scor… ""                                       dbplyr local
 
 and retrieve shared datasets.
 
@@ -411,8 +410,19 @@ import pandas as pd
 
 df = pd.DataFrame({"a": [1, 2, 3]})
 
+pins.use_board("local")
+```
+
+    ## 'local'
+
+``` python
 pins.pin(df, "python-df")
 ```
+
+    ##      a
+    ## 0  1.0
+    ## 1  2.0
+    ## 2  3.0
 
 and retrieve them back with `get_pin()`.
 
@@ -431,10 +441,26 @@ name as follows:
 pins.find_pin("seattle")
 ```
 
-You can then retrieve a specific dataset with `get_pin()`:
+    ##                              name  ...     board
+    ## 0              hpiR_seattle_sales  ...  packages
+    ## 1           microsynth_seattledmi  ...  packages
+    ## 2   vegawidget_data_seattle_daily  ...  packages
+    ## 3  vegawidget_data_seattle_hourly  ...  packages
+    ## 
+    ## [4 rows x 4 columns]
+
+You can then retrieve a specific dataset with
+    `get_pin()`:
 
 ``` python
-pins.get_pin("hpiR_seattle_sales")
+pins.get_pin("hpiR_seattle_sales").head(5)
 ```
 
-    ## TODO
+    ##            pinx      sale_id  sale_price  ... eff_age   longitude   latitude
+    ## 0  ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
+    ## 1  ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
+    ## 2  ..0001800075  2010..24221      333500  ...      80 -122.311654  47.561470
+    ## 3  ..0001800075   2016..6629      577200  ...      86 -122.311654  47.561470
+    ## 4  ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
+    ## 
+    ## [5 rows x 16 columns]
