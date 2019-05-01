@@ -201,7 +201,7 @@ def pin(x, name, description = "", board = None, serializer = "feather"):
       raise RuntimeError("Serializing pin() with 'arrow' currently unsupported, use 'feather' instead.")
     else:
       path = _to_feather(x)
-      _from_feather(r_eval("feather::write_feather(pins::pin(feather::read_feather(\"" + path + "\"), \"" + name + "\"), \"" + path + "\")"))
+      r_eval("feather::write_feather(pins::pin(feather::read_feather(\"" + path + "\"), \"" + name + "\"), \"" + path + "\")")
       result = _from_feather(path)
       os.remove(path)
       
