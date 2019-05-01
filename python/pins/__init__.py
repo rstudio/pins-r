@@ -206,3 +206,10 @@ def pin(x, name, description = "", board = None, serializer = "feather"):
       os.remove(path)
       
     return result
+    
+def use_board(name):
+    """
+    Use Board.
+    """
+    _init_pins()
+    return r_eval("pins::use_board(\"" + name + "\")")
