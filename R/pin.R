@@ -9,7 +9,8 @@
 #' @param ... Additional parameters.
 #'
 #' @export
-pin <- function(x, name, description = "", board = active_board(), ...) {
+pin <- function(x, name, description = "", board = NULL, ...) {
+  if (is.null(board)) board <- active_board()
   unpin(name, board = board)
 
   metadata <- jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE)
@@ -127,7 +128,8 @@ pin_retrieve <- function(board, name) {
 #' @param board The board where this pin will be placed.
 #'
 #' @export
-unpin <- function(name, board = active_board()) {
+unpin <- function(name, board = NULL) {
+  if (is.null(board)) board <- active_board()
   pins_viewer_ensure(board)
 
   pin_remove(board, name)
