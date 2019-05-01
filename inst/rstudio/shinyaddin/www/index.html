@@ -41,7 +41,8 @@
               board: "all",
               results: {},
               datasets: [],
-              page: 0
+              page: 0,
+              boards: ["local", "packages"]
             },
             methods: {
               updatePage: function(page) {
@@ -117,9 +118,8 @@
           <td>
             Board:
             <select id="board" v-model="board">
-              <option value="all" selected="">All</option>
-              <option value="local">Local</option>
-              <option value="packages">Packages</option>
+              <option value="all" selected>all</option>
+              <option :value="board" v-text="board" v-for="board in boards"></option>
             </select>
           </td>
         </tr>
