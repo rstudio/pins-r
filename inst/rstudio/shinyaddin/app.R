@@ -10,6 +10,14 @@ pins_addin_server <- function(input, output, session) {
   })
 
   observe({
+    results <- list(
+      boards = pins:::all_boards()
+    )
+
+    session$sendCustomMessage("initialized", results)
+  })
+
+  observe({
     dataset <- input$dataset
     if (is.character(dataset) && nchar(dataset) > 0) {
       rstudioapi::sendToConsole(paste0(

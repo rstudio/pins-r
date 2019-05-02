@@ -42,7 +42,7 @@
               results: {},
               datasets: [],
               page: 0,
-              boards: ["local", "packages"]
+              boards: []
             },
             methods: {
               updatePage: function(page) {
@@ -101,6 +101,10 @@
         $(document).on('shiny:connected', function(event) {
           Shiny.addCustomMessageHandler("search-results", function(results) {
             app.$set(app.$data, 'results', results);
+          });
+
+          Shiny.addCustomMessageHandler("initialized", function(results) {
+            app.$set(app.$data, 'boards', results.boards);
           });
 
           initialize();
