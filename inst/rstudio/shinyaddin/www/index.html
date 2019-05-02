@@ -42,19 +42,20 @@
               results: {},
               datasets: [],
               page: 0,
-              boards: []
+              boards: [],
+              empty: ""
             },
             methods: {
               updatePage: function(page) {
                 if (page == 0) {
-                  app.$set(app.$data, 'datasets', []);
+                  this.datasets = [];
                   return;
                 }
 
                 var maxResults = 8;
                 var results = this.results;
                 var resultStart = (page - 1) * maxResults;
-                var resultEnd = Math.min(results.description.length, page * maxResults);
+                var resultEnd = Math.min(results.name.length, page * maxResults);
 
                 var datasets = [];
                 for (var idx = resultStart; idx < resultEnd; idx++) {
@@ -77,7 +78,7 @@
                   })
                 }
 
-                app.$set(app.$data, 'datasets', datasets);
+                this.datasets = datasets;
               }
             },
             watch: {
@@ -91,6 +92,10 @@
                 this.updatePage(val);
               },
               'results': function(val, oldVal) {
+                if (val.name.length == 0) {
+                  var boardName = this.board;
+                  this.empty = this.boards.find(function(e) { return e.name == boardName; }).info.install_html;
+                }
                 if (val == oldVal) return;
                 this.updatePage(1);
               }
@@ -123,13 +128,14 @@
             Board:
             <select id="board" v-model="board">
               <option value="all" selected>all</option>
-              <option :value="board" v-text="board" v-for="board in boards"></option>
+              <option :value="board.name" v-text="board.name" v-for="board in boards"></option>
             </select>
           </td>
         </tr>
       </table>
       <div>
-        <result-entry v-for="entry in datasets" :entry="entry" />
+        <div v-html="empty"></div>
+        <result-entry v-for="entry in datasets" :entry="entry"></result-entry>
       </div>
     </div>
   </body>

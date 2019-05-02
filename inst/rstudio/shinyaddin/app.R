@@ -11,7 +11,7 @@ pins_addin_server <- function(input, output, session) {
 
   observe({
     results <- list(
-      boards = pins:::all_boards()
+      boards = lapply(all_boards(), function(e) pins:::get_board(e))
     )
 
     session$sendCustomMessage("initialized", results)

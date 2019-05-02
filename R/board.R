@@ -18,6 +18,8 @@ use_board <- function(name, ...) {
   board$name <- as.character(name)
   class(board) <- board$name
 
+  board$info <- board_info(board)
+
   if (identical(.globals$boards, NULL)) .globals$boards <- list()
 
   .globals$boards[[name]] <- board
@@ -38,6 +40,11 @@ active_board <- function() {
     get_board("local")
 }
 
+#' All Boards
+#'
+#' Retrieves all available boards.
+#'
+#' @export
 all_boards <- function() {
   unique(
     c(
@@ -47,15 +54,18 @@ all_boards <- function() {
   )
 }
 
+#' Get Board
+#'
+#' Retrieves information about a particular board.
+#'
+#' @param name The name of the board to use
+#'
+#' @export
 get_board <- function(name) {
   if (!name %in% all_boards())
     stop("Board 'name' not a board, available boards: ", paste(all_boards(), collapse = ", "))
 
-  if (identical(as.character(name), "local"))
-    structure(list(
-      name = "local"
-    ), class = "local")
-  else if (name %in% names(.globals$boards))
+  if (name %in% names(.globals$boards))
     .globals$boards[[name]]
   else
     .globals$boards_registered[[name]]
@@ -78,9 +88,21 @@ register_board <- function(name, ...) {
   board$name <- as.character(name)
   class(board) <- board$name
 
+  board$info <- board_info(board)
+
   if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()
 
   .globals$boards_registered[[name]] <- board
 
   invisible(name)
+}
+
+board_info <- function(board) {
+  UseMethod("board_info")
+}
+
+board_info.default = function(board) {
+  list(
+    install_html = ""
+  )
 }

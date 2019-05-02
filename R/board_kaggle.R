@@ -21,3 +21,12 @@ pin_retrieve.kaggle <- function(board, name) {
 pin_remove.kaggle <- function(board, name) {
 
 }
+
+board_info.kaggle <- function(board) {
+  list(
+    install_html = paste(
+      "Download token from:",
+      "<a href=\"https://www.kaggle.com/me/account\">kaggle.com/me/account</a>"
+    )
+  )
+}
