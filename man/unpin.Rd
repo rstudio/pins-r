@@ -4,7 +4,7 @@
 \alias{unpin}
 \title{Remove Pin}
 \usage{
-unpin(name, board = active_board())
+unpin(name, board = NULL)
 }
 \arguments{
 \item{name}{The name for the dataset.}

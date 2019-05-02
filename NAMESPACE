@@ -2,6 +2,7 @@
 
 S3method(as_arrow,data.frame)
 S3method(as_arrow,default)
+export(all_boards)
 export(as_arrow)
 export(find_pin)
 export(get_pin)

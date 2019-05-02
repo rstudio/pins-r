@@ -4,7 +4,7 @@
 \alias{pin}
 \title{Create Pin}
 \usage{
-pin(x, name, description = "", board = active_board(), ...)
+pin(x, name, description = "", board = NULL, ...)
 }
 \arguments{
 \item{x}{The dataset or object to pin.}
