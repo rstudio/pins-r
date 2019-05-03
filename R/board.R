@@ -82,11 +82,13 @@ get_board <- function(name) {
 #'
 #' @export
 register_board <- function(name, ...) {
-  class(name) <- name
+  board <- structure(list(
+      name = name
+    ),
+    class = name
+  )
 
-  board <- board_initialize(name, ...)
-  board$name <- as.character(name)
-  class(board) <- board$name
+  board_initialize(board, ...)
 
   board$info <- board_info(board)
 

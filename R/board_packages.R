@@ -1,4 +1,4 @@
-board_initialize.packages <- function(...) {
+board_initialize.packages <- function(board, ...) {
 
 }
 

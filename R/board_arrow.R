@@ -7,7 +7,7 @@ arrow_dependencies <- function() {
   )
 }
 
-board_initialize.arrow <- function(...) {
+board_initialize.arrow <- function(board, ...) {
 
 }
 

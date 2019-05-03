@@ -1,4 +1,4 @@
-board_initialize.local <- function(...) {
+board_initialize.local <- function(board, ...) {
 
 }
 
