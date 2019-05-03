@@ -40,8 +40,7 @@ pin_create.kaggle <- function(board, x, name, description, type, metadata) {
 }
 
 pin_find.kaggle <- function(board, text) {
-  if (!kaggle_authenticated())
-    stop("Missing Kaggle token file under, configure by running: register_board(\"kaggle\", )")
+  if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
   # clear name searches
   text <- gsub("^[^/]+/", "", text)
