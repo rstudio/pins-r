@@ -96,6 +96,9 @@
                   var boardName = this.board;
                   this.empty = this.boards.find(function(e) { return e.name == boardName; }).info.install_html;
                 }
+                else {
+                  this.empty = "";
+                }
                 if (val == oldVal) return;
                 this.updatePage(1);
               }
