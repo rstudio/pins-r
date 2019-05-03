@@ -1,5 +1,5 @@
 board_initialize.local <- function(board, ...) {
-
+  board
 }
 
 pin_create.local <- function(board, x, name, description, type, metadata) {

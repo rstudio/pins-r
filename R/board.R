@@ -1,5 +1,18 @@
 .globals <- new.env(parent = emptyenv())
 
+new_board <- function(name, ...) {
+  board <- structure(list(
+    name = name
+  ),
+  class = name)
+
+  board <- board_initialize(board, ...)
+
+  board$info <- board_info(board)
+
+  board
+}
+
 #' Use Board
 #'
 #' Defines which board to use, defaults to a board storing data
@@ -12,13 +25,7 @@
 use_board <- function(name, ...) {
   board_call <- deparse(match.call(), width.cutoff = 500)
 
-  class(name) <- name
-
-  board <- board_initialize(name, ...)
-  board$name <- as.character(name)
-  class(board) <- board$name
-
-  board$info <- board_info(board)
+  board <- new_board(name, ...)
 
   if (identical(.globals$boards, NULL)) .globals$boards <- list()
 
@@ -82,13 +89,7 @@ get_board <- function(name) {
 #'
 #' @export
 register_board <- function(name, ...) {
-  class(name) <- name
-
-  board <- board_initialize(name, ...)
-  board$name <- as.character(name)
-  class(board) <- board$name
-
-  board$info <- board_info(board)
+  board <- new_board(name, ...)
 
   if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()
 
