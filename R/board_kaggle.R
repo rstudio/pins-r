@@ -41,7 +41,10 @@ pin_create.kaggle <- function(board, x, name, description, type, metadata) {
 
 pin_find.kaggle <- function(board, text) {
   if (!kaggle_authenticated())
-    stop("Missing Kaggle token file under. Configure running: register_board(\"kaggle\", )")
+    stop("Missing Kaggle token file under, configure by running: register_board(\"kaggle\", )")
+
+  # clear name searches
+  text <- gsub("^[^/]+/", "", text)
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/list?search=", text)
   results <- httr::content(httr::GET(url, config = kaggle_auth()))
@@ -53,7 +56,7 @@ pin_find.kaggle <- function(board, text) {
   data.frame(
     name = as.character(results$ref),
     description = as.character(results$title),
-    type = "table",
+    type = "files",
     metadata = "{}"
   )
 }
