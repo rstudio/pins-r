@@ -4,12 +4,8 @@
 \alias{all_boards}
 \title{All Boards}
 \usage{
-all_boards(...)
-}
-\arguments{
-\item{...}{Additional parameters required to initialize a particular board.}
+all_boards()
 }
 \description{
-Retrieves a named list of all boards and information associated with them.
+Retrieves all available boards.
 }
-\keyword{internal}
