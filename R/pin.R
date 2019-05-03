@@ -216,6 +216,10 @@ pin_preview.data.frame <- function(x) {
   x
 }
 
+pin_preview.files_pin <- function(x) {
+  x
+}
+
 pin_preview.default <- function(x) {
   stop("Preview unsupported for '", class(x)[[1]], "'")
 }

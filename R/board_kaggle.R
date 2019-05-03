@@ -64,19 +64,20 @@ pin_find.kaggle <- function(board, text) {
 pin_retrieve.kaggle <- function(board, name) {
   local_path <- file.path(pins:::pins_local_path("kaggle"), name)
 
-  if (dir.exists(local_path)) {
-    return(local_path)
+  if (!dir.exists(local_path)) {
+    url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
+    temp_zip <- tempfile(fileext = ".zip")
+
+    httr::content(httr::GET(url, config = auth, httr::write_disk(temp_zip)))
+
+    dir.create(local_path, recursive = TRUE)
+    unzip(temp_zip, exdir = local_path)
   }
 
-  url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
-  temp_zip <- tempfile(fileext = ".zip")
-
-  httr::content(httr::GET(url, config = auth, httr::write_disk(temp_zip)))
-
-  dir.create(local_path, recursive = TRUE)
-  unzip(temp_zip, exdir = local_path)
-
-  dir(local_path, full.names = TRUE, recursive = TRUE)
+  data.frame(
+    path = dir(local_path, full.names = TRUE, recursive = TRUE),
+    stringsAsFactors = FALSE
+  )
 }
 
 pin_remove.kaggle <- function(board, name) {
