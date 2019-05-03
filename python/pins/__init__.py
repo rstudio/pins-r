@@ -145,6 +145,9 @@ def _init_pins():
 
             remotes::install_github("rstudio/pins")
         }
+        
+        if (!"feather" %in% installed.packages())
+          install.packages("feather")
     """)
     r_eval("library('pins')")
     
