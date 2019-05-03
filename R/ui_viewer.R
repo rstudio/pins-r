@@ -99,7 +99,7 @@ pins_viewer_updated <- function() {
 
 pins_viewer_ensure <- function(board) {
   if (identical(.globals$ui_viewer, NULL)) .globals$ui_viewer <- list(active = list())
-  if (!board %in% .globals$ui_viewer$active ||
+  if (!board %in% names(.globals$ui_viewer$active) ||
       identical(.globals$ui_viewer$active[[board$name]], FALSE)) {
     if (identical(board$name, "local")) {
       pins_viewer_register(board, paste0("use_board(name = \"", board$name, "\")"))
