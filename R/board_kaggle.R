@@ -76,7 +76,7 @@ pin_retrieve.kaggle <- function(board, name) {
   dir.create(local_path, recursive = TRUE)
   unzip(temp_zip, exdir = local_path)
 
-  dir(local_path, full.names = TRUE)
+  dir(local_path, full.names = TRUE, recursive = TRUE)
 }
 
 pin_remove.kaggle <- function(board, name) {
