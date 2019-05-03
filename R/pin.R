@@ -13,7 +13,7 @@ pin <- function(x, name, description = "", board = NULL, ...) {
   if (is.null(board)) board <- active_board()
   unpin(name, board = board)
 
-  metadata <- jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE)
+  metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
   x <- pin_pack(x, board, ...)
   type <- attr(x, "pin_type")
   if (is.null(type))
