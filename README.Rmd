@@ -141,7 +141,7 @@ You can also cache this dataset locally by running `collect()` on the pin and th
 
 ## Discovering Datasets
 
-The `pins` package can help you discover interesting datasets, currently it searches datasets inside CRAN packages but we are planning to extend this further.
+The `pins` package can help you discover interesting datasets, currently it searches datasets inside [CRAN](https://cran.r-project.org) packages and [Kaggle](https://kaggle.com).
 
 You can search datasets that contain "seattle" in their description or name as follows:
 
@@ -153,6 +153,12 @@ You can the retrieve a specific dataset with `get_pin()`:
 
 ```{r discover-get-pin}
 get_pin("hpiR_seattle_sales")
+```
+
+To search Kaggle datasets with `find_pin()`, you will have to download a token file after signing in to [kaggle.com](https://kaggle.com/me/account). You can then activate this token file when you register the Kaggle board:
+
+```{r eval=FALSE}
+register_board("kaggle", "<path-to-kaggle.json>")
 ```
 
 ## Sharing Datasets
