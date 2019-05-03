@@ -33,6 +33,8 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
       file.copy(token, kaggle_auth_paths(), overwrite = TRUE)
     }
   }
+
+  board
 }
 
 pin_create.kaggle <- function(board, x, name, description, type, metadata) {
