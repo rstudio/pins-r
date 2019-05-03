@@ -1,0 +1,88 @@
+---
+title: "Understanding Boards"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Understanding Boards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, echo = FALSE, message = FALSE}
+library(nomnoml)
+```
+
+A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. A board defines four operations to manage pins in any storage system:
+
+```{nomnoml echo=FALSE}
+[Pin]->[Create]
+[Create]->[Board]
+[Pin]<-[Find]
+[Find]<-[Board]
+[Pin]<-[Retrieve]
+[Retrieve]<-[Board]
+[Pin]->[Remove]
+[Remove]->[Board]
+```
+
+## Files Board
+
+The defaul board in the `pins` package is a files-based; meaning, data is stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a `pins` folder under the default home folder for your user.
+
+```{nomnoml echo=FALSE}
+[R|
+  [<note>library(pins)
+    pin(iris, "iris")]
+]-[File System|
+  [<note>~/documents/
+   ~/images/
+   ~/pins/files/pins.yml
+   ~/pins/files/iris.Rds
+  ]
+]
+```
+
+## Database Board
+
+```{nomnoml echo=FALSE}
+[R|
+   [<note>library(pins)
+    use_board("database", DBI::dbConnect())
+    pin(iris, "iris")]
+]-[<database>Database|
+  [<note>db.pins
+  db.pins_iris]]
+```
+
+## Creating new Boards
+
+If the boards that the `pins` package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.
+
+The following example creatse an in-memory board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
+
+```{r}
+board_initialize.memory <- function(board, ...) {
+  as.environment(list(data = data.frame(name = c(), description = c(), type = c(), metadata = c())))
+}
+
+pin_create.memory <- function(board, x, name, description, type, metadata) {
+  board$data <- rbind(board$data,
+    data.frame(name = name, description = description, type = type, metadata = metadata)
+  )
+}
+
+pin_find.memory <- function(board, text) {
+  if (is.null(text)) return(.memory_board)
+  board$data[grepl(text, board$data$description) | board$data$name == text,]
+}
+
+pin_retrieve.memory <- function(board, name) {
+  board$data[board$data$name == name]
+}
+
+pin_remove.memory <- function(board, name) {
+  board$data <- board$data[board$data$name != name]
+}
+
+board_info.memory <- function(board) {
+}
+```

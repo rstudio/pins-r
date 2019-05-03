@@ -7,6 +7,7 @@ output:
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
+pins::unpin("iris")
 pins::unpin("iris-small-width")
 pins::unpin("hacker-news-scores")
 pins::unpin("bigquery")
@@ -156,7 +157,7 @@ get_pin("hpiR_seattle_sales")
 
 ## Sharing Datasets
 
-`pins` supports shared storage locations using boards. A board is a remote location for you to share pins with your team privately, or with the world, publicly. Use `use_board()` to choose a board, currently `database` and `arrow` boards are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
+`pins` supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use `use_board()` to choose a board, currently `database` and `arrow` boards are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
 
 ### Databases
 

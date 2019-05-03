@@ -14,3 +14,7 @@ Imports:
   httr,
   jsonlite,
   yaml
+Suggests:
+  knitr,
+  rmarkdown
+VignetteBuilder: knitr
