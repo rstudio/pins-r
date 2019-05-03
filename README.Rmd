@@ -11,6 +11,7 @@ pins::unpin("iris-small-width")
 pins::unpin("hacker-news-scores")
 pins::unpin("bigquery")
 pins::unpin("hacker-news-full")
+pins::unpin("python-df")
 
 bq_project <- Sys.getenv("BQ_PROJECT")
 bq_dataset <- Sys.getenv("BQ_DATASET")
