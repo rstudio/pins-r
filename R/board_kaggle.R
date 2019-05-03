@@ -48,6 +48,8 @@ pin_find.kaggle <- function(board, text) {
 
   results <- as.data.frame(do.call("rbind", results))
 
+  if (nrow(results) == 0) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
+
   data.frame(
     name = as.character(results$ref),
     description = as.character(results$title),
