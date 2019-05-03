@@ -12,6 +12,7 @@ pins::unpin("hacker-news-scores")
 pins::unpin("bigquery")
 pins::unpin("hacker-news-full")
 pins::unpin("python-df")
+unlink("~/.kaggle/kaggle.json")
 
 bq_project <- Sys.getenv("BQ_PROJECT")
 bq_dataset <- Sys.getenv("BQ_DATASET")
