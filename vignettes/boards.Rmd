@@ -24,7 +24,7 @@ A board is an storage location to store pins for personal use or to share them w
 [Remove]->[Board]
 ```
 
-## Files Board
+## Files
 
 The defaul board in the `pins` package is a files-based; meaning, data is stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a `pins` folder under the default home folder for your user.
 
@@ -41,7 +41,7 @@ The defaul board in the `pins` package is a files-based; meaning, data is stored
 ]
 ```
 
-## Database Board
+## Database
 
 ```{nomnoml echo=FALSE}
 [R|
@@ -53,7 +53,14 @@ The defaul board in the `pins` package is a files-based; meaning, data is stored
   db.pins_iris]]
 ```
 
-## Creating new Boards
+## Kaggle
+
+
+## RStudio
+
+
+
+## Other
 
 If the boards that the `pins` package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.
 

@@ -155,7 +155,7 @@ You can the retrieve a specific dataset with `get_pin()`:
 get_pin("hpiR_seattle_sales")
 ```
 
-To search Kaggle datasets with `find_pin()`, you will have to download a token file after signing in to [kaggle.com](https://kaggle.com/me/account). You can then activate this token file when you register the Kaggle board:
+To search Kaggle datasets with `find_pin()`, you will have to download your token file from [kaggle.com/me/account](https://kaggle.com/me/account). You can then activate this token file by running:
 
 ```{r eval=FALSE}
 register_board("kaggle", "<path-to-kaggle.json>")
@@ -193,7 +193,7 @@ get_pin("iris")
 
 ### Connections
 
-Connections can also be pinned to shared boards; however, you should pin them using a proper connection object, not an R formula:
+Connections can also be pinned to shared boards; however, you should pin them using a proper connection object:
 
 ```{r shared-connection-dbi, eval=FALSE}
 con <- pin_connection("bigquery", driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset)
@@ -219,6 +219,14 @@ This package provides an [RStudio Addin](https://rstudio.github.io/rstudio-exten
 ![](tools/readme/rstudio-pins-addmin.png)
 
 The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.
+
+### RStudio Connect
+
+RStudio Connect can be used to share pins within your organization, to activate this feature you will need to download an API Key and register the RStudio board as follows:
+
+```{r eval=FALSE}
+use_board("rstudio", "<your-api-key>")
+```
 
 ## Python
 
