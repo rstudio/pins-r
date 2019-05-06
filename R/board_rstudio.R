@@ -44,15 +44,16 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
 pin_find.rstudio <- function(board, text) {
   api_key <- rstudio_get_key(board)
   results <- httr::content(httr::GET(
-    paste0(board$host, "/__api__/applications?count=100&search=&start=0"),
+    paste0(board$host, "/__api__/applications?count=100&search=", text, "&start=0"),
     add_headers(Authorization = paste("Key", api_key)),
     httr::timeout(as.integer(Sys.getenv("RSTUDIO_CONNECT_API_TIMEOUT", 3)))
   ))
 
   results <- as.data.frame(do.call("rbind", results$applications))
+  results$name <- as.character(results$name)
   results$type <- "files"
   results$metadata <- "{}"
-  results$description <- results$title
+  results$description <- as.character(lapply(results$title, function(e) paste0("", e)))
 
   results[c("name", "description", "type", "metadata")]
 }
