@@ -1,4 +1,4 @@
-board_dependencies <- function() {
+database_dependencies <- function() {
   if (!"DBI" %in% installed.packages()) stop("Package 'DBI' needs to be installed to use a 'database' board.")
 
   list (
@@ -48,7 +48,7 @@ pin_create.database <- function(board, dataset, name, description, type, metadat
     stop("Only data frames are supported in 'database' boards.")
   }
 
-  deps <- board_dependencies()
+  deps <- database_dependencies()
 
   table_name <- paste0(board$table_preffix, database_sanitize_table(name))
   if (table_name %in% deps$list_tables(board$con)) {
@@ -94,7 +94,7 @@ pin_create.database <- function(board, dataset, name, description, type, metadat
 }
 
 database_find_pins <- function(board, text) {
-  deps <- board_dependencies()
+  deps <- database_dependencies()
 
   table_index <- database_index_table(board)
   if (!table_index %in% deps$list_tables(board$con)) {
@@ -118,7 +118,7 @@ pin_find.database <- function(board, text) {
 }
 
 pin_retrieve.database <- function(board, name) {
-  deps <- board_dependencies()
+  deps <- database_dependencies()
 
   index_table <- database_find_pins(board)
 
