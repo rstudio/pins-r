@@ -2,7 +2,7 @@ board_initialize.packages <- function(board, ...) {
   board
 }
 
-pin_find.packages <- function(board, text) {
+pin_find.packages <- function(board, text, ...) {
   if (is.null(text)) {
     return(
       data.frame(name = c(), description = c(), type = c(), metadata = c())
@@ -34,7 +34,7 @@ pin_find.packages <- function(board, text) {
   }
 }
 
-pin_retrieve.packages <- function(board, name) {
+pin_retrieve.packages <- function(board, name, details) {
   parts <- strsplit(name, "_")[[1]]
 
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")

@@ -41,7 +41,7 @@ pin_create.kaggle <- function(board, x, name, description, type, metadata) {
 
 }
 
-pin_find.kaggle <- function(board, text) {
+pin_find.kaggle <- function(board, text, ...) {
   if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
   # clear name searches
@@ -62,7 +62,7 @@ pin_find.kaggle <- function(board, text) {
   )
 }
 
-pin_retrieve.kaggle <- function(board, name) {
+pin_retrieve.kaggle <- function(board, name, details) {
   local_path <- file.path(pins:::pins_local_path("kaggle"), name)
 
   if (!dir.exists(local_path)) {

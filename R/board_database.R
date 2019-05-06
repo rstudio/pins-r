@@ -105,7 +105,7 @@ database_find_pins <- function(board, text) {
   }
 }
 
-pin_find.database <- function(board, text) {
+pin_find.database <- function(board, text, ...) {
   index_table <- database_find_pins(board, text)
 
   data.frame(
@@ -117,7 +117,7 @@ pin_find.database <- function(board, text) {
   )
 }
 
-pin_retrieve.database <- function(board, name) {
+pin_retrieve.database <- function(board, name, details) {
   deps <- database_dependencies()
 
   index_table <- database_find_pins(board)

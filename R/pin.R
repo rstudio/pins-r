@@ -68,31 +68,20 @@ pin_metadata.default <- function(x) {
 #' @param ... Additional parameters.
 #'
 #' @export
-get_pin <- function(name, board = NULL, type = NULL, ...) {
-  if (is.null(board) || is.null(type)) {
-    pin_index <- find_pin(name, board = board)
-    pin_index <- pin_index[pin_index$name == name,]
-    if (nrow(pin_index) == 0) stop("'", name, "' not found.")
+get_pin <- function(name, board = NULL, ...) {
+  details <- find_pin(name, board = board, name = name, extended = TRUE)
 
-    pin_index <- pin_index[1,]
-    if (is.null(board)) board <- pin_index$board
-    type <- pin_index$type
-  }
+  board_object <- get_board(details$board)
 
-  board_object <- get_board(board)
+  result <- pin_retrieve(board_object, name, details)
 
-  result <- pin_retrieve(board_object, name)
-
-  class(result) <- c(paste0(type, "_pin"), class(result))
+  class(result) <- c(paste0(details$type, "_pin"), class(result))
 
   result <- pin_unpack(result, board_object, name, ...)
 
   attr(result, "pin_name") <- name
 
-  if (is.data.frame(result))
-    maybe_tibble(result)
-  else
-    result
+  maybe_tibble(result)
 }
 
 pin_pack <- function(x, board, ...) {
@@ -116,7 +105,7 @@ pin_create <- function(board, x, name, description, type, metadata) {
   UseMethod("pin_create")
 }
 
-pin_retrieve <- function(board, name) {
+pin_retrieve <- function(board, name, details) {
   UseMethod("pin_retrieve")
 }
 
@@ -167,7 +156,7 @@ find_pin <- function(text = NULL, board = NULL, ...) {
   for (board_name in board) {
     board_object <- get_board(board_name)
 
-    board_pins <- pin_find(board = board_object, text)
+    board_pins <- pin_find(board = board_object, text, ...)
     board_pins$board <- rep(board_name, nrow(board_pins))
 
     if (!identical(type, NULL)) {
@@ -175,6 +164,16 @@ find_pin <- function(text = NULL, board = NULL, ...) {
     }
 
     all_pins <- rbind(all_pins, board_pins)
+
+    if (!is.null(list(...)$name)) {
+      name <- list(...)$name
+      all_pins <- all_pins[all_pins$name == name,]
+      if (nrow(all_pins) == 0) stop("'", name, "' not found.")
+
+      all_pins <- all_pins[1,]
+    }
+
+    all_pins
   }
 
   if (!is.null(text)) {
@@ -190,7 +189,7 @@ find_pin <- function(text = NULL, board = NULL, ...) {
   maybe_tibble(all_pins)
 }
 
-pin_find <- function(board, text) {
+pin_find <- function(board, text, ...) {
   UseMethod("pin_find")
 }
 
