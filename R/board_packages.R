@@ -1,5 +1,5 @@
 board_initialize.packages <- function(board, ...) {
-
+  board
 }
 
 pin_find.packages <- function(board, text) {
