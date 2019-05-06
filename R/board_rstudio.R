@@ -48,7 +48,12 @@ pin_find.rstudio <- function(board, text) {
     add_headers(Authorization = paste("Key", api_key))
   ))
 
-  as.data.frame(do.call("rbind", results$applications))
+  results <- as.data.frame(do.call("rbind", results$applications))
+  results$type <- "files"
+  results$metadata <- "{}"
+  results$description <- results$title
+
+  results[c("name", "description", "type", "metadata")]
 }
 
 pin_retrieve.rstudio <- function(board, name) {
