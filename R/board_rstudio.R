@@ -88,12 +88,12 @@ pin_find.rstudio <- function(board, text, ...) {
   results <- client$listApplications(accountId = account_info$accountId)
   results <- as.data.frame(do.call("rbind", results))
 
-  results$name <- as.character(results$name)
+  if (!everything) results <- results[grepl("_pin$", results$name),]
+
+  results$name <- gsub("_pin$", "", as.character(results$name))
   results$type <- "table"
   results$metadata <- "{}"
   results$description <- as.character(lapply(results$title, function(e) paste0("", e)))
-
-  if (!everything) results <- results[grepl("_pin$", results$name),]
 
   if (extended) {
     results
