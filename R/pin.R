@@ -69,7 +69,7 @@ pin_metadata.default <- function(x) {
 #'
 #' @export
 get_pin <- function(name, board = NULL, ...) {
-  details <- find_pin(name, board = board, extended = TRUE)
+  details <- find_pin(name, board = board, name = name, extended = TRUE)
 
   board_object <- get_board(details$board)
 
@@ -164,16 +164,6 @@ find_pin <- function(text = NULL, board = NULL, ...) {
     }
 
     all_pins <- rbind(all_pins, board_pins)
-
-    if (!is.null(list(...)$name)) {
-      name <- list(...)$name
-      all_pins <- all_pins[all_pins$name == name,]
-      if (nrow(all_pins) == 0) stop("'", name, "' not found.")
-
-      all_pins <- all_pins[1,]
-    }
-
-    all_pins
   }
 
   if (!is.null(text)) {
@@ -184,6 +174,14 @@ find_pin <- function(text = NULL, board = NULL, ...) {
 
   if (!metadata) {
     all_pins <- all_pins[, names(all_pins) != "metadata"]
+  }
+
+  if (!is.null(list(...)$name)) {
+    name <- list(...)$name
+    all_pins <- all_pins[all_pins$name == name,]
+    if (nrow(all_pins) == 0) stop("'", name, "' not found.")
+
+    all_pins <- all_pins[1,]
   }
 
   maybe_tibble(all_pins)
