@@ -80,7 +80,7 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
 pin_find.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
-  everything <- identical(list(...)$pins_only, TRUE)
+  everything <- identical(list(...)$everything, TRUE)
 
   account_info <- rstudio_account_info(board)
   client <- deps$client_for_account(account_info)
