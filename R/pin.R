@@ -69,7 +69,7 @@ pin_metadata.default <- function(x) {
 #'
 #' @export
 get_pin <- function(name, board = NULL, ...) {
-  details <- find_pin(name, board = board, name = name, extended = TRUE)
+  details <- find_pin(name, board = board, extended = TRUE)
 
   board_object <- get_board(details$board)
 
