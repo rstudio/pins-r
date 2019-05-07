@@ -1,25 +1,12 @@
 rstudio_dependencies <- function() {
   if (!"rsconnect" %in% installed.packages()) stop("Package 'rsconnect' needs to be installed to use a 'rstudio' board.")
 
-  rsconnect <- list(
-    deployApp = get("deployApp", envir = asNamespace("rsconnect"))
+  list(
+    deploy_app = get("deployApp", envir = asNamespace("rsconnect")),
+    resolve_account = get("resolveAccount", envir = asNamespace("rsconnect")),
+    account_info = get("accountInfo", envir = asNamespace("rsconnect")),
+    client_for_account = get("clientForAccount", envir = asNamespace("rsconnect"))
   )
-
-  if ("rstudioapi" %in% installed.packages() &&
-      get("isAvailable", envir = asNamespace("rstudioapi"))()) {
-    rspapi <- list (
-      get_secret = get("askForSecret", envir = asNamespace("rstudioapi"))
-    )
-  }
-  else {
-    rspapi <- list (
-      get_secret = function(name, message, title = NULL) {
-        readline(paste(message, ": "))
-      }
-    )
-  }
-
-  c(rsconnect, rspapi)
 }
 
 rstudio_api_get <- function(board, url) {
@@ -43,16 +30,6 @@ rstudio_api_post <- function(board, url, object) {
   ))
 }
 
-rstudio_get_key <- function(board) {
-  deps <- rstudio_dependencies()
-
-  env_key <- Sys.getenv("RSTUDIO_CONNECT_API_KEY")
-  if (nchar(env_key) > 0)
-    return(api_key)
-
-  deps$get_secret("pins_rstudio", paste("Please provide API key for", board$host))
-}
-
 board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
 
@@ -68,14 +45,14 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   csv_file <- tempfile(fileext = ".csv")
   write.csv(x, csv_file, row.names = FALSE)
 
-  app <- deps$deployApp(dirname(csv_file),
-                        appPrimaryDoc = basename(csv_file),
-                        lint = FALSE,
-                        appName = name,
-                        server = board$server,
-                        account = board$account,
-                        contentCategory = "data"
-                        )
+  app <- deps$deploy_app(dirname(csv_file),
+                         appPrimaryDoc = basename(csv_file),
+                         lint = FALSE,
+                         appName = name,
+                         server = board$server,
+                         account = board$account,
+                         contentCategory = "data"
+                         )
 
   unlink(csv_file)
 
@@ -83,9 +60,15 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
 }
 
 pin_find.rstudio <- function(board, text, ...) {
+  deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
-  results <- rstudio_api_get(board, paste0(board$host, "/__api__/applications?count=100&search=", text, "&start=0"))
-  results <- as.data.frame(do.call("rbind", results$applications))
+
+  account_name <- deps$resolve_account(account = NULL, server = board$server)
+  account_info <-deps$account_info(account_name)
+  client <- deps$client_for_account(account_info)
+
+  results <- client$listApplications(accountId = account_info$accountId)
+  results <- as.data.frame(do.call("rbind", results))
 
   results$name <- as.character(results$name)
   results$type <- "files"
