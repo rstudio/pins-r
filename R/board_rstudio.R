@@ -1,17 +1,25 @@
 rstudio_dependencies <- function() {
+  if (!"rsconnect" %in% installed.packages()) stop("Package 'rsconnect' needs to be installed to use a 'rstudio' board.")
+
+  rsconnect <- list(
+    deployApp = get("deployApp", envir = asNamespace("rsconnect"))
+  )
+
   if ("rstudioapi" %in% installed.packages() &&
       get("isAvailable", envir = asNamespace("rstudioapi"))()) {
-    list (
+    rspapi <- list (
       get_secret = get("askForSecret", envir = asNamespace("rstudioapi"))
     )
   }
   else {
-    list (
+    rspapi <- list (
       get_secret = function(name, message, title = NULL) {
         readline(paste(message, ": "))
       }
     )
   }
+
+  c(rsconnect, rspapi)
 }
 
 rstudio_api_get <- function(board, url) {
@@ -21,6 +29,17 @@ rstudio_api_get <- function(board, url) {
     url,
     add_headers(Authorization = paste("Key", api_key)),
     httr::timeout(as.integer(Sys.getenv("RSTUDIO_CONNECT_API_TIMEOUT", 3)))
+  ))
+}
+
+rstudio_api_post <- function(board, url, object) {
+  api_key <- rstudio_get_key(board)
+
+  httr::content(httr::POST(
+    url,
+    add_headers(Authorization = paste("Key", api_key)),
+    httr::timeout(as.integer(Sys.getenv("RSTUDIO_CONNECT_API_TIMEOUT", 3))),
+    body = object
   ))
 }
 
@@ -48,7 +67,15 @@ board_initialize.rstudio <- function(board, host = NULL, ...) {
 }
 
 pin_create.rstudio <- function(board, x, name, description, type, metadata) {
-  stop("Not yet implemented!")
+  deps <- rstudio_dependencies()
+
+  csv_file <- tempfile(fileext = ".csv")
+  write.csv(x, csv_file, row.names = FALSE)
+
+  app <- deps$deployApp(dirname(csv_file), appPrimaryDoc = basename(csv_file), lint = FALSE, appName = name)
+  unlink(csv_file)
+
+  app
 }
 
 pin_find.rstudio <- function(board, text, ...) {
@@ -74,7 +101,7 @@ pin_retrieve.rstudio <- function(board, name, details) {
 }
 
 pin_remove.rstudio <- function(board, name) {
-  stop("Not yet implemented!")
+
 }
 
 board_info.memory <- function(board) {
