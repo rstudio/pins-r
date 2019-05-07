@@ -3,7 +3,7 @@ pins: Track, Discover and Share Datasets
 
 [![Build
 Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) ![](https://img.shields.io/badge/lifecycle-experimental-red.svg)
 
   - **Track** local and remote datasets using `pin()` and `get_pin()`.
   - **Discover** new datasets from packages, online and your
@@ -106,16 +106,16 @@ tbl(con, "bigquery-public-data.hacker_news.full") %>%
     ## # Database: BigQueryConnection
     ##    by    score   time timestamp           title type  url   text   parent
     ##    <chr> <int>  <int> <dttm>              <chr> <chr> <chr> <chr>   <int>
-    ##  1 mnem…    NA 1.28e9 2010-09-08 23:13:50 ""    comm… ""    "<a …  1.67e6
-    ##  2 anam…    NA 1.27e9 2010-05-18 14:58:50 ""    comm… ""    "&#6…  1.36e6
-    ##  3 daken    NA 1.39e9 2014-02-05 21:51:05 ""    comm… ""    This…  7.19e6
-    ##  4 jcra…    NA 1.55e9 2019-03-11 00:27:59 ""    comm… ""    &gt;…  1.94e7
-    ##  5 dani…     1 1.36e9 2013-03-20 21:32:19 Save… story http… ""    NA     
-    ##  6 ehud…    NA 1.47e9 2016-08-07 22:04:01 ""    comm… ""    Dann…  1.22e7
-    ##  7 huan…    NA 1.54e9 2018-10-18 22:54:38 ""    comm… ""    Cool…  1.82e7
-    ##  8 wich…    NA 1.50e9 2017-05-25 01:38:41 ""    comm… ""    i am…  1.44e7
-    ##  9 mich…    NA 1.38e9 2013-08-05 18:13:19 ""    comm… ""    "Clo…  6.16e6
-    ## 10 Ani       4 1.25e9 2009-08-31 13:22:45 Ask … story ""    I se… NA     
+    ##  1 dhot…    NA 1.50e9 2017-09-01 03:36:29 ""    comm… ""    "The…  1.51e7
+    ##  2 edanm    NA 1.44e9 2015-09-20 20:19:11 ""    comm… ""    FYI …  1.02e7
+    ##  3 marv…    NA 1.47e9 2016-06-06 02:59:39 ""    comm… ""    A ba…  1.18e7
+    ##  4 ghri…    NA 1.51e9 2017-11-22 19:06:33 ""    comm… ""    The …  1.58e7
+    ##  5 Zhen…    NA 1.40e9 2014-04-16 19:25:54 ""    comm… ""    Not …  7.60e6
+    ##  6 mcgu…    NA 1.50e9 2017-07-04 16:46:09 ""    comm… ""    Hey,…  1.47e7
+    ##  7 tzam…    NA 1.33e9 2012-01-27 08:42:35 ""    comm… ""    Why …  3.52e6
+    ##  8 kero…     1 1.49e9 2017-04-06 08:58:37 How … story http… ""    NA     
+    ##  9 finid    NA 1.47e9 2016-09-19 12:39:35 ""    comm… ""    The …  1.25e7
+    ## 10 gaad…    NA 1.40e9 2014-06-28 19:23:27 ""    comm… ""    "Alp…  7.95e6
     ## # … with more rows, and 5 more variables: deleted <lgl>, dead <lgl>,
     ## #   descendants <int>, id <int>, ranking <int>
 
@@ -180,8 +180,8 @@ pin and then re-pinning it with `pin()`.
 ## Discovering Datasets
 
 The `pins` package can help you discover interesting datasets, currently
-it searches datasets inside CRAN packages but we are planning to extend
-this further.
+it searches datasets inside [CRAN](https://cran.r-project.org) packages
+and [Kaggle](https://kaggle.com).
 
 You can search datasets that contain “seattle” in their description or
 name as follows:
@@ -221,13 +221,22 @@ get_pin("hpiR_seattle_sales")
     ## #   tot_sf <int>, beds <int>, baths <dbl>, age <int>, eff_age <int>,
     ## #   longitude <dbl>, latitude <dbl>
 
+To search Kaggle datasets with `find_pin()`, you will have to download
+your token file from
+[kaggle.com/me/account](https://kaggle.com/me/account). You can then
+activate this token file by running:
+
+``` r
+register_board("kaggle", "<path-to-kaggle.json>")
+```
+
 ## Sharing Datasets
 
-`pins` supports shared storage locations using boards. A board is a
-remote location for you to share pins with your team privately, or with
-the world, publicly. Use `use_board()` to choose a board, currently
-`database` and `arrow` boards are supported; however, `pins` provide an
-extensible API you can use to store pins anywhere.
+`pins` supports shared storage locations using boards. A board is an
+storage location to store pins for personal use or to share them with
+your team, or publicly with the world. Use `use_board()` to choose a
+board, currently `database` and `arrow` boards are supported; however,
+`pins` provide an extensible API you can use to store pins anywhere.
 
 ### Databases
 
@@ -298,8 +307,8 @@ get_pin("iris")
 ### Connections
 
 Connections can also be pinned to shared boards; however, you should pin
-them using a proper connection object, not an R
-formula:
+them using a proper connection
+object:
 
 ``` r
 con <- pin_connection("bigquery", driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset)
@@ -334,6 +343,16 @@ extension to track local or remote datasets.
 
 The addin provides a list of datasets and visual clues that describe how
 large and wide eachd dataset is.
+
+### RStudio Connect
+
+RStudio Connect can be used to share pins within your organization, to
+activate this feature you will need to download an API Key and register
+the RStudio board as follows:
+
+``` r
+use_board("rstudio", "<your-api-key>")
+```
 
 ## Python
 
