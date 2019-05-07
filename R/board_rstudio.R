@@ -61,9 +61,10 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   app <- deps$deploy_app(dirname(csv_file),
                          appPrimaryDoc = basename(html_file),
                          lint = FALSE,
-                         appName = name,
+                         appName = paste0(name, "_pin"),
                          server = board$server,
                          account = board$account,
+                         appTitle = name,
                          contentCategory = "data")
 
   unlink(csv_file)
@@ -74,6 +75,7 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
 pin_find.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
+  everything <- identical(list(...)$pins_only, TRUE)
 
   account_info <- rstudio_account_info(board)
   client <- deps$client_for_account(account_info)
@@ -82,9 +84,11 @@ pin_find.rstudio <- function(board, text, ...) {
   results <- as.data.frame(do.call("rbind", results))
 
   results$name <- as.character(results$name)
-  results$type <- "files"
+  results$type <- "table"
   results$metadata <- "{}"
   results$description <- as.character(lapply(results$title, function(e) paste0("", e)))
+
+  if (!everything) results <- results[grepl("_pin$", results$name),]
 
   if (extended) {
     results

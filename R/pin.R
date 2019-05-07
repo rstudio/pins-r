@@ -215,6 +215,10 @@ pin_preview.data.frame <- function(x) {
   x
 }
 
+pin_preview.table_pin <- function(x) {
+  x
+}
+
 pin_preview.files_pin <- function(x) {
   x
 }
