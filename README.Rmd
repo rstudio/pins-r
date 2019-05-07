@@ -23,7 +23,7 @@ knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 ```
 
-[![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
+[![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)![](https://img.shields.io/badge/lifecycle-experimental-red.svg)
 
 - **Track** local and remote datasets using `pin()` and `get_pin()`.
 - **Discover** new datasets from packages, online and your organization using `find_pin()`.
