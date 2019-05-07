@@ -10,7 +10,7 @@
 #'
 #' @export
 pin <- function(x, name, description = "", board = NULL, ...) {
-  if (is.null(board)) board <- active_board()
+  board <- get_board(board)
   unpin(name, board = board)
 
   metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
@@ -118,7 +118,7 @@ pin_retrieve <- function(board, name, details) {
 #'
 #' @export
 unpin <- function(name, board = NULL) {
-  if (is.null(board)) board <- active_board()
+  board <- get_board()
   pins_viewer_ensure(board)
 
   pin_remove(board, name)

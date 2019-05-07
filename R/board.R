@@ -68,7 +68,10 @@ all_boards <- function() {
 #' @param name The name of the board to use
 #'
 #' @export
-get_board <- function(name) {
+get_board <- function(name = NULL) {
+  if (is.null(name))
+    return(active_board())
+
   if (!name %in% all_boards())
     stop("Board 'name' not a board, available boards: ", paste(all_boards(), collapse = ", "))
 
