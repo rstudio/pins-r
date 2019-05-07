@@ -344,15 +344,15 @@ extension to track local or remote datasets.
 The addin provides a list of datasets and visual clues that describe how
 large and wide eachd dataset is.
 
-### RStudio Connect
-
-RStudio Connect can be used to share pins within your organization, to
-activate this feature you will need to download an API Key and register
-the RStudio board as follows:
+**RStudio Connect** can be used to share pins within your organization, to
+use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
+account in RStudio.
 
 ``` r
-use_board("rstudio", "<your-api-key>")
+use_board("rstudio")
 ```
+
+When using multiple publishing servers, you can specify an specific server through `use_board("rstudio", "<server-name>")`.
 
 ## Python
 
