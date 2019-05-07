@@ -2,8 +2,7 @@ rstudio_dependencies <- function() {
   if (!"rsconnect" %in% installed.packages()) stop("Package 'rsconnect' needs to be installed to use a 'rstudio' board.")
 
   rsconnect <- list(
-    deployApp = get("deployApp", envir = asNamespace("rsconnect")),
-    addConnectServer = get("addConnectServer", envir = asNamespace("rsconnect"))
+    deployApp = get("deployApp", envir = asNamespace("rsconnect"))
   )
 
   if ("rstudioapi" %in% installed.packages() &&
@@ -56,16 +55,14 @@ rstudio_get_key <- function(board) {
 
 board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
-  deps <- rstudio_dependencies()
 
-  if (!is.null(args$url)) {
-    deps$addConnectServer(args$url)
-  }
+  board$server <- args$server
+  board$account <- args$account
 
   board
 }
 
-pin_create.rstudio <- function(board, x, name, description, type, metadata, server = NULL) {
+pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   deps <- rstudio_dependencies()
 
   csv_file <- tempfile(fileext = ".csv")
@@ -75,7 +72,10 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata, serv
                         appPrimaryDoc = basename(csv_file),
                         lint = FALSE,
                         appName = name,
-                        server = server)
+                        server = board$server,
+                        account = board$account,
+                        contentCategory = "data"
+                        )
 
   unlink(csv_file)
 
