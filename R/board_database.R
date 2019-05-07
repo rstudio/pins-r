@@ -12,9 +12,7 @@ database_dependencies <- function() {
 }
 
 board_initialize.database <- function(board, ...) {
-  board <- list(...)
-
-  if (!"con" %in% names(board)) board$con <- board[[1]]
+  if (!"con" %in% names(board)) board$con <- list(...)[[1]]
 
   board$table_preffix <- "Pins"
 
