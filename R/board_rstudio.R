@@ -2,7 +2,8 @@ rstudio_dependencies <- function() {
   if (!"rsconnect" %in% installed.packages()) stop("Package 'rsconnect' needs to be installed to use a 'rstudio' board.")
 
   rsconnect <- list(
-    deployApp = get("deployApp", envir = asNamespace("rsconnect"))
+    deployApp = get("deployApp", envir = asNamespace("rsconnect")),
+    addConnectServer = get("addConnectServer", envir = asNamespace("rsconnect"))
   )
 
   if ("rstudioapi" %in% installed.packages() &&
@@ -27,7 +28,7 @@ rstudio_api_get <- function(board, url) {
 
   httr::content(httr::GET(
     url,
-    add_headers(Authorization = paste("Key", api_key)),
+    httr::add_headers(Authorization = paste("Key", api_key)),
     httr::timeout(as.integer(Sys.getenv("RSTUDIO_CONNECT_API_TIMEOUT", 3)))
   ))
 }
@@ -37,7 +38,7 @@ rstudio_api_post <- function(board, url, object) {
 
   httr::content(httr::POST(
     url,
-    add_headers(Authorization = paste("Key", api_key)),
+    httr::add_headers(Authorization = paste("Key", api_key)),
     httr::timeout(as.integer(Sys.getenv("RSTUDIO_CONNECT_API_TIMEOUT", 3))),
     body = object
   ))
@@ -53,26 +54,29 @@ rstudio_get_key <- function(board) {
   deps$get_secret("pins_rstudio", paste("Please provide API key for", board$host))
 }
 
-board_initialize.rstudio <- function(board, host = NULL, ...) {
+board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
+  deps <- rstudio_dependencies()
 
-  env_host <- Sys.getenv("RSTUDIO_CONNECT_SERVER")
-  if (is.null(host) && nchar(env_host) > 0) host <- env_host
-
-  board$host <- host
-
-  if (is.null(board$host)) stop("Parameter 'host' must be specified while initializing RStudio board.")
+  if (!is.null(args$url)) {
+    deps$addConnectServer(args$url)
+  }
 
   board
 }
 
-pin_create.rstudio <- function(board, x, name, description, type, metadata) {
+pin_create.rstudio <- function(board, x, name, description, type, metadata, server = NULL) {
   deps <- rstudio_dependencies()
 
   csv_file <- tempfile(fileext = ".csv")
   write.csv(x, csv_file, row.names = FALSE)
 
-  app <- deps$deployApp(dirname(csv_file), appPrimaryDoc = basename(csv_file), lint = FALSE, appName = name)
+  app <- deps$deployApp(dirname(csv_file),
+                        appPrimaryDoc = basename(csv_file),
+                        lint = FALSE,
+                        appName = name,
+                        server = server)
+
   unlink(csv_file)
 
   app
