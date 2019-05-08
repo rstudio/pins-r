@@ -54,16 +54,16 @@ board_initialize.rstudio <- function(board, ...) {
 
   if (!is.null(args$secret) && nchar(args$secret) > 0) {
     temp_dcf <- tempfile(fileext = ".dcf")
-    base64enc::base64decode(args$secret, temp_dcf)
+    writeBin(base64enc::base64decode(args$secret), temp_dcf)
     secret <- read.dcf(temp_dcf)
     unlink(temp_dcf)
 
     deps$register_user_token(
-      serverName = secret$server,
-      userId = secret$username,
-      accountName = secret$accountId,
-      token = secret$token,
-      privateKey = secret$private_key
+      serverName = as.character(secret[,"server"]),
+      userId = as.character(secret[,"username"]),
+      accountName = as.character(secret[,"accountId"]),
+      token = as.character(secret[,"token"]),
+      privateKey = as.character(secret[,"private_key"])
     )
   }
 
