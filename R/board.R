@@ -23,7 +23,7 @@ new_board <- function(name, ...) {
 #'
 #' @export
 use_board <- function(name, ...) {
-  board_call <- deparse(match.call(), width.cutoff = 500)
+  board_call <- paste("library(pins)", deparse(match.call(), width.cutoff = 500), sep = "\n")
 
   board <- new_board(name, ...)
 
