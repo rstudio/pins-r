@@ -9,7 +9,9 @@ rstudio_dependencies <- function() {
     client_for_account = get("clientForAccount", envir = asNamespace("rsconnect")),
     accounts = get("accounts", envir = asNamespace("rsconnect")),
     parse_http_url = get("parseHttpUrl", envir = asNamespace("rsconnect")),
-    get = get("GET", envir = asNamespace("rsconnect"))
+    get = get("GET", envir = asNamespace("rsconnect")),
+    account_config_file = get("accountConfigFile", envir = asNamespace("rsconnect")),
+    register_user_token = get("registerUserToken", envir = asNamespace("rsconnect"))
   )
 }
 
@@ -20,6 +22,11 @@ rstudio_account_info <- function(board) {
                                        server = board$server)
 
   deps$account_info(account_name)
+}
+
+rstudio_account_dcf <- function(board) {
+  deps <- rstudio_dependencies()
+  base64enc::base64encode(deps$account_config_file(board$account, board$server))
 }
 
 rstudio_api_get <- function(board, path, root = FALSE) {
@@ -41,7 +48,26 @@ board_initialize.rstudio <- function(board, ...) {
   board$server <- args$server
   board$account <- args$account
 
-  if (is.null(args$server)) board$server <- deps$accounts()$server[1]
+  accounts <- deps$accounts()
+  if (is.null(args$server)) board$server <- accounts$server[1]
+  if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
+
+  if (!is.null(args$secret) && nchar(args$secret) > 0) {
+    temp_dcf <- tempfile(fileext = ".dcf")
+    base64enc::base64decode(args$secret, temp_dcf)
+    secret <- read.dcf(temp_dcf)
+    unlink(temp_dcf)
+
+    deps$register_user_token(
+      serverName = secret$server,
+      userId = secret$username,
+      accountName = secret$accountId,
+      token = secret$token,
+      privateKey = secret$private_key
+    )
+  }
+
+  board$secret <- function() rstudio_account_dcf(board)
 
   board
 }
