@@ -218,6 +218,14 @@ pin_preview <- function(x) {
   UseMethod("pin_preview")
 }
 
+pin_preview.list <- function(x) {
+  x
+}
+
+pin_preview.character <- function(x) {
+  x
+}
+
 pin_preview.data.frame <- function(x) {
   x
 }
