@@ -30,11 +30,11 @@ rstudio_account_dcf <- function(board) {
   server <- deps$server_info(board$server)
 
   secret <- read.dcf(deps$account_config_file(board$account, board$server))
-  secret <- cbind(secret, c(url = server$url))
+  secret <- cbind(secret, data.frame(url = server$url))
 
   temp_dcf <- tempfile(fileext = ".dcf")
   on.exit(unlink(temp_dcf))
-  writeLines(secret, temp_dcf)
+  write.dcf(secret, temp_dcf)
   base64enc::base64encode(temp_dcf)
 }
 
