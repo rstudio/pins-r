@@ -4,16 +4,16 @@
 \alias{get_pin}
 \title{Retrieve Pin}
 \usage{
-get_pin(name, board = NULL, type = NULL, ...)
+get_pin(name, board = NULL, ...)
 }
 \arguments{
 \item{name}{The name of the pin.}
 
 \item{board}{The board where this pin will be retrieved from.}
 
-\item{type}{The type of pin to retrieve.}
-
 \item{...}{Additional parameters.}
+
+\item{type}{The type of pin to retrieve.}
 }
 \description{
 Retrieves a named pin from the active board.

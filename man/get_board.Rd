@@ -4,7 +4,7 @@
 \alias{get_board}
 \title{Get Board}
 \usage{
-get_board(name)
+get_board(name = NULL)
 }
 \arguments{
 \item{name}{The name of the board to use}
