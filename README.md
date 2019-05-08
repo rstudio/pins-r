@@ -354,6 +354,18 @@ use_board("rstudio")
 
 When using multiple publishing servers, you can specify an specific server through `use_board("rstudio", "<server-name>")`.
 
+When using `pins` within RMarkdown documents that you want to run at a given schedule, you'll have to first retrieve your publishing secret credentials:
+
+``` r
+get_board("rstudio")$secret()
+```
+
+Followed by specifying that secret in `use_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect, please treat your credentials with care!
+
+``` r
+use_board("rstudio", secret = Sys.getenv("secret"))
+```
+
 ## Python
 
 You can install `pins` using
