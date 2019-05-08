@@ -26,7 +26,16 @@ rstudio_account_info <- function(board) {
 
 rstudio_account_dcf <- function(board) {
   deps <- rstudio_dependencies()
-  base64enc::base64encode(deps$account_config_file(board$account, board$server))
+
+  server <- deps$server_info(board$server)
+
+  secret <- read.dcf(deps$account_config_file(board$account, board$server))
+  secret <- cbind(secret, c(url = server$url))
+
+  temp_dcf <- tempfile(fileext = ".dcf")
+  on.exit(unlink(temp_dcf))
+  writeLines(secret, temp_dcf)
+  base64enc::base64encode(temp_dcf)
 }
 
 rstudio_api_get <- function(board, path, root = FALSE) {
@@ -56,7 +65,11 @@ board_initialize.rstudio <- function(board, ...) {
     temp_dcf <- tempfile(fileext = ".dcf")
     writeBin(base64enc::base64decode(args$secret), temp_dcf)
     secret <- read.dcf(temp_dcf)
-    unlink(temp_dcf)
+    on.exit(unlink(temp_dcf))
+
+    rsconnect::addServer(
+      as.character(secret[,"url"]),
+      as.character(secret[,"server"]))
 
     deps$register_user_token(
       serverName = as.character(secret[,"server"]),
@@ -115,6 +128,12 @@ pin_find.rstudio <- function(board, text, ...) {
   results <- as.data.frame(do.call("rbind", results))
 
   if (!everything) results <- results[grepl("_pin$", results$name),]
+
+  if (nrow(results) == 0) {
+    return(
+      data.frame(name = c(), description = c(), type = c(), metadata = c())
+    )
+  }
 
   results$name <- gsub("_pin$", "", as.character(results$name))
   results$type <- "table"
