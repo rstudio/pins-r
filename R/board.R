@@ -33,7 +33,7 @@ use_board <- function(name, ...) {
 
   pins_viewer_register(board, board_call)
 
-  invisible(name)
+  invisible(board)
 }
 
 board_initialize <- function(name, ...) {
