@@ -69,9 +69,18 @@ pin_metadata.default <- function(x) {
 #'
 #' @export
 get_pin <- function(name, board = NULL, ...) {
-  details <- find_pin(name, board = board, name = name, extended = TRUE)
+  board_object <- get_board(board)
 
-  board_object <- get_board(details$board)
+  details <- find_pin(name, board = board_object$name, name = name, extended = TRUE)
+
+  if (nrow(details) == 0 && is.null(board)) {
+    all_results <- find_pin(name, board = NULL, name = name)
+    if (nrow(all_results) == 0) stop("Can't find '", name, "' pin.")
+
+    results_board <- all_results$board[[1]]
+    details <- find_pin(name, board = results_board, name = name, extended = TRUE)
+    board_object <- get_board(results_board)
+  }
 
   result <- pin_retrieve(board_object, name, details)
 
