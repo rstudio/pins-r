@@ -57,10 +57,6 @@ board_initialize.rstudio <- function(board, ...) {
   board$server <- args$server
   board$account <- args$account
 
-  accounts <- deps$accounts()
-  if (is.null(args$server)) board$server <- accounts$server[1]
-  if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
-
   if (!is.null(args$secret) && nchar(args$secret) > 0) {
     temp_dcf <- tempfile(fileext = ".dcf")
     writeBin(base64enc::base64decode(args$secret), temp_dcf)
@@ -79,6 +75,10 @@ board_initialize.rstudio <- function(board, ...) {
       privateKey = as.character(secret[,"private_key"])
     )
   }
+
+  accounts <- deps$accounts()
+  if (is.null(args$server)) board$server <- accounts$server[1]
+  if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
 
   board$secret <- function() rstudio_account_dcf(board)
 
