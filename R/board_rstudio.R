@@ -73,8 +73,8 @@ board_initialize.rstudio <- function(board, ...) {
 
     deps$register_user_token(
       serverName = as.character(secret[,"server"]),
-      userId = as.character(secret[,"username"]),
-      accountName = as.character(secret[,"accountId"]),
+      userId = as.character(secret[,"accountId"]),
+      accountName = as.character(secret[,"username"]),
       token = as.character(secret[,"token"]),
       privateKey = as.character(secret[,"private_key"])
     )
