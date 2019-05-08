@@ -102,7 +102,7 @@ pins_viewer_ensure <- function(board) {
   if (!board %in% names(.globals$ui_viewer$active) ||
       identical(.globals$ui_viewer$active[[board$name]], FALSE)) {
     if (identical(board$name, "local")) {
-      pins_viewer_register(board, paste0("use_board(name = \"", board$name, "\")"))
+      pins_viewer_register(board, paste0("pins::use_board(name = \"", board$name, "\")"))
     }
   }
 
