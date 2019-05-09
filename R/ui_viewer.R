@@ -36,11 +36,11 @@ pins_viewer_register <- function(board, board_call) {
     listObjects = function(type = "table") {
       objects <- find_pin(board = board$name)
 
-      names <- objects$name[objects$type %in% pin_is_table_subtype()]
+      names <- objects$name
 
       data.frame(
         name = names,
-        type = rep("table", length(names)),
+        type = rep("table", length(objects$name)),
         stringsAsFactors = FALSE
       )
     },
