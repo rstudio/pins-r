@@ -12,7 +12,7 @@ dplyr_dependencies <- function() {
   )
 }
 
-pin_pack.tbl_sql <- function(x, board, ...) {
+pin_pack.tbl_sql <- function(x, name, board, ...) {
   deps <- dplyr_dependencies()
   params <- list(...)
 

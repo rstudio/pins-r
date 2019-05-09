@@ -14,14 +14,14 @@ pin <- function(x, name, description = "", board = NULL, ...) {
 
   metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
 
-  x <- pin_pack(x, board, ...)
+  x <- pin_pack(x, name, board, ...)
 
   type <- attr(x, "pin_type")
   if (is.null(type)) stop("Packing a pin requires 'pin_type' attribute to be specified.")
 
   pin_create(board, x, name, description, type, metadata)
 
-  pins_viewer_updated()
+  pin_updated()
 
   result <- get_pin(name, board$name)
 
@@ -101,7 +101,7 @@ pin_unpack <- function(x, board, name, ...) {
   UseMethod("pin_unpack")
 }
 
-pin_pack.default <- function(x, board, ...) {
+pin_pack.default <- function(x, name, board, ...) {
   attr(x, "pin_type") <- "default"
   x
 }
@@ -247,4 +247,8 @@ pin_is_table_subtype <- function() {
     "table",
     "dbplyr"
   )
+}
+
+pin_updated <- function() {
+  pins_viewer_updated()
 }

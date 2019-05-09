@@ -1,5 +1,5 @@
 
-pin_pack.data.frame <- function(x, board, ...) {
+pin_pack.data.frame <- function(x, name, board, ...) {
   attr(x, "pin_type") <- "table"
   x
 }

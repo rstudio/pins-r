@@ -17,7 +17,7 @@ connection_dependencies <- function() {
   }
 }
 
-pin_pack.connection <- function(x, ...) {
+pin_pack.connection <- function(x, name, board, ...) {
   structure(
     jsonlite::toJSON(x),
     class = "connection_pin"
