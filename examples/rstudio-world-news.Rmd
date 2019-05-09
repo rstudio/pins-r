@@ -1,0 +1,44 @@
+---
+title: "RStudio Connect -- World News"
+---
+
+## Setup
+
+The next chunk is useful to collect the secrets string required for scheduled reruns:
+
+```{r eval=FALSE}
+pins::use_board("rstudio")$secret()
+```
+
+## News Pin
+
+The following chunks creates a dataset with the latest world news from BBC:
+
+```{r retrieve-world-news}
+library(xml2)
+
+world_news <- data.frame(
+  title = xml_text(
+    xml_find_all(
+      read_xml("http://feeds.bbci.co.uk/news/rss.xml"),
+      "///item/title/node()"
+    )
+  )
+)
+```
+
+We can then pin this dataset using the secret to allow it to execute, say, daily:
+
+```{r}
+library(pins)
+use_board("rstudio", secret = Sys.getenv("secret"))
+
+pin(world_news, "worldnews", "A table with the latests world news from the BBC")
+```
+
+We can then access this dataset with ease from any notebook that has access to RStudio Connect:
+
+```{r}
+use_board("rstudio")
+get_pin("worldnews")
+```
