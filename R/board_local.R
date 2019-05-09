@@ -3,6 +3,8 @@ board_initialize.local <- function(board, ...) {
 }
 
 pin_create.local <- function(board, x, name, description, type, metadata) {
+  unpin(name, board = board)
+
   path <- pin_create_yaml(
     name = name,
     description = description,

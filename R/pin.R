@@ -11,7 +11,6 @@
 #' @export
 pin <- function(x, name, description = "", board = NULL, ...) {
   board <- get_board(board)
-  unpin(name, board = board)
 
   metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
 

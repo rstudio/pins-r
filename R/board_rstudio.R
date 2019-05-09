@@ -162,7 +162,7 @@ pin_retrieve.rstudio <- function(board, name, details) {
 }
 
 pin_remove.rstudio <- function(board, name) {
-
+  stop("Removing pins from 'rstudio' boards is currently unsupported.")
 }
 
 board_info.memory <- function(board) {

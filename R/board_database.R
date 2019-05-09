@@ -48,6 +48,8 @@ pin_create.database <- function(board, dataset, name, description, type, metadat
 
   deps <- database_dependencies()
 
+  unpin(name, board = board)
+
   table_name <- paste0(board$table_preffix, database_sanitize_table(name))
   if (table_name %in% deps$list_tables(board$con)) {
     table_name <- paste0(board$table_preffix, database_auto_table())
