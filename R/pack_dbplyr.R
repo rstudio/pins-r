@@ -7,7 +7,8 @@ dplyr_dependencies <- function() {
     sql = get("sql", envir = asNamespace("dplyr")),
     count = get("count", envir = asNamespace("dplyr")),
     pull = get("pull", envir = asNamespace("dplyr")),
-    head = get("head", envir = asNamespace("dplyr"))
+    head = get("head", envir = asNamespace("dplyr")),
+    remote_con = get("remote_con", envir = asNamespace("dbplyr"))
   )
 }
 
@@ -16,7 +17,7 @@ pin_pack.tbl_sql <- function(x, board, ...) {
   params <- list(...)
 
   sql <- x %>% deps$sql_render() %>% as.character()
-  con <- dbplyr::remote_con(x)
+  con <- deps$remote_con(x)
 
   if (identical(params$connection, NULL)) {
     con_maybe <- objects(envir = sys.frame())
