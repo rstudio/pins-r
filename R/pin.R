@@ -14,10 +14,11 @@ pin <- function(x, name, description = "", board = NULL, ...) {
   unpin(name, board = board)
 
   metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
+
   x <- pin_pack(x, board, ...)
+
   type <- attr(x, "pin_type")
-  if (is.null(type))
-    stop("Packing a pin requires 'pin_type' attribute to be specified.")
+  if (is.null(type)) stop("Packing a pin requires 'pin_type' attribute to be specified.")
 
   pin_create(board, x, name, description, type, metadata)
 
@@ -188,7 +189,7 @@ find_pin <- function(text = NULL, board = NULL, ...) {
   if (!is.null(list(...)$name)) {
     name <- list(...)$name
     all_pins <- all_pins[all_pins$name == name,]
-    if (nrow(all_pins) == 0) stop("'", name, "' not found.")
+    if (nrow(all_pins) == 0) stop("Pin '", name, "' not found.")
 
     all_pins <- all_pins[1,]
   }
