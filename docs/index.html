@@ -44,6 +44,9 @@
   </a>
 </li>
 <li>
+  <a href="articles/pins.html">Get started</a>
+</li>
+<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -55,6 +58,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="articles/boards.html">Understanding Boards</a>
+    </li>
+    <li>
+      <a href="articles/databases.html">Using Databases</a>
     </li>
   </ul>
 </li>
@@ -74,127 +80,78 @@
 
     
     
-<pre><code>## Warning in board$name &lt;- as.character(name): Coercing LHS to a list</code></pre>
-
+<p><a href="https://travis-ci.org/javierluraschi/pins"><img src="https://travis-ci.org/javierluraschi/pins.svg?branch=master" alt="Build Status"></a> <a href="https://cran.r-project.org/package=pins"><img src="https://www.r-pkg.org/badges/version/pins" alt="CRAN_Status_Badge"></a> <img src="https://img.shields.io/badge/lifecycle-experimental-red.svg"></p>
 <ul>
 <li>
 <strong>Track</strong> local and remote datasets using <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/get_pin.html">get_pin()</a></code>.</li>
 <li>
-<strong>Discover</strong> new datasets from packages, online and your organization using <code><a href="reference/find_pin.html">find_pin()</a></code>.</li>
+<strong>Discover</strong> new datasets across different boards using <code><a href="reference/find_pin.html">find_pin()</a></code>.</li>
 <li>
-<strong>Share</strong> datasets with your team, or the world, using customizable boards through <code><a href="reference/use_board.html">use_board()</a></code>.</li>
+<strong>Share</strong> datasets with your team, or the world with <code><a href="reference/use_board.html">use_board()</a></code>.</li>
 <li>
-<strong>Extend</strong> storage locations with custom boards, you decide where your data lives.</li>
+<strong>Pins</strong> are also available with RStudio, Kaggle and databases boards.</li>
 </ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install <code>pins</code> using the <code>remotes</code> package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"rstudio/pins"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"rstudio/pins"</span>)</a></code></pre></div>
 </div>
-<div id="tracking-datasets" class="section level2">
+<div id="track" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tracking-datasets" class="anchor"></a>Tracking Datasets</h2>
-<p>It’s easy to track local datasets using <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/get_pin.html">get_pin()</a></code>. In addition, you can retrive remote datasets using <code>DBI</code> or pin remote datasets without retrieving them using <code>dplyr</code>.</p>
+<a href="#track" class="anchor"></a>Track</h2>
+<p><code>pins</code> allows you to track local datasets using <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/get_pin.html">get_pin()</a></code> as well as remote datasets. Datasets are tracked through a pin, a tool to help you track datasets without worrying too much of where the actual dataset lives. A pin can be either tabular data or arbitrary files.</p>
+<p>Lets take a look at using pins with local datasets first.</p>
 <div id="local-datasets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#local-datasets" class="anchor"></a>Local Datasets</h3>
-<p>You can track your datasets privately by pinning with <code><a href="reference/pin.html">pin()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4">iris <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Sepal.Width <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>, Petal.Width <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"iris-small-width"</span>, <span class="st">"A subset of 'iris' with only small widths."</span>)</a></code></pre></div>
+<p>You can track your datasets privately by pinning them with <code><a href="reference/pin.html">pin()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(iris, <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"iris-head"</span>, <span class="st">"A subset of 'iris' with only small widths."</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-## 1          4.4         2.9          1.4         0.2 setosa 
-## 2          4.5         2.3          1.3         0.3 setosa</code></pre>
+## 1          5.1         3.5          1.4         0.2 setosa 
+## 2          4.9         3            1.4         0.2 setosa</code></pre>
 <p>You can then retrieve them back with <code><a href="reference/get_pin.html">get_pin()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"iris-small-width"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"iris-head"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-## 1          4.4         2.9          1.4         0.2 setosa 
-## 2          4.5         2.3          1.3         0.3 setosa</code></pre>
-<p>A pin is a tool to help you track your datasets to easily fetch results from past data analysis sessions.</p>
+## 1          5.1         3.5          1.4         0.2 setosa 
+## 2          4.9         3            1.4         0.2 setosa</code></pre>
 <p>For instance, once a dataset is tidy, you are likely to reuse it several times. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you’ve used in the past.</p>
+<p>While it’s useful to pin local datasets, pins really shine when working with remote datasets.</p>
 </div>
 <div id="remote-datasets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remote-datasets" class="anchor"></a>Remote Datasets</h3>
-<p>Some datasets are stored in datasets which you usually access with <code>DBI</code> or <code>dplyr</code>. For instance, you might want to access a public dataset stored in <code>bigrquery</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(bigrquery<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/bigrquery/topics/bigquery">bigquery</a></span>(), <span class="dt">project =</span> bq_project, <span class="dt">dataset =</span> bq_dataset)</a></code></pre></div>
-<p>Which we can analyze with <code>DBI</code> and then pin the results locally:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbGetQuery">dbGetQuery</a></span>(con, <span class="st">"</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">  SELECT score, count(*) as n</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full`)</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="st">  GROUP BY score"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"hacker-news-scores"</span>, <span class="st">"Hacker News scores grouped by tens."</span>)</a></code></pre></div>
-<p>However, you can only use <code>DBI</code> when you can fetch all the data back into R, this is not feasible in many cases. Instead, when using <code>dplyr</code>, you can pin large datasets and transform them without having to fetch any data at all.</p>
-<p>Lets pin the entire dataset using <code>dplyr</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con, <span class="st">"bigquery-public-data.hacker_news.full"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"hacker-news-full"</span>)</a></code></pre></div>
-<pre><code>## # Source:   SQL [?? x 14]
-## # Database: BigQueryConnection
-##    by    score   time timestamp           title type  url   text   parent
-##    &lt;chr&gt; &lt;int&gt;  &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;
-##  1 shel…     2 1.29e9 2010-10-10 22:15:54 Runn… story http… ""    NA     
-##  2 Gibb…    NA 1.55e9 2019-03-19 20:28:46 ""    comm… ""    No i…  1.94e7
-##  3 bcook    NA 1.46e9 2016-04-19 10:20:24 ""    comm… ""    Whic…  1.15e7
-##  4 matt…    NA 1.49e9 2017-03-01 20:30:46 ""    comm… ""    I ho…  1.38e7
-##  5 scho…     1 1.38e9 2013-09-07 15:01:19 Yaho… story http… ""    NA     
-##  6 Fice     NA 1.49e9 2017-03-16 23:55:05 ""    comm… ""    Nota…  1.39e7
-##  7 dark…    NA 1.36e9 2013-04-01 14:45:48 ""    comm… ""    &amp;#62…  5.47e6
-##  8 arav…    NA 1.35e9 2012-11-23 08:01:24 ""    comm… ""    You …  4.82e6
-##  9 robr…    NA 1.49e9 2017-04-08 10:32:21 ""    comm… ""    I&amp;#x…  1.41e7
-## 10 eries    NA 1.43e9 2015-04-14 17:20:46 ""    comm… ""    Than…  9.37e6
-## # … with more rows, and 5 more variables: deleted &lt;lgl&gt;, dead &lt;lgl&gt;,
-## #   descendants &lt;int&gt;, id &lt;int&gt;, ranking &lt;int&gt;</code></pre>
-<p>This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(bigrquery<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/bigrquery/topics/bigquery">bigquery</a></span>(), <span class="dt">project =</span> bq_project, <span class="dt">dataset =</span> bq_dataset)</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"hacker-news-full"</span>)</a></code></pre></div>
-<p>This is acceptable but not ideal – it’s hard to remember what connection to use for each dataset. So instead, pin a connection:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="op">~</span>DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbConnect">dbConnect</a></span>(bigrquery<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/bigrquery/topics/bigquery">bigquery</a></span>(), <span class="dt">project =</span> bq_project, <span class="dt">dataset =</span> bq_dataset), <span class="st">"bigquery"</span>)</a></code></pre></div>
-<p>Then pin your dataset as you would usually would,</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span>(con, <span class="st">"bigquery-public-data.hacker_news.full"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"hacker-news-full"</span>, <span class="st">"The Hacker News dataset in Google BigQuery."</span>)</a></code></pre></div>
-<p>From now on, after restarting your R session and retrieving the pin, the pin will initialize the connection before retrieving a <code>dplyr</code> reference to it with <code><a href="reference/pin.html">pin("hacker-news-full")</a></code>.</p>
-<p>Which in turn, allows you to further process the datset using <code>dplyr</code> and pin additional remote datasets.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"hacker-news-full"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">transmute</a></span>(<span class="dt">score =</span> <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">floor</a></span>(score<span class="op">/</span><span class="dv">10</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(score) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">n =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/n.html">n</a></span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(score <span class="op">&lt;</span><span class="st"> </span><span class="dv">2000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-6" title="6"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"hacker-news-scores"</span>)</a></code></pre></div>
-<p>You can then use this <code>dplyr</code> pin to process data further; for instance, by visualizing it with ease:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb15-2" title="2"></a>
-<a class="sourceLine" id="cb15-3" title="3"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"hacker-news-scores"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-5" title="5"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> score, <span class="dt">y =</span> n), <span class="dt">stat=</span><span class="st">"identity"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-6" title="6"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_log10</a></span>() <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_light</a></span>()</a></code></pre></div>
-<p><img src="tools/readme/remote-dplyr-plot-1.png" width="700"></p>
-<p>You can also cache this dataset locally by running <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collect()</a></code> on the pin and then re-pinning it with <code><a href="reference/pin.html">pin()</a></code>.</p>
+<p>When analysing data, it is common to find code that makes use of <strong>remote files</strong>. For example,</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">sales &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/read.table">read.csv</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>)</a></code></pre></div>
+<p>While this works fine most of the time, if the remote dataset is removed or if you are working offline, the previous code will simply break. Instead, you can <code><a href="reference/pin.html">pin()</a></code> the remote dataset file before reading it,</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">sales &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/read.table">read.csv</a></span>(<span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>, <span class="st">"sales"</span>))</a></code></pre></div>
+<p>While the code is similar, <code><a href="reference/pin.html">pin()</a></code> will cache remote datasets and trigger a warning when the <code><a href="reference/pin.html">pin()</a></code> fails to refresh; this is much better than having your code completely break in the absence of the remote dataset, or worse, loosing the entire dataset if the remote location breaks.</p>
+<p>Some datasets are stored in <strong>remote databases</strong> which you usually access with <code>DBI</code> or <code>dplyr</code>, while they don’t present the risk of being deleted by mistake, there are also bennefits to using <code>pins</code> with databases, see <a href="">Database Pins</a>.</p>
 </div>
 </div>
-<div id="discovering-datasets" class="section level2">
+<div id="discover" class="section level2">
 <h2 class="hasAnchor">
-<a href="#discovering-datasets" class="anchor"></a>Discovering Datasets</h2>
-<p>The <code>pins</code> package can help you discover interesting datasets, currently it searches datasets inside CRAN packages but we are planning to extend this further.</p>
-<p>You can search datasets that contain “seattle” in their description or name as follows:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="reference/find_pin.html">find_pin</a></span>(<span class="st">"seattle"</span>)</a></code></pre></div>
+<a href="#discover" class="anchor"></a>Discover</h2>
+<p>The <code>pins</code> package can help you discover interesting datasets by specifying alternate boards. A board is the default storage location for your pins, by default pins are saved and searched in your local machine, but you can also search <a href="https://cran.r-project.org">CRAN</a> packages and <a href="https://kaggle.com">Kaggle</a>.</p>
+<p>You can search CRAN datasets that contain “seattle” in their description or name as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/find_pin.html">find_pin</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 4
 ##   name               description                               type  board 
-##   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; 
+##   &lt;fct&gt;              &lt;fct&gt;                                     &lt;fct&gt; &lt;chr&gt; 
 ## 1 hpiR_seattle_sales Seattle Home Sales from hpiR package.     table packa…
 ## 2 microsynth_seattl… Data for a crime intervention in Seattle… table packa…
 ## 3 vegawidget_data_s… Example dataset: Seattle daily weather f… table packa…
 ## 4 vegawidget_data_s… Example dataset: Seattle hourly temperat… table packa…</code></pre>
 <p>You can the retrieve a specific dataset with <code><a href="reference/get_pin.html">get_pin()</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"hpiR_seattle_sales"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"hpiR_seattle_sales"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 43,313 x 16
 ##    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
 ##    &lt;chr&gt; &lt;chr&gt;        &lt;int&gt; &lt;date&gt;     &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;
@@ -211,115 +168,66 @@
 ## # … with 43,303 more rows, and 8 more variables: bldg_grade &lt;int&gt;,
 ## #   tot_sf &lt;int&gt;, beds &lt;int&gt;, baths &lt;dbl&gt;, age &lt;int&gt;, eff_age &lt;int&gt;,
 ## #   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</code></pre>
+<p>To search Kaggle datasets with <code><a href="reference/find_pin.html">find_pin()</a></code>, you will have to download your token file from <a href="https://kaggle.com/me/account">kaggle.com/me/account</a> and then register the Kaggle board by running:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="reference/register_board.html">register_board</a></span>(<span class="st">"kaggle"</span>, <span class="dt">token =</span> <span class="st">"&lt;path-to-kaggle.json&gt;"</span>)</a></code></pre></div>
+<p>From now on, you can search the Kaggle board suing <code><a href="reference/find_pin.html">find_pin("seattle", board = "kaggle")</a></code>, or you can also search all boards by not specyfing a particular board:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="reference/find_pin.html">find_pin</a></span>(<span class="st">"seattle"</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 23 x 4
+##    name                     description                        type  board 
+##    &lt;chr&gt;                    &lt;chr&gt;                              &lt;chr&gt; &lt;chr&gt; 
+##  1 hpiR_seattle_sales       Seattle Home Sales from hpiR pack… table packa…
+##  2 microsynth_seattledmi    Data for a crime intervention in … table packa…
+##  3 vegawidget_data_seattle… Example dataset: Seattle daily we… table packa…
+##  4 vegawidget_data_seattle… Example dataset: Seattle hourly t… table packa…
+##  5 airbnb/seattle           Seattle Airbnb Open Data           files kaggle
+##  6 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
+##  7 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
+##  8 sam/seattle-crime        Seattle Police Reports             files kaggle
+##  9 seattle-public-library/… Seattle Library Checkout Records   files kaggle
+## 10 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
+## # … with 13 more rows</code></pre>
 </div>
-<div id="sharing-datasets" class="section level2">
+<div id="share" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sharing-datasets" class="anchor"></a>Sharing Datasets</h2>
-<p><code>pins</code> supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use <code><a href="reference/use_board.html">use_board()</a></code> to choose a board, currently <code>database</code> and <code>arrow</code> boards are supported; however, <code>pins</code> provide an extensible API you can use to store pins anywhere.</p>
-<div id="databases" class="section level3">
+<a href="#share" class="anchor"></a>Share</h2>
+<p><code>pins</code> supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use <code><a href="reference/use_board.html">use_board()</a></code> to choose a board, currently <code>rstudio</code> and <code>database</code> boards are supported; however, the <code>pins</code> package provides an extensible API you can use to store pins anywhere. In addition, you can share dataset pins with Python users through the <code>pins</code> pip package.</p>
+<p>Sharing pins in RStudio and Python is presented next, you can read about sharing in database boards under <a href="">Using Databases</a>.</p>
+<div id="rstudio-connect" class="section level3">
 <h3 class="hasAnchor">
-<a href="#databases" class="anchor"></a>Databases</h3>
-<p>We can reuse our <code>bigrquery</code> connection to define a database-backed shared board,</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw"><a href="reference/use_board.html">use_board</a></span>(<span class="st">"database"</span>, con)</a></code></pre></div>
-<p>Which we can also use to pin a dataset,</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw"><a href="reference/pin.html">pin</a></span>(iris, <span class="st">"iris"</span>, <span class="st">"The entire 'iris' dataset."</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 150 x 5
-##    Species    Petal_Width Petal_Length Sepal_Width Sepal_Length
-##    &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
-##  1 versicolor         1.1          3           2.5          5.1
-##  2 versicolor         1            3.5         2            5  
-##  3 versicolor         1            3.5         2.6          5.7
-##  4 versicolor         1            4           2.2          6  
-##  5 versicolor         1.2          4           2.6          5.8
-##  6 versicolor         1.3          4           2.3          5.5
-##  7 versicolor         1.3          4           2.8          6.1
-##  8 versicolor         1.3          4           2.5          5.5
-##  9 versicolor         1.5          4.5         3.2          6.4
-## 10 versicolor         1.5          4.5         3            5.6
-## # … with 140 more rows</code></pre>
-<p>find pins,</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw"><a href="reference/find_pin.html">find_pin</a></span>()</a></code></pre></div>
-<pre><code>## # A tibble: 5 x 4
-##   name              description                              type   board  
-##   &lt;chr&gt;             &lt;chr&gt;                                    &lt;chr&gt;  &lt;chr&gt;  
-## 1 iris              The entire 'iris' dataset.               table  databa…
-## 2 iris-small-width  A subset of 'iris' with only small widt… table  local  
-## 3 bigquery          ""                                       formu… local  
-## 4 hacker-news-full  The Hacker News dataset in Google BigQu… dbplyr local  
-## 5 hacker-news-scor… ""                                       dbplyr local</code></pre>
-<p>and retrieve shared datasets.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw"><a href="reference/get_pin.html">get_pin</a></span>(<span class="st">"iris"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 150 x 5
-##    Species    Petal_Width Petal_Length Sepal_Width Sepal_Length
-##    &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
-##  1 versicolor         1.1          3           2.5          5.1
-##  2 versicolor         1            3.5         2            5  
-##  3 versicolor         1            3.5         2.6          5.7
-##  4 versicolor         1            4           2.2          6  
-##  5 versicolor         1.2          4           2.6          5.8
-##  6 versicolor         1.3          4           2.3          5.5
-##  7 versicolor         1.3          4           2.8          6.1
-##  8 versicolor         1.3          4           2.5          5.5
-##  9 versicolor         1.5          4.5         3.2          6.4
-## 10 versicolor         1.5          4.5         3            5.6
-## # … with 140 more rows</code></pre>
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h3>
+<p><strong>RStudio Connect</strong> can be used to share pins within your organization, to use this feature you will need to configure a <a href="https://docs.rstudio.com/connect/user/publishing.html">publishing</a> account in RStudio.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="reference/use_board.html">use_board</a></span>(<span class="st">"rstudio"</span>)</a></code></pre></div>
+<p>When using multiple publishing servers, you can specify an specific server through <code><a href="reference/use_board.html">use_board("rstudio", "&lt;server-name&gt;")</a></code>.</p>
+<p>When using <code>pins</code> within RMarkdown documents that you want to run at a given schedule, you’ll have to first retrieve your publishing secret credentials:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="reference/get_board.html">get_board</a></span>(<span class="st">"rstudio"</span>)<span class="op">$</span><span class="kw">secret</span>()</a></code></pre></div>
+<p>Followed by specifying that secret in <code><a href="reference/use_board.html">use_board()</a></code>, this can be securely accomplish by defining an environment variable <code>secret</code> with the contents from the previous step in RStudio Connect, please treat your credentials with care!</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="reference/use_board.html">use_board</a></span>(<span class="st">"rstudio"</span>, <span class="dt">secret =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"secret"</span>))</a></code></pre></div>
 </div>
-<div id="connections" class="section level3">
+<div id="python" class="section level3">
 <h3 class="hasAnchor">
-<a href="#connections" class="anchor"></a>Connections</h3>
-<p>Connections can also be pinned to shared boards; however, you should pin them using a proper connection object, not an R formula:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_connection.html">pin_connection</a></span>(<span class="st">"bigquery"</span>, <span class="dt">driver =</span> <span class="st">"bigrquery::bigquery"</span>, <span class="dt">project =</span> bq_project, <span class="dt">dataset =</span> bq_dataset)</a></code></pre></div>
-<p>Other packages that don’t use <code>DBI</code> connections, like <code>sparklyr</code>, can use an explicit <code>initializer</code> function:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">sc &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_connection.html">pin_connection</a></span>(</a>
-<a class="sourceLine" id="cb28-2" title="2">  <span class="st">"spark-local"</span>,</a>
-<a class="sourceLine" id="cb28-3" title="3">  <span class="st">"sparklyr::spark_connect"</span>,</a>
-<a class="sourceLine" id="cb28-4" title="4">  <span class="dt">master =</span> <span class="st">"local"</span>,</a>
-<a class="sourceLine" id="cb28-5" title="5">  <span class="dt">config =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"sparklyr.shell.driver-memory"</span> =<span class="st"> "4g"</span>)</a>
-<a class="sourceLine" id="cb28-6" title="6">)</a></code></pre></div>
-<p><strong>Note:</strong> Remove username, password and other sensitive information from your pinned connections. By default, <code>username</code> and <code>password</code> fields will be replaced with “<span class="citation">@prompt</span>”, which will prompt the user when connecting.</p>
-</div>
-</div>
-<div id="rstudio" class="section level2">
-<h2 class="hasAnchor">
-<a href="#rstudio" class="anchor"></a>RStudio</h2>
-<p>This package provides an <a href="https://rstudio.github.io/rstudio-extensions/rstudio_addins.html">RStudio Addin</a> to search for datasets and an <a href="https://rstudio.github.io/rstudio-extensions/rstudio-connections.html">RStudio Connection</a> extension to track local or remote datasets.</p>
-<p><img src="tools/readme/rstudio-pins-addmin.png"></p>
-<p>The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.</p>
-</div>
-<div id="python" class="section level2">
-<h2 class="hasAnchor">
-<a href="#python" class="anchor"></a>Python</h2>
+<a href="#python" class="anchor"></a>Python</h3>
 <p>You can install <code>pins</code> using <code>pip</code>:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins/#egg=pins<span class="dt">\&amp;</span>subdirectory=python --user</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins/#egg=pins<span class="dt">\&amp;</span>subdirectory=python --user</a></code></pre></div>
 <p>You can then track your datasets privately with <code><a href="reference/pin.html">pin()</a></code>,</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb30-1" title="1"><span class="im">import</span> pins</a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="im">import</span> pandas <span class="im">as</span> pd</a>
-<a class="sourceLine" id="cb30-3" title="3"></a>
-<a class="sourceLine" id="cb30-4" title="4">df <span class="op">=</span> pd.DataFrame({<span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]})</a>
-<a class="sourceLine" id="cb30-5" title="5"></a>
-<a class="sourceLine" id="cb30-6" title="6">pins.use_board(<span class="st">"local"</span>)</a></code></pre></div>
-<pre><code>## 'local'</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb32-1" title="1">pins.pin(df, <span class="st">"python-df"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb19-1" title="1"><span class="im">import</span> pins</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="im">import</span> pandas <span class="im">as</span> pd</a>
+<a class="sourceLine" id="cb19-3" title="3"></a>
+<a class="sourceLine" id="cb19-4" title="4">pins.pin(pd.DataFrame({<span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]}), <span class="st">"python-df"</span>)</a></code></pre></div>
 <pre><code>##      a
 ## 0  1.0
 ## 1  2.0
 ## 2  3.0</code></pre>
 <p>and retrieve them back with <code><a href="reference/get_pin.html">get_pin()</a></code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" title="1">pins.get_pin(<span class="st">"iris-small-width"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb21-1" title="1">pins.get_pin(<span class="st">"iris-head"</span>)</a></code></pre></div>
 <pre><code>##    Sepal.Length  Sepal.Width  Petal.Length  Petal.Width Species
-## 0           4.4          2.9           1.4          0.2  setosa
-## 1           4.5          2.3           1.3          0.3  setosa</code></pre>
+## 0           5.1          3.5           1.4          0.2  setosa
+## 1           4.9          3.0           1.4          0.2  setosa</code></pre>
 <p>You can search datasets that contain “seattle” in their description or name as follows:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb36-1" title="1">pins.find_pin(<span class="st">"seattle"</span>)</a></code></pre></div>
-<pre><code>##                              name  ...     board
-## 0              hpiR_seattle_sales  ...  packages
-## 1           microsynth_seattledmi  ...  packages
-## 2   vegawidget_data_seattle_daily  ...  packages
-## 3  vegawidget_data_seattle_hourly  ...  packages
-## 
-## [4 rows x 4 columns]</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb23-1" title="1">pins.find_pin(<span class="st">"seattle_sales"</span>)</a></code></pre></div>
+<pre><code>##                  name                            description   type     board
+## 0  hpiR_seattle_sales  Seattle Home Sales from hpiR package.  table  packages</code></pre>
 <p>You can then retrieve a specific dataset with <code><a href="reference/get_pin.html">get_pin()</a></code>:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb38-1" title="1">pins.get_pin(<span class="st">"hpiR_seattle_sales"</span>).head(<span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" title="1">pins.get_pin(<span class="st">"hpiR_seattle_sales"</span>).head(<span class="dv">5</span>)</a></code></pre></div>
 <pre><code>##            pinx      sale_id  sale_price  ... eff_age   longitude   latitude
 ## 0  ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
 ## 1  ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
@@ -328,6 +236,14 @@
 ## 4  ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
 ## 
 ## [5 rows x 16 columns]</code></pre>
+</div>
+</div>
+<div id="rstudio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio" class="anchor"></a>RStudio</h2>
+<p>This package provides an <a href="https://rstudio.github.io/rstudio-extensions/rstudio_addins.html">RStudio Addin</a> to search for datasets and an <a href="https://rstudio.github.io/rstudio-extensions/rstudio-connections.html">RStudio Connection</a> extension to track local or remote datasets.</p>
+<p><img src="tools/readme/rstudio-pins-addmin.png"></p>
+<p>The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.</p>
 </div>
   </div>
 
@@ -345,14 +261,7 @@
 </ul>
 </div>
 
-      <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://travis-ci.org/javierluraschi/pins"><img src="https://travis-ci.org/javierluraschi/pins.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://cran.r-project.org/package=pins"><img src="https://www.r-pkg.org/badges/version/pins" alt="CRAN_Status_Badge"></a></li>
-</ul>
-</div>
-</div>
+      </div>
 
 </div>
 

@@ -43,6 +43,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/pins.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -54,6 +57,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/boards.html">Understanding Boards</a>
+    </li>
+    <li>
+      <a href="../articles/databases.html">Using Databases</a>
     </li>
   </ul>
 </li>
@@ -80,24 +86,32 @@
 
     
     
-<p>A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. A board defines four operations to manage pins in any storage system:</p>
-<div id="htmlwidget-a791ee01e476cf6e9d87" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a791ee01e476cf6e9d87">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files-board" class="section level2">
+<p>A board is an storage location to store pins for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.</p>
+<div id="htmlwidget-75bb7f0dd359da7f88d9" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75bb7f0dd359da7f88d9">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
 <h2 class="hasAnchor">
-<a href="#files-board" class="anchor"></a>Files Board</h2>
+<a href="#files" class="anchor"></a>Files</h2>
 <p>The defaul board in the <code>pins</code> package is a files-based; meaning, data is stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a <code>pins</code> folder under the default home folder for your user.</p>
-<div id="htmlwidget-649877c2711900683421" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-649877c2711900683421">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-db137a834b58c58cb577" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-db137a834b58c58cb577">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="database-board" class="section level2">
+<div id="database" class="section level2">
 <h2 class="hasAnchor">
-<a href="#database-board" class="anchor"></a>Database Board</h2>
-<div id="htmlwidget-b4389a47eef2cd35fa3d" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b4389a47eef2cd35fa3d">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"database\", DBI::dbConnect())\n    pin(iris, \"iris\")]\n]-[<database>Database|\n  [<note>db.pins\n  db.pins_iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
+<a href="#database" class="anchor"></a>Database</h2>
+<div id="htmlwidget-27e2ad898f2b9417abc7" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-27e2ad898f2b9417abc7">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"database\", DBI::dbConnect())\n    pin(iris, \"iris\")]\n]-[<database>Database|\n  [<note>db.pins\n  db.pins_iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="creating-new-boards" class="section level2">
+<div id="kaggle" class="section level2">
 <h2 class="hasAnchor">
-<a href="#creating-new-boards" class="anchor"></a>Creating new Boards</h2>
+<a href="#kaggle" class="anchor"></a>Kaggle</h2>
+</div>
+<div id="rstudio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio" class="anchor"></a>RStudio</h2>
+</div>
+<div id="other" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other" class="anchor"></a>Other</h2>
 <p>If the boards that the <code>pins</code> package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.</p>
 <p>The following example creatse an in-memory board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it’s a simple example that you can use to start developing custom boards:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">board_initialize.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, ...) {</a>
@@ -133,9 +147,11 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#files-board">Files Board</a></li>
-      <li><a href="#database-board">Database Board</a></li>
-      <li><a href="#creating-new-boards">Creating new Boards</a></li>
+<li><a href="#files">Files</a></li>
+      <li><a href="#database">Database</a></li>
+      <li><a href="#kaggle">Kaggle</a></li>
+      <li><a href="#rstudio">RStudio</a></li>
+      <li><a href="#other">Other</a></li>
       </ul>
 </div>
       </div>
