@@ -91,10 +91,10 @@ pins_viewer_register <- function(board, board_call) {
   )
 }
 
-pins_viewer_updated <- function() {
+pins_viewer_updated <- function(board) {
   viewer <- getOption("connectionObserver")
   if (!is.null(viewer))
-    viewer$connectionUpdated(type = "Pins", host = "pins", hint = "")
+    viewer$connectionUpdated(type = "Pins", host = board$name, hint = "")
 }
 
 pins_viewer_ensure <- function(board) {
