@@ -188,9 +188,7 @@ find_pin <- function(text = NULL, board = NULL, ...) {
   if (!is.null(list(...)$name)) {
     name <- list(...)$name
     all_pins <- all_pins[all_pins$name == name,]
-    if (nrow(all_pins) == 0) stop("Pin '", name, "' not found.")
-
-    all_pins <- all_pins[1,]
+    if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
   }
 
   maybe_tibble(all_pins)
