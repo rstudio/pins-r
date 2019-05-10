@@ -86,7 +86,7 @@ get_pin("hacker-news-full") %>%
 
 You can then use this `dplyr` pin to process data further; for instance, by visualizing it with ease:
 
-```{r remote-dplyr-plot}
+```{r remote-dplyr-plot, fig.width = 6, fig.height = 3}
 library(ggplot2)
 
 get_pin("hacker-news-scores") %>%
