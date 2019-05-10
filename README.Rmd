@@ -13,7 +13,6 @@ pins::unpin("sales")
 pins::unpin("python-df")
 
 knitr::opts_chunk$set(eval = TRUE)
-knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 ```
 
@@ -87,13 +86,13 @@ The `pins` package can help you discover interesting datasets by specifying alte
 You can search CRAN datasets that contain "seattle" in their description or name as follows:
 
 ```{r find-pin-in-cran}
-find_pin("seattle", board = "cran")
+find_pin("seattle", board = "packages")
 ```
 
 You can the retrieve a specific dataset with `get_pin()`:
 
 ```{r get-pin-from-cran}
-get_pin("hpiR_seattle_sales", board = "cran")
+get_pin("hpiR_seattle_sales", board = "packages")
 ```
 
 To search Kaggle datasets with `find_pin()`, you will have to download your token file from [kaggle.com/me/account](https://kaggle.com/me/account) and then register the Kaggle board by running:
@@ -152,10 +151,7 @@ You can then track your datasets privately with `pin()`,
 import pins
 import pandas as pd
 
-df = pd.DataFrame({"a": [1, 2, 3]})
-
-pins.use_board("local")
-pins.pin(df, "python-df")
+pins.pin(pd.DataFrame({"a": [1.0, 2.0, 3.0]}), "python-df")
 ```
 
 and retrieve them back with `get_pin()`.
