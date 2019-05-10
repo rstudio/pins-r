@@ -11,7 +11,7 @@ vignette: >
 library(nomnoml)
 ```
 
-A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. A board defines four operations to manage pins in any storage system:
+A board is an storage location to store pins for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.
 
 ```{nomnoml echo=FALSE}
 [Pin]->[Create]
