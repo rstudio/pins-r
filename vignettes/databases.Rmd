@@ -1,0 +1,140 @@
+---
+title: "Using Databases"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using Databases}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, echo=FALSE, message=FALSE}
+pins::unpin("hacker-news-scores")
+pins::unpin("bigquery")
+pins::unpin("hacker-news-full")
+
+bq_project <- Sys.getenv("BQ_PROJECT")
+bq_dataset <- Sys.getenv("BQ_DATASET")
+
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+Some datasets are stored in **remote databases** which you usually access with `DBI` or `dplyr`, while they don't present the risk of being deleted by mistake, there are also bennefits to using `pins` with databases.
+
+## Tracking in Databases
+
+For instance, you might want to access a public dataset stored in Big Query using `bigrquery`:
+
+```{r remote-con}
+con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
+```
+
+Which we can analyze with `DBI` and then pin the results locally:
+
+```{r remote-dbi, results = 'hide'}
+DBI::dbGetQuery(con, "
+  SELECT score, count(*) as n
+  FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full`)
+  GROUP BY score") %>%
+  pin("hacker-news-scores", "Hacker News scores grouped by tens.")
+```
+
+However, you can only use `DBI` when you can fetch all the data back into R, this is not feasible in many cases. Instead, when using `dplyr`, you can pin large datasets and transform them without having to fetch any data at all.
+
+Lets pin the entire dataset using `dplyr`:
+
+```{r remote-dplyr-pin}
+tbl(con, "bigquery-public-data.hacker_news.full") %>%
+  pin("hacker-news-full")
+```
+
+This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:
+
+```{r remote-dplyr-get, results = 'hide'}
+con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
+get_pin("hacker-news-full")
+```
+
+This is acceptable but not ideal -- it's hard to remember what connection to use for each dataset. So instead, pin a connection:
+
+```{r remote-dplyr-con}
+con <- pin(~DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset), "bigquery")
+```
+
+Then pin your dataset as you would usually would,
+
+```{r remote-dplyr-con-pin, results = 'hide'}
+tbl(con, "bigquery-public-data.hacker_news.full") %>%
+  pin("hacker-news-full", "The Hacker News dataset in Google BigQuery.")
+```
+
+From now on, after restarting your R session and retrieving the pin, the pin will initialize the connection before retrieving a `dplyr` reference to it with `pin("hacker-news-full")`.
+
+Which in turn, allows you to further process the datset using `dplyr` and pin additional remote datasets.
+
+```{r remote-dplyr-query-pin, results = 'hide'}
+get_pin("hacker-news-full") %>%
+  transmute(score = 10 * floor(score/10)) %>%
+  group_by(score) %>%
+  summarize(n = n()) %>%
+  filter(score < 2000) %>%
+  pin("hacker-news-scores")
+```
+
+You can then use this `dplyr` pin to process data further; for instance, by visualizing it with ease:
+
+```{r remote-dplyr-plot}
+library(ggplot2)
+
+get_pin("hacker-news-scores") %>%
+  ggplot() +
+    geom_bar(aes(x = score, y = n), stat="identity") +
+    scale_y_log10() + theme_light()
+```
+
+You can also cache this dataset locally by running `collect()` on the pin and then re-pinning it with `pin()`.
+
+## Sharing in Databases
+
+We can reuse our `bigrquery` connection to define a database-backed shared board,
+
+```{r db-board}
+use_board("database", con)
+```
+
+Which we can also use to pin a dataset,
+
+```{r db-pin, warning = FALSE}
+pin(iris, "iris", "The entire 'iris' dataset.")
+```
+
+find pins,
+
+```{r db-find-pin}
+find_pin()
+```
+
+and retrieve shared datasets.
+
+```{r db-get-pin}
+get_pin("iris")
+```
+
+Connections can also be pinned to shared boards; however, you should pin them using a proper connection object:
+
+```{r shared-connection-dbi, eval=FALSE}
+con <- pin_connection("bigquery", driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset)
+```
+
+Other packages that don't use `DBI` connections, like `sparklyr`, can use an explicit `initializer` function:
+
+```{r shared-connection-sparklyr, eval=FALSE}
+sc <- pin_connection(
+  "spark-local",
+  "sparklyr::spark_connect",
+  master = "local",
+  config = list("sparklyr.shell.driver-memory" = "4g")
+)
+```
+
+**Note:** Remove username, password and other sensitive information from your pinned connections. By default, `username` and `password` fields will be replaced with "@prompt", which will prompt the user when connecting.

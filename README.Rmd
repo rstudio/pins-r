@@ -9,14 +9,8 @@ output:
 ```{r setup, echo=FALSE, message=FALSE}
 pins::unpin("iris")
 pins::unpin("iris-small-width")
-pins::unpin("hacker-news-scores")
-pins::unpin("bigquery")
-pins::unpin("hacker-news-full")
+pins::unpin("sales")
 pins::unpin("python-df")
-unlink("~/.kaggle/kaggle.json")
-
-bq_project <- Sys.getenv("BQ_PROJECT")
-bq_dataset <- Sys.getenv("BQ_DATASET")
 
 knitr::opts_chunk$set(eval = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
@@ -26,9 +20,9 @@ knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 [![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) ![](https://img.shields.io/badge/lifecycle-experimental-red.svg)
 
 - **Track** local and remote datasets using `pin()` and `get_pin()`.
-- **Discover** new datasets from packages, online and your organization using `find_pin()`.
-- **Share** datasets with your team, or the world, using customizable boards through `use_board()`.
-- **Extend** storage locations with custom boards, you decide where your data lives.
+- **Discover** new datasets across different boards using `find_pin()`.
+- **Share** datasets with your team, or the world with `use_board()`.
+- **Pins** are also available with RStudio, Kaggle and databases boards.
 
 ## Installation
 
@@ -39,13 +33,15 @@ install.packages("remotes")
 remotes::install_github("rstudio/pins")
 ```
 
-## Tracking Datasets
+## Track
 
-It's easy to track local datasets using `pin()` and `get_pin()`. In addition, you can retrive remote datasets using `DBI` or pin remote datasets without retrieving them using `dplyr`.
+`pins` allows you to track local datasets using `pin()` and `get_pin()` as well as remote datasets. Datasets are tracked through a pin, a tool to help you track datasets without worrying too much of where the actual dataset lives. A pin can be either tabular data or arbitrary files.
+
+Lets take a look at using pins with local datasets first.
 
 ### Local Datasets
 
-You can track your datasets privately by pinning with `pin()`.
+You can track your datasets privately by pinning them with `pin()`.
 
 ```{r local-pin}
 library(dplyr, warn.conflicts = FALSE)
@@ -62,163 +58,63 @@ You can then retrieve them back with `get_pin()`.
 get_pin("iris-small-width")
 ```
 
-A pin is a tool to help you track your datasets to easily fetch results from past data analysis sessions.
-
 For instance, once a dataset is tidy, you are likely to reuse it several times. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
+
+While it's useful to pin local datasets, pins really shine when working with remote datasets.
 
 ### Remote Datasets
 
-Some datasets are stored in datasets which you usually access with `DBI` or `dplyr`. For instance, you might want to access a public dataset stored in `bigrquery`:
+When analysing data, it is common to find code that makes use of **remote files**. For example,
 
-```{r remote-con}
-con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
+```{r eval=FALSE}
+sales <- read.csv("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv")
 ```
 
-Which we can analyze with `DBI` and then pin the results locally:
+While this works fine most of the time, if the remote dataset is removed or if you are working offline, the previous code will simply break. Instead, you can `pin()` the remote dataset file before reading it,
 
-```{r remote-dbi, results = 'hide'}
-DBI::dbGetQuery(con, "
-  SELECT score, count(*) as n
-  FROM (SELECT 10 * floor(score/10) as score FROM `bigquery-public-data.hacker_news.full`)
-  GROUP BY score") %>%
-  pin("hacker-news-scores", "Hacker News scores grouped by tens.")
+```{r}
+sales <- read.csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv", "sales"))
 ```
 
-However, you can only use `DBI` when you can fetch all the data back into R, this is not feasible in many cases. Instead, when using `dplyr`, you can pin large datasets and transform them without having to fetch any data at all.
+While the code is similar, `pin()` will cache remote datasets and trigger a warning when the `pin()` fails to refresh; this is much better than having your code completely break in the absence of the remote dataset, or worse, loosing the entire dataset if the remote location breaks.
 
-Lets pin the entire dataset using `dplyr`:
+Some datasets are stored in **remote databases** which you usually access with `DBI` or `dplyr`, while they don't present the risk of being deleted by mistake, there are also bennefits to using `pins` with databases, see [Database Pins]().
 
-```{r remote-dplyr-pin}
-tbl(con, "bigquery-public-data.hacker_news.full") %>%
-  pin("hacker-news-full")
-```
+## Discover
 
-This works well if you provide the connection, after your R session gets restarted, you would have to provide a connection yourself before retrieving the pin:
+The `pins` package can help you discover interesting datasets by specifying alternate boards. A board is the default storage location for your pins, by default pins are saved and searched in your local machine, but you can also search [CRAN](https://cran.r-project.org) packages and [Kaggle](https://kaggle.com).
 
-```{r remote-dplyr-get, results = 'hide'}
-con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
-get_pin("hacker-news-full")
-```
+You can search CRAN datasets that contain "seattle" in their description or name as follows:
 
-This is acceptable but not ideal -- it's hard to remember what connection to use for each dataset. So instead, pin a connection:
-
-```{r remote-dplyr-con}
-con <- pin(~DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset), "bigquery")
-```
-
-Then pin your dataset as you would usually would,
-
-```{r remote-dplyr-con-pin, results = 'hide'}
-tbl(con, "bigquery-public-data.hacker_news.full") %>%
-  pin("hacker-news-full", "The Hacker News dataset in Google BigQuery.")
-```
-
-From now on, after restarting your R session and retrieving the pin, the pin will initialize the connection before retrieving a `dplyr` reference to it with `pin("hacker-news-full")`.
-
-Which in turn, allows you to further process the datset using `dplyr` and pin additional remote datasets.
-
-```{r remote-dplyr-query-pin, results = 'hide'}
-get_pin("hacker-news-full") %>%
-  transmute(score = 10 * floor(score/10)) %>%
-  group_by(score) %>%
-  summarize(n = n()) %>%
-  filter(score < 2000) %>%
-  pin("hacker-news-scores")
-```
-
-You can then use this `dplyr` pin to process data further; for instance, by visualizing it with ease:
-
-```{r remote-dplyr-plot}
-library(ggplot2)
-
-get_pin("hacker-news-scores") %>%
-  ggplot() +
-    geom_bar(aes(x = score, y = n), stat="identity") +
-    scale_y_log10() + theme_light()
-```
-
-You can also cache this dataset locally by running `collect()` on the pin and then re-pinning it with `pin()`.
-
-## Discovering Datasets
-
-The `pins` package can help you discover interesting datasets, currently it searches datasets inside [CRAN](https://cran.r-project.org) packages and [Kaggle](https://kaggle.com).
-
-You can search datasets that contain "seattle" in their description or name as follows:
-
-```{r discover-pin}
-find_pin("seattle")
+```{r find-pin-in-cran}
+find_pin("seattle", board = "cran")
 ```
 
 You can the retrieve a specific dataset with `get_pin()`:
 
-```{r discover-get-pin}
-get_pin("hpiR_seattle_sales")
+```{r get-pin-from-cran}
+get_pin("hpiR_seattle_sales", board = "cran")
 ```
 
-To search Kaggle datasets with `find_pin()`, you will have to download your token file from [kaggle.com/me/account](https://kaggle.com/me/account). You can then activate this token file by running:
+To search Kaggle datasets with `find_pin()`, you will have to download your token file from [kaggle.com/me/account](https://kaggle.com/me/account) and then register the Kaggle board by running:
 
-```{r eval=FALSE}
-register_board("kaggle", "<path-to-kaggle.json>")
+```{r register-kaggle-board, eval=FALSE}
+register_board("kaggle", token = "<path-to-kaggle.json>")
 ```
 
-## Sharing Datasets
+From now on, you can search the Kaggle board suing `find_pin("seattle", board = "kaggle")`, or you can also search all boards by not specyfing a particular board:
 
-`pins` supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use `use_board()` to choose a board, currently `database` and `arrow` boards are supported; however, `pins` provide an extensible API you can use to store pins anywhere.
-
-### Databases
-
-We can reuse our `bigrquery` connection to define a database-backed shared board,
-
-```{r db-board}
-use_board("database", con)
+```{r find-pin-everywhere}
+find_pin("seattle")
 ```
 
-Which we can also use to pin a dataset,
+## Share
 
-```{r db-pin, warning = FALSE}
-pin(iris, "iris", "The entire 'iris' dataset.")
-```
+`pins` supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use `use_board()` to choose a board, currently  `rstudio` and `database` boards are supported; however, the `pins` package provides an extensible API you can use to store pins anywhere. In addition, you can share dataset pins with Python users through the `pins` pip package.
 
-find pins,
+Sharing pins in RStudio and Python is presented next, you can read about sharing in database boards under [Using Databases]().
 
-```{r db-find-pin}
-find_pin()
-```
-
-and retrieve shared datasets.
-
-```{r db-get-pin}
-get_pin("iris")
-```
-
-### Connections
-
-Connections can also be pinned to shared boards; however, you should pin them using a proper connection object:
-
-```{r shared-connection-dbi, eval=FALSE}
-con <- pin_connection("bigquery", driver = "bigrquery::bigquery", project = bq_project, dataset = bq_dataset)
-```
-
-Other packages that don't use `DBI` connections, like `sparklyr`, can use an explicit `initializer` function:
-
-```{r shared-connection-sparklyr, eval=FALSE}
-sc <- pin_connection(
-  "spark-local",
-  "sparklyr::spark_connect",
-  master = "local",
-  config = list("sparklyr.shell.driver-memory" = "4g")
-)
-```
-
-**Note:** Remove username, password and other sensitive information from your pinned connections. By default, `username` and `password` fields will be replaced with "@prompt", which will prompt the user when connecting.
-
-## RStudio
-
-This package provides an [RStudio Addin](https://rstudio.github.io/rstudio-extensions/rstudio_addins.html) to search for datasets and an [RStudio Connection](https://rstudio.github.io/rstudio-extensions/rstudio-connections.html) extension to track local or remote datasets.
-
-![](tools/readme/rstudio-pins-addmin.png)
-
-The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.
+### RStudio Connect
 
 **RStudio Connect** can be used to share pins within your organization, to
 use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
@@ -242,7 +138,7 @@ Followed by specifying that secret in `use_board()`, this can be securely accomp
 use_board("rstudio", secret = Sys.getenv("secret"))
 ```
 
-## Python
+### Python
 
 You can install `pins` using `pip`:
 
@@ -280,3 +176,11 @@ You can then retrieve a specific dataset with `get_pin()`:
 ```{python}
 pins.get_pin("hpiR_seattle_sales").head(5)
 ```
+
+## RStudio
+
+This package provides an [RStudio Addin](https://rstudio.github.io/rstudio-extensions/rstudio_addins.html) to search for datasets and an [RStudio Connection](https://rstudio.github.io/rstudio-extensions/rstudio-connections.html) extension to track local or remote datasets.
+
+![](tools/readme/rstudio-pins-addmin.png)
+
+The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.
