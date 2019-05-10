@@ -78,7 +78,7 @@ pin_retrieve_yaml <- function(name, component) {
   entry$path
 }
 
-pin_remove_yaml <- function(name, component) {
+pin_remove_yaml <- function(name, component, unlink = TRUE) {
   entries <- yaml_load_entries(component)
 
   remove <- Filter(function(x) x$name == name, entries)
@@ -89,7 +89,7 @@ pin_remove_yaml <- function(name, component) {
 
   entries <- Filter(function(x) x$name != name, entries)
 
-  unlink(remove$path)
+  if (unlink) unlink(remove$path)
 
   yaml_save_entries(entries, component)
 }

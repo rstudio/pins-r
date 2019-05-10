@@ -3,7 +3,7 @@ board_initialize.local <- function(board, ...) {
 }
 
 pin_create.local <- function(board, x, name, description, type, metadata) {
-  pin_remove_yaml(name, component = "local")
+  pin_remove_yaml(name, component = "local", !is_file_pin(x))
 
   path <- if (is_file_pin(x)) x else NULL
 
