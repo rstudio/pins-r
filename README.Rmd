@@ -7,12 +7,12 @@ output:
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
-pins::unpin("iris")
-pins::unpin("iris-small-width")
+pins::unpin("iris-head")
 pins::unpin("sales")
 pins::unpin("python-df")
 
 knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 ```
 
@@ -43,18 +43,16 @@ Lets take a look at using pins with local datasets first.
 You can track your datasets privately by pinning them with `pin()`.
 
 ```{r local-pin}
-library(dplyr, warn.conflicts = FALSE)
 library(pins)
 
-iris %>%
-  filter(Sepal.Width < 3, Petal.Width < 1) %>%
-  pin("iris-small-width", "A subset of 'iris' with only small widths.")
+head(iris, 2) %>%
+  pin("iris-head", "A subset of 'iris' with only small widths.")
 ```
 
 You can then retrieve them back with `get_pin()`.
 
 ```{r local-get-pin}
-get_pin("iris-small-width")
+get_pin("iris-head")
 ```
 
 For instance, once a dataset is tidy, you are likely to reuse it several times. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
@@ -147,29 +145,29 @@ pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python -
 
 You can then track your datasets privately with `pin()`,
 
-```{python}
+```{python python_pin}
 import pins
 import pandas as pd
 
-pins.pin(pd.DataFrame({"a": [1.0, 2.0, 3.0]}), "python-df")
+pins.pin(pd.DataFrame({"a": [1, 2, 3]}), "python-df")
 ```
 
 and retrieve them back with `get_pin()`.
 
-```{python}
-pins.get_pin("iris-small-width")
+```{python python_get_pin}
+pins.get_pin("iris-head")
 ```
 
 You can search datasets that contain “seattle” in their description or
 name as follows:
 
-```{python}
-pins.find_pin("seattle")
+```{python python_find_pin}
+pins.find_pin("seattle_sales")
 ```
 
 You can then retrieve a specific dataset with `get_pin()`:
 
-```{python}
+```{python python_get_package_pin}
 pins.get_pin("hpiR_seattle_sales").head(5)
 ```
 
