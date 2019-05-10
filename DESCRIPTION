@@ -14,6 +14,7 @@ Imports:
   base64enc,
   httr,
   jsonlite,
+  magrittr,
   rsconnect,
   yaml
 Suggests:
