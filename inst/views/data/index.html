@@ -1,7 +1,32 @@
 <html>
-  <head></head>
-  <body>
-    <a href='data.csv'>Downloiad CSV</a>
-    <a href='data.rds'>Downloiad RDS</a>
+  <head>
+    <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
+    <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
+  </head>
+  <body style="font-family: sans-serif; display: flex; flex-flow: column;">
+    <span>
+      <a href="data.csv">Download CSV</a>
+      <a href="data.rds">Download RDS</a>
+    </span>
+    <div data-pagedtable style="flex: 1;">
+      <script data-pagedtable-source type="application/json">
+        {
+          "columns": "id",
+          "columns": [
+            { "align": "right", "label": "id", "name": "id", "type": "int" }
+          ],
+          "data": [
+            { "id": 1 },
+            { "id": 2 },
+            { "id": 3 }
+          ],
+          "options":{
+            "columns": { "max": 10, "min": null },
+            "pages": null,
+            "rows": { "max": null, "min": 1, "total": 3 }
+          }
+        }
+      </script>
+    </div>
   </body>
 </html>
