@@ -102,14 +102,14 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
 
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
-  html_file <- file.path(temp_dir, "index.html")
 
   saveRDS(x, rds_file, version = 2)
   write.csv(x, csv_file, row.names = FALSE)
+
   file.copy(
-    system.file("views/data/index.html", package = "pins"),
-    html_file
-  )
+    dir(system.file("views/data", package = "pins"), full.names = TRUE),
+    temp_dir,
+    recursive = TRUE)
 
   app <- deps$deploy_app(dirname(csv_file),
                          appPrimaryDoc = basename(html_file),
