@@ -53,12 +53,29 @@ The defaul board in the `pins` package is a files-based; meaning, data is stored
   db.pins_iris]]
 ```
 
-## Kaggle
-
-
 ## RStudio
 
+```{nomnoml echo=FALSE}
+[R|
+   [<note>library(pins)
+    use_board("rstudio")
+    pin(iris, "iris")]
+]-[RStudio Connect|
+  [<note>iris]]
+```
 
+When using multiple publishing servers, you can specify an specific server through `use_board("rstudio", "<server-name>")`.
+
+## Kaggle
+
+```{nomnoml echo=FALSE}
+[R|
+   [<note>library(pins)
+    use_board("kaggle")
+    pin(iris, "iris")]
+]-[Kaggle|
+  [<note>iris]]
+```
 
 ## Other
 

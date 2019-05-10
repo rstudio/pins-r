@@ -109,7 +109,7 @@ find_pin("seattle")
 
 `pins` supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use `use_board()` to choose a board, currently  `rstudio` and `database` boards are supported; however, the `pins` package provides an extensible API you can use to store pins anywhere. In addition, you can share dataset pins with Python users through the `pins` pip package.
 
-Sharing pins in RStudio and Python is presented next, you can read about sharing in database boards under [Using Databases]().
+Sharing pins in RStudio Connect and Python is presented next, you can read about sharing in database boards under [Using Databases]().
 
 ### RStudio Connect
 
@@ -121,15 +121,21 @@ account in RStudio.
 use_board("rstudio")
 ```
 
-When using multiple publishing servers, you can specify an specific server through `use_board("rstudio", "<server-name>")`.
+Once this board is active, `pin()` and `get_pin()` will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:
 
-When using `pins` within RMarkdown documents that you want to run at a given schedule, you'll have to first retrieve your publishing secret credentials:
+```{r eval=FALSE}
+library(xml2)
+data.frame(title = xml_text(xml_find_all(read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()"))) %>%
+  pin("worldnews", "A table with the latests world news from the BBC")
+```
+
+When using `pins` within RMarkdown documents that you want to run at a given schedule, like [rstudio-world-news.Rmd](https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd), you'll have to first retrieve your publishing secret credentials:
 
 ```{r eval=FALSE}
 get_board("rstudio")$secret()
 ```
 
-Followed by specifying that secret in `use_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect, please treat your credentials with care!
+Followed by specifying that secret in `use_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect. Please treat your credentials with care!
 
 ```{r eval=FALSE}
 use_board("rstudio", secret = Sys.getenv("secret"))
