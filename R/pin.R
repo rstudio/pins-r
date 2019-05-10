@@ -21,7 +21,7 @@ pin <- function(x, name, description = "", board = NULL, ...) {
 
   pin_create(board, x, name, description, type, metadata)
 
-  pin_updated()
+  pin_updated(board)
 
   result <- get_pin(name, board$name)
 
@@ -249,8 +249,8 @@ pin_is_table_subtype <- function() {
   )
 }
 
-pin_updated <- function() {
-  pins_viewer_updated()
+pin_updated <- function(board) {
+  pins_viewer_updated(board)
 }
 
 is_file_pin <- function(x) {
