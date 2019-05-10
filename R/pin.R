@@ -252,3 +252,7 @@ pin_is_table_subtype <- function() {
 pin_updated <- function() {
   pins_viewer_updated()
 }
+
+is_file_pin <- function(x) {
+  identical(attr(x, "pin_type"), "files")
+}

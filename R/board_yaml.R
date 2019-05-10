@@ -16,11 +16,12 @@ yaml_save_entries <- function(entries, component) {
   yaml::write_yaml(entries, yaml_entries_path(component))
 }
 
-pin_create_yaml <- function(name, description, type, metadata, component, extension) {
-  path <- pins_local_path(component)
+pin_create_yaml <- function(name, description, type, metadata, component, extension, path = NULL) {
   entries <- yaml_load_entries(component)
 
-  path <- file.path(path, yaml_random_string("dataset_", extension))
+  if (is.null(path)) {
+    path <- file.path(pins_local_path(component), yaml_random_string("dataset_", extension))
+  }
 
   if (identical(entries, NULL)) entries <- list()
 
@@ -59,16 +60,20 @@ pin_retrieve_yaml <- function(name, component) {
 
   names <- sapply(entries, function(e) e$name)
   paths <- sapply(entries, function(e) e$path)
+  type <- sapply(entries, function(e) e$type)
 
   entries <- data.frame(
     name = names,
     path = paths,
+    type = type,
     stringsAsFactors = FALSE
   )
 
   entry <- entries[entries$name == name, ]
 
   if (nrow(entry) != 1) stop("Pin '", name, "' not found in '", component, "' board.")
+
+  attr(entry$path, "pin_type") <- entry$type
 
   entry$path
 }
