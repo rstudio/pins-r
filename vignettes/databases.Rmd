@@ -26,6 +26,9 @@ Some datasets are stored in **remote databases** which you usually access with `
 For instance, you might want to access a public dataset stored in Big Query using `bigrquery`:
 
 ```{r remote-con}
+library(dplyr)
+library(pins)
+
 con <- DBI::dbConnect(bigrquery::bigquery(), project = bq_project, dataset = bq_dataset)
 ```
 
