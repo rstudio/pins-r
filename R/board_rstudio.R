@@ -101,9 +101,12 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   dir.create(temp_dir)
 
   feather_file <- file.path(temp_dir, "data.feather")
+  preview_file <- file.path(temp_dir, "preview.feather")
   csv_file <- file.path(temp_dir, "data.csv")
 
   feather::write_feather(x, feather_file)
+  max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
+  feather::write_feather(x[1:max_rows,], preview_file)
   write.csv(x, csv_file, row.names = FALSE)
 
   file.copy(
@@ -112,7 +115,7 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
     recursive = TRUE)
 
   app <- deps$deploy_app(dirname(csv_file),
-                         appPrimaryDoc = basename(html_file),
+                         appPrimaryDoc = "index.html",
                          lint = FALSE,
                          appName = paste0(name, "_pin"),
                          server = board$server,

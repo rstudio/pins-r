@@ -42,7 +42,7 @@
     </script>
     <script language="javascript">
       var request = new XMLHttpRequest();
-      request.open("GET", "iris/preview.feather", true);
+      request.open("GET", "preview.feather", true);
       request.responseType = "arraybuffer";
 
       request.onload = function (oEvent) {
@@ -51,11 +51,13 @@
           var df = convertToDataFrame(arrayBuffer);
 
           addPagedTable(df);
-          console.log(df);
         }
       };
 
       request.send(null);
+      if (request.status === 404) {
+        console.log("Failed to retrieve 'preview.feather'.");
+      }
     </script>
     <div id="pagedtable" style="flex: 1;"></div>
   </body>
