@@ -2,12 +2,30 @@
   <head>
     <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
     <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
+    <script language="javascript" src="feather-0.4.0/metadata_generated.js"></script>
+    <script language="javascript" src="feather-0.4.0/flatbuffers.js"></script>
+    <script language="javascript" src="feather-0.4.0/feather.js"></script>
   </head>
   <body style="font-family: sans-serif; display: flex; flex-flow: column;">
     <span>
       <a href="data.csv">Download CSV</a>
-      <a href="data.rds">Download RDS</a>
     </span>
+    <script language="javascript">
+      var oReq = new XMLHttpRequest();
+      oReq.open("GET", "iris/data.feather", true);
+      oReq.responseType = "arraybuffer";
+
+      oReq.onload = function (oEvent) {
+        var arrayBuffer = oReq.response;
+        if (arrayBuffer) {
+          var df = convertToDataFrame(arrayBuffer);
+
+          console.log(df);
+        }
+      };
+
+      oReq.send(null);
+    </script>
     <div data-pagedtable style="flex: 1;">
       <script data-pagedtable-source type="application/json">
         {
