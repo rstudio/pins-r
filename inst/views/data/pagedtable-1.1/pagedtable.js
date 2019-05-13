@@ -152,6 +152,18 @@ if (!Array.prototype.map) {
   };
 }
 
+var JsonData = function (data) {
+  this.length = data.length;
+
+  this.slice = function(idxStart, idxEnd) {
+    return data.slice(idxStart, idxEnd);
+  };
+
+  this.getRow = function(idxRow) {
+    return data[idxRow];
+  };
+};
+
 var PagedTable = function (pagedTable) {
   var me = this;
 
@@ -363,7 +375,7 @@ var PagedTable = function (pagedTable) {
         );
 
         for (var idxRow = 0; idxRow < Math.min(widthsLookAhead, data.length); idxRow++) {
-          maxChars = Math.max(maxChars, data[idxRow][column.name.toString()].length);
+          maxChars = Math.max(maxChars, data.getRow(idxRow)[column.name.toString()].length);
         }
 
         me.widths[column.name] = {
@@ -451,7 +463,7 @@ var PagedTable = function (pagedTable) {
     return me;
   };
 
-  var data = source.data;
+  var data = new JsonData(source.data);
   var page = new Page(data, options);
   var measurer = new Measurer(data, options);
   var columns = new Columns(data, source.columns, options);
