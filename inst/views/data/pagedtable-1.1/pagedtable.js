@@ -164,6 +164,28 @@ var JsonData = function (data) {
   };
 };
 
+var ArrayData = function (data) {
+  var keys = Object.keys(data);
+  this.length = Object.keys(data[keys[0]]).length;
+
+  this.slice = function(idxStart, idxEnd) {
+    var slice = [];
+    for (var idx = idxStart; idx < idxEnd; idx++)
+      slice.push(this.getRow(idx));
+
+    return slice;
+  };
+
+  this.getRow = function(idxRow) {
+    var row = {};
+    for (idxCol = 0; idxCol < keys.length; idxCol++) {
+      row[keys[idxCol]] = data[keys[idxCol]][idxRow];
+    }
+
+    return row;
+  };
+};
+
 var PagedTable = function (pagedTable) {
   var me = this;
 
@@ -375,7 +397,7 @@ var PagedTable = function (pagedTable) {
         );
 
         for (var idxRow = 0; idxRow < Math.min(widthsLookAhead, data.length); idxRow++) {
-          maxChars = Math.max(maxChars, data.getRow(idxRow)[column.name.toString()].length);
+          maxChars = Math.max(maxChars, data.getRow(idxRow)[column.name.toString()].toString().length);
         }
 
         me.widths[column.name] = {
@@ -463,7 +485,8 @@ var PagedTable = function (pagedTable) {
     return me;
   };
 
-  var data = new JsonData(source.data);
+  var data = null;
+  if (source.array) { data = new ArrayData(source.array); } else { data = new JsonData(source.data)};
   var page = new Page(data, options);
   var measurer = new Measurer(data, options);
   var columns = new Columns(data, source.columns, options);
