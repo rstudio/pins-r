@@ -11,40 +11,52 @@
       <a href="data.csv">Download CSV</a>
     </span>
     <script language="javascript">
-      var oReq = new XMLHttpRequest();
-      oReq.open("GET", "iris/data.feather", true);
-      oReq.responseType = "arraybuffer";
+      function addPagedTable(df) {
+        var columns = [];
+        var keys = Object.keys(df);
+        for (var idx = 0; idx < keys.length; idx++)
+          columns.push({ "align": "right", "label": keys[idx], "name": keys[idx], "type": "int" });
 
-      oReq.onload = function (oEvent) {
-        var arrayBuffer = oReq.response;
-        if (arrayBuffer) {
-          var df = convertToDataFrame(arrayBuffer);
-
-          console.log(df);
-        }
-      };
-
-      oReq.send(null);
-    </script>
-    <div data-pagedtable style="flex: 1;">
-      <script data-pagedtable-source type="application/json">
-        {
+        var data = {
           "columns": "id",
-          "columns": [
-            { "align": "right", "label": "id", "name": "id", "type": "int" }
-          ],
-          "data": [
-            { "id": 1 },
-            { "id": 2 },
-            { "id": 3 }
-          ],
+          "columns": columns,
+          "array": df,
           "options":{
             "columns": { "max": 10, "min": null },
             "pages": null,
             "rows": { "max": null, "min": 1, "total": 3 }
           }
+        };
+
+        var divTable = document.getElementById("pagedtable");
+        divTable.setAttribute("data-pagedtable", "");
+
+        var scriptTable = document.createElement("script");
+        scriptTable.setAttribute("data-pagedtable-source", "");
+        scriptTable.setAttribute("type", "application/json");
+        scriptTable.innerHTML = JSON.stringify(data);
+
+        divTable.appendChild(scriptTable);
+        PagedTableDoc.initAll();
+      }
+    </script>
+    <script language="javascript">
+      var request = new XMLHttpRequest();
+      request.open("GET", "iris/preview.feather", true);
+      request.responseType = "arraybuffer";
+
+      request.onload = function (oEvent) {
+        var arrayBuffer = request.response;
+        if (arrayBuffer) {
+          var df = convertToDataFrame(arrayBuffer);
+
+          addPagedTable(df);
+          console.log(df);
         }
-      </script>
-    </div>
+      };
+
+      request.send(null);
+    </script>
+    <div id="pagedtable" style="flex: 1;"></div>
   </body>
 </html>
