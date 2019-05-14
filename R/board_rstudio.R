@@ -180,7 +180,8 @@ pin_find.rstudio <- function(board, text, ...) {
 }
 
 pin_retrieve.rstudio <- function(board, name, details) {
-  rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
+  data <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
+  readr::read_csv(data$content)
 }
 
 pin_remove.rstudio <- function(board, name) {
