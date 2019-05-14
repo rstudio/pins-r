@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <head>
     <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
@@ -6,16 +7,13 @@
     <script language="javascript" src="feather-0.4.0/flatbuffers.js"></script>
     <script language="javascript" src="feather-0.4.0/feather.js"></script>
   </head>
-  <body style="font-family: sans-serif; display: flex; flex-flow: column;">
-    <span>
-      <a href="data.csv">Download CSV</a>
-    </span>
+  <body>
     <script language="javascript">
       function addPagedTable(df) {
         var columns = [];
         var keys = Object.keys(df);
         for (var idx = 0; idx < keys.length; idx++)
-          columns.push({ "align": "right", "label": keys[idx], "name": keys[idx], "type": "int" });
+          columns.push({ "align": "right", "label": keys[idx], "name": keys[idx], "type": "" });
 
         var data = {
           "columns": "id",
@@ -24,7 +22,7 @@
           "options":{
             "columns": { "max": 10, "min": null },
             "pages": null,
-            "rows": { "max": null, "min": 1, "total": 3 }
+            "rows": { "max": null, "min": 1, "total": df.length }
           }
         };
 
@@ -38,6 +36,10 @@
 
         divTable.appendChild(scriptTable);
         PagedTableDoc.initAll();
+
+        document.addEventListener("resize", function() {
+          PagedTableDoc.resizeAll();
+        });
       }
     </script>
     <script language="javascript">
@@ -59,6 +61,6 @@
         console.log("Failed to retrieve 'preview.feather'.");
       }
     </script>
-    <div id="pagedtable" style="flex: 1;"></div>
+    <div id="pagedtable" style="height: 100%;"></div>
   </body>
 </html>

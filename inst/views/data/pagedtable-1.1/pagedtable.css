@@ -1,3 +1,16 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  color: #333;
+  height: calc(100% - 20px);
+  margin: 20px 10px 0 10px;
+  overflow: hidden;
+}
+
 .pagedtable {
   overflow: auto;
   padding-left: 8px;
@@ -5,23 +18,25 @@
 }
 
 .pagedtable-wrapper {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .pagedtable table {
   width: 100%;
   max-width: 100%;
   margin: 0;
+  font-size: 12px;
+  border-bottom: 1px solid #dddddd;
+  font-weight: 100;
 }
 
 .pagedtable th {
   padding: 0 5px 0 5px;
   border: none;
-  border-bottom: 2px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
 
   min-width: 45px;
+  font-weight: normal;
 }
 
 .pagedtable-empty th {
@@ -33,7 +48,7 @@
 }
 
 .pagedtable .even {
-  background-color: rgba(140, 140, 140, 0.1);
+  background-color: #fcfcfc;
 }
 
 .pagedtable-padding-col {
@@ -76,14 +91,12 @@ a.pagedtable-index-nav-disabled:hover {
 .pagedtable-index-current {
   cursor: default;
   text-decoration: none;
-  font-weight: bold;
   color: #333;
   border: 0;
 }
 
 a.pagedtable-index-current:hover {
   text-decoration: none;
-  font-weight: bold;
   color: #333;
 }
 
@@ -111,12 +124,11 @@ a.pagedtable-index-current:hover {
 }
 
 .pagedtable-footer {
-  padding-top: 4px;
+  padding-top: 6px;
   padding-bottom: 5px;
 }
 
 .pagedtable-not-empty .pagedtable-footer {
-  border-top: 2px solid #dddddd;
 }
 
 .pagedtable-info {
@@ -133,7 +145,7 @@ a.pagedtable-index-current:hover {
 
 .pagedtable-header-type {
   color: #999;
-  font-weight: 400;
+  height: 4px;
 }
 
 .pagedtable-na-cell {
