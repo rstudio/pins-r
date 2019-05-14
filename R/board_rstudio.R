@@ -100,14 +100,15 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   temp_dir <- tempfile()
   dir.create(temp_dir)
 
-  feather_file <- file.path(temp_dir, "data.feather")
   preview_file <- file.path(temp_dir, "preview.feather")
+  rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
-  feather::write_feather(x, feather_file)
+  feather::write_feather(x, rds_file)
   max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
   feather::write_feather(x[1:max_rows,], preview_file)
   write.csv(x, csv_file, row.names = FALSE)
+  saveRDS(x, rds_file, version = 2)
 
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
