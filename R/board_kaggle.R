@@ -47,7 +47,7 @@ pin_find.kaggle <- function(board, text, ...) {
   # clear name searches
   text <- gsub("^[^/]+/", "", text)
 
-  url <- paste0("https://www.kaggle.com/api/v1/datasets/list?search=", text)
+  url <- utils::URLencode(paste0("https://www.kaggle.com/api/v1/datasets/list?search=", text))
   results <- httr::content(httr::GET(url, config = kaggle_auth()))
 
   results <- as.data.frame(do.call("rbind", results))
