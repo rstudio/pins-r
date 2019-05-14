@@ -3,64 +3,12 @@
   <head>
     <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
     <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
-    <script language="javascript" src="feather-0.4.0/metadata_generated.js"></script>
-    <script language="javascript" src="feather-0.4.0/flatbuffers.js"></script>
-    <script language="javascript" src="feather-0.4.0/feather.js"></script>
   </head>
   <body>
-    <script language="javascript">
-      function addPagedTable(df) {
-        var columns = [];
-        var keys = Object.keys(df);
-        for (var idx = 0; idx < keys.length; idx++)
-          columns.push({ "align": "right", "label": keys[idx], "name": keys[idx], "type": "" });
-
-        var data = {
-          "columns": "id",
-          "columns": columns,
-          "array": df,
-          "options":{
-            "columns": { "max": 10, "min": null },
-            "pages": null,
-            "rows": { "max": null, "min": 1, "total": df.length }
-          }
-        };
-
-        var divTable = document.getElementById("pagedtable");
-        divTable.setAttribute("data-pagedtable", "");
-
-        var scriptTable = document.createElement("script");
-        scriptTable.setAttribute("data-pagedtable-source", "");
-        scriptTable.setAttribute("type", "application/json");
-        scriptTable.innerHTML = JSON.stringify(data);
-
-        divTable.appendChild(scriptTable);
-        PagedTableDoc.initAll();
-
-        document.addEventListener("resize", function() {
-          PagedTableDoc.resizeAll();
-        });
-      }
-    </script>
-    <script language="javascript">
-      var request = new XMLHttpRequest();
-      request.open("GET", "preview.feather", true);
-      request.responseType = "arraybuffer";
-
-      request.onload = function (oEvent) {
-        var arrayBuffer = request.response;
-        if (arrayBuffer) {
-          var df = convertToDataFrame(arrayBuffer);
-
-          addPagedTable(df);
-        }
-      };
-
-      request.send(null);
-      if (request.status === 404) {
-        console.log("Failed to retrieve 'preview.feather'.");
-      }
-    </script>
-    <div id="pagedtable" style="height: 100%;"></div>
+    <div data-pagedtable style="height: 100%;">
+      <script data-pagedtable-source type="application/json">
+        {{data_preview}}
+      </script>
+    </div>
   </body>
 </html>

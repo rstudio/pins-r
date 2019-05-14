@@ -100,13 +100,9 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   temp_dir <- tempfile()
   dir.create(temp_dir)
 
-  preview_file <- file.path(temp_dir, "preview.feather")
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
-  feather::write_feather(x, rds_file)
-  max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
-  feather::write_feather(x[1:max_rows,], preview_file)
   write.csv(x, csv_file, row.names = FALSE)
   saveRDS(x, rds_file, version = 2)
 
@@ -114,6 +110,28 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
     recursive = TRUE)
+
+  max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
+  data_preview <- list(
+    columns = lapply(colnames(x), function(e) {
+      list(
+        align = "right",
+        label = e,
+        name = e,
+        type = ""
+      )
+    }),
+    data = x[1:max_rows,],
+    options = list(
+      columns = list( max = 10 ),
+      rows = list ( min = 1, total = nrow(x))
+    )
+  )
+
+  html_file <- file.path(temp_dir, "index.html")
+  html_index <- readLines(html_file)
+  html_index <- gsub("\\{\\{data_preview\\}\\}", jsonlite::toJSON(data_preview), html_index)
+  writeLines(html_index, html_file)
 
   app <- deps$deploy_app(dirname(csv_file),
                          appPrimaryDoc = "index.html",
