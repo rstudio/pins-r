@@ -117,5 +117,4 @@ pins::get_pin("sales-by-baths") %>%
     geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
 
-Please make sure to ~~pin~~ visit [pins.rstudio.com](https://rstudio.github.io/pins/index.html) to find detailed documentation and additional resources.
-
+Please make sure to ~~pin~~ visit [rstudio.github.io/pins](https://rstudio.github.io/pins/) to find detailed documentation and additional resources.
