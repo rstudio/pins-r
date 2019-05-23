@@ -1,5 +1,5 @@
 """
-The ``pins`` module provides an API for tracking, discovering and sharing datasets.
+The ``pins`` module provides an API to pin, discover and share files.
 """
 
 import os

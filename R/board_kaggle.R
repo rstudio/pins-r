@@ -91,7 +91,7 @@ board_info.kaggle <- function(board) {
   }
   else {
     install_html <- paste(
-      "To search Kaggle datasets, <b>Create New API Token</b> from",
+      "To search Kaggle, <b>Create New API Token</b> from",
       "<a href=\"https://www.kaggle.com/me/account\">kaggle.com/me/account</a>",
       ", download and run register_board(\"<path-to-kaggle.json>\")"
     )

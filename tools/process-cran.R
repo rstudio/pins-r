@@ -1,4 +1,4 @@
-# Provides support to find and index CRAN datasets, supports running
+# Provides support to find and index CRAN resources, supports running
 # locally or in Spark clusters.
 #
 # Local:
@@ -8,9 +8,9 @@
 #   library(sparklyr)
 #   sc <- spark_connect(master = "yarn", config = cran_find_config(10))
 #
-#   data <- cran_find_datasets(sc, 10^2, 10^1)
-#   data <- cran_find_datasets(sc, 10^3, 10^2)
-#   data <- cran_find_datasets(sc, 10^5, 10^4)
+#   data <- cran_find_resources(sc, 10^2, 10^1)
+#   data <- cran_find_resources(sc, 10^3, 10^2)
+#   data <- cran_find_resources(sc, 10^5, 10^4)
 #
 #   cran_index <- data %>% collect()
 #
@@ -126,7 +126,7 @@ cran_process_packages <- function(packages) {
   results
 }
 
-cran_find_datasets <- function(sc,
+cran_find_resources <- function(sc,
                                samples = 2,
                                repartition = sc$config[["sparklyr.shell.num-executors"]]) {
   pkgnames <- available.packages()[,1]
@@ -151,7 +151,7 @@ cran_find_datasets <- function(sc,
     },
     context = context,
     columns = list(name = "character", description = "character", rows = "integer", cols = "integer", class = "character"),
-    name = "cran_datasets")
+    name = "cran_resources")
 }
 
 cran_find_local <- function(samples = 2) {
@@ -175,7 +175,7 @@ cran_find_config <- function(workers = 3, worker_cpus = 8) {
 cran_save_dataset <- function(cran_index) {
   if (!dir.exists("data")) dir.create("data")
 
-  crandatasets <- dplyr::transmute(
+  cranfiles <- dplyr::transmute(
     cran_index,
     package = gsub(":.*", "", name),
     dataset = gsub(".*:", "", name),
@@ -185,12 +185,12 @@ cran_save_dataset <- function(cran_index) {
     class = class
   )
 
-  save(crandatasets, file = "data/crandatasets.rda")
+  save(cranfiles, file = "data/cranfiles.rda")
 }
 
 cran_clean_dataset <- function(cran_index) {
-  crandatasets <- get(load("data/crandatasets.rda"))
-  crandatasets <- crandatasets[crandatasets$package != "error" & crandatasets$rows > 0 & crandatasets$cols > 0,]
-  crandatasets$metadata <- sapply(1:nrow(crandatasets), function(e) paste0('{"rows":', crandatasets[e,]$rows, ',"cols":', crandatasets[e,]$cols, '}'))
-  save(crandatasets, file = "data/crandatasets.rda")
+  cranfiles <- get(load("data/cranfiles.rda"))
+  cranfiles <- cranfiles[cranfiles$package != "error" & cranfiles$rows > 0 & cranfiles$cols > 0,]
+  cranfiles$metadata <- sapply(1:nrow(cranfiles), function(e) paste0('{"rows":', cranfiles[e,]$rows, ',"cols":', cranfiles[e,]$cols, '}'))
+  save(cranfiles, file = "data/cranfiles.rda")
 }

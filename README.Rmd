@@ -1,5 +1,5 @@
 ---
-title: "pins: Track, Discover and Share Datasets"
+title: "pins: Pin and Share Remote Files"
 output:
   github_document:
     fig_width: 9
@@ -7,180 +7,115 @@ output:
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
-pins::unpin("iris-head")
-pins::unpin("sales")
-pins::unpin("python-df")
-
 knitr::opts_chunk$set(eval = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 ```
 
-[![Build Status](https://travis-ci.org/javierluraschi/pins.svg?branch=master)](https://travis-ci.org/javierluraschi/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) ![](https://img.shields.io/badge/lifecycle-experimental-red.svg)
+[![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) ![](https://img.shields.io/badge/lifecycle-experimental-red.svg)
 
-- **Track** local and remote datasets using `pin()` and `get_pin()`.
-- **Discover** new datasets across different boards using `find_pin()`.
-- **Share** datasets with your team, or the world with `use_board()`.
-- **Pins** are also available with RStudio, Kaggle and databases boards.
 
-## Installation
+You can use the `pins` package from **R**, or **Python**, to:
 
-You can install `pins` using the `remotes` package:
+- **Pin** remote files into a local cache with `pin()` to work offline and even if the remote source is removed.
+- **Share** files in GitHub, Kaggle or RStudio Connect; find files with `find_pin()` and retrieve them with `get_pin()`.
+
+To start using `pins`, install this package as follows:
 
 ``` r
 install.packages("remotes")
 remotes::install_github("rstudio/pins")
 ```
 
-## Track
-
-`pins` allows you to track local datasets using `pin()` and `get_pin()` as well as remote datasets. Datasets are tracked through a pin, a tool to help you track datasets without worrying too much of where the actual dataset lives. A pin can be either tabular data or arbitrary files.
-
-Lets take a look at using pins with local datasets first.
-
-### Local Datasets
-
-You can track your datasets privately by pinning them with `pin()`.
-
-```{r local-pin}
-library(pins)
-
-head(iris, 2) %>%
-  pin("iris-head", "A subset of 'iris' with only small widths.")
-```
-
-You can then retrieve them back with `get_pin()`.
-
-```{r local-get-pin}
-get_pin("iris-head")
-```
-
-For instance, once a dataset is tidy, you are likely to reuse it several times. You might also have a past analysis in GitHub, but you might not want to clone, install dependencies and rerun your code just to access your dataset. Another use case is to cross-join between datasets to analyse across multiple projects or help you remember which datasets you've used in the past.
-
-While it's useful to pin local datasets, pins really shine when working with remote datasets.
-
-### Remote Datasets
-
-When analysing data, it is common to find code that makes use of **remote files**. For example,
-
-```{r eval=FALSE}
-sales <- read.csv("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv")
-```
-
-While this works fine most of the time, if the remote dataset is removed or if you are working offline, the previous code will simply break. Instead, you can `pin()` the remote dataset file before reading it,
+You can **pin** remote files with `pin()` to cache those files locally, such that, even if the remote resource is removed or while working offline, your code will keep working by using a local cache:
 
 ```{r}
-sales <- read.csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv", "sales"))
+library(pins)
+readr::read_csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv", "sales"))
 ```
 
-While the code is similar, `pin()` will cache remote datasets and trigger a warning when the `pin()` fails to refresh; this is much better than having your code completely break in the absence of the remote dataset, or worse, loosing the entire dataset if the remote location breaks.
+You can also cache intermediate results to avoid having to recompute expensive operations:
 
-Some datasets are stored in **remote databases** which you usually access with `DBI` or `dplyr`, while they don't present the risk of being deleted by mistake, there are also bennefits to using `pins` with databases, see [Database Pins]().
+```{r}
+get_pin("sales") %>%
+  readr::read_csv() %>%
+  dplyr::group_by(month = lubridate::month(ds, T)) %>%
+  dplyr::summarise(total = sum(y)) %>%
+  pin("sales_by_month")
+```
 
-## Discover
+You can also find remote files using `find_pin()`; for instance, by searching files embedded in CRAN packages mentioning "seattle":
 
-The `pins` package can help you discover interesting datasets by specifying alternate boards. A board is the default storage location for your pins, by default pins are saved and searched in your local machine, but you can also search [CRAN](https://cran.r-project.org) packages and [Kaggle](https://kaggle.com).
-
-You can search CRAN datasets that contain "seattle" in their description or name as follows:
-
-```{r find-pin-in-cran}
+```{r}
 find_pin("seattle", board = "packages")
 ```
 
-You can the retrieve a specific dataset with `get_pin()`:
+You can also search other services, like Kaggle, with `register_board()`:
 
-```{r get-pin-from-cran}
-get_pin("hpiR_seattle_sales", board = "packages")
-```
-
-To search Kaggle datasets with `find_pin()`, you will have to download your token file from [kaggle.com/me/account](https://kaggle.com/me/account) and then register the Kaggle board by running:
-
-```{r register-kaggle-board, eval=FALSE}
+```{r eval=FALSE}
 register_board("kaggle", token = "<path-to-kaggle.json>")
+find_pin("seattle")
 ```
-
-From now on, you can search the Kaggle board suing `find_pin("seattle", board = "kaggle")`, or you can also search all boards by not specyfing a particular board:
-
-```{r find-pin-everywhere}
+```{r echo=FALSE}
 find_pin("seattle")
 ```
 
-## Share
+Finally, you can also **share** local files and content by publishing to particular boards; Kaggle in the following example:
 
-`pins` supports shared storage locations using boards. A board is an storage location to store pins for personal use or to share them with your team, or publicly with the world. Use `use_board()` to choose a board, currently  `rstudio` and `database` boards are supported; however, the `pins` package provides an extensible API you can use to store pins anywhere. In addition, you can share dataset pins with Python users through the `pins` pip package.
-
-Sharing pins in RStudio Connect and Python is presented next, you can read about sharing in database boards under [Using Databases]().
-
-### RStudio Connect
-
-**RStudio Connect** can be used to share pins within your organization, to
-use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
-account in RStudio.
-
-```{r eval=FALSE}
-use_board("rstudio")
+``` r
+pin(iris, "iris", board = "kaggle")
 ```
 
-Once this board is active, `pin()` and `get_pin()` will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:
+And use all the functionality available in `pins` from Python as well:
 
-```{r eval=FALSE}
-library(xml2)
-data.frame(title = xml_text(xml_find_all(read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()"))) %>%
-  pin("worldnews", "A table with the latests world news from the BBC")
-```
-
-When using `pins` within RMarkdown documents that you want to run at a given schedule, like [rstudio-world-news.Rmd](https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd), you'll have to first retrieve your publishing secret credentials:
-
-```{r eval=FALSE}
-get_board("rstudio")$secret()
-```
-
-Followed by specifying that secret in `use_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect. Please treat your credentials with care!
-
-```{r eval=FALSE}
-use_board("rstudio", secret = Sys.getenv("secret"))
-```
-
-### Python
-
-You can install `pins` using `pip`:
-
-```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins/#egg=pins\&subdirectory=python --user
-```
-
-You can then track your datasets privately with `pin()`,
-
-```{python python_pin}
+```{python eval=FALSE}
 import pins
 import pandas as pd
 
-pins.pin(pd.DataFrame({"a": [1, 2, 3]}), "python-df")
+pd.read_csv(pins.get_pin("sales"))
 ```
 
-and retrieve them back with `get_pin()`.
-
-```{python python_get_pin}
-pins.get_pin("iris-head")
-```
-
-You can search datasets that contain “seattle” in their description or
-name as follows:
-
-```{python python_find_pin}
-pins.find_pin("seattle_sales")
-```
-
-You can then retrieve a specific dataset with `get_pin()`:
-
-```{python python_get_package_pin}
-pins.get_pin("hpiR_seattle_sales").head(5)
-```
+There are other boards you can use or even create custom boards as described in the [Understanding Boards](https://rstudio.github.io/pins/articles/boards.html) article; in addition, `pins` can also be used with RStudio products which we will describe next.
 
 ## RStudio
 
-This package provides an [RStudio Addin](https://rstudio.github.io/rstudio-extensions/rstudio_addins.html) to search for datasets and an [RStudio Connection](https://rstudio.github.io/rstudio-extensions/rstudio-connections.html) extension to track local or remote datasets.
+You can use [RStudio](https://www.rstudio.com/products/rstudio/) to discover and pin remote files and [RStudio Connect](https://www.rstudio.com/products/connect/) to share content within your organization with ease.
 
-![](tools/readme/rstudio-pins-addmin.png)
+To find remote resources, simply expand the "Addins" menu and select "Find Pin" from the dropdown:
 
-The addin provides a list of datasets and visual clues that describe how large and wide eachd dataset is.
+![](tools/readme/rstudio-discover-pins.png)
+
+Notice that, the RStudio connections pane helps you track your pins by providing each board as a connection you can explore:
+
+![](tools/readme/rstudio-explore-pins.png)
+
+You can **share** local files and content using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then share our results in RStudio Connect:
+
+```{r}
+use_board("rstudio")
+```
+
+```{r}
+get_pin("hpiR_seattle_sales") %>%
+  dplyr::group_by(baths = ceiling(baths)) %>%
+  dplyr::summarise(sale = floor(mean(sale_price))) %>%
+  pin("sales-by-baths")
+```
+
+![](tools/readme/rstudio-share-pins.png)
+
+You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote file locally!
+
+For instance, a colleague can reuse the `sales-by-baths` pin by retrieving it from RStudio Connect and visualize its contents using `ggplot2`:
+
+```{r rstudio-plot-pin}
+library(ggplot2)
+
+pins::get_pin("sales-by-baths") %>%
+  ggplot(aes(x = baths, y = sale)) +
+    theme_light() + geom_point() +
+    geom_smooth(method = 'lm', formula = y ~ exp(x))
+```
+
+Please make sure to ~~pin~~ visit [pins.rstudio.com](https://rstudio.github.io/pins/index.html) to find detailed documentation and additional resources.
+

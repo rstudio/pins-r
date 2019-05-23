@@ -1,11 +1,11 @@
-#' Index of datasets found in CRAN packages
+#' Index of tabular files found in CRAN packages
 #'
-#' A dataset containing an index of all CRAN datasets. Contains a package, dataset name
-#' and description.
+#' A dataset containing an index of all CRAN files with tabular data. Contains a package,
+#' dataset name and description.
 #'
 #' @docType data
 #'
-#' @usage data(crandatasets)
+#' @usage data(cranfiles)
 #'
 #' @format An object of class \code{"data.frame"}; see \code{\link[qtl]{data.frame}}.
 #' @format A data frame with three variables: \code{package}, \code{dataset},
@@ -17,5 +17,5 @@
 #'
 #' @keywords internal
 #' @examples
-#' data(crandatasets)
-"crandatasets"
+#' data(cranfiles)
+"cranfiles"

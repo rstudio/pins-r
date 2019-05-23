@@ -4,5 +4,5 @@ pins_addin_find_pin <- function() {
   runGadget <- get("runGadget", envir = asNamespace("shiny"))
 
   app <- shinyAppDir(system.file("rstudio/shinyaddin", package = "pins"))
-  runGadget(app, viewer = dialogViewer("Find Dataset"))
+  runGadget(app, viewer = dialogViewer("Find Pin"))
 }

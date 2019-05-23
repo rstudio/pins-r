@@ -1,17 +1,18 @@
 Package: pins
 Type: Package
-Title: Track, Discover and Share Datasets
+Title: Pin and Share Remote Files
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Supports pinning remote files into a local cache
+  to work offline and even if the remote source is removed; share
+  files with others in 'GitHub', 'Kaggle' or 'RStudio Connect'.
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Depends: 
-  R (≥ 3.1)
+  R (>= 3.1)
 Imports:
   base64enc,
   httr,

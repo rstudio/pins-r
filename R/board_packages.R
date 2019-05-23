@@ -9,7 +9,7 @@ pin_find.packages <- function(board, text, ...) {
     )
   }
 
-  crandatasets <- get_crandatasets()
+  cranfiles <- get_cranfiles()
 
   parts <- strsplit(text, "_")[[1]]
   if (length(parts) > 1) {
@@ -17,9 +17,9 @@ pin_find.packages <- function(board, text, ...) {
     text <- paste(parts[2:length(parts)], collapse = "_")
   }
 
-  find_names <- grepl(text, crandatasets$dataset)
-  find_description <- grepl(text, crandatasets$description)
-  package_pins <- crandatasets[find_names | find_description,]
+  find_names <- grepl(text, cranfiles$dataset)
+  find_description <- grepl(text, cranfiles$description)
+  package_pins <- cranfiles[find_names | find_description,]
 
   if (length(package_pins$dataset) > 0) {
     data.frame(
@@ -39,12 +39,12 @@ pin_retrieve.packages <- function(board, name, details) {
 
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
 
-  crandatasets <- get_crandatasets()
+  cranfiles <- get_cranfiles()
 
   package <- parts[1]
   name <- paste(parts[2:length(parts)], collapse = "_")
 
-  package_pin <- crandatasets[which(crandatasets$package == package, crandatasets$dataset == name),]
+  package_pin <- cranfiles[which(cranfiles$package == package, cranfiles$dataset == name),]
   packages_path <- pins_local_path("packages")
 
   package_path <- dir(
@@ -80,14 +80,14 @@ pin_retrieve.packages <- function(board, name, details) {
   get(load(data_file))
 }
 
-get_crandatasets <- function() {
+get_cranfiles <- function() {
   if (is.null(.globals$datasets)) {
     .globals$datasets <- new.env()
   }
 
-  if (is.null(.globals$datasets$crandatasets)) {
-    data(crandatasets, envir = .globals$datasets)
+  if (is.null(.globals$datasets$cranfiles)) {
+    data(cranfiles, envir = .globals$datasets)
   }
 
-  .globals$datasets$crandatasets
+  .globals$datasets$cranfiles
 }

@@ -12,7 +12,7 @@ pins::use_board("rstudio")$secret()
 
 ## News Pin
 
-The following chunks creates a dataset with the latest world news from BBC:
+The following chunks creates a list with the latest world news from the BBC:
 
 ```{r retrieve-world-news}
 library(xml2)
@@ -36,7 +36,7 @@ use_board("rstudio", secret = Sys.getenv("secret"))
 pin(world_news, "worldnews", "A table with the latests world news from the BBC")
 ```
 
-We can then access this dataset with ease from any notebook that has access to RStudio Connect:
+We can then access this pin with ease from any notebook that has access to RStudio Connect:
 
 ```{r}
 use_board("rstudio")
