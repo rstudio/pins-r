@@ -33,16 +33,6 @@ pin_metadata <- function(x) {
   UseMethod("pin_metadata")
 }
 
-#' Pin Extension Metadata
-#'
-#' Creates metadata for a pin when extending boards.
-#'
-#' @param name The name of the pin.
-#' @param board The board where this pin will be retrieved from.
-#' @param ... Additional parameters.
-#'
-#' @keywords internal
-#' @export
 pins_metadata_create <- function(rows, cols) {
   list(
     rows = rows,
@@ -64,7 +54,6 @@ pin_metadata.default <- function(x) {
 #'
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
-#' @param type The type of pin to retrieve.
 #' @param ... Additional parameters.
 #'
 #' @export
