@@ -1,0 +1,11 @@
+sudo: false
+
+language: r
+
+warnings_are_errors: true
+
+os:
+  - linux
+
+cache:
+  packages: true

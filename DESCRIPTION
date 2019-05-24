@@ -22,5 +22,6 @@ Imports:
   yaml
 Suggests:
   knitr,
-  rmarkdown
+  rmarkdown,
+  testthat
 VignetteBuilder: knitr
