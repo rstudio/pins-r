@@ -34,18 +34,11 @@ HTMLWidgets.widget({
       var actualHeight = canvas.getAttribute('height');
       
       var scale = Math.min(width / actualWidth, height / actualHeight);
-      var innerWidth = actualWidth * scale;
-      var innerHeight = actualHeight * scale;
       
-      var transformX = -actualWidth / 2 * (1 - scale);
-      var transformY = -actualHeight / 2 * (1 - scale);
-      
-      transformY += height / 2 - actualHeight * scale / 2;
-      transformX += width / 2 - actualWidth * scale / 2;
-
       canvas.style = "transform:" +
-        "translate(" + transformX + "px," + transformY + "px) " +
-        "scale(" + scale + ")";
+        "translate(" + (-actualWidth / 2) + "px," + (-actualHeight / 2) + "px) " +
+        "scale(" + scale + ") " +
+        "translate(" + (width / 2 / scale) + "px," + (height / 2 / scale) + "px); ";
     };
     
     return {
@@ -68,6 +61,7 @@ HTMLWidgets.widget({
           resizeSvg(width, height);
         }
         else {
+          el.style.textAlign = "left";
           canvas = document.createElement("canvas");
           el.appendChild(canvas);
           

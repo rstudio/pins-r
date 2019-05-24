@@ -43,9 +43,6 @@
   </a>
 </li>
 <li>
-  <a href="../articles/pins.html">Get started</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -57,9 +54,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/boards.html">Understanding Boards</a>
-    </li>
-    <li>
-      <a href="../articles/databases.html">Using Databases</a>
     </li>
   </ul>
 </li>
@@ -87,58 +81,67 @@
     
     
 <p>A board is an storage location to store pins for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.</p>
-<div id="htmlwidget-75bb7f0dd359da7f88d9" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75bb7f0dd359da7f88d9">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
+<div id="htmlwidget-69f0df2bf7228b94bbb9" style="width:672px;height:230.4px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69f0df2bf7228b94bbb9">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#files" class="anchor"></a>Files</h2>
-<p>The defaul board in the <code>pins</code> package is a files-based; meaning, data is stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a <code>pins</code> folder under the default home folder for your user.</p>
-<div id="htmlwidget-db137a834b58c58cb577" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-db137a834b58c58cb577">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="database" class="section level2">
-<h2 class="hasAnchor">
-<a href="#database" class="anchor"></a>Database</h2>
-<div id="htmlwidget-27e2ad898f2b9417abc7" style="width:700px;height:432.632880098888px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-27e2ad898f2b9417abc7">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"database\", DBI::dbConnect())\n    pin(iris, \"iris\")]\n]-[<database>Database|\n  [<note>db.pins\n  db.pins_iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="kaggle" class="section level2">
-<h2 class="hasAnchor">
-<a href="#kaggle" class="anchor"></a>Kaggle</h2>
+<p>The defaul board in the <code>pins</code> package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a <code>pins</code> folder under the default home folder for your user.</p>
+<div id="htmlwidget-2b18c7f918f3e022da8f" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2b18c7f918f3e022da8f">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="rstudio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
+<p><strong>RStudio Connect</strong> can be used to share pins within your organization, to use this feature you will need to configure a <a href="https://docs.rstudio.com/connect/user/publishing.html">publishing</a> account in RStudio.</p>
+<div id="htmlwidget-3023348d573406a53665" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3023348d573406a53665">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"rstudio\")\n    pin(iris, \"iris\")]\n]-[RStudio Connect|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/use_board.html">use_board</a></span>(<span class="st">"rstudio"</span>)</a></code></pre></div>
+<p>Once this board is active, <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/get_pin.html">get_pin()</a></code> will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(xml2)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">title =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/xml2/topics/xml_text">xml_text</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/xml2/topics/xml_find_all">xml_find_all</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/xml2/topics/read_xml">read_xml</a></span>(<span class="st">"http://feeds.bbci.co.uk/news/rss.xml"</span>), <span class="st">"///item/title/node()"</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"worldnews"</span>, <span class="st">"A table with the latests world news from the BBC"</span>)</a></code></pre></div>
+<p>When using multiple publishing servers, you can specify an specific server through <code><a href="../reference/use_board.html">use_board("rstudio", "&lt;server-name&gt;")</a></code>.</p>
+<p>When using <code>pins</code> within RMarkdown documents that you want to run at a given schedule, like <a href="https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd">rstudio-world-news.Rmd</a>, you’ll have to first retrieve your publishing secret credentials:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/get_board.html">get_board</a></span>(<span class="st">"rstudio"</span>)<span class="op">$</span><span class="kw">secret</span>()</a></code></pre></div>
+<p>Followed by specifying that secret in <code><a href="../reference/use_board.html">use_board()</a></code>, this can be securely accomplish by defining an environment variable <code>secret</code> with the contents from the previous step in RStudio Connect. Please treat your credentials with care!</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/use_board.html">use_board</a></span>(<span class="st">"rstudio"</span>, <span class="dt">secret =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"secret"</span>))</a></code></pre></div>
+</div>
+<div id="kaggle" class="section level2">
+<h2 class="hasAnchor">
+<a href="#kaggle" class="anchor"></a>Kaggle</h2>
+<div id="htmlwidget-966ceeda631239301ff5" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-966ceeda631239301ff5">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="other" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other" class="anchor"></a>Other</h2>
 <p>If the boards that the <code>pins</code> package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.</p>
 <p>The following example creatse an in-memory board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it’s a simple example that you can use to start developing custom boards:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">board_initialize.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, ...) {</a>
-<a class="sourceLine" id="cb1-2" title="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.environment">as.environment</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(), <span class="dt">description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(), <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(), <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>())))</a>
-<a class="sourceLine" id="cb1-3" title="3">}</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5">pin_create.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, x, name, description, type, metadata) {</a>
-<a class="sourceLine" id="cb1-6" title="6">  board<span class="op">$</span>data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(board<span class="op">$</span>data,</a>
-<a class="sourceLine" id="cb1-7" title="7">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">name =</span> name, <span class="dt">description =</span> description, <span class="dt">type =</span> type, <span class="dt">metadata =</span> metadata)</a>
-<a class="sourceLine" id="cb1-8" title="8">  )</a>
-<a class="sourceLine" id="cb1-9" title="9">}</a>
-<a class="sourceLine" id="cb1-10" title="10"></a>
-<a class="sourceLine" id="cb1-11" title="11">pin_find.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, text) {</a>
-<a class="sourceLine" id="cb1-12" title="12">  <span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(text)) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(.memory_board)</a>
-<a class="sourceLine" id="cb1-13" title="13">  board<span class="op">$</span>data[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(text, board<span class="op">$</span>data<span class="op">$</span>description) <span class="op">|</span><span class="st"> </span>board<span class="op">$</span>data<span class="op">$</span>name <span class="op">==</span><span class="st"> </span>text,]</a>
-<a class="sourceLine" id="cb1-14" title="14">}</a>
-<a class="sourceLine" id="cb1-15" title="15"></a>
-<a class="sourceLine" id="cb1-16" title="16">pin_retrieve.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, name) {</a>
-<a class="sourceLine" id="cb1-17" title="17">  board<span class="op">$</span>data[board<span class="op">$</span>data<span class="op">$</span>name <span class="op">==</span><span class="st"> </span>name]</a>
-<a class="sourceLine" id="cb1-18" title="18">}</a>
-<a class="sourceLine" id="cb1-19" title="19"></a>
-<a class="sourceLine" id="cb1-20" title="20">pin_remove.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, name) {</a>
-<a class="sourceLine" id="cb1-21" title="21">  board<span class="op">$</span>data &lt;-<span class="st"> </span>board<span class="op">$</span>data[board<span class="op">$</span>data<span class="op">$</span>name <span class="op">!=</span><span class="st"> </span>name]</a>
-<a class="sourceLine" id="cb1-22" title="22">}</a>
-<a class="sourceLine" id="cb1-23" title="23"></a>
-<a class="sourceLine" id="cb1-24" title="24">board_info.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board) {</a>
-<a class="sourceLine" id="cb1-25" title="25">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">board_initialize.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, ...) {</a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.environment">as.environment</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(), <span class="dt">description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(), <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(), <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>())))</a>
+<a class="sourceLine" id="cb5-3" title="3">}</a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5">pin_create.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, x, name, description, type, metadata) {</a>
+<a class="sourceLine" id="cb5-6" title="6">  board<span class="op">$</span>data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(board<span class="op">$</span>data,</a>
+<a class="sourceLine" id="cb5-7" title="7">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">name =</span> name, <span class="dt">description =</span> description, <span class="dt">type =</span> type, <span class="dt">metadata =</span> metadata)</a>
+<a class="sourceLine" id="cb5-8" title="8">  )</a>
+<a class="sourceLine" id="cb5-9" title="9">}</a>
+<a class="sourceLine" id="cb5-10" title="10"></a>
+<a class="sourceLine" id="cb5-11" title="11">pin_find.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, text) {</a>
+<a class="sourceLine" id="cb5-12" title="12">  <span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(text)) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(.memory_board)</a>
+<a class="sourceLine" id="cb5-13" title="13">  board<span class="op">$</span>data[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(text, board<span class="op">$</span>data<span class="op">$</span>description) <span class="op">|</span><span class="st"> </span>board<span class="op">$</span>data<span class="op">$</span>name <span class="op">==</span><span class="st"> </span>text,]</a>
+<a class="sourceLine" id="cb5-14" title="14">}</a>
+<a class="sourceLine" id="cb5-15" title="15"></a>
+<a class="sourceLine" id="cb5-16" title="16">pin_retrieve.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, name) {</a>
+<a class="sourceLine" id="cb5-17" title="17">  board<span class="op">$</span>data[board<span class="op">$</span>data<span class="op">$</span>name <span class="op">==</span><span class="st"> </span>name]</a>
+<a class="sourceLine" id="cb5-18" title="18">}</a>
+<a class="sourceLine" id="cb5-19" title="19"></a>
+<a class="sourceLine" id="cb5-20" title="20">pin_remove.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board, name) {</a>
+<a class="sourceLine" id="cb5-21" title="21">  board<span class="op">$</span>data &lt;-<span class="st"> </span>board<span class="op">$</span>data[board<span class="op">$</span>data<span class="op">$</span>name <span class="op">!=</span><span class="st"> </span>name]</a>
+<a class="sourceLine" id="cb5-22" title="22">}</a>
+<a class="sourceLine" id="cb5-23" title="23"></a>
+<a class="sourceLine" id="cb5-24" title="24">board_info.memory &lt;-<span class="st"> </span><span class="cf">function</span>(board) {</a>
+<a class="sourceLine" id="cb5-25" title="25">}</a></code></pre></div>
 </div>
   </div>
 
@@ -148,9 +151,8 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#files">Files</a></li>
-      <li><a href="#database">Database</a></li>
-      <li><a href="#kaggle">Kaggle</a></li>
       <li><a href="#rstudio">RStudio</a></li>
+      <li><a href="#kaggle">Kaggle</a></li>
       <li><a href="#other">Other</a></li>
       </ul>
 </div>

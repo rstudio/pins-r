@@ -13,7 +13,7 @@ library(nomnoml)
 
 A board is an storage location to store pins for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.
 
-```{nomnoml echo=FALSE}
+```{nomnoml echo=FALSE, fig.width=7, fig.height=2.4}
 [Pin]->[Create]
 [Create]->[Board]
 [Pin]<-[Find]
@@ -28,7 +28,7 @@ A board is an storage location to store pins for personal use, with your team, o
 
 The defaul board in the `pins` package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a `pins` folder under the default home folder for your user.
 
-```{nomnoml echo=FALSE}
+```{nomnoml echo=FALSE, fig.width=7, fig.height=1.6}
 [R|
   [<note>library(pins)
     pin(iris, "iris")]
@@ -41,25 +41,13 @@ The defaul board in the `pins` package is a files-based; meaning, remote files a
 ]
 ```
 
-## Database
-
-```{nomnoml echo=FALSE}
-[R|
-   [<note>library(pins)
-    use_board("database", DBI::dbConnect())
-    pin(iris, "iris")]
-]-[<database>Database|
-  [<note>db.pins
-  db.pins_iris]]
-```
-
 ## RStudio
 
 **RStudio Connect** can be used to share pins within your organization, to
 use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
 account in RStudio.
 
-```{nomnoml echo=FALSE}
+```{nomnoml echo=FALSE, fig.width=7, fig.height=1.6}
 [R|
    [<note>library(pins)
     use_board("rstudio")
@@ -98,7 +86,7 @@ use_board("rstudio", secret = Sys.getenv("secret"))
 
 ## Kaggle
 
-```{nomnoml echo=FALSE}
+```{nomnoml echo=FALSE, fig.width=7, fig.height=1.6}
 [R|
    [<note>library(pins)
     use_board("kaggle")

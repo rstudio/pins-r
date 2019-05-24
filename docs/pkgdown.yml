@@ -3,6 +3,4 @@ pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
   boards: boards.html
-  databases: databases.html
-  pins: pins.html
 
