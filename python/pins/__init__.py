@@ -170,14 +170,11 @@ def _from_feather(path):
     return feather.read_dataframe(path)
     
 def _eval_deserialize(operation, serializer):
-    if serializer == "arrow":
-        return _from_arrow(r_eval("pins::as_arrow(" + operation + ")"))
-    else:
-        feather_path = r_eval('tempfile(fileext = ".feather")')
-        r_eval("feather::write_feather(" + operation + ", \"" + feather_path + "\")")
-        result = _from_feather(feather_path)
-        os.remove(feather_path)
-        return result
+    feather_path = r_eval('tempfile(fileext = ".feather")')
+    r_eval("feather::write_feather(" + operation + ", \"" + feather_path + "\")")
+    result = _from_feather(feather_path)
+    os.remove(feather_path)
+    return result
 
 def find_pin(text = "", serializer = "feather"):
     """
