@@ -46,13 +46,7 @@ retail_sales %>%
   pin("sales_by_month")
 ```
 
-You can also find remote files using `find_pin()`; for instance, by searching files embedded in CRAN packages mentioning "seattle":
-
-```{r}
-find_pin("seattle", board = "packages")
-```
-
-You can also search other services, like Kaggle, with `register_board()`:
+You can also find remote files using `find_pin()` which can find files embedded in CRAN packages, but you can also configure Kaggle with ease with `register_board()`. For instance, we can search files mentioning "seattle":
 
 ```{r eval=FALSE}
 register_board("kaggle", token = "<path-to-kaggle.json>")
@@ -62,7 +56,8 @@ find_pin("seattle")
 find_pin("seattle")
 ```
 
-Finally, you can also **share** local files and content by publishing to particular boards; Kaggle in the following example:
+
+Finally, you can also **share** local files and content by publishing to particular boards,
 
 ``` r
 pin(iris, "iris", board = "kaggle")
