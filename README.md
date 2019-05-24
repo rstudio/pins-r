@@ -1,17 +1,21 @@
 pins: Pin and Share Remote Files
 ================
 
+# pins: Pin and Share Remote Files
+
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
-![](https://img.shields.io/badge/lifecycle-experimental-red.svg)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-red.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 You can use the `pins` package from **R**, or **Python**, to:
 
   - **Pin** remote files into a local cache with `pin()` to work offline
     and even if the remote source is removed.
-  - **Share** files in GitHub, Kaggle or RStudio Connect; find files
-    with `find_pin()` and retrieve them with `get_pin()`.
+  - **Share** files by pinning them in GitHub, Kaggle or RStudio
+    Connect; find pins with `find_pin()` and retrieve their contents
+    with `get_pin()`.
 
 To start using `pins`, install this package as follows:
 
@@ -26,46 +30,18 @@ offline, your code will keep working by using a local cache:
 
 ``` r
 library(pins)
-readr::read_csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv", "sales"))
+retail_sales <- readr::read_csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv", "sales"))
 ```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   ds = col_date(format = ""),
-    ##   y = col_double()
-    ## )
-
-    ## # A tibble: 293 x 2
-    ##    ds              y
-    ##    <date>      <dbl>
-    ##  1 1992-01-01 146376
-    ##  2 1992-02-01 147079
-    ##  3 1992-03-01 159336
-    ##  4 1992-04-01 163669
-    ##  5 1992-05-01 170068
-    ##  6 1992-06-01 168663
-    ##  7 1992-07-01 169890
-    ##  8 1992-08-01 170364
-    ##  9 1992-09-01 164617
-    ## 10 1992-10-01 173655
-    ## # … with 283 more rows
 
 You can also cache intermediate results to avoid having to recompute
 expensive operations:
 
 ``` r
-get_pin("sales") %>%
-  readr::read_csv() %>%
+retail_sales %>%
   dplyr::group_by(month = lubridate::month(ds, T)) %>%
   dplyr::summarise(total = sum(y)) %>%
   pin("sales_by_month")
 ```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   ds = col_date(format = ""),
-    ##   y = col_double()
-    ## )
 
     ## # A tibble: 12 x 2
     ##    month   total
@@ -83,30 +59,17 @@ get_pin("sales") %>%
     ## 11 Nov   7438702
     ## 12 Dec   8656874
 
-You can also find remote files using `find_pin()`; for instance, by
-searching files embedded in CRAN packages mentioning “seattle”:
-
-``` r
-find_pin("seattle", board = "packages")
-```
-
-    ## # A tibble: 4 x 4
-    ##   name               description                               type  board 
-    ##   <fct>              <fct>                                     <fct> <chr> 
-    ## 1 hpiR_seattle_sales Seattle Home Sales from hpiR package.     table packa…
-    ## 2 microsynth_seattl… Data for a crime intervention in Seattle… table packa…
-    ## 3 vegawidget_data_s… Example dataset: Seattle daily weather f… table packa…
-    ## 4 vegawidget_data_s… Example dataset: Seattle hourly temperat… table packa…
-
-You can also search other services, like Kaggle, with
-`register_board()`:
+You can also find remote files using `find_pin()` which can find files
+embedded in CRAN packages, but you can also configure Kaggle with ease
+with `register_board()`. For instance, we can search files mentioning
+“seattle”:
 
 ``` r
 register_board("kaggle", token = "<path-to-kaggle.json>")
 find_pin("seattle")
 ```
 
-    ## # A tibble: 23 x 4
+    ## # A tibble: 24 x 4
     ##    name                     description                        type  board 
     ##    <chr>                    <chr>                              <chr> <chr> 
     ##  1 hpiR_seattle_sales       Seattle Home Sales from hpiR pack… table packa…
@@ -114,15 +77,15 @@ find_pin("seattle")
     ##  3 vegawidget_data_seattle… Example dataset: Seattle daily we… table packa…
     ##  4 vegawidget_data_seattle… Example dataset: Seattle hourly t… table packa…
     ##  5 airbnb/seattle           Seattle Airbnb Open Data           files kaggle
-    ##  6 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
-    ##  7 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
-    ##  8 sam/seattle-crime        Seattle Police Reports             files kaggle
-    ##  9 seattle-public-library/… Seattle Library Checkout Records   files kaggle
+    ##  6 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
+    ##  7 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
+    ##  8 seattle-public-library/… Seattle Library Checkout Records   files kaggle
+    ##  9 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
     ## 10 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
-    ## # … with 13 more rows
+    ## # … with 14 more rows
 
 Finally, you can also **share** local files and content by publishing to
-particular boards; Kaggle in the following example:
+particular boards,
 
 ``` r
 pin(iris, "iris", board = "kaggle")
@@ -177,7 +140,7 @@ get_pin("hpiR_seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5221...DONE
-    ## Deploying bundle: 12441 for data: 5221 ...
+    ## Deploying bundle: 12466 for data: 5221 ...
 
     ## Building static content...
 
@@ -219,5 +182,5 @@ pins::get_pin("sales-by-baths") %>%
 ![](tools/readme/rstudio-plot-pin-1.png)<!-- -->
 
 Please make sure to ~~pin~~ visit
-[pins.rstudio.com](https://rstudio.github.io/pins/index.html) to find
+[rstudio.github.io/pins](https://rstudio.github.io/pins/) to find
 detailed documentation and additional resources.
