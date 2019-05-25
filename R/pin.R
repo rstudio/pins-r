@@ -33,15 +33,8 @@ pin_metadata <- function(x) {
   UseMethod("pin_metadata")
 }
 
-pins_metadata_create <- function(rows, cols) {
-  list(
-    rows = rows,
-    cols = cols
-  )
-}
-
 pin_metadata.data.frame <- function(x) {
-  pins_metadata_create(nrow(x), ncol(x))
+  list(row = nrow(x), cols = ncol(x))
 }
 
 pin_metadata.default <- function(x) {
