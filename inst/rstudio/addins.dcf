@@ -1,4 +1,4 @@
 Name: Find Pins
 Description: Find pins in all the registered boards
-Binding: pins_addin_find_pin
+Binding: pins_addin_pin_find
 Interactive: true

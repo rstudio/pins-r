@@ -2,7 +2,7 @@ board_initialize.packages <- function(board, ...) {
   board
 }
 
-pin_find.packages <- function(board, text, ...) {
+board_find_pin.packages <- function(board, text, ...) {
   if (is.null(text)) {
     return(
       data.frame(name = c(), description = c(), type = c(), metadata = c())

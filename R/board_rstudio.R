@@ -147,7 +147,7 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   app
 }
 
-pin_find.rstudio <- function(board, text, ...) {
+board_find_pin.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
   everything <- identical(list(...)$everything, TRUE)
@@ -184,7 +184,7 @@ pin_retrieve.rstudio <- function(board, name, details) {
   readr::read_csv(data$content)
 }
 
-pin_remove.rstudio <- function(board, name) {
+board_remove_pin.rstudio <- function(board, name) {
   stop("Removing pins from 'rstudio' boards is currently unsupported.")
 }
 

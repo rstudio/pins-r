@@ -5,13 +5,13 @@ pins_addin_source_choices <- function() {
 
 pins_addin_server <- function(input, output, session) {
   observe({
-    results <- find_pin(input$search, board = input$board, metadata = TRUE)
+    results <- pin_find(input$search, board = input$board, metadata = TRUE)
     session$sendCustomMessage("search-results", results)
   })
 
   observe({
     results <- list(
-      boards = lapply(all_boards(), function(e) pins:::get_board(e))
+      boards = lapply(board_list(), function(e) pins::board_get(e))
     )
 
     session$sendCustomMessage("initialized", results)
@@ -21,7 +21,7 @@ pins_addin_server <- function(input, output, session) {
     dataset <- input$dataset
     if (is.character(dataset) && nchar(dataset) > 0) {
       rstudioapi::sendToConsole(paste0(
-        "View(pins::preview_pin(\"", dataset , "\")", ", \"", dataset , "\")"
+        "View(pins::pin_preview(\"", dataset , "\")", ", \"", dataset , "\")"
       ))
 
       stopApp(dataset)

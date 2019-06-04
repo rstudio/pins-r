@@ -19,7 +19,7 @@ pin_create.local <- function(board, x, name, description, type, metadata) {
   if (!is_file_pin(x)) saveRDS(x, path)
 }
 
-pin_find.local <- function(board, text, ...) {
+board_find_pin.local <- function(board, text, ...) {
   pin_find_yaml(text, "local")
 }
 
@@ -29,6 +29,6 @@ pin_retrieve.local <- function(board, name, details) {
   if (is_file_pin(path)) path else readRDS(path)
 }
 
-pin_remove.local <- function(board, name) {
+board_remove_pin.local <- function(board, name) {
   pin_remove_yaml(name, "local")
 }

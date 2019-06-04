@@ -48,12 +48,8 @@ retail_sales %>%
   pin("sales_by_month")
 ```
 
-You can also find remote files using `pin_find()` which can find files embedded in CRAN packages, but you can also configure Kaggle with ease with `board_register()`. For instance, we can search resources mentioning "seattle":
+You can also find remote resources using `pin_find()` which can search CRAN packages and Kaggle. Kaggle requires to configure it by running once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then we can search resources mentioning "seattle" in CRAN packages and Kaggle with ease:
 
-```{r eval=FALSE}
-board_register("kaggle", token = "<path-to-kaggle.json>")
-pin_find("seattle")
-```
 ```{r echo=FALSE}
 pin_find("seattle")
 ```
