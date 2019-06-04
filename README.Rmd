@@ -43,7 +43,7 @@ You can also cache intermediate results to avoid having to recompute expensive o
 
 ```{r}
 retail_sales %>%
-  group_by(month = month(ds, T)) %>%
+  group_by(month = lubridate::month(ds, T)) %>%
   summarise(total = sum(y)) %>%
   pin("sales_by_month")
 ```
