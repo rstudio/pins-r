@@ -9,7 +9,12 @@
 #' @param ... Additional parameters.
 #'
 #' @export
-pin <- function(x, name, description = "", board = NULL, ...) {
+pin <- function(x, name = NULL, description = "", board = NULL, ...) {
+  if (is.null(name)) {
+    if (is.character(x)) name <- basename(x)
+    else stop("The 'name' parameter is required for '", class(x)[[1]], "' objects.")
+  }
+
   board <- get_board(board)
 
   metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
