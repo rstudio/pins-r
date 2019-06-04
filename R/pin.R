@@ -11,7 +11,7 @@
 #' @export
 pin <- function(x, name = NULL, description = "", board = NULL, ...) {
   if (is.null(name)) {
-    if (is.character(x)) name <- basename(x)
+    if (is.character(x)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(x)))
     else stop("The 'name' parameter is required for '", class(x)[[1]], "' objects.")
   }
 
