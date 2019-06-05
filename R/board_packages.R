@@ -11,10 +11,10 @@ board_find_pin.packages <- function(board, text, ...) {
 
   cranfiles <- get_cranfiles()
 
-  parts <- strsplit(text, "_")[[1]]
+  parts <- strsplit(text, "/")[[1]]
   if (length(parts) > 1) {
     # remove package name
-    text <- paste(parts[2:length(parts)], collapse = "_")
+    text <- paste(parts[2:length(parts)], collapse = "/")
   }
 
   find_names <- grepl(text, cranfiles$dataset)
@@ -23,7 +23,7 @@ board_find_pin.packages <- function(board, text, ...) {
 
   if (length(package_pins$dataset) > 0) {
     data.frame(
-      name = paste(package_pins$package, package_pins$dataset, sep = "_"),
+      name = paste(package_pins$package, package_pins$dataset, sep = "/"),
       description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package."),
       type = rep("table", length(package_pins$dataset)),
       metadata = package_pins$metadata
@@ -35,14 +35,14 @@ board_find_pin.packages <- function(board, text, ...) {
 }
 
 board_pin_get.packages <- function(board, name, details) {
-  parts <- strsplit(name, "_")[[1]]
+  parts <- strsplit(name, "/")[[1]]
 
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
 
   cranfiles <- get_cranfiles()
 
   package <- parts[1]
-  name <- paste(parts[2:length(parts)], collapse = "_")
+  name <- paste(parts[2:length(parts)], collapse = "/")
 
   package_pin <- cranfiles[which(cranfiles$package == package, cranfiles$dataset == name),]
   packages_path <- pins_local_path("packages")
