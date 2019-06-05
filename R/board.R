@@ -13,6 +13,10 @@ new_board <- function(name, ...) {
   board
 }
 
+board_pin_get <- function(board, name, details) {
+  UseMethod("board_pin_get")
+}
+
 #' Connect to Board
 #'
 #' Connects to a board to activate RStudio's conneection pane, when available.

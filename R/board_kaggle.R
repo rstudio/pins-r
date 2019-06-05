@@ -37,8 +37,8 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-pin_create.kaggle <- function(board, x, name, description, type, metadata) {
-
+board_create_pin.kaggle <- function(board, x, name, description, type, metadata) {
+  stop("Not yet implemented.")
 }
 
 board_find_pin.kaggle <- function(board, text, ...) {
@@ -62,7 +62,7 @@ board_find_pin.kaggle <- function(board, text, ...) {
   )
 }
 
-pin_retrieve.kaggle <- function(board, name, details) {
+board_pin_get.kaggle <- function(board, name, details) {
   local_path <- file.path(pins:::pins_local_path("kaggle"), name)
 
   if (!dir.exists(local_path)) {

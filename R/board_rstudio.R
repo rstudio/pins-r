@@ -94,7 +94,7 @@ board_initialize.rstudio <- function(board, ...) {
   board
 }
 
-pin_create.rstudio <- function(board, x, name, description, type, metadata) {
+board_create_pin.rstudio <- function(board, x, name, description, type, metadata) {
   deps <- rstudio_dependencies()
 
   temp_dir <- tempfile()
@@ -179,7 +179,7 @@ board_find_pin.rstudio <- function(board, text, ...) {
   }
 }
 
-pin_retrieve.rstudio <- function(board, name, details) {
+board_pin_get.rstudio <- function(board, name, details) {
   data <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
   readr::read_csv(data$content)
 }

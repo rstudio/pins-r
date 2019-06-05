@@ -34,7 +34,7 @@ board_find_pin.packages <- function(board, text, ...) {
   }
 }
 
-pin_retrieve.packages <- function(board, name, details) {
+board_pin_get.packages <- function(board, name, details) {
   parts <- strsplit(name, "_")[[1]]
 
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")

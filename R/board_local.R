@@ -2,28 +2,35 @@ board_initialize.local <- function(board, ...) {
   board
 }
 
-pin_create.local <- function(board, x, name, description, type, metadata) {
-  pin_remove_yaml(name, component = "local", !is_file_pin(x))
+board_create_pin.local <- function(board, x, name, description, type, metadata, file) {
+  pin_remove_yaml(name, component = "local", TRUE)
 
-  path <- if (is_file_pin(x)) x else NULL
+  extension <- "rds"
+  if (is.character(x)) extension <- tools::file_ext(x)
 
-  path <- pin_create_yaml(
+  local_path <- pin_create_yaml(
     name = name,
     description = description,
     type = type,
     metadata = metadata,
     component = "local",
-    extension = ".rds",
-    path = path)
+    extension = paste0(".", extension))
 
-  if (!is_file_pin(x)) saveRDS(x, path)
+  if (is.character(x)) {
+    file.copy(x, local_path)
+  }
+  else {
+    saveRDS(x, local_path, version = 2)
+  }
+
+  pin_get(name, board$name)
 }
 
 board_find_pin.local <- function(board, text, ...) {
   pin_find_yaml(text, "local")
 }
 
-pin_retrieve.local <- function(board, name, details) {
+board_pin_get.local <- function(board, name, details) {
   path <- pin_retrieve_yaml(name, "local")
 
   if (is_file_pin(path)) path else readRDS(path)

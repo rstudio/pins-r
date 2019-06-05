@@ -9,41 +9,8 @@
 #' @param ... Additional parameters.
 #'
 #' @export
-pin <- function(x, name = NULL, description = "", board = NULL, ...) {
-  if (is.null(name)) {
-    if (is.character(x)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(x)))
-    else stop("The 'name' parameter is required for '", class(x)[[1]], "' objects.")
-  }
-
-  board <- board_get(board)
-
-  metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
-
-  x <- pin_pack(x, name, board, ...)
-
-  type <- attr(x, "pin_type")
-  if (is.null(type)) stop("Packing a pin requires 'pin_type' attribute to be specified.")
-
-  pin_create(board, x, name, description, type, metadata)
-
-  pin_updated(board)
-
-  result <- pin_get(name, board$name)
-
-  pins_viewer_ensure(board)
-  result
-}
-
-pin_metadata <- function(x) {
-  UseMethod("pin_metadata")
-}
-
-pin_metadata.data.frame <- function(x) {
-  list(row = nrow(x), cols = ncol(x))
-}
-
-pin_metadata.default <- function(x) {
-  list()
+pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  UseMethod("pin")
 }
 
 #' Retrieve Pin
@@ -69,40 +36,30 @@ pin_get <- function(name, board = NULL, ...) {
     board_object <- board_get(results_board)
   }
 
-  result <- pin_retrieve(board_object, name, details)
+  result <- board_pin_get(board_object, name, details)
 
   class(result) <- c(paste0(details$type, "_pin"), class(result))
 
-  result <- pin_unpack(result, board_object, name, ...)
+  # result <- pin_unpack(result, board_object, name, ...)
 
   attr(result, "pin_name") <- name
 
   maybe_tibble(result)
 }
 
-pin_pack <- function(x, board, ...) {
-  UseMethod("pin_pack")
-}
+#' Extensible API
+#'
+#' Family of functions meant to be used to extend pins to support new
+#' boards, not to be used by end users.
+#'
+#' @param x A local file path or an object. Boards must support storing both.
+#'
+#' @export
+#' @keywords internal
+board_create_pin <- function(board, x, name, description, type, metadata) {
+  on.exit(pins_viewer_updated(board))
 
-pin_unpack <- function(x, board, name, ...) {
-  UseMethod("pin_unpack")
-}
-
-pin_pack.default <- function(x, name, board, ...) {
-  attr(x, "pin_type") <- "default"
-  x
-}
-
-pin_unpack.default <- function(x, board, ...) {
-  x
-}
-
-pin_create <- function(board, x, name, description, type, metadata) {
-  UseMethod("pin_create")
-}
-
-pin_retrieve <- function(board, name, details) {
-  UseMethod("pin_retrieve")
+  UseMethod("board_create_pin")
 }
 
 #' Remove Pin
@@ -115,7 +72,6 @@ pin_retrieve <- function(board, name, details) {
 #' @export
 pin_remove <- function(name, board = NULL) {
   board <- board_get()
-  pins_viewer_ensure(board)
 
   board_remove_pin(board, name)
 
@@ -232,10 +188,6 @@ pin_is_table_subtype <- function() {
     "table",
     "dbplyr"
   )
-}
-
-pin_updated <- function(board) {
-  pins_viewer_updated(board)
 }
 
 is_file_pin <- function(x) {

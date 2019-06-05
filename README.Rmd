@@ -62,12 +62,6 @@ You can then retrieve a pin as a local path through `pin_get()`,
 pin_get("hpiR/seattle_sales")
 ```
 
-Or load the resource contents through `fetch()`,
-
-```{r}
-fetch("hpiR/seattle_sales")
-```
-
 Finally, you can also **share** resources with others by publishing to particular to Kaggle, GitHub and RStudio Connect. We can easily publish `iris` to Kaggle as follows:
 
 ``` r
@@ -78,9 +72,8 @@ And use all the functionality available in `pins` from Python as well:
 
 ```{python eval=FALSE}
 import pins
-import pandas as pd
 
-pd.read_csv(pins.fetch("hpiR/seattle_sales"))
+pins.pin_get("hpiR/seattle_sales")
 ```
 
 There are other boards you can use or even create custom boards as described in the [Understanding Boards](https://rstudio.github.io/pins/articles/boards.html) article; in addition, `pins` can also be used with RStudio products which we will describe next.
