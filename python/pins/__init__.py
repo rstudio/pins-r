@@ -176,19 +176,19 @@ def _eval_deserialize(operation, serializer):
     os.remove(feather_path)
     return result
 
-def find_pin(text = "", serializer = "feather"):
+def pin_find(text = "", serializer = "feather"):
     """
     Find Pin.
     """
     _init_pins()
-    return _eval_deserialize("pins::find_pin(\"" + text + "\")", serializer)
+    return _eval_deserialize("pins::pin_find(\"" + text + "\")", serializer)
 
-def get_pin(name, board = None, serializer = "feather"):
+def pin_get(name, board = None, serializer = "feather"):
     """
     Retrieve Pin.
     """
     _init_pins()
-    return _eval_deserialize("pins::get_pin(\"" + name + "\")", serializer)
+    return _eval_deserialize("pins::pin_get(\"" + name + "\")", serializer)
 
 def pin(x, name, description = "", board = None, serializer = "feather"):
     """
