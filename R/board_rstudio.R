@@ -147,6 +147,7 @@ board_create_pin.rstudio <- function(board, x, name, description, type, metadata
 
   temp_dir <- tempfile()
   dir.create(temp_dir)
+  on.exit(unlink(temp_dir, recursive = TRUE))
 
   rstudio_create_pin(x, temp_dir)
 
@@ -158,8 +159,6 @@ board_create_pin.rstudio <- function(board, x, name, description, type, metadata
                          account = board$account,
                          appTitle = name,
                          contentCategory = "data")
-
-  unlink(csv_file)
 
   app
 }
