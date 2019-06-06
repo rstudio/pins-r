@@ -12,7 +12,7 @@ You can use the `pins` package from **R**, or **Python**, to:
   - **Pin** remote resources to work offline with `pin()`.
   - **Discover** new resources across different boards using
     `pin_find()`.
-  - **Share** datasets with your team, or the world with
+  - **Share** resources with your team, or the world with
     `board_register()`.
   - **Resources** can be shareed with GitHub, Kaggle or RStudio Connect
     boards.
@@ -78,8 +78,8 @@ running once `board_register("kaggle", token =
     ##  6 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
     ##  7 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
     ##  8 seattle-public-library/… Seattle Library Checkout Records   files kaggle
-    ##  9 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
-    ## 10 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
+    ##  9 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
+    ## 10 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
     ## # … with 14 more rows
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
@@ -140,12 +140,20 @@ within your organization with ease.
 To **discover** remote resources, simply expand the “Addins” menu and
 select “Find Pin” from the dropdown:
 
+<center>
+
 ![](tools/readme/rstudio-discover-pins.png)
+
+</center>
 
 Notice that, the RStudio connections pane helps you track your pins by
 providing each board as a connection you can explore:
 
+<center>
+
 ![](tools/readme/rstudio-explore-pins.png)
+
+</center>
 
 You can **share** local files and content using the RStudio Connect
 board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
@@ -164,7 +172,7 @@ pin_get("hpiR/seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5221...DONE
-    ## Deploying bundle: 12621 for data: 5221 ...
+    ## Deploying bundle: 12634 for data: 5221 ...
 
     ## Building static content...
 
@@ -184,7 +192,11 @@ pin_get("hpiR/seattle_sales") %>%
     ## 7     7 3063043
     ## 8     8 4550750
 
+<center>
+
 ![](tools/readme/rstudio-share-pins.png)
+
+</center>
 
 You can now set the appropriate permissions in RStudio Connect, and
 voila\! From now on, those with access can make use of this remote file
@@ -201,7 +213,7 @@ pin_get("sales-by-baths") %>%
     geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
 
-![](tools/readme/rstudio-plot-pin-1.png)<!-- -->
+<img src="tools/readme/rstudio-plot-pin-1.png" style="display: block; margin: auto;" />
 
 Please make sure to ~~pin~~ visit
 [rstudio.github.io/pins](https://rstudio.github.io/pins/) to find

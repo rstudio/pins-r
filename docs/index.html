@@ -94,7 +94,7 @@ pins: Pin, Discover and Share Resources
 <li>
 <strong>Discover</strong> new resources across different boards using <code><a href="reference/pin_find.html">pin_find()</a></code>.</li>
 <li>
-<strong>Share</strong> datasets with your team, or the world with <code><a href="reference/board_register.html">board_register()</a></code>.</li>
+<strong>Share</strong> resources with your team, or the world with <code><a href="reference/board_register.html">board_register()</a></code>.</li>
 <li>
 <strong>Resources</strong> can be shareed with GitHub, Kaggle or RStudio Connect boards.</li>
 </ul>
@@ -138,8 +138,8 @@ pins: Pin, Discover and Share Resources
 ##  6 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
 ##  7 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
 ##  8 seattle-public-library/… Seattle Library Checkout Records   files kaggle
-##  9 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
-## 10 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
+##  9 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
+## 10 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
 ## # … with 14 more rows</code></pre>
 <p>Notice that all pins are referenced as <code>&lt;owner&gt;/&lt;name&gt;</code> and even if the <code>&lt;owner&gt;</code> is not provided, <code>pins()</code> will assign an appropriate one.</p>
 <p>You can then retrieve a pin as a local path through <code><a href="reference/pin_get.html">pin_get()</a></code>,</p>
@@ -172,9 +172,13 @@ pins: Pin, Discover and Share Resources
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
 <p>You can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> to discover and pin remote files and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to share content within your organization with ease.</p>
 <p>To <strong>discover</strong> remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown:</p>
-<p><img src="tools/readme/rstudio-discover-pins.png"></p>
+<center>
+<img src="tools/readme/rstudio-discover-pins.png" style="width:70.0%">
+</center>
 <p>Notice that, the RStudio connections pane helps you track your pins by providing each board as a connection you can explore:</p>
-<p><img src="tools/readme/rstudio-explore-pins.png"></p>
+<center>
+<img src="tools/readme/rstudio-explore-pins.png" style="width:70.0%">
+</center>
 <p>You can <strong>share</strong> local files and content using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then pin our results in RStudio Connect:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"rstudio"</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span></a>
@@ -183,7 +187,7 @@ pins: Pin, Discover and Share Resources
 <a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"rstudio"</span>)</a></code></pre></div>
 <pre><code>## Preparing to deploy data...DONE
 ## Uploading bundle for data: 5221...DONE
-## Deploying bundle: 12626 for data: 5221 ...</code></pre>
+## Deploying bundle: 12635 for data: 5221 ...</code></pre>
 <pre><code>## Building static content...</code></pre>
 <pre><code>## Launching static content...</code></pre>
 <pre><code>## Data successfully deployed to https://beta.rstudioconnect.com/content/5221/</code></pre>
@@ -198,14 +202,16 @@ pins: Pin, Discover and Share Resources
 ## 6     6 3384514
 ## 7     7 3063043
 ## 8     8 4550750</code></pre>
-<p><img src="tools/readme/rstudio-share-pins.png"></p>
+<center>
+<img src="tools/readme/rstudio-share-pins.png" style="width:70.0%">
+</center>
 <p>You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote file locally!</p>
 <p>For instance, a colleague can reuse the <code>sales-by-baths</code> pin by retrieving it from RStudio Connect and visualize its contents using <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales-by-baths"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb17-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> baths, <span class="dt">y =</span> sale)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb17-3" title="3"><span class="st">    </span><span class="kw">theme_light</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb17-4" title="4"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">'lm'</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(x))</a></code></pre></div>
-<p><img src="tools/readme/rstudio-plot-pin-1.png" width="700"></p>
+<p><img src="tools/readme/rstudio-plot-pin-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Please make sure to <del>pin</del> visit <a href="https://rstudio.github.io/pins/">rstudio.github.io/pins</a> to find detailed documentation and additional resources.</p>
 </div>
   </div>
