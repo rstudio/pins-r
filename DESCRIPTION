@@ -25,3 +25,5 @@ Suggests:
   rmarkdown,
   testthat
 VignetteBuilder: knitr
+URL: https://github.com/rstudio/pins
+BugReports: https://github.com/rstudio/pins/issues
