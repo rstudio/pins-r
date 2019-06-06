@@ -1,7 +1,5 @@
-pins: Track, Discover and Share Resources
+pins: Pin, Discover and Share Resources
 ================
-
-# pins: Pin, Discover and Share Resources
 
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
@@ -166,7 +164,7 @@ pin_get("hpiR/seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5221...DONE
-    ## Deploying bundle: 12617 for data: 5221 ...
+    ## Deploying bundle: 12621 for data: 5221 ...
 
     ## Building static content...
 
