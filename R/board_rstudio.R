@@ -94,12 +94,7 @@ board_initialize.rstudio <- function(board, ...) {
   board
 }
 
-board_create_pin.rstudio <- function(board, x, name, description, type, metadata) {
-  deps <- rstudio_dependencies()
-
-  temp_dir <- tempfile()
-  dir.create(temp_dir)
-
+rstudio_create_pin.data.frame <- function(x, temp_dir) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
@@ -132,8 +127,30 @@ board_create_pin.rstudio <- function(board, x, name, description, type, metadata
   html_index <- readLines(html_file)
   html_index <- gsub("\\{\\{data_preview\\}\\}", jsonlite::toJSON(data_preview), html_index)
   writeLines(html_index, html_file)
+}
 
-  app <- deps$deploy_app(dirname(csv_file),
+rstudio_create_pin.character <- function(x, temp_dir) {
+  file.copy(x, temp_dir)
+}
+
+rstudio_create_pin.default <- function(x, temp_dir) {
+  rds_file <- file.path(temp_dir, "data.rds")
+  saveRDS(x, rds_file, version = 2)
+}
+
+rstudio_create_pin <- function(x, temp_dir) {
+  UseMethod("rstudio_create_pin")
+}
+
+board_create_pin.rstudio <- function(board, x, name, description, type, metadata) {
+  deps <- rstudio_dependencies()
+
+  temp_dir <- tempfile()
+  dir.create(temp_dir)
+
+  rstudio_create_pin(x, temp_dir)
+
+  app <- deps$deploy_app(temp_dir,
                          appPrimaryDoc = "index.html",
                          lint = FALSE,
                          appName = paste0(name, "_pin"),
