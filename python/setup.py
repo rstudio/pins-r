@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='pins',
       version='0.1.0',
-      description='Track, Discover and Share Datasets',
+      description='Pin, Discover and Share Resources',
       url='https://github.com/rstudio/pins',
       author='Javier Luraschi',
       author_email='javier@rstudio.com',
