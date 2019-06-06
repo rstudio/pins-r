@@ -89,20 +89,20 @@
     
     
 <p>A board is an storage location to store pins for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.</p>
-<div id="htmlwidget-52ee063786f0edb449a9" style="width:672px;height:230.4px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-52ee063786f0edb449a9">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
+<div id="htmlwidget-407167540e86dc323ffc" style="width:672px;height:230.4px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-407167540e86dc323ffc">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#files" class="anchor"></a>Files</h2>
 <p>The defaul board in the <code>pins</code> package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a <code>pins</code> folder under the default home folder for your user.</p>
-<div id="htmlwidget-9ee5ba838d318b3d85ee" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9ee5ba838d318b3d85ee">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-238e2ab6396f84cf7512" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-238e2ab6396f84cf7512">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="rstudio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
 <p><strong>RStudio Connect</strong> can be used to share pins within your organization, to use this feature you will need to configure a <a href="https://docs.rstudio.com/connect/user/publishing.html">publishing</a> account in RStudio.</p>
-<div id="htmlwidget-4536272dd6087e78b799" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4536272dd6087e78b799">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"rstudio\")\n    pin(iris, \"iris\")]\n]-[RStudio Connect|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
+<div id="htmlwidget-15984df8de3c3b88814b" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-15984df8de3c3b88814b">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"rstudio\")\n    pin(iris, \"iris\")]\n]-[RStudio Connect|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">use_board</span>(<span class="st">"rstudio"</span>)</a></code></pre></div>
 <p>Once this board is active, <code><a href="../reference/pin.html">pin()</a></code> and <code>get_pin()</code> will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(xml2)</a>
@@ -117,8 +117,8 @@
 <div id="kaggle" class="section level2">
 <h2 class="hasAnchor">
 <a href="#kaggle" class="anchor"></a>Kaggle</h2>
-<div id="htmlwidget-1b4f550c6e99c4275d4a" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1b4f550c6e99c4275d4a">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1189ce78b89b76fb6994" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1189ce78b89b76fb6994">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="other" class="section level2">
 <h2 class="hasAnchor">
