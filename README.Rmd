@@ -12,7 +12,7 @@ knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
 
 if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
-  knitr::knit_print(knitr::asis_output("<h1>pins: Pin, Discover and Share Resource</h1>"))
+  knitr::knit_print(knitr::asis_output("<h1>pins: Pin, Discover and Share Resources</h1>"))
 }
 ```
 
