@@ -1,5 +1,5 @@
 ---
-title: "pins: Track, Discover and Share Resources"
+title: "pins: Pin, Discover and Share Resources"
 output:
   github_document:
     fig_width: 9
@@ -10,9 +10,11 @@ output:
 knitr::opts_chunk$set(eval = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
-```
 
-# pins: Pin, Discover and Share Resources
+if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+  knitr::knit_print(knitr::asis_output("<h1>pins: Pin, Discover and Share Resource</h1>"))
+}
+```
 
 [![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
