@@ -9,36 +9,8 @@
 #' @param ... Additional parameters.
 #'
 #' @export
-pin <- function(x, name, description = "", board = NULL, ...) {
-  board <- get_board(board)
-
-  metadata <- as.character(jsonlite::toJSON(pin_metadata(x), auto_unbox = TRUE))
-
-  x <- pin_pack(x, name, board, ...)
-
-  type <- attr(x, "pin_type")
-  if (is.null(type)) stop("Packing a pin requires 'pin_type' attribute to be specified.")
-
-  pin_create(board, x, name, description, type, metadata)
-
-  pin_updated(board)
-
-  result <- get_pin(name, board$name)
-
-  pins_viewer_ensure(board)
-  result
-}
-
-pin_metadata <- function(x) {
-  UseMethod("pin_metadata")
-}
-
-pin_metadata.data.frame <- function(x) {
-  list(row = nrow(x), cols = ncol(x))
-}
-
-pin_metadata.default <- function(x) {
-  list()
+pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  UseMethod("pin")
 }
 
 #' Retrieve Pin
@@ -50,54 +22,44 @@ pin_metadata.default <- function(x) {
 #' @param ... Additional parameters.
 #'
 #' @export
-get_pin <- function(name, board = NULL, ...) {
-  board_object <- get_board(board)
+pin_get <- function(name, board = NULL, ...) {
+  board_object <- board_get(board)
 
-  details <- find_pin(name, board = board_object$name, name = name, extended = TRUE)
+  details <- pin_find(name, board = board_object$name, name = name, extended = TRUE)
 
   if (nrow(details) == 0 && is.null(board)) {
-    all_results <- find_pin(name, board = NULL, name = name)
+    all_results <- pin_find(name, board = NULL, name = name)
     if (nrow(all_results) == 0) stop("Can't find '", name, "' pin.")
 
     results_board <- all_results$board[[1]]
-    details <- find_pin(name, board = results_board, name = name, extended = TRUE)
-    board_object <- get_board(results_board)
+    details <- pin_find(name, board = results_board, name = name, extended = TRUE)
+    board_object <- board_get(results_board)
   }
 
-  result <- pin_retrieve(board_object, name, details)
+  result <- board_pin_get(board_object, name, details)
 
   class(result) <- c(paste0(details$type, "_pin"), class(result))
 
-  result <- pin_unpack(result, board_object, name, ...)
+  # result <- pin_unpack(result, board_object, name, ...)
 
   attr(result, "pin_name") <- name
 
   maybe_tibble(result)
 }
 
-pin_pack <- function(x, board, ...) {
-  UseMethod("pin_pack")
-}
+#' Extensible API
+#'
+#' Family of functions meant to be used to extend pins to support new
+#' boards, not to be used by end users.
+#'
+#' @param x A local file path or an object. Boards must support storing both.
+#'
+#' @export
+#' @keywords internal
+board_create_pin <- function(board, x, name, description, type, metadata) {
+  on.exit(pins_viewer_updated(board))
 
-pin_unpack <- function(x, board, name, ...) {
-  UseMethod("pin_unpack")
-}
-
-pin_pack.default <- function(x, name, board, ...) {
-  attr(x, "pin_type") <- "default"
-  x
-}
-
-pin_unpack.default <- function(x, board, ...) {
-  x
-}
-
-pin_create <- function(board, x, name, description, type, metadata) {
-  UseMethod("pin_create")
-}
-
-pin_retrieve <- function(board, name, details) {
-  UseMethod("pin_retrieve")
+  UseMethod("board_create_pin")
 }
 
 #' Remove Pin
@@ -108,32 +70,31 @@ pin_retrieve <- function(board, name, details) {
 #' @param board The board where this pin will be placed.
 #'
 #' @export
-unpin <- function(name, board = NULL) {
-  board <- get_board()
-  pins_viewer_ensure(board)
+pin_remove <- function(name, board = NULL) {
+  board <- board_get()
 
-  pin_remove(board, name)
+  board_remove_pin(board, name)
 
   invisible(name)
 }
 
-pin_remove <- function(board, name) {
-  UseMethod("pin_remove")
+board_remove_pin <- function(board, name) {
+  UseMethod("board_remove_pin")
 }
 
 #' Find Pin
 #'
 #' Find a pin in any board registered using \code{use_board()} or
-#' \code{register_board()}.
+#' \code{board_register()}.
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
 #' @param ... Additional parameters.
 #'
 #' @export
-find_pin <- function(text = NULL, board = NULL, ...) {
+pin_find <- function(text = NULL, board = NULL, ...) {
   if (is.null(board) ||
-      (is.character(board) && (nchar(board) == 0 || identical(board, "all")))) board <- all_boards()
+      (is.character(board) && (nchar(board) == 0 || identical(board, "all")))) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
   type <- if (identical(list(...)$type, "table")) pin_is_table_subtype() else list(...)$type
 
@@ -145,9 +106,9 @@ find_pin <- function(text = NULL, board = NULL, ...) {
     board = character())
 
   for (board_name in board) {
-    board_object <- get_board(board_name)
+    board_object <- board_get(board_name)
 
-    board_pins <- pin_find(board = board_object, text, ...)
+    board_pins <- board_find_pin(board = board_object, text, ...)
     board_pins$board <- rep(board_name, nrow(board_pins))
 
     if (!identical(type, NULL)) {
@@ -176,8 +137,8 @@ find_pin <- function(text = NULL, board = NULL, ...) {
   maybe_tibble(all_pins)
 }
 
-pin_find <- function(board, text, ...) {
-  UseMethod("pin_find")
+board_find_pin <- function(board, text, ...) {
+  UseMethod("board_find_pin")
 }
 
 #' Preview Pin
@@ -190,35 +151,35 @@ pin_find <- function(board, text, ...) {
 #'
 #' @keywords internal
 #' @export
-preview_pin <- function(name, board = NULL, ...) {
-  pin_preview(get_pin(name, board = board))
+pin_preview <- function(name, board = NULL, ...) {
+  pin_preview(pin_get(name, board = board))
 }
 
-pin_preview <- function(x) {
+pin_preview_object <- function(x) {
   UseMethod("pin_preview")
 }
 
-pin_preview.list <- function(x) {
+pin_preview_object.list <- function(x) {
   x
 }
 
-pin_preview.character <- function(x) {
+pin_preview_object.character <- function(x) {
   x
 }
 
-pin_preview.data.frame <- function(x) {
+pin_preview_object.data.frame <- function(x) {
   x
 }
 
-pin_preview.table_pin <- function(x) {
+pin_preview_object.table_pin <- function(x) {
   x
 }
 
-pin_preview.files_pin <- function(x) {
+pin_preview_object.files_pin <- function(x) {
   x
 }
 
-pin_preview.default <- function(x) {
+pin_preview_object.default <- function(x) {
   stop("Preview unsupported for '", class(x)[[1]], "'")
 }
 
@@ -227,10 +188,6 @@ pin_is_table_subtype <- function() {
     "table",
     "dbplyr"
   )
-}
-
-pin_updated <- function(board) {
-  pins_viewer_updated(board)
 }
 
 is_file_pin <- function(x) {

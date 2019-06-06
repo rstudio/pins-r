@@ -37,11 +37,11 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-pin_create.kaggle <- function(board, x, name, description, type, metadata) {
-
+board_create_pin.kaggle <- function(board, x, name, description, type, metadata) {
+  stop("Not yet implemented.")
 }
 
-pin_find.kaggle <- function(board, text, ...) {
+board_find_pin.kaggle <- function(board, text, ...) {
   if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
   # clear name searches
@@ -62,7 +62,7 @@ pin_find.kaggle <- function(board, text, ...) {
   )
 }
 
-pin_retrieve.kaggle <- function(board, name, details) {
+board_pin_get.kaggle <- function(board, name, details) {
   local_path <- file.path(pins:::pins_local_path("kaggle"), name)
 
   if (!dir.exists(local_path)) {
@@ -81,7 +81,7 @@ pin_retrieve.kaggle <- function(board, name, details) {
   )
 }
 
-pin_remove.kaggle <- function(board, name) {
+board_remove_pin.kaggle <- function(board, name) {
 
 }
 
@@ -93,7 +93,7 @@ board_info.kaggle <- function(board) {
     install_html <- paste(
       "To search Kaggle, <b>Create New API Token</b> from",
       "<a href=\"https://www.kaggle.com/me/account\">kaggle.com/me/account</a>",
-      ", download and run register_board(\"<path-to-kaggle.json>\")"
+      ", download and run board_register(\"<path-to-kaggle.json>\")"
     )
   }
 

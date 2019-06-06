@@ -34,7 +34,7 @@ pins_viewer_register <- function(board, board_call) {
 
     # table enumeration code
     listObjects = function(type = "table") {
-      objects <- find_pin(board = board$name)
+      objects <- pin_find(board = board$name)
 
       names <- objects$name
 
@@ -50,13 +50,13 @@ pins_viewer_register <- function(board, board_call) {
       attr_names <- c()
       attr_values <- c()
 
-      pin_index <- find_pin(table, board = board$name)
+      pin_index <- pin_find(table, board = board$name)
       if (nchar(pin_index$description) > 0) {
         attr_names <- c(attr_names, "description")
         attr_values <- c(attr_values, pin_index$description)
       }
 
-      pin_value <- get_pin(table, board = board$name)
+      pin_value <- pin_get(table, board = board$name)
       attr_names <- c(attr_names, "type")
       if (class(pin_value)[[1]] %in% c("tbl_df", "data.frame")) {
         attr_values <- c(attr_values, "data.frame")
@@ -74,7 +74,7 @@ pins_viewer_register <- function(board, board_call) {
 
     # table preview code
     previewObject = function(rowLimit, table) {
-      preview_pin(name = table, board = board$name)
+      pin_preview(name = table, board = board$name)
     },
 
     # other actions that can be executed on this connection
@@ -92,6 +92,8 @@ pins_viewer_register <- function(board, board_call) {
 }
 
 pins_viewer_updated <- function(board) {
+  pins_viewer_ensure(board)
+
   viewer <- getOption("connectionObserver")
   if (!is.null(viewer))
     viewer$connectionUpdated(type = "Pins", host = board$name, hint = "")

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Index of tabular files found in CRAN packages — cranfiles • pins</title>
+<title>Register Board — board_register • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Index of tabular files found in CRAN packages — cranfiles" />
+<meta property="og:title" content="Register Board — board_register" />
 
-<meta property="og:description" content="A dataset containing an index of all CRAN files with tabular data. Contains a package,
-dataset name and description." />
+<meta property="og:description" content="Registers a board without making it active, useful to add sources to
+pin_find(). This function is meant to be used while building extension
+not by users directly." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,42 +113,41 @@ dataset name and description." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Index of tabular files found in CRAN packages</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/datasets.R'><code>R/datasets.R</code></a></small>
-    <div class="hidden name"><code>cranfiles.Rd</code></div>
+    <h1>Register Board</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board.R'><code>R/board.R</code></a></small>
+    <div class="hidden name"><code>board_register.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A dataset containing an index of all CRAN files with tabular data. Contains a package,
-dataset name and description.</p>
+    <p>Registers a board without making it active, useful to add sources to
+<code><a href='pin_find.html'>pin_find()</a></code>. This function is meant to be used while building extension
+not by users directly.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>cranfiles</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>"data.frame"</code>; see <code>data.frame</code>.</p>
+    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>name</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p><a href='https://cran.rstudio.com/'>CRAN</a></p>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>The name of the board to activate.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters required to initialize a particular board.</p></td>
+    </tr>
+    </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>cranfiles</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#source">Source</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

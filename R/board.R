@@ -13,16 +13,19 @@ new_board <- function(name, ...) {
   board
 }
 
-#' Use Board
+board_pin_get <- function(board, name, details) {
+  UseMethod("board_pin_get")
+}
+
+#' Connect to Board
 #'
-#' Defines which board to use, defaults to a board storing data
-#' locally under a \code{~/pins} folder.
+#' Connects to a board to activate RStudio's conneection pane, when available.
 #'
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @export
-use_board <- function(name, ...) {
+board_connect <- function(name, ...) {
   board_call <- paste("library(pins)", deparse(match.call(), width.cutoff = 500), sep = "\n")
 
   board <- new_board(name, ...)
@@ -44,15 +47,15 @@ active_board <- function() {
   if (length(.globals$boards) > 0)
     .globals$boards[[length(.globals$boards)]]
   else
-    get_board("local")
+    board_get("local")
 }
 
-#' All Boards
+#' List Boards
 #'
 #' Retrieves all available boards.
 #'
 #' @export
-all_boards <- function() {
+board_list <- function() {
   unique(
     c(
       names(.globals$boards),
@@ -68,12 +71,12 @@ all_boards <- function() {
 #' @param name The name of the board to use
 #'
 #' @export
-get_board <- function(name = NULL) {
+board_get <- function(name = NULL) {
   if (is.null(name))
     return(active_board())
 
-  if (!name %in% all_boards())
-    stop("Board 'name' not a board, available boards: ", paste(all_boards(), collapse = ", "))
+  if (!name %in% board_list())
+    stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
 
   if (name %in% names(.globals$boards))
     .globals$boards[[name]]
@@ -84,14 +87,14 @@ get_board <- function(name = NULL) {
 #' Register Board
 #'
 #' Registers a board without making it active, useful to add sources to
-#' \code{find_pin()}. This function is meant to be used while building extension
+#' \code{pin_find()}. This function is meant to be used while building extension
 #' not by users directly.
 #'
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @export
-register_board <- function(name, ...) {
+board_register <- function(name, ...) {
   board <- new_board(name, ...)
 
   if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()

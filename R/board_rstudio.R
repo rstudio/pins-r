@@ -94,12 +94,7 @@ board_initialize.rstudio <- function(board, ...) {
   board
 }
 
-pin_create.rstudio <- function(board, x, name, description, type, metadata) {
-  deps <- rstudio_dependencies()
-
-  temp_dir <- tempfile()
-  dir.create(temp_dir)
-
+rstudio_create_pin.data.frame <- function(x, temp_dir) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
@@ -132,22 +127,43 @@ pin_create.rstudio <- function(board, x, name, description, type, metadata) {
   html_index <- readLines(html_file)
   html_index <- gsub("\\{\\{data_preview\\}\\}", jsonlite::toJSON(data_preview), html_index)
   writeLines(html_index, html_file)
-
-  app <- deps$deploy_app(dirname(csv_file),
-                         appPrimaryDoc = "index.html",
-                         lint = FALSE,
-                         appName = paste0(name, "_pin"),
-                         server = board$server,
-                         account = board$account,
-                         appTitle = name,
-                         contentCategory = "data")
-
-  unlink(csv_file)
-
-  app
 }
 
-pin_find.rstudio <- function(board, text, ...) {
+rstudio_create_pin.character <- function(x, temp_dir) {
+  file.copy(x, temp_dir)
+}
+
+rstudio_create_pin.default <- function(x, temp_dir) {
+  rds_file <- file.path(temp_dir, "data.rds")
+  saveRDS(x, rds_file, version = 2)
+}
+
+rstudio_create_pin <- function(x, temp_dir) {
+  UseMethod("rstudio_create_pin")
+}
+
+board_create_pin.rstudio <- function(board, x, name, description, type, metadata) {
+  deps <- rstudio_dependencies()
+
+  temp_dir <- tempfile()
+  dir.create(temp_dir)
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  rstudio_create_pin(x, temp_dir)
+
+  deps$deploy_app(temp_dir,
+                  appPrimaryDoc = "index.html",
+                  lint = FALSE,
+                  appName = paste0(name, "_pin"),
+                  server = board$server,
+                 account = board$account,
+                  appTitle = name,
+                  contentCategory = "data")
+
+  pin_get(name, board$name)
+}
+
+board_find_pin.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
   everything <- identical(list(...)$everything, TRUE)
@@ -179,12 +195,12 @@ pin_find.rstudio <- function(board, text, ...) {
   }
 }
 
-pin_retrieve.rstudio <- function(board, name, details) {
+board_pin_get.rstudio <- function(board, name, details) {
   data <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
   readr::read_csv(data$content)
 }
 
-pin_remove.rstudio <- function(board, name) {
+board_remove_pin.rstudio <- function(board, name) {
   stop("Removing pins from 'rstudio' boards is currently unsupported.")
 }
 

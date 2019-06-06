@@ -16,12 +16,12 @@ yaml_save_entries <- function(entries, component) {
   yaml::write_yaml(entries, yaml_entries_path(component))
 }
 
-pin_create_yaml <- function(name, description, type, metadata, component, extension, path = NULL) {
+pin_create_yaml <- function(name, description, type, metadata, component, extension) {
+  if (is.null(description)) description <- ""
+
   entries <- yaml_load_entries(component)
 
-  if (is.null(path)) {
-    path <- file.path(pins_local_path(component), yaml_random_string("dataset_", extension))
-  }
+  path <- file.path(pins_local_path(component), yaml_random_string("dataset_", extension))
 
   if (identical(entries, NULL)) entries <- list()
 

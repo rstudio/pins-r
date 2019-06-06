@@ -1,4 +1,4 @@
-pins_addin_find_pin <- function() {
+pins_addin_pin_find <- function() {
   shinyAppDir <- get("shinyAppDir", envir = asNamespace("shiny"))
   dialogViewer <- get("dialogViewer", envir = asNamespace("shiny"))
   runGadget <- get("runGadget", envir = asNamespace("shiny"))
