@@ -76,7 +76,7 @@ board_get <- function(name = NULL) {
     return(active_board())
 
   if (!name %in% board_list())
-    stop("Board 'name' not a board, available boards: ", paste(board_list(), collapse = ", "))
+    stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
 
   if (name %in% names(.globals$boards))
     .globals$boards[[name]]
