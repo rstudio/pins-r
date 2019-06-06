@@ -82,16 +82,20 @@
 
     
     
-<div id="pins-pin-and-share-remote-resources" class="section level1">
+<div id="pins-pin-discover-and-share-resources" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#pins-pin-and-share-remote-resources" class="anchor"></a>pins: Pin and Share Remote Resources</h1></div>
+<a href="#pins-pin-discover-and-share-resources" class="anchor"></a>pins: Pin, Discover and Share Resources</h1></div>
 
 <p>You can use the <code>pins</code> package from <strong>R</strong>, or <strong>Python</strong>, to:</p>
 <ul>
 <li>
-<strong>Pin</strong> remote files into a local cache with <code><a href="reference/pin.html">pin()</a></code> to work offline and even if the remote resource is removed.</li>
+<strong>Pin</strong> remote resources to work offline with <code><a href="reference/pin.html">pin()</a></code>.</li>
 <li>
-<strong>Share</strong> resources by pinning them to GitHub, Kaggle or RStudio Connect; find pins with <code><a href="reference/pin_find.html">pin_find()</a></code> and retrieve their contents with <code>fetch()</code>.</li>
+<strong>Discover</strong> new resources across different boards using <code><a href="reference/pin_find.html">pin_find()</a></code>.</li>
+<li>
+<strong>Share</strong> datasets with your team, or the world with <code><a href="reference/board_register.html">board_register()</a></code>.</li>
+<li>
+<strong>Resources</strong> can be shareed with GitHub, Kaggle or RStudio Connect boards.</li>
 </ul>
 <p>To start using <code>pins</code>, install this package as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
@@ -121,7 +125,7 @@
 ## 10 Oct   7363820
 ## 11 Nov   7438702
 ## 12 Dec   8656874</code></pre>
-<p>You can also find remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code> which can search CRAN packages and Kaggle. Kaggle requires to configure it by running once <code><a href="reference/board_register.html">board_register("kaggle", token = "&lt;path-to-kaggle.json&gt;")</a></code>. Then we can search resources mentioning “seattle” in CRAN packages and Kaggle with ease:</p>
+<p>You can also <strong>discover</strong> remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code> which can search CRAN packages and Kaggle. Kaggle requires to configure it by running once <code><a href="reference/board_register.html">board_register("kaggle", token = "&lt;path-to-kaggle.json&gt;")</a></code>. Then we can search resources mentioning “seattle” in CRAN packages and Kaggle with ease:</p>
 <pre><code>## # A tibble: 24 x 4
 ##    name                     description                        type  board 
 ##    &lt;chr&gt;                    &lt;chr&gt;                              &lt;chr&gt; &lt;chr&gt; 
@@ -166,11 +170,11 @@
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
 <p>You can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> to discover and pin remote files and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to share content within your organization with ease.</p>
-<p>To find remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown:</p>
+<p>To <strong>discover</strong> remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown:</p>
 <p><img src="tools/readme/rstudio-discover-pins.png"></p>
 <p>Notice that, the RStudio connections pane helps you track your pins by providing each board as a connection you can explore:</p>
 <p><img src="tools/readme/rstudio-explore-pins.png"></p>
-<p>You can <strong>share</strong> local files and content using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then share our results in RStudio Connect:</p>
+<p>You can <strong>share</strong> local files and content using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then pin our results in RStudio Connect:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"rstudio"</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(<span class="dt">baths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">ceiling</a></span>(baths)) <span class="op">%&gt;%</span></a>
@@ -178,7 +182,7 @@
 <a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"rstudio"</span>)</a></code></pre></div>
 <pre><code>## Preparing to deploy data...DONE
 ## Uploading bundle for data: 5221...DONE
-## Deploying bundle: 12615 for data: 5221 ...</code></pre>
+## Deploying bundle: 12618 for data: 5221 ...</code></pre>
 <pre><code>## Building static content...</code></pre>
 <pre><code>## Launching static content...</code></pre>
 <pre><code>## Data successfully deployed to https://beta.rstudioconnect.com/content/5221/</code></pre>

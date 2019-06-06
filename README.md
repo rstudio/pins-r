@@ -1,7 +1,7 @@
-pins: Pin and Share Remote Resources
+pins: Track, Discover and Share Resources
 ================
 
-# pins: Pin and Share Remote Resources
+# pins: Pin, Discover and Share Resources
 
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
@@ -11,11 +11,13 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-red.svg)](http
 
 You can use the `pins` package from **R**, or **Python**, to:
 
-  - **Pin** remote files into a local cache with `pin()` to work offline
-    and even if the remote resource is removed.
-  - **Share** resources by pinning them to GitHub, Kaggle or RStudio
-    Connect; find pins with `pin_find()` and retrieve their contents
-    with `fetch()`.
+  - **Pin** remote resources to work offline with `pin()`.
+  - **Discover** new resources across different boards using
+    `pin_find()`.
+  - **Share** datasets with your team, or the world with
+    `board_register()`.
+  - **Resources** can be shareed with GitHub, Kaggle or RStudio Connect
+    boards.
 
 To start using `pins`, install this package as follows:
 
@@ -61,11 +63,11 @@ retail_sales %>%
     ## 11 Nov   7438702
     ## 12 Dec   8656874
 
-You can also find remote resources using `pin_find()` which can search
-CRAN packages and Kaggle. Kaggle requires to configure it by running
-once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then
-we can search resources mentioning “seattle” in CRAN packages and Kaggle
-with ease:
+You can also **discover** remote resources using `pin_find()` which can
+search CRAN packages and Kaggle. Kaggle requires to configure it by
+running once `board_register("kaggle", token =
+"<path-to-kaggle.json>")`. Then we can search resources mentioning
+“seattle” in CRAN packages and Kaggle with ease:
 
     ## # A tibble: 24 x 4
     ##    name                     description                        type  board 
@@ -137,8 +139,8 @@ discover and pin remote files and [RStudio
 Connect](https://www.rstudio.com/products/connect/) to share content
 within your organization with ease.
 
-To find remote resources, simply expand the “Addins” menu and select
-“Find Pin” from the dropdown:
+To **discover** remote resources, simply expand the “Addins” menu and
+select “Find Pin” from the dropdown:
 
 ![](tools/readme/rstudio-discover-pins.png)
 
@@ -149,7 +151,7 @@ providing each board as a connection you can explore:
 
 You can **share** local files and content using the RStudio Connect
 board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
-further and then share our results in RStudio Connect:
+further and then pin our results in RStudio Connect:
 
 ``` r
 board_register("rstudio")
@@ -164,7 +166,7 @@ pin_get("hpiR/seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5221...DONE
-    ## Deploying bundle: 12613 for data: 5221 ...
+    ## Deploying bundle: 12617 for data: 5221 ...
 
     ## Building static content...
 
