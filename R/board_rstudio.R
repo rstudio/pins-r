@@ -151,16 +151,16 @@ board_create_pin.rstudio <- function(board, x, name, description, type, metadata
 
   rstudio_create_pin(x, temp_dir)
 
-  app <- deps$deploy_app(temp_dir,
-                         appPrimaryDoc = "index.html",
-                         lint = FALSE,
-                         appName = paste0(name, "_pin"),
-                         server = board$server,
-                         account = board$account,
-                         appTitle = name,
-                         contentCategory = "data")
+  deps$deploy_app(temp_dir,
+                  appPrimaryDoc = "index.html",
+                  lint = FALSE,
+                  appName = paste0(name, "_pin"),
+                  server = board$server,
+                 account = board$account,
+                  appTitle = name,
+                  contentCategory = "data")
 
-  app
+  pin_get(name, board$name)
 }
 
 board_find_pin.rstudio <- function(board, text, ...) {

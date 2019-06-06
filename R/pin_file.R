@@ -29,12 +29,10 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
     local_path <- x
   }
 
-  if (file.exists(local_path)) {
-    board_create_pin(board_object, local_path, name, description, "files", "")
-  }
-  else {
+  if (!file.exists(local_path)) {
     report_error("File does not exist: ", local_path)
+    return(board_pin_get(board_object, name))
   }
 
-  board_pin_get(board_object, name)
+  board_create_pin(board_object, local_path, name, description, "files", "")
 }
