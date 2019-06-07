@@ -12,7 +12,5 @@ board_register(name, ...)
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Registers a board without making it active, useful to add sources to
-\code{pin_find()}. This function is meant to be used while building extension
-not by users directly.
+Registers a board, useful to add sources to \code{pin_find()}.
 }

@@ -67,6 +67,10 @@ running once `board_register("kaggle", token =
 "<path-to-kaggle.json>")`. Then we can search resources mentioning
 “seattle” in CRAN packages and Kaggle with ease:
 
+``` r
+pin_find("seattle")
+```
+
     ## # A tibble: 24 x 4
     ##    name                     description                        type  board 
     ##    <chr>                    <chr>                              <chr> <chr> 
@@ -83,7 +87,9 @@ running once `board_register("kaggle", token =
     ## # … with 14 more rows
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
-`<owner>` is not provided, `pins()` will assign an appropriate one.
+`<owner>` is not provided, each board will assign an appropriate one.
+While you can ignore `<owner>` and reference pins by `<name>`, this can
+fail in some boards if different owners assign the same name to a pin.
 
 You can then retrieve a pin as a local path through `pin_get()`,
 
@@ -171,14 +177,14 @@ pin_get("hpiR/seattle_sales") %>%
 ```
 
     ## Preparing to deploy data...DONE
-    ## Uploading bundle for data: 5221...DONE
-    ## Deploying bundle: 12634 for data: 5221 ...
+    ## Uploading bundle for data: 5308...DONE
+    ## Deploying bundle: 12643 for data: 5308 ...
 
     ## Building static content...
 
     ## Launching static content...
 
-    ## Data successfully deployed to https://beta.rstudioconnect.com/content/5221/
+    ## Data successfully deployed to https://beta.rstudioconnect.com/content/5308/
 
     ## # A tibble: 8 x 2
     ##   baths    sale
