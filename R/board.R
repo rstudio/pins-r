@@ -30,10 +30,9 @@ board_pin_get_or_null <- function(...) {
 #'
 #' @export
 board_connect <- function(name) {
-  board_call <- paste0("pins::board_connect(\"", name, "\")")
   board <- board_get(name)
 
-  pins_viewer_register(board, board_call)
+  ui_viewer_register(name)
 
   invisible(board)
 }
