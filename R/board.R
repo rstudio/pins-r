@@ -34,10 +34,6 @@ board_connect <- function(name, ...) {
 
   board <- new_board(name, ...)
 
-  if (identical(.globals$boards, NULL)) .globals$boards <- list()
-
-  .globals$boards[[name]] <- board
-
   pins_viewer_register(board, board_call)
 
   invisible(board)
@@ -47,25 +43,13 @@ board_initialize <- function(name, ...) {
   UseMethod("board_initialize")
 }
 
-active_board <- function() {
-  if (length(.globals$boards) > 0)
-    .globals$boards[[length(.globals$boards)]]
-  else
-    board_get("local")
-}
-
 #' List Boards
 #'
 #' Retrieves all available boards.
 #'
 #' @export
 board_list <- function() {
-  unique(
-    c(
-      names(.globals$boards),
-      names(.globals$boards_registered)
-    )
-  )
+  names(.globals$boards_registered)
 }
 
 #' Get Board
@@ -76,23 +60,17 @@ board_list <- function() {
 #'
 #' @export
 board_get <- function(name = NULL) {
-  if (is.null(name))
-    return(active_board())
+  if (is.null(name)) name <- getOption("pins.board", "local")
 
   if (!name %in% board_list())
     stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
 
-  if (name %in% names(.globals$boards))
-    .globals$boards[[name]]
-  else
-    .globals$boards_registered[[name]]
+  .globals$boards_registered[[name]]
 }
 
 #' Register Board
 #'
-#' Registers a board without making it active, useful to add sources to
-#' \code{pin_find()}. This function is meant to be used while building extension
-#' not by users directly.
+#' Registers a board, useful to add sources to \code{pin_find()}.
 #'
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
