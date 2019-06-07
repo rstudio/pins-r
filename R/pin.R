@@ -39,10 +39,6 @@ pin_get <- function(name, board = NULL, ...) {
     result <- board_pin_get(board_get(board), name)
   }
 
-  class(result) <- c(paste0(result$type, "_pin"), class(result))
-
-  attr(result, "pin_name") <- name
-
   maybe_tibble(result)
 }
 
@@ -83,8 +79,7 @@ board_remove_pin <- function(board, name) {
 
 #' Find Pin
 #'
-#' Find a pin in any board registered using \code{use_board()} or
-#' \code{board_register()}.
+#' Find a pin in any board registered using \code{board_register()}.
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
