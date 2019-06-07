@@ -167,7 +167,8 @@ board_create_pin.rstudio <- function(board, x, name, description, type, metadata
 board_find_pin.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
-  everything <- identical(list(...)$everything, TRUE)
+
+  if (is.null(text)) text <- ""
 
   account_info <- rstudio_account_info(board)
   client <- deps$client_for_account(account_info)
@@ -175,11 +176,20 @@ board_find_pin.rstudio <- function(board, text, ...) {
   server_info <- deps$server_info(board$server)
   service <- deps$parse_http_url(server_info$url)
 
-  results <- deps$list_request(service, account_info, "/applications", paste0("search=", text), "applications")
+  if (nchar(text) == 0) {
+    # it can be quite slow to list all content in RStudio Connect so we scope to the user content
+    apps_filter <- paste0("filter=account_id:", account_info$accountId, "&accountId:", account_info$accountId)
+    results <- deps$list_request(service, account_info, "/applications", apps_filter, "applications")
+  }
+  else {
+    results <- deps$list_request(service, account_info, "/applications", paste0("search=", text), "applications")
+  }
 
   results <- as.data.frame(do.call("rbind", results))
 
-  if (!everything) results <- results[grepl("_pin$", results$name),]
+  results <- results[results$content_category == "data",]
+
+  results$name <- paste(results$owner_username, results$name, sep = "/")
 
   if (nrow(results) == 0) {
     return(
