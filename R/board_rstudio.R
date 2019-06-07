@@ -218,6 +218,7 @@ board_pin_get.rstudio <- function(board, name, details) {
 
   details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
 
+  if (nrow(details) > 1) details <- details[details$owner_username == board$account,]
   if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
   if (nrow(details) == 0) stop("Pin '", name, "' not found in board '", board$name, "'")
 
