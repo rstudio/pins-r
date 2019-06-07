@@ -211,11 +211,15 @@ board_find_pin.rstudio <- function(board, text, ...) {
 }
 
 board_pin_get.rstudio <- function(board, name, details) {
-  details <- board_find_pin(board, name, extended = TRUE)
+  name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
+  only_name <- gsub(".*/", "", name)
 
-  details <- details[details$name == name & details$content_category == "data",]
+  details <- board_find_pin(board, only_name, extended = TRUE)
+
+  details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
 
   if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
+  if (nrow(details) == 0) stop("Pin '", name, "' not found in board '", board$name, "'")
 
   data <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
   readr::read_csv(data$content)
