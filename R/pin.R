@@ -90,7 +90,7 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   if (is.null(board) ||
       (is.character(board) && (nchar(board) == 0 || identical(board, "all")))) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
-  type <- if (identical(list(...)$type, "table")) pin_is_table_subtype() else list(...)$type
+  type <- list(...)$type
 
   all_pins <- data.frame(
     name = character(),
@@ -150,7 +150,7 @@ pin_preview <- function(name, board = NULL, ...) {
 }
 
 pin_preview_object <- function(x) {
-  UseMethod("pin_preview")
+  UseMethod("pin_preview_object")
 }
 
 pin_preview_object.list <- function(x) {
@@ -162,7 +162,7 @@ pin_preview_object.character <- function(x) {
 }
 
 pin_preview_object.data.frame <- function(x) {
-  x
+  head(x, n = getOption("pins.preview", 10^3))
 }
 
 pin_preview_object.table_pin <- function(x) {
@@ -175,13 +175,6 @@ pin_preview_object.files_pin <- function(x) {
 
 pin_preview_object.default <- function(x) {
   stop("Preview unsupported for '", class(x)[[1]], "'")
-}
-
-pin_is_table_subtype <- function() {
-  c(
-    "table",
-    "dbplyr"
-  )
 }
 
 is_file_pin <- function(x) {
