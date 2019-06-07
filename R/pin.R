@@ -146,7 +146,7 @@ board_find_pin <- function(board, text, ...) {
 #' @keywords internal
 #' @export
 pin_preview <- function(name, board = NULL, ...) {
-  pin_preview(pin_get(name, board = board))
+  pin_preview_object(pin_get(name, board = board))
 }
 
 pin_preview_object <- function(x) {
