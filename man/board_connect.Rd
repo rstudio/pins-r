@@ -4,7 +4,7 @@
 \alias{board_connect}
 \title{Connect to Board}
 \usage{
-board_connect(name, ...)
+board_connect(name)
 }
 \arguments{
 \item{name}{The name of the board to activate.}
@@ -12,5 +12,5 @@ board_connect(name, ...)
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Connects to a board to activate RStudio's conneection pane, when available.
+Connects to a board to activate RStudio's connection pane, when available.
 }

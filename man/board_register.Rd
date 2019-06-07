@@ -4,10 +4,12 @@
 \alias{board_register}
 \title{Register Board}
 \usage{
-board_register(name, ...)
+board_register(name, connect = TRUE, ...)
 }
 \arguments{
 \item{name}{The name of the board to activate.}
+
+\item{connect}{Try open board in RStudio's connections pane?}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
