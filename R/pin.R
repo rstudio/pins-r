@@ -153,28 +153,12 @@ pin_preview_object <- function(x) {
   UseMethod("pin_preview_object")
 }
 
-pin_preview_object.list <- function(x) {
-  x
-}
-
-pin_preview_object.character <- function(x) {
-  x
-}
-
 pin_preview_object.data.frame <- function(x) {
   head(x, n = getOption("pins.preview", 10^3))
 }
 
-pin_preview_object.table_pin <- function(x) {
-  x
-}
-
-pin_preview_object.files_pin <- function(x) {
-  x
-}
-
 pin_preview_object.default <- function(x) {
-  stop("Preview unsupported for '", class(x)[[1]], "'")
+  x
 }
 
 is_file_pin <- function(x) {

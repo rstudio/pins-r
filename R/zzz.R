@@ -1,5 +1,5 @@
 .onLoad <- function(libname, pkgname){
-  board_register("local")
-  board_register("packages")
-  board_register("kaggle")
+  board_register("local", connect = FALSE)
+  board_register("packages", connect = FALSE)
+  board_register("kaggle", connect = FALSE)
 }

@@ -23,16 +23,15 @@ board_pin_get_or_null <- function(...) {
 
 #' Connect to Board
 #'
-#' Connects to a board to activate RStudio's conneection pane, when available.
+#' Connects to a board to activate RStudio's connection pane, when available.
 #'
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @export
-board_connect <- function(name, ...) {
-  board_call <- paste("library(pins)", deparse(match.call(), width.cutoff = 500), sep = "\n")
-
-  board <- new_board(name, ...)
+board_connect <- function(name) {
+  board_call <- paste0("pins::board_connect(\"", name, "\"")
+  board <- board_get(name)
 
   pins_viewer_register(board, board_call)
 
@@ -73,15 +72,17 @@ board_get <- function(name = NULL) {
 #' Registers a board, useful to add sources to \code{pin_find()}.
 #'
 #' @param name The name of the board to activate.
+#' @param connect Try open board in RStudio's connections pane?
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @export
-board_register <- function(name, ...) {
+board_register <- function(name, connect = TRUE, ...) {
   board <- new_board(name, ...)
 
   if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()
-
   .globals$boards_registered[[name]] <- board
+
+  if (identical(connect, TRUE)) board_connect(name)
 
   invisible(name)
 }
