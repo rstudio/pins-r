@@ -23,24 +23,23 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #'
 #' @export
 pin_get <- function(name, board = NULL, ...) {
-  board_object <- board_get(board)
 
-  details <- pin_find(name, board = board_object$name, name = name, extended = TRUE)
+  if (is.null(board)) {
+    result <- board_pin_get_or_null(board_get(board_name), name)
 
-  if (nrow(details) == 0 && is.null(board)) {
-    all_results <- pin_find(name, board = NULL, name = name)
-    if (nrow(all_results) == 0) stop("Can't find '", name, "' pin.")
-
-    results_board <- all_results$board[[1]]
-    details <- pin_find(name, board = results_board, name = name, extended = TRUE)
-    board_object <- board_get(results_board)
+    if (is.null(result) && is.null(board)) {
+      for (board_name in board_list()) {
+        result <- board_pin_get_or_null(board_get(board_name), name)
+        if (!is.null(result)) break
+      }
+    }
+    if (is.null(result)) stop("Can't find '", name, "' pin.")
+  }
+  else {
+    result <- board_pin_get(board_get(board), name)
   }
 
-  result <- board_pin_get(board_object, name, details)
-
-  class(result) <- c(paste0(details$type, "_pin"), class(result))
-
-  # result <- pin_unpack(result, board_object, name, ...)
+  class(result) <- c(paste0(result$type, "_pin"), class(result))
 
   attr(result, "pin_name") <- name
 

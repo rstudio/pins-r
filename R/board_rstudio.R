@@ -11,7 +11,8 @@ rstudio_dependencies <- function() {
     parse_http_url = get("parseHttpUrl", envir = asNamespace("rsconnect")),
     get = get("GET", envir = asNamespace("rsconnect")),
     account_config_file = get("accountConfigFile", envir = asNamespace("rsconnect")),
-    register_user_token = get("registerUserToken", envir = asNamespace("rsconnect"))
+    register_user_token = get("registerUserToken", envir = asNamespace("rsconnect")),
+    list_request = get("listRequest", envir = asNamespace("rsconnect"))
   )
 }
 
@@ -154,9 +155,9 @@ board_create_pin.rstudio <- function(board, x, name, description, type, metadata
   deps$deploy_app(temp_dir,
                   appPrimaryDoc = "index.html",
                   lint = FALSE,
-                  appName = paste0(name, "_pin"),
+                  appName = name,
                   server = board$server,
-                 account = board$account,
+                  account = board$account,
                   appTitle = name,
                   contentCategory = "data")
 
@@ -171,7 +172,11 @@ board_find_pin.rstudio <- function(board, text, ...) {
   account_info <- rstudio_account_info(board)
   client <- deps$client_for_account(account_info)
 
-  results <- client$listApplications(accountId = account_info$accountId)
+  server_info <- deps$server_info(board$server)
+  service <- deps$parse_http_url(server_info$url)
+
+  results <- deps$list_request(service, account_info, "/applications", paste0("search=", text), "applications")
+
   results <- as.data.frame(do.call("rbind", results))
 
   if (!everything) results <- results[grepl("_pin$", results$name),]
@@ -196,6 +201,12 @@ board_find_pin.rstudio <- function(board, text, ...) {
 }
 
 board_pin_get.rstudio <- function(board, name, details) {
+  details <- board_find_pin(board, name, extended = TRUE)
+
+  details <- details[details$name == name && details$content_category == "data",]
+
+  if (nrow(details) > 0) stop("Multiple pins named '", name, "' in board '", board$name, "'")
+
   data <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
   readr::read_csv(data$content)
 }
