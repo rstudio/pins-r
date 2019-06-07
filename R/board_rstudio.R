@@ -212,7 +212,7 @@ board_find_pin.rstudio <- function(board, text, ...) {
 
 board_pin_get.rstudio <- function(board, name, details) {
   name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
-  only_name <- gsub(".*/", "", name)
+  only_name <- pin_without_owner(name)
 
   details <- board_find_pin(board, only_name, extended = TRUE)
 

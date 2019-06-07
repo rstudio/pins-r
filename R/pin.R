@@ -87,10 +87,10 @@ board_remove_pin <- function(board, name) {
 #'
 #' @export
 pin_find <- function(text = NULL, board = NULL, ...) {
-  if (is.null(board) ||
-      (is.character(board) && (nchar(board) == 0 || identical(board, "all")))) board <- board_list()
+  if (is.null(board)) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
   type <- list(...)$type
+  text <- pin_without_owner(text)
 
   all_pins <- data.frame(
     name = character(),
