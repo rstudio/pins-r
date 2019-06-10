@@ -6,6 +6,6 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   board_create_pin(board_get(board), x, name, description, "default", "")
 }
 
-pin_preview_object.default <- function(x) {
+pin_preview.default <- function(x) {
   x
 }

@@ -84,7 +84,7 @@ ui_viewer_register <- function(board) {
 
     # table preview code
     previewObject = function(rowLimit, table) {
-      pin_preview(name = table, board = board$name)
+      pin_preview(pin_get(name = table, board = board$name))
     },
 
     # other actions that can be executed on this connection

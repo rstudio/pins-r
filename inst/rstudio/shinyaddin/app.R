@@ -21,7 +21,7 @@ pins_addin_server <- function(input, output, session) {
     dataset <- input$dataset
     if (is.character(dataset) && nchar(dataset) > 0) {
       rstudioapi::sendToConsole(paste0(
-        "View(pins::pin_preview(\"", dataset , "\")", ", \"", dataset , "\")"
+        "View(pins::pin_preview(pins::pin_get(\"", dataset , "\")", ", \"", dataset , "\"))"
       ))
 
       stopApp(dataset)

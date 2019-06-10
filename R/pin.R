@@ -115,27 +115,18 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   maybe_tibble(all_pins)
 }
 
-#' Custom Pins
+#' Preview Pin
 #'
-#' Family of functions meant to be used to implement custom pins, not to be
-#' used by end users.
+#' Previews a subset of the pin contents, useful to print or display
+#' a subset of the pin contents.
 #'
-#' @param name The name of the pin.
+#' @param name The pin to preview, retrieved with \code{pin_get()}.
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
-#' @rdname custom-pins
-#' @keywords internal
 #' @export
 pin_preview <- function(name, board = NULL, ...) {
-  pin_preview_object(pin_get(name, board = board))
-}
-
-#' @rdname custom-pins
-#' @keywords internal
-#' @export
-pin_preview_object <- function(x) {
-  UseMethod("pin_preview_object")
+  UseMethod("pin_preview")
 }
 
 pin_type <- function(x) {
