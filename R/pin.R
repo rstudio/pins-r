@@ -1,8 +1,8 @@
 #' Create Pin
 #'
-#' Pins the given dataset or object in the active board.
+#' Pins the given resource locally or to the given board.
 #'
-#' @param x The dataset or object to pin.
+#' @param x And object, local file or remote URL to pin.
 #' @param name The name for the dataset or object.
 #' @param description Optional description for this pin.
 #' @param board The board where this pin will be placed.
@@ -61,7 +61,7 @@ board_create_pin <- function(board, x, name, description, type, metadata) {
 #'
 #' Unpins the given named pin from the active board.
 #'
-#' @param name The name for the dataset.
+#' @param name The name for the resource.
 #' @param board The board where this pin will be placed.
 #'
 #' @export
