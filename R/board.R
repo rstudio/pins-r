@@ -32,7 +32,7 @@ board_pin_get_or_null <- function(...) {
 board_connect <- function(name) {
   board <- board_get(name)
 
-  ui_viewer_register(name)
+  ui_viewer_register(board)
 
   invisible(board)
 }

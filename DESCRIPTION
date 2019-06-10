@@ -23,7 +23,8 @@ Imports:
 Suggests:
   knitr,
   rmarkdown,
-  testthat
+  testthat,
+  tibble
 VignetteBuilder: knitr
 URL: https://github.com/rstudio/pins
 BugReports: https://github.com/rstudio/pins/issues

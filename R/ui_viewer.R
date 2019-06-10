@@ -1,5 +1,14 @@
 ui_viewer_register <- function(board) {
-  board_call <- paste0("pins::board_connect(\"", board, "\")")
+  if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
+
+  if (identical(.globals$ui_connections[[board$name]], TRUE)) {
+    ui_viewer_updated(board)
+    return()
+  }
+
+  .globals$ui_connections[[board$name]] <- TRUE
+
+  board_call <- paste0("pins::board_connect(\"", board$name, "\")")
   observer <- getOption("connectionObserver")
   if (identical(observer, NULL)) return()
 
@@ -24,6 +33,7 @@ ui_viewer_register <- function(board) {
     # disconnection code
     disconnect = function() {
       observer$connectionClosed(type = "Pins", host = board$name)
+      .globals$ui_connections[[board$name]] <- FALSE
     },
 
     listObjectTypes = function () {
@@ -91,9 +101,7 @@ ui_viewer_register <- function(board) {
   )
 }
 
-pins_viewer_updated <- function(board) {
-  pins_viewer_ensure(board)
-
+ui_viewer_updated <- function(board) {
   viewer <- getOption("connectionObserver")
   if (!is.null(viewer))
     viewer$connectionUpdated(type = "Pins", host = board$name, hint = "")

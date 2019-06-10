@@ -10,6 +10,8 @@
 #'
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  on.exit(board_connect(board))
+
   UseMethod("pin")
 }
 
@@ -23,7 +25,6 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #'
 #' @export
 pin_get <- function(name, board = NULL, ...) {
-
   if (is.null(board)) {
     result <- board_pin_get_or_null(board_get(board_name), name)
 
@@ -52,8 +53,6 @@ pin_get <- function(name, board = NULL, ...) {
 #' @export
 #' @keywords internal
 board_create_pin <- function(board, x, name, description, type, metadata) {
-  on.exit(pins_viewer_updated(board))
-
   UseMethod("board_create_pin")
 }
 
@@ -66,6 +65,8 @@ board_create_pin <- function(board, x, name, description, type, metadata) {
 #'
 #' @export
 pin_remove <- function(name, board = NULL) {
+  on.exit(board_connect(board))
+
   board <- board_get()
 
   board_remove_pin(board, name)
