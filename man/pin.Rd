@@ -7,7 +7,7 @@
 pin(x, name = NULL, description = NULL, board = NULL, ...)
 }
 \arguments{
-\item{x}{The dataset or object to pin.}
+\item{x}{And object, local file or remote URL to pin.}
 
 \item{name}{The name for the dataset or object.}
 
@@ -18,5 +18,5 @@ pin(x, name = NULL, description = NULL, board = NULL, ...)
 \item{...}{Additional parameters.}
 }
 \description{
-Pins the given dataset or object in the active board.
+Pins the given resource locally or to the given board.
 }

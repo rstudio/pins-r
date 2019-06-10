@@ -7,7 +7,7 @@
 pin_remove(name, board = NULL)
 }
 \arguments{
-\item{name}{The name for the dataset.}
+\item{name}{The name for the resource.}
 
 \item{board}{The board where this pin will be placed.}
 }

@@ -7,13 +7,13 @@
 pin_preview(name, board = NULL, ...)
 }
 \arguments{
-\item{name}{The name of the pin.}
+\item{name}{The pin to preview, retrieved with \code{pin_get()}.}
 
 \item{board}{The board where this pin will be retrieved from.}
 
 \item{...}{Additional parameters.}
 }
 \description{
-Previews a named pin from the active board.
+Previews a subset of the pin contents, useful to print or display
+a subset of the pin contents.
 }
-\keyword{internal}

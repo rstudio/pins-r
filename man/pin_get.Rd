@@ -14,5 +14,5 @@ pin_get(name, board = NULL, ...)
 \item{...}{Additional parameters.}
 }
 \description{
-Retrieves a named pin from the active board.
+Retrieves a pin by name from the local or given board.
 }
