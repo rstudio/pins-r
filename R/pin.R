@@ -17,7 +17,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 
 #' Retrieve Pin
 #'
-#' Retrieves a named pin from the active board.
+#' Retrieves a pin by name from the local or given board.
 #'
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
@@ -43,19 +43,6 @@ pin_get <- function(name, board = NULL, ...) {
   maybe_tibble(result)
 }
 
-#' Extensible API
-#'
-#' Family of functions meant to be used to extend pins to support new
-#' boards, not to be used by end users.
-#'
-#' @param x A local file path or an object. Boards must support storing both.
-#'
-#' @export
-#' @keywords internal
-board_create_pin <- function(board, x, name, description, type, metadata) {
-  UseMethod("board_create_pin")
-}
-
 #' Remove Pin
 #'
 #' Unpins the given named pin from the active board.
@@ -72,10 +59,6 @@ pin_remove <- function(name, board = NULL) {
   board_remove_pin(board, name)
 
   invisible(name)
-}
-
-board_remove_pin <- function(board, name) {
-  UseMethod("board_remove_pin")
 }
 
 #' Find Pin
@@ -132,36 +115,29 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   maybe_tibble(all_pins)
 }
 
-board_find_pin <- function(board, text, ...) {
-  UseMethod("board_find_pin")
-}
-
-#' Preview Pin
+#' Custom Pins
 #'
-#' Previews a named pin from the active board.
+#' Family of functions meant to be used to implement custom pins, not to be
+#' used by end users.
 #'
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
+#' @rdname custom-pins
 #' @keywords internal
 #' @export
 pin_preview <- function(name, board = NULL, ...) {
   pin_preview_object(pin_get(name, board = board))
 }
 
+#' @rdname custom-pins
+#' @keywords internal
+#' @export
 pin_preview_object <- function(x) {
   UseMethod("pin_preview_object")
 }
 
-pin_preview_object.data.frame <- function(x) {
-  head(x, n = getOption("pins.preview", 10^3))
-}
-
-pin_preview_object.default <- function(x) {
-  x
-}
-
-is_file_pin <- function(x) {
-  identical(attr(x, "pin_type"), "files")
+pin_type <- function(x) {
+  attr(x, "pin_type")
 }

@@ -33,7 +33,7 @@ board_find_pin.local <- function(board, text, ...) {
 board_pin_get.local <- function(board, name, details) {
   path <- pin_retrieve_yaml(name, "local")
 
-  if (is_file_pin(path)) path else readRDS(path)
+  if (identical(pin_type(path), "files")) path else readRDS(path)
 }
 
 board_remove_pin.local <- function(board, name) {
