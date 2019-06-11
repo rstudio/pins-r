@@ -4,15 +4,16 @@
 \alias{board_register}
 \title{Register Board}
 \usage{
-board_register(name, connect = TRUE, ...)
+board_register(board, name = board, ...)
 }
 \arguments{
-\item{name}{The name of the board to activate.}
+\item{board}{The name of the board to register.}
 
-\item{connect}{Try open board in RStudio's connections pane?}
+\item{name}{An optional name to identify this board, defaults to the board name,}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Registers a board, useful to add sources to \code{pin_find()}.
+Registers a board, useful to add sources to \code{pin_find()} or pin to remote
+boards with \code{pin()}.
 }
