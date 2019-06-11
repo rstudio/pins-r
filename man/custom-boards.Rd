@@ -7,7 +7,7 @@
 \alias{board_find_pin}
 \title{Custom Boards}
 \usage{
-board_create_pin(board, x, name, description, type, metadata)
+board_create_pin(board, path, name, description, type, metadata)
 
 board_pin_get(board, name, details)
 

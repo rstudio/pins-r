@@ -17,3 +17,4 @@ pin_preview(name, board = NULL, ...)
 Previews a subset of the pin contents, useful to print or display
 a subset of the pin contents.
 }
+\keyword{internal}
