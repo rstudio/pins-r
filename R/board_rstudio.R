@@ -36,16 +36,7 @@ rstudio_account_dcf <- function(board) {
   temp_dcf <- tempfile(fileext = ".dcf")
   on.exit(unlink(temp_dcf))
   write.dcf(secret, temp_dcf)
-  structure(
-    base64enc::base64encode(temp_dcf),
-    class = "rstudio_auth_dcf"
-  )
-}
-
-#' @export
-#' @keywords internal
-print.rstudio_auth_dcf <- function(x) {
-  cat(x)
+  cat(base64enc::base64encode(temp_dcf))
 }
 
 rstudio_api_get <- function(board, path, root = FALSE) {
@@ -92,6 +83,16 @@ board_initialize.rstudio <- function(board, ...) {
 
   board$secret <- function() rstudio_account_dcf(board)
 
+  board
+}
+
+board_load.rstudio <- function(board) {
+  board$secret <- function() rstudio_account_dcf(board)
+  board
+}
+
+board_persist.rstudio <- function(board) {
+  board$secret <- NULL
   board
 }
 

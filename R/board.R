@@ -1,8 +1,9 @@
-new_board <- function(name, ...) {
+new_board <- function(board, name, ...) {
   board <- structure(list(
+      board = board,
       name = name
     ),
-    class = name)
+    class = board)
 
   board <- board_initialize(board, ...)
 
@@ -68,7 +69,7 @@ board_get <- function(name = NULL) {
 #' @export
 board_register <- function(board, name = board, ...) {
   params <- list(...)
-  board <- new_board(name, ...)
+  board <- new_board(board, name, ...)
 
   board_registry_set(name, board)
 
@@ -82,7 +83,5 @@ board_info <- function(board) {
 }
 
 board_info.default = function(board) {
-  list(
-    install_html = ""
-  )
+  NULL
 }

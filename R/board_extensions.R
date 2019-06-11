@@ -52,3 +52,21 @@ board_local_storage <- function(component) {
 
   normalizePath(component_path, mustWork = FALSE)
 }
+
+#' @export
+#' @rdname custom-boards
+#' @keywords internal
+board_load <- function(board) {
+  UseMethod("board_load")
+}
+
+board_load.default <- function(board) board
+
+#' @export
+#' @rdname custom-boards
+#' @keywords internal
+board_persist <- function(board) {
+  UseMethod("board_persist")
+}
+
+board_persist.default <- function(board) board
