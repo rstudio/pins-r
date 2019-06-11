@@ -96,11 +96,11 @@ board_initialize.rstudio <- function(board, ...) {
 }
 
 rstudio_create_pin.data.frame <- function(x, temp_dir) {
-  rds_file <- file.path(temp_dir, "data.rds")
+  rds_file <- file.path(temp_dir, "data.rdsb64")
   csv_file <- file.path(temp_dir, "data.csv")
 
   write.csv(x, csv_file, row.names = FALSE)
-  saveRDS(x, rds_file, version = 2)
+  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), rds_file)
 
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
@@ -130,25 +130,35 @@ rstudio_create_pin.data.frame <- function(x, temp_dir) {
   writeLines(html_index, html_file)
 }
 
+rstudio_create_pin.default <- function(x, temp_dir) {
+  path <- tempfile(fileext = ".rdsb64")
+  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), path)
+  on.exit(unlink(path))
+
+  file.copy(path, temp_dir)
+}
+
 rstudio_create_pin.character <- function(x, temp_dir) {
   file.copy(x, temp_dir)
 }
 
 rstudio_create_pin.default <- function(x, temp_dir) {
-  rds_file <- file.path(temp_dir, "data.rds")
-  saveRDS(x, rds_file, version = 2)
+  rds_file <- file.path(temp_dir, "data.rdsb64")
+  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), rds_file)
 }
 
 rstudio_create_pin <- function(x, temp_dir) {
   UseMethod("rstudio_create_pin")
 }
 
-board_create_pin.rstudio <- function(board, x, name, description, type, metadata) {
+board_create_pin.rstudio <- function(board, path, name, description, type, metadata) {
   deps <- rstudio_dependencies()
 
   temp_dir <- tempfile()
   dir.create(temp_dir)
   on.exit(unlink(temp_dir, recursive = TRUE))
+
+  x <- if (identical(tools::file_ext(path), "rds")) readRDS(path) else path
 
   rstudio_create_pin(x, temp_dir)
 
@@ -222,8 +232,11 @@ board_pin_get.rstudio <- function(board, name, details) {
   if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
   if (nrow(details) == 0) stop("Pin '", name, "' not found in board '", board$name, "'")
 
-  data <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.csv"), root = TRUE)
-  readr::read_csv(data$content)
+  rdsb64_path <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.rdsb64"), root = TRUE)
+
+  x <- unserialize(base64enc::base64decode(rdsb64_path$content))
+  attr(x, "pin_type") <- details$type
+  x
 }
 
 board_remove_pin.rstudio <- function(board, name) {

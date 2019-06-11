@@ -77,7 +77,8 @@ board_pin_get.packages <- function(board, name, details) {
     pattern = name,
     full.names = TRUE)[1]
 
-  get(load(data_file))
+  attr(data_file, "pin_type") <- "package"
+  data_file
 }
 
 get_cranfiles <- function() {

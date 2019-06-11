@@ -2,9 +2,9 @@
 
 new_board <- function(name, ...) {
   board <- structure(list(
-    name = name
-  ),
-  class = name)
+      name = name
+    ),
+    class = name)
 
   board <- board_initialize(board, ...)
 
@@ -23,7 +23,7 @@ new_board <- function(name, ...) {
 #' @rdname custom-boards
 #' @export
 #' @keywords internal
-board_create_pin <- function(board, x, name, description, type, metadata) {
+board_create_pin <- function(board, path, name, description, type, metadata) {
   UseMethod("board_create_pin")
 }
 

@@ -37,7 +37,7 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-board_create_pin.kaggle <- function(board, x, name, description, type, metadata) {
+board_create_pin.kaggle <- function(board, path, name, description, type, metadata) {
   stop("Not yet implemented.")
 }
 
@@ -75,10 +75,8 @@ board_pin_get.kaggle <- function(board, name, details) {
     unzip(temp_zip, exdir = local_path)
   }
 
-  data.frame(
-    path = dir(local_path, full.names = TRUE, recursive = TRUE),
-    stringsAsFactors = FALSE
-  )
+  attr(local_path, "pin_type") <- "files"
+  local_path
 }
 
 board_remove_pin.kaggle <- function(board, name) {

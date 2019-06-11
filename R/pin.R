@@ -26,7 +26,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @export
 pin_get <- function(name, board = NULL, ...) {
   if (is.null(board)) {
-    result <- board_pin_get_or_null(board_get(board_name), name)
+    result <- board_pin_get_or_null(board_get(NULL), name)
 
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
@@ -39,6 +39,12 @@ pin_get <- function(name, board = NULL, ...) {
   else {
     result <- board_pin_get(board_get(board), name)
   }
+
+  result_type <- pin_type(result)
+  if (is.null(result_type)) stop("Pin '", name, "' is missing attribute 'pin_type'")
+
+  attr(result, "pin_type") <- NULL
+  result <- pin_load(structure(result, class = result_type))
 
   maybe_tibble(result)
 }
@@ -124,11 +130,30 @@ pin_find <- function(text = NULL, board = NULL, ...) {
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
+#' @keywords internal
 #' @export
 pin_preview <- function(name, board = NULL, ...) {
   UseMethod("pin_preview")
 }
 
+#' Load Pin
+#'
+#' Load a pin from the given file path making use of the pin type.
+#'
+#' @param path The file to load as a pin.
+#' @param ... Additional parameters.
+#'
+#' @keywords internal
+#' @export
+pin_load <- function(path, ...) {
+  UseMethod("pin_load")
+}
+
 pin_type <- function(x) {
   attr(x, "pin_type")
+}
+
+pin_type_set <- function(x, type) {
+  attr(x, "pin_type") <- type
+  x
 }
