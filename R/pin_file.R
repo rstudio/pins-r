@@ -1,3 +1,9 @@
+pin_file_extension <- function(x) {
+  extension <- tools::file_ext(x)
+  if (nchar(extension) == 0) extension <- "txt"
+  paste0(".", extension)
+}
+
 #' @keywords internal
 #' @export
 pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...) {
@@ -10,7 +16,7 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
 
   local_path <- NULL
   if (grepl("^http", x)) {
-    local_path <- tempfile(fileext = paste0(".", tools::file_ext(x)))
+    local_path <- tempfile(fileext = pin_file_extension(x))
     status <- tryCatch(httr::status_code(httr::HEAD(x, httr::timeout(5))), error = function(e) e$message)
     error <- NULL
 
