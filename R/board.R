@@ -1,5 +1,3 @@
-.globals <- new.env(parent = emptyenv())
-
 new_board <- function(name, ...) {
   board <- structure(list(
       name = name
@@ -78,7 +76,7 @@ board_initialize <- function(name, ...) {
 #'
 #' @export
 board_list <- function() {
-  names(.globals$boards_registered)
+  board_registry_list()
 }
 
 #' Get Board
@@ -94,25 +92,26 @@ board_get <- function(name = NULL) {
   if (!name %in% board_list())
     stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
 
-  .globals$boards_registered[[name]]
+  board_registry_get(name)
 }
 
 #' Register Board
 #'
-#' Registers a board, useful to add sources to \code{pin_find()}.
+#' Registers a board, useful to add sources to \code{pin_find()} or pin to remote
+#' boards with \code{pin()}.
 #'
-#' @param name The name of the board to activate.
-#' @param connect Try open board in RStudio's connections pane?
+#' @param board The name of the board to register.
+#' @param name An optional name to identify this board, defaults to the board name,
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @export
-board_register <- function(name, connect = TRUE, ...) {
+board_register <- function(board, name = board, ...) {
+  params <- list(...)
   board <- new_board(name, ...)
 
-  if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()
-  .globals$boards_registered[[name]] <- board
+  board_registry_set(name, board)
 
-  if (identical(connect, TRUE)) board_connect(name)
+  if (identical(params$connect, TRUE)) board_connect(name)
 
   invisible(name)
 }
