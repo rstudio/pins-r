@@ -2,7 +2,7 @@ board_initialize.packages <- function(board, ...) {
   board
 }
 
-board_find_pin.packages <- function(board, text, ...) {
+board_pin_find.packages <- function(board, text, ...) {
   if (is.null(text)) text <- ""
   cranfiles <- get_cranfiles()
 

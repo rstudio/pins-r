@@ -37,11 +37,11 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-board_create_pin.kaggle <- function(board, path, name, description, type, metadata) {
+board_pin_create.kaggle <- function(board, path, name, description, type, metadata) {
   stop("Not yet implemented.")
 }
 
-board_find_pin.kaggle <- function(board, text, ...) {
+board_pin_find.kaggle <- function(board, text, ...) {
   if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
   # clear name searches
@@ -79,7 +79,7 @@ board_pin_get.kaggle <- function(board, name, details) {
   local_path
 }
 
-board_remove_pin.kaggle <- function(board, name) {
+board_pin_remove.kaggle <- function(board, name) {
 
 }
 

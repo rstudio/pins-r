@@ -60,7 +60,7 @@ pin_get <- function(name, board = NULL, ...) {
 #' @export
 pin_remove <- function(name, board = NULL) {
   on.exit(board_connect(board))
-  board_remove_pin(board_get(board), name)
+  board_pin_remove(board_get(board), name)
 }
 
 #' Find Pin
@@ -88,7 +88,7 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   for (board_name in board) {
     board_object <- board_get(board_name)
 
-    board_pins <- board_find_pin(board = board_object, text, ...)
+    board_pins <- board_pin_find(board = board_object, text, ...)
     board_pins$board <- rep(board_name, nrow(board_pins))
 
     if (!identical(type, NULL)) {

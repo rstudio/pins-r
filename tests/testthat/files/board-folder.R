@@ -3,7 +3,7 @@ board_initialize.folder <- function(board, ...) {
   board
 }
 
-board_create_pin.folder <- function(board, path, name, description, type, metadata) {
+board_pin_create.folder <- function(board, path, name, description, type, metadata) {
   file.copy(path, file.path("pins", paste0(name, ".", type)))
 
   pin_get(name, board = board$name)
@@ -15,7 +15,7 @@ board_pin_get.folder <- function(board, name) {
   path
 }
 
-board_find_pin.folder <- function(board, text) {
+board_pin_find.folder <- function(board, text) {
   path <- dir("pins", text, full.names = T)
   names <- sapply(strsplit(basename(path), "\\."), function(e) e[1])
   types <- sapply(strsplit(basename(path), "\\."), function(e) e[2])
@@ -24,6 +24,6 @@ board_find_pin.folder <- function(board, text) {
   data.frame(name = names, description = empties, type = types, metadata = empties, stringsAsFactors = F)
 }
 
-board_remove_pin.folder <- function(board, name) {
+board_pin_remove.folder <- function(board, name) {
   unlink(file.path("pins", name))
 }

@@ -154,7 +154,7 @@ rstudio_create_pin <- function(x, temp_dir) {
   UseMethod("rstudio_create_pin")
 }
 
-board_create_pin.rstudio <- function(board, path, name, description, type, metadata) {
+board_pin_create.rstudio <- function(board, path, name, description, type, metadata) {
   deps <- rstudio_dependencies()
 
   temp_dir <- tempfile()
@@ -177,7 +177,7 @@ board_create_pin.rstudio <- function(board, path, name, description, type, metad
   pin_get(name, board$name)
 }
 
-board_find_pin.rstudio <- function(board, text, ...) {
+board_pin_find.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
 
@@ -227,7 +227,7 @@ board_pin_get.rstudio <- function(board, name, details) {
   name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
   only_name <- pin_without_owner(name)
 
-  details <- board_find_pin(board, only_name, extended = TRUE)
+  details <- board_pin_find(board, only_name, extended = TRUE)
 
   details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
 
@@ -243,7 +243,7 @@ board_pin_get.rstudio <- function(board, name, details) {
   path
 }
 
-board_remove_pin.rstudio <- function(board, name) {
+board_pin_remove.rstudio <- function(board, name) {
   stop("Removing pins from 'rstudio' boards is currently unsupported.")
 }
 

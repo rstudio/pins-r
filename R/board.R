@@ -71,7 +71,7 @@ board_register <- function(board, name = board, ...) {
 
   if (identical(params$connect, TRUE)) board_connect(name)
 
-  invisible(name)
+  invisible(board)
 }
 
 board_info <- function(board) {

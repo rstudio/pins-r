@@ -8,8 +8,8 @@
 #' @rdname custom-boards
 #' @export
 #' @keywords internal
-board_create_pin <- function(board, path, name, description, type, metadata) {
-  UseMethod("board_create_pin")
+board_pin_create <- function(board, path, name, description, type, metadata) {
+  UseMethod("board_pin_create")
 }
 
 #' @export
@@ -31,15 +31,15 @@ board_pin_get <- function(board, name, details) {
 #' @export
 #' @rdname custom-boards
 #' @keywords internal
-board_remove_pin <- function(board, name) {
-  UseMethod("board_remove_pin")
+board_pin_remove <- function(board, name) {
+  UseMethod("board_pin_remove")
 }
 
 #' @export
 #' @rdname custom-boards
 #' @keywords internal
-board_find_pin <- function(board, text, ...) {
-  UseMethod("board_find_pin")
+board_pin_find <- function(board, text, ...) {
+  UseMethod("board_pin_find")
 }
 
 #' @export

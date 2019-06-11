@@ -40,5 +40,5 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
     return(board_pin_get(board_object, name))
   }
 
-  board_create_pin(board_object, local_path, name, description, "files", "")
+  board_pin_create(board_object, local_path, name, description, "files", "")
 }
