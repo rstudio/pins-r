@@ -11,7 +11,6 @@
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   on.exit(board_connect(board))
-
   UseMethod("pin")
 }
 
@@ -61,12 +60,7 @@ pin_get <- function(name, board = NULL, ...) {
 #' @export
 pin_remove <- function(name, board = NULL) {
   on.exit(board_connect(board))
-
-  board <- board_get()
-
-  board_remove_pin(board, name)
-
-  invisible(name)
+  board_remove_pin(board_get(board), name)
 }
 
 #' Find Pin

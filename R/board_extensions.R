@@ -15,6 +15,15 @@ board_create_pin <- function(board, path, name, description, type, metadata) {
 #' @export
 #' @rdname custom-boards
 #' @keywords internal
+board_initialize <- function(board, ...) {
+  UseMethod("board_initialize")
+}
+
+board_initialize.default <- function(board, ...) board
+
+#' @export
+#' @rdname custom-boards
+#' @keywords internal
 board_pin_get <- function(board, name, details) {
   UseMethod("board_pin_get")
 }
@@ -69,4 +78,4 @@ board_persist <- function(board) {
   UseMethod("board_persist")
 }
 
-board_persist.default <- function(board) board
+board_persist.default <- function(board) structure(list(board = board$board, name = board$name), class = board$board)

@@ -28,10 +28,6 @@ board_connect <- function(name) {
   invisible(board)
 }
 
-board_initialize <- function(name, ...) {
-  UseMethod("board_initialize")
-}
-
 #' List Boards
 #'
 #' Retrieves all available boards.

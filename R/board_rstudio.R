@@ -140,7 +140,9 @@ rstudio_create_pin.default <- function(x, temp_dir) {
 }
 
 rstudio_create_pin.character <- function(x, temp_dir) {
-  file.copy(x, temp_dir)
+  path <- tempfile(fileext = ".rdsb64")
+  writeLines(base64enc::base64encode(x), path)
+  file.copy(path, temp_dir)
 }
 
 rstudio_create_pin.default <- function(x, temp_dir) {
@@ -235,9 +237,10 @@ board_pin_get.rstudio <- function(board, name, details) {
 
   rdsb64_path <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.rdsb64"), root = TRUE)
 
-  x <- unserialize(base64enc::base64decode(rdsb64_path$content))
-  attr(x, "pin_type") <- details$type
-  x
+  path <- tempfile()
+  writeBin(base64enc::base64decode(rdsb64_path$content), path)
+  attr(path, "pin_type") <- details$type
+  path
 }
 
 board_remove_pin.rstudio <- function(board, name) {
