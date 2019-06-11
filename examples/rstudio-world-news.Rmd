@@ -27,11 +27,12 @@ world_news <- data.frame(
 )
 ```
 
-We can then pin this dataset using the secret to allow it to execute, say, daily:
+We can then pin this dataset using the secret to allow it to execute, say, in a daily schedule. Notice that we can also override the default board by setting the `pins.board` option.
 
 ```{r}
 library(pins)
 board_register("rstudio", secret = Sys.getenv("secret"))
+options(pins.board = "rstudio")
 
 pin(world_news, "worldnews", "A table with the latests world news from the BBC")
 ```
