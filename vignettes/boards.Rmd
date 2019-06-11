@@ -11,7 +11,7 @@ vignette: >
 library(nomnoml)
 ```
 
-A board is an storage location to store pins for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.
+A board is an storage location to store files for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.
 
 ```{nomnoml echo=FALSE, fig.width=7, fig.height=2.4}
 [Pin]->[Create]
@@ -59,10 +59,10 @@ account in RStudio.
 To make RStudio Connect your default board run:
 
 ```{r eval=FALSE}
-use_board("rstudio")
+board_register("rstudio")
 ```
 
-Once this board is active, `pin()` and `get_pin()` will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:
+Once this board is active, `pin()` and `pin_get()` will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:
 
 ```{r eval=FALSE}
 library(xml2)
@@ -99,32 +99,35 @@ use_board("rstudio", secret = Sys.getenv("secret"))
 
 If the boards that the `pins` package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.
 
-The following example creatse an in-memory board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
+The following example creatse a simple folder-bard board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
 
 ```{r}
-board_initialize.memory <- function(board, ...) {
-  as.environment(list(data = data.frame(name = c(), description = c(), type = c(), metadata = c())))
+board_initialize.folder <- function(board, ...) {
+  if (!dir.exists("pins")) dir.create("pins")
+  board
 }
 
-pin_create.memory <- function(board, x, name, description, type, metadata) {
-  board$data <- rbind(board$data,
-    data.frame(name = name, description = description, type = type, metadata = metadata)
-  )
+board_pin_create.folder <- function(board, path, name, description, type, metadata) {
+  file.copy(path, file.path("pins", paste0(name, ".", type)))
+  pin_get(name, board = board$name)
 }
 
-pin_find.memory <- function(board, text) {
-  if (is.null(text)) return(.memory_board)
-  board$data[grepl(text, board$data$description) | board$data$name == text,]
+board_pin_get.folder <- function(board, name) {
+  path <- dir("pins", name, full.names = T)
+  attr(path, "pin_type") <- tools::file_ext(path)
+  path
 }
 
-pin_retrieve.memory <- function(board, name) {
-  board$data[board$data$name == name]
+board_pin_find.folder <- function(board, text) {
+  path <- dir("pins", text, full.names = T)
+  names <- sapply(strsplit(basename(path), "\\."), function(e) e[1])
+  types <- sapply(strsplit(basename(path), "\\."), function(e) e[2])
+  empties <- rep("", length(types))
+
+  data.frame(name = names, description = empties, type = types, metadata = empties, stringsAsFactors = F)
 }
 
-pin_remove.memory <- function(board, name) {
-  board$data <- board$data[board$data$name != name]
-}
-
-board_info.memory <- function(board) {
+board_pin_create.folder <- function(board, name) {
+  unlink(file.path("pins", name))
 }
 ```
