@@ -3,12 +3,7 @@ board_initialize.packages <- function(board, ...) {
 }
 
 board_find_pin.packages <- function(board, text, ...) {
-  if (is.null(text)) {
-    return(
-      data.frame(name = c(), description = c(), type = c(), metadata = c())
-    )
-  }
-
+  if (is.null(text)) text <- ""
   cranfiles <- get_cranfiles()
 
   parts <- strsplit(text, "/")[[1]]
