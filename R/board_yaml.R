@@ -3,7 +3,7 @@ yaml_random_string <- function(prefix, suffix = "") {
 }
 
 yaml_entries_path <- function(component) {
-  file.path(pins_local_path(component), "config.yml")
+  file.path(board_local_storage(component), "config.yml")
 }
 
 yaml_load_entries <- function(component) {
@@ -21,7 +21,7 @@ pin_create_yaml <- function(name, description, type, metadata, component, extens
 
   entries <- yaml_load_entries(component)
 
-  path <- file.path(pins_local_path(component), yaml_random_string("pin_", extension))
+  path <- file.path(board_local_storage(component), yaml_random_string("pin_", extension))
 
   if (identical(entries, NULL)) entries <- list()
 

@@ -40,7 +40,7 @@ board_pin_get.packages <- function(board, name, details) {
   name <- paste(parts[2:length(parts)], collapse = "/")
 
   package_pin <- cranfiles[which(cranfiles$package == package, cranfiles$dataset == name),]
-  packages_path <- pins_local_path("packages")
+  packages_path <- board_local_storage("packages")
 
   package_path <- dir(
     packages_path,

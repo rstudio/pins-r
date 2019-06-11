@@ -11,45 +11,6 @@ new_board <- function(name, ...) {
   board
 }
 
-#' Custom Boards
-#'
-#' Family of functions meant to be used to implement custom boards, not to be
-#' used by end users.
-#'
-#' @param x A local file path or an object. Boards must support storing both.
-#'
-#' @rdname custom-boards
-#' @export
-#' @keywords internal
-board_create_pin <- function(board, path, name, description, type, metadata) {
-  UseMethod("board_create_pin")
-}
-
-#' @export
-#' @rdname custom-boards
-#' @keywords internal
-board_pin_get <- function(board, name, details) {
-  UseMethod("board_pin_get")
-}
-
-board_pin_get_or_null <- function(...) {
-  tryCatch(board_pin_get(...), error = function(e) NULL)
-}
-
-#' @export
-#' @rdname custom-boards
-#' @keywords internal
-board_remove_pin <- function(board, name) {
-  UseMethod("board_remove_pin")
-}
-
-#' @export
-#' @rdname custom-boards
-#' @keywords internal
-board_find_pin <- function(board, text, ...) {
-  UseMethod("board_find_pin")
-}
-
 #' Connect to Board
 #'
 #' Connects to a board to activate RStudio's connection pane, when available.

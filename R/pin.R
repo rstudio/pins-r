@@ -26,6 +26,8 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @export
 pin_get <- function(name, board = NULL, ...) {
   if (is.null(board)) {
+    board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
+
     result <- board_pin_get_or_null(board_get(NULL), name)
 
     if (is.null(result) && is.null(board)) {

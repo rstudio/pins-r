@@ -63,7 +63,7 @@ board_find_pin.kaggle <- function(board, text, ...) {
 }
 
 board_pin_get.kaggle <- function(board, name, details) {
-  local_path <- file.path(pins_local_path("kaggle"), name)
+  local_path <- file.path(board_local_storage("kaggle"), name)
 
   if (!dir.exists(local_path)) {
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
