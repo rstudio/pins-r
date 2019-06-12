@@ -118,7 +118,7 @@ rstudio_create_pin.data.frame <- function(x, temp_dir) {
         type = ""
       )
     }),
-    data = x[1:max_rows,],
+    data = head(x, b = max_rows),
     options = list(
       columns = list( max = 10 ),
       rows = list ( min = 1, total = nrow(x))
