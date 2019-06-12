@@ -92,6 +92,7 @@ ui_viewer_register <- function(board) {
       "Help" = list(
         icon = file.path(icons, "help.png"),
         callback = function() {
+          browseURL("https://rstudio.github.io/pins/")
         }
       )
     ),
