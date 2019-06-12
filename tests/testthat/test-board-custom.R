@@ -27,3 +27,9 @@ test_that("can pin_get() with custom board", {
   entry <- pin_get("iris", board = "folder")
   expect_equal(as.data.frame(entry), iris)
 })
+
+test_that("can board_unregister() custom board", {
+  board_unregister("folder")
+
+  expect_true(!"folder" %in% board_list())
+})

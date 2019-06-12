@@ -59,7 +59,7 @@ board_get <- function(name = NULL) {
 #' boards with \code{pin()}.
 #'
 #' @param board The name of the board to register.
-#' @param name An optional name to identify this board, defaults to the board name,
+#' @param name An optional name to identify this board, defaults to the board name.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @export
@@ -72,6 +72,17 @@ board_register <- function(board, name = board, ...) {
   if (identical(params$connect, TRUE)) board_connect(name)
 
   invisible(board)
+}
+
+#' Unregister Board
+#'
+#' Unregisters a board, useful to disable boards no longer in use.
+#'
+#' @param name An optional name to identify this board, defaults to the board name.
+#'
+#' @export
+board_unregister <- function(name) {
+  board_registry_set(name, NULL)
 }
 
 board_info <- function(board) {
