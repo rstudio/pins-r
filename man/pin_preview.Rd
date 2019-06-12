@@ -4,10 +4,10 @@
 \alias{pin_preview}
 \title{Preview Pin}
 \usage{
-pin_preview(name, board = NULL, ...)
+pin_preview(x, board = NULL, ...)
 }
 \arguments{
-\item{name}{The pin to preview, retrieved with \code{pin_get()}.}
+\item{x}{The pin to preview, retrieved with \code{pin_get()}.}
 
 \item{board}{The board where this pin will be retrieved from.}
 

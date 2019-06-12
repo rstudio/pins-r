@@ -9,6 +9,7 @@
 \alias{board_local_storage}
 \alias{board_load}
 \alias{board_persist}
+\alias{board_info}
 \title{Custom Boards}
 \usage{
 board_pin_create(board, path, name, description, type, metadata)
@@ -26,6 +27,8 @@ board_local_storage(component)
 board_load(board)
 
 board_persist(board)
+
+board_info(board)
 }
 \arguments{
 \item{x}{A local file path or an object. Boards must support storing both.}
