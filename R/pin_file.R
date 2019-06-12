@@ -4,6 +4,8 @@ pin_file_extension <- function(x) {
   paste0(".", extension)
 }
 
+#' @keywords internal
+#' @export
 pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(x)))
 
