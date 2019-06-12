@@ -44,7 +44,6 @@ board_list <- function() {
 #'
 #' @param name The name of the board to use
 #'
-#' @keywords internal
 #' @export
 board_get <- function(name = NULL) {
   if (is.null(name)) name <- getOption("pins.board", "local")

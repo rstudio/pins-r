@@ -13,7 +13,7 @@ library(nomnoml)
 
 A board is an storage location to store files for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.
 
-```{nomnoml echo=FALSE, fig.width=7, fig.height=2.4}
+```{nomnoml echo=FALSE, out.width='100%', out.height='240px'}
 [Pin]->[Create]
 [Create]->[Board]
 [Pin]<-[Find]
@@ -28,7 +28,7 @@ A board is an storage location to store files for personal use, with your team, 
 
 The defaul board in the `pins` package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a `pins` folder under the default home folder for your user.
 
-```{nomnoml echo=FALSE, fig.width=7, fig.height=1.6}
+```{nomnoml echo=FALSE, out.width='100%', out.height='160px'}
 [R|
   [<note>library(pins)
     pin(iris, "iris")]
@@ -47,10 +47,10 @@ The defaul board in the `pins` package is a files-based; meaning, remote files a
 use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
 account in RStudio.
 
-```{nomnoml echo=FALSE, fig.width=7, fig.height=1.6}
+```{nomnoml echo=FALSE, out.width='100%', out.height='140px'}
 [R|
    [<note>library(pins)
-    use_board("rstudio")
+    register_board("rstudio")
     pin(iris, "iris")]
 ]-[RStudio Connect|
   [<note>iris]]
@@ -70,26 +70,26 @@ data.frame(title = xml_text(xml_find_all(read_xml("http://feeds.bbci.co.uk/news/
   pin("worldnews", "A table with the latests world news from the BBC")
 ```
 
-When using multiple publishing servers, you can specify an specific server through `use_board("rstudio", "<server-name>")`.
+When using multiple publishing servers, you can specify an specific server through `register_board("rstudio", "<server-name>")`.
 
 When using `pins` within RMarkdown documents that you want to run at a given schedule, like [rstudio-world-news.Rmd](https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd), you'll have to first retrieve your publishing secret credentials:
 
 ```{r eval=FALSE}
-get_board("rstudio")$secret()
+board_get("rstudio")$secret()
 ```
 
-Followed by specifying that secret in `use_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect. Please treat your credentials with care!
+Followed by specifying that secret in `register_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect. Please treat your credentials with care!
 
 ```{r eval=FALSE}
-use_board("rstudio", secret = Sys.getenv("secret"))
+register_board("rstudio", secret = Sys.getenv("secret"))
 ```
 
 ## Kaggle
 
-```{nomnoml echo=FALSE, fig.width=7, fig.height=1.6}
+```{nomnoml echo=FALSE, out.width='100%', out.height='140px'}
 [R|
    [<note>library(pins)
-    use_board("kaggle")
+    register_board("kaggle")
     pin(iris, "iris")]
 ]-[Kaggle|
   [<note>iris]]
