@@ -227,7 +227,7 @@ board_pin_find.rstudio <- function(board, text, ...) {
 
 board_pin_get.rstudio <- function(board, name, details) {
   name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
-  only_name <- pin_without_owner(name)
+  only_name <- pin_content_name(name)
 
   details <- board_pin_find(board, only_name, extended = TRUE)
 
@@ -249,5 +249,5 @@ board_pin_remove.rstudio <- function(board, name) {
   stop("Removing pins from 'rstudio' boards is currently unsupported.")
 }
 
-board_info.memory <- function(board) {
+board_info.rstudio <- function(board) {
 }

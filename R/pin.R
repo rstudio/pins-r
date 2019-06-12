@@ -46,7 +46,7 @@ pin_get <- function(name, board = NULL, ...) {
   attr(result, "pin_type") <- NULL
   result <- pin_load(structure(result, class = result_type))
 
-  maybe_tibble(result)
+  format_tibble(result)
 }
 
 #' Remove Pin
@@ -74,7 +74,7 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   if (is.null(board) || nchar(board) == 0) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
   type <- list(...)$type
-  text <- pin_without_owner(text)
+  text <- pin_content_name(text)
 
   all_pins <- data.frame(
     name = character(),
@@ -112,7 +112,7 @@ pin_find <- function(text = NULL, board = NULL, ...) {
     if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
   }
 
-  maybe_tibble(all_pins)
+  format_tibble(all_pins)
 }
 
 #' Preview Pin
@@ -120,13 +120,13 @@ pin_find <- function(text = NULL, board = NULL, ...) {
 #' Previews a subset of the pin contents, useful to print or display
 #' a subset of the pin contents.
 #'
-#' @param name The pin to preview, retrieved with \code{pin_get()}.
+#' @param x The pin to preview, retrieved with \code{pin_get()}.
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
 #' @keywords internal
 #' @export
-pin_preview <- function(name, board = NULL, ...) {
+pin_preview <- function(x, board = NULL, ...) {
   UseMethod("pin_preview")
 }
 

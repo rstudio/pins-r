@@ -1,27 +1,27 @@
-yaml_random_string <- function(prefix, suffix = "") {
+board_yaml_random_string <- function(prefix, suffix = "") {
   paste0(basename(tempfile(prefix)), suffix)
 }
 
-yaml_entries_path <- function(component) {
+board_yaml_entries_path <- function(component) {
   file.path(board_local_storage(component), "config.yml")
 }
 
-yaml_load_entries <- function(component) {
-  entries_path <- yaml_entries_path(component)
+board_yaml_load_entries <- function(component) {
+  entries_path <- board_yaml_entries_path(component)
 
   if (file.exists(entries_path)) yaml::read_yaml(entries_path) else list()
 }
 
-yaml_save_entries <- function(entries, component) {
-  yaml::write_yaml(entries, yaml_entries_path(component))
+board_yaml_save_entries <- function(entries, component) {
+  yaml::write_yaml(entries, board_yaml_entries_path(component))
 }
 
-pin_create_yaml <- function(name, description, type, metadata, component, extension) {
+board_yaml_pin_create <- function(name, description, type, metadata, component, extension) {
   if (is.null(description)) description <- ""
 
-  entries <- yaml_load_entries(component)
+  entries <- board_yaml_load_entries(component)
 
-  path <- file.path(board_local_storage(component), yaml_random_string("pin_", extension))
+  path <- file.path(board_local_storage(component), board_yaml_random_string("pin_", extension))
 
   if (identical(entries, NULL)) entries <- list()
 
@@ -33,13 +33,13 @@ pin_create_yaml <- function(name, description, type, metadata, component, extens
     metadata = as.character(metadata)
   )
 
-  yaml_save_entries(entries, component)
+  board_yaml_save_entries(entries, component)
 
   path
 }
 
-pin_find_yaml <- function(text, component) {
-  entries <- yaml_load_entries(component)
+board_yaml_pin_find <- function(text, component) {
+  entries <- board_yaml_load_entries(component)
 
   names <- sapply(entries, function(e) e$name)
   descriptions <- sapply(entries, function(e) e$description)
@@ -55,8 +55,8 @@ pin_find_yaml <- function(text, component) {
   )
 }
 
-pin_retrieve_yaml <- function(name, component) {
-  entries <- yaml_load_entries(component)
+board_yaml_pin_retrieve <- function(name, component) {
+  entries <- board_yaml_load_entries(component)
 
   names <- sapply(entries, function(e) e$name)
   paths <- sapply(entries, function(e) e$path)
@@ -78,8 +78,8 @@ pin_retrieve_yaml <- function(name, component) {
   entry$path
 }
 
-pin_remove_yaml <- function(name, component, unlink = TRUE) {
-  entries <- yaml_load_entries(component)
+board_yaml_pin_remove <- function(name, component, unlink = TRUE) {
+  entries <- board_yaml_load_entries(component)
 
   remove <- Filter(function(x) x$name == name, entries)
   if (length(remove) > 0)
@@ -91,5 +91,5 @@ pin_remove_yaml <- function(name, component, unlink = TRUE) {
 
   if (unlink) unlink(remove$path)
 
-  yaml_save_entries(entries, component)
+  board_yaml_save_entries(entries, component)
 }

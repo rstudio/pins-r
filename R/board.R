@@ -85,11 +85,3 @@ board_register <- function(board, name = board, ...) {
 board_deregister <- function(name) {
   board_registry_set(name, NULL)
 }
-
-board_info <- function(board) {
-  UseMethod("board_info")
-}
-
-board_info.default = function(board) {
-  NULL
-}

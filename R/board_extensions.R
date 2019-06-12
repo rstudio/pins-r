@@ -73,9 +73,17 @@ board_load.default <- function(board) board
 
 #' @export
 #' @rdname custom-boards
-#' @keywords internal
 board_persist <- function(board) {
   UseMethod("board_persist")
 }
 
 board_persist.default <- function(board) structure(list(board = board$board, name = board$name), class = board$board)
+
+#' @export
+#' @rdname custom-boards
+#' @keywords internal
+board_info <- function(board) {
+  UseMethod("board_info")
+}
+
+board_info.default = function(board) NULL

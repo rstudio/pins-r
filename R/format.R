@@ -1,4 +1,4 @@
-maybe_tibble <- function(data) {
+format_tibble <- function(data) {
   if (!is.data.frame(data)) return(data)
 
   if ("tibble" %in% installed.packages() && !identical(getOption("pins.tibble"), FALSE)) {
