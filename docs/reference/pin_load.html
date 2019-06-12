@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove Pin — pin_remove • pins</title>
+<title>Load Pin — pin_load • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Remove Pin — pin_remove" />
+<meta property="og:title" content="Load Pin — pin_load" />
 
-<meta property="og:description" content="Unpins the given named pin from the active board." />
+<meta property="og:description" content="Load a pin from the given file path making use of the pin type." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,29 +113,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove Pin</h1>
+    <h1>Load Pin</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a></small>
-    <div class="hidden name"><code>pin_remove.Rd</code></div>
+    <div class="hidden name"><code>pin_load.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Unpins the given named pin from the active board.</p>
+    <p>Load a pin from the given file path making use of the pin type.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pin_remove</span>(<span class='no'>name</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_load</span>(<span class='no'>path</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>The name for the resource.</p></td>
+      <th>path</th>
+      <td><p>The file to load as a pin.</p></td>
     </tr>
     <tr>
-      <th>board</th>
-      <td><p>The board where this pin will be placed.</p></td>
+      <th>...</th>
+      <td><p>Additional parameters.</p></td>
     </tr>
     </table>
     

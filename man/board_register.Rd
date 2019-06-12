@@ -9,7 +9,7 @@ board_register(board, name = board, ...)
 \arguments{
 \item{board}{The name of the board to register.}
 
-\item{name}{An optional name to identify this board, defaults to the board name,}
+\item{name}{An optional name to identify this board, defaults to the board name.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

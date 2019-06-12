@@ -34,7 +34,8 @@
   
 <meta property="og:title" content="Preview Pin — pin_preview" />
 
-<meta property="og:description" content="Previews a named pin from the active board." />
+<meta property="og:description" content="Previews a subset of the pin contents, useful to print or display
+a subset of the pin contents." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,7 +121,8 @@
 
     <div class="ref-description">
     
-    <p>Previews a named pin from the active board.</p>
+    <p>Previews a subset of the pin contents, useful to print or display
+a subset of the pin contents.</p>
     
     </div>
 
@@ -131,7 +133,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>The name of the pin.</p></td>
+      <td><p>The pin to preview, retrieved with <code><a href='pin_get.html'>pin_get()</a></code>.</p></td>
     </tr>
     <tr>
       <th>board</th>

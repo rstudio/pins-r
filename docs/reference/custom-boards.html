@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove Pin — pin_remove • pins</title>
+<title>Custom Boards — board_pin_create • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Remove Pin — pin_remove" />
+<meta property="og:title" content="Custom Boards — board_pin_create" />
 
-<meta property="og:description" content="Unpins the given named pin from the active board." />
+<meta property="og:description" content="Family of functions meant to be used to implement custom boards extensions,
+not to be used by end users." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,29 +114,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove Pin</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a></small>
-    <div class="hidden name"><code>pin_remove.Rd</code></div>
+    <h1>Custom Boards</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_extensions.R'><code>R/board_extensions.R</code></a></small>
+    <div class="hidden name"><code>custom-boards.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Unpins the given named pin from the active board.</p>
+    <p>Family of functions meant to be used to implement custom boards extensions,
+not to be used by end users.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pin_remove</span>(<span class='no'>name</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>board_pin_create</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>description</span>, <span class='no'>type</span>, <span class='no'>metadata</span>)
+
+<span class='fu'>board_initialize</span>(<span class='no'>board</span>, <span class='no'>...</span>)
+
+<span class='fu'>board_pin_get</span>(<span class='no'>board</span>, <span class='no'>name</span>, <span class='no'>details</span>)
+
+<span class='fu'>board_pin_remove</span>(<span class='no'>board</span>, <span class='no'>name</span>)
+
+<span class='fu'>board_pin_find</span>(<span class='no'>board</span>, <span class='no'>text</span>, <span class='no'>...</span>)
+
+<span class='fu'>board_local_storage</span>(<span class='no'>component</span>)
+
+<span class='fu'>board_load</span>(<span class='no'>board</span>)
+
+<span class='fu'>board_persist</span>(<span class='no'>board</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>The name for the resource.</p></td>
-    </tr>
-    <tr>
-      <th>board</th>
-      <td><p>The board where this pin will be placed.</p></td>
+      <th>x</th>
+      <td><p>A local file path or an object. Boards must support storing both.</p></td>
     </tr>
     </table>
     

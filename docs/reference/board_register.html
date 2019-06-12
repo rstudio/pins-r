@@ -34,9 +34,8 @@
   
 <meta property="og:title" content="Register Board — board_register" />
 
-<meta property="og:description" content="Registers a board without making it active, useful to add sources to
-pin_find(). This function is meant to be used while building extension
-not by users directly." />
+<meta property="og:description" content="Registers a board, useful to add sources to pin_find() or pin to remote
+boards with pin()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,20 +121,23 @@ not by users directly." />
 
     <div class="ref-description">
     
-    <p>Registers a board without making it active, useful to add sources to
-<code><a href='pin_find.html'>pin_find()</a></code>. This function is meant to be used while building extension
-not by users directly.</p>
+    <p>Registers a board, useful to add sources to <code><a href='pin_find.html'>pin_find()</a></code> or pin to remote
+boards with <code><a href='pin.html'>pin()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>name</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>board</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='no'>board</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>board</th>
+      <td><p>The name of the board to register.</p></td>
+    </tr>
+    <tr>
       <th>name</th>
-      <td><p>The name of the board to activate.</p></td>
+      <td><p>An optional name to identify this board, defaults to the board name.</p></td>
     </tr>
     <tr>
       <th>...</th>

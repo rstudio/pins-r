@@ -9,13 +9,13 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-red.svg)](http
 
 You can use the `pins` package from **R**, or **Python**, to:
 
-  - **Pin** remote resources to work offline with `pin()`.
+  - **Pin** remote resources locally with `pin()`, work offline and
+    cache results with ease.
   - **Discover** new resources across different boards using
     `pin_find()`.
-  - **Share** resources with your team, or the world with
-    `board_register()`.
-  - **Resources** can be shareed with GitHub, Kaggle or RStudio Connect
-    boards.
+  - **Share** resources with your team, or the world, by registering new
+    boards with `board_register()`.
+  - **Resources** can be shared in GitHub, Kaggle or RStudio Connect.
 
 To start using `pins`, install this package as follows:
 
@@ -178,7 +178,7 @@ pin_get("hpiR/seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5308...DONE
-    ## Deploying bundle: 12643 for data: 5308 ...
+    ## Deploying bundle: 12719 for data: 5308 ...
 
     ## Building static content...
 
