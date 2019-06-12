@@ -130,7 +130,7 @@
           <td>
             Board:
             <select id="board" v-model="board">
-              <option value="all" selected>all</option>
+              <option value="" selected>all</option>
               <option :value="board.name" v-text="board.name" v-for="board in boards"></option>
             </select>
           </td>

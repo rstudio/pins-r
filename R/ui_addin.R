@@ -1,3 +1,5 @@
+#' @keywords internal
+#' @export
 ui_addin_pin_find <- function() {
   shinyAppDir <- get("shinyAppDir", envir = asNamespace("shiny"))
   dialogViewer <- get("dialogViewer", envir = asNamespace("shiny"))
