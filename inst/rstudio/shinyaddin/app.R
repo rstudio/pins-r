@@ -5,7 +5,8 @@ pins_addin_source_choices <- function() {
 
 pins_addin_server <- function(input, output, session) {
   observe({
-    results <- pin_find(input$search, board = input$board, metadata = TRUE)
+    board <- if (identical(input$board, "all")) NULL else input$board
+    results <- pin_find(input$search, board = board, metadata = TRUE)
     session$sendCustomMessage("search-results", results)
   })
 
