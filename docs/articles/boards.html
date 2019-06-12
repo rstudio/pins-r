@@ -89,36 +89,36 @@
     
     
 <p>A board is an storage location to store files for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.</p>
-<div id="htmlwidget-3f0e81c1232b2e0d644b" style="width:672px;height:230.4px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3f0e81c1232b2e0d644b">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
+<div id="htmlwidget-8a491ba0d4a3664b9a58" style="width:100%;height:240px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8a491ba0d4a3664b9a58">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#files" class="anchor"></a>Files</h2>
 <p>The defaul board in the <code>pins</code> package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a <code>pins</code> folder under the default home folder for your user.</p>
-<div id="htmlwidget-5b03b561e29da3f87635" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b03b561e29da3f87635">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-67236d8b1db6b76752a4" style="width:100%;height:160px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-67236d8b1db6b76752a4">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris, \"iris\")]\n]-[File System|\n  [<note>~/documents/\n   ~/images/\n   ~/pins/files/pins.yml\n   ~/pins/files/iris.Rds\n  ]\n]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="rstudio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
 <p><strong>RStudio Connect</strong> can be used to share pins within your organization, to use this feature you will need to configure a <a href="https://docs.rstudio.com/connect/user/publishing.html">publishing</a> account in RStudio.</p>
-<div id="htmlwidget-eeadacce3a09da45524d" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eeadacce3a09da45524d">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"rstudio\")\n    pin(iris, \"iris\")]\n]-[RStudio Connect|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
+<div id="htmlwidget-aedf019ad9e9cd165f03" style="width:100%;height:140px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aedf019ad9e9cd165f03">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    register_board(\"rstudio\")\n    pin(iris, \"iris\")]\n]-[RStudio Connect|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"rstudio"</span>)</a></code></pre></div>
 <p>Once this board is active, <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(xml2)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">title =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/xml2/topics/xml_text">xml_text</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/xml2/topics/xml_find_all">xml_find_all</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/xml2/topics/read_xml">read_xml</a></span>(<span class="st">"http://feeds.bbci.co.uk/news/rss.xml"</span>), <span class="st">"///item/title/node()"</span>))) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"worldnews"</span>, <span class="st">"A table with the latests world news from the BBC"</span>)</a></code></pre></div>
-<p>When using multiple publishing servers, you can specify an specific server through <code>use_board("rstudio", "&lt;server-name&gt;")</code>.</p>
+<p>When using multiple publishing servers, you can specify an specific server through <code>register_board("rstudio", "&lt;server-name&gt;")</code>.</p>
 <p>When using <code>pins</code> within RMarkdown documents that you want to run at a given schedule, like <a href="https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd">rstudio-world-news.Rmd</a>, you’ll have to first retrieve your publishing secret credentials:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">get_board</span>(<span class="st">"rstudio"</span>)<span class="op">$</span><span class="kw">secret</span>()</a></code></pre></div>
-<p>Followed by specifying that secret in <code>use_board()</code>, this can be securely accomplish by defining an environment variable <code>secret</code> with the contents from the previous step in RStudio Connect. Please treat your credentials with care!</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">use_board</span>(<span class="st">"rstudio"</span>, <span class="dt">secret =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"secret"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/board_get.html">board_get</a></span>(<span class="st">"rstudio"</span>)<span class="op">$</span><span class="kw">secret</span>()</a></code></pre></div>
+<p>Followed by specifying that secret in <code>register_board()</code>, this can be securely accomplish by defining an environment variable <code>secret</code> with the contents from the previous step in RStudio Connect. Please treat your credentials with care!</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">register_board</span>(<span class="st">"rstudio"</span>, <span class="dt">secret =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"secret"</span>))</a></code></pre></div>
 </div>
 <div id="kaggle" class="section level2">
 <h2 class="hasAnchor">
 <a href="#kaggle" class="anchor"></a>Kaggle</h2>
-<div id="htmlwidget-5066be023688cf81b4a7" style="width:672px;height:153.6px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5066be023688cf81b4a7">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    use_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-fb02d376963b2c39ed29" style="width:100%;height:140px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fb02d376963b2c39ed29">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 2\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    register_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","className":null,"svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="other" class="section level2">
 <h2 class="hasAnchor">
