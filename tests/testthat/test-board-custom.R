@@ -28,8 +28,8 @@ test_that("can pin_get() with custom board", {
   expect_equal(as.data.frame(entry), iris)
 })
 
-test_that("can board_unregister() custom board", {
-  board_unregister("folder")
+test_that("can board_deregister() custom board", {
+  board_deregister("folder")
 
   expect_true(!"folder" %in% board_list())
 })

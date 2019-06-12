@@ -1,4 +1,4 @@
-#' Create Pin
+#' Pin Resource
 #'
 #' Pins the given resource locally or to the given board.
 #'

@@ -19,6 +19,7 @@ new_board <- function(board, name, ...) {
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
+#' @keywords internal
 #' @export
 board_connect <- function(name) {
   board <- board_get(name)
@@ -43,6 +44,7 @@ board_list <- function() {
 #'
 #' @param name The name of the board to use
 #'
+#' @keywords internal
 #' @export
 board_get <- function(name = NULL) {
   if (is.null(name)) name <- getOption("pins.board", "local")
@@ -74,14 +76,14 @@ board_register <- function(board, name = board, ...) {
   invisible(board)
 }
 
-#' Unregister Board
+#' Deregister Board
 #'
-#' Unregisters a board, useful to disable boards no longer in use.
+#' Deregisters a board, useful to disable boards no longer in use.
 #'
 #' @param name An optional name to identify this board, defaults to the board name.
 #'
 #' @export
-board_unregister <- function(name) {
+board_deregister <- function(name) {
   board_registry_set(name, NULL)
 }
 

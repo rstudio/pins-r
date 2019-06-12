@@ -1,3 +1,12 @@
 template:
   params:
     bootswatch: flatly
+reference:
+  - title: "Pins"
+    desc: "Functions for pinning, finding, retrieveing and sharing remote resources."
+    contents:
+      - starts_with("pin")
+  - title: "Boards"
+    desc: "Functions for configuring remote storage lcoations, known as 'boards'."
+    contents:
+      - starts_with("board_")
