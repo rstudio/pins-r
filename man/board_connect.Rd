@@ -14,3 +14,4 @@ board_connect(name)
 \description{
 Connects to a board to activate RStudio's connection pane, when available.
 }
+\keyword{internal}

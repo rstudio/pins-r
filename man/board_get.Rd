@@ -12,3 +12,4 @@ board_get(name = NULL)
 \description{
 Retrieves information about a particular board.
 }
+\keyword{internal}

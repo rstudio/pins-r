@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin.R
 \name{pin}
 \alias{pin}
-\title{Create Pin}
+\title{Pin Resource}
 \usage{
 pin(x, name = NULL, description = NULL, board = NULL, ...)
 }
