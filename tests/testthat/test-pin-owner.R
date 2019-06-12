@@ -14,6 +14,13 @@ test_that("can retrieve empty owner with pin_content_owner()", {
   )
 })
 
+test_that("can retrieve empty name with pin_content_owner()", {
+  expect_equal(
+    pin_content_owner(""),
+    NULL
+  )
+})
+
 test_that("can parse simple names with pin_content_owner() and pin_content_name()", {
   name <- "the-owner/named-pin"
 

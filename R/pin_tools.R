@@ -2,7 +2,7 @@ pin_split_owner <- function(name) {
   parts <- strsplit(name, "/")[[1]]
   list(
     owner = if (length(parts) > 1) paste(parts[1:length(parts) - 1], collapse = "/") else NULL,
-    name = parts[length(parts)]
+    name = if (length(parts) > 0) parts[length(parts)] else NULL
   )
 }
 
