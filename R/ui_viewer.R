@@ -60,7 +60,7 @@ ui_viewer_register <- function(board) {
       attr_names <- c()
       attr_values <- c()
 
-      pin_index <- pin_find(table, board = board$name)
+      pin_index <- pin_find(name = table, board = board$name)
       if (nchar(pin_index$description) > 0) {
         attr_names <- c(attr_names, "description")
         attr_values <- c(attr_values, pin_index$description)
