@@ -50,7 +50,9 @@ board_pin_find.kaggle <- function(board, text, ...) {
   url <- utils::URLencode(paste0("https://www.kaggle.com/api/v1/datasets/list?search=", text))
   results <- httr::content(httr::GET(url, config = kaggle_auth()))
 
-  results <- as.data.frame(do.call("rbind", results))
+  results <- jsonlite::fromJSON(jsonlite::toJSON(results))
+
+  if (identical(list(...)$extended, TRUE)) return(results)
 
   if (nrow(results) == 0) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
@@ -69,7 +71,7 @@ board_pin_get.kaggle <- function(board, name, details) {
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
     temp_zip <- tempfile(fileext = ".zip")
 
-    httr::content(httr::GET(url, config = auth, httr::write_disk(temp_zip)))
+    httr::content(httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip)))
 
     dir.create(local_path, recursive = TRUE)
     unzip(temp_zip, exdir = local_path)
