@@ -115,3 +115,8 @@ select {
   background: #fafafa;
 }
 
+/* files */
+.result-entry-files {
+  padding: 0px 8px 0 2px;
+}
+

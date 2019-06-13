@@ -11,12 +11,32 @@
         Vue.component('result-entry', {
           template: `
             <div class="result-entry" v-on:click="select">
-              <div width="60" height="60" v-bind:class="{ 'result-entry-table': true, 'result-entry-table-nodims': entry.nodims }">
+              <div width="60" height="60" v-if="entry.type == 'table'" v-bind:class="{ 'result-entry-table': true, 'result-entry-table-nodims': entry.nodims }">
                 <div v-for="coln in entry.cols">
                   <div v-for="rown in entry.rows">&nbsp;</div>
                   <div v-for="rown in (10 - entry.rows)" class="row-padding">&nbsp;</div>
                 </div>
               </div>
+              <svg width="50" height="50" class="result-entry-files" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" stroke="#ffebcb" fill="transparent" stroke-width="10"
+                   v-if="entry.type == 'files'" >
+                <!-- top/right, right, bottom, left, fold -->
+                <path d="M 130 10 L 330 10 L 390 80 L 390 360"/>
+                <path d="M 390 360 C 390 380, 370 390, 360 390"/>
+                <path d="M 360 390 L 130 390 C 120 390, 100 380, 100 360"/>
+                <path d="M 100 360 L 100 40 C 100 20, 110 10, 130 10"/>
+                <path d="M 390 80 L 330 80 L 330 10" fill="#ffebcb" stroke-width="5"/>
+                <!-- contents -->
+                <path d="M 150 260 L 340 260"/>
+                <path d="M 150 300 L 340 300"/>
+                <path d="M 150 340 L 340 340"/>
+                <!-- label -->
+                <path d="M 30 90 L 270 90 C 280 90, 290 100, 290 110
+                         L 290 190 C 290 200, 280 210, 270 210
+                         L 30 210 C 20 210, 10 200, 10 190
+                         L 10 110 C 10 100, 20 90, 30 90
+                        " stroke-width="0" fill="orange"/>
+                <text x="30" y="190" stroke-width="0" fill="white" font-size="10em" font-family="monospace" v-text="entry.extension"></text>
+              </svg>
               <div class="result-entry-info">
                 <div class="result-entry-info-name" v-text="entry.name" />
                 <div class="result-entry-info-desc" v-text="entry.description" />
@@ -74,7 +94,9 @@
                     description: results.description[idx],
                     rows: Math.min(13, 1 + Math.ceil(Math.log(Math.max(2, rows)) / Math.log(10))),
                     cols: Math.min(11, Math.ceil(Math.log(cols + 1)/ Math.log(2))),
-                    nodims: nodims
+                    nodims: nodims,
+                    type: results.type[idx],
+                    extension: "rds"
                   })
                 }
 
