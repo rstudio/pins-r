@@ -71,20 +71,13 @@ running once `board_register("kaggle", token =
 pin_find("seattle")
 ```
 
-    ## # A tibble: 24 x 4
-    ##    name                     description                        type  board 
-    ##    <chr>                    <chr>                              <chr> <chr> 
-    ##  1 hpiR/seattle_sales       Seattle Home Sales from hpiR pack… table packa…
-    ##  2 microsynth/seattledmi    Data for a crime intervention in … table packa…
-    ##  3 vegawidget/data_seattle… Example dataset: Seattle daily we… table packa…
-    ##  4 vegawidget/data_seattle… Example dataset: Seattle hourly t… table packa…
-    ##  5 airbnb/seattle           Seattle Airbnb Open Data           files kaggle
-    ##  6 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
-    ##  7 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
-    ##  8 seattle-public-library/… Seattle Library Checkout Records   files kaggle
-    ##  9 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
-    ## 10 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
-    ## # … with 14 more rows
+    ## # A tibble: 4 x 4
+    ##   name               description                               type  board 
+    ##   <chr>              <chr>                                     <chr> <chr> 
+    ## 1 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
+    ## 2 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
+    ## 3 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
+    ## 4 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
 `<owner>` is not provided, each board will assign an appropriate one.
@@ -178,7 +171,7 @@ pin_get("hpiR/seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5308...DONE
-    ## Deploying bundle: 12719 for data: 5308 ...
+    ## Deploying bundle: 12734 for data: 5308 ...
 
     ## Building static content...
 
