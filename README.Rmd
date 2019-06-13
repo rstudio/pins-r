@@ -2,8 +2,8 @@
 title: "pins: Pin, Discover and Share Resources"
 output:
   github_document:
-    fig_width: 9
-    fig_height: 5
+    fig_width: 8
+    fig_height: 4
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
@@ -112,7 +112,7 @@ pin_get("hpiR/seattle_sales") %>%
 ```
 
 <center>
-![](tools/readme/rstudio-share-pins.png){width=70%}
+![](tools/readme/rstudio-share-pins.png){width=90%}
 </center>
 
 You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote file locally!
