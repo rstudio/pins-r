@@ -7,12 +7,12 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
   saveRDS(x, path, version = 2)
   on.exit(unlink(path))
 
-  metadata <- as.character(jsonlite::toJSON(list(
+  metadata <- list(
     rows = nrow(x),
     cols = ncol(x)
-  )))
+  )
 
-  board_pin_create(board_get(board), path, name, description, "table", metadata)
+  board_pin_store(board_get(board), path, name, description, "table", metadata)
 }
 
 #' @keywords internal

@@ -40,5 +40,9 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
     return(board_pin_get(board_object, name))
   }
 
-  board_pin_create(board_object, local_path, name, description, "files", "")
+  metadata <- list(
+    extension = tools::file_ext(local_path)
+  )
+
+  board_pin_store(board_object, local_path, name, description, "files", metadata)
 }

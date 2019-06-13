@@ -82,11 +82,13 @@
                   var rows = 1000;
                   var cols = 10;
                   var nodims = true;
+                  var extension = "bin";
                   if (results.metadata && idx < results.metadata.length && results.metadata[idx].length > 0) {
                     var metadata = JSON.parse(results.metadata[idx]);
                     if (metadata && metadata.rows) rows = metadata.rows;
                     if (metadata && metadata.cols) cols = metadata.cols;
                     if (metadata && metadata.rows && metadata.cols) nodims = false;
+                    if (metadata && metadata.extension) extension = metadata.extension;
                   }
 
                   datasets.push({
@@ -96,7 +98,7 @@
                     cols: Math.min(11, Math.ceil(Math.log(cols + 1)/ Math.log(2))),
                     nodims: nodims,
                     type: results.type[idx],
-                    extension: "rds"
+                    extension: extension
                   })
                 }
 

@@ -87,3 +87,12 @@ board_info <- function(board) {
 }
 
 board_info.default = function(board) NULL
+
+#' @export
+#' @rdname custom-boards
+#' @keywords internal
+board_pin_store <- function(board, path, name, description, type, metadata) {
+  metadata <- as.character(jsonlite::toJSON(metadata, auto_unbox = TRUE))
+
+  board_pin_create(board, path, name, description, type, metadata)
+}
