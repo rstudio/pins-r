@@ -54,7 +54,7 @@ board_pin_find.kaggle <- function(board, text, ...) {
 
   if (identical(list(...)$extended, TRUE)) return(results)
 
-  if (nrow(results) == 0) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
+  if (length(results) == 0) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
   data.frame(
     name = as.character(results$ref),
