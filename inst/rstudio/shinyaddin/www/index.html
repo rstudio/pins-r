@@ -4,7 +4,8 @@
     <link rel="stylesheet" type="text/css" href="addin.css"/>
     <script src="shared/jquery.js" type="text/javascript"></script>
     <script src="shared/shiny.js" type="text/javascript"></script>
-    <script src="vue.js" type="text/javascript"></script>
+    <script src="lodash.min.js" type="text/javascript"></script>
+    <script src="vue.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         var app = null;
 
@@ -106,9 +107,9 @@
               }
             },
             watch: {
-              'search': function(val, oldVal) {
+              'search': _.debounce(function(val, oldVal) {
                 Shiny.setInputValue("search", val);
-              },
+              }, 300),
               'board': function(val, oldVal) {
                 Shiny.setInputValue("board", val);
               },
