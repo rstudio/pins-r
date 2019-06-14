@@ -64,19 +64,33 @@
               datasets: [],
               page: 0,
               boards: [],
-              empty: ""
+              empty: "",
+              maxResults: 8,
+              currentPage: 1,
+              pages: [1]
             },
             methods: {
+              updateNavigation: function() {
+                var actualResults = this.results.name.length;
+
+                var maxPages = 9;
+                var totalPages = Math.ceil(actualResults / this.maxResults);
+                var visiblePages = Math.min(maxPages, totalPages);
+                var startPage = Math.max(1, this.currentPage - (maxPages - 1) / 2);
+                var endPage = Math.min(startPage + visiblePages - 1, totalPages)
+
+                this.pages = _.map(new Array(endPage - startPage + 1), function(e, idx) { return startPage + idx; });
+              },
               updatePage: function(page) {
                 if (page == 0) {
                   this.datasets = [];
                   return;
                 }
 
-                var maxResults = 8;
                 var results = this.results;
-                var resultStart = (page - 1) * maxResults;
-                var resultEnd = Math.min(results.name.length, page * maxResults);
+                var resultStart = (page - 1) * this.maxResults;
+                var actualResults = results.name.length;
+                var resultEnd = Math.min(actualResults, page * this.maxResults);
 
                 var datasets = [];
                 for (var idx = resultStart; idx < resultEnd; idx++) {
@@ -104,6 +118,9 @@
                 }
 
                 this.datasets = datasets;
+                this.currentPage = page;
+
+                this.updateNavigation();
               }
             },
             watch: {
@@ -164,6 +181,12 @@
       <div>
         <div v-html="empty"></div>
         <result-entry v-for="entry in datasets" :entry="entry"></result-entry>
+      </div>
+      <div class="navigation">
+        <a href="#" v-bind:class="{ 'nav-enabled': true }">Previous</a>
+        <a v-for="page in pages" href="#" v-text="page" v-on:click="updatePage(page)"
+           v-bind:class="{ 'nav-selected': true }"></a>
+        <a href="#" v-bind:class="{ 'nav-enabled': true }">Next</a>
       </div>
     </div>
   </body>

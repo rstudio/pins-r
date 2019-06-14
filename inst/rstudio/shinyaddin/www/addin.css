@@ -120,3 +120,16 @@ select {
   padding: 0px 8px 0 2px;
 }
 
+.navigation {
+  width: 100%;
+  border-top: solid 1px #DFDFDF;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.navigation > a {
+  padding-left: 4px;
+  padding-right: 4px;
+  line-height: 26px;
+}
