@@ -66,6 +66,7 @@
               boards: [],
               empty: "",
               maxResults: 8,
+              totalPages: 1,
               currentPage: 1,
               pages: [1]
             },
@@ -78,19 +79,18 @@
               },
               updateNavigation: function() {
                 var maxPages = 9;
-                var totalPages = Math.ceil(this.totalResults() / this.maxResults);
-                var visiblePages = Math.min(maxPages, totalPages);
+                var visiblePages = Math.min(maxPages, this.totalPages);
                 var startPage = Math.max(1, this.currentPage - (maxPages - 1) / 2);
-                var endPage = Math.min(startPage + visiblePages - 1, totalPages)
+                var endPage = Math.min(startPage + visiblePages - 1, this.totalPages)
 
                 this.pages = _.map(new Array(endPage - startPage + 1), function(e, idx) { return startPage + idx; });
               },
               updatePage: function(page) {
                 var totalResults = this.totalResults();
-                var totalPages = Math.ceil(totalResults / this.maxResults);
+                this.totalPages = Math.ceil(totalResults / this.maxResults);
 
                 if (page < 1) page = 1;
-                if (page > totalPages) page = totalPages;
+                if (page > this.totalPages) page = this.totalPages;
 
                 var results = this.results;
                 var resultStart = (page - 1) * this.maxResults;
@@ -187,10 +187,10 @@
         <result-entry v-for="entry in datasets" :entry="entry"></result-entry>
       </div>
       <div class="navigation">
-        <a href="#" v-bind:class="{ 'nav-enabled': true }" v-on:click="updatePage(currentPage - 1)">Previous</a>
+        <a href="#" v-bind:class="{ 'nav-disabled': currentPage <= 1 }" v-on:click="updatePage(currentPage - 1)">Previous</a>
         <a v-for="page in pages" href="#" v-text="page" v-on:click="updatePage(page)"
-           v-bind:class="{ 'nav-selected': true }"></a>
-        <a href="#" v-bind:class="{ 'nav-enabled': true }" v-on:click="updatePage(currentPage + 1)">Next</a>
+           v-bind:class="{ 'nav-selected': page == currentPage }"></a>
+        <a href="#" v-bind:class="{ 'nav-disabled': currentPage >= totalPages}" v-on:click="updatePage(currentPage + 1)">Next</a>
       </div>
     </div>
   </body>

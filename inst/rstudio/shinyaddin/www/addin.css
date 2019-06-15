@@ -132,4 +132,17 @@ select {
   padding-left: 4px;
   padding-right: 4px;
   line-height: 26px;
+  text-decoration: none;
+  color: #333;
+}
+
+.navigation > a.nav-disabled {
+  pointer-events: none;
+  cursor: default;
+  color: #999;
+}
+
+.nav-selected {
+  border: solid 1px #999;
+  border-radius: 2px;
 }
