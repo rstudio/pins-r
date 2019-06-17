@@ -103,11 +103,14 @@ pins_connection_server <- function(input, output, session) {
     parameters <- ""
 
     if (identical(board, "rstudio") && !is.null(input$server)) {
-      parameters <- paste(", server = \"", input$server, "\"", sep = "")
+      parameters <- paste(
+        ", board = \"", board, "\"",
+        ", server = \"", input$server, "\"",
+        sep = "")
     }
 
     paste(
-      "pins::board_connect(\"",
+      "pins::board_connect(name = \"",
       board,
       "\"",
       parameters,
