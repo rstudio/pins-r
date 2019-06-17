@@ -7,6 +7,10 @@ rsApiUpdateDialog <- function(code) {
   }
 }
 
+rsConnectServers <- function() {
+  as.character(rsconnect::accounts()$server)
+}
+
 #' @import rstudioapi
 pins_connection_ui <- function() {
   elementSpacing <- if (.Platform$OS.type == "windows") 2 else 7
@@ -66,6 +70,15 @@ pins_connection_ui <- function() {
             )
           ),
           selectize = FALSE
+        ),
+        conditionalPanel(
+          condition = "input.board == 'rstudio'",
+          selectInput(
+            "server",
+            "Server:",
+            list(),
+            selectize = FALSE
+          )
         )
     ),
     div(
@@ -75,11 +88,30 @@ pins_connection_ui <- function() {
 }
 
 pins_connection_server <- function(input, output, session) {
+
+  observe({
+    if (identical(input$board, "rstudio")) {
+      updateSelectizeInput(
+        session,
+        "server",
+        choices = rsConnectServers()
+      )
+    }
+  })
+
   generateCode <- function(board) {
+    parameters <- ""
+
+    if (identical(board, "rstudio") && !is.null(input$server)) {
+      parameters <- paste(", server = \"", input$server, "\"", sep = "")
+    }
+
     paste(
       "pins::board_connect(\"",
       board,
-      "\")",
+      "\"",
+      parameters,
+      ")",
       sep = ""
     )
   }
