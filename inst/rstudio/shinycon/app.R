@@ -42,9 +42,10 @@ pins_connection_ui <- function() {
             margin-bottom: ", elementSpacing, "px;
           }
 
-          .shiny-input-container > .control-label {
+          .shiny-input-container > .control-label,
+          .shiny-input-container > label {
             display: table-cell;
-            width: 195px;
+            min-width: 195px;
           }
 
           .shiny-input-container > div {
@@ -52,34 +53,64 @@ pins_connection_ui <- function() {
             width: 300px;
           }
 
+          .shiny-input-container > .input-group {
+            width: 100%;
+          }
+
+          .shiny-input-container > .input-group > input {
+            border: solid 1px #A2A2A2;
+            border-radius: 3px;
+            padding: 2px;
+          }
+
+          .shiny-input-container > .input-group > .input-group-btn {
+            margin-right: 6px;
+            border: solid 1px #A2A2A2;
+            border-radius: 3px;
+            padding: 1px 6px 1px 6px;
+          }
+
+          .shiny-input-container > .input-group > input[type=\"text\"] {
+            width: 218px;
+          }
+
+          .shiny-input-container .progress-bar { display: none; }
+
           #shiny-disconnected-overlay {
             display: none;
           }
         ", sep = ""))
       )
     ),
-    div(style = "table-row",
-        selectInput(
-          "board",
-          "Board:",
-          choices = c(
-            list(
-              local = "local",
-              rstudio = "rstudio",
-              kaggle = "kaggle"
-            )
-          ),
-          selectize = FALSE
-        ),
-        conditionalPanel(
-          condition = "input.board == 'rstudio'",
-          selectInput(
-            "server",
-            "Server:",
-            list(),
-            selectize = FALSE
+    div(
+      selectInput(
+        "board",
+        "Board:",
+        choices = c(
+          list(
+            local = "local",
+            rstudio = "rstudio",
+            kaggle = "kaggle"
           )
+        ),
+        selectize = FALSE
+      ),
+      conditionalPanel(
+        condition = "input.board == 'rstudio'",
+        selectInput(
+          "server",
+          "Server:",
+          list(),
+          selectize = FALSE
         )
+      ),
+      conditionalPanel(
+        condition = "input.board == 'kaggle'",
+        fileInput(
+          "token",
+          "Token:"
+        )
+      )
     ),
     div(
       style = paste("display: table-row; height: 10px")
