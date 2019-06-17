@@ -1,6 +1,10 @@
 library(pins)
 
-pins_connection_server_choices <- function() {
+rsApiUpdateDialog <- function(code) {
+  if (exists(".rs.api.updateDialog")) {
+    updateDialog <- get(".rs.api.updateDialog")
+    updateDialog(code = code)
+  }
 }
 
 #' @import rstudioapi
@@ -52,11 +56,14 @@ pins_connection_ui <- function() {
     ),
     div(style = "table-row",
         selectInput(
-          "server",
-          "Server:",
+          "board",
+          "Board:",
           choices = c(
-            list("local" = "local"),
-            pins_connection_server_choices()
+            list(
+              local = "local",
+              rstudio = "rstudio",
+              kaggle = "kaggle"
+            )
           ),
           selectize = FALSE
         )
@@ -68,7 +75,22 @@ pins_connection_ui <- function() {
 }
 
 pins_connection_server <- function(input, output, session) {
+  generateCode <- function(board) {
+    paste(
+      "pins::board_connect(\"",
+      board,
+      "\")",
+      sep = ""
+    )
+  }
 
+  codeReactive <- reactive({
+    generateCode(input$board)
+  })
+
+  observe({
+    rsApiUpdateDialog(codeReactive())
+  })
 }
 
 shinyApp(pins_connection_ui, pins_connection_server)
