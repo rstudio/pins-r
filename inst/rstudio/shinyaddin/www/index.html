@@ -61,7 +61,7 @@
               search: "",
               board: "all",
               results: {},
-              datasets: [],
+              entries: [],
               page: 0,
               boards: [],
               empty: "",
@@ -96,7 +96,7 @@
                 var resultStart = (page - 1) * this.maxResults;
                 var resultEnd = Math.min(totalResults, page * this.maxResults);
 
-                var datasets = [];
+                var entries = [];
                 for (var idx = resultStart; idx < resultEnd; idx++) {
                   var rows = 1000;
                   var cols = 10;
@@ -110,7 +110,7 @@
                     if (metadata && metadata.extension) extension = metadata.extension;
                   }
 
-                  datasets.push({
+                  entries.push({
                     name: results.name[idx],
                     description: results.description[idx],
                     rows: Math.min(13, 1 + Math.ceil(Math.log(Math.max(2, rows)) / Math.log(10))),
@@ -121,7 +121,7 @@
                   })
                 }
 
-                this.datasets = datasets;
+                this.entries = entries;
                 this.currentPage = page;
 
                 this.updateNavigation();
@@ -182,9 +182,9 @@
           </td>
         </tr>
       </table>
-      <div>
+      <div id="results">
         <div v-html="empty"></div>
-        <result-entry v-for="entry in datasets" :entry="entry"></result-entry>
+        <result-entry v-for="entry in entries" :entry="entry"></result-entry>
       </div>
       <div class="navigation">
         <a href="#" v-bind:class="{ 'nav-disabled': currentPage <= 1 }" v-on:click="updatePage(currentPage - 1)">Previous</a>

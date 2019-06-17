@@ -8,6 +8,8 @@ body {
 
   margin: 12px;
   background: #FFF;
+
+  margin-bottom: 0;
 }
 
 table {
@@ -33,7 +35,7 @@ select {
 .result-entry {
   height: 50px;
   width: 500px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   display: flex;
   cursor: pointer;
 }
@@ -126,6 +128,7 @@ select {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  padding-top: 6px;
 }
 
 .navigation > a {
@@ -134,6 +137,8 @@ select {
   line-height: 26px;
   text-decoration: none;
   color: #333;
+  display: inline-block;
+  min-width: 25px;
 }
 
 .navigation > a.nav-disabled {
@@ -145,4 +150,8 @@ select {
 .nav-selected {
   border: solid 1px #999;
   border-radius: 2px;
+}
+
+#results {
+  height: 500px;
 }
