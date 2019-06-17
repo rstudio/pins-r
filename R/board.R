@@ -23,7 +23,8 @@ new_board <- function(board, name, ...) {
 #' @export
 board_connect <- function(name, ...) {
   if (!name %in% board_list()) {
-    board_register(name = name, ...)
+    board <- if (is.null(list(...)$board)) name else list(...)$board
+    board_register(board = board, name = name, ...)
   }
 
   board <- board_get(name)

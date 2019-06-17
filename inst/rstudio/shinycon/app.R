@@ -104,15 +104,16 @@ pins_connection_server <- function(input, output, session) {
 
     if (identical(board, "rstudio") && !is.null(input$server)) {
       parameters <- paste(
-        ", board = \"", board, "\"",
         ", server = \"", input$server, "\"",
         sep = "")
     }
+    else if (identical(board, "kaggle") && !pins:::kaggle_authenticated()) {
+
+    }
 
     paste(
-      "pins::board_connect(name = \"",
-      board,
-      "\"",
+      "pins::board_connect(",
+      "\"", board, "\"",
       parameters,
       ")",
       sep = ""
