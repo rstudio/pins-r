@@ -12,12 +12,12 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 
 #' @keywords internal
 #' @export
-pin_preview.default <- function(x) {
+pin_preview.default <- function(x, board = NULL, ...) {
   x
 }
 
 #' @keywords internal
 #' @export
-pin_load.default <- function(path) {
+pin_load.default <- function(path, ...) {
   path
 }

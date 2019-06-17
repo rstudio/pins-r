@@ -22,6 +22,7 @@ Imports:
   yaml
 Suggests:
   knitr,
+  nomnoml,
   rmarkdown,
   testthat,
   tibble
