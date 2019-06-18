@@ -79,6 +79,11 @@ pins_connection_ui <- function() {
           #shiny-disconnected-overlay {
             display: none;
           }
+
+          .token-label {
+            text-align: right;
+            margin-right: 14px;
+          }
         ", sep = ""))
       )
     ),
@@ -108,7 +113,17 @@ pins_connection_ui <- function() {
         condition = "input.board == 'kaggle'",
         fileInput(
           "token",
-          "Token:"
+          "Token:",
+          placeholder = "Kaggle token file",
+          accept = ".json"
+        ),
+        div(
+          "Dowload token file from",
+          a(
+            "kaggle.com/me/account",
+            href = "https://www.kaggle.com/me/account"
+          ),
+          class = "token-label"
         )
       )
     ),
@@ -138,8 +153,13 @@ pins_connection_server <- function(input, output, session) {
         ", server = \"", input$server, "\"",
         sep = "")
     }
-    else if (identical(board, "kaggle") && !pins:::kaggle_authenticated()) {
-
+    else if (identical(board, "kaggle") && !is.null(input$token)) {
+      contents <- jsonlite::read_json(input$token$datapath)
+      parameters <- paste(
+        ", token = list(",
+        paste(names(contents), " = \"", contents, "\"", collapse = ", ", sep = ""),
+        ")",
+        sep = "")
     }
 
     paste(

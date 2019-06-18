@@ -30,8 +30,18 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
     if (!exists || identical(overwrite, TRUE)) {
       token_path <- dirname(kaggle_auth_paths())
       if (!dir.exists(token_path)) dir.create(token_path, recursive = TRUE)
-      file.copy(token, kaggle_auth_paths(), overwrite = TRUE)
+
+      if (is.list(token)) {
+         jsonlite::write_json(token, kaggle_auth_paths(), auto_unbox = TRUE)
+      }
+      else {
+        file.copy(token, kaggle_auth_paths(), overwrite = TRUE)
+      }
     }
+  }
+
+  if (!kaggle_authenticated()) {
+    stop("Authentication to Kaggle failed. Was a token file specified when registering this board? ")
   }
 
   board
@@ -86,18 +96,6 @@ board_pin_remove.kaggle <- function(board, name) {
 }
 
 board_info.kaggle <- function(board) {
-  if (kaggle_authenticated()) {
-    install_html <- ""
-  }
-  else {
-    install_html <- paste(
-      "To search Kaggle, <b>Create New API Token</b> from",
-      "<a href=\"https://www.kaggle.com/me/account\">kaggle.com/me/account</a>",
-      ", download and run board_register(\"<path-to-kaggle.json>\")"
-    )
-  }
-
   list(
-    install_html = install_html
   )
 }
