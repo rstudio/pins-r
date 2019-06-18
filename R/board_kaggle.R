@@ -60,7 +60,7 @@ board_pin_find.kaggle <- function(board, text, ...) {
   base_url <- "https://www.kaggle.com/api/v1/datasets/list?"
   if (identical(text, NULL) || length(text) == 0 || nchar(text) == 0) {
     # the api does not return all datasets so scope to user ones first
-    params <- "user=me"
+    params <- "group=my"
   }
   else {
     params <- paste0("search=", text)
