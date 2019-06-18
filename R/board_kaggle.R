@@ -57,7 +57,17 @@ board_pin_find.kaggle <- function(board, text, ...) {
   # clear name searches
   text <- gsub("^[^/]+/", "", text)
 
-  url <- utils::URLencode(paste0("https://www.kaggle.com/api/v1/datasets/list?search=", text))
+  base_url <- "https://www.kaggle.com/api/v1/datasets/list?"
+  if (identical(text, NULL) || length(text) == 0 || nchar(text) == 0) {
+    # the api does not return all datasets so scope to user ones first
+    params <- "user=me"
+  }
+  else {
+    params <- paste0("search=", text)
+  }
+
+  url <- utils::URLencode(paste0(base_url, params))
+
   results <- httr::content(httr::GET(url, config = kaggle_auth()))
 
   results <- jsonlite::fromJSON(jsonlite::toJSON(results))
