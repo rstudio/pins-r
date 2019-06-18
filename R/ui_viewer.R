@@ -49,7 +49,7 @@ ui_viewer_register <- function(board) {
       names <- objects$name
 
       data.frame(
-        name = names,
+        name = as.character(names),
         type = rep("table", length(objects$name)),
         stringsAsFactors = FALSE
       )

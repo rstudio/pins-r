@@ -70,7 +70,8 @@ board_pin_find.kaggle <- function(board, text, ...) {
     name = as.character(results$ref),
     description = as.character(results$title),
     type = "files",
-    metadata = rep(as.character(jsonlite::toJSON(list(extension = "zip"), auto_unbox = TRUE)), length(results$ref))
+    metadata = rep(as.character(jsonlite::toJSON(list(extension = "zip"), auto_unbox = TRUE)), length(results$ref)),
+    stringsAsFactors = FALSE
   )
 }
 
