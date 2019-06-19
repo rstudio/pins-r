@@ -35,7 +35,7 @@ kaggle_upload_resource <- function(path) {
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/upload/file/", content_length, "/", modified)
 
-  results <- httr::POST(url, body = list(fileName = normalizePath(file)), config = kaggle_auth())
+  results <- httr::POST(url, body = list(fileName = normalizePath(path)), config = kaggle_auth())
 
   if (httr::status_code(results) != 200) stop("Upload failed with status ", httr::status_code(results))
 
