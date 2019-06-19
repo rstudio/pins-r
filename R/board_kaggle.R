@@ -13,8 +13,12 @@ kaggle_authenticated <- function() {
   any(file.exists(kaggle_auth_paths()))
 }
 
+kaggle_auth_info <- function() {
+  jsonlite::read_json(kaggle_auth_paths())
+}
+
 kaggle_auth <- function() {
-  kaggle_keys <- jsonlite::read_json(kaggle_auth_paths())
+  kaggle_keys <- kaggle_auth_info()
 
   httr::authenticate(
     kaggle_keys$username,
@@ -50,7 +54,7 @@ kaggle_create_resource <- function(name, description, token) {
     ),
     isPrivate = jsonlite::unbox(TRUE),
     licenseName = jsonlite::unbox("CC0-1.0"),
-    ownerSlug = jsonlite::unbox("javierluraschi"),
+    ownerSlug = jsonlite::unbox(kaggle_auth_info()$username),
     slug = jsonlite::unbox(name),
     subtitle = jsonlite::unbox("none"),
     title = jsonlite::unbox(description),
@@ -94,7 +98,11 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
 }
 
 board_pin_create.kaggle <- function(board, path, name, description, type, metadata) {
-  stop("Not yet implemented.")
+  token <- kaggle_upload_resource(path)
+  kaggle_create_resource(name, description, token)
+
+  qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
+  pin_get(qualified_name, board$name)
 }
 
 board_pin_find.kaggle <- function(board, text, ...) {
