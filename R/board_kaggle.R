@@ -22,6 +22,26 @@ kaggle_auth <- function() {
   )
 }
 
+kaggle_upload_resource <- function(path) {
+  path <- normalizePath(path)
+  if (!file.exists(path)) stop("Invalid path: ", path)
+
+  content_length <- file.info(path)$size
+  modified <- as.integer(file.info(path)$mtime)
+
+  url <- paste0("https://www.kaggle.com/api/v1/datasets/upload/file/", content_length, "/", modified)
+
+  results <- httr::POST(url, body = list(fileName = normalizePath(file)), config = kaggle_auth())
+
+  if (httr::status_code(results) != 200) stop("Upload failed with status ", httr::status_code(results))
+
+  parsed <- httr::content(results)
+
+  if (!identical(parsed$error, NULL)) stop("Upload failed: ", parsed$error)
+
+  parsed$token
+}
+
 kaggle_create_resource <- function(name, description, token) {
   body <- list(
     convertToCsv = jsonlite::unbox(FALSE),
