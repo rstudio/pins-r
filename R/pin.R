@@ -53,11 +53,11 @@ pin_get <- function(name, board = NULL, ...) {
 #'
 #' Unpins the given named pin from the active board.
 #'
-#' @param name The name for the resource.
-#' @param board The board where this pin will be placed.
+#' @param name The name for the pin.
+#' @param board The board from where this pin will be removed.
 #'
 #' @export
-pin_remove <- function(name, board = NULL) {
+pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)
 }
 
