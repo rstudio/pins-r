@@ -157,7 +157,9 @@ board_pin_get.kaggle <- function(board, name, details) {
 }
 
 board_pin_remove.kaggle <- function(board, name) {
-
+  qualified <- name
+  if (!grepl("/", qualified)) qualified <- paste0(kaggle_auth_info()$username, "/", name)
+  stop("Please remove dataset from: https://www.kaggle.com/", qualified, "/settings")
 }
 
 board_info.kaggle <- function(board) {
