@@ -47,6 +47,8 @@ kaggle_upload_resource <- function(path) {
 }
 
 kaggle_create_resource <- function(name, description, token) {
+  url <- "https://www.kaggle.com/api/v1/datasets/create/new"
+
   body <- list(
     convertToCsv = jsonlite::unbox(FALSE),
     files = data.frame(
@@ -98,6 +100,8 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
 }
 
 board_pin_create.kaggle <- function(board, path, name, description, type, metadata) {
+  if (is.null(description) || nchar(description) == 0) stop("Description used as kaggle title is required.")
+
   token <- kaggle_upload_resource(path)
   kaggle_create_resource(name, description, token)
 
