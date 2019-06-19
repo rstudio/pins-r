@@ -22,6 +22,32 @@ kaggle_auth <- function() {
   )
 }
 
+kaggle_create_resource <- function(name, description, token) {
+  body <- list(
+    convertToCsv = jsonlite::unbox(FALSE),
+    files = data.frame(
+      token = token
+    ),
+    isPrivate = jsonlite::unbox(TRUE),
+    licenseName = jsonlite::unbox("CC0-1.0"),
+    ownerSlug = jsonlite::unbox("javierluraschi"),
+    slug = jsonlite::unbox(name),
+    subtitle = jsonlite::unbox("none"),
+    title = jsonlite::unbox(description),
+    categories = list()
+  )
+
+  results <- httr::POST(url, body = body, config = kaggle_auth(), encode = "json")
+
+  if (httr::status_code(results) != 200) stop("Resource creation failed with status ", httr::status_code(results))
+
+  parsed <- httr::content(results)
+
+  if (!identical(parsed$error, NULL)) stop("Resource creation failed: ", parsed$error)
+
+  parsed$url
+}
+
 board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...) {
   if (!is.null(token)) {
     exists <- file.exists(kaggle_auth_paths())
