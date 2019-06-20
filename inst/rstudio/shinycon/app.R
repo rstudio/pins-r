@@ -147,22 +147,25 @@ pins_connection_server <- function(input, output, session) {
 
   generateCode <- function(board) {
     parameters <- ""
+    initializer <- ""
 
     if (identical(board, "rstudio") && !is.null(input$server)) {
-      parameters <- paste(
-        ", server = \"", input$server, "\"",
-        sep = "")
+      initializer <- paste(
+        "pins::board_register(\"rstudio\", ",
+        "server = \"", input$server, "\")\n", sep = "")
     }
     else if (identical(board, "kaggle") && !is.null(input$token)) {
       contents <- jsonlite::read_json(input$token$datapath)
-      parameters <- paste(
-        ", token = list(",
+      initializer <- paste(
+        "pins::board_register(\"kaggle\", ",
+        "token = list(",
         paste(names(contents), " = \"", contents, "\"", collapse = ", ", sep = ""),
-        ")",
+        "), overwrite = TRUE)\n",
         sep = "")
     }
 
     paste(
+      initializer,
       "pins::board_connect(",
       "\"", board, "\"",
       parameters,

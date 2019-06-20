@@ -22,11 +22,6 @@ new_board <- function(board, name, ...) {
 #' @keywords internal
 #' @export
 board_connect <- function(name, ...) {
-  if (!name %in% board_list()) {
-    board <- if (is.null(list(...)$board)) name else list(...)$board
-    board_register(board = board, name = name, ...)
-  }
-
   board <- board_get(name)
 
   ui_viewer_register(board)
