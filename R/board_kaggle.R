@@ -64,7 +64,7 @@ kaggle_upload_resource <- function(path) {
   token
 }
 
-kaggle_create_resource <- function(name, description, token) {
+kaggle_create_resource <- function(name, description, token, type) {
   url <- "https://www.kaggle.com/api/v1/datasets/create/new"
 
   body <- list(
@@ -90,6 +90,31 @@ kaggle_create_resource <- function(name, description, token) {
   if (!identical(parsed$error, NULL)) stop("Resource creation failed: ", parsed$error)
 
   parsed$url
+}
+
+kaggle_create_bundle <- function(path, type, metadata) {
+  bundle_path <- tempfile()
+  dir.create(bundle_path)
+  on.exit(unlink(bundle_path, recursive = TRUE))
+
+  file.copy(path, bundle_path)
+
+  metadata <- jsonlite::toJSON(
+    list(
+      type = type,
+      metadata = metadata
+    ),
+    auto_unbox = TRUE)
+
+  writeLines(metadata, file.path(bundle_path, "pin.json"))
+
+  bundle_file <- tempfile(fileext = ".zip")
+  withr::with_dir(
+    bundle_path,
+    zip::zip(bundle_file, dir(bundle_path))
+  )
+
+  bundle_file
 }
 
 board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...) {
@@ -121,8 +146,11 @@ board_pin_create.kaggle <- function(board, path, name, description, type, metada
   if (is.null(description) || nchar(description) == 0) stop("Description used as kaggle title is required.")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
-  token <- kaggle_upload_resource(path)
-  kaggle_create_resource(name, description, token)
+  temp_bundle <- kaggle_create_bundle(path, type, metadata)
+  on.exit(unlink(temp_bundle))
+
+  token <- kaggle_upload_resource(temp_bundle)
+  kaggle_create_resource(name, description, token, type)
 
   qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
 
@@ -179,22 +207,31 @@ board_pin_find.kaggle <- function(board, text, ...) {
 board_pin_get.kaggle <- function(board, name, details) {
   local_path <- file.path(board_local_storage("kaggle"), name)
 
-  if (!dir.exists(local_path)) {
-    url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
-    temp_zip <- tempfile(fileext = ".zip")
+  url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
+  temp_zip <- tempfile(fileext = ".zip")
 
-    result <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
-    if (httr::status_code(result) != 200) stop("Failed to retrieve pin with status ", httr::status_code(results))
+  result <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
+  if (httr::status_code(result) != 200) stop("Failed to retrieve pin with status ", httr::status_code(results))
 
-    dir.create(local_path, recursive = TRUE)
-    unzip(temp_zip, exdir = local_path)
+  if (dir.exists(local_path)) unlink(local_path, recursive = TRUE)
+  dir.create(local_path, recursive = TRUE)
+  unzip(temp_zip, exdir = local_path)
+
+  type <- "files"
+  pin_json <- file.path(local_path, "pin.json")
+  if (file.exists(pin_json)) {
+    pin_data <- jsonlite::read_json(pin_json)
+    type <- pin_data$type
   }
 
-  if (length(dir(local_path)) == 1) {
-    local_path <- dir(local_path, full.names = TRUE)
+  files <- dir(local_path)
+  files <- files[!grepl("pin\\.json", files)]
+
+  if (length(files) == 1) {
+    local_path <- file.path(local_path, files)
   }
 
-  attr(local_path, "pin_type") <- "files"
+  attr(local_path, "pin_type") <- type
   local_path
 }
 

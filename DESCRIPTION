@@ -19,7 +19,8 @@ Imports:
   jsonlite,
   magrittr,
   rsconnect,
-  yaml
+  yaml,
+  zip
 Suggests:
   knitr,
   nomnoml,
