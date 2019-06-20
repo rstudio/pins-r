@@ -156,7 +156,10 @@ board_pin_find.kaggle <- function(board, text, ...) {
 
   url <- utils::URLencode(paste0(base_url, params))
 
-  results <- httr::content(httr::GET(url, config = kaggle_auth()))
+  results <- httr::GET(url, config = kaggle_auth())
+  if (httr::status_code(results) != 200) stop("Finding pin failed with status ", httr::status_code(results))
+
+  results <- httr::content(results)
 
   results <- jsonlite::fromJSON(jsonlite::toJSON(results))
 
@@ -180,7 +183,8 @@ board_pin_get.kaggle <- function(board, name, details) {
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
     temp_zip <- tempfile(fileext = ".zip")
 
-    httr::content(httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip)))
+    result <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
+    if (httr::status_code(result) != 200) stop("Failed to retrieve pin with status ", httr::status_code(results))
 
     dir.create(local_path, recursive = TRUE)
     unzip(temp_zip, exdir = local_path)
