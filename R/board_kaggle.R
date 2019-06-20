@@ -26,6 +26,13 @@ kaggle_auth <- function() {
   )
 }
 
+kaggle_qualify_name <- function(name) {
+  qualified <- name
+  if (!grepl("/", qualified)) qualified <- paste0(kaggle_auth_info()$username, "/", name)
+
+  qualified
+}
+
 kaggle_upload_resource <- function(path) {
   path <- normalizePath(path)
   if (!file.exists(path)) stop("Invalid path: ", path)
@@ -35,7 +42,18 @@ kaggle_upload_resource <- function(path) {
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/upload/file/", content_length, "/", modified)
 
-  results <- httr::POST(url, body = list(fileName = normalizePath(path)), config = kaggle_auth())
+  results <- httr::POST(url, body = list(fileName = basename(path)), config = kaggle_auth())
+
+  if (httr::status_code(results) != 200) stop("Upload registration failed with status ", httr::status_code(results))
+
+  parsed <- httr::content(results)
+
+  if (!identical(parsed$error, NULL)) stop("Upload registration failed: ", parsed$error)
+
+  upload_url <- parsed$createUrl
+  token <- parsed$token
+
+  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth())
 
   if (httr::status_code(results) != 200) stop("Upload failed with status ", httr::status_code(results))
 
@@ -43,7 +61,7 @@ kaggle_upload_resource <- function(path) {
 
   if (!identical(parsed$error, NULL)) stop("Upload failed: ", parsed$error)
 
-  parsed$token
+  token
 }
 
 kaggle_create_resource <- function(name, description, token) {
@@ -101,6 +119,7 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
 
 board_pin_create.kaggle <- function(board, path, name, description, type, metadata) {
   if (is.null(description) || nchar(description) == 0) stop("Description used as kaggle title is required.")
+  if (!file.exists(path)) stop("File does not exist: ", path)
 
   token <- kaggle_upload_resource(path)
   kaggle_create_resource(name, description, token)
@@ -161,8 +180,7 @@ board_pin_get.kaggle <- function(board, name, details) {
 }
 
 board_pin_remove.kaggle <- function(board, name) {
-  qualified <- name
-  if (!grepl("/", qualified)) qualified <- paste0(kaggle_auth_info()$username, "/", name)
+  qualified <- kaggle_qualify_name(name)
   stop("Please remove dataset from: https://www.kaggle.com/", qualified, "/settings")
 }
 
