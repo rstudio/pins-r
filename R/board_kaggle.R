@@ -175,6 +175,10 @@ board_pin_get.kaggle <- function(board, name, details) {
     unzip(temp_zip, exdir = local_path)
   }
 
+  if (length(dir(local_path)) == 1) {
+    local_path <- dir(local_path, full.names = TRUE)
+  }
+
   attr(local_path, "pin_type") <- "files"
   local_path
 }
