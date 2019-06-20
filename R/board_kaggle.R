@@ -204,18 +204,37 @@ board_pin_find.kaggle <- function(board, text, ...) {
   )
 }
 
+value_or_null <- function(expr, can_fail) {
+  if (can_fail) {
+    tryCatch(force(expr), error = function(e) {
+      warning(e$message)
+      NULL
+    })
+  }
+  else {
+    force(expr)
+  }
+}
+
 board_pin_get.kaggle <- function(board, name, details) {
   local_path <- file.path(board_local_storage("kaggle"), name)
+  can_fail <- dir.exists(local_path)
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
   temp_zip <- tempfile(fileext = ".zip")
 
-  result <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
-  if (httr::status_code(result) != 200) stop("Failed to retrieve pin with status ", httr::status_code(results))
+  result <- value_or_null({
+    result <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
+    if (httr::status_code(result) != 200)
+      stop("Failed to retrieve pin with status ", httr::status_code(results))
+    result
+  }, can_fail)
 
-  if (dir.exists(local_path)) unlink(local_path, recursive = TRUE)
-  dir.create(local_path, recursive = TRUE)
-  unzip(temp_zip, exdir = local_path)
+  if (!can_fail || !is.null(result)) {
+    if (dir.exists(local_path)) unlink(local_path, recursive = TRUE)
+    dir.create(local_path, recursive = TRUE)
+    unzip(temp_zip, exdir = local_path)
+  }
 
   type <- "files"
   pin_json <- file.path(local_path, "pin.json")
