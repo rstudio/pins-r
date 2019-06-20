@@ -125,6 +125,17 @@ board_pin_create.kaggle <- function(board, path, name, description, type, metada
   kaggle_create_resource(name, description, token)
 
   qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
+
+  retries <- 10
+  while (retries > 0) {
+    tryCatch({
+      pin_get(qualified_name, board$name)
+    }, error = function(e) NULL)
+
+    Sys.sleep(1)
+    retries <- retries - 1
+  }
+
   pin_get(qualified_name, board$name)
 }
 
