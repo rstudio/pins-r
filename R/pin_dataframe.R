@@ -1,7 +1,23 @@
+pin_dataframe_sanitize <- function(name) {
+  error <- "Can't auto-generate pin name from object, please specify the 'name' parameter."
+  if (length(name) != 1) stop(error)
+
+  sanitized <- gsub("[^a-zA-Z0-9-]", "-", name)
+  sanitized <- gsub("^-*|-*$", "", sanitized)
+  sanitized <- gsub("-+", "-", sanitized)
+
+  if (nchar(sanitized) == 0) stop(error)
+
+  # kaggle boards require five or more character names
+  if (nchar(sanitized) < 5) sanitized <- paste(sanitized, "pin", sep = "-")
+
+  sanitized
+}
+
 #' @keywords internal
 #' @export
 pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...) {
-  if (is.null(name)) stop("The 'name' parameter is required for '", class(x)[[1]], "' objects.")
+  if (is.null(name)) name <- pin_dataframe_sanitize(deparse(substitute(x)))
 
   path <- tempfile(fileext = ".rds")
   saveRDS(x, path, version = 2)
