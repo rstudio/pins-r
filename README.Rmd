@@ -68,7 +68,7 @@ pin_get("hpiR/seattle_sales")
 
 Finally, you can also **share** resources with others by publishing to particular to Kaggle, GitHub and RStudio Connect. We can easily publish `iris` to Kaggle as follows:
 
-``` r
+```{r eval=FALSE}
 pin(iris, board = "kaggle")
 ```
 
