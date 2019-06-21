@@ -61,11 +61,13 @@ board_yaml_pin_retrieve <- function(name, component) {
   names <- sapply(entries, function(e) e$name)
   paths <- sapply(entries, function(e) e$path)
   type <- sapply(entries, function(e) e$type)
+  metadata <- sapply(entries, function(e) e$metadata)
 
   entries <- data.frame(
     name = names,
     path = paths,
     type = type,
+    metadata = metadata,
     stringsAsFactors = FALSE
   )
 
@@ -74,6 +76,7 @@ board_yaml_pin_retrieve <- function(name, component) {
   if (nrow(entry) != 1) stop("Pin '", name, "' not found in '", component, "' board.")
 
   attr(entry$path, "pin_type") <- as.character(entry$type)
+  if (!is.null(entry$metadata)) attr(entry$path, "pin_metadata") <- jsonlite::fromJSON(as.character(entry$metadata))
 
   entry$path
 }

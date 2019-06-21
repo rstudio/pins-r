@@ -15,20 +15,31 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
   report_error <- if (is.null(old_pin)) stop else warning
 
   local_path <- NULL
+  etag <- NULL
+
   if (grepl("^http", x)) {
     local_path <- tempfile(fileext = pin_file_extension(x))
-    status <- tryCatch(httr::status_code(httr::HEAD(x, httr::timeout(5))), error = function(e) e$message)
+
+    head_result <- httr::HEAD(x, httr::timeout(5))
+    etag <- head_result$headers$etag
+
+    status <- tryCatch(httr::status_code(head_result), error = function(e) e$message)
     error <- NULL
 
-    if (is.character(status)) error <- paste0(status, ": ", x)
-    if (status != 200) error <- paste0(status, " Failed to download remote file: ", x)
+    metadata <- attr(old_pin, "pin_metadata")
 
-    if (!is.null(error)) {
-      report_error(error)
-    }
-    else {
-      httr::GET(x, httr::write_disk(local_path, overwrite = TRUE))
-      on.exit(unlink(local_path))
+    # avoid downloading if etag has not changed
+    if (is.null(metadata) || is.null(metadata$etag) || !identical(metadata$etag, etag)) {
+      if (is.character(status)) error <- paste0(status, ": ", x)
+      if (status != 200) error <- paste0(status, " Failed to download remote file: ", x)
+
+      if (!is.null(error)) {
+        report_error(error)
+      }
+      else {
+        httr::GET(x, httr::write_disk(local_path, overwrite = TRUE))
+        on.exit(unlink(local_path))
+      }
     }
   }
   else {
@@ -41,7 +52,8 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
   }
 
   metadata <- list(
-    extension = tools::file_ext(local_path)
+    extension = tools::file_ext(local_path),
+    etag = etag
   )
 
   board_pin_store(board_object, local_path, name, description, "files", metadata)

@@ -47,8 +47,10 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
   result_type <- pin_type(result)
   if (is.null(result_type)) stop("Pin '", name, "' is missing attribute 'pin_type'")
 
-  attr(result, "pin_type") <- NULL
   result <- pin_load(structure(result, class = result_type))
+
+  attr(result, "pin_type") <- NULL
+  attr(result, "pin_metadata") <- NULL
 
   format_tibble(result)
 }
