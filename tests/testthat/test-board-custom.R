@@ -3,7 +3,6 @@ context("board custom")
 test_that("can board_register() a custom board", {
   source("files/board-folder.R")
 
-  board_register("folder")
   succeed()
 })
 

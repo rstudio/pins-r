@@ -27,3 +27,5 @@ board_pin_find.folder <- function(board, text) {
 board_pin_remove.folder <- function(board, name) {
   unlink(file.path("pins", name))
 }
+
+board_register("folder")
