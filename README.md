@@ -15,7 +15,7 @@ You can use the `pins` package from **R**, or **Python**, to:
     `pin_find()`.
   - **Share** resources with your team, or the world, by registering new
     boards with `board_register()`.
-  - **Resources** can be shared in GitHub, Kaggle or RStudio Connect.
+  - **Resources** can be shared in Kaggle or RStudio Connect.
 
 To start using `pins`, install this package as follows:
 
@@ -26,14 +26,37 @@ remotes::install_github("rstudio/pins")
 
 You can **pin** remote files with `pin()` to cache those files locally,
 such that, even if the remote resource is removed or while working
-offline, your code will keep working by using a local cache:
+offline, your code will keep working by using a local cache. Since
+`pin(x)` pins `x` and returns a locally cached version of `x`, this
+allows you to pin a remote resource while also reusing it existing code
+with minimal changes.
+
+For instance, the following example makes use of a remote CSV file,
+which you can download and cache with `pin()` before it’s loaded with
+`read_csv()`:
 
 ``` r
 library(tidyverse)
 library(pins)
 
-retail_sales <- read_csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"))
+url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
+retail_sales <- read_csv(pin(url))
 ```
+
+This makes reading remotes files much faster since they are only
+downloaded once, we can compare performance with and without pinning a
+remote file with the [bench](https://CRAN.R-project.org/package=bench)
+package:
+
+``` r
+bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
+```
+
+<img src="tools/readme/rstudio-pin-performance-1.png" style="display: block; margin: auto;" />
+
+Also, if you find yourself using `download.file()` or asking others to
+download files before running your R code, `pin()` gives you a simpler
+and reliable way to do reproducible research with remote resources.
 
 You can also cache intermediate results to avoid having to recompute
 expensive operations:
@@ -143,17 +166,21 @@ discover and pin remote files and [RStudio
 Connect](https://www.rstudio.com/products/connect/) to share content
 within your organization with ease.
 
-To **discover** remote resources, simply expand the “Addins” menu and
-select “Find Pin” from the dropdown:
+To enable new boards, like Kaggle and RStudio Connect, you can use
+[RStudio’s Data
+Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
+to start a new ‘pins’ connection and then selecting which board to
+connect to:
 
 <center>
 
-![](tools/readme/rstudio-discover-pins.png)
+![](tools/readme/rstudio-connect-board.png)
 
 </center>
 
-Notice that, the RStudio connections pane helps you track your pins by
-providing each board as a connection you can explore:
+Once connected, you can use the connections pane to track the pins you
+own and preview them with ease. Notice that one connection is created
+for each board.
 
 <center>
 
@@ -161,9 +188,19 @@ providing each board as a connection you can explore:
 
 </center>
 
-You can **share** local files and content using the RStudio Connect
-board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
-further and then pin our results in RStudio Connect:
+To **discover** remote resources, simply expand the “Addins” menu and
+select “Find Pin” from the dropdown. This addin allows you to search for
+pins across all boards, or scope your search to particular ones as well:
+
+<center>
+
+![](tools/readme/rstudio-discover-pins.png)
+
+</center>
+
+You can then **share** local resources using the RStudio Connect board.
+Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
+further and then pin our results in RStudio Connect.
 
 ``` r
 board_register("rstudio")
@@ -178,7 +215,7 @@ pin_get("hpiR/seattle_sales") %>%
 
     ## Preparing to deploy data...DONE
     ## Uploading bundle for data: 5308...DONE
-    ## Deploying bundle: 12772 for data: 5308 ...
+    ## Deploying bundle: 12783 for data: 5308 ...
 
     ## Building static content...
 
@@ -198,9 +235,13 @@ pin_get("hpiR/seattle_sales") %>%
     ## 7     7 3063043
     ## 8     8 4550750
 
+After a pin is published to RStudio Connect, RStudio will open the web
+interface for that pin and make available various settings applicable to
+this published pin:
+
 <center>
 
-![](tools/readme/rstudio-share-pins.png)
+![](tools/readme/rstudio-share-resources.png)
 
 </center>
 
@@ -215,12 +256,11 @@ retrieving it from RStudio Connect and visualize its contents using
 ``` r
 pin_get("sales-by-baths") %>%
   ggplot(aes(x = baths, y = sale)) +
-    theme_light() + geom_point() +
-    geom_smooth(method = 'lm', formula = y ~ exp(x))
+    geom_point() + geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
 
 <img src="tools/readme/rstudio-plot-pin-1.png" style="display: block; margin: auto;" />
 
-Please make sure to ~~pin~~ visit
-[rstudio.github.io/pins](https://rstudio.github.io/pins/) to find
-detailed documentation and additional resources.
+Please make sure to ~~pin~~ visit,
+[pins.rstudio.com](https://rstudio.github.io/pins/index.html), where you
+will find detailed documentation and additional resources.
