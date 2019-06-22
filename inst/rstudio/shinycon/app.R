@@ -1,3 +1,4 @@
+library(shiny)
 library(pins)
 
 rsApiUpdateDialog <- function(code) {
@@ -87,7 +88,7 @@ pins_connection_ui <- function() {
         ", sep = ""))
       )
     ),
-    div(
+    tags$div(
       selectInput(
         "board",
         "Board:",
@@ -117,9 +118,9 @@ pins_connection_ui <- function() {
           placeholder = "Kaggle token file",
           accept = ".json"
         ),
-        div(
+        tags$div(
           "Dowload token file from",
-          a(
+          tags$a(
             "kaggle.com/me/account",
             href = "https://www.kaggle.com/me/account"
           ),
@@ -127,7 +128,7 @@ pins_connection_ui <- function() {
         )
       )
     ),
-    div(
+    tags$div(
       style = paste("display: table-row; height: 10px")
     )
   )
