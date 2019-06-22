@@ -10,10 +10,13 @@ output:
 knitr::opts_chunk$set(eval = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
+knitr::opts_chunk$set(dpi=300)
 
 if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
   knitr::knit_print(knitr::asis_output("<h1>pins: Pin, Discover and Share Resources</h1>"))
 }
+
+ggplot2::theme_set(ggplot2::theme_light())
 ```
 
 [![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
@@ -25,7 +28,7 @@ You can use the `pins` package from **R**, or **Python**, to:
 - **Pin** remote resources locally with `pin()`, work offline and cache results with ease.
 - **Discover** new resources across different boards using `pin_find()`.
 - **Share** resources with your team, or the world, by registering new boards with `board_register()`.
-- **Resources** can be shared in GitHub, Kaggle or RStudio Connect.
+- **Resources** can be shared in Kaggle or RStudio Connect.
 
 To start using `pins`, install this package as follows:
 
@@ -34,16 +37,27 @@ install.packages("remotes")
 remotes::install_github("rstudio/pins")
 ```
 
-You can **pin** remote files with `pin()` to cache those files locally, such that, even if the remote resource is removed or while working offline, your code will keep working by using a local cache:
+First, you can **pin** remote files with `pin()` to cache those files locally, such that, even if the remote resource is removed or while working offline -- your code will keep working by using a local cache. Since `pin(x)` pins `x` and returns a locally cached version of `x`, this allows you to pin a remote resource while also reusing it existing code with minimal changes.
+
+For instance, the following example makes use of a remote CSV file, which you can download and cache with `pin()` before it's loaded with `read_csv()`:
 
 ```{r message=FALSE}
 library(tidyverse)
 library(pins)
 
-retail_sales <- read_csv(pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"))
+url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
+retail_sales <- read_csv(pin(url))
 ```
 
-You can also cache intermediate results to avoid having to recompute expensive operations:
+This makes reading subsequent remotes files orders of magnitude faster, files are only downloaded when the remote resource changes; we can compare the two approaches using the [bench](https://CRAN.R-project.org/package=bench) package:
+
+```{r rstudio-pin-performance, fig.align = 'center', message = FALSE}
+bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
+```
+
+Also, if you find yourself using `download.file()` or asking others to download files before running your R code, use `pin()` to achieve fast, simple and reliable reproducible research over remote resources.
+
+You can also use pins to cache intermediate results to avoid having to recompute expensive operations:
 
 ```{r}
 retail_sales %>%
@@ -52,7 +66,7 @@ retail_sales %>%
   pin("sales_by_month")
 ```
 
-You can also **discover** remote resources using `pin_find()` which can search CRAN packages and Kaggle. Kaggle requires to configure it by running once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then we can search resources mentioning "seattle" in CRAN packages and Kaggle with ease:
+The `pins` package allows you to **discover** remote resources using `pin_find()`, currently, it can search resources in CRAN packages, Kaggle and RStudio Connect. Kaggle requires to configure it by running once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then we can search resources mentioning "seattle" in CRAN packages and Kaggle with ease:
 
 ```{r}
 pin_find("seattle")
@@ -60,7 +74,7 @@ pin_find("seattle")
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the `<owner>` is not provided, each board will assign an appropriate one. While you can ignore `<owner>` and reference pins by `<name>`, this can fail in some boards if different owners assign the same name to a pin.
 
-You can then retrieve a pin as a local path through `pin_get()`,
+You can then retrieve a pin as a local path through `pin_get()`:
 
 ```{r}
 pin_get("hpiR/seattle_sales")
@@ -76,7 +90,6 @@ And use all the functionality available in `pins` from Python as well:
 
 ```{python eval=FALSE}
 import pins
-
 pins.pin_get("hpiR/seattle_sales")
 ```
 
@@ -86,24 +99,29 @@ There are other boards you can use or even create custom boards as described in 
 
 You can use [RStudio](https://www.rstudio.com/products/rstudio/) to discover and pin remote files and [RStudio Connect](https://www.rstudio.com/products/connect/) to share content within your organization with ease.
 
-To **discover** remote resources, simply expand the "Addins" menu and select "Find Pin" from the dropdown:
+To enable new boards, like Kaggle and RStudio Connect, you can use [RStudio's Data Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/) to start a new 'pins' connection and then selecting which board to connect to:
 
 <center>
-![](tools/readme/rstudio-discover-pins.png){width=70%}
+![](tools/readme/rstudio-connect-board.png){width=70%}
 </center>
 
-Notice that, the RStudio connections pane helps you track your pins by providing each board as a connection you can explore:
+Once connected, you can use the connections pane to track the pins you own and preview them with ease. Notice that one connection is created for each board.
 
 <center>
 ![](tools/readme/rstudio-explore-pins.png){width=70%}
 </center>
 
-You can **share** local files and content using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then pin our results in RStudio Connect:
+To **discover** remote resources, simply expand the "Addins" menu and select "Find Pin" from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:
+
+<center>
+![](tools/readme/rstudio-discover-pins.png){width=70%}
+</center>
+
+You can then **share** local resources using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then pin our results in RStudio Connect.
 
 ```{r}
 board_register("rstudio")
 ```
-
 ```{r}
 pin_get("hpiR/seattle_sales") %>%
   group_by(baths = ceiling(baths)) %>%
@@ -111,8 +129,10 @@ pin_get("hpiR/seattle_sales") %>%
   pin("sales-by-baths", board = "rstudio")
 ```
 
+After a pin is published to RStudio Connect, RStudio will open the web interface for that pin and make available various settings applicable to this published pin:
+
 <center>
-![](tools/readme/rstudio-share-pins.png){width=90%}
+![](tools/readme/rstudio-share-resources.png){width=90%}
 </center>
 
 You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote file locally!
@@ -122,8 +142,7 @@ For instance, a colleague can reuse the `sales-by-baths` pin by retrieving it fr
 ```{r rstudio-plot-pin, fig.align='center'}
 pin_get("sales-by-baths") %>%
   ggplot(aes(x = baths, y = sale)) +
-    theme_light() + geom_point() +
-    geom_smooth(method = 'lm', formula = y ~ exp(x))
+    geom_point() + geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
 
-Please make sure to ~~pin~~ visit [rstudio.github.io/pins](https://rstudio.github.io/pins/) to find detailed documentation and additional resources.
+Please make sure to ~~pin~~ visit, [pins.rstudio.com](https://rstudio.github.io/pins/index.html), where you will find detailed documentation and additional resources.
