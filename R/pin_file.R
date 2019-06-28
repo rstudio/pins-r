@@ -8,7 +8,7 @@ pin_file_cache_max_age <- function(cache_control) {
   if (is.null(cache_control)) return(NULL)
   max_age <- grep("max-age", cache_control)
   if (length(max_age) != 1) return(NULL)
-  as.numeric(gsub("max-age=", "", max_age))
+  as.numeric(gsub("max-age=", "", cache_control))
 }
 
 #' @keywords internal
@@ -31,7 +31,7 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...)
 
   if (grepl("^http", x)) {
     # skip downloading if max-age still valid
-    if (as.numeric(Sys.time()) < change_age + max_age || !cache) {
+    if (as.numeric(Sys.time()) >= change_age + max_age || !cache) {
       head_result <- httr::HEAD(x, httr::timeout(5))
       etag <- head_result$headers$etag
       max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
