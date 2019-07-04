@@ -3,7 +3,7 @@ board_initialize.folder <- function(board, ...) {
   board
 }
 
-board_pin_create.folder <- function(board, path, name, description, type, metadata) {
+board_pin_create.folder <- function(board, path, name, description, type, metadata, ...) {
   file.copy(path, file.path("pins", paste0(name, ".", type)))
 
   pin_get(name, board = board$name)

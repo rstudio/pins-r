@@ -38,6 +38,20 @@ board_yaml_pin_create <- function(name, description, type, metadata, component, 
   path
 }
 
+board_yaml_pin_update_metadata <- function(name, component, metadata) {
+  entries <- board_yaml_load_entries(component)
+
+  entries <- lapply(entries, function(e) {
+    if (identical(e$name, name)) {
+      e$metadata <- metadata
+    }
+
+    e
+  })
+
+  board_yaml_save_entries(entries, component)
+}
+
 board_yaml_pin_find <- function(text, component) {
   entries <- board_yaml_load_entries(component)
 

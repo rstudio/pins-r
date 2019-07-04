@@ -154,7 +154,7 @@ rstudio_create_pin <- function(x, temp_dir) {
   UseMethod("rstudio_create_pin")
 }
 
-board_pin_create.rstudio <- function(board, path, name, description, type, metadata) {
+board_pin_create.rstudio <- function(board, path, name, description, type, metadata, ...) {
   on.exit(board_connect(board$name))
 
   deps <- rstudio_dependencies()

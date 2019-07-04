@@ -7,7 +7,7 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   saveRDS(x, path, version = 2)
   on.exit(unlink(path))
 
-  board_pin_store(board_get(board), path, name, description, "default", list())
+  board_pin_store(board_get(board), path, name, description, "default", list(), ...)
 }
 
 #' @keywords internal
