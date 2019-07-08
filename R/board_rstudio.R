@@ -51,6 +51,10 @@ rstudio_api_get <- function(board, path, root = FALSE) {
   deps$get(service, authInfo = account_info, path = path)
 }
 
+rstudio_api_version <- function(board) {
+  jsonlite::fromJSON(rstudio_api_get(board, "/server_settings")$content)$version
+}
+
 board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
   deps <- rstudio_dependencies()
