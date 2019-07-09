@@ -55,6 +55,15 @@ rstudio_api_version <- function(board) {
   jsonlite::fromJSON(rstudio_api_get(board, "/server_settings")$content)$version
 }
 
+rstudio_api_pins_supported <- function(board) {
+  package_version(rstudio_api_version(board)) > package_version("1.7.7")
+}
+
+rstudio_pkg_supported <- function() {
+  packageVersion("rsconnect") <= packageVersion("0.8.13") ||
+    identical(get0("deployResource", envir = asNamespace("rsconnect")), NULL)
+}
+
 board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
   deps <- rstudio_dependencies()
@@ -171,14 +180,23 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 
   rstudio_create_pin(x, temp_dir)
 
-  deps$deploy_app(temp_dir,
-                  appPrimaryDoc = "index.html",
-                  lint = FALSE,
-                  appName = name,
-                  server = board$server,
-                  account = board$account,
-                  appTitle = name,
-                  contentCategory = "data")
+  if (rstudio_pkg_supported()) {
+    rsconnect::deployResource(temp_dir,
+                              name = name,
+                              server = board$server,
+                              account = board$account,
+                              appTitle = name)
+  }
+  else {
+    deps$deploy_app(temp_dir,
+                    appPrimaryDoc = "index.html",
+                    lint = FALSE,
+                    appName = name,
+                    server = board$server,
+                    account = board$account,
+                    appTitle = name,
+                    contentCategory = "data")
+  }
 
   pin_get(name, board$name)
 }
