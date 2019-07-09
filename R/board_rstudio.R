@@ -60,7 +60,7 @@ rstudio_api_pins_supported <- function(board) {
 }
 
 rstudio_pkg_supported <- function() {
-  packageVersion("rsconnect") <= packageVersion("0.8.13") ||
+  packageVersion("rsconnect") <= package_version("0.8.13") ||
     identical(get0("deployResource", envir = asNamespace("rsconnect")), NULL)
 }
 
