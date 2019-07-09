@@ -12,7 +12,8 @@ rstudio_dependencies <- function() {
     get = get("GET", envir = asNamespace("rsconnect")),
     account_config_file = get("accountConfigFile", envir = asNamespace("rsconnect")),
     register_user_token = get("registerUserToken", envir = asNamespace("rsconnect")),
-    list_request = get("listRequest", envir = asNamespace("rsconnect"))
+    list_request = get("listRequest", envir = asNamespace("rsconnect")),
+    signature_headers = get("signatureHeaders", envir = asNamespace("rsconnect"))
   )
 }
 
@@ -46,9 +47,26 @@ rstudio_api_get <- function(board, path, root = FALSE) {
   service <- deps$parse_http_url(server_info$url)
   account_info <- rstudio_account_info(board)
 
-  if (root) service$path = gsub("/__api__", "", service$path)
+  if (root) service$path <- gsub("/__api__", "", service$path)
 
   deps$get(service, authInfo = account_info, path = path)
+}
+
+rstudio_api_download <- function(board, path, download, root = FALSE) {
+  deps <- rstudio_dependencies()
+
+  server_info <- deps$server_info(board$server)
+  service <- deps$parse_http_url(server_info$url)
+  account_info <- rstudio_account_info(board)
+
+  if (root) server_info$url = gsub("/__api__", "", server_info$url)
+
+  headers <- deps$signature_headers(account_info, "GET", path, NULL)
+
+  url <- paste0(server_info$url, path)
+  httr::GET(url,
+            httr::write_disk(download),
+            httr::add_headers(.headers = unlist(headers)))
 }
 
 rstudio_api_version <- function(board) {
@@ -110,11 +128,10 @@ board_persist.rstudio <- function(board) {
 }
 
 rstudio_create_pin.data.frame <- function(x, temp_dir) {
-  rds_file <- file.path(temp_dir, "data.rdsb64")
+  rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
-  write.csv(x, csv_file, row.names = FALSE)
-  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), rds_file)
+  saveRDS(x, rds_file, version = 2)
 
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
@@ -159,8 +176,8 @@ rstudio_create_pin.character <- function(x, temp_dir) {
 }
 
 rstudio_create_pin.default <- function(x, temp_dir) {
-  rds_file <- file.path(temp_dir, "data.rdsb64")
-  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), rds_file)
+  rdsb64_file <- file.path(temp_dir, "data.rdsb64")
+  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), rdsb64_file)
 }
 
 rstudio_create_pin <- function(x, temp_dir) {
@@ -259,10 +276,9 @@ board_pin_get.rstudio <- function(board, name, details) {
   if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
   if (nrow(details) == 0) stop("Pin '", name, "' not found in board '", board$name, "'")
 
-  rdsb64_path <- rstudio_api_get(board, paste0(gsub(".*/content", "/content", details$url), "data.rdsb64"), root = TRUE)
+  path <- tempfile(fileext = ".rds")
+  rstudio_api_download(board, paste0(gsub(".*/content", "/content", details$url), "data.rds"), path, root = TRUE)
 
-  path <- tempfile()
-  writeBin(base64enc::base64decode(rdsb64_path$content), path)
   attr(path, "pin_type") <- details$type
   path
 }
