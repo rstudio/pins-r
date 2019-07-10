@@ -180,8 +180,8 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 
   deps <- rstudio_dependencies()
 
-  temp_dir <- tempfile()
-  dir.create(temp_dir)
+  temp_dir <- file.path(tempfile(), name)
+  dir.create(temp_dir, recursive = TRUE)
   on.exit(unlink(temp_dir, recursive = TRUE))
 
   x <- if (identical(tools::file_ext(path), "rds")) readRDS(path) else path
@@ -194,9 +194,8 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 
     knit_pin_dir <- file.path("pins", name)
     dir.create("pins", showWarnings = FALSE)
-    dir.create(knit_pin_dir)
-    file.copy(dir(temp_dir, full.names = TRUE), knit_pin_dir)
-    deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir)))
+    file.copy(temp_dir, "pins", recursive = TRUE)
+    deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
 
     path
   }
