@@ -13,7 +13,9 @@ rstudio_dependencies <- function() {
     account_config_file = get("accountConfigFile", envir = asNamespace("rsconnect")),
     register_user_token = get("registerUserToken", envir = asNamespace("rsconnect")),
     list_request = get("listRequest", envir = asNamespace("rsconnect")),
-    signature_headers = get("signatureHeaders", envir = asNamespace("rsconnect"))
+    signature_headers = get("signatureHeaders", envir = asNamespace("rsconnect")),
+    current_input = get0("current_input", envir = asNamespace("knitr")),
+    output_metadata = get0("output_metadata", envir = asNamespace("rmarkdown"))
   )
 }
 
@@ -186,7 +188,17 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 
   rstudio_create_pin(x, temp_dir)
 
-  if (rstudio_pkg_supported()) {
+  if (!is.null(deps$current_input) && !is.null(deps$output_metadata) &&
+      !is.null(deps$current_input())) {
+    # for now, assume than when knitting, we are running in rsc
+
+    knit_pin_dir <- file.path("pins", name)
+    dir.create("pins", showWarnings = FALSE)
+    dir.create(knit_pin_dir)
+    file.copy(dir(temp_dir, full.names = TRUE), knit_pin_dir)
+    deps$output_metadata$set(rsc_output_files = dir(knit_pin_dir))
+  }
+  else if (rstudio_pkg_supported()) {
     rsconnect::deployResource(temp_dir,
                               name = name,
                               server = board$server,
