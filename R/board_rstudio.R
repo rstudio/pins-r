@@ -197,6 +197,8 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
     dir.create(knit_pin_dir)
     file.copy(dir(temp_dir, full.names = TRUE), knit_pin_dir)
     deps$output_metadata$set(rsc_output_files = dir(knit_pin_dir))
+
+    path
   }
   else if (rstudio_pkg_supported()) {
     rsconnect::deployResource(temp_dir,
@@ -204,6 +206,8 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
                               server = board$server,
                               account = board$account,
                               appTitle = name)
+
+    pin_get(name, board$name)
   }
   else {
     deps$deploy_app(temp_dir,
@@ -214,9 +218,9 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
                     account = board$account,
                     appTitle = name,
                     contentCategory = "data")
-  }
 
-  pin_get(name, board$name)
+    pin_get(name, board$name)
+  }
 }
 
 board_pin_find.rstudio <- function(board, text, ...) {
