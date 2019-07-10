@@ -162,22 +162,11 @@ rstudio_create_pin.data.frame <- function(x, temp_dir) {
 }
 
 rstudio_create_pin.default <- function(x, temp_dir) {
-  path <- tempfile(fileext = ".rdsb64")
-  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), path)
-  on.exit(unlink(path))
-
-  file.copy(path, temp_dir)
+  saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
 }
 
 rstudio_create_pin.character <- function(x, temp_dir) {
-  path <- tempfile(fileext = ".rdsb64")
-  writeLines(base64enc::base64encode(x), path)
-  file.copy(path, temp_dir)
-}
-
-rstudio_create_pin.default <- function(x, temp_dir) {
-  rdsb64_file <- file.path(temp_dir, "data.rdsb64")
-  writeLines(base64enc::base64encode(serialize(x, NULL, version = 2)), rdsb64_file)
+  saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
 }
 
 rstudio_create_pin <- function(x, temp_dir) {
