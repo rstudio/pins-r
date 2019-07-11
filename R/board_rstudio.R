@@ -269,22 +269,31 @@ board_pin_find.rstudio <- function(board, text, ...) {
 }
 
 board_pin_get.rstudio <- function(board, name, details) {
-  name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
-  only_name <- pin_content_name(name)
+  if (grepl("^http://|^https://|^/content/", name)) {
+    path <- tempfile()
+    url <- gsub(".*/content",  "/content", name)
+    rstudio_api_download(board, url, path, root = TRUE)
 
-  details <- board_pin_find(board, only_name, extended = TRUE)
+    attr(path, "pin_type") <- "files"
+    path
+  }
+  else {
+    name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
+    only_name <- pin_content_name(name)
 
-  details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
+    details <- board_pin_find(board, only_name, extended = TRUE)
 
-  if (nrow(details) > 1) details <- details[details$owner_username == board$account,]
-  if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
-  if (nrow(details) == 0) stop("Pin '", name, "' not found in board '", board$name, "'")
+    details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
 
-  path <- tempfile(fileext = ".rds")
-  rstudio_api_download(board, paste0(gsub(".*/content", "/content", details$url), "data.rds"), path, root = TRUE)
+    if (nrow(details) > 1) details <- details[details$owner_username == board$account,]
+    if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
+    if (nrow(details) == 0) stop("Pin '", name, "' not found in board '", board$name, "'")
 
-  attr(path, "pin_type") <- details$type
-  path
+    path <- tempfile(fileext = ".rds")
+    rstudio_api_download(board, paste0(gsub(".*/content", "/content", details$url), "data.rds"), path, root = TRUE)
+
+    attr(path, "pin_type") <- details$type
+    path
 }
 
 board_pin_remove.rstudio <- function(board, name) {
