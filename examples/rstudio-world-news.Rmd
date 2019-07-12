@@ -2,14 +2,6 @@
 title: "RStudio Connect -- World News"
 ---
 
-## Setup
-
-The next chunk is useful to collect the secrets string required for scheduled reruns:
-
-```{r eval=FALSE}
-pins::board_register("rstudio")$secret()
-```
-
 ## News Pin
 
 The following chunks creates a list with the latest world news from the BBC:
@@ -27,18 +19,26 @@ world_news <- data.frame(
 )
 ```
 
-We can then pin this dataset using the secret to allow it to execute, say, in a daily schedule. Notice that we can also override the default board by setting the `pins.board` option.
+We can then run this under RStudio Connecet on, say, a daily schedule; for this to work, you first need to register the `rstudio`:
 
 ```{r}
-library(pins)
-board_register("rstudio", secret = Sys.getenv("secret"))
-options(pins.board = "rstudio")
-
-pin(world_news, "worldnews", "A table with the latests world news from the BBC")
+pins::board_register("rstudio")
 ```
 
-We can then access this pin with ease from any notebook that has access to RStudio Connect:
+And then create pins as usual,
 
 ```{r}
-pins::pin_get("worldnews")
+pins::pin(world_news, "worldnews", board = "rstudio")
+```
+
+We can then access this pin with ease using a relative path [worldnews/](worldnews/). You can then copy-paste the URL and retrieve the pin in your own R session using `pins`:
+
+```{r eval=FALSE}
+pins::pin_get("https://beta.rstudioconnect.com/content/5390/worldnews", board = "rstudio")
+```
+
+You can also skip the parts from the URL which the `pins` package can guess for you:
+
+```{r eval=FALSE}
+pins::pin_get("5390/worldnews", board = "rstudio")
 ```
