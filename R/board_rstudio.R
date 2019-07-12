@@ -175,6 +175,14 @@ rstudio_create_pin <- function(x, temp_dir) {
   UseMethod("rstudio_create_pin")
 }
 
+rstudio_is_authenticated <- function(board) {
+  !is.null(board$account)
+}
+
+is_knitting <- function(deps) {
+  !is.null(deps$current_input) && !is.null(deps$output_metadata) && !is.null(deps$current_input())
+}
+
 board_pin_create.rstudio <- function(board, path, name, description, type, metadata, ...) {
   on.exit(board_connect(board$name))
 
@@ -188,9 +196,10 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 
   rstudio_create_pin(x, temp_dir)
 
-  if (!is.null(deps$current_input) && !is.null(deps$output_metadata) &&
-      !is.null(deps$current_input())) {
-    # for now, assume than when knitting, we are running in rsc
+  if (is_knitting(deps) && !rstudio_is_authenticated(board)) {
+    # use rsc output files when not authenticated, warn if we thing we might not be running under RSC
+    if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) == 0)
+      warning("Not authenticated to RStudio Connecet, creating output file for pin.")
 
     knit_pin_dir <- file.path("pins", name)
     dir.create("pins", showWarnings = FALSE)
