@@ -201,9 +201,8 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
     if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) == 0)
       warning("Not authenticated to RStudio Connecet, creating output file for pin.")
 
-    knit_pin_dir <- file.path("pins", name)
-    dir.create("pins", showWarnings = FALSE)
-    file.copy(temp_dir, "pins", recursive = TRUE)
+    knit_pin_dir <- file.path(name)
+    file.copy(temp_dir, getwd(), recursive = TRUE)
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
 
     path
