@@ -22,23 +22,24 @@ world_news <- data.frame(
 We can then run this under RStudio Connecet on, say, a daily schedule; for this to work, you first need to register the `rstudio`:
 
 ```{r}
-pins::board_register("rstudio")
+library(pins)
+board_register("rstudio")
 ```
 
 And then create pins as usual,
 
 ```{r}
-pins::pin(world_news, "worldnews", board = "rstudio")
+pin(world_news, "worldnews", board = "rstudio")
 ```
 
 We can then access this pin with ease using a relative path [worldnews/](worldnews/). You can then copy-paste the URL and retrieve the pin in your own R session using `pins`:
 
 ```{r eval=FALSE}
-pins::pin_get("https://beta.rstudioconnect.com/content/5390/worldnews", board = "rstudio")
+pin_get("https://beta.rstudioconnect.com/content/5390/worldnews", board = "rstudio")
 ```
 
 You can also skip the parts from the URL which the `pins` package can guess for you:
 
 ```{r eval=FALSE}
-pins::pin_get("5390/worldnews", board = "rstudio")
+pin_get("5390/worldnews", board = "rstudio")
 ```
