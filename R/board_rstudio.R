@@ -294,6 +294,7 @@ board_pin_get.rstudio <- function(board, name, details) {
 
     attr(path, "pin_type") <- details$type
     path
+  }
 }
 
 board_pin_remove.rstudio <- function(board, name) {
