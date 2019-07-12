@@ -195,6 +195,7 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
   x <- if (identical(tools::file_ext(path), "rds")) readRDS(path) else path
 
   rstudio_create_pin(x, temp_dir)
+  pin_manifest_create(temp_dir, type, metadata)
 
   if (is_knitting(deps) && !rstudio_is_authenticated(board)) {
     # use rsc output files when not authenticated, warn if we thing we might not be running under RSC
@@ -204,8 +205,6 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
     knit_pin_dir <- file.path(name)
     file.copy(temp_dir, getwd(), recursive = TRUE)
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
-
-    path
   }
   else if (rstudio_pkg_supported()) {
     rsconnect::deployResource(temp_dir,
@@ -213,8 +212,6 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
                               server = board$server,
                               account = board$account,
                               appTitle = name)
-
-    pin_get(name, board$name)
   }
   else {
     deps$deploy_app(temp_dir,
@@ -225,9 +222,9 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
                     account = board$account,
                     appTitle = name,
                     contentCategory = "data")
-
-    pin_get(name, board$name)
   }
+
+  pin_get(name, board$name)
 }
 
 board_pin_find.rstudio <- function(board, text, ...) {
@@ -278,7 +275,6 @@ board_pin_find.rstudio <- function(board, text, ...) {
 
 board_pin_get.rstudio <- function(board, name, details) {
   url <- name
-  type <- "files"
 
   if (!grepl("^http://|^https://|^/content/", name)) {
     name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
@@ -291,20 +287,22 @@ board_pin_get.rstudio <- function(board, name, details) {
     if (nrow(details) > 1) {
       details <- details[details$owner_username == board$account,]
       url <- details$url
-      type <- details$type
     }
 
     if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
   }
 
   url <- gsub("/$", "", url)
-  content_path <- gsub("//", "/", file.path("/content", gsub("(^.*/|^)content/", "", url), "data.rds"))
+  remote_path <- gsub("//", "/", file.path("/content", gsub("(^.*/|^)content/", "", url)))
 
-  path <- tempfile(fileext = ".rds")
-  rstudio_api_download(board, content_path, path, root = TRUE)
+  local_path <- tempfile()
+  dir.create(local_path)
 
-  attr(path, "pin_type") <- type
-  path
+  rstudio_api_download(board, file.path(reemote_path, "data.rds"), file.path(local_path, "data.rds"), root = TRUE)
+  rstudio_api_download(board, file.path(reemote_path, "pin.json"), file.path(local_path, "pin.json"), root = TRUE)
+
+  attr(path, "pin_type") <- pin_manifeset(local_path)$type
+  local_path
 }
 
 board_pin_remove.rstudio <- function(board, name) {

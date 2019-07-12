@@ -99,14 +99,7 @@ kaggle_create_bundle <- function(path, type, metadata) {
 
   file.copy(path, bundle_path)
 
-  metadata <- jsonlite::toJSON(
-    list(
-      type = type,
-      metadata = metadata
-    ),
-    auto_unbox = TRUE)
-
-  writeLines(metadata, file.path(bundle_path, "pin.json"))
+  pin_manifest_create(bundle_path, type, metadata)
 
   bundle_file <- tempfile(fileext = ".zip")
   withr::with_dir(
@@ -216,12 +209,7 @@ board_pin_get.kaggle <- function(board, name, details) {
   dir.create(local_path)
   unzip(temp_zip, exdir = local_path)
 
-  type <- "files"
-  pin_json <- file.path(local_path, "pin.json")
-  if (file.exists(pin_json)) {
-    pin_data <- jsonlite::read_json(pin_json)
-    type <- pin_data$type
-  }
+  type <- pin_manifest_get(local_path)$type
 
   files <- dir(local_path)
   files <- files[!grepl("pin\\.json", files)]
