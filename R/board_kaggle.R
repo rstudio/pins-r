@@ -160,15 +160,9 @@ board_pin_create.kaggle <- function(board, path, name, description, type, metada
   pin_get(qualified_name, board$name)
 }
 
-board_pin_find.kaggle <- function(board, text, ...) {
-  if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
-
-  # clear name searches
-  text <- gsub("^[^/]+/", "", text)
-
+board_pin_search_kaggle <- function(text = NULL) {
   base_url <- "https://www.kaggle.com/api/v1/datasets/list?"
   if (identical(text, NULL) || length(text) == 0 || nchar(text) == 0) {
-    # the api does not return all datasets so scope to user ones first
     params <- "group=my"
   }
   else {
@@ -180,7 +174,20 @@ board_pin_find.kaggle <- function(board, text, ...) {
   results <- httr::GET(url, config = kaggle_auth())
   if (httr::status_code(results) != 200) stop("Finding pin failed with status ", httr::status_code(results))
 
-  results <- httr::content(results)
+  httr::content(results)
+}
+
+board_pin_find.kaggle <- function(board, text, ...) {
+  if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
+
+  # clear name searches
+  text <- gsub("^[^/]+/", "", text)
+
+  # search private dataserts first sincee they won't search by default
+  results <- board_pin_search_kaggle()
+  reults <- Filter(function(e) grepl(text, e$ref), results)
+
+  results <- c(results, board_pin_search_kaggle(text))
 
   results <- jsonlite::fromJSON(jsonlite::toJSON(results))
 
