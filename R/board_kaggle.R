@@ -201,8 +201,8 @@ board_pin_get.kaggle <- function(board, name, details) {
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
   temp_zip <- tempfile(fileext = ".zip")
 
-  result <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
-  if (httr::status_code(result) != 200)
+  results <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
+  if (httr::status_code(results) != 200)
     stop("Failed to retrieve pin with status ", httr::status_code(results))
 
   local_path <- tempfile()
