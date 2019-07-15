@@ -195,11 +195,11 @@ def pin(x, name, description = "", board = None, serializer = "feather"):
     Create Pin.
     """
     _init_pins()
-    retult = None
+    result = None
     
     if serializer == "arrow":
       raise RuntimeError("Serializing pin() with 'arrow' currently unsupported, use 'feather' instead.")
-    else if type(x) == "str":
+    elif type(x) == "str":
       result = r_eval("pins::pin(\"" + x + "\"), \"" + name + "\")")
     else:
       path = _to_feather(x)
