@@ -223,10 +223,6 @@ board_pin_get.kaggle <- function(board, name, details) {
   files <- dir(local_path)
   files <- files[!grepl("pin\\.json", files)]
 
-  if (length(files) == 1) {
-    local_path <- file.path(local_path, files)
-  }
-
   attr(local_path, "pin_type") <- type
   local_path
 }

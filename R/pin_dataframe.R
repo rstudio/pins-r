@@ -19,8 +19,10 @@ pin_dataframe_sanitize <- function(name) {
 pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   if (is.null(name)) name <- pin_dataframe_sanitize(deparse(substitute(x)))
 
-  path <- tempfile(fileext = ".rds")
-  saveRDS(x, path, version = 2)
+  path <- tempfile()
+  dir.create(path)
+
+  saveRDS(x, file.path(path, "data.rds"), version = 2)
   on.exit(unlink(path))
 
   metadata <- list(
@@ -34,7 +36,7 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
 #' @keywords internal
 #' @export
 pin_load.table <- function(path, ...) {
-  readRDS(path)
+  readRDS(file.path(path, "data.rds"))
 }
 
 #' @keywords internal

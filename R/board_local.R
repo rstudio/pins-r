@@ -2,9 +2,20 @@ board_initialize.local <- function(board, ...) {
   board
 }
 
+guess_extension_from_path <- function(path) {
+  if (dir.exists(path)) {
+    all_files <- dir(path, recursive = TRUE)
+    all_files <- Filter(function(x) !grepl("pin\\.json", x), all_files)
+
+    path <- all_files[[1]]
+  }
+
+  tools::file_ext(path)
+}
+
 board_pin_create.local <- function(board, path, name, description, type, metadata, file, ...) {
   on.exit(board_connect(board$name))
-  extension <- tools::file_ext(path)
+  extension <- guess_extension_from_path(path)
 
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))
   must_cache <- identical(list(...)$cache, FALSE)
@@ -43,8 +54,10 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
           report_error(error)
         }
         else {
-          local_path <- tempfile(fileext = pin_file_extension(path))
-          httr::GET(path, httr::write_disk(local_path, overwrite = TRUE))
+          local_path <- tempfile()
+          dir.create(local_path)
+
+          httr::GET(path, httr::write_disk(file.path(local_path, paste0("data", pin_file_extension(path))), overwrite = TRUE))
           on.exit(unlink(local_path))
         }
       }
@@ -70,9 +83,14 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
     description = description,
     type = type,
     metadata = jsonlite::toJSON(metadata, auto_unbox = TRUE),
-    component = "local",
-    extension = paste0(".", extension))
-  file.copy(local_path, final_path)
+    component = "local")
+
+  if (dir.exists(local_path)) {
+    file.copy(dir(local_path, recursive = TRUE, full.names = TRUE) , final_path)
+  }
+  else {
+    file.copy(local_path, final_path)
+  }
 
   pin_get(name, board$name)
 }

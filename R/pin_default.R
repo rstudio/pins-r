@@ -3,8 +3,10 @@
 pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   if (is.null(name)) stop("The 'name' parameter is required for '", class(x)[[1]], "' objects.")
 
-  path <- tempfile(fileext = ".rds")
-  saveRDS(x, path, version = 2)
+  path <- tempfile()
+  dir.create(path)
+
+  saveRDS(x, file.path(path, "data.rds"), version = 2)
   on.exit(unlink(path))
 
   board_pin_store(board_get(board), path, name, description, "default", list(), ...)
@@ -13,11 +15,13 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin_preview.default <- function(x, board = NULL, ...) {
-  x
+  file.path(x, "data.rds")
 }
 
 #' @keywords internal
 #' @export
 pin_load.default <- function(path, ...) {
-  path
+  files <- dir(path, recursive = TRUE, full.names = TRUE)
+
+  files[!grepl("pin\\.json$", files)]
 }

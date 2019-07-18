@@ -129,6 +129,13 @@ board_persist.rstudio <- function(board) {
   board
 }
 
+rstudio_template_index_html <- function(temp_dir, template, value) {
+  html_file <- file.path(temp_dir, "index.html")
+  html_index <- readLines(html_file)
+  html_index <- gsub(paste0("\\{\\{", template, "\\}\\}"), value, html_index)
+  writeLines(html_index, html_file)
+}
+
 rstudio_create_pin.data.frame <- function(x, temp_dir) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
@@ -157,18 +164,39 @@ rstudio_create_pin.data.frame <- function(x, temp_dir) {
     )
   )
 
-  html_file <- file.path(temp_dir, "index.html")
-  html_index <- readLines(html_file)
-  html_index <- gsub("\\{\\{data_preview\\}\\}", jsonlite::toJSON(data_preview), html_index)
-  writeLines(html_index, html_file)
+  rstudio_template_index_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
 }
 
 rstudio_create_pin.default <- function(x, temp_dir) {
+  html_file <- file.path(temp_dir, "index.html")
+
+  file.copy(
+    dir(system.file("views/files", package = "pins"), full.names = TRUE),
+    temp_dir,
+    recursive = TRUE)
+
   saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
+
+  files <- dir(temp_dir, recursive = TRUE)
+  files <- files[!grepl("index\\.html", files)]
+
+  rstudio_template_index_html(temp_dir, "file_name", paste(files, collapse = "\n"))
 }
 
 rstudio_create_pin.character <- function(x, temp_dir) {
-  saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
+  html_file <- file.path(temp_dir, "index.html")
+
+  file.copy(
+    dir(system.file("views/files", package = "pins"), full.names = TRUE),
+    temp_dir,
+    recursive = TRUE)
+
+  file.copy(x, temp_dir)
+
+  files <- dir(temp_dir, recursive = TRUE)
+  files <- files[!grepl("index\\.html", files)]
+
+  rstudio_template_index_html(temp_dir, "file_name", files)
 }
 
 rstudio_create_pin <- function(x, temp_dir) {
@@ -192,7 +220,8 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
   dir.create(temp_dir, recursive = TRUE)
   on.exit(unlink(temp_dir, recursive = TRUE))
 
-  x <- if (identical(tools::file_ext(path), "rds")) readRDS(path) else path
+  x <- if (length(dir(path)) == 1 && identical(tools::file_ext(dir(path)), "rds"))
+    readRDS(dir(path, full.names = TRUE)) else path
 
   rstudio_create_pin(x, temp_dir)
   pin_manifest_create(temp_dir, type, metadata)
@@ -286,10 +315,13 @@ board_pin_get.rstudio <- function(board, name, details) {
 
     if (nrow(details) > 1) {
       details <- details[details$owner_username == board$account,]
-      url <- details$url
     }
 
-    if (nrow(details) > 1) stop("Multiple pins named '", name, "' in board '", board$name, "'")
+    if (nrow(details) > 1) {
+      stop("Multiple pins named '", name, "' in board '", board$name, "'")
+    }
+
+    url <- details$url
   }
 
   url <- gsub("/$", "", url)
@@ -298,10 +330,16 @@ board_pin_get.rstudio <- function(board, name, details) {
   local_path <- tempfile()
   dir.create(local_path)
 
-  rstudio_api_download(board, file.path(reemote_path, "data.rds"), file.path(local_path, "data.rds"), root = TRUE)
-  rstudio_api_download(board, file.path(reemote_path, "pin.json"), file.path(local_path, "pin.json"), root = TRUE)
+  rstudio_api_download(board, file.path(remote_path, "pin.json"), file.path(local_path, "pin.json"), root = TRUE)
+  manifest <- jsonlite::read_json(file.path(local_path, "pin.json"))
 
-  attr(path, "pin_type") <- pin_manifeset(local_path)$type
+  for (file in manifest$files) {
+    rstudio_api_download(board, file.path(remote_path, file), file.path(local_path, file), root = TRUE)
+  }
+
+  unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$|pin\\.json$", full.names = TRUE))
+
+  attr(local_path, "pin_type") <- pin_manifest_get(local_path)$type
   local_path
 }
 

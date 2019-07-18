@@ -4,14 +4,16 @@ board_initialize.folder <- function(board, ...) {
 }
 
 board_pin_create.folder <- function(board, path, name, description, type, metadata, ...) {
-  file.copy(path, file.path("pins", paste0(name, ".", type)))
+  folder <- file.path("pins", paste(name, type, sep = "."))
 
+  dir.create(folder)
+  file.copy(dir(path, recursive = TRUE, full.names = TRUE), folder)
   pin_get(name, board = board$name)
 }
 
 board_pin_get.folder <- function(board, name) {
-  path <- dir("pins", name, full.names = T)
-  attr(path, "pin_type") <- tools::file_ext(path)
+  path <- file.path("pins", dir("pins", name))
+  attr(path, "pin_type") <- gsub("pins[^\\.]+\\.", "", path)
   path
 }
 

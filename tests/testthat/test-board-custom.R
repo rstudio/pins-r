@@ -1,6 +1,7 @@
 context("board custom")
 
 test_that("can board_register() a custom board", {
+  unlink("pins", recursive = TRUE)
   source("files/board-folder.R")
 
   succeed()

@@ -16,12 +16,13 @@ board_yaml_save_entries <- function(entries, component) {
   yaml::write_yaml(entries, board_yaml_entries_path(component))
 }
 
-board_yaml_pin_create <- function(name, description, type, metadata, component, extension) {
+board_yaml_pin_create <- function(name, description, type, metadata, component) {
   if (is.null(description)) description <- ""
 
   entries <- board_yaml_load_entries(component)
 
-  path <- file.path(board_local_storage(component), board_yaml_random_string("pin_", extension))
+  path <- file.path(board_local_storage(component), name)
+  dir.create(path, recursive = TRUE)
 
   if (identical(entries, NULL)) entries <- list()
 
@@ -106,7 +107,7 @@ board_yaml_pin_remove <- function(name, component, unlink = TRUE) {
 
   entries <- Filter(function(x) x$name != name, entries)
 
-  if (unlink) unlink(remove$path)
+  if (unlink) unlink(remove$path, recursive = TRUE)
 
   board_yaml_save_entries(entries, component)
 }

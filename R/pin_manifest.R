@@ -16,7 +16,8 @@ pin_manifest_create <- function(path, type, metadata) {
   manifest <- jsonlite::toJSON(
     list(
       type = type,
-      metadata = metadata
+      metadata = metadata,
+      files = dir(path, recursive = TRUE)
     ),
     auto_unbox = TRUE)
 
