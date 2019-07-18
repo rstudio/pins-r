@@ -21,9 +21,10 @@ board_test <- function(board, exclude = list()) {
   deps <- test_dependencies()
 
   text_file <- dir(getwd(), recursive = TRUE, pattern = "hello.txt", full.names = TRUE)
+  pin_name <- paste0("afile", round(runif(1, 1, 1000)))
 
   deps$test_that(paste("can pin() file to", board, "board"), {
-    cached_path <- pin(text_file, "afile", board = board)
+    cached_path <- pin(text_file, pin_name, board = board)
 
     deps$expect_true(is.character(cached_path))
 
@@ -31,9 +32,9 @@ board_test <- function(board, exclude = list()) {
   })
 
   deps$test_that(paste("can pin_get() a pin from", board, "board"), {
-    pin(text_file, "afile")
+    pin(text_file, pin_name)
 
-    cached_path <- pin_get("afile", board = board)
+    cached_path <- pin_get(pin_name, board = board)
 
     deps$expect_true(is.character(cached_path))
 
@@ -41,22 +42,21 @@ board_test <- function(board, exclude = list()) {
   })
 
   deps$test_that("can pin_find() the pin in any board", {
-    results <- pin_find("afile")
+    results <- pin_find(pin_name)
 
-    deps$expect_true(any(grepl("afile$", results$name)))
+    deps$expect_true(any(grepl(pin_name, results$name)))
   })
 
   deps$test_that(paste("can pin_find() in", board, "board"), {
-    results <- pin_find("afile", board = board)
+    results <- pin_find(pin_name, board = board)
 
-    deps$expect_true(grepl("afile$", results$name))
+    deps$expect_true(grepl(pin_name, results$name))
   })
 
   deps$test_that(paste("can pin_remove() from", board, "board"), {
     if ("remove" %in% exclude) skip("This test is in the excluded list")
-    pin(text_file, "afile")
 
-    result <- pin_remove("afile", board = board)
+    result <- pin_remove(pin_name, board = board)
 
     deps$expect_equal(result, NULL)
   })
