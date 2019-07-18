@@ -4,12 +4,12 @@
 \alias{pin_remove}
 \title{Remove Pin}
 \usage{
-pin_remove(name, board = NULL)
+pin_remove(name, board)
 }
 \arguments{
-\item{name}{The name for the resource.}
+\item{name}{The name for the pin.}
 
-\item{board}{The board where this pin will be placed.}
+\item{board}{The board from where this pin will be removed.}
 }
 \description{
 Unpins the given named pin from the active board.

@@ -31,7 +31,7 @@ board_persist(board)
 
 board_info(board)
 
-board_pin_store(board, path, name, description, type, metadata)
+board_pin_store(board, path, name, description, type, metadata, ...)
 }
 \arguments{
 \item{x}{A local file path or an object. Boards must support storing both.}

@@ -4,7 +4,7 @@
 \alias{board_connect}
 \title{Connect to Board}
 \usage{
-board_connect(name)
+board_connect(name, ...)
 }
 \arguments{
 \item{name}{The name of the board to activate.}

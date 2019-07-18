@@ -4,12 +4,14 @@
 \alias{pin_get}
 \title{Retrieve Pin}
 \usage{
-pin_get(name, board = NULL, ...)
+pin_get(name, board = NULL, cache = TRUE, ...)
 }
 \arguments{
 \item{name}{The name of the pin.}
 
 \item{board}{The board where this pin will be retrieved from.}
+
+\item{cache}{Should the pin be cached for remote boards? Defaults to \code{TRUE}.}
 
 \item{...}{Additional parameters.}
 }
