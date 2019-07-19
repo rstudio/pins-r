@@ -6,7 +6,6 @@ rstudio_dependencies <- function() {
     resolve_account = get("resolveAccount", envir = asNamespace("rsconnect")),
     account_info = get("accountInfo", envir = asNamespace("rsconnect")),
     server_info = get("serverInfo", envir = asNamespace("rsconnect")),
-    client_for_account = get("clientForAccount", envir = asNamespace("rsconnect")),
     accounts = get("accounts", envir = asNamespace("rsconnect")),
     parse_http_url = get("parseHttpUrl", envir = asNamespace("rsconnect")),
     get = get("GET", envir = asNamespace("rsconnect")),
@@ -84,12 +83,19 @@ rstudio_pkg_supported <- function() {
     !identical(get0("deployResource", envir = asNamespace("rsconnect")), NULL)
 }
 
+rstudio_board_api_auth <- function(board) !is.null(board$key)
+
 board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
   deps <- rstudio_dependencies()
 
   board$server <- args$server
   board$account <- args$account
+  board$key <- args$key
+
+  if (!is.null(board$key) && is.null(board$server)) {
+    stop("Please specify the 'server' parameter when using API keys.")
+  }
 
   if (!is.null(args$secret) && nchar(args$secret) > 0) {
     temp_dcf <- tempfile(fileext = ".dcf")
@@ -110,9 +116,11 @@ board_initialize.rstudio <- function(board, ...) {
     )
   }
 
-  accounts <- deps$accounts()
-  if (is.null(args$server)) board$server <- accounts$server[1]
-  if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
+  if (!rstudio_board_api_auth(board)) {
+    accounts <- deps$accounts()
+    if (is.null(args$server)) board$server <- accounts$server[1]
+    if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
+  }
 
   board$secret <- function() rstudio_account_dcf(board)
 
@@ -256,26 +264,38 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
   pin_get(name, board$name)
 }
 
+rstudio_list_request <- function(board, filter) {
+  deps <- rstudio_dependencies()
+
+  if (rstudio_board_api_auth(board)) {
+    result <- httr::GET(paste(board$server, "/applications", filter),
+                        httr::add_headers("Authorization" = paste("Key", board$key)))
+  } else {
+    account_info <- rstudio_account_info(board)
+
+    server_info <- deps$server_info(board$server)
+    service <- deps$parse_http_url(server_info$url)
+
+    deps$list_request(service, account_info, "/applications", filter, "applications")
+  }
+}
+
 board_pin_find.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
 
   if (is.null(text)) text <- ""
 
-  account_info <- rstudio_account_info(board)
-  client <- deps$client_for_account(account_info)
-
-  server_info <- deps$server_info(board$server)
-  service <- deps$parse_http_url(server_info$url)
-
   if (nchar(text) == 0) {
     # it can be quite slow to list all content in RStudio Connect so we scope to the user content
-    apps_filter <- paste0("filter=account_id:", account_info$accountId, "&accountId:", account_info$accountId)
-    results <- deps$list_request(service, account_info, "/applications", apps_filter, "applications")
+    account_info <- rstudio_account_info(board)
+    filter <- paste0("filter=account_id:", account_info$accountId, "&accountId:", account_info$accountId)
   }
   else {
-    results <- deps$list_request(service, account_info, "/applications", paste0("search=", text), "applications")
+    filter <- paste0("search=", text)
   }
+
+  results <- rstudio_list_request(board, filter)
 
   results <- as.data.frame(do.call("rbind", results))
 
