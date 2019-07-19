@@ -268,8 +268,11 @@ rstudio_list_request <- function(board, filter) {
   deps <- rstudio_dependencies()
 
   if (rstudio_board_api_auth(board)) {
-    result <- httr::GET(paste(board$server, "/applications", filter),
-                        httr::add_headers("Authorization" = paste("Key", board$key)))
+    result <- httr::GET(paste0(board$server, "/__api__/applications/?", filter),
+                        httr::add_headers("Authorization" = paste("Key", board$key))) %>%
+      httr::content()
+
+    result$applications
   } else {
     account_info <- rstudio_account_info(board)
 
