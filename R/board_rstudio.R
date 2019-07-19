@@ -18,13 +18,28 @@ rstudio_dependencies <- function() {
   )
 }
 
+rstudio_current_user <- function(board) {
+
+  GET(service, authInfo, "/users/current/")
+}
+
 rstudio_account_info <- function(board) {
   deps <- rstudio_dependencies()
 
-  account_name <- deps$resolve_account(account = board$account,
-                                       server = board$server)
+  if (rstudio_board_api_auth(board)) {
+    headers <- list("Authorization" = paste("Key", board$key))
 
-  deps$account_info(account_name)
+    url <- paste0(board$server, "/__api__/users/current/")
+    account_info <- httr::content(httr::GET(url, httr::add_headers(.headers = unlist(headers))))
+    account_info$accountId <- account_info$id
+
+    account_info
+  } else {
+    account_name <- deps$resolve_account(account = board$account,
+                                         server = board$server)
+
+    deps$account_info(account_name)
+  }
 }
 
 rstudio_account_dcf <- function(board) {
