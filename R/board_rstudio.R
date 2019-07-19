@@ -53,18 +53,30 @@ rstudio_api_get <- function(board, path, root = FALSE) {
   deps$get(service, authInfo = account_info, path = path)
 }
 
-rstudio_api_download <- function(board, path, download, root = FALSE) {
+rstudio_api_download <- function(board, path, download) {
   deps <- rstudio_dependencies()
 
-  server_info <- deps$server_info(board$server)
-  service <- deps$parse_http_url(server_info$url)
-  account_info <- rstudio_account_info(board)
+  deps <- rstudio_dependencies()
 
-  if (root) server_info$url = gsub("/__api__", "", server_info$url)
+  if (rstudio_board_api_auth(board)) {
+    headers <- list("Authorization" = paste("Key", board$key))
 
-  headers <- deps$signature_headers(account_info, "GET", path, NULL)
+    url <- paste0(board$server, path)
+  } else {
+    server_info <- deps$server_info(board$server)
+    service <- deps$parse_http_url(server_info$url)
+    account_info <- rstudio_account_info(board)
 
-  url <- paste0(server_info$url, path)
+    server_info$url <- gsub("/__api__", "", server_info$url)
+
+    headers <- deps$signature_headers(account_info, "GET", path, NULL)
+
+    url <- paste0(server_info$url, path)
+    httr::GET(url,
+              httr::write_disk(download),
+              httr::add_headers(.headers = unlist(headers)))
+  }
+
   httr::GET(url,
             httr::write_disk(download),
             httr::add_headers(.headers = unlist(headers)))
@@ -353,11 +365,11 @@ board_pin_get.rstudio <- function(board, name, details) {
   local_path <- tempfile()
   dir.create(local_path)
 
-  rstudio_api_download(board, file.path(remote_path, "pin.json"), file.path(local_path, "pin.json"), root = TRUE)
+  rstudio_api_download(board, file.path(remote_path, "pin.json"), file.path(local_path, "pin.json"))
   manifest <- jsonlite::read_json(file.path(local_path, "pin.json"))
 
   for (file in manifest$files) {
-    rstudio_api_download(board, file.path(remote_path, file), file.path(local_path, file), root = TRUE)
+    rstudio_api_download(board, file.path(remote_path, file), file.path(local_path, file))
   }
 
   unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$|pin\\.json$", full.names = TRUE))
