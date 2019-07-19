@@ -180,6 +180,8 @@ board_pin_search_kaggle <- function(text = NULL) {
 board_pin_find.kaggle <- function(board, text, ...) {
   if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 
+  if (is.null(text)) text <- ""
+
   # clear name searches
   text <- gsub("^[^/]+/", "", text)
 
