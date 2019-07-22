@@ -9,6 +9,7 @@ rstudio_dependencies <- function() {
     accounts = get("accounts", envir = asNamespace("rsconnect")),
     parse_http_url = get("parseHttpUrl", envir = asNamespace("rsconnect")),
     get = get("GET", envir = asNamespace("rsconnect")),
+    post_json = get("POST_JSON", envir = asNamespace("rsconnect")),
     account_config_file = get("accountConfigFile", envir = asNamespace("rsconnect")),
     register_user_token = get("registerUserToken", envir = asNamespace("rsconnect")),
     list_request = get("listRequest", envir = asNamespace("rsconnect")),
@@ -103,7 +104,13 @@ rstudio_api_post <- function(board, path, content, encode) {
     }
   }
   else {
-    stop("Operation not implemented")
+    if (!identical(encode, "json")) stop("Operation not implemented")
+
+    server_info <- deps$server_info(board$server)
+    service <- deps$parse_http_url(server_info$url)
+    account_info <- rstudio_account_info(board)
+
+    deps$post_json(service, authInfo = account_info, path = path, json = content)
   }
 }
 
@@ -182,6 +189,9 @@ board_initialize.rstudio <- function(board, ...) {
 
   if (!rstudio_api_auth(board)) {
     accounts <- deps$accounts()
+
+    if (is.null(accounts)) stop("RStudio Connect is not registered, please add a publishing account or specify an API key.")
+
     if (is.null(args$server)) board$server <- accounts$server[1]
     if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
   }
