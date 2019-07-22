@@ -99,7 +99,7 @@ kaggle_create_bundle <- function(path, type, metadata) {
 
   file.copy(path, bundle_path)
 
-  pin_manifest_create(bundle_path, type, metadata)
+  pin_manifest_create(bundle_path, type, metadata, dir(bundle_path, recursive = TRUE))
 
   bundle_file <- tempfile(fileext = ".zip")
   withr::with_dir(

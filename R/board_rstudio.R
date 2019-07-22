@@ -13,20 +13,24 @@ rstudio_dependencies <- function() {
     register_user_token = get("registerUserToken", envir = asNamespace("rsconnect")),
     list_request = get("listRequest", envir = asNamespace("rsconnect")),
     signature_headers = get("signatureHeaders", envir = asNamespace("rsconnect")),
+    generate_token = get("generateToken", envir = asNamespace("rsconnect")),
     current_input = get0("current_input", envir = asNamespace("knitr")),
     output_metadata = get0("output_metadata", envir = asNamespace("rmarkdown"))
   )
 }
 
-rstudio_current_user <- function(board) {
+rstudio_account_create_token <- function(board) {
+  deps <- rstudio_dependencies()
 
-  GET(service, authInfo, "/users/current/")
+  token <- deps$generate_token()
+
+  rstudio_api_post(board, "/__api__/tokens", token, "json")
 }
 
 rstudio_account_info <- function(board) {
   deps <- rstudio_dependencies()
 
-  if (rstudio_board_api_auth(board)) {
+  if (rstudio_api_auth(board)) {
     headers <- list("Authorization" = paste("Key", board$key))
 
     url <- paste0(board$server, "/__api__/users/current/")
@@ -59,21 +63,44 @@ rstudio_account_dcf <- function(board) {
 rstudio_api_get <- function(board, path, root = FALSE) {
   deps <- rstudio_dependencies()
 
-  server_info <- deps$server_info(board$server)
-  service <- deps$parse_http_url(server_info$url)
-  account_info <- rstudio_account_info(board)
+  if (rstudio_api_auth(board)) {
+    httr::GET(paste0(board$server, path),
+                        httr::add_headers("Authorization" = paste("Key", board$key))) %>%
+      httr::content()
+  } else {
+    server_info <- deps$server_info(board$server)
+    service <- deps$parse_http_url(server_info$url)
+    account_info <- rstudio_account_info(board)
 
-  if (root) service$path <- gsub("/__api__", "", service$path)
+    if (root) service$path <- gsub("/__api__", "", service$path)
 
-  deps$get(service, authInfo = account_info, path = path)
+    deps$get(service, authInfo = account_info, path = path)
+  }
+}
+
+rstudio_api_post <- function(board, path, content, encode) {
+  deps <- rstudio_dependencies()
+
+  if (rstudio_api_auth(board)) {
+    headers <- list("Authorization" = paste("Key", board$key))
+
+    url <- paste0(board$server, path)
+
+    httr::POST(url,
+               encode = encode,
+               body = content,
+               httr::add_headers(.headers = unlist(headers))) %>%
+      httr::content()
+  }
+  else {
+    stop("Operation not implemented")
+  }
 }
 
 rstudio_api_download <- function(board, path, download) {
   deps <- rstudio_dependencies()
 
-  deps <- rstudio_dependencies()
-
-  if (rstudio_board_api_auth(board)) {
+  if (rstudio_api_auth(board)) {
     headers <- list("Authorization" = paste("Key", board$key))
 
     url <- paste0(board$server, path)
@@ -110,7 +137,7 @@ rstudio_pkg_supported <- function() {
     !identical(get0("deployResource", envir = asNamespace("rsconnect")), NULL)
 }
 
-rstudio_board_api_auth <- function(board) !is.null(board$key)
+rstudio_api_auth <- function(board) !is.null(board$key)
 
 board_initialize.rstudio <- function(board, ...) {
   args <- list(...)
@@ -143,7 +170,7 @@ board_initialize.rstudio <- function(board, ...) {
     )
   }
 
-  if (!rstudio_board_api_auth(board)) {
+  if (!rstudio_api_auth(board)) {
     accounts <- deps$accounts()
     if (is.null(args$server)) board$server <- accounts$server[1]
     if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
@@ -200,6 +227,8 @@ rstudio_create_pin.data.frame <- function(x, temp_dir) {
   )
 
   rstudio_template_index_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
+
+  "data.rds"
 }
 
 rstudio_create_pin.default <- function(x, temp_dir) {
@@ -216,9 +245,15 @@ rstudio_create_pin.default <- function(x, temp_dir) {
   files <- files[!grepl("index\\.html", files)]
 
   rstudio_template_index_html(temp_dir, "file_name", paste(files, collapse = "\n"))
+
+  "data.rds"
 }
 
 rstudio_create_pin.character <- function(x, temp_dir) {
+  file.copy(x, temp_dir)
+
+  data_files <- dir(temp_dir, recursive = TRUE)
+
   html_file <- file.path(temp_dir, "index.html")
 
   file.copy(
@@ -226,12 +261,12 @@ rstudio_create_pin.character <- function(x, temp_dir) {
     temp_dir,
     recursive = TRUE)
 
-  file.copy(x, temp_dir)
-
   files <- dir(temp_dir, recursive = TRUE)
   files <- files[!grepl("index\\.html", files)]
 
   rstudio_template_index_html(temp_dir, "file_name", files)
+
+  data_files
 }
 
 rstudio_create_pin <- function(x, temp_dir) {
@@ -246,6 +281,30 @@ is_knitting <- function(deps) {
   !is.null(deps$current_input) && !is.null(deps$output_metadata) && !is.null(deps$current_input())
 }
 
+rstudio_api_create_bundle <- function(path, manifest) {
+  manifest_json <- jsonlite::toJSON(manifest,
+                                    dataframe = "columns",
+                                    null = "null",
+                                    na = "null",
+                                    auto_unbox = TRUE,
+                                    pretty = TRUE)
+  writeLines(manifest_json, file.path(path, "manifest.json"), useBytes = TRUE)
+
+  prev_path <- setwd(path)
+  on.exit(setwd(prev_path), add = TRUE)
+
+  bundle_path <- tempfile("rsconnect-bundle", fileext = ".tar.gz")
+  utils::tar(bundle_path, files = ".", compression = "gzip", tar = "internal")
+
+  bundle_path
+}
+
+rstudio_api_create_md5 <- function(path) {
+  con <- base::file(path, open = "rb")
+  on.exit(close(con), add = TRUE)
+  unclass(as.character(openssl::md5(con)))
+}
+
 board_pin_create.rstudio <- function(board, path, name, description, type, metadata, ...) {
   on.exit(board_connect(board$name))
 
@@ -258,17 +317,77 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
   x <- if (length(dir(path)) == 1 && identical(tools::file_ext(dir(path)), "rds"))
     readRDS(dir(path, full.names = TRUE)) else path
 
-  rstudio_create_pin(x, temp_dir)
-  pin_manifest_create(temp_dir, type, metadata)
+  data_files <- rstudio_create_pin(x, temp_dir)
+  pin_manifest_create(temp_dir, type, metadata, data_files)
 
   if (is_knitting(deps) && !rstudio_is_authenticated(board)) {
     # use rsc output files when not authenticated, warn if we thing we might not be running under RSC
     if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) == 0)
-      warning("Not authenticated to RStudio Connecet, creating output file for pin.")
+      warning("Not authenticated to RStudio Connect, creating output file for pin.")
 
     knit_pin_dir <- file.path(name)
     file.copy(temp_dir, getwd(), recursive = TRUE)
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
+  }
+  else if (rstudio_api_auth(board)) {
+    content <- rstudio_api_post(board,
+                                paste0("/__api__/v1/experimental/content"),
+                                list(
+                                  app_mode = "static",
+                                  content_category = "data",
+                                  name = name,
+                                  description = description
+                                ),
+                                "json")
+
+    if (!is.null(content$error)) {
+      stop("Failed to create pin: ", content$error)
+    }
+
+    files <- lapply(dir(temp_dir, recursive = TRUE, full.names = TRUE), function(path) {
+      list(
+        checksum = rstudio_api_create_md5(path)
+      )
+    })
+    names(files) <- dir(temp_dir, recursive = TRUE)
+
+    manifest <- list(
+      version = 1,
+      locale = "en_US",
+      platform = "3.5.1",
+      metadata = list(
+        appmode = "static",
+        primary_rmd = NA,
+        primary_html = "index.html",
+        content_category = "data",
+        has_parameters = FALSE
+      ),
+      packages = NA,
+      files = files,
+      users = NA
+    )
+
+    bundle <- rstudio_api_create_bundle(temp_dir, manifest)
+
+    upload <- rstudio_api_post(board,
+                               paste0("/__api__/v1/experimental/content/", content$guid, "/upload"),
+                               httr::upload_file(normalizePath(bundle)),
+                               "multipart")
+
+    if (!is.null(upload$error)) {
+      stop("Failed to upload pin: ", upload$error)
+    }
+
+    result <- rstudio_api_post(board,
+                               paste0("/__api__/v1/experimental/content/", content$guid, "/deploy"),
+                               list(
+                                 bundle_id = upload$bundle_id
+                               ),
+                               "json")
+
+    if (!is.null(result$error)) {
+      stop("Failed to activate pin: ", result$error)
+    }
   }
   else if (rstudio_pkg_supported()) {
     rsconnect::deployResource(temp_dir,
@@ -294,7 +413,7 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 rstudio_list_request <- function(board, filter) {
   deps <- rstudio_dependencies()
 
-  if (rstudio_board_api_auth(board)) {
+  if (rstudio_api_auth(board)) {
     result <- httr::GET(paste0(board$server, "/__api__/applications/?", filter),
                         httr::add_headers("Authorization" = paste("Key", board$key))) %>%
       httr::content()
@@ -313,6 +432,7 @@ rstudio_list_request <- function(board, filter) {
 board_pin_find.rstudio <- function(board, text, ...) {
   deps <- rstudio_dependencies()
   extended <- identical(list(...)$extended, TRUE)
+  all_content  <- identical(list(...)$all_content, TRUE)
 
   if (is.null(text)) text <- ""
 
@@ -329,7 +449,7 @@ board_pin_find.rstudio <- function(board, text, ...) {
 
   results <- as.data.frame(do.call("rbind", results))
 
-  results <- results[results$content_category == "data",]
+  if (!all_content) results <- results[results$content_category == "data",]
 
   results$name <- paste(results$owner_username, results$name, sep = "/")
 
@@ -389,7 +509,7 @@ board_pin_get.rstudio <- function(board, name, details) {
 
   unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$|pin\\.json$", full.names = TRUE))
 
-  attr(local_path, "pin_type") <- pin_manifest_get(local_path)$type
+  attr(local_path, "pin_type") <- manifest$type
   local_path
 }
 

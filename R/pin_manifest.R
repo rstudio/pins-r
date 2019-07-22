@@ -12,12 +12,12 @@ pin_manifest_get <- function(path) {
   manifest
 }
 
-pin_manifest_create <- function(path, type, metadata) {
+pin_manifest_create <- function(path, type, metadata, files) {
   manifest <- jsonlite::toJSON(
     list(
       type = type,
       metadata = metadata,
-      files = dir(path, recursive = TRUE)
+      files = files
     ),
     auto_unbox = TRUE)
 

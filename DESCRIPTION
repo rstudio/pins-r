@@ -18,13 +18,13 @@ Imports:
   httr,
   jsonlite,
   magrittr,
-  rsconnect,
   yaml,
   zip
 Suggests:
   knitr,
   nomnoml,
   rmarkdown,
+  rsconnect,
   testthat,
   tibble
 VignetteBuilder: knitr
