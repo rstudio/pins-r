@@ -91,9 +91,16 @@ rstudio_api_post <- function(board, path, content, encode) {
                body = content,
                httr::add_headers(.headers = unlist(headers)))
 
-    if (httr::status_code(result) != 200) stop("Operation failed with status ", httr::status_code(result))
+    content <- httr::content(result)
 
-    httr::content(result)
+    if (httr::status_code(result) != 200 && !is.list(content)) {
+      list(
+        error = paste("Operation failed with status", httr::status_code(result))
+      )
+    }
+    else {
+      content
+    }
   }
   else {
     stop("Operation not implemented")
