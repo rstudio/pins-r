@@ -61,22 +61,26 @@ rstudio_account_dcf <- function(board) {
   cat(base64enc::base64encode(temp_dcf))
 }
 
-rstudio_api_get <- function(board, path, root = FALSE) {
+rstudio_api_auth_headers <- function(board, path) {
   deps <- rstudio_dependencies()
 
   if (rstudio_api_auth(board)) {
-    httr::GET(paste0(board$server, path),
-                        httr::add_headers("Authorization" = paste("Key", board$key))) %>%
-      httr::content()
+    headers <- list("Authorization" = paste("Key", board$key))
   } else {
     server_info <- deps$server_info(board$server)
     service <- deps$parse_http_url(server_info$url)
     account_info <- rstudio_account_info(board)
 
-    if (root) service$path <- gsub("/__api__", "", service$path)
-
-    deps$get(service, authInfo = account_info, path = path)
+    headers <- deps$signature_headers(account_info, "GET", path, NULL)
   }
+
+  httr::add_headers(.headers = unlist(headers))
+}
+
+rstudio_api_get <- function(board, path, root = FALSE) {
+  httr::GET(paste0(board$server, path),
+            rstudio_api_auth_headers(board, path)) %>%
+    httr::content()
 }
 
 rstudio_api_post <- function(board, path, content, encode) {
@@ -109,6 +113,8 @@ rstudio_api_post <- function(board, path, content, encode) {
     server_info <- deps$server_info(board$server)
     service <- deps$parse_http_url(server_info$url)
     account_info <- rstudio_account_info(board)
+
+    service$path <- gsub("/__api__", "", service$path)
 
     deps$post_json(service, authInfo = account_info, path = path, json = content)
   }
