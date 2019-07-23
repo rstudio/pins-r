@@ -137,7 +137,7 @@ board_pin_find.rsconnect <- function(board, text, ...) {
   if (nchar(text) == 0) {
     # it can be quite slow to list all content in RStudio Connect so we scope to the user content
     account_id <- rsconnect_api_get(board, "/__api__/users/current/")$id
-    filter <- paste0("filter=account_id:", account_info$accountId, "&accountId:", account_id)
+    filter <- paste0("filter=account_id:", account_id, "&accountId:", account_id)
   }
   else {
     filter <- paste0("search=", text)
