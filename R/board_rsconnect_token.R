@@ -1,4 +1,4 @@
-rstudio_token_dependencies <- function() {
+rsconnect_token_dependencies <- function() {
   list(
     accounts = get0("accounts", envir = asNamespace("rsconnect")),
     account_info = get0("accountInfo", envir = asNamespace("rsconnect")),
@@ -8,7 +8,7 @@ rstudio_token_dependencies <- function() {
   )
 }
 
-rstudio_token_parse_url <- function(urlText) {
+rsconnect_token_parse_url <- function(urlText) {
   # see rsconnect::parseHttpUrl
 
   matches <- regexec("(http|https)://([^:/#?]+)(?::(\\d+))?(.*)", urlText)
@@ -24,8 +24,8 @@ rstudio_token_parse_url <- function(urlText) {
   url
 }
 
-rstudio_token_initialize <- function(board) {
-  deps <- rstudio_token_dependencies()
+rsconnect_token_initialize <- function(board) {
+  deps <- rsconnect_token_dependencies()
 
   if (is.null(deps$accounts)) stop("RStudio Connect is not registered, please install the 'rsconnect' package or specify an API key.")
 
@@ -38,11 +38,11 @@ rstudio_token_initialize <- function(board) {
   board
 }
 
-rstudio_token_headers <- function(board, path, verb, content) {
-  deps <- rstudio_token_dependencies()
+rsconnect_token_headers <- function(board, path, verb, content) {
+  deps <- rsconnect_token_dependencies()
 
   server_info <- deps$server_info(board$server)
-  service <- rstudio_token_parse_url(server_info$url)
+  service <- rsconnect_token_parse_url(server_info$url)
 
   account_info <- deps$account_info(board$account)
 
@@ -60,11 +60,11 @@ rstudio_token_headers <- function(board, path, verb, content) {
   deps$signature_headers(account_info, verb, path, content_file)
 }
 
-rstudio_token_post <- function(board, path, content, encode) {
-  deps <- rstudio_token_dependencies()
+rsconnect_token_post <- function(board, path, content, encode) {
+  deps <- rsconnect_token_dependencies()
 
   server_info <- deps$server_info(board$server)
-  parsed <- rstudio_token_parse_url(server_info$url)
+  parsed <- rsconnect_token_parse_url(server_info$url)
 
   if (identical(class(content), "form_file")) {
     content_file <- content$path
@@ -82,7 +82,7 @@ rstudio_token_post <- function(board, path, content, encode) {
                                  parsed$port,
                                  "POST",
                                  path,
-                                 rstudio_token_headers(board, path, "POST", content),
+                                 rsconnect_token_headers(board, path, "POST", content),
                                  contentType = content_type,
                                  file = content_file)
 

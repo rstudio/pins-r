@@ -1,11 +1,11 @@
-rstudio_bundle_template_html <- function(temp_dir, template, value) {
+rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   html_file <- file.path(temp_dir, "index.html")
   html_index <- readLines(html_file)
   html_index <- gsub(paste0("\\{\\{", template, "\\}\\}"), value, html_index)
   writeLines(html_index, html_file)
 }
 
-rstudio_bundle_create.data.frame <- function(x, temp_dir) {
+rsconnect_bundle_create.data.frame <- function(x, temp_dir) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
@@ -33,12 +33,12 @@ rstudio_bundle_create.data.frame <- function(x, temp_dir) {
     )
   )
 
-  rstudio_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
+  rsconnect_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
 
   "data.rds"
 }
 
-rstudio_bundle_create.default <- function(x, temp_dir) {
+rsconnect_bundle_create.default <- function(x, temp_dir) {
   html_file <- file.path(temp_dir, "index.html")
 
   file.copy(
@@ -51,12 +51,12 @@ rstudio_bundle_create.default <- function(x, temp_dir) {
   files <- dir(temp_dir, recursive = TRUE)
   files <- files[!grepl("index\\.html", files)]
 
-  rstudio_bundle_template_html(temp_dir, "file_name", paste(files, collapse = "\n"))
+  rsconnect_bundle_template_html(temp_dir, "file_name", paste(files, collapse = "\n"))
 
   "data.rds"
 }
 
-rstudio_bundle_create.character <- function(x, temp_dir) {
+rsconnect_bundle_create.character <- function(x, temp_dir) {
   file.copy(x, temp_dir)
 
   data_files <- dir(temp_dir, recursive = TRUE)
@@ -71,16 +71,16 @@ rstudio_bundle_create.character <- function(x, temp_dir) {
   files <- dir(temp_dir, recursive = TRUE)
   files <- files[!grepl("index\\.html", files)]
 
-  rstudio_bundle_template_html(temp_dir, "file_name", files)
+  rsconnect_bundle_template_html(temp_dir, "file_name", files)
 
   data_files
 }
 
-rstudio_bundle_create <- function(x, temp_dir) {
-  UseMethod("rstudio_bundle_create")
+rsconnect_bundle_create <- function(x, temp_dir) {
+  UseMethod("rsconnect_bundle_create")
 }
 
-rstudio_bundle_compress <- function(path, manifest) {
+rsconnect_bundle_compress <- function(path, manifest) {
   manifest_json <- jsonlite::toJSON(manifest,
                                     dataframe = "columns",
                                     null = "null",
@@ -98,7 +98,7 @@ rstudio_bundle_compress <- function(path, manifest) {
   bundle_path
 }
 
-rstudio_bundle_file_md5 <- function(path) {
+rsconnect_bundle_file_md5 <- function(path) {
   con <- base::file(path, open = "rb")
   on.exit(close(con), add = TRUE)
   unclass(as.character(openssl::md5(con)))

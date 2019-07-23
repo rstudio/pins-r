@@ -1,24 +1,15 @@
-rstudio_dependencies <- function() {
+rsconnect_dependencies <- function() {
   list(
     current_input = get0("current_input", envir = asNamespace("knitr")),
     output_metadata = get0("output_metadata", envir = asNamespace("rmarkdown"))
   )
 }
 
-rstudio_api_version <- function(board) {
-  jsonlite::fromJSON(rstudio_api_get(board, "/server_settings")$content)$version
+rsconnect_pins_supported <- function(board) {
+  package_version(rsconnect_api_version(board)) > package_version("1.7.7")
 }
 
-rstudio_api_pins_supported <- function(board) {
-  package_version(rstudio_api_version(board)) > package_version("1.7.7")
-}
-
-rstudio_pkg_supported <- function() {
-  packageVersion("rsconnect") > package_version("0.8.13") &&
-    !identical(get0("deployResource", envir = asNamespace("rsconnect")), NULL)
-}
-
-board_initialize.rstudio <- function(board, ...) {
+board_initialize.rsconnect <- function(board, ...) {
   args <- list(...)
 
   board$server <- args$server
@@ -29,25 +20,25 @@ board_initialize.rstudio <- function(board, ...) {
     stop("Please specify the 'server' parameter when using API keys.")
   }
 
-  if (!rstudio_api_auth(board)) {
-    board <- rstudio_token_initialize(board)
+  if (!rsconnect_api_auth(board)) {
+    board <- rsconnect_token_initialize(board)
   }
 
   board
 }
 
-board_load.rstudio <- function(board) {
+board_load.rsconnect <- function(board) {
   board
 }
 
-board_persist.rstudio <- function(board) {
+board_persist.rsconnect <- function(board) {
   board
 }
 
-board_pin_create.rstudio <- function(board, path, name, description, type, metadata, ...) {
+board_pin_create.rsconnect <- function(board, path, name, description, type, metadata, ...) {
   on.exit(board_connect(board$name))
 
-  deps <- rstudio_dependencies()
+  deps <- rsconnect_dependencies()
 
   temp_dir <- file.path(tempfile(), name)
   dir.create(temp_dir, recursive = TRUE)
@@ -56,10 +47,10 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
   x <- if (length(dir(path)) == 1 && identical(tools::file_ext(dir(path)), "rds"))
     readRDS(dir(path, full.names = TRUE)) else path
 
-  data_files <- rstudio_bundle_create(x, temp_dir)
+  data_files <- rsconnect_bundle_create(x, temp_dir)
   pin_manifest_create(temp_dir, type, metadata, data_files)
 
-  rstudio_is_authenticated <- function(board) {
+  rsconnect_is_authenticated <- function(board) {
     !is.null(board$key) || !is.null(board$account)
   }
 
@@ -67,7 +58,7 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
     !is.null(deps$current_input) && !is.null(deps$output_metadata) && !is.null(deps$current_input())
   }
 
-  if (is_knitting() && !rstudio_is_authenticated(board)) {
+  if (is_knitting() && !rsconnect_is_authenticated(board)) {
     # use rsc output files when not authenticated, warn if we thing we might not be running under RSC
     if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) == 0)
       warning("Not authenticated to RStudio Connect, creating output file for pin.")
@@ -77,7 +68,7 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
   }
   else {
-    content <- rstudio_api_post(board,
+    content <- rsconnect_api_post(board,
                                 paste0("/__api__/v1/experimental/content"),
                                 list(
                                   app_mode = "static",
@@ -92,7 +83,7 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
 
     files <- lapply(dir(temp_dir, recursive = TRUE, full.names = TRUE), function(path) {
       list(
-        checksum = rstudio_bundle_file_md5(path)
+        checksum = rsconnect_bundle_file_md5(path)
       )
     })
     names(files) <- dir(temp_dir, recursive = TRUE)
@@ -113,21 +104,21 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
       users = NA
     )
 
-    bundle <- rstudio_bundle_compress(temp_dir, manifest)
+    bundle <- rsconnect_bundle_compress(temp_dir, manifest)
 
-    upload <- rstudio_api_post(board,
-                               paste0("/__api__/v1/experimental/content/", content$guid, "/upload"),
-                               httr::upload_file(normalizePath(bundle)))
+    upload <- rsconnect_api_post(board,
+                                 paste0("/__api__/v1/experimental/content/", content$guid, "/upload"),
+                                 httr::upload_file(normalizePath(bundle)))
 
     if (!is.null(upload$error)) {
       stop("Failed to upload pin: ", upload$error)
     }
 
-    result <- rstudio_api_post(board,
-                               paste0("/__api__/v1/experimental/content/", content$guid, "/deploy"),
-                               list(
-                                 bundle_id = upload$bundle_id
-                               ))
+    result <- rsconnect_api_post(board,
+                                 paste0("/__api__/v1/experimental/content/", content$guid, "/deploy"),
+                                 list(
+                                   bundle_id = upload$bundle_id
+                                 ))
 
     if (!is.null(result$error)) {
       stop("Failed to activate pin: ", result$error)
@@ -137,7 +128,7 @@ board_pin_create.rstudio <- function(board, path, name, description, type, metad
   pin_get(name, board$name)
 }
 
-board_pin_find.rstudio <- function(board, text, ...) {
+board_pin_find.rsconnect <- function(board, text, ...) {
   extended <- identical(list(...)$extended, TRUE)
   all_content  <- identical(list(...)$all_content, TRUE)
 
@@ -145,14 +136,14 @@ board_pin_find.rstudio <- function(board, text, ...) {
 
   if (nchar(text) == 0) {
     # it can be quite slow to list all content in RStudio Connect so we scope to the user content
-    account_id <- rstudio_api_get(board, "/__api__/users/current/")$id
+    account_id <- rsconnect_api_get(board, "/__api__/users/current/")$id
     filter <- paste0("filter=account_id:", account_info$accountId, "&accountId:", account_id)
   }
   else {
     filter <- paste0("search=", text)
   }
 
-  results <- rstudio_api_get(board, paste0("/__api__/applications/?", filter))$applications
+  results <- rsconnect_api_get(board, paste0("/__api__/applications/?", filter))$applications
 
   results <- as.data.frame(do.call("rbind", results))
 
@@ -179,7 +170,7 @@ board_pin_find.rstudio <- function(board, text, ...) {
   }
 }
 
-board_pin_get.rstudio <- function(board, name, details) {
+board_pin_get.rsconnect <- function(board, name, details) {
   url <- name
 
   if (!grepl("^http://|^https://|^/content/", name)) {
@@ -207,11 +198,11 @@ board_pin_get.rstudio <- function(board, name, details) {
   local_path <- tempfile()
   dir.create(local_path)
 
-  rstudio_api_download(board, file.path(remote_path, "pin.json"), file.path(local_path, "pin.json"))
+  rsconnect_api_download(board, file.path(remote_path, "pin.json"), file.path(local_path, "pin.json"))
   manifest <- jsonlite::read_json(file.path(local_path, "pin.json"))
 
   for (file in manifest$files) {
-    rstudio_api_download(board, file.path(remote_path, file), file.path(local_path, file))
+    rsconnect_api_download(board, file.path(remote_path, file), file.path(local_path, file))
   }
 
   unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$|pin\\.json$", full.names = TRUE))
@@ -220,9 +211,9 @@ board_pin_get.rstudio <- function(board, name, details) {
   local_path
 }
 
-board_pin_remove.rstudio <- function(board, name) {
-  stop("Removing pins from 'rstudio' boards is currently unsupported.")
+board_pin_remove.rsconnect <- function(board, name) {
+  stop("Removing pins from 'rsconnect' boards is currently unsupported.")
 }
 
-board_info.rstudio <- function(board) {
+board_info.rsconnect <- function(board) {
 }

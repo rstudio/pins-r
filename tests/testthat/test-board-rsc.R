@@ -1,9 +1,9 @@
 context("board rsc")
 
-if (test_board_is_registered("rstudio")) {
-  board_test("rstudio", exclude = "remove")
+if (test_board_is_registered("rsconnect")) {
+  board_test("rsconnect", exclude = "remove")
 } else {
-  test_that("can't register rstudio board", {
-    skip("failed to register rstudio board")
+  test_that("can't register rsconnect board", {
+    skip("failed to register rsconnect board")
   })
 }

@@ -95,14 +95,14 @@ pins_connection_ui <- function() {
         choices = c(
           list(
             local = "local",
-            rstudio = "rstudio",
+            rsconnect = "rsconnect",
             kaggle = "kaggle"
           )
         ),
         selectize = FALSE
       ),
       conditionalPanel(
-        condition = "input.board == 'rstudio'",
+        condition = "input.board == 'rsconnect'",
         selectInput(
           "server",
           "Server:",
@@ -137,7 +137,7 @@ pins_connection_ui <- function() {
 pins_connection_server <- function(input, output, session) {
 
   observe({
-    if (identical(input$board, "rstudio")) {
+    if (identical(input$board, "rsconnect")) {
       updateSelectizeInput(
         session,
         "server",
@@ -150,9 +150,9 @@ pins_connection_server <- function(input, output, session) {
     parameters <- ""
     initializer <- ""
 
-    if (identical(board, "rstudio") && !is.null(input$server)) {
+    if (identical(board, "rsconnect") && !is.null(input$server)) {
       initializer <- paste(
-        "pins::board_register(\"rstudio\", ",
+        "pins::board_register(\"rsconnect\", ",
         "server = \"", input$server, "\")\n", sep = "")
     }
     else if (identical(board, "kaggle") && !is.null(input$token)) {
