@@ -32,8 +32,8 @@ rsconnect_token_initialize <- function(board) {
   accounts <- deps$accounts()
   if (is.null(accounts)) stop("RStudio Connect is not registered, please add a publishing account or specify an API key.")
 
-  if (is.null(args$server)) board$server <- accounts$server[1]
-  if (is.null(args$account)) board$account <- accounts[accounts$server == board$server,]$name
+  if (is.null(board$server)) board$server <- accounts$server[1]
+  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server,]$name
 
   board
 }
