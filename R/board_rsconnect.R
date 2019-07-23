@@ -170,25 +170,30 @@ board_pin_find.rsconnect <- function(board, text, ...) {
   }
 }
 
-board_pin_get.rsconnect <- function(board, name, details) {
+rsconnect_get_by_name <- function(board, name) {
+  name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
+  only_name <- pin_content_name(name)
+
+  details <- board_pin_find(board, only_name, extended = TRUE)
+
+  details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
+
+  if (nrow(details) > 1) {
+    details <- details[details$owner_username == board$account,]
+  }
+
+  if (nrow(details) > 1) {
+    stop("Multiple pins named '", name, "' in board '", board$name, "'")
+  }
+
+  details
+}
+
+board_pin_get.rsconnect <- function(board, name) {
   url <- name
 
   if (!grepl("^http://|^https://|^/content/", name)) {
-    name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
-    only_name <- pin_content_name(name)
-
-    details <- board_pin_find(board, only_name, extended = TRUE)
-
-    details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
-
-    if (nrow(details) > 1) {
-      details <- details[details$owner_username == board$account,]
-    }
-
-    if (nrow(details) > 1) {
-      stop("Multiple pins named '", name, "' in board '", board$name, "'")
-    }
-
+    details <- rsconnect_get_by_name(board, name)
     url <- details$url
   }
 
@@ -212,7 +217,9 @@ board_pin_get.rsconnect <- function(board, name, details) {
 }
 
 board_pin_remove.rsconnect <- function(board, name) {
-  stop("Removing pins from 'rsconnect' boards is currently unsupported.")
+  details <- rsconnect_get_by_name(board, name)
+
+  invisible(rsconnect_api_delete(board, paste0("/__api__/v1/experimental/content/", details$guid)))
 }
 
 board_info.rsconnect <- function(board) {

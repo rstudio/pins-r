@@ -206,7 +206,7 @@ board_pin_find.kaggle <- function(board, text, ...) {
   )
 }
 
-board_pin_get.kaggle <- function(board, name, details) {
+board_pin_get.kaggle <- function(board, name) {
   if (!grepl("/", name)) name <- paste(kaggle_auth_info()$username, name, sep = "/")
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)

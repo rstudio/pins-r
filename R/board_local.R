@@ -99,7 +99,7 @@ board_pin_find.local <- function(board, text, ...) {
   board_yaml_pin_find(text, "local")
 }
 
-board_pin_get.local <- function(board, name, details) {
+board_pin_get.local <- function(board, name) {
   board_yaml_pin_retrieve(name, "local")
 }
 
