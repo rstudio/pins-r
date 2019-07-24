@@ -41,7 +41,7 @@ The defaul board in the `pins` package is a files-based; meaning, remote files a
 ]
 ```
 
-## RStudio
+## RStudio Connect
 
 **RStudio Connect** can be used to share pins within your organization, to
 use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
@@ -50,7 +50,7 @@ account in RStudio.
 ```{nomnoml echo=FALSE, out.width='100%', out.height='140px'}
 [R|
    [<note>library(pins)
-    register_board("rstudio")
+    register_board("rsconnect")
     pin(iris, "iris")]
 ]-[RStudio Connect|
   [<note>iris]]
@@ -59,7 +59,7 @@ account in RStudio.
 To make RStudio Connect your default board run:
 
 ```{r eval=FALSE}
-board_register("rstudio")
+board_register("rsconnect")
 ```
 
 Once this board is active, `pin()` and `pin_get()` will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:
@@ -70,19 +70,9 @@ data.frame(title = xml_text(xml_find_all(read_xml("http://feeds.bbci.co.uk/news/
   pin("worldnews", "A table with the latests world news from the BBC")
 ```
 
-When using multiple publishing servers, you can specify an specific server through `register_board("rstudio", "<server-name>")`.
+When using multiple publishing servers, you can specify an specific server through `register_board("rsconnect", "<server-name>")`.
 
-When using `pins` within RMarkdown documents that you want to run at a given schedule, like [rstudio-world-news.Rmd](https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd), you'll have to first retrieve your publishing secret credentials:
-
-```{r eval=FALSE}
-board_get("rstudio")$secret()
-```
-
-Followed by specifying that secret in `register_board()`, this can be securely accomplish by defining an environment variable `secret` with the contents from the previous step in RStudio Connect. Please treat your credentials with care!
-
-```{r eval=FALSE}
-register_board("rstudio", secret = Sys.getenv("secret"))
-```
+When using `pins` within RMarkdown documents that you want to run at a given schedule, like [rstudio-world-news.Rmd](https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd), you can simply push to RStudio Connect since the output pin will be generated as [Output Files](https://docs.rstudio.com/connect/user/r-markdown.html#r-markdown-output-files).
 
 ## Kaggle
 
@@ -109,7 +99,6 @@ board_initialize.folder <- function(board, ...) {
 
 board_pin_create.folder <- function(board, path, name, description, type, metadata) {
   file.copy(path, file.path("pins", paste0(name, ".", type)))
-  pin_get(name, board = board$name)
 }
 
 board_pin_get.folder <- function(board, name) {

@@ -120,13 +120,13 @@ To **discover** remote resources, simply expand the "Addins" menu and select "Fi
 You can then **share** local resources using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then pin our results in RStudio Connect.
 
 ```{r}
-board_register("rstudio")
+board_register("rsconnect")
 ```
 ```{r}
 pin_get("hpiR/seattle_sales") %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
-  pin("sales-by-baths", board = "rstudio")
+  pin("sales-by-baths", board = "rsconnect")
 ```
 
 After a pin is published to RStudio Connect, RStudio will open the web interface for that pin and make available various settings applicable to this published pin:
