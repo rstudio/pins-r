@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deregister Board — board_deregister • pins</title>
+<title>Test Board — board_test • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Deregister Board — board_deregister" />
+<meta property="og:title" content="Test Board — board_test" />
 
-<meta property="og:description" content="Deregisters a board, useful to disable boards no longer in use." />
+<meta property="og:description" content="Tests a particular board, useful only when creating new boards." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,25 +116,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deregister Board</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board.R'><code>R/board.R</code></a></small>
-    <div class="hidden name"><code>board_deregister.Rd</code></div>
+    <h1>Test Board</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_test.R'><code>R/board_test.R</code></a></small>
+    <div class="hidden name"><code>board_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Deregisters a board, useful to disable boards no longer in use.</p>
+    <p>Tests a particular board, useful only when creating new boards.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_deregister</span>(<span class='no'>name</span>)</pre>
+    <pre class="usage"><span class='fu'>board_test</span>(<span class='no'>board</span>, <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>exclude</th>
+      <td><p>Names of tests to exclude form test</p></td>
+    </tr>
+    <tr>
       <th>name</th>
-      <td><p>An optional name to identify this board, defaults to the board name.</p></td>
+      <td><p>The name of the board to test</p></td>
     </tr>
     </table>
     

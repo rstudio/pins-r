@@ -92,6 +92,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -124,7 +127,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>pin_get</span>(<span class='no'>name</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_get</span>(<span class='no'>name</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,6 +139,10 @@
     <tr>
       <th>board</th>
       <td><p>The board where this pin will be retrieved from.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Should the pin be cached for remote boards? Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>

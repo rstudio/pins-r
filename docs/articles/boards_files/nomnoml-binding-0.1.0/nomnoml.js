@@ -38,7 +38,8 @@ HTMLWidgets.widget({
       canvas.style = "transform:" +
         "translate(" + (-actualWidth / 2) + "px," + (-actualHeight / 2) + "px) " +
         "scale(" + scale + ") " +
-        "translate(" + (width / 2 / scale) + "px," + (height / 2 / scale) + "px); ";
+        "translate(" + (width / 2 / scale) + "px," + (height / 2 / scale) + "px); " +
+        "position: absolute; ";
     };
     
     return {

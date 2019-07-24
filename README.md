@@ -24,12 +24,12 @@ install.packages("remotes")
 remotes::install_github("rstudio/pins")
 ```
 
-You can **pin** remote files with `pin()` to cache those files locally,
-such that, even if the remote resource is removed or while working
-offline, your code will keep working by using a local cache. Since
-`pin(x)` pins `x` and returns a locally cached version of `x`, this
-allows you to pin a remote resource while also reusing it existing code
-with minimal changes.
+First, you can **pin** remote files with `pin()` to cache those files
+locally, such that, even if the remote resource is removed or while
+working offline – your code will keep working by using a local cache.
+Since `pin(x)` pins `x` and returns a locally cached version of `x`,
+this allows you to pin a remote resource while also reusing it existing
+code with minimal changes.
 
 For instance, the following example makes use of a remote CSV file,
 which you can download and cache with `pin()` before it’s loaded with
@@ -43,9 +43,10 @@ url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/examp
 retail_sales <- read_csv(pin(url))
 ```
 
-This makes reading remotes files much faster since they are only
-downloaded once, we can compare performance with and without pinning a
-remote file with the [bench](https://CRAN.R-project.org/package=bench)
+This makes reading subsequent remotes files orders of magnitude faster,
+files are only downloaded when the remote resource changes; we can
+compare the two approaches using the
+[bench](https://CRAN.R-project.org/package=bench)
 package:
 
 ``` r
@@ -55,11 +56,11 @@ bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
 <img src="tools/readme/rstudio-pin-performance-1.png" style="display: block; margin: auto;" />
 
 Also, if you find yourself using `download.file()` or asking others to
-download files before running your R code, `pin()` gives you a simpler
-and reliable way to do reproducible research with remote resources.
+download files before running your R code, use `pin()` to achieve fast,
+simple and reliable reproducible research over remote resources.
 
-You can also cache intermediate results to avoid having to recompute
-expensive operations:
+You can also use pins to cache intermediate results to avoid having to
+recompute expensive operations:
 
 ``` r
 retail_sales %>%
@@ -84,37 +85,38 @@ retail_sales %>%
     ## 11 Nov   7438702
     ## 12 Dec   8656874
 
-You can also **discover** remote resources using `pin_find()` which can
-search CRAN packages and Kaggle. Kaggle requires to configure it by
-running once `board_register("kaggle", token =
-"<path-to-kaggle.json>")`. Then we can search resources mentioning
-“seattle” in CRAN packages and Kaggle with ease:
+The `pins` package allows you to **discover** remote resources using
+`pin_find()`, currently, it can search resources in CRAN packages,
+Kaggle and RStudio Connect. Kaggle requires to configure it by running
+once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then
+we can search resources mentioning “seattle” in CRAN packages and Kaggle
+with ease:
 
 ``` r
 pin_find("seattle")
 ```
 
-    ## # A tibble: 24 x 4
-    ##    name                     description                        type  board 
-    ##    <fct>                    <fct>                              <fct> <chr> 
-    ##  1 hpiR/seattle_sales       Seattle Home Sales from hpiR pack… table packa…
-    ##  2 microsynth/seattledmi    Data for a crime intervention in … table packa…
-    ##  3 vegawidget/data_seattle… Example dataset: Seattle daily we… table packa…
-    ##  4 vegawidget/data_seattle… Example dataset: Seattle hourly t… table packa…
-    ##  5 airbnb/seattle           Seattle Airbnb Open Data           files kaggle
-    ##  6 aaronschlegel/seattle-p… Seattle Pet Licenses               files kaggle
-    ##  7 shanelev/seattle-airbnb… Seattle Airbnb Listings            files kaggle
-    ##  8 seattle-public-library/… Seattle Library Checkout Records   files kaggle
-    ##  9 rtatman/did-it-rain-in-… Did it rain in Seattle? (1948-201… files kaggle
-    ## 10 city-of-seattle/seattle… Seattle Checkouts by Title         files kaggle
-    ## # … with 14 more rows
+    ## # A tibble: 23 x 4
+    ##    name                      description                       type  board 
+    ##    <chr>                     <chr>                             <chr> <chr> 
+    ##  1 hpiR/seattle_sales        Seattle Home Sales from hpiR pac… table packa…
+    ##  2 microsynth/seattledmi     Data for a crime intervention in… table packa…
+    ##  3 vegawidget/data_seattle_… Example dataset: Seattle daily w… table packa…
+    ##  4 vegawidget/data_seattle_… Example dataset: Seattle hourly … table packa…
+    ##  5 airbnb/seattle            Seattle Airbnb Open Data          files kaggle
+    ##  6 aaronschlegel/seattle-pe… Seattle Pet Licenses              files kaggle
+    ##  7 city-of-seattle/seattle-… Seattle Crisis Data               files kaggle
+    ##  8 shanelev/seattle-airbnb-… Seattle Airbnb Listings           files kaggle
+    ##  9 city-of-seattle/seattle-… Seattle Library Collection Inven… files kaggle
+    ## 10 city-of-seattle/seattle-… Seattle Road Weather Information… files kaggle
+    ## # … with 13 more rows
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
 `<owner>` is not provided, each board will assign an appropriate one.
 While you can ignore `<owner>` and reference pins by `<name>`, this can
 fail in some boards if different owners assign the same name to a pin.
 
-You can then retrieve a pin as a local path through `pin_get()`,
+You can then retrieve a pin as a local path through `pin_get()`:
 
 ``` r
 pin_get("hpiR/seattle_sales")
@@ -149,7 +151,6 @@ And use all the functionality available in `pins` from Python as well:
 
 ``` python
 import pins
-
 pins.pin_get("hpiR/seattle_sales")
 ```
 
@@ -203,25 +204,15 @@ Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
 further and then pin our results in RStudio Connect.
 
 ``` r
-board_register("rstudio")
+board_register("rsconnect")
 ```
 
 ``` r
 pin_get("hpiR/seattle_sales") %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
-  pin("sales-by-baths", board = "rstudio")
+  pin("sales-by-baths", board = "rsconnect")
 ```
-
-    ## Preparing to deploy data...DONE
-    ## Uploading bundle for data: 5308...DONE
-    ## Deploying bundle: 12783 for data: 5308 ...
-
-    ## Building static content...
-
-    ## Launching static content...
-
-    ## Data successfully deployed to https://beta.rstudioconnect.com/content/5308/
 
     ## # A tibble: 8 x 2
     ##   baths    sale
