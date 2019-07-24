@@ -156,8 +156,6 @@ board_pin_create.kaggle <- function(board, path, name, description, type, metada
     Sys.sleep(1)
     retries <- retries - 1
   }
-
-  pin_get(qualified_name, board$name)
 }
 
 board_pin_search_kaggle <- function(text = NULL) {

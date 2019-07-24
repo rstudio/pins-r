@@ -92,7 +92,11 @@ board_info.default = function(board) NULL
 #' @rdname custom-boards
 #' @keywords internal
 board_pin_store <- function(board, path, name, description, type, metadata, ...) {
+  if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))
+
   metadata <- as.character(jsonlite::toJSON(metadata, auto_unbox = TRUE))
 
   board_pin_create(board, path, name, description, type, metadata, ...)
+
+  pin_get(name, board$name)
 }

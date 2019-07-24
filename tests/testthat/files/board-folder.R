@@ -8,7 +8,6 @@ board_pin_create.folder <- function(board, path, name, description, type, metada
 
   dir.create(folder)
   file.copy(dir(path, recursive = TRUE, full.names = TRUE), folder)
-  pin_get(name, board = board$name)
 }
 
 board_pin_get.folder <- function(board, name) {

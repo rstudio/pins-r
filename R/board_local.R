@@ -17,7 +17,6 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
   on.exit(board_connect(board$name))
   extension <- guess_extension_from_path(path)
 
-  if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))
   must_cache <- identical(list(...)$cache, FALSE)
 
   old_pin <- tryCatch(board_yaml_pin_retrieve(name, "local"), error = function(e) NULL)
@@ -74,7 +73,7 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
 
   if (is.null(local_path) || !file.exists(local_path)) {
     if (!is.null(local_path)) report_error("File does not exist: ", local_path)
-    return(board_pin_get(board, name))
+    return()
   }
 
   board_yaml_pin_remove(name, component = "local", TRUE)
@@ -91,8 +90,6 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
   else {
     file.copy(local_path, final_path)
   }
-
-  pin_get(name, board$name)
 }
 
 board_pin_find.local <- function(board, text, ...) {

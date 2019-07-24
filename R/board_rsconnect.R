@@ -124,8 +124,6 @@ board_pin_create.rsconnect <- function(board, path, name, description, type, met
       stop("Failed to activate pin: ", result$error)
     }
   }
-
-  pin_get(name, board$name)
 }
 
 board_pin_find.rsconnect <- function(board, text, ...) {
