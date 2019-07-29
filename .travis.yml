@@ -2,13 +2,17 @@ sudo: false
 
 matrix:
   include:
-    - language: r
+    - name: "R"
+      language: r
       warnings_are_errors: true
       cache:
         packages: true
-    - language: python
-      install:
+    - name: "Python"
+      language: r
+      before_install:
         - pip install -e python/. --user
+      script:
+        - pytest python/pins/tests/test.py
 
 os:
   - linux
