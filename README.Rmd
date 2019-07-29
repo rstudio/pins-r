@@ -86,9 +86,15 @@ Finally, you can also **share** resources with others by publishing to particula
 pin(iris, board = "kaggle")
 ```
 
-And use all the functionality available in `pins` from Python as well:
+And use all the functionality available in `pins` from Python as well, install from GitHub:
 
-```{python eval=FALSE}
+```{bash eval=FALSE}
+pip install git+https://github.com/rstudio/pins#subdirectory=python
+```
+
+Followed by using `pins` from Python:
+
+```{python}
 import pins
 pins.pin_get("hpiR/seattle_sales")
 ```
