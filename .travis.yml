@@ -1,11 +1,14 @@
 sudo: false
 
-language: r
-
-warnings_are_errors: true
+matrix:
+  include:
+    - language: r
+      warnings_are_errors: true
+      cache:
+        packages: true
+    - language: python
+      install:
+        - pip install -e python/. --user
 
 os:
   - linux
-
-cache:
-  packages: true
