@@ -16,6 +16,10 @@ github_auth <- function(board) {
     Sys.getenv("GITHUB_PAT")
 }
 
+github_headers <- function(board) {
+  httr::add_headers(Authorization = paste("token", pins:::github_auth(board)))
+}
+
 board_initialize.github <- function(board, token = NULL, repo = NULL, overwrite = FALSE, ...) {
   if (!github_authenticated(board)) {
     if (is.null(token)) {
@@ -55,8 +59,25 @@ board_pin_find.github <- function(board, text, ...) {
   )
 }
 
+github_url <- function(board, ...) {
+  paste0("https://api.github.com/repos/", board$repo, paste0(..., collapse = ""))
+}
+
 board_pin_get.github <- function(board, name) {
-  ""
+  result <- httr::GET(github_url(board, "/contents/", name),
+            github_headers(board))
+
+  index <- httr::content(result)
+
+  if (httr::status_code(result) != 200)
+    stop("Failed to retrieve pins.yml from ", board$repo, ": ", index$message)
+
+  temp_path <- tempfile()
+  dir.create(temp_path)
+  httr::GET(index$download_url, httr::write_disk(file.path(temp_path, basename(name))))
+
+  attr(temp_path, "pin_type") <- "files"
+  temp_path
 }
 
 board_pin_remove.github <- function(board, name) {
