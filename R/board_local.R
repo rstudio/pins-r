@@ -35,6 +35,8 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
   if (grepl("^http", path)) {
     error <- NULL
 
+    pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", metadata$change_age, ", ", metadata$max_age)
+
     # skip downloading if max-age still valid
     if (as.numeric(Sys.time()) >= metadata$change_age + metadata$max_age || must_cache) {
       head_result <- httr::HEAD(path, httr::timeout(5))
@@ -43,6 +45,8 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
 
       status <- tryCatch(httr::status_code(head_result), error = function(e) e$message)
       metadata$change_age <- as.numeric(Sys.time())
+
+      pin_log("Checking 'etag' (old, new): ", old_metadata$etag, ", ", metadata$etag)
 
       # skip downloading if etag has not changed
       if (is.null(old_metadata) || is.null(old_metadata$etag) || !identical(old_metadata$etag, metadata$etag) || must_cache) {
@@ -56,6 +60,7 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
           local_path <- tempfile()
           dir.create(local_path)
 
+          pin_log("Downloading: ", path)
           httr::GET(path, httr::write_disk(file.path(local_path, paste0("data", pin_file_extension(path))), overwrite = TRUE))
           on.exit(unlink(local_path))
         }
