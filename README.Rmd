@@ -94,6 +94,10 @@ pip install git+https://github.com/rstudio/pins#subdirectory=python
 
 Followed by using `pins` from Python:
 
+```{python echo=FALSE}
+import pandas as pd
+pd.set_option('display.max_rows', 10)
+```
 ```{python}
 import pins
 pins.pin_get("hpiR/seattle_sales")
