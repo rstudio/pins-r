@@ -147,12 +147,34 @@ particular to Kaggle, GitHub and RStudio Connect. We can easily publish
 pin(iris, board = "kaggle")
 ```
 
-And use all the functionality available in `pins` from Python as well:
+And use all the functionality available in `pins` from Python as well,
+install from GitHub:
+
+``` bash
+pip install git+https://github.com/rstudio/pins#subdirectory=python
+```
+
+Followed by using `pins` from Python:
 
 ``` python
 import pins
 pins.pin_get("hpiR/seattle_sales")
 ```
+
+    ##                pinx      sale_id  sale_price  ... eff_age   longitude   latitude
+    ## 0      ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
+    ## 1      ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
+    ## 2      ..0001800075  2010..24221      333500  ...      80 -122.311654  47.561470
+    ## 3      ..0001800075   2016..6629      577200  ...      86 -122.311654  47.561470
+    ## 4      ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
+    ## ...             ...          ...         ...  ...     ...         ...        ...
+    ## 43308  ..9904000025  2013..24831      276000  ...      85 -122.302228  47.714377
+    ## 43309  ..9904000063  2016..29821      340000  ...      79 -122.303135  47.715209
+    ## 43310  ..9906000030   2013..6620     1250000  ...       7 -122.356487  47.656115
+    ## 43311  ..9906000035   2011..5655      447000  ...      83 -122.356649  47.656114
+    ## 43312  ..9906000090  2010..17848      422500  ...      63 -122.357895  47.656112
+    ## 
+    ## [43313 rows x 16 columns]
 
 There are other boards you can use or even create custom boards as
 described in the [Understanding
