@@ -68,17 +68,24 @@ board_pin_create.rsconnect <- function(board, path, name, description, type, met
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
   }
   else {
-    content <- rsconnect_api_post(board,
-                                paste0("/__api__/v1/experimental/content"),
-                                list(
-                                  app_mode = "static",
-                                  content_category = "data",
-                                  name = name,
-                                  description = description
-                                ))
+    existing <- rsconnect_get_by_name(board, name)
+    if (nrow(existing) == 0) {
+      content <- rsconnect_api_post(board,
+                                  paste0("/__api__/v1/experimental/content"),
+                                  list(
+                                    app_mode = "static",
+                                    content_category = "data",
+                                    name = name,
+                                    description = description
+                                  ))
+      if (!is.null(content$error)) {
+        stop("Failed to create pin: ", content$error)
+      }
 
-    if (!is.null(content$error)) {
-      stop("Failed to create pin: ", content$error)
+      guid <- content$guid
+    }
+    else {
+      guid <- existing$guid
     }
 
     files <- lapply(dir(temp_dir, recursive = TRUE, full.names = TRUE), function(path) {
@@ -107,7 +114,7 @@ board_pin_create.rsconnect <- function(board, path, name, description, type, met
     bundle <- rsconnect_bundle_compress(temp_dir, manifest)
 
     upload <- rsconnect_api_post(board,
-                                 paste0("/__api__/v1/experimental/content/", content$guid, "/upload"),
+                                 paste0("/__api__/v1/experimental/content/", guid, "/upload"),
                                  httr::upload_file(normalizePath(bundle)))
 
     if (!is.null(upload$error)) {
@@ -115,7 +122,7 @@ board_pin_create.rsconnect <- function(board, path, name, description, type, met
     }
 
     result <- rsconnect_api_post(board,
-                                 paste0("/__api__/v1/experimental/content/", content$guid, "/deploy"),
+                                 paste0("/__api__/v1/experimental/content/", guid, "/deploy"),
                                  list(
                                    bundle_id = upload$bundle_id
                                  ))
@@ -169,7 +176,7 @@ board_pin_find.rsconnect <- function(board, text, ...) {
 }
 
 rsconnect_get_by_name <- function(board, name) {
-  name_pattern <- if (grepl("/", name)) name else paste0(".*/", name)
+  name_pattern <- if (grepl("/", name)) name else paste0(".*/", name, "$")
   only_name <- pin_content_name(name)
 
   details <- board_pin_find(board, only_name, extended = TRUE)
