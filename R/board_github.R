@@ -51,13 +51,31 @@ board_pin_create.github <- function(board, path, name, description, type, metada
 }
 
 board_pin_find.github <- function(board, text, ...) {
-  data.frame(
-    name = "",
-    description = "",
-    type = "files",
-    metadata = "",
-    stringsAsFactors = FALSE
-  )
+  result <- httr::GET(pins:::github_url(board, "/contents/", board$path),
+                      pins:::github_headers(board))
+
+  if (httr::status_code(result) != 209) {
+    data.frame(
+      name = "",
+      description = "",
+      type = "files",
+      metadata = "",
+      stringsAsFactors = FALSE
+    )
+  }
+  else {
+    folders <- httr::content(result) %>%
+      Filter(function(e) identical(e$type, "dir"), .) %>%
+      sapply(function(e) e$name)
+
+    data.frame(
+      name = folders,
+      description = rep("", length(folders)),
+      type = rep("files", length(folders)),
+      metadata = rep("", length(folders)),
+      stringsAsFactors = FALSE
+    )
+  }
 }
 
 github_url <- function(board, ...) {
