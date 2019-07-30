@@ -20,7 +20,7 @@ github_headers <- function(board) {
   httr::add_headers(Authorization = paste("token", pins:::github_auth(board)))
 }
 
-board_initialize.github <- function(board, token = NULL, repo = NULL, overwrite = FALSE, ...) {
+board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pins", overwrite = FALSE, ...) {
   if (!github_authenticated(board)) {
     if (is.null(token)) {
       stop("GitHub Personal Access Token must be specified with 'token' parameter to initialize board. ",
@@ -34,6 +34,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, overwrite 
 
   board$token <- token
   board$repo <- repo
+  board$path <- path
 
   board
 }
@@ -94,6 +95,7 @@ board_persist.github <- function(board) {
     board = board$board,
     name = board$name,
     token = board$token,
-    repo = board$repo
+    repo = board$repo,
+    path = board$path
   )
 }
