@@ -70,7 +70,7 @@ board_register <- function(board, name = board, ...) {
 
   board_registry_set(name, board)
 
-  if (identical(params$connect, TRUE)) board_connect(name)
+  if (!identical(params$connect, FALSE)) board_connect(name)
 
   invisible(board)
 }
