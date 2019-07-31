@@ -48,7 +48,7 @@ board_pin_create.rsconnect <- function(board, path, name, description, type, met
     readRDS(dir(path, full.names = TRUE)) else path
 
   data_files <- rsconnect_bundle_create(x, temp_dir)
-  pin_manifest_create(temp_dir, type, metadata, data_files)
+  pin_manifest_create(temp_dir, type, description, metadata, data_files)
 
   rsconnect_is_authenticated <- function(board) {
     !is.null(board$key) || !is.null(board$account)

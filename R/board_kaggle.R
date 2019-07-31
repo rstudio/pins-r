@@ -92,14 +92,14 @@ kaggle_create_resource <- function(name, description, token, type) {
   parsed$url
 }
 
-kaggle_create_bundle <- function(path, type, metadata) {
+kaggle_create_bundle <- function(path, type, description, metadata) {
   bundle_path <- tempfile()
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
   file.copy(path, bundle_path)
 
-  pin_manifest_create(bundle_path, type, metadata, dir(bundle_path, recursive = TRUE))
+  pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
 
   bundle_file <- tempfile(fileext = ".zip")
   withr::with_dir(
@@ -139,7 +139,7 @@ board_pin_create.kaggle <- function(board, path, name, description, type, metada
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", gsub("-pin$", "", name), "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
-  temp_bundle <- kaggle_create_bundle(path, type, metadata)
+  temp_bundle <- kaggle_create_bundle(path, type, description, metadata)
   on.exit(unlink(temp_bundle))
 
   token <- kaggle_upload_resource(temp_bundle)

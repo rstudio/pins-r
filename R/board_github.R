@@ -47,6 +47,8 @@ board_pin_create.github <- function(board, path, name, description, type, metada
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
+  pin_manifest_create(path, type, description, metadata, dir(path, recursive = TRUE))
+
   for (file in dir(path)) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
     file_url <- github_url(board, "/contents/", board$path, "/", name, "/", file)
@@ -123,7 +125,10 @@ board_pin_get.github <- function(board, name) {
   }
 
   type <- "files"
-  # TODO: retrieve pin.json manifest
+  result <- httr::GET(file.path(base_url, "pins.json"), github_headers(board))
+  if (httr::status_code(result) == 200) {
+    manifest <- httr::content(result)
+  }
 
   for (file in index) {
     pin_log("retrieving ", file$download_url)
