@@ -41,6 +41,7 @@ pins_connection_ui <- function() {
           .shiny-input-container {
             min-width: 100%;
             margin-bottom: ", elementSpacing, "px;
+            display: table;
           }
 
           .shiny-input-container > .control-label,
@@ -85,6 +86,18 @@ pins_connection_ui <- function() {
             text-align: right;
             margin-right: 14px;
           }
+
+          .shiny-input-container > label {
+            display: table-cell;
+          }
+
+          .shiny-input-container > input[type=\"text\"] {
+            border: 1px solid rgba(0,0,0,0.3);
+            border-radius: 4px;
+            margin-left: 4px;
+            width: 290px;
+            padding: 2px 2px 2px 6px;
+          }
         ", sep = ""))
       )
     ),
@@ -95,11 +108,13 @@ pins_connection_ui <- function() {
         choices = c(
           list(
             local = "local",
-            rsconnect = "rsconnect",
-            kaggle = "kaggle"
+            github = "github",
+            kaggle = "kaggle",
+            rsconnect = "rsconnect"
           )
         ),
-        selectize = FALSE
+        selectize = FALSE,
+        selected = "local"
       ),
       conditionalPanel(
         condition = "input.board == 'rsconnect'",
@@ -123,6 +138,31 @@ pins_connection_ui <- function() {
           tags$a(
             "kaggle.com/me/account",
             href = "https://www.kaggle.com/me/account"
+          ),
+          class = "token-label"
+        )
+      ),
+      conditionalPanel(
+        condition = "input.board == 'github'",
+        textInput(
+          "repo",
+          "Repository:",
+          value = "owner/repo"
+        ),
+        textInput(
+          "path",
+          "Path:",
+          value = "pins"
+        ),
+        textInput(
+          "github",
+          "Token:"
+        ),
+        tags$div(
+          "Retrieve token from",
+          tags$a(
+            "github.com/settings/tokens",
+            href = "https://github.com/settings/tokens"
           ),
           class = "token-label"
         )
@@ -169,6 +209,14 @@ pins_connection_server <- function(input, output, session) {
         rstudioapi::showDialog("Invalid Token", paste("Failed to parse the Kaggle token file:", e$message))
         ""
       })
+    }
+    else if (identical(board, "github") && !identical(input$repo, "owner/repo")) {
+      initializer <- paste0(
+        "pins::board_register(\"github\", ",
+        "repo = \"", input$repo, "\"",
+        ifelse(identical(input$path, "pins"), "", paste0(", path = \"", input$path, "\"")),
+        ifelse(nchar(input$github) == 0, "", paste0(", token = \"", input$github, "\")")),
+        ")\n")
     }
 
     paste(
