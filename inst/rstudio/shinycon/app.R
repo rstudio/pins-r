@@ -156,13 +156,19 @@ pins_connection_server <- function(input, output, session) {
         "server = \"", input$server, "\")\n", sep = "")
     }
     else if (identical(board, "kaggle") && !is.null(input$token)) {
-      contents <- jsonlite::read_json(input$token$datapath)
-      initializer <- paste(
-        "pins::board_register(\"kaggle\", ",
-        "token = list(",
-        paste(names(contents), " = \"", contents, "\"", collapse = ", ", sep = ""),
-        "), overwrite = TRUE)\n",
-        sep = "")
+      initializer <- tryCatch({
+        contents <- jsonlite::read_json(input$token$datapath)
+
+        paste(
+          "pins::board_register(\"kaggle\", ",
+          "token = list(",
+          paste(names(contents), " = \"", contents, "\"", collapse = ", ", sep = ""),
+          "), overwrite = TRUE)\n",
+          sep = "")
+      }, error = function(e) {
+        rstudioapi::showDialog("Invalid Token", paste("Failed to parse the Kaggle token file:", e$message))
+        ""
+      })
     }
 
     paste(
