@@ -51,6 +51,8 @@ board_pin_create.github <- function(board, path, name, description, type, metada
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
     file_url <- github_url(board, "/contents/", board$path, "/", name, "/", file)
 
+    pin_log("uploading ", file_url)
+
     sha <- NULL
     response <- httr::GET(file_url, github_headers(board))
     if (httr::status_code(response) == 200) {
@@ -124,17 +126,49 @@ board_pin_get.github <- function(board, name) {
   # TODO: retrieve pin.json manifest
 
   for (file in index) {
+    pin_log("retrieving ", file$download_url)
+
     temp_path <- tempfile()
     dir.create(temp_path)
-    httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))))
+
+    httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
+              github_headers(board))
   }
 
   attr(temp_path, "pin_type") <- type
   temp_path
 }
 
-board_pin_remove.github <- function(board, name) {
-  stop("NYI")
+board_pin_remove.github <- function(board, name, ...) {
+  base_url <- github_url(board, "/contents/", board$path, "/", name)
+  result <- httr::GET(base_url, github_headers(board))
+
+  index <- httr::content(result)
+
+  if (httr::status_code(result) != 200)
+    stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
+
+  # need to handle case where users passes a full URL to the specific file to download
+  if (!is.null(names(index))) {
+    index <- list(index)
+    base_url <- basename(base_url)
+  }
+
+  for (file in index) {
+    pin_log("deleting ", file$name)
+
+    commit <- if (is.null(list(...)$commit)) paste("delete", file$name) else list(...)$commit
+
+    response <- httr::DELETE(file.path(base_url, file$name), body = list(
+      message = commit,
+      sha = file$sha
+    ), github_headers(board), encode = "json")
+
+    deletion <- httr::content(response)
+
+    if (httr::status_code(response) != 200)
+      stop("Failed to delete ", name, " from ", board$repo, ": ", deletion$message)
+  }
 }
 
 board_info.github <- function(board) {
