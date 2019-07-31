@@ -48,16 +48,26 @@ board_pin_create.github <- function(board, path, name, description, type, metada
   if (!file.exists(path)) stop("File does not exist: ", path)
 
   for (file in dir(path)) {
+    commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
+    file_url <- github_url(board, "/contents/", board$path, "/", name, "/", file)
+
+    sha <- NULL
+    response <- httr::GET(file_url, github_headers(board))
+    if (httr::status_code(response) == 200) {
+      sha <- httr::content(response)$sha
+    }
+
     base64 <- base64enc::base64encode(file.path(path, file))
-    response <- httr::PUT(github_url(board, "/contents/", board$path, "/", name, "/", file),
+    response <- httr::PUT(file_url,
                           body = list(
-                            message = paste("updating", file, "using pins"),
-                            content = base64
+                            message = commit,
+                            content = base64,
+                            sha = sha
                           ),
                           github_headers(board), encode = "json")
     upload <- httr::content(response)
 
-    if (httr::status_code(response) != 201) {
+    if (httr::status_code(response) < 200 || httr::status_code(response) >= 300) {
       stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
     }
   }
