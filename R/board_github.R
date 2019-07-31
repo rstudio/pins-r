@@ -17,7 +17,7 @@ github_auth <- function(board) {
 }
 
 github_headers <- function(board) {
-  httr::add_headers(Authorization = paste("token", pins:::github_auth(board)))
+  httr::add_headers(Authorization = paste("token", github_auth(board)))
 }
 
 board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pins", overwrite = FALSE, ...) {
@@ -47,14 +47,27 @@ board_pin_create.github <- function(board, path, name, description, type, metada
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
-  github_upload_file(board, path)
+  for (file in dir(path)) {
+    base64 <- base64enc::base64encode(file.path(path, file))
+    response <- httr::PUT(github_url(board, "/contents/", board$path, "/", name, "/", file),
+                          body = list(
+                            message = paste("updating", file, "using pins"),
+                            content = base64
+                          ),
+                          github_headers(board), encode = "json")
+    upload <- httr::content(response)
+
+    if (httr::status_code(response) != 201) {
+      stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
+    }
+  }
 }
 
 board_pin_find.github <- function(board, text, ...) {
-  result <- httr::GET(pins:::github_url(board, "/contents/", board$path),
-                      pins:::github_headers(board))
+  result <- httr::GET(github_url(board, "/contents/", board$path),
+                      github_headers(board))
 
-  if (httr::status_code(result) != 209) {
+  if (httr::status_code(result) != 200) {
     data.frame(
       name = "",
       description = "",
@@ -89,7 +102,7 @@ board_pin_get.github <- function(board, name) {
   index <- httr::content(result)
 
   if (httr::status_code(result) != 200)
-    stop("Failed to retrieve pins.yml from ", board$repo, ": ", index$message)
+    stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
 
   temp_path <- tempfile()
   dir.create(temp_path)
