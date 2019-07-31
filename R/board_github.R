@@ -106,19 +106,30 @@ github_url <- function(board, ...) {
 }
 
 board_pin_get.github <- function(board, name) {
-  result <- httr::GET(github_url(board, "/contents/", name),
-            github_headers(board))
+  base_url <- github_url(board, "/contents/", board$path, "/", name)
+  result <- httr::GET(base_url, github_headers(board))
 
   index <- httr::content(result)
 
   if (httr::status_code(result) != 200)
     stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
 
-  temp_path <- tempfile()
-  dir.create(temp_path)
-  httr::GET(index$download_url, httr::write_disk(file.path(temp_path, basename(name))))
+  # need to handle case where users passes a full URL to the specific file to download
+  if (!is.null(names(index))) {
+    index <- list(index)
+    base_url <- basename(base_url)
+  }
 
-  attr(temp_path, "pin_type") <- "files"
+  type <- "files"
+  # TODO: retrieve pin.json manifest
+
+  for (file in index) {
+    temp_path <- tempfile()
+    dir.create(temp_path)
+    httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))))
+  }
+
+  attr(temp_path, "pin_type") <- type
   temp_path
 }
 
