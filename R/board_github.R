@@ -79,10 +79,10 @@ board_pin_find.github <- function(board, text, ...) {
 
   if (httr::status_code(result) != 200) {
     data.frame(
-      name = "",
-      description = "",
-      type = "files",
-      metadata = "",
+      name = character(),
+      description = character(),
+      type = character(),
+      metadata = character(),
       stringsAsFactors = FALSE
     )
   }
