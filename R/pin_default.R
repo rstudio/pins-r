@@ -15,7 +15,10 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin_preview.default <- function(x, board = NULL, ...) {
-  file.path(x, "data.rds")
+  data.frame(
+    files = x,
+    stringsAsFactors = FALSE
+  )
 }
 
 #' @keywords internal
