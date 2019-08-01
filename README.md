@@ -5,7 +5,7 @@ pins: Pin, Discover and Share Resources
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-red.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 You can use the `pins` package from **R**, or **Python**, to:
 
@@ -13,9 +13,10 @@ You can use the `pins` package from **R**, or **Python**, to:
     cache results with ease.
   - **Discover** new resources across different boards using
     `pin_find()`.
-  - **Share** resources with your team, or the world, by registering new
-    boards with `board_register()`.
-  - **Resources** can be shared in Kaggle or RStudio Connect.
+  - **Share** resources in GitHub, Kaggle or RStudio Connect by
+    registering new boards with `board_register()`.
+  - **Resources** can be anything from CSV, JSON or Excel files to image
+    archives.
 
 To start using `pins`, install this package as follows:
 
@@ -140,15 +141,15 @@ pin_get("hpiR/seattle_sales")
     ## #   longitude <dbl>, latitude <dbl>
 
 Finally, you can also **share** resources with others by publishing to
-particular to Kaggle, GitHub and RStudio Connect. We can easily publish
-`iris` to Kaggle as follows:
+Kaggle, GitHub and RStudio Connect. We can easily publish `iris` to
+Kaggle as follows:
 
 ``` r
 pin(iris, board = "kaggle")
 ```
 
-And use all the functionality available in `pins` from Python as well,
-install from GitHub:
+All the functionality available in `pins` can be used from Python as
+well, first install this module:
 
 ``` bash
 pip install git+https://github.com/rstudio/pins#subdirectory=python
