@@ -8,4 +8,4 @@
 ^docs/
 ^pkgdown/
 ^tools/
-^\.travis\.R$
+^\.travis\.yml$

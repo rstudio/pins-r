@@ -11,6 +11,7 @@ matrix:
       language: r
       before_install:
         - pip install -e python/. --user
+        - pip install pandas --user
         - pip install pytest --user
       script:
         - pytest python/pins/tests/test.py

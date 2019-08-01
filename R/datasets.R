@@ -7,7 +7,7 @@
 #'
 #' @usage data(cranfiles)
 #'
-#' @format An object of class \code{"data.frame"}; see \code{\link[qtl]{data.frame}}.
+#' @format An object of class \code{"data.frame"}.
 #' @format A data frame with three variables: \code{package}, \code{dataset},
 #'   and \code{description}.
 #'
