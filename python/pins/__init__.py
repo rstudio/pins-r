@@ -139,15 +139,20 @@ def r_eval(code, environment = None):
 def _init_pins():
     r_start()
     r_eval("""
-        if (!"pins" %in% installed.packages()) {
-            if (!"remotes" %in% installed.packages())
-                install.packages("remotes")
+        if (length(find.package("pins", quiet = TRUE)) == 0) {
+            if (length(find.package("remotes", quiet = TRUE)) == 0) {
+              message("Installing 'remotes' package.")
+              install.packages("remotes")
+            }
 
+            message("Installing 'pins' package.")
             remotes::install_github("rstudio/pins")
         }
         
-        if (!"feather" %in% installed.packages())
+        if (length(find.package("feather", quiet = TRUE)) == 0) {
+          message("Installing 'feather' package.")
           install.packages("feather")
+        }
     """)
     r_eval("library('pins')")
     
