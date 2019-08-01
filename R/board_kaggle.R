@@ -97,7 +97,7 @@ kaggle_create_bundle <- function(path, type, description, metadata) {
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
-  file.copy(path, bundle_path)
+  file.copy(path, bundle_path, recursive = TRUE)
 
   pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
 

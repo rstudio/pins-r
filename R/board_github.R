@@ -47,9 +47,15 @@ board_pin_create.github <- function(board, path, name, description, type, metada
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
-  pin_manifest_create(path, type, description, metadata, dir(path, recursive = TRUE))
+  bundle_path <- tempfile()
+  dir.create(bundle_path)
+  on.exit(unlink(bundle_path, recursive = TRUE))
 
-  for (file in dir(path)) {
+  file.copy(path, bundle_path, recursive = TRUE)
+
+  pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
+
+  for (file in dir(bundle_path, recursive = TRUE)) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
     file_url <- github_url(board, "/contents/", board$path, "/", name, "/", file)
 
@@ -61,7 +67,7 @@ board_pin_create.github <- function(board, path, name, description, type, metada
       sha <- httr::content(response)$sha
     }
 
-    base64 <- base64enc::base64encode(file.path(path, file))
+    base64 <- base64enc::base64encode(file.path(bundle_path, file))
     response <- httr::PUT(file_url,
                           body = list(
                             message = commit,
