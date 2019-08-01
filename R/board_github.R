@@ -125,16 +125,21 @@ board_pin_get.github <- function(board, name) {
   }
 
   type <- "files"
-  result <- httr::GET(file.path(base_url, "pins.json"), github_headers(board))
+  result <- httr::GET(file.path(base_url, "pin.json"), github_headers(board))
   if (httr::status_code(result) == 200) {
-    manifest <- httr::content(result)
+    manifest <- httr::content(result)$content %>%
+      base64enc::base64decode() %>%
+      rawToChar() %>%
+      jsonlite::fromJSON()
+
+    type <- manifest$type
   }
+
+  temp_path <- tempfile()
+  dir.create(temp_path)
 
   for (file in index) {
     pin_log("retrieving ", file$download_url)
-
-    temp_path <- tempfile()
-    dir.create(temp_path)
 
     httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
               github_headers(board))
