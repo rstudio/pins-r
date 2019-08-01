@@ -1,5 +1,5 @@
 test_dependencies <- function() {
-  if (!"testthat" %in% installed.packages()) stop("Package 'testthat' needs to be installed to test boards.")
+  if (!"testthat" %in% utils::installed.packages()) stop("Package 'testthat' needs to be installed to test boards.")
 
   list(
     test_that = get("test_that", envir = asNamespace("testthat")),
@@ -21,7 +21,7 @@ board_test <- function(board, exclude = list()) {
   deps <- test_dependencies()
 
   text_file <- dir(getwd(), recursive = TRUE, pattern = "hello.txt", full.names = TRUE)
-  pin_name <- paste0("afile", round(runif(1, 1, 1000)))
+  pin_name <- paste0("afile", round(stats::runif(1, 1, 1000)))
 
   deps$test_that(paste("can pin() file to", board, "board"), {
     cached_path <- pin(text_file, pin_name, board = board)

@@ -1,3 +1,7 @@
+#' Launch Finder Addin
+#'
+#' Launches the finder addin.
+#'
 #' @keywords internal
 #' @export
 ui_addin_pin_find <- function() {

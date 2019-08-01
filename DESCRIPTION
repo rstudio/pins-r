@@ -7,7 +7,7 @@ Maintainer: The package maintainer <yourself@somewhere.net>
 Description: Pin remote resources into a local cache to work offline 
   and even if the remote source is removed; discover and share
   resources with others in 'GitHub', 'Kaggle' or 'RStudio Connect'.
-License: Apache License 2.0
+License: Apache License 2.0 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
@@ -18,16 +18,14 @@ Imports:
   httr,
   jsonlite,
   magrittr,
-  rstudioapi,
+  openssl,
+  withr,
   yaml,
   zip
 Suggests:
   knitr,
   nomnoml,
-  rmarkdown,
-  rsconnect,
-  testthat,
-  tibble
+  testthat
 VignetteBuilder: knitr
 URL: https://github.com/rstudio/pins
 BugReports: https://github.com/rstudio/pins/issues

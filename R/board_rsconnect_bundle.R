@@ -26,7 +26,7 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir) {
         type = ""
       )
     }),
-    data = head(x, n = max_rows),
+    data = utils::head(x, n = max_rows),
     options = list(
       columns = list( max = 10 ),
       rows = list ( min = 1, total = nrow(x))

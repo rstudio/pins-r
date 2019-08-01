@@ -79,10 +79,10 @@ cran_process_package <- function(package) {
   results <- data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
 
   if (!dir.exists(file.path("packages", package))) {
-    download.packages(package, "packages", repos = "https://cran.rstudio.com/")
+    utils::download.packages(package, "packages", repos = "https://cran.rstudio.com/")
 
     tar <- dir("packages", pattern = "*.tar.gz", full.names = TRUE)[1]
-    untar(tar, exdir = "packages")
+    utils::untar(tar, exdir = "packages")
 
     unlink("packages/*.gz")
   }

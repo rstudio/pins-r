@@ -1,3 +1,7 @@
+#' Launch Connection Addin
+#'
+#' Launches the connection addin.
+#'
 #' @keywords internal
 #' @export
 ui_connection_create <- function() {

@@ -3,3 +3,8 @@
 ^\.httr-oauth$
 ^python$
 ^examples$
+^README\.Rmd$
+^configure\.R$
+^docs/
+^pkgdown/
+^tools/

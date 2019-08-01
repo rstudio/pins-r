@@ -216,7 +216,7 @@ board_pin_get.kaggle <- function(board, name) {
 
   local_path <- tempfile()
   dir.create(local_path)
-  unzip(temp_zip, exdir = local_path)
+  utils::unzip(temp_zip, exdir = local_path)
 
   type <- pin_manifest_get(local_path)$type
 

@@ -42,5 +42,5 @@ pin_load.table <- function(path, ...) {
 #' @keywords internal
 #' @export
 pin_preview.data.frame <- function(x, board = NULL, ...) {
-  head(x, n = getOption("pins.preview", 10^3))
+  utils::head(x, n = getOption("pins.preview", 10^3))
 }

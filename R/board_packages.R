@@ -53,14 +53,14 @@ board_pin_get.packages <- function(board, name) {
 
     if (!dir.exists(packages_path)) dir.create(packages_path, recursive = TRUE)
 
-    download.packages(package_pin$package, packages_path, repos = "https://cran.rstudio.com/")
+    utils::download.packages(package_pin$package, packages_path, repos = "https://cran.rstudio.com/")
 
     tar <- dir(
       packages_path,
       pattern = paste0(package_pin$package, ".*.tar.gz"),
       full.names = TRUE)[1]
 
-    untar(tar, exdir = packages_path)
+    utils::untar(tar, exdir = packages_path)
     unlink(tar)
 
     package_path <- dir(
@@ -84,7 +84,7 @@ get_cranfiles <- function() {
   }
 
   if (is.null(.globals$datasets$cranfiles)) {
-    data(cranfiles, envir = .globals$datasets)
+    utils::data(cranfiles, envir = .globals$datasets)
   }
 
   .globals$datasets$cranfiles
