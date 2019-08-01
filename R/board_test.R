@@ -4,7 +4,8 @@ test_dependencies <- function() {
   list(
     test_that = get("test_that", envir = asNamespace("testthat")),
     expect_true = get("expect_true", envir = asNamespace("testthat")),
-    expect_equal = get("expect_equal", envir = asNamespace("testthat"))
+    expect_equal = get("expect_equal", envir = asNamespace("testthat")),
+    skip = get("skip", envir = asNamespace("testthat"))
   )
 }
 
@@ -54,7 +55,7 @@ board_test <- function(board, exclude = list()) {
   })
 
   deps$test_that(paste("can pin_remove() from", board, "board"), {
-    if ("remove" %in% exclude) skip("This test is in the excluded list")
+    if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 
     result <- pin_remove(pin_name, board = board)
 

@@ -99,8 +99,7 @@ board_pin_find.github <- function(board, text, ...) {
     )
   }
   else {
-    folders <- httr::content(result) %>%
-      Filter(function(e) identical(e$type, "dir"), .) %>%
+    folders <-  Filter(function(e) identical(e$type, "dir"), httr::content(result)) %>%
       sapply(function(e) e$name)
 
     data.frame(

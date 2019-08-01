@@ -84,7 +84,7 @@ get_cranfiles <- function() {
   }
 
   if (is.null(.globals$datasets$cranfiles)) {
-    utils::data(cranfiles, envir = .globals$datasets)
+    utils::data("cranfiles", envir = .globals$datasets)
   }
 
   .globals$datasets$cranfiles
