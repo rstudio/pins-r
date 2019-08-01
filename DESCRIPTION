@@ -18,6 +18,7 @@ Imports:
   httr,
   jsonlite,
   magrittr,
+  rstudioapi,
   yaml,
   zip
 Suggests:
