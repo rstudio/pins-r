@@ -1,5 +1,6 @@
 test_dependencies <- function() {
-  if (!"testthat" %in% utils::installed.packages()) stop("Package 'testthat' needs to be installed to test boards.")
+  if (length(find.package("testthat", quiet = TRUE)) == 0)
+    stop("Package 'testthat' needs to be installed to test boards.")
 
   list(
     test_that = get("test_that", envir = asNamespace("testthat")),
