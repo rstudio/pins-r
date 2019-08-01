@@ -18,6 +18,7 @@ matrix:
         - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
         - pip install pandas --user
         - pip install pytest --user
+        - pip install feather-format --user
         - pip install -e python/. --user
       script:
         - pytest python/pins/tests/test.py
