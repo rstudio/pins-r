@@ -7,6 +7,11 @@ matrix:
       warnings_are_errors: true
       cache:
         packages: true
+      script:
+        - |
+          R CMD build --resave-data .
+          R CMD check --no-build-vignettes --no-manual pins*tar.gz
+
     - name: "Python"
       language: r
       before_install:
