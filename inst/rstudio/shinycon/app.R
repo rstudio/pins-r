@@ -151,8 +151,8 @@ pins_connection_ui <- function() {
         ),
         textInput(
           "path",
-          "Path:",
-          value = "pins"
+          "Path/Branch:",
+          value = "master/pins"
         ),
         textInput(
           "github",
@@ -211,10 +211,15 @@ pins_connection_server <- function(input, output, session) {
       })
     }
     else if (identical(board, "github") && !identical(input$repo, "owner/repo")) {
+      path_parts <- strsplit(input$path, "/")[[1]]
+      branch <- path_parts[1]
+      path <- if (length(path_parts) > 1) paste(path_parts[2:length(path_parts)], sep = "/") else ""
+
       initializer <- paste0(
         "pins::board_register(\"github\", ",
         "repo = \"", input$repo, "\"",
-        ifelse(identical(input$path, "pins"), "", paste0(", path = \"", input$path, "\"")),
+        ifelse(identical(path, "pins"), "", paste0(", path = \"", path, "\"")),
+        ifelse(identical(branch, "master"), "", paste0(", branch = \"", branch, "\"")),
         ifelse(nchar(input$github) == 0, "", paste0(", token = \"", input$github, "\")")),
         ")\n")
     }

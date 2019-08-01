@@ -20,7 +20,7 @@ github_headers <- function(board) {
   httr::add_headers(Authorization = paste("token", github_auth(board)))
 }
 
-board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pins", overwrite = FALSE, ...) {
+board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pins", branch = "master", overwrite = FALSE, ...) {
   if (!github_authenticated(board)) {
     if (is.null(token)) {
       stop("GitHub Personal Access Token must be specified with 'token' parameter to initialize board. ",
@@ -35,6 +35,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pi
   board$token <- token
   board$repo <- repo
   board$path <- path
+  board$branch <- branch
 
   board
 }
@@ -62,7 +63,7 @@ board_pin_create.github <- function(board, path, name, description, type, metada
     pin_log("uploading ", file_url)
 
     sha <- NULL
-    response <- httr::GET(file_url, github_headers(board))
+    response <- httr::GET(paste0(file_url, "?ref=", board$branch), github_headers(board))
     if (httr::status_code(response) == 200) {
       sha <- httr::content(response)$sha
     }
@@ -72,7 +73,8 @@ board_pin_create.github <- function(board, path, name, description, type, metada
                           body = list(
                             message = commit,
                             content = base64,
-                            sha = sha
+                            sha = sha,
+                            branch = board$branch
                           ),
                           github_headers(board), encode = "json")
     upload <- httr::content(response)
@@ -84,7 +86,7 @@ board_pin_create.github <- function(board, path, name, description, type, metada
 }
 
 board_pin_find.github <- function(board, text, ...) {
-  result <- httr::GET(github_url(board, "/contents/", board$path),
+  result <- httr::GET(github_url(board, "/contents/", board$path, "?ref=", board$branch),
                       github_headers(board))
 
   if (httr::status_code(result) != 200) {
@@ -117,7 +119,7 @@ github_url <- function(board, ...) {
 
 board_pin_get.github <- function(board, name) {
   base_url <- github_url(board, "/contents/", board$path, "/", name)
-  result <- httr::GET(base_url, github_headers(board))
+  result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
 
   index <- httr::content(result)
 
@@ -131,7 +133,7 @@ board_pin_get.github <- function(board, name) {
   }
 
   type <- "files"
-  result <- httr::GET(file.path(base_url, "pin.json"), github_headers(board))
+  result <- httr::GET(file.path(base_url, "pin.json?ref=", board$branch), github_headers(board))
   if (httr::status_code(result) == 200) {
     manifest <- httr::content(result)$content %>%
       base64enc::base64decode() %>%
@@ -157,7 +159,7 @@ board_pin_get.github <- function(board, name) {
 
 board_pin_remove.github <- function(board, name, ...) {
   base_url <- github_url(board, "/contents/", board$path, "/", name)
-  result <- httr::GET(base_url, github_headers(board))
+  result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
 
   index <- httr::content(result)
 
@@ -175,7 +177,7 @@ board_pin_remove.github <- function(board, name, ...) {
 
     commit <- if (is.null(list(...)$commit)) paste("delete", file$name) else list(...)$commit
 
-    response <- httr::DELETE(file.path(base_url, file$name), body = list(
+    response <- httr::DELETE(paste0(file.path(base_url, file$name), "?ref=", board$branch), body = list(
       message = commit,
       sha = file$sha
     ), github_headers(board), encode = "json")
@@ -198,6 +200,7 @@ board_persist.github <- function(board) {
     name = board$name,
     token = board$token,
     repo = board$repo,
+    branch = board$branch,
     path = board$path
   )
 }
