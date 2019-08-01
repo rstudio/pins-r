@@ -23,6 +23,7 @@ matrix:
         - pip install feather-format --user
         - pip install -e python/. --user
       script:
+        - R CMD build .
         - pytest python/pins/tests/test.py
 
 os:
