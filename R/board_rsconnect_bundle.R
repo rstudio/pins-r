@@ -5,7 +5,7 @@ rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   writeLines(html_index, html_file)
 }
 
-rsconnect_bundle_create.data.frame <- function(x, temp_dir) {
+rsconnect_bundle_create.data.frame <- function(x, temp_dir, name) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
@@ -33,50 +33,54 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir) {
     )
   )
 
+  rsconnect_bundle_template_html(temp_dir, "file_name", "")
   rsconnect_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
+  rsconnect_bundle_template_html(temp_dir, "pin_name", name)
 
   "data.rds"
 }
 
-rsconnect_bundle_create.default <- function(x, temp_dir) {
+rsconnect_bundle_create.default <- function(x, temp_dir, name) {
   html_file <- file.path(temp_dir, "index.html")
-
-  file.copy(
-    dir(system.file("views/files", package = "pins"), full.names = TRUE),
-    temp_dir,
-    recursive = TRUE)
 
   saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
 
   files <- dir(temp_dir, recursive = TRUE)
   files <- files[!grepl("index\\.html", files)]
 
+  file.copy(
+    dir(system.file("views/data", package = "pins"), full.names = TRUE),
+    temp_dir,
+    recursive = TRUE)
+
   rsconnect_bundle_template_html(temp_dir, "file_name", paste(files, collapse = "\n"))
+  rsconnect_bundle_template_html(temp_dir, "pin_name", name)
 
   "data.rds"
 }
 
-rsconnect_bundle_create.character <- function(x, temp_dir) {
+rsconnect_bundle_create.character <- function(x, temp_dir, name) {
   file.copy(x, temp_dir, recursive = TRUE)
 
   data_files <- dir(temp_dir, recursive = TRUE)
 
   html_file <- file.path(temp_dir, "index.html")
 
-  file.copy(
-    dir(system.file("views/files", package = "pins"), full.names = TRUE),
-    temp_dir,
-    recursive = TRUE)
-
   files <- dir(temp_dir, recursive = TRUE)
   files <- files[!grepl("index\\.html", files)]
 
+  file.copy(
+    dir(system.file("views/data", package = "pins"), full.names = TRUE),
+    temp_dir,
+    recursive = TRUE)
+
   rsconnect_bundle_template_html(temp_dir, "file_name", files)
+  rsconnect_bundle_template_html(temp_dir, "pin_name", name)
 
   data_files
 }
 
-rsconnect_bundle_create <- function(x, temp_dir) {
+rsconnect_bundle_create <- function(x, temp_dir, name) {
   UseMethod("rsconnect_bundle_create")
 }
 

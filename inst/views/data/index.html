@@ -3,9 +3,25 @@
   <head>
     <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
     <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
+    <link rel="stylesheet" href="highlight.js-9.15.9/qtcreator_light.css">
+    <script src="highlight.js-9.15.9/highlight.js"></script>
   </head>
-  <body>
-    <div data-pagedtable style="height: 100%;">
+  <body style="display: flex; flex-direction: column;">
+    <a href="{{file_name}}">{{file_name}}</a>
+    <pre>
+      <code class="r">
+# Register RStudio Connect
+pins::board_register("rsconnect")
+
+# Retrieve pin
+pins::pin_get("{{pin_name}}", board = "rsconnect")
+      </code>
+    </pre>
+    <script type="text/javascript">
+      hljs.registerLanguage("beancount", highlight_r);
+      hljs.initHighlightingOnLoad();
+    </script>
+    <div data-pagedtable style="flex-grow: 1">
       <script data-pagedtable-source type="application/json">
         {{data_preview}}
       </script>
