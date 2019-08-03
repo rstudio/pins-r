@@ -9,3 +9,4 @@
 ^pkgdown/
 ^tools/
 ^\.travis\.yml$
+^packages/

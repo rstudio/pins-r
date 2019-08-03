@@ -155,6 +155,8 @@ cran_find_resources <- function(sc,
 }
 
 cran_find_local <- function(samples = 2) {
+  pkgnames <- available.packages()[,1]
+
   cran_process_packages(pkgnames[1:samples])
 }
 
