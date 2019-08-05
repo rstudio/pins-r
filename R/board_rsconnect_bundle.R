@@ -16,9 +16,12 @@ rsconnect_bundle_files_html <- function(files) {
 
 rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account_name) {
   rds_file <- file.path(temp_dir, "data.rds")
-  csv_file <- file.path(temp_dir, "data.csv")
+
+  csv_name <- paste(tools::file_path_sans_ext(name), "csv", sep =".")
+  csv_file <- file.path(temp_dir, csv_name)
 
   saveRDS(x, rds_file, version = 2)
+  write.csv(x, csv_file, row.names = FALSE)
 
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
@@ -42,7 +45,7 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
     )
   )
 
-  rsconnect_bundle_template_html(temp_dir, "files_html", "")
+  rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(csv_name))
   rsconnect_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
