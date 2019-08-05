@@ -5,6 +5,15 @@ rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   writeLines(html_index, html_file)
 }
 
+rsconnect_bundle_files_html <- function(files) {
+  html <- ""
+  for (file in files) {
+    html <- paste0(html, "<a href=\"", file, "\">", file, "</a> ")
+  }
+
+  html
+}
+
 rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account_name) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
@@ -33,7 +42,7 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
     )
   )
 
-  rsconnect_bundle_template_html(temp_dir, "file_name", "")
+  rsconnect_bundle_template_html(temp_dir, "files_html", "")
   rsconnect_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
@@ -55,7 +64,7 @@ rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_na
     temp_dir,
     recursive = TRUE)
 
-  rsconnect_bundle_template_html(temp_dir, "file_name", paste(files, collapse = "\n"))
+  rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
   rsconnect_bundle_template_html(temp_dir, "account_name", account_name)
@@ -78,7 +87,7 @@ rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_
     temp_dir,
     recursive = TRUE)
 
-  rsconnect_bundle_template_html(temp_dir, "file_name", files)
+  rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
   rsconnect_bundle_template_html(temp_dir, "account_name", account_name)

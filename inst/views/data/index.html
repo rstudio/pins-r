@@ -15,7 +15,7 @@
         padding: 4px;
         padding-left: 10px;
       }
-      .pin-code { margin: 0; }
+      .pin-code { margin: 0 0 -10px 0; }
       .pin-code code {
         border-left: solid 6px #75aadb;
         padding-left: 10px;
@@ -24,12 +24,14 @@
         border-left: solid 6px #75aadb;
         padding-left: 10px;
         flex-grow: 1;
+        display: flex;
+        margin-bottom: 20px;
       }
     </style>
   </head>
   <body>
     <div class="pin-download">
-      Files: <a href="{{file_name}}">{{file_name}}</a>
+      Resources: {{files_html}}
     </div>
     <pre class="pin-code">
       <code class="r">
@@ -44,10 +46,12 @@ pins::pin_get("{{account_name}}/{{pin_name}}", board = "rsconnect")
       hljs.registerLanguage("beancount", highlight_r);
       hljs.initHighlightingOnLoad();
     </script>
-    <div data-pagedtable class="pin-preview">
-      <script data-pagedtable-source type="application/json">
-        {{data_preview}}
-      </script>
+    <div class="pin-preview">
+      <div data-pagedtable style="flex-grow: 1; margin-bottom: 2px;">
+        <script data-pagedtable-source type="application/json">
+          {{data_preview}}
+        </script>
+      </div>
     </div>
   </body>
 </html>
