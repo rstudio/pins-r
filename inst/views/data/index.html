@@ -5,10 +5,33 @@
     <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
     <link rel="stylesheet" href="highlight.js-9.15.9/qtcreator_light.css">
     <script src="highlight.js-9.15.9/highlight.js"></script>
+    <style>
+      body {
+         display: flex;
+         flex-direction: column;
+      }
+      .pin-download {
+        border-left: solid 6px #75aadb;
+        padding: 4px;
+        padding-left: 10px;
+      }
+      .pin-code { margin: 0; }
+      .pin-code code {
+        border-left: solid 6px #75aadb;
+        padding-left: 10px;
+      }
+      .pin-preview {
+        border-left: solid 6px #75aadb;
+        padding-left: 10px;
+        flex-grow: 1;
+      }
+    </style>
   </head>
-  <body style="display: flex; flex-direction: column;">
-    <a href="{{file_name}}">{{file_name}}</a>
-    <pre>
+  <body>
+    <div class="pin-download">
+      Files: <a href="{{file_name}}">{{file_name}}</a>
+    </div>
+    <pre class="pin-code">
       <code class="r">
 # Register RStudio Connect
 pins::board_register("rsconnect", server = "{{server_name}}")
@@ -21,7 +44,7 @@ pins::pin_get("{{account_name}}/{{pin_name}}", board = "rsconnect")
       hljs.registerLanguage("beancount", highlight_r);
       hljs.initHighlightingOnLoad();
     </script>
-    <div data-pagedtable style="flex-grow: 1">
+    <div data-pagedtable class="pin-preview">
       <script data-pagedtable-source type="application/json">
         {{data_preview}}
       </script>
