@@ -10,48 +10,99 @@
          display: flex;
          flex-direction: column;
       }
-      .pin-download {
-        border-left: solid 6px #75aadb;
-        padding: 4px;
-        padding-left: 10px;
+      .pin-section {
+        border-left: solid 6px #dddddd;
+        padding: 4px 4px 4px 10px;
       }
-      .pin-code { margin: 0 0 -10px 0; }
-      .pin-code code {
-        border-left: solid 6px #75aadb;
-        padding-left: 10px;
-      }
+      .pin-download { margin-bottom: 4px; }
+      .pin-code { margin: -10px 0 -40px 0; }
       .pin-preview {
-        border-left: solid 6px #75aadb;
-        padding-left: 10px;
         flex-grow: 1;
         display: flex;
-        margin-bottom: 20px;
+      }
+      .pin-toggle {
+        display: inline;
+        padding-left: 6px;
+      }
+      .pin-toggle > div {
+        position: relative;
+        display: table-cell;
+        padding: 6px 12px 6px 12px;
+        color: #888;
+        cursor: pointer;
+      }
+      .pin-toggle > div.pin-selected {
+        color: #FFF;
+        background: #75aadb;
+        border-radius: 4px;
+      }
+      h3 {
+        font-weight: normal;
+        color: #888;
+        margin: 2px 0 6px 0;
       }
     </style>
   </head>
   <body>
-    <div class="pin-download">
-      Resources: {{files_html}}
-    </div>
-    <pre class="pin-code">
-      <code class="r">
-# Register RStudio Connect
-pins::board_register("rsconnect", server = "{{server_name}}")
-
-# Retrieve Pin
-pins::pin_get("{{account_name}}/{{pin_name}}", board = "rsconnect")
-      </code>
-    </pre>
-    <script type="text/javascript">
-      hljs.registerLanguage("beancount", highlight_r);
-      hljs.initHighlightingOnLoad();
-    </script>
-    <div class="pin-preview">
-      <div data-pagedtable style="flex-grow: 1; margin-bottom: 2px;">
-        <script data-pagedtable-source type="application/json">
-          {{data_preview}}
-        </script>
+    <div class="pin-section">
+      <h3>Download Pin</h3>
+      <div class="pin-download">
+        {{files_html}}
       </div>
     </div>
+    <br>
+    <script type="text/javascript">
+      function pin_code_toggle(show, hide) {
+        document.getElementById(hide).style.display = "none";
+        document.getElementById(show).style.display = "block";
+        document.getElementById(hide + "-btn").className = "pin-toggle";
+        document.getElementById(show + "-btn").className = "pin-toggle pin-selected";
+      }
+    </script>
+    <div class="pin-section">
+      <h3 style="display: inline-block">
+        Code to use Pin from
+        <div class="pin-toggle">
+          <div id="pin-r-btn" class="pin-toggle pin-selected" onclick="pin_code_toggle('pin-r','pin-python')">R</div>
+          <div id="pin-python-btn" class="pin-toggle" onclick="pin_code_toggle('pin-python','pin-r')">Python</div>
+        </div>
+      </h3>
+      <pre id="pin-r" class="pin-code">
+        <code class="r"># Register RStudio Connect
+library(pins)
+board_register("rsconnect", server = "{{server_name}}")
+
+# Retrieve Pin
+pin_get("{{account_name}}/{{pin_name}}", board = "rsconnect")
+        </code>
+      </pre>
+      <pre id="pin-python" class="pin-code" style="display: none">
+        <code class="python"># Register RStudio Connect
+import pins
+pins.board_register("rsconnect", server = "{{server_name}}")
+
+# Retrieve Pin
+pins.pin_get("{{account_name}}/{{pin_name}}", board = "rsconnect")
+        </code>
+      </pre>
+    </div>
+    <script type="text/javascript">
+      hljs.registerLanguage("r", highlight_r);
+      hljs.registerLanguage("python", highlight_python);
+
+      hljs.initHighlightingOnLoad();
+    </script>
+    <br>
+    <div class="pin-section" style="display: flex; flex-grow: 1; flex-direction: column;">
+      <h3>Preview Pin</h3>
+      <div class="pin-preview">
+        <div data-pagedtable style="flex-grow: 1; margin-bottom: 2px;">
+          <script data-pagedtable-source type="application/json">
+            {{data_preview}}
+          </script>
+        </div>
+      </div>
+    </div>
+    <div style="height: 8px;"></div>
   </body>
 </html>
