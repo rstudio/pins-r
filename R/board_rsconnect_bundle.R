@@ -5,7 +5,7 @@ rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   writeLines(html_index, html_file)
 }
 
-rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board) {
+rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account_name) {
   rds_file <- file.path(temp_dir, "data.rds")
   csv_file <- file.path(temp_dir, "data.csv")
 
@@ -37,11 +37,12 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board) {
   rsconnect_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
+  rsconnect_bundle_template_html(temp_dir, "account_name", account_name)
 
   "data.rds"
 }
 
-rsconnect_bundle_create.default <- function(x, temp_dir, name, board) {
+rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_name) {
   html_file <- file.path(temp_dir, "index.html")
 
   saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
@@ -57,11 +58,12 @@ rsconnect_bundle_create.default <- function(x, temp_dir, name, board) {
   rsconnect_bundle_template_html(temp_dir, "file_name", paste(files, collapse = "\n"))
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
+  rsconnect_bundle_template_html(temp_dir, "account_name", account_name)
 
   "data.rds"
 }
 
-rsconnect_bundle_create.character <- function(x, temp_dir, name, board) {
+rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_name) {
   file.copy(x, temp_dir, recursive = TRUE)
 
   data_files <- dir(temp_dir, recursive = TRUE)
@@ -79,11 +81,12 @@ rsconnect_bundle_create.character <- function(x, temp_dir, name, board) {
   rsconnect_bundle_template_html(temp_dir, "file_name", files)
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
+  rsconnect_bundle_template_html(temp_dir, "account_name", account_name)
 
   data_files
 }
 
-rsconnect_bundle_create <- function(x, temp_dir, name, board) {
+rsconnect_bundle_create <- function(x, temp_dir, name, board, account_name) {
   UseMethod("rsconnect_bundle_create")
 }
 
