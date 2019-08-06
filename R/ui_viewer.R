@@ -14,6 +14,25 @@ ui_viewer_register <- function(board) {
 
   icons <- system.file(file.path("icons"), package = "pins")
 
+  actions <- list(
+    "Browse" = list(
+      icon = file.path(icons, "browse.png"),
+      callback = function() {
+        board_browse(board)
+      }
+    ),
+    "Help" = list(
+      icon = file.path(icons, "help.png"),
+      callback = function() {
+        utils::browseURL("https://rstudio.github.io/pins/")
+      }
+    )
+  )
+
+  if (identical(class(board), "local")) {
+    actions[["Browse"]] <- NULL
+  }
+
   observer$connectionOpened(
     # connection type
     type = "Pins",
@@ -82,14 +101,7 @@ ui_viewer_register <- function(board) {
     },
 
     # other actions that can be executed on this connection
-    actions = list(
-      "Help" = list(
-        icon = file.path(icons, "help.png"),
-        callback = function() {
-          utils::browseURL("https://rstudio.github.io/pins/")
-        }
-      )
-    ),
+    actions = actions,
 
     # raw connection object
     connectionObject = list(name = board)

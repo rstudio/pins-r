@@ -100,3 +100,12 @@ board_pin_store <- function(board, path, name, description, type, metadata, ...)
 
   pin_get(name, board$name)
 }
+
+#' @export
+#' @rdname custom-boards
+#' @keywords internal
+board_browse <- function(board) {
+  UseMethod("board_browse")
+}
+
+board_browse.default <- function(board) { invisible(NULL) }

@@ -203,3 +203,7 @@ board_persist.github <- function(board) {
     path = board$path
   )
 }
+
+board_browse.github <- function(board) {
+  utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
+}

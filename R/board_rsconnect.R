@@ -234,3 +234,7 @@ board_pin_remove.rsconnect <- function(board, name) {
 
 board_info.rsconnect <- function(board) {
 }
+
+board_browse.rsconnect <- function(board) {
+  utils::browseURL(paste0("http://", board$server))
+}

@@ -17,6 +17,7 @@ kaggle_auth_info <- function() {
   jsonlite::read_json(kaggle_auth_paths())
 }
 
+
 kaggle_auth <- function() {
   kaggle_keys <- kaggle_auth_info()
 
@@ -236,3 +237,8 @@ board_info.kaggle <- function(board) {
   list(
   )
 }
+
+board_browse.kaggle <- function(board) {
+  utils::browseURL("https://www.kaggle.com/datasets?tab=my")
+}
+
