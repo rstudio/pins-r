@@ -86,10 +86,11 @@ Finally, you can also **share** resources with others by publishing to Kaggle, G
 board_register("kaggle", token = "<path-to-kaggle.json>")
 ```
 
-You can then easily publish to Kaggle `iris`, or any other resource:
+You can then easily publish to Kaggle:
 
 ```{r eval=FALSE}
-pin(iris, board = "kaggle")
+pin_get("hpiR/seattle_sales") %>%
+  pin(name = "seattle_sales", board = "kaggle")
 ```
 
 There are other boards you can use or even create custom boards as described in the [Understanding Boards](https://rstudio.github.io/pins/articles/boards.html) article; in addition, `pins` can also be used with RStudio products which we will describe next.
