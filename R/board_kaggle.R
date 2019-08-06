@@ -98,6 +98,13 @@ kaggle_create_bundle <- function(path, type, description, metadata) {
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
+  if (identical(dir(path), "data.rds")) {
+    loaded <- readRDS(dir(path, full.names = TRUE))
+    if (is.data.frame(loaded)) {
+      write.csv(loaded, file.path(path, "data.csv"), row.names = FALSE)
+    }
+  }
+
   file.copy(file.path(path, dir(path)), bundle_path)
 
   pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
