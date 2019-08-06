@@ -170,7 +170,7 @@ board_pin_find.rsconnect <- function(board, text, ...) {
   results$name <- gsub("_pin$", "", as.character(results$name))
   results$type <- "table"
   results$metadata <- "{}"
-  results$description <- as.character(lapply(results$title, function(e) paste0("", e)))
+  results$description <- as.character(lapply(results$description, function(e) paste0("", e)))
 
   if (extended) {
     results
