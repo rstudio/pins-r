@@ -64,7 +64,7 @@
               entries: [],
               page: 0,
               boards: [],
-              empty: "",
+              status: "Searching...",
               maxResults: 8,
               totalPages: 1,
               currentPage: 1,
@@ -93,7 +93,7 @@
                 if (page > this.totalPages) page = this.totalPages;
 
                 var results = this.results;
-                var resultStart = (page - 1) * this.maxResults;
+                var resultStart = Math.max((page - 1) * this.maxResults, 0);
                 var resultEnd = Math.min(totalResults, page * this.maxResults);
 
                 var entries = [];
@@ -129,22 +129,21 @@
             },
             watch: {
               'search': _.debounce(function(val, oldVal) {
+                this.status = 'Searching for ' + val + ' in ' + this.board + ' board...';
+                this.results = {};
+
                 Shiny.setInputValue("search", val);
               }, 300),
               'board': function(val, oldVal) {
+                this.status = 'Searching for ' + this.search + ' in ' + val + ' board...';
+                this.results = {};
+
                 Shiny.setInputValue("board", val);
               },
               'page': function(val, oldVal) {
                 this.updatePage(val);
               },
               'results': function(val, oldVal) {
-                if (val.name.length == 0) {
-                  var boardName = this.board;
-                  this.empty = this.boards.find(function(e) { return e.name == boardName; }).info.install_html;
-                }
-                else {
-                  this.empty = "";
-                }
                 if (val == oldVal) return;
                 this.updatePage(1);
               }
@@ -154,6 +153,10 @@
 
         $(document).on('shiny:connected', function(event) {
           Shiny.addCustomMessageHandler("search-results", function(results) {
+            var status = 'Sorry, no results :(';
+            if (results.name.length > 0) status = '';
+
+            app.$set(app.$data, 'status', status);
             app.$set(app.$data, 'results', results);
           });
 
@@ -183,7 +186,7 @@
         </tr>
       </table>
       <div id="results">
-        <div v-html="empty"></div>
+        <div id="status" v-html="status"></div>
         <result-entry v-for="entry in entries" :entry="entry"></result-entry>
       </div>
       <div class="navigation">

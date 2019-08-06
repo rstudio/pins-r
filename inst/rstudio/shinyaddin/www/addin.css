@@ -32,6 +32,13 @@ select {
   width: 100px;
 }
 
+#status {
+  text-align: center;
+  padding-top: 100px;
+  position: absolute;
+  width: 100%;
+}
+
 .result-entry {
   height: 50px;
   width: 500px;
