@@ -35,7 +35,7 @@ select {
 .result-entry {
   height: 50px;
   width: 500px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
   cursor: pointer;
 }
@@ -153,5 +153,5 @@ select {
 }
 
 #results {
-  height: 500px;
+  height: 465px;
 }

@@ -22,8 +22,13 @@ pins_addin_server <- function(input, output, session) {
   observe({
     dataset <- input$dataset
     if (is.character(dataset) && nchar(dataset) > 0) {
+      board_text <- ""
+      if (!is.null(board())) {
+        board_text <- paste0(", board = \"", board(), "\"")
+      }
+
       rstudioapi::sendToConsole(paste0(
-        "View(pins::pin_preview(pins::pin_get(\"", dataset , "\"", ", board = \"", board() , "\")))"
+        "View(pins::pin_preview(pins::pin_get(\"", dataset , "\"", board_text, ")))"
       ))
 
       stopApp(dataset)
