@@ -1,25 +1,21 @@
-board_yaml_random_string <- function(prefix, suffix = "") {
-  paste0(basename(tempfile(prefix)), suffix)
-}
-
-board_yaml_entries_path <- function(component) {
+pin_registry_path <- function(component) {
   file.path(board_local_storage(component), "config.yml")
 }
 
-board_yaml_load_entries <- function(component) {
-  entries_path <- board_yaml_entries_path(component)
+pin_registry_load_entries <- function(component) {
+  entries_path <- pin_registry_path(component)
 
   if (file.exists(entries_path)) yaml::read_yaml(entries_path) else list()
 }
 
-board_yaml_save_entries <- function(entries, component) {
-  yaml::write_yaml(entries, board_yaml_entries_path(component))
+pin_registry_save_entries <- function(entries, component) {
+  yaml::write_yaml(entries, pin_registry_path(component))
 }
 
-board_yaml_pin_create <- function(name, description, type, metadata, component) {
+pin_registry_create <- function(name, description, type, metadata, component) {
   if (is.null(description)) description <- ""
 
-  entries <- board_yaml_load_entries(component)
+  entries <- pin_registry_load_entries(component)
 
   path <- file.path(board_local_storage(component), name)
   dir.create(path, recursive = TRUE)
@@ -34,13 +30,13 @@ board_yaml_pin_create <- function(name, description, type, metadata, component) 
     metadata = as.character(metadata)
   )
 
-  board_yaml_save_entries(entries, component)
+  pin_registry_save_entries(entries, component)
 
   path
 }
 
-board_yaml_pin_update_metadata <- function(name, component, metadata) {
-  entries <- board_yaml_load_entries(component)
+pin_registry_update <- function(name, component, metadata) {
+  entries <- pin_registry_load_entries(component)
 
   entries <- lapply(entries, function(e) {
     if (identical(e$name, name)) {
@@ -50,11 +46,11 @@ board_yaml_pin_update_metadata <- function(name, component, metadata) {
     e
   })
 
-  board_yaml_save_entries(entries, component)
+  pin_registry_save_entries(entries, component)
 }
 
-board_yaml_pin_find <- function(text, component) {
-  entries <- board_yaml_load_entries(component)
+pin_registry_find <- function(text, component) {
+  entries <- pin_registry_load_entries(component)
 
   names <- sapply(entries, function(e) e$name)
   descriptions <- sapply(entries, function(e) e$description)
@@ -70,8 +66,8 @@ board_yaml_pin_find <- function(text, component) {
   )
 }
 
-board_yaml_pin_retrieve <- function(name, component) {
-  entries <- board_yaml_load_entries(component)
+pin_registry_retrieve <- function(name, component) {
+  entries <- pin_registry_load_entries(component)
 
   names <- sapply(entries, function(e) e$name)
   paths <- sapply(entries, function(e) e$path)
@@ -96,8 +92,8 @@ board_yaml_pin_retrieve <- function(name, component) {
   entry$path
 }
 
-board_yaml_pin_remove <- function(name, component, unlink = TRUE) {
-  entries <- board_yaml_load_entries(component)
+pin_registry_remove <- function(name, component, unlink = TRUE) {
+  entries <- pin_registry_load_entries(component)
 
   remove <- Filter(function(x) x$name == name, entries)
   if (length(remove) > 0)
@@ -109,5 +105,5 @@ board_yaml_pin_remove <- function(name, component, unlink = TRUE) {
 
   if (unlink) unlink(remove$path, recursive = TRUE)
 
-  board_yaml_save_entries(entries, component)
+  pin_registry_save_entries(entries, component)
 }

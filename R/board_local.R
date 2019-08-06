@@ -19,7 +19,7 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
 
   must_cache <- identical(list(...)$cache, FALSE)
 
-  old_pin <- tryCatch(board_yaml_pin_retrieve(name, "local"), error = function(e) NULL)
+  old_pin <- tryCatch(pin_registry_retrieve(name, "local"), error = function(e) NULL)
   old_metadata <- if (is.null(attr(old_pin, "pin_metadata"))) list() else attr(old_pin, "pin_metadata")
 
   report_error <- if (is.null(old_pin)) stop else warning
@@ -69,7 +69,7 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
 
     if (is.null(error)) {
       # update change_age since we checked no change in HEAD
-      board_yaml_pin_update_metadata(name, "local", jsonlite::toJSON(metadata, auto_unbox = TRUE))
+      pin_registry_update(name, "local", jsonlite::toJSON(metadata, auto_unbox = TRUE))
     }
   }
   else {
@@ -81,8 +81,8 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
     return()
   }
 
-  board_yaml_pin_remove(name, component = "local", TRUE)
-  final_path <- board_yaml_pin_create(
+  pin_registry_remove(name, component = "local", TRUE)
+  final_path <- pin_registry_create(
     name = name,
     description = description,
     type = type,
@@ -98,13 +98,13 @@ board_pin_create.local <- function(board, path, name, description, type, metadat
 }
 
 board_pin_find.local <- function(board, text, ...) {
-  board_yaml_pin_find(text, "local")
+  pin_registry_find(text, "local")
 }
 
 board_pin_get.local <- function(board, name) {
-  board_yaml_pin_retrieve(name, "local")
+  pin_registry_retrieve(name, "local")
 }
 
 board_pin_remove.local <- function(board, name) {
-  board_yaml_pin_remove(name, "local")
+  pin_registry_remove(name, "local")
 }
