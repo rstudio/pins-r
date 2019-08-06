@@ -81,11 +81,16 @@ ui_viewer_register <- function(board) {
 
       pin_index <- pin_find(name = table, board = board$name)
       attr_names <- c(attr_names, "description")
-      if (nchar(pin_index$description) > 0) {
+      if (!is.null(pin_index$description) && nchar(pin_index$description) > 0) {
         attr_values <- c(attr_values, pin_index$description)
       }
       else {
         attr_values <- c(attr_values, "<empty>")
+      }
+
+      if (!is.null(pin_index$type) && nchar(pin_index$type) > 0) {
+        attr_names <- c(attr_names, "type")
+        attr_values <- c(attr_values, paste0("'", pin_index$type, "'"))
       }
 
       data.frame(
