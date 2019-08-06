@@ -114,7 +114,7 @@ Once connected, you can use the connections pane to track the pins you own and p
 To **discover** remote resources, simply expand the "Addins" menu and select "Find Pin" from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:
 
 <center>
-![](tools/readme/rstudio-discover-pins.png){width=70%}
+![](tools/readme/rstudio-discover-pins.png){width=60%}
 </center>
 
 You can then **share** local resources using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then pin our results in RStudio Connect.
