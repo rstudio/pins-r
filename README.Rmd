@@ -66,10 +66,10 @@ retail_sales %>%
   pin("sales_by_month")
 ```
 
-The `pins` package allows you to **discover** remote resources using `pin_find()`, currently, it can search resources in CRAN packages, Kaggle and RStudio Connect. Kaggle requires to configure it by running once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then we can search resources mentioning "seattle" in CRAN packages and Kaggle with ease:
+The `pins` package allows you to **discover** remote resources using `pin_find()`, currently, it can search resources in CRAN packages, Kaggle and RStudio Connect. For instance, we can search resources mentioning "seattle" in CRAN packages as follows:
 
 ```{r}
-pin_find("seattle")
+pin_find("seattle", board = "packages")
 ```
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the `<owner>` is not provided, each board will assign an appropriate one. While you can ignore `<owner>` and reference pins by `<name>`, this can fail in some boards if different owners assign the same name to a pin.
@@ -80,27 +80,16 @@ You can then retrieve a pin as a local path through `pin_get()`:
 pin_get("hpiR/seattle_sales")
 ```
 
-Finally, you can also **share** resources with others by publishing to Kaggle, GitHub and RStudio Connect. We can easily publish `iris` to Kaggle as follows:
+Finally, you can also **share** resources with others by publishing to Kaggle, GitHub and RStudio Connect. To publish to say, Kaggle, you would first need to register the Kaggle board by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
+
+```r
+board_register("kaggle", token = "<path-to-kaggle.json>")
+```
+
+You can then easily publish to Kaggle `iris`, or any other resource:
 
 ```{r eval=FALSE}
 pin(iris, board = "kaggle")
-```
-
-All the functionality available in `pins` can be used from Python as well, first install this module:
-
-```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins#subdirectory=python
-```
-
-Followed by using `pins` from Python:
-
-```{python echo=FALSE}
-import pandas as pd
-pd.set_option('display.max_rows', 10)
-```
-```{python}
-import pins
-pins.pin_get("hpiR/seattle_sales")
 ```
 
 There are other boards you can use or even create custom boards as described in the [Understanding Boards](https://rstudio.github.io/pins/articles/boards.html) article; in addition, `pins` can also be used with RStudio products which we will describe next.
@@ -109,7 +98,7 @@ There are other boards you can use or even create custom boards as described in 
 
 You can use [RStudio](https://www.rstudio.com/products/rstudio/) to discover and pin remote files and [RStudio Connect](https://www.rstudio.com/products/connect/) to share content within your organization with ease.
 
-To enable new boards, like Kaggle and RStudio Connect, you can use [RStudio's Data Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/) to start a new 'pins' connection and then selecting which board to connect to:
+To enable new boards, you can use [RStudio's Data Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/) to start a new 'pins' connection and then selecting which board to connect to:
 
 <center>
 ![](tools/readme/rstudio-connect-board.png){width=70%}
@@ -153,6 +142,25 @@ For instance, a colleague can reuse the `sales-by-baths` pin by retrieving it fr
 pin_get("sales-by-baths") %>%
   ggplot(aes(x = baths, y = sale)) +
     geom_point() + geom_smooth(method = 'lm', formula = y ~ exp(x))
+```
+
+## Python
+
+All the functionality available in `pins` can also be used from Python as well, first install the `pins` module:
+
+```{bash eval=FALSE}
+pip install git+https://github.com/rstudio/pins#subdirectory=python
+```
+
+Followed by using `pins` from Python:
+
+```{python echo=FALSE}
+import pandas as pd
+pd.set_option('display.max_rows', 10)
+```
+```{python}
+import pins
+pins.pin_get("hpiR/seattle_sales")
 ```
 
 Please make sure to ~~pin~~ visit, [pins.rstudio.com](https://rstudio.github.io/pins/index.html), where you will find detailed documentation and additional resources.
