@@ -88,29 +88,20 @@ retail_sales %>%
 
 The `pins` package allows you to **discover** remote resources using
 `pin_find()`, currently, it can search resources in CRAN packages,
-Kaggle and RStudio Connect. Kaggle requires to configure it by running
-once `board_register("kaggle", token = "<path-to-kaggle.json>")`. Then
-we can search resources mentioning “seattle” in CRAN packages and Kaggle
-with ease:
+Kaggle and RStudio Connect. For instance, we can search resources
+mentioning “seattle” in CRAN packages as follows:
 
 ``` r
-pin_find("seattle")
+pin_find("seattle", board = "packages")
 ```
 
-    ## # A tibble: 23 x 4
-    ##    name                      description                       type  board 
-    ##    <chr>                     <chr>                             <chr> <chr> 
-    ##  1 hpiR/seattle_sales        Seattle Home Sales from hpiR pac… table packa…
-    ##  2 microsynth/seattledmi     Data for a crime intervention in… table packa…
-    ##  3 vegawidget/data_seattle_… Example dataset: Seattle daily w… table packa…
-    ##  4 vegawidget/data_seattle_… Example dataset: Seattle hourly … table packa…
-    ##  5 airbnb/seattle            Seattle Airbnb Open Data          files kaggle
-    ##  6 aaronschlegel/seattle-pe… Seattle Pet Licenses              files kaggle
-    ##  7 city-of-seattle/seattle-… Seattle Crisis Data               files kaggle
-    ##  8 shanelev/seattle-airbnb-… Seattle Airbnb Listings           files kaggle
-    ##  9 city-of-seattle/seattle-… Seattle Library Collection Inven… files kaggle
-    ## 10 city-of-seattle/seattle-… Seattle Road Weather Information… files kaggle
-    ## # … with 13 more rows
+    ## # A tibble: 4 x 4
+    ##   name               description                               type  board 
+    ##   <fct>              <fct>                                     <fct> <chr> 
+    ## 1 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
+    ## 2 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
+    ## 3 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
+    ## 4 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
 `<owner>` is not provided, each board will assign an appropriate one.
@@ -141,41 +132,19 @@ pin_get("hpiR/seattle_sales")
     ## #   longitude <dbl>, latitude <dbl>
 
 Finally, you can also **share** resources with others by publishing to
-Kaggle, GitHub and RStudio Connect. We can easily publish `iris` to
-Kaggle as follows:
+Kaggle, GitHub and RStudio Connect. To publish to say, Kaggle, you would
+first need to register the Kaggle board by creating a [Kaggle API
+Token](https://www.kaggle.com/me/account):
+
+``` r
+board_register("kaggle", token = "<path-to-kaggle.json>")
+```
+
+You can then easily publish to Kaggle `iris`, or any other resource:
 
 ``` r
 pin(iris, board = "kaggle")
 ```
-
-All the functionality available in `pins` can be used from Python as
-well, first install this module:
-
-``` bash
-pip install git+https://github.com/rstudio/pins#subdirectory=python
-```
-
-Followed by using `pins` from Python:
-
-``` python
-import pins
-pins.pin_get("hpiR/seattle_sales")
-```
-
-    ##                pinx      sale_id  sale_price  ... eff_age   longitude   latitude
-    ## 0      ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
-    ## 1      ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
-    ## 2      ..0001800075  2010..24221      333500  ...      80 -122.311654  47.561470
-    ## 3      ..0001800075   2016..6629      577200  ...      86 -122.311654  47.561470
-    ## 4      ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
-    ## ...             ...          ...         ...  ...     ...         ...        ...
-    ## 43308  ..9904000025  2013..24831      276000  ...      85 -122.302228  47.714377
-    ## 43309  ..9904000063  2016..29821      340000  ...      79 -122.303135  47.715209
-    ## 43310  ..9906000030   2013..6620     1250000  ...       7 -122.356487  47.656115
-    ## 43311  ..9906000035   2011..5655      447000  ...      83 -122.356649  47.656114
-    ## 43312  ..9906000090  2010..17848      422500  ...      63 -122.357895  47.656112
-    ## 
-    ## [43313 rows x 16 columns]
 
 There are other boards you can use or even create custom boards as
 described in the [Understanding
@@ -190,8 +159,7 @@ discover and pin remote files and [RStudio
 Connect](https://www.rstudio.com/products/connect/) to share content
 within your organization with ease.
 
-To enable new boards, like Kaggle and RStudio Connect, you can use
-[RStudio’s Data
+To enable new boards, you can use [RStudio’s Data
 Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
 to start a new ‘pins’ connection and then selecting which board to
 connect to:
@@ -274,6 +242,37 @@ pin_get("sales-by-baths") %>%
 ```
 
 <img src="tools/readme/rstudio-plot-pin-1.png" style="display: block; margin: auto;" />
+
+## Python
+
+All the functionality available in `pins` can also be used from Python
+as well, first install the `pins` module:
+
+``` bash
+pip install git+https://github.com/rstudio/pins#subdirectory=python
+```
+
+Followed by using `pins` from Python:
+
+``` python
+import pins
+pins.pin_get("hpiR/seattle_sales")
+```
+
+    ##                pinx      sale_id  sale_price  ... eff_age   longitude   latitude
+    ## 0      ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
+    ## 1      ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
+    ## 2      ..0001800075  2010..24221      333500  ...      80 -122.311654  47.561470
+    ## 3      ..0001800075   2016..6629      577200  ...      86 -122.311654  47.561470
+    ## 4      ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
+    ## ...             ...          ...         ...  ...     ...         ...        ...
+    ## 43308  ..9904000025  2013..24831      276000  ...      85 -122.302228  47.714377
+    ## 43309  ..9904000063  2016..29821      340000  ...      79 -122.303135  47.715209
+    ## 43310  ..9906000030   2013..6620     1250000  ...       7 -122.356487  47.656115
+    ## 43311  ..9906000035   2011..5655      447000  ...      83 -122.356649  47.656114
+    ## 43312  ..9906000090  2010..17848      422500  ...      63 -122.357895  47.656112
+    ## 
+    ## [43313 rows x 16 columns]
 
 Please make sure to ~~pin~~ visit,
 [pins.rstudio.com](https://rstudio.github.io/pins/index.html), where you
