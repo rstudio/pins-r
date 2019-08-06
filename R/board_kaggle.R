@@ -106,7 +106,7 @@ kaggle_create_bundle <- function(path, type, description, metadata) {
   }
 
   if (dir.exists(path)) {
-    file.copy(file.path(path, dir(path)), bundle_path)
+    file.copy(file.path(path, dir(path)), bundle_path, recursive = TRUE)
   }
   else {
     file.copy(path, bundle_path)

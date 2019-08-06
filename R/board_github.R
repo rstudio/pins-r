@@ -52,7 +52,12 @@ board_pin_create.github <- function(board, path, name, description, type, metada
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
-  file.copy(path, bundle_path, recursive = TRUE)
+  if (dir.exists(path)) {
+    file.copy(file.path(path, dir(path)), bundle_path, recursive = TRUE)
+  }
+  else {
+    file.copy(path, bundle_path)
+  }
 
   pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
 
@@ -116,6 +121,22 @@ github_url <- function(board, ...) {
   paste0("https://api.github.com/repos/", board$repo, paste0(..., collapse = ""))
 }
 
+github_download_files <- function(index, temp_path, board) {
+  for (file in index) {
+    pin_log("retrieving ", file$download_url)
+
+    if (identical(file$type, "dir")) {
+      sub_index <- httr::GET(file$url, github_headers(board)) %>% httr::content()
+      github_download_files(sub_index, file.path(temp_path, file$name), board)
+    }
+    else {
+      if (!dir.exists(temp_path)) dir.create(temp_path, recursive = TRUE)
+      httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
+                github_headers(board))
+    }
+  }
+}
+
 board_pin_get.github <- function(board, name) {
   base_url <- github_url(board, "/contents/", board$path, "/", name)
   result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
@@ -145,12 +166,7 @@ board_pin_get.github <- function(board, name) {
   temp_path <- tempfile()
   dir.create(temp_path)
 
-  for (file in index) {
-    pin_log("retrieving ", file$download_url)
-
-    httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
-              github_headers(board))
-  }
+  github_download_files(index, temp_path, board)
 
   attr(temp_path, "pin_type") <- type
   temp_path
