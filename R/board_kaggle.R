@@ -98,7 +98,7 @@ kaggle_create_bundle <- function(path, type, description, metadata) {
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
-  file.copy(path, bundle_path, recursive = TRUE)
+  file.copy(file.path(path, dir(path)), bundle_path)
 
   pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
 
@@ -148,11 +148,12 @@ board_pin_create.kaggle <- function(board, path, name, description, type, metada
 
   qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
 
+  retrieved <- NULL
   retries <- 10
-  while (retries > 0) {
-    tryCatch({
+  while (retries > 0 && is.null(retrieved)) {
+    retrieved <- suppressWarnings(tryCatch({
       pin_get(qualified_name, board$name)
-    }, error = function(e) NULL)
+    }, error = function(e) NULL))
 
     Sys.sleep(1)
     retries <- retries - 1
