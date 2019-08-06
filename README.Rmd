@@ -107,7 +107,7 @@ To enable new boards, you can use [RStudio's Data Connections](https://blog.rstu
 Once connected, you can use the connections pane to track the pins you own and preview them with ease. Notice that one connection is created for each board.
 
 <center>
-![](tools/readme/rstudio-explore-pins.png){width=70%}
+![](tools/readme/rstudio-explore-pins.png){width=50%}
 </center>
 
 To **discover** remote resources, simply expand the "Addins" menu and select "Find Pin" from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:
