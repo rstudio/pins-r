@@ -3,7 +3,7 @@ board_registry_ensure <- function() {
 }
 
 board_registry_config <- function() {
-  file.path(board_local_storage("local"), "boards.yml")
+  file.path(board_local_storage(""), "boards.yml")
 }
 
 board_registry_load <- function() {
