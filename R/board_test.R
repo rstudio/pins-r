@@ -24,6 +24,7 @@ board_test <- function(board, exclude = list()) {
 
   text_file <- dir(getwd(), recursive = TRUE, pattern = "hello.txt", full.names = TRUE)
   pin_name <- paste0("afile", round(stats::runif(1, 1, 1000)))
+  dataset_name <- paste0("adataset", round(stats::runif(1, 1, 1000)))
 
   deps$test_that(paste("can pin() file to", board, "board"), {
     cached_path <- pin(text_file, pin_name, board = board)
@@ -31,6 +32,12 @@ board_test <- function(board, exclude = list()) {
     deps$expect_true(is.character(cached_path))
 
     deps$expect_equal(readLines(cached_path), "hello world")
+  })
+
+  deps$test_that(paste("can pin() data frame to", board, "board"), {
+    dataset <- pin(iris, dataset_name, board = board)
+
+    deps$expect_true(is.data.frame(dataset))
   })
 
   deps$test_that(paste("can pin_get() a pin from", board, "board"), {
