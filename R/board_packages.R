@@ -55,7 +55,7 @@ board_pin_get.packages <- function(board, name) {
     on.exit(unlink(temp_path, recursive = TRUE))
 
     repos <- getOption("repos")["CRAN"]
-    if (length(repos) == 0 || is.na(repos)) repos <- "https://cran.rstudio.com/"
+    if (length(repos) == 0 || is.na(repos) || identical(as.character(repos), "@CRAN@")) repos <- "https://cran.rstudio.com/"
 
     utils::download.packages(package_pin$package, temp_path, repos = repos)
 
