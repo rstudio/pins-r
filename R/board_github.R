@@ -107,13 +107,31 @@ board_pin_find.github <- function(board, text, ...) {
     folders <-  Filter(function(e) identical(e$type, "dir"), httr::content(result)) %>%
       sapply(function(e) e$name)
 
-    data.frame(
+    result <- data.frame(
       name = folders,
       description = rep("", length(folders)),
-      type = rep("files", length(folders)),
+      type = rep("", length(folders)),
       metadata = rep("", length(folders)),
       stringsAsFactors = FALSE
     )
+
+    if (is.character(text)) {
+      folders <- folders[grepl(text, folders)]
+    }
+
+    if (length(folders) == 1) {
+      # retrieve additional details if searching for only one item
+      result <- httr::GET(github_url(board, "/contents/", board$path, "/", folders, "/", "pin.json", "?ref=", board$branch),
+                          github_headers(board))
+      if (httr::status_code(result) == 200) {
+        result <- as.data.frame(jsonlite::fromJSON(httr::GET(httr::content(result)$download_url) %>% httr::content()),
+                                stringsAsFactors = FALSE)
+        result$name <- folders
+        result$files <- NULL
+      }
+    }
+
+    result
   }
 }
 
