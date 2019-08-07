@@ -204,7 +204,13 @@ board_pin_find.kaggle <- function(board, text, ...) {
 
   results <- jsonlite::fromJSON(jsonlite::toJSON(results))
 
-  if (identical(list(...)$extended, TRUE)) return(results)
+  if (identical(list(...)$extended, TRUE)) {
+    results$name <- results$ref
+    results$description <- results$title
+    results$ref <- NULL
+    results$title <- NULL
+    return(results)
+  }
 
   if (length(results) == 0) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
 

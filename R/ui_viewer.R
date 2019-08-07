@@ -79,16 +79,16 @@ ui_viewer_register <- function(board) {
       attr_names <- c()
       attr_values <- c()
 
-      pin_index <- pin_find(table, board = board$name)
+      pin_index <- pin_find(table, board = board$name, extended = TRUE)
 
-      if (!is.null(pin_index$description) && nchar(pin_index$description) > 0) {
-        attr_names <- c(attr_names, "description")
-        attr_values <- c(attr_values, pin_index$description)
-      }
+      for (name in names(pin_index)) {
+        value <- as.character(pin_index[[name]])
+        if (length(value) == 1 && nchar(value) > 0 && !identical(value, "NULL")) {
+          if (identical(name, "type")) value <- paste0("'", value, "'")
 
-      if (!is.null(pin_index$type) && nchar(pin_index$type) > 0) {
-        attr_names <- c(attr_names, "type")
-        attr_values <- c(attr_values, paste0("'", pin_index$type, "'"))
+          attr_names <- c(attr_names, name)
+          attr_values <- c(attr_values, value)
+        }
       }
 
       data.frame(
