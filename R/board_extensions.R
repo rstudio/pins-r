@@ -94,6 +94,8 @@ board_info.default = function(board) NULL
 board_pin_store <- function(board, path, name, description, type, metadata, ...) {
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))
 
+  if (!is.list(metadata)) metadata <- list()
+  metadata$extension <- guess_extension_from_path(path)
   metadata <- as.character(jsonlite::toJSON(metadata, auto_unbox = TRUE))
 
   board_pin_create(board, path, name, description, type, metadata, ...)

@@ -12,50 +12,46 @@ pin_registry_save_entries <- function(entries, component) {
   yaml::write_yaml(entries, pin_registry_path(component))
 }
 
-pin_registry_create <- function(name, description, type, metadata, component) {
-  if (is.null(description)) description <- ""
-
+pin_registry_update <- function(name, component, params = list()) {
   entries <- pin_registry_load_entries(component)
 
   path <- file.path(board_local_storage(component), name)
-  dir.create(path, recursive = TRUE)
+  if (!dir.exists(path)) dir.create(path, recursive = TRUE)
 
   if (identical(entries, NULL)) entries <- list()
 
-  entries[[length(entries) + 1]] <- list(
-    name = name,
-    description = description,
-    path = path,
-    type = type,
-    metadata = as.character(metadata)
-  )
+  names <- sapply(entries, function(e) e$name)
+  if (name %in% names) {
+    index <- which(name == names)
+  }
+  else {
+    index <- length(entries) + 1
+    entries[[index]] <- list()
+  }
+
+  entries[[index]]$name <- name
+
+  for (param in names(params)) {
+    entries[[index]][[param]] <- params[[param]]
+  }
 
   pin_registry_save_entries(entries, component)
 
   path
 }
 
-pin_registry_update <- function(name, component, metadata) {
-  entries <- pin_registry_load_entries(component)
-
-  entries <- lapply(entries, function(e) {
-    if (identical(e$name, name)) {
-      e$metadata <- metadata
-    }
-
-    e
-  })
-
-  pin_registry_save_entries(entries, component)
+pin_registry_field <- function(entries, field, default) {
+  sapply(entries,
+         function(e) if (is.null(e[[field]])) default else e[[field]])
 }
 
 pin_registry_find <- function(text, component) {
   entries <- pin_registry_load_entries(component)
 
   names <- sapply(entries, function(e) e$name)
-  descriptions <- sapply(entries, function(e) e$description)
-  types <- sapply(entries, function(e) if (is.null(e$type)) "table" else e$type)
-  metadata <- sapply(entries, function(e) if (is.null(e$metadata)) "" else e$metadata)
+  descriptions <- pin_registry_field(entries, "description", "")
+  types <- pin_registry_field(entries, "type", "files")
+  metadata <- pin_registry_field(entries, "metadata", "")
 
   data.frame(
     name = names,
@@ -70,26 +66,9 @@ pin_registry_retrieve <- function(name, component) {
   entries <- pin_registry_load_entries(component)
 
   names <- sapply(entries, function(e) e$name)
-  paths <- sapply(entries, function(e) e$path)
-  type <- sapply(entries, function(e) e$type)
-  metadata <- sapply(entries, function(e) e$metadata)
+  if (!name %in% names) stop("Pin '", name, "' not found in '", component, "' board.")
 
-  entries <- data.frame(
-    name = names,
-    path = paths,
-    type = type,
-    metadata = metadata,
-    stringsAsFactors = FALSE
-  )
-
-  entry <- entries[entries$name == name, ]
-
-  if (nrow(entry) != 1) stop("Pin '", name, "' not found in '", component, "' board.")
-
-  attr(entry$path, "pin_type") <- as.character(entry$type)
-  if (!is.null(entry$metadata)) attr(entry$path, "pin_metadata") <- jsonlite::fromJSON(as.character(entry$metadata))
-
-  entry$path
+  entries[[which(names == name)]]
 }
 
 pin_registry_remove <- function(name, component, unlink = TRUE) {

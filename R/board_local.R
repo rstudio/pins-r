@@ -15,86 +15,33 @@ guess_extension_from_path <- function(path) {
 
 board_pin_create.local <- function(board, path, name, description, type, metadata, file, ...) {
   on.exit(board_connect(board$name))
-  extension <- guess_extension_from_path(path)
-
-  must_cache <- identical(list(...)$cache, FALSE)
-
-  old_pin <- tryCatch(pin_registry_retrieve(name, "local"), error = function(e) NULL)
-  old_metadata <- if (is.null(attr(old_pin, "pin_metadata"))) list() else attr(old_pin, "pin_metadata")
-
-  report_error <- if (is.null(old_pin)) stop else warning
-
-  local_path <- NULL
-
-  metadata <- jsonlite::fromJSON(metadata)
-  metadata$extension <- extension
-  metadata$etag <- old_metadata$etag
-  metadata$max_age <- if (!is.numeric(old_metadata$max_age)) 0 else old_metadata$max_age
-  metadata$change_age <- if (is.null(old_metadata$change_age)) as.numeric(Sys.time()) - metadata$max_age else old_metadata$change_age
 
   if (grepl("^http", path)) {
-    error <- NULL
-
-    pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", metadata$change_age, ", ", metadata$max_age)
-
-    # skip downloading if max-age still valid
-    if (as.numeric(Sys.time()) >= metadata$change_age + metadata$max_age || must_cache) {
-      head_result <- httr::HEAD(path, httr::timeout(5))
-      metadata$etag <- head_result$headers$etag
-      metadata$max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
-
-      status <- tryCatch(httr::status_code(head_result), error = function(e) e$message)
-      metadata$change_age <- as.numeric(Sys.time())
-
-      pin_log("Checking 'etag' (old, new): ", old_metadata$etag, ", ", metadata$etag)
-
-      # skip downloading if etag has not changed
-      if (is.null(old_metadata) || is.null(old_metadata$etag) || !identical(old_metadata$etag, metadata$etag) || must_cache) {
-        if (is.character(status)) error <- paste0(status, ": ", path)
-        if (status != 200) error <- paste0(status, " Failed to download remote file: ", path)
-
-        if (!is.null(error)) {
-          report_error(error)
-        }
-        else {
-          local_path <- tempfile()
-          dir.create(local_path)
-
-          pin_log("Downloading: ", path)
-          httr::GET(path, httr::write_disk(file.path(local_path, paste0("data", pin_file_extension(path))), overwrite = TRUE))
-          on.exit(unlink(local_path))
-        }
-      }
-    }
-
-    if (is.null(error)) {
-      # update change_age since we checked no change in HEAD
-      pin_registry_update(name, "local", jsonlite::toJSON(metadata, auto_unbox = TRUE))
-    }
+    final_path <- pin_download(path, name, "local", ...)
   }
   else {
-    local_path <- path
+    final_path <- pin_registry_update(name = name, component = "local")
+
+    unlink(final_path, recursive = TRUE)
+    dir.create(final_path)
+
+    if (dir.exists(path)) {
+      file.copy(dir(path, recursive = TRUE, full.names = TRUE) , final_path)
+    }
+    else {
+      file.copy(path, final_path)
+    }
   }
 
-  if (is.null(local_path) || !file.exists(local_path)) {
-    if (!is.null(local_path)) report_error("File does not exist: ", local_path)
-    return()
-  }
-
-  pin_registry_remove(name, component = "local", TRUE)
-  final_path <- pin_registry_create(
+  pin_registry_update(
     name = name,
-    description = description,
-    type = type,
-    metadata = jsonlite::toJSON(metadata, auto_unbox = TRUE),
+    params = list(
+      path = final_path,
+      description = description,
+      type = type,
+      metadata = jsonlite::toJSON(metadata, auto_unbox = TRUE)
+    ),
     component = "local")
-
-  if (dir.exists(local_path)) {
-    file.copy(dir(local_path, recursive = TRUE, full.names = TRUE) , final_path)
-  }
-  else {
-    file.copy(local_path, final_path)
-  }
 }
 
 board_pin_find.local <- function(board, text, ...) {
@@ -102,7 +49,12 @@ board_pin_find.local <- function(board, text, ...) {
 }
 
 board_pin_get.local <- function(board, name) {
-  pin_registry_retrieve(name, "local")
+  entry <- pin_registry_retrieve(name, "local")
+
+  attr(entry$path, "pin_type") <- as.character(entry$type)
+  if (!is.null(entry$metadata)) attr(entry$path, "pin_metadata") <- jsonlite::fromJSON(as.character(entry$metadata))
+
+  entry$path
 }
 
 board_pin_remove.local <- function(board, name) {
