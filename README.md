@@ -6,6 +6,11 @@ Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![GitHub
+Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
+<a href="https://www.r-pkg.org/pkg/pins"><img src="https://cranlogs.r-pkg.org/badges/pins?color=blue" style=""></a>
+[![Join the chat at
+https://gitter.im/rstudio/pins](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/sparklyr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 You can use the `pins` package from **R**, or **Python**, to:
 
@@ -29,7 +34,7 @@ First, you can **pin** remote files with `pin()` to cache those files
 locally, such that, even if the remote resource is removed or while
 working offline – your code will keep working by using a local cache.
 Since `pin(x)` pins `x` and returns a locally cached version of `x`,
-this allows you to pin a remote resource while also reusing it existing
+this allows you to pin a remote resource while also reusing in existing
 code with minimal changes.
 
 For instance, the following example makes use of a remote CSV file,
@@ -140,10 +145,11 @@ Token](https://www.kaggle.com/me/account):
 board_register("kaggle", token = "<path-to-kaggle.json>")
 ```
 
-You can then easily publish to Kaggle `iris`, or any other resource:
+You can then easily publish to Kaggle:
 
 ``` r
-pin(iris, board = "kaggle")
+pin_get("hpiR/seattle_sales") %>%
+  pin(name = "seattle_sales", board = "kaggle")
 ```
 
 There are other boards you can use or even create custom boards as
@@ -275,5 +281,5 @@ pins.pin_get("hpiR/seattle_sales")
     ## [43313 rows x 16 columns]
 
 Please make sure to ~~pin~~ visit,
-[pins.rstudio.com](https://rstudio.github.io/pins/index.html), where you
-will find detailed documentation and additional resources.
+[rstudio.github.io/pins](https://rstudio.github.io/pins/index.html),
+where you will find detailed documentation and additional resources.

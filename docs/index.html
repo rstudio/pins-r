@@ -104,7 +104,7 @@ pins: Pin, Discover and Share Resources
 <p>To start using <code>pins</code>, install this package as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
 <a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"rstudio/pins"</span>)</a></code></pre></div>
-<p>First, you can <strong>pin</strong> remote files with <code><a href="reference/pin.html">pin()</a></code> to cache those files locally, such that, even if the remote resource is removed or while working offline – your code will keep working by using a local cache. Since <code><a href="reference/pin.html">pin(x)</a></code> pins <code>x</code> and returns a locally cached version of <code>x</code>, this allows you to pin a remote resource while also reusing it existing code with minimal changes.</p>
+<p>First, you can <strong>pin</strong> remote files with <code><a href="reference/pin.html">pin()</a></code> to cache those files locally, such that, even if the remote resource is removed or while working offline – your code will keep working by using a local cache. Since <code><a href="reference/pin.html">pin(x)</a></code> pins <code>x</code> and returns a locally cached version of <code>x</code>, this allows you to pin a remote resource while also reusing in existing code with minimal changes.</p>
 <p>For instance, the following example makes use of a remote CSV file, which you can download and cache with <code><a href="reference/pin.html">pin()</a></code> before it’s loaded with <code>read_csv()</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
@@ -165,8 +165,9 @@ pins: Pin, Discover and Share Resources
 ## #   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</code></pre>
 <p>Finally, you can also <strong>share</strong> resources with others by publishing to Kaggle, GitHub and RStudio Connect. To publish to say, Kaggle, you would first need to register the Kaggle board by creating a <a href="https://www.kaggle.com/me/account">Kaggle API Token</a>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"kaggle"</span>, <span class="dt">token =</span> <span class="st">"&lt;path-to-kaggle.json&gt;"</span>)</a></code></pre></div>
-<p>You can then easily publish to Kaggle <code>iris</code>, or any other resource:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin.html">pin</a></span>(iris, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<p>You can then easily publish to Kaggle:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="dt">name =</span> <span class="st">"seattle_sales"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
 <p>There are other boards you can use or even create custom boards as described in the <a href="https://rstudio.github.io/pins/articles/boards.html">Understanding Boards</a> article; in addition, <code>pins</code> can also be used with RStudio products which we will describe next.</p>
 <div id="rstudio" class="section level2">
 <h2 class="hasAnchor">
@@ -182,7 +183,7 @@ pins: Pin, Discover and Share Resources
 </center>
 <p>To <strong>discover</strong> remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:</p>
 <center>
-<img src="tools/readme/rstudio-discover-pins.png" style="width:70.0%">
+<img src="tools/readme/rstudio-discover-pins.png" style="width:60.0%">
 </center>
 <p>You can then <strong>share</strong> local resources using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then pin our results in RStudio Connect.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>)</a></code></pre></div>
@@ -234,7 +235,7 @@ pins: Pin, Discover and Share Resources
 ## 43312  ..9906000090  2010..17848      422500  ...      63 -122.357895  47.656112
 ## 
 ## [43313 rows x 16 columns]</code></pre>
-<p>Please make sure to <del>pin</del> visit, <a href="https://rstudio.github.io/pins/index.html">pins.rstudio.com</a>, where you will find detailed documentation and additional resources.</p>
+<p>Please make sure to <del>pin</del> visit, <a href="https://rstudio.github.io/pins/index.html">rstudio.github.io/pins</a>, where you will find detailed documentation and additional resources.</p>
 </div>
   </div>
 
@@ -267,7 +268,10 @@ pins: Pin, Discover and Share Resources
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/rstudio/pins"><img src="https://travis-ci.org/rstudio/pins.svg?branch=master" alt="Build Status"></a></li>
 <li><a href="https://cran.r-project.org/package=pins"><img src="https://www.r-pkg.org/badges/version/pins" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/pins"><img src="https://cranlogs.r-pkg.org/badges/pins?color=blue" alt="Downloads"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://gitter.im/rstudio/sparklyr?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/rstudio/pins.svg" alt="Chat"></a></li>
+<li><a href="https://github.com/rstudio/pins/stargazers"><img src="https://img.shields.io/github/stars/rstudio/pins.svg" alt="GitHub Stars"></a></li>
 </ul>
 </div>
 </div>
