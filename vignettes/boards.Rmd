@@ -89,7 +89,7 @@ When using `pins` within RMarkdown documents that you want to run at a given sch
 
 If the boards that the `pins` package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.
 
-The following example creatse a simple folder-bard board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
+The following example creatse a simple folder-based board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
 
 ```{r}
 board_initialize.folder <- function(board, ...) {
@@ -97,26 +97,20 @@ board_initialize.folder <- function(board, ...) {
   board
 }
 
-board_pin_create.folder <- function(board, path, name, description, type, metadata) {
-  file.copy(path, file.path("pins", paste0(name, ".", type)))
+board_pin_create.folder <- function(board, path, name, ...) {
+  dir.create(file.path("pins", name), recursive = TRUE, showWarnings = FALSE)
+  file.copy(dir(path, full.names = TRUE), file.path("pins", name), recursive = TRUE)
 }
 
 board_pin_get.folder <- function(board, name) {
-  path <- dir("pins", name, full.names = T)
-  attr(path, "pin_type") <- tools::file_ext(path)
-  path
+  file.path("pins", name)
 }
 
 board_pin_find.folder <- function(board, text) {
-  path <- dir("pins", text, full.names = T)
-  names <- sapply(strsplit(basename(path), "\\."), function(e) e[1])
-  types <- sapply(strsplit(basename(path), "\\."), function(e) e[2])
-  empties <- rep("", length(types))
-
-  data.frame(name = names, description = empties, type = types, metadata = empties, stringsAsFactors = F)
+  data.frame(name = dir("pins", text), stringsAsFactors = F)
 }
 
-board_pin_create.folder <- function(board, name) {
-  unlink(file.path("pins", name))
+board_pin_remove.folder <- function(board, name) {
+  unlink(file.path("pins", name), recursive = TRUE)
 }
 ```

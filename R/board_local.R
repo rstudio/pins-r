@@ -13,25 +13,19 @@ guess_extension_from_path <- function(path) {
   tools::file_ext(path)
 }
 
-board_pin_create.local <- function(board, path, name, description, type, metadata, file, ...) {
+board_pin_create.local <- function(board, path, name, ...) {
+  description <- list(...)$description
+  metadata <- list(...)$metadata
+  type <- list(...)$type
+
   on.exit(board_connect(board$name))
 
   final_path <- pin_registry_update(name = name, component = "local")
 
-  if (grepl("^http", path)) {
-    download_path <- pin_download(path, name, "local", ...)
-  }
-  else {
-    unlink(final_path, recursive = TRUE)
-    dir.create(final_path)
+  unlink(final_path, recursive = TRUE)
+  dir.create(final_path)
 
-    if (dir.exists(path)) {
-      file.copy(dir(path, recursive = TRUE, full.names = TRUE) , final_path)
-    }
-    else {
-      file.copy(path, final_path)
-    }
-  }
+  file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
 
   pin_registry_update(
     name = name,

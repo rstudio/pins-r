@@ -93,13 +93,13 @@ kaggle_create_resource <- function(name, description, token, type) {
   parsed$url
 }
 
-kaggle_create_bundle <- function(path, type, description, metadata) {
+kaggle_create_bundle <- function(path, type, description) {
   bundle_path <- tempfile()
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
-  if (identical(dir(path), "data.rds")) {
-    loaded <- readRDS(dir(path, full.names = TRUE))
+  if (identical(dir(path, "data\\.rds"), "data.rds")) {
+    loaded <- readRDS(dir(path, "data\\.rds", full.names = TRUE))
     if (is.data.frame(loaded)) {
       write.csv(loaded, file.path(path, "data.csv"), row.names = FALSE)
     }
@@ -111,8 +111,6 @@ kaggle_create_bundle <- function(path, type, description, metadata) {
   else {
     file.copy(path, bundle_path)
   }
-
-  pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
 
   bundle_file <- tempfile(fileext = ".zip")
   withr::with_dir(
@@ -148,11 +146,12 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-board_pin_create.kaggle <- function(board, path, name, description, type, metadata, ...) {
+board_pin_create.kaggle <- function(board, path, name, ...) {
+  description <- list(...)$description
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", gsub("-pin$", "", name), "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
-  temp_bundle <- kaggle_create_bundle(path, type, description, metadata)
+  temp_bundle <- kaggle_create_bundle(path, type, description)
   on.exit(unlink(temp_bundle))
 
   token <- kaggle_upload_resource(temp_bundle)
@@ -235,10 +234,6 @@ board_pin_get.kaggle <- function(board, name) {
 
   type <- pin_manifest_get(local_path)$type
 
-  files <- dir(local_path)
-  files <- files[!grepl("pin\\.json", files)]
-
-  attr(local_path, "pin_type") <- type
   local_path
 }
 

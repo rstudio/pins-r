@@ -41,10 +41,10 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
     result <- board_pin_get(board_get(board), name)
   }
 
-  result_type <- pin_type(result)
-  if (is.null(result_type)) stop("Pin '", name, "' is missing attribute 'pin_type'")
+  manifest <- pin_manifest_get(result)
+  if (is.null(manifest$type)) manifest$type <- "files"
 
-  result <- pin_load(structure(result, class = result_type))
+  result <- pin_load(structure(result, class = manifest$type))
 
   attr(result, "pin_type") <- NULL
   attr(result, "pin_metadata") <- NULL

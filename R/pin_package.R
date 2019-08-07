@@ -1,5 +1,8 @@
 #' @keywords internal
 #' @export
 pin_load.package <- function(path, ...) {
-  get(load(path))
+  files <- dir(path, full.names = TRUE)
+  files <- files[!grepl("pin\\.json$", files)]
+
+  get(load(files))
 }

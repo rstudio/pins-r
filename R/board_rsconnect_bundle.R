@@ -76,7 +76,7 @@ rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_na
 }
 
 rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_name) {
-  file.copy(x, temp_dir, recursive = TRUE)
+  file.copy(dir(x, full.names = TRUE), temp_dir, recursive = TRUE)
 
   data_files <- dir(temp_dir, recursive = TRUE)
 

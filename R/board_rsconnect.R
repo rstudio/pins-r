@@ -35,7 +35,8 @@ board_persist.rsconnect <- function(board) {
   board
 }
 
-board_pin_create.rsconnect <- function(board, path, name, description, type, metadata, ...) {
+board_pin_create.rsconnect <- function(board, path, name, ...) {
+  description <- if (is.null(list(...)$description)) "" else list(...)$description
   on.exit(board_connect(board$name))
 
   deps <- rsconnect_dependencies()
@@ -44,16 +45,16 @@ board_pin_create.rsconnect <- function(board, path, name, description, type, met
   dir.create(temp_dir, recursive = TRUE)
   on.exit(unlink(temp_dir, recursive = TRUE))
 
-  x <- if (length(dir(path)) == 1 && identical(tools::file_ext(dir(path)), "rds"))
-    readRDS(dir(path, full.names = TRUE)) else path
+  x <- if (length(dir(path)) <= 2 && identical(dir(path, "data\\.rds"), "data.rds"))
+    readRDS(dir(path, "data\\.rds", full.names = TRUE)) else path
 
   account_name <- board$account
   if (is.null(account_name)) {
     account_name <- rsconnect_api_get(board, "/__api__/users/current/")$username
   }
 
+  file.copy(dir(path, full.names = TRUE), temp_dir)
   data_files <- rsconnect_bundle_create(x, temp_dir, name, board, account_name)
-  pin_manifest_create(temp_dir, type, description, metadata, data_files)
 
   rsconnect_is_authenticated <- function(board) {
     !is.null(board$key) || !is.null(board$account)
@@ -220,7 +221,6 @@ board_pin_get.rsconnect <- function(board, name) {
 
   unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$", full.names = TRUE))
 
-  attr(local_path, "pin_type") <- manifest$type
   local_path
 }
 

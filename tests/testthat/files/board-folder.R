@@ -3,30 +3,21 @@ board_initialize.folder <- function(board, ...) {
   board
 }
 
-board_pin_create.folder <- function(board, path, name, description, type, metadata, ...) {
-  folder <- file.path("pins", paste(name, type, sep = "."))
-
-  dir.create(folder)
-  file.copy(dir(path, recursive = TRUE, full.names = TRUE), folder)
+board_pin_create.folder <- function(board, path, name, ...) {
+  dir.create(file.path("pins", name), recursive = TRUE, showWarnings = FALSE)
+  file.copy(dir(path, full.names = TRUE), file.path("pins", name), recursive = TRUE)
 }
 
 board_pin_get.folder <- function(board, name) {
-  path <- file.path("pins", dir("pins", name))
-  attr(path, "pin_type") <- gsub("pins[^\\.]+\\.", "", path)
-  path
+  file.path("pins", name)
 }
 
 board_pin_find.folder <- function(board, text) {
-  path <- dir("pins", text, full.names = T)
-  names <- sapply(strsplit(basename(path), "\\."), function(e) e[1])
-  types <- sapply(strsplit(basename(path), "\\."), function(e) e[2])
-  empties <- rep("", length(types))
-
-  data.frame(name = names, description = empties, type = types, metadata = empties, stringsAsFactors = F)
+  data.frame(name = dir("pins", text), stringsAsFactors = F)
 }
 
 board_pin_remove.folder <- function(board, name) {
-  unlink(file.path("pins", name))
+  unlink(file.path("pins", name), recursive = TRUE)
 }
 
 board_register("folder")

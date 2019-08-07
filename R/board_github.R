@@ -44,7 +44,9 @@ github_upload_file <- function(board, path) {
 
 }
 
-board_pin_create.github <- function(board, path, name, description, type, metadata, ...) {
+board_pin_create.github <- function(board, path, name, ...) {
+  description <- list(...)$description
+
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
@@ -58,8 +60,6 @@ board_pin_create.github <- function(board, path, name, description, type, metada
   else {
     file.copy(path, bundle_path)
   }
-
-  pin_manifest_create(bundle_path, type, description, metadata, dir(bundle_path, recursive = TRUE))
 
   for (file in dir(bundle_path, recursive = TRUE)) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit

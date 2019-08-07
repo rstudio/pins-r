@@ -39,43 +39,49 @@ board_pin_get.packages <- function(board, name) {
   package <- parts[1]
   name <- paste(parts[2:length(parts)], collapse = "/")
 
-  package_pin <- cranfiles[which(cranfiles$package == package, cranfiles$dataset == name),]
+  package_pin <- cranfiles[which(cranfiles$package == package & cranfiles$dataset == name),]
   if (nrow(package_pin) == 0) stop("Pin '", name, "' does not exist in packages board.")
 
   packages_path <- board_local_storage("packages")
 
-  package_path <- dir(
-    packages_path,
-    pattern = package_pin$package,
-    full.names = TRUE)[1]
+  resource_path <- file.path(packages_path, package, name)
 
-  if (!dir.exists(package_path)) {
+  if (!dir.exists(resource_path)) {
 
-    if (!dir.exists(packages_path)) dir.create(packages_path, recursive = TRUE)
+    dir.create(resource_path, recursive = TRUE)
 
-    utils::download.packages(package_pin$package, packages_path, repos = "https://cran.rstudio.com/")
+    temp_path <- tempfile()
+    dir.create(temp_path)
+    on.exit(unlink(temp_path, recursive = TRUE))
+
+    repos <- getOption("repos")["CRAN"]
+    if (length(repos) == 0 || is.na(repos)) repos <- "https://cran.rstudio.com/"
+
+    utils::download.packages(package_pin$package, temp_path, repos = repos)
 
     tar <- dir(
-      packages_path,
+      temp_path,
       pattern = paste0(package_pin$package, ".*.tar.gz"),
       full.names = TRUE)[1]
 
-    utils::untar(tar, exdir = packages_path)
+    utils::untar(tar, exdir = temp_path)
     unlink(tar)
 
-    package_path <- dir(
-      packages_path,
+    temp_package <- dir(
+      temp_path,
       pattern = package_pin$package,
       full.names = TRUE)[1]
+
+    temp_file <- dir(
+      file.path(temp_package, "data"),
+      pattern = name,
+      full.names = TRUE)[1]
+
+    file.copy(temp_file, resource_path)
+    pin_manifest_create(resource_path, "package", package_pin$description, package_pin$metadata, "")
   }
 
-  data_file <- dir(
-    file.path(package_path, "data"),
-    pattern = name,
-    full.names = TRUE)[1]
-
-  attr(data_file, "pin_type") <- "package"
-  data_file
+  resource_path
 }
 
 get_cranfiles <- function() {
