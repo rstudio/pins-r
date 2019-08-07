@@ -37,11 +37,8 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
     }
     if (is.null(result)) stop("Failed to retrieve '", name, "' pin.")
   }
-  else if (identical(board, "local") || !cache) {
-    result <- board_pin_get(board_get(board), name)
-  }
   else {
-    result <- pin_get_and_cache(board, name)
+    result <- board_pin_get(board_get(board), name)
   }
 
   result_type <- pin_type(result)

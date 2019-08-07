@@ -16,12 +16,12 @@ guess_extension_from_path <- function(path) {
 board_pin_create.local <- function(board, path, name, description, type, metadata, file, ...) {
   on.exit(board_connect(board$name))
 
+  final_path <- pin_registry_update(name = name, component = "local")
+
   if (grepl("^http", path)) {
-    final_path <- pin_download(path, name, "local", ...)
+    download_path <- pin_download(path, name, "local", ...)
   }
   else {
-    final_path <- pin_registry_update(name = name, component = "local")
-
     unlink(final_path, recursive = TRUE)
     dir.create(final_path)
 

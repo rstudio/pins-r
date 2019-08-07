@@ -205,22 +205,20 @@ board_pin_get.rsconnect <- function(board, name) {
   if (!grepl("^http://|^https://|^/content/", name)) {
     details <- rsconnect_get_by_name(board, name)
     url <- details$url
+    etag <- as.character(details$last_deployed_time)
   }
 
   url <- gsub("/$", "", url)
   remote_path <- gsub("//", "/", file.path("/content", gsub("(^.*/|^)content/", "", url)))
 
-  local_path <- tempfile()
-  dir.create(local_path)
-
-  rsconnect_api_download(board, file.path(remote_path, "pin.json"), file.path(local_path, "pin.json"))
+  local_path <- rsconnect_api_download(board, name, file.path(remote_path, "pin.json"), etag = etag)
   manifest <- jsonlite::read_json(file.path(local_path, "pin.json"))
 
   for (file in manifest$files) {
-    rsconnect_api_download(board, file.path(remote_path, file), file.path(local_path, file))
+    rsconnect_api_download(board, name, file.path(remote_path, file), etag = etag)
   }
 
-  unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$|pin\\.json$", full.names = TRUE))
+  unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$", full.names = TRUE))
 
   attr(local_path, "pin_type") <- manifest$type
   local_path

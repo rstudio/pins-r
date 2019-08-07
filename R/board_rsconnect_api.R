@@ -69,10 +69,12 @@ rsconnect_api_post <- function(board, path, content, encode) {
   }
 }
 
-rsconnect_api_download <- function(board, path, download) {
+rsconnect_api_download <- function(board, name, path, etag) {
   url <- paste0(board$server, path)
 
-  httr::GET(url,
-            httr::write_disk(download),
-            rsconnect_api_auth_headers(board, path, "GET"))
+  pin_download(url,
+               name,
+               board$name,
+               headers = rsconnect_api_auth_headers(board, path, "GET"),
+               custom_etag = etag)
 }
