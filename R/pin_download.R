@@ -4,6 +4,22 @@ pin_download <- function(path, name, component, ...) {
   old_pin <- tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
   old_cache <- old_pin$cache
 
+  if (is.null(old_cache)) {
+    old_pin$cache <- old_cache <- list()
+    cache_index <- 1
+  }
+  else {
+    cache_urls <- sapply(old_cache, function(e) e$url)
+    cache_index <- which(cache_urls == path)
+    if (length(cache_index) == 0) {
+      old_cache <- list()
+      cache_index <- length(old_cache) + 1
+    }
+    else {
+      old_cache <- old_cache[[cache_index]]
+    }
+  }
+
   report_error <- if (is.null(old_cache)) stop else warning
 
   cache <- list()
@@ -58,9 +74,12 @@ pin_download <- function(path, name, component, ...) {
     return()
   }
 
+  new_cache <- old_pin$cache
+  new_cache[[cache_index]] <- cache
+
   final_path <- pin_registry_update(
     name = name,
-    params = list(cache = cache),
+    params = list(cache = new_cache),
     component = component)
 
   file.copy(dir(local_path, recursive = TRUE, full.names = TRUE) , final_path)
