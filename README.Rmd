@@ -21,7 +21,10 @@ ggplot2::theme_set(ggplot2::theme_light())
 
 [![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
+[![Downloads](https://cranlogs.r-pkg.org/badges/pins?color=blue)](https://www.r-pkg.org/pkg/pins)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Chat](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/sparklyr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
 You can use the `pins` package from **R**, or **Python**, to:
 
@@ -164,4 +167,4 @@ import pins
 pins.pin_get("hpiR/seattle_sales")
 ```
 
-Please make sure to ~~pin~~ visit, [pins.rstudio.com](https://rstudio.github.io/pins/index.html), where you will find detailed documentation and additional resources.
+Please make sure to ~~pin~~ visit, [rstudio.github.io/pins](https://rstudio.github.io/pins/index.html), where you will find detailed documentation and additional resources.
