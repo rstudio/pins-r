@@ -81,7 +81,7 @@ board_pin_create.rsconnect <- function(board, path, name, ...) {
                                   paste0("/__api__/v1/experimental/content"),
                                   list(
                                     app_mode = "static",
-                                    content_category = "data",
+                                    content_category = "pin",
                                     name = name,
                                     description = description
                                   ))
@@ -110,7 +110,7 @@ board_pin_create.rsconnect <- function(board, path, name, ...) {
         appmode = "static",
         primary_rmd = NA,
         primary_html = "index.html",
-        content_category = "data",
+        content_category = "pin",
         has_parameters = FALSE
       ),
       packages = NA,
@@ -159,7 +159,7 @@ board_pin_find.rsconnect <- function(board, text, ...) {
 
   results <- as.data.frame(do.call("rbind", results))
 
-  if (!all_content) results <- results[results$content_category == "data",]
+  if (!all_content) results <- results[results$content_category == "pin",]
 
   results$name <- paste(results$owner_username, results$name, sep = "/")
 
@@ -199,7 +199,7 @@ rsconnect_get_by_name <- function(board, name) {
 
   details <- board_pin_find(board, only_name, extended = TRUE)
 
-  details <- details[grepl(name_pattern, details$name) & details$content_category == "data",]
+  details <- details[grepl(name_pattern, details$name) & details$content_category == "pin",]
 
   if (nrow(details) > 1) {
     details <- details[details$owner_username == board$account,]
