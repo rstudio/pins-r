@@ -15,6 +15,9 @@ board_initialize.rsconnect <- function(board, ...) {
   board$server <- args$server
   board$server_name <- if (!is.null(args$server)) gsub("https?://|:[0-9]+/?", "", args$server) else NULL
   board$account <- args$account
+
+  if (identical(args$key, "")) stop("Invalid API key, the API key is empty.")
+
   board$key <- args$key
 
   if (!is.null(board$key) && is.null(board$server)) {
