@@ -230,15 +230,18 @@ board_pin_get.kaggle <- function(board, name) {
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
   temp_zip <- tempfile(fileext = ".zip")
 
+  extended <- pin_find(name, board = board$name, extended = TRUE)
+  etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
+
+  local_path <- pin_download(url,
+                             name,
+                             component = "kaggle",
+                             config = kaggle_auth(),
+                             custom_etag = etag)
+
   results <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
   if (httr::status_code(results) != 200)
     stop("Failed to retrieve pin with status ", httr::status_code(results))
-
-  local_path <- tempfile()
-  dir.create(local_path)
-  utils::unzip(temp_zip, exdir = local_path)
-
-  type <- pin_manifest_get(local_path)$type
 
   local_path
 }

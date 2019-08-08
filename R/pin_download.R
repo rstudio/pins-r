@@ -1,6 +1,7 @@
-pin_download <- function(path, name, component, local_path, ...) {
+pin_download <- function(path, name, component, ...) {
   must_cache <- identical(list(...)$cache, FALSE)
   headers <- list(...)$headers
+  config <- list(...)$config
   custom_etag <- list(...)$custom_etag
 
   local_path <- pin_registry_path(component, name)
@@ -33,6 +34,7 @@ pin_download <- function(path, name, component, local_path, ...) {
   cache$url <- path
 
   error <- NULL
+  is_zip <- FALSE
 
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
@@ -45,7 +47,7 @@ pin_download <- function(path, name, component, local_path, ...) {
       cache$etag <- custom_etag
     }
     else {
-      head_result <- httr::HEAD(path, httr::timeout(5))
+      head_result <- httr::HEAD(path, httr::timeout(5), headers, config)
       cache$etag <- head_result$headers$etag
       cache$max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
 
@@ -68,7 +70,8 @@ pin_download <- function(path, name, component, local_path, ...) {
         pin_log("Downloading ", path, " to ", destination_path)
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
-        result <- httr::GET(path, write_spec, headers)
+        result <- httr::GET(path, write_spec, headers, config)
+        is_zip <- identical(result$headers$`content-type`, "application/zip")
 
         if (httr::status_code(result) != 200) {
           error <- paste0(status, " Failed to download remote file: ", path)
@@ -91,6 +94,12 @@ pin_download <- function(path, name, component, local_path, ...) {
       cache = new_cache,
       path = local_path),
     component = component)
+
+  if (is_zip) {
+    zip <- dir(local_path, full.names = TRUE)
+    utils::unzip(zip, exdir = local_path)
+    unlink(zip)
+  }
 
   local_path
 }

@@ -100,7 +100,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, ...)
 
   for (single_path in path) {
     if (grepl("^http", single_path)) {
-      single_path <- pin_download(single_path, name, "local", board$name, ...)
+      single_path <- pin_download(single_path, name, "local", ...)
     }
 
     if (dir.exists(single_path)) {
