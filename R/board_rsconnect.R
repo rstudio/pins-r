@@ -13,6 +13,7 @@ board_initialize.rsconnect <- function(board, ...) {
   args <- list(...)
 
   board$server <- args$server
+  board$server_name <- if (!is.null(args$server)) gsub(":[0-9]+/?", "", args$server) else NULL
   board$account <- args$account
   board$key <- args$key
 

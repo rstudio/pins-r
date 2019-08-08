@@ -32,8 +32,12 @@ rsconnect_token_initialize <- function(board) {
   accounts <- deps$accounts()
   if (is.null(accounts)) stop("RStudio Connect is not registered, please add a publishing account or specify an API key.")
 
-  if (is.null(board$server)) board$server <- accounts$server[1]
-  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server,]$name
+  if (is.null(board$server)) {
+    board$server_name <- accounts$server[1]
+    board$server <- gsub("/__api__", "", deps$server_info(board$server_name)$url)
+  }
+
+  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name,]$name
 
   board
 }
@@ -41,7 +45,7 @@ rsconnect_token_initialize <- function(board) {
 rsconnect_token_headers <- function(board, path, verb, content) {
   deps <- rsconnect_token_dependencies()
 
-  server_info <- deps$server_info(board$server)
+  server_info <- deps$server_info(board$server_name)
   service <- rsconnect_token_parse_url(server_info$url)
 
   account_info <- deps$account_info(board$account)
@@ -63,7 +67,7 @@ rsconnect_token_headers <- function(board, path, verb, content) {
 rsconnect_token_post <- function(board, path, content, encode) {
   deps <- rsconnect_token_dependencies()
 
-  server_info <- deps$server_info(board$server)
+  server_info <- deps$server_info(board$server_name)
   parsed <- rsconnect_token_parse_url(server_info$url)
 
   if (identical(class(content), "form_file")) {
