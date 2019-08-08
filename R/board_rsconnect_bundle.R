@@ -29,8 +29,17 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
     recursive = TRUE)
 
   max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
+
+  x_preview <- utils::head(x, n = max_rows)
+  x_preview <- data.frame(lapply(x_preview, function(e) {
+    if (!is.numeric(e) || !is.integer(e) || !is.logical(e) || !is.double(e))
+      as.character(e)
+    else
+      e
+  }), stringsAsFactors = FALSE)
+
   data_preview <- list(
-    columns = lapply(colnames(x), function(e) {
+    columns = lapply(colnames(x_preview), function(e) {
       list(
         align = "right",
         label = e,
@@ -38,10 +47,10 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
         type = ""
       )
     }),
-    data = utils::head(x, n = max_rows),
+    data = x_preview,
     options = list(
       columns = list( max = 10 ),
-      rows = list ( min = 1, total = nrow(x))
+      rows = list (min = 1, total = nrow(x_preview))
     )
   )
 
