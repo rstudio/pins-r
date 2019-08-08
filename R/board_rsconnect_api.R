@@ -20,9 +20,14 @@ rsconnect_api_version <- function(board) {
 }
 
 rsconnect_api_get <- function(board, path) {
-  httr::GET(paste0(board$server, path),
-            rsconnect_api_auth_headers(board, path, "GET")) %>%
-    httr::content()
+  url <- paste0(board$server, path)
+  result <- httr::GET(url, rsconnect_api_auth_headers(board, path, "GET"))
+
+  if (httr::status_code(result) < 200 || httr::status_code(result) >= 300) {
+    stop("Failed to retrieve ", url, " ", as.character(httr::content(result)))
+  }
+
+  result %>% httr::content()
 }
 
 rsconnect_api_delete <- function(board, path) {
