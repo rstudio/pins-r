@@ -186,7 +186,7 @@
         </tr>
       </table>
       <div id="results">
-        <div id="status" v-html="status"></div>
+        <div id="status" v-html="status" v-if="status.length > 0"></div>
         <result-entry v-for="entry in entries" :entry="entry"></result-entry>
       </div>
       <div class="navigation">
