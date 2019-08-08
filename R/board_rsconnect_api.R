@@ -66,7 +66,7 @@ rsconnect_api_post <- function(board, path, content, encode) {
 
   if (httr::status_code(result) != 200 && !is.list(content)) {
     list(
-      error = paste("Operation failed with status", httr::status_code(result))
+      error = paste0("Operation failed with status ", httr::status_code(result), ": ", as.character(content))
     )
   }
   else {
