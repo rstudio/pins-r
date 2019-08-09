@@ -49,7 +49,7 @@ board_pin_create.rsconnect <- function(board, path, name, ...) {
   dir.create(temp_dir, recursive = TRUE)
   on.exit(unlink(temp_dir, recursive = TRUE))
 
-  x <- if (length(dir(path)) <= 2 && identical(dir(path, "data\\.rds"), "data.rds"))
+  x <- if (identical(dir(path, "data\\.rds"), "data.rds"))
     readRDS(dir(path, "data\\.rds", full.names = TRUE)) else path
 
   account_name <- board$account
