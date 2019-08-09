@@ -198,6 +198,7 @@ rsconnect_get_by_name <- function(board, name) {
   details <- board_pin_find(board, only_name)
   details <- pin_results_extract_column(details, "content_category")
   details <- pin_results_extract_column(details, "url")
+  details <- pin_results_extract_column(details, "guid")
 
   details <- details[grepl(name_pattern, details$name) & details$content_category == "pin",]
 
@@ -242,6 +243,7 @@ board_pin_get.rsconnect <- function(board, name) {
 
 board_pin_remove.rsconnect <- function(board, name) {
   details <- rsconnect_get_by_name(board, name)
+  details <- pin_results_extract_column(details, "guid")
 
   invisible(rsconnect_api_delete(board, paste0("/__api__/v1/experimental/content/", details$guid)))
 }
