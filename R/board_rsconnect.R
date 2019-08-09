@@ -196,6 +196,8 @@ rsconnect_get_by_name <- function(board, name) {
   only_name <- pin_content_name(name)
 
   details <- board_pin_find(board, only_name)
+  details <- pin_results_extract_column(details, "content_category")
+  details <- pin_results_extract_column(details, "url")
 
   details <- details[grepl(name_pattern, details$name) & details$content_category == "pin",]
 

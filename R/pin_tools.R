@@ -33,3 +33,8 @@ pin_results_from_rows <- function(entries) {
     stringsAsFactors = FALSE
   )
 }
+
+pin_results_extract_column <- function(df, column) {
+  df[[column]] <- sapply(df$metadata, function(e) jsonlite::fromJSON(e)[[column]])
+  df
+}
