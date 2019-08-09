@@ -2,7 +2,7 @@
 #' @export
 pin_load.package <- function(path, ...) {
   files <- dir(path, full.names = TRUE)
-  files <- files[!grepl("pin\\.json$", files)]
+  files <- files[!grepl("data\\.txt$", files)]
 
   get(load(files))
 }

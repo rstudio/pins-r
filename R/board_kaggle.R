@@ -100,9 +100,6 @@ kaggle_create_bundle <- function(path, type, description) {
 
   if (identical(dir(path, "data\\.rds"), "data.rds")) {
     loaded <- readRDS(dir(path, "data\\.rds", full.names = TRUE))
-    if (is.data.frame(loaded)) {
-      write.csv(loaded, file.path(path, "data.csv"), row.names = FALSE)
-    }
   }
 
   if (dir.exists(path)) {

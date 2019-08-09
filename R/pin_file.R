@@ -8,7 +8,9 @@ pin_file_cache_max_age <- function(cache_control) {
   if (is.null(cache_control)) return(NULL)
   max_age <- grep("max-age", cache_control)
   if (length(max_age) != 1) return(NULL)
-  as.numeric(gsub(".*max-age=", "", cache_control))
+
+  max_age <- gsub(".*max-age=", "", cache_control)
+  as.numeric(gsub(",.*$", "", max_age))
 }
 
 #' @keywords internal

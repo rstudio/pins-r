@@ -1,9 +1,9 @@
 pin_manifest_get <- function(path) {
   manifest <- list()
 
-  pin_json <- file.path(path, "pin.json")
-  if (file.exists(pin_json)) {
-    manifest <- jsonlite::read_json(pin_json)
+  data_txt <- file.path(path, "data.txt")
+  if (file.exists(data_txt)) {
+    manifest <- yaml::read_yaml(data_txt)
   }
 
   if (is.null(manifest$type)) manifest$type <- "files"
@@ -12,18 +12,13 @@ pin_manifest_get <- function(path) {
 }
 
 pin_manifest_create <- function(path, type, description, metadata, files) {
-  entries <- list(
+  entries <- c(list(
+    path = files,
     type = type,
-    description = description,
-    metadata = metadata,
-    files = files
-  )
+    description = description
+  ), metadata)
 
   entries[sapply(entries, is.null)] <- NULL
 
-  manifest <- jsonlite::toJSON(
-    entries,
-    auto_unbox = TRUE)
-
-  writeLines(manifest, file.path(path, "pin.json"))
+  yaml::write_yaml(entries, file.path(path, "data.txt"))
 }

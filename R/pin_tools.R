@@ -13,3 +13,23 @@ pin_content_name <- function(name) {
 pin_content_owner <- function(name) {
   if (is.character(name)) pin_split_owner(name)$owner else NULL
 }
+
+pin_results_from_rows <- function(entries) {
+  results_field <- function(entries, field, default) {
+    sapply(entries,
+           function(e) if (is.null(e[[field]])) default else e[[field]])
+  }
+
+  names <- sapply(entries, function(e) e$name)
+  descriptions <- results_field(entries, "description", "")
+  types <- results_field(entries, "type", "files")
+  metadata <- sapply(entries, function(e) as.character(jsonlite::toJSON(e[setdiff(names(e), c("name", "description", "type"))])))
+
+  data.frame(
+    name = names,
+    description = descriptions,
+    type = types,
+    metadata = metadata,
+    stringsAsFactors = FALSE
+  )
+}

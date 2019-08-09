@@ -121,13 +121,18 @@ board_pin_find.github <- function(board, text, ...) {
 
     if (length(folders) == 1) {
       # retrieve additional details if searching for only one item
-      result <- httr::GET(github_url(board, "/contents/", board$path, "/", folders, "/", "pin.json", "?ref=", board$branch),
+      result_single <- httr::GET(github_url(board, "/contents/", board$path, "/", folders, "/", "data.txt", "?ref=", board$branch),
                           github_headers(board))
-      if (httr::status_code(result) == 200) {
-        result <- as.data.frame(jsonlite::fromJSON(httr::GET(httr::content(result)$download_url) %>% httr::content()),
-                                stringsAsFactors = FALSE)
-        result$name <- folders
-        result$files <- NULL
+
+      if (httr::status_code(result_single) == 200) {
+        local_path <- pin_download(httr::content(result_single)$download_url,
+                                   folders,
+                                   "github",
+                                   headers = github_headers(board),
+                                   remove_query = TRUE)
+        manifest <- pin_manifest_get(local_path)
+
+        result$metadata <- as.character(jsonlite::toJSON(manifest))
       }
     }
 

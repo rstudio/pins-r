@@ -144,7 +144,6 @@ board_pin_create.rsconnect <- function(board, path, name, ...) {
 }
 
 board_pin_find.rsconnect <- function(board, text, ...) {
-  extended <- identical(list(...)$extended, TRUE)
   all_content  <- identical(list(...)$all_content, TRUE)
 
   if (is.null(text)) text <- ""
@@ -158,13 +157,12 @@ board_pin_find.rsconnect <- function(board, text, ...) {
     filter <- paste0("search=", text)
   }
 
-  results <- rsconnect_api_get(board, paste0("/__api__/applications/?", filter))$applications
+  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", filter))$applications
+  if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
 
-  results <- as.data.frame(do.call("rbind", results))
+  results <- pin_results_from_rows(entries)
 
-  if (!all_content) results <- results[results$content_category == "pin",]
-
-  results$name <- paste(results$owner_username, results$name, sep = "/")
+  results$name <- sapply(entries, function(e) paste(e$owner_username, e$name, sep = "/"))
 
   if (nrow(results) == 0) {
     return(
@@ -174,33 +172,30 @@ board_pin_find.rsconnect <- function(board, text, ...) {
 
   results$name <- as.character(results$name)
   results$type <- "files"
-  results$metadata <- "{}"
   results$description <- as.character(lapply(results$description, function(e) paste0("", e)))
 
   if (nrow(results) == 1) {
     # enhance with pin information
-    remote_path <- rsconnect_remote_path_from_url(results$url)
-    etag <- as.character(results$last_deployed_time)
-    local_path <- rsconnect_api_download(board, results$name, file.path(remote_path, "pin.json"), etag = etag)
-    manifest <- jsonlite::read_json(file.path(local_path, "pin.json"))
+    remote_path <- rsconnect_remote_path_from_url(entries[[1]]$url)
+    etag <- as.character(entries[[1]]$last_deployed_time)
+
+    local_path <- rsconnect_api_download(board, entries[[1]]$name, file.path(remote_path, "data.txt"), etag = etag)
+    manifest <- pin_manifest_get(local_path)
+
+    manifest <- c(entries[[1]], manifest)
 
     results$type <- manifest$type
-    results$metadata <- manifest$metadata
+    results$metadata <- as.character(jsonlite::toJSON(manifest))
   }
 
-  if (extended) {
-    results
-  }
-  else {
-    results[c("name", "description", "type", "metadata")]
-  }
+  results
 }
 
 rsconnect_get_by_name <- function(board, name) {
   name_pattern <- if (grepl("/", name)) name else paste0(".*/", name, "$")
   only_name <- pin_content_name(name)
 
-  details <- board_pin_find(board, only_name, extended = TRUE)
+  details <- board_pin_find(board, only_name)
 
   details <- details[grepl(name_pattern, details$name) & details$content_category == "pin",]
 
@@ -231,10 +226,10 @@ board_pin_get.rsconnect <- function(board, name) {
 
   remote_path <- rsconnect_remote_path_from_url(url)
 
-  local_path <- rsconnect_api_download(board, name, file.path(remote_path, "pin.json"), etag = etag)
-  manifest <- jsonlite::read_json(file.path(local_path, "pin.json"))
+  local_path <- rsconnect_api_download(board, name, file.path(remote_path, "data.txt"), etag = etag)
+  manifest <- pin_manifest_get(local_path)
 
-  for (file in manifest$files) {
+  for (file in manifest$path) {
     rsconnect_api_download(board, name, file.path(remote_path, file), etag = etag)
   }
 

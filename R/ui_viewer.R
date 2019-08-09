@@ -79,16 +79,19 @@ ui_viewer_register <- function(board) {
       attr_names <- c()
       attr_values <- c()
 
-      pin_index <- pin_find(table, board = board$name, extended = TRUE)
+      pin_index <- pin_find(table, board = board$name, metadata = TRUE)
 
-      for (name in names(pin_index)) {
-        value <- as.character(pin_index[[name]])
-        if (length(value) == 1 && nchar(value) > 0 && !identical(value, "NULL")) {
-          if (identical(name, "type")) value <- paste0("'", value, "'")
-
-          attr_names <- c(attr_names, name)
-          attr_values <- c(attr_values, value)
+      if (!is.null(pin_index$metadata) || nchar(pin_index$metadata) > 0) {
+        metadata <- jsonlite::fromJSON(pin_index$metadata)
+        if (!is.null(metadata$columns)) {
+          attr_names <- c(attr_names, names(metadata$columns))
+          attr_values <- c(attr_values, as.character(metadata$columns))
         }
+      }
+
+      if (length(attr_names) == 0) {
+        attr_names <- c(attr_names, "files")
+        attr_values <- c(attr_values, "character")
       }
 
       data.frame(

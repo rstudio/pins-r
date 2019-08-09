@@ -76,7 +76,6 @@ pin_remove <- function(name, board) {
 pin_find <- function(text = NULL, board = NULL, ...) {
   if (is.null(board) || nchar(board) == 0) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
-  type <- list(...)$type
   text <- pin_content_name(text)
 
   all_pins <- data.frame(
@@ -91,10 +90,6 @@ pin_find <- function(text = NULL, board = NULL, ...) {
 
     board_pins <- board_pin_find(board = board_object, text, ...)
     board_pins$board <- rep(board_name, nrow(board_pins))
-
-    if (!identical(type, NULL)) {
-      board_pins <- board_pins[board_pins$type %in% type,]
-    }
 
     all_pins <- rbind(all_pins, board_pins)
   }

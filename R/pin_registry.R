@@ -1,5 +1,5 @@
 pin_registry_config <- function(component) {
-  file.path(board_local_storage(component), "config.yml")
+  file.path(board_local_storage(component), "data.txt")
 }
 
 pin_registry_load_entries <- function(component) {
@@ -46,26 +46,14 @@ pin_registry_update <- function(name, component, params = list()) {
   path
 }
 
-pin_registry_field <- function(entries, field, default) {
-  sapply(entries,
-         function(e) if (is.null(e[[field]])) default else e[[field]])
-}
-
 pin_registry_find <- function(text, component) {
   entries <- pin_registry_load_entries(component)
 
-  names <- sapply(entries, function(e) e$name)
-  descriptions <- pin_registry_field(entries, "description", "")
-  types <- pin_registry_field(entries, "type", "files")
-  metadata <- pin_registry_field(entries, "metadata", "")
+  results <- pin_results_from_rows(entries)
 
-  data.frame(
-    name = names,
-    description = descriptions,
-    type = types,
-    metadata = metadata,
-    stringsAsFactors = FALSE
-  )
+  if (is.character(text)) results[grepl(text, results$name),] else results
+
+  results
 }
 
 pin_registry_retrieve <- function(name, component) {

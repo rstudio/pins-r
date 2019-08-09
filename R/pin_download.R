@@ -3,6 +3,7 @@ pin_download <- function(path, name, component, ...) {
   headers <- list(...)$headers
   config <- list(...)$config
   custom_etag <- list(...)$custom_etag
+  remove_query <- identical(list(...)$remove_query, TRUE)
 
   local_path <- pin_registry_path(component, name)
 
@@ -66,7 +67,10 @@ pin_download <- function(path, name, component, ...) {
         report_error(error)
       }
       else {
-        destination_path <- file.path(local_path, basename(path))
+        download_name <- basename(path)
+
+        if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
+        destination_path <- file.path(local_path, download_name)
         pin_log("Downloading ", path, " to ", destination_path)
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
@@ -91,8 +95,9 @@ pin_download <- function(path, name, component, ...) {
   pin_registry_update(
     name = name,
     params = list(
-      cache = new_cache,
-      path = local_path),
+      path = local_path,
+      source = cache$url,
+      cache = new_cache),
     component = component)
 
   if (is_zip) {

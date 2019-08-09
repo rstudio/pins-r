@@ -26,5 +26,5 @@ pin_preview.default <- function(x, board = NULL, ...) {
 pin_load.default <- function(path, ...) {
   files <- dir(path, recursive = TRUE, full.names = TRUE)
 
-  files[!grepl("pin\\.json$", files)]
+  files[!grepl("data\\.txt$", files)]
 }
