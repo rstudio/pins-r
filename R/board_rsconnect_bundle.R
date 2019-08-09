@@ -22,7 +22,7 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
 
   max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
 
-  csv_name <- dir(temp_dir, "data\\.csv", full.names = TRUE)
+  csv_name <- dir(temp_dir, "data\\.csv")
 
   x_preview <- utils::head(x, n = max_rows)
   x_preview <- data.frame(lapply(x_preview, function(e) {
