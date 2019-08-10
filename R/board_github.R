@@ -40,7 +40,47 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board
 }
 
+github_update_index <- function(board, path, commit) {
+  index_url <- github_url(board, "/contents/", board$path, "/data.txt")
+  response <- httr::GET(index_url, github_headers(board))
+
+  sha <- NULL
+  index <- list()
+  if (!httr::http_error(response)) {
+    sha <- httr::content(response)$sha
+
+    response <- httr::GET(httr::content(response)$download_url, github_headers(board))
+    if (!httr::http_error(response)) {
+      index <- yaml::yaml.load(httr::content(response))
+    }
+  }
+
+  index_pos <- which(sapply(index, function(e) identical(e$path, path)))
+  if (length(index_pos) == 0) index_pos <- length(index)
+
+  index[[index_pos + 1]] <- list(path = path)
+  index_file <- tempfile(fileext = "yml")
+  yaml::write_yaml(index, index_file)
+
+  file_url <- github_url(board, "/contents/", board$path, "/data.txt")
+
+  base64 <- base64enc::base64encode(index_file)
+  response <- httr::PUT(file_url,
+                        body = list(
+                          message = commit,
+                          content = base64,
+                          sha = sha,
+                          branch = board$branch
+                        ),
+                        github_headers(board), encode = "json")
+
+  if (httr::http_error(response)) {
+    stop("Failed to update data.txt file: ", httr::content(response))
+  }
+}
+
 board_pin_create.github <- function(board, path, name, ...) {
+  index <- identical(list(...)$index, TRUE)
   description <- list(...)$description
 
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
@@ -64,7 +104,7 @@ board_pin_create.github <- function(board, path, name, ...) {
     pin_log("uploading ", file_url)
 
     sha <- NULL
-    response <- httr::GET(paste0(file_url, "?ref=", board$branch), github_headers(board))
+    response <- httr::GET(file_url, github_headers(board))
     if (httr::status_code(response) == 200) {
       sha <- httr::content(response)$sha
     }
@@ -84,10 +124,13 @@ board_pin_create.github <- function(board, path, name, ...) {
       stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
     }
   }
+
+  if (index) github_update_index(board, path, commit)
+
 }
 
 board_pin_find.github <- function(board, text, ...) {
-  result <- httr::GET(github_url(board, "/contents/", board$path, "?ref=", board$branch),
+  result <- httr::GET(github_url(board, "/contents/", board$path),
                       github_headers(board))
 
   if (httr::status_code(result) != 200) {
@@ -137,7 +180,11 @@ board_pin_find.github <- function(board, text, ...) {
 }
 
 github_url <- function(board, ...) {
-  paste0("https://api.github.com/repos/", board$repo, paste0(..., collapse = ""))
+  url <- paste0("https://api.github.com/repos/", board$repo, paste0(..., collapse = ""))
+  if (!is.null(board$branch) && nchar(board$branch) > 0)
+    url <- paste0(url, "?ref=", board$branch)
+
+  url
 }
 
 github_download_files <- function(index, temp_path, board) {
@@ -158,7 +205,7 @@ github_download_files <- function(index, temp_path, board) {
 
 board_pin_get.github <- function(board, name) {
   base_url <- github_url(board, "/contents/", board$path, "/", name)
-  result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
+  result <- httr::GET(base_url, github_headers(board))
 
   index <- httr::content(result)
 
@@ -181,7 +228,7 @@ board_pin_get.github <- function(board, name) {
 
 board_pin_remove.github <- function(board, name, ...) {
   base_url <- github_url(board, "/contents/", board$path, "/", name)
-  result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
+  result <- httr::GET(base_url, github_headers(board))
 
   index <- httr::content(result)
 
@@ -209,11 +256,6 @@ board_pin_remove.github <- function(board, name, ...) {
     if (httr::status_code(response) != 200)
       stop("Failed to delete ", name, " from ", board$repo, ": ", deletion$message)
   }
-}
-
-board_info.github <- function(board) {
-  list(
-  )
 }
 
 board_persist.github <- function(board) {

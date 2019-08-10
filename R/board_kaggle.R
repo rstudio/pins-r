@@ -248,11 +248,6 @@ board_pin_remove.kaggle <- function(board, name) {
   stop("Please remove dataset from: https://www.kaggle.com/", qualified, "/settings")
 }
 
-board_info.kaggle <- function(board) {
-  list(
-  )
-}
-
 board_browse.kaggle <- function(board) {
   utils::browseURL("https://www.kaggle.com/datasets?tab=my")
 }

@@ -7,8 +7,6 @@ new_board <- function(board, name, ...) {
 
   board <- board_initialize(board, ...)
 
-  board$info <- board_info(board)
-
   board
 }
 

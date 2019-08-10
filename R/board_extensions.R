@@ -82,15 +82,6 @@ board_persist.default <- function(board) structure(list(board = board$board, nam
 #' @export
 #' @rdname custom-boards
 #' @keywords internal
-board_info <- function(board) {
-  UseMethod("board_info")
-}
-
-board_info.default = function(board) NULL
-
-#' @export
-#' @rdname custom-boards
-#' @keywords internal
 board_pin_store <- function(board, path, name, description, type, metadata, ...) {
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))
 
