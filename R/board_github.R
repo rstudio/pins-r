@@ -34,14 +34,14 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
 
   board$token <- token
   board$repo <- repo
-  board$path <- path
+  board$path <- if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else ""
   board$branch <- branch
 
   board
 }
 
 github_update_index <- function(board, path, commit) {
-  index_url <- github_url(board, "/contents/", board$path, "/data.txt")
+  index_url <- github_url(board, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
   sha <- NULL
@@ -62,7 +62,7 @@ github_update_index <- function(board, path, commit) {
   index_file <- tempfile(fileext = "yml")
   yaml::write_yaml(index, index_file)
 
-  file_url <- github_url(board, "/contents/", board$path, "/data.txt")
+  file_url <- github_url(board, "/contents/", board$path, "data.txt")
 
   base64 <- base64enc::base64encode(index_file)
   response <- httr::PUT(file_url,
@@ -99,7 +99,7 @@ board_pin_create.github <- function(board, path, name, ...) {
 
   for (file in dir(bundle_path, recursive = TRUE)) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-    file_url <- github_url(board, "/contents/", board$path, "/", name, "/", file)
+    file_url <- github_url(board, "/contents/", board$path, name, "/", file)
 
     pin_log("uploading ", file_url)
 
@@ -160,7 +160,7 @@ board_pin_find.github <- function(board, text, ...) {
 
     if (length(folders) == 1) {
       # retrieve additional details if searching for only one item
-      result_single <- httr::GET(github_url(board, "/contents/", board$path, "/", folders, "/", "data.txt", "?ref=", board$branch),
+      result_single <- httr::GET(github_url(board, "/contents/", board$path, folders, "/", "data.txt", "?ref=", board$branch),
                           github_headers(board))
 
       if (!httr::http_error(result_single)) {
@@ -204,7 +204,7 @@ github_download_files <- function(index, temp_path, board) {
 }
 
 board_pin_get.github <- function(board, name) {
-  base_url <- github_url(board, "/contents/", board$path, "/", name)
+  base_url <- github_url(board, "/contents/", board$path, name)
   result <- httr::GET(base_url, github_headers(board))
 
   index <- httr::content(result)
@@ -227,7 +227,7 @@ board_pin_get.github <- function(board, name) {
 }
 
 board_pin_remove.github <- function(board, name, ...) {
-  base_url <- github_url(board, "/contents/", board$path, "/", name)
+  base_url <- github_url(board, "/contents/", board$path, name)
   result <- httr::GET(base_url, github_headers(board))
 
   index <- httr::content(result)
