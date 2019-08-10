@@ -171,23 +171,11 @@ board_pin_get.github <- function(board, name) {
     base_url <- basename(base_url)
   }
 
-  type <- "files"
-  result <- httr::GET(file.path(base_url, "pin.json?ref=", board$branch), github_headers(board))
-  if (httr::status_code(result) == 200) {
-    manifest <- httr::content(result)$content %>%
-      base64enc::base64decode() %>%
-      rawToChar() %>%
-      jsonlite::fromJSON()
-
-    type <- manifest$type
-  }
-
   temp_path <- tempfile()
   dir.create(temp_path)
 
   github_download_files(index, temp_path, board)
 
-  attr(temp_path, "pin_type") <- type
   temp_path
 }
 

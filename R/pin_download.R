@@ -96,7 +96,6 @@ pin_download <- function(path, name, component, ...) {
     name = name,
     params = list(
       path = local_path,
-      source = cache$url,
       cache = new_cache),
     component = component)
 

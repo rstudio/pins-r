@@ -46,9 +46,6 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
 
   result <- pin_load(structure(result, class = manifest$type))
 
-  attr(result, "pin_type") <- NULL
-  attr(result, "pin_metadata") <- NULL
-
   format_tibble(result)
 }
 
@@ -139,13 +136,4 @@ pin_preview <- function(x, board = NULL, ...) {
 #' @export
 pin_load <- function(path, ...) {
   UseMethod("pin_load")
-}
-
-pin_type <- function(x) {
-  attr(x, "pin_type")
-}
-
-pin_type_set <- function(x, type) {
-  attr(x, "pin_type") <- type
-  x
 }
