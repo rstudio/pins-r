@@ -20,7 +20,7 @@ github_headers <- function(board) {
   httr::add_headers(Authorization = paste("token", github_auth(board)))
 }
 
-board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pins", branch = "master", overwrite = FALSE, ...) {
+board_initialize.github <- function(board, token = NULL, repo = NULL, path = "", branch = "master", overwrite = FALSE, ...) {
   if (!github_authenticated(board)) {
     if (is.null(token)) {
       stop("GitHub Personal Access Token must be specified with 'token' parameter to initialize board. ",
@@ -38,10 +38,6 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "pi
   board$branch <- branch
 
   board
-}
-
-github_upload_file <- function(board, path) {
-
 }
 
 board_pin_create.github <- function(board, path, name, ...) {
