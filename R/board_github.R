@@ -55,7 +55,8 @@ github_update_index <- function(board, path, commit) {
     }
   }
 
-  index_pos <- which(sapply(index, function(e) identical(e$path, path)))
+  index_matches <- sapply(index, function(e) identical(e$path, path))
+  index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index)
   if (length(index_pos) == 0) index_pos <- length(index)
 
   index[[index_pos + 1]] <- list(path = path)
@@ -80,7 +81,7 @@ github_update_index <- function(board, path, commit) {
 }
 
 board_pin_create.github <- function(board, path, name, ...) {
-  index <- identical(list(...)$index, TRUE)
+  index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
 
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
@@ -125,7 +126,7 @@ board_pin_create.github <- function(board, path, name, ...) {
     }
   }
 
-  if (index) github_update_index(board, path, commit)
+  if (index) github_update_index(board, paste0(board$path, name), commit)
 
 }
 
