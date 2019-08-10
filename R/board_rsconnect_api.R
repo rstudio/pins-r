@@ -23,7 +23,7 @@ rsconnect_api_get <- function(board, path) {
   url <- paste0(board$server, path)
   result <- httr::GET(url, rsconnect_api_auth_headers(board, path, "GET"))
 
-  if (httr::status_code(result) < 200 || httr::status_code(result) >= 300) {
+  if (httr::http_error(result)) {
     stop("Failed to retrieve ", url, " ", as.character(httr::content(result)))
   }
 
@@ -64,7 +64,7 @@ rsconnect_api_post <- function(board, path, content, encode) {
     content <- rsconnect_token_post(board, path, content, encode)
   }
 
-  if (httr::status_code(result) != 200 && !is.list(content)) {
+  if (httr::http_error(result) && !is.list(content)) {
     list(
       error = paste0("Operation failed with status ", httr::status_code(result), ": ", as.character(content))
     )

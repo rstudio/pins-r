@@ -77,7 +77,7 @@ pin_download <- function(path, name, component, ...) {
         result <- httr::GET(path, write_spec, headers, config)
         is_zip <- identical(result$headers$`content-type`, "application/zip")
 
-        if (httr::status_code(result) != 200) {
+        if (httr::http_error(result)) {
           error <- paste0(status, " Failed to download remote file: ", path)
           report_error(error)
         }

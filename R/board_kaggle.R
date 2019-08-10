@@ -45,7 +45,7 @@ kaggle_upload_resource <- function(path) {
 
   results <- httr::POST(url, body = list(fileName = basename(path)), config = kaggle_auth())
 
-  if (httr::status_code(results) != 200) stop("Upload registration failed with status ", httr::status_code(results))
+  if (httr::http_error(results)) stop("Upload registration failed with status ", httr::status_code(results))
 
   parsed <- httr::content(results)
 
@@ -56,7 +56,7 @@ kaggle_upload_resource <- function(path) {
 
   results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth())
 
-  if (httr::status_code(results) != 200) stop("Upload failed with status ", httr::status_code(results))
+  if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
 
   parsed <- httr::content(results)
 
@@ -84,7 +84,7 @@ kaggle_create_resource <- function(name, description, token, type) {
 
   results <- httr::POST(url, body = body, config = kaggle_auth(), encode = "json")
 
-  if (httr::status_code(results) != 200) stop("Resource creation failed with status ", httr::status_code(results))
+  if (httr::http_error(results)) stop("Resource creation failed with status ", httr::status_code(results))
 
   parsed <- httr::content(results)
 
@@ -180,7 +180,7 @@ board_pin_search_kaggle <- function(text = NULL) {
   url <- utils::URLencode(paste0(base_url, params))
 
   results <- httr::GET(url, config = kaggle_auth())
-  if (httr::status_code(results) != 200) stop("Finding pin failed with status ", httr::status_code(results))
+  if (httr::http_error(results)) stop("Finding pin failed with status ", httr::status_code(results))
 
   httr::content(results)
 }
@@ -237,7 +237,7 @@ board_pin_get.kaggle <- function(board, name) {
                              custom_etag = etag)
 
   results <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
-  if (httr::status_code(results) != 200)
+  if (httr::http_error(results))
     stop("Failed to retrieve pin with status ", httr::status_code(results))
 
   local_path

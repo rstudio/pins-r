@@ -105,7 +105,7 @@ board_pin_create.github <- function(board, path, name, ...) {
 
     sha <- NULL
     response <- httr::GET(file_url, github_headers(board))
-    if (httr::status_code(response) == 200) {
+    if (!httr::http_error(response)) {
       sha <- httr::content(response)$sha
     }
 
@@ -120,7 +120,7 @@ board_pin_create.github <- function(board, path, name, ...) {
                           github_headers(board), encode = "json")
     upload <- httr::content(response)
 
-    if (httr::status_code(response) < 200 || httr::status_code(response) >= 300) {
+    if (httr::http_error(response)) {
       stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
     }
   }
@@ -133,7 +133,7 @@ board_pin_find.github <- function(board, text, ...) {
   result <- httr::GET(github_url(board, "/contents/", board$path),
                       github_headers(board))
 
-  if (httr::status_code(result) != 200) {
+  if (httr::http_error(result)) {
     data.frame(
       name = character(),
       description = character(),
@@ -163,7 +163,7 @@ board_pin_find.github <- function(board, text, ...) {
       result_single <- httr::GET(github_url(board, "/contents/", board$path, "/", folders, "/", "data.txt", "?ref=", board$branch),
                           github_headers(board))
 
-      if (httr::status_code(result_single) == 200) {
+      if (!httr::http_error(result_single)) {
         local_path <- pin_download(httr::content(result_single)$download_url,
                                    folders,
                                    "github",
@@ -209,7 +209,7 @@ board_pin_get.github <- function(board, name) {
 
   index <- httr::content(result)
 
-  if (httr::status_code(result) != 200)
+  if (httr::http_error(result))
     stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
 
   # need to handle case where users passes a full URL to the specific file to download
@@ -232,7 +232,7 @@ board_pin_remove.github <- function(board, name, ...) {
 
   index <- httr::content(result)
 
-  if (httr::status_code(result) != 200)
+  if (httr::http_error(result))
     stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
 
   # need to handle case where users passes a full URL to the specific file to download
@@ -253,7 +253,7 @@ board_pin_remove.github <- function(board, name, ...) {
 
     deletion <- httr::content(response)
 
-    if (httr::status_code(response) != 200)
+    if (httr::http_error(response))
       stop("Failed to delete ", name, " from ", board$repo, ": ", deletion$message)
   }
 }
