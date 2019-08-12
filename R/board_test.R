@@ -26,6 +26,9 @@ board_test <- function(board, exclude = list()) {
   pin_name <- paste0("afile", round(stats::runif(1, 1, 1000)))
   dataset_name <- paste0("adataset", round(stats::runif(1, 1, 1000)))
 
+  old_progress <- options(pins.progress = FALSE)
+  on.exit(options(pins.progress = old_progress))
+
   deps$test_that(paste("can pin() file to", board, "board"), {
     cached_path <- pin(text_file, pin_name, board = board)
 

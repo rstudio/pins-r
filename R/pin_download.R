@@ -7,6 +7,11 @@ pin_download <- function(path, name, component, ...) {
 
   local_path <- pin_registry_path(component, name)
 
+  # use a temp path to rollback if something fails
+  temp_path <- tempfile()
+  dir.create(temp_path)
+  on.exit(unlink(temp_path, recursive = TRUE))
+
   old_pin <- tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
   old_cache <- old_pin$cache
 
@@ -70,11 +75,11 @@ pin_download <- function(path, name, component, ...) {
         download_name <- basename(path)
 
         if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
-        destination_path <- file.path(local_path, download_name)
+        destination_path <- file.path(temp_path, download_name)
         pin_log("Downloading ", path, " to ", destination_path)
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
-        result <- httr::GET(path, write_spec, headers, config)
+        result <- httr::GET(path, write_spec, headers, config, http_utils_progress())
         is_zip <- identical(result$headers$`content-type`, "application/zip")
 
         if (httr::http_error(result)) {
@@ -92,18 +97,23 @@ pin_download <- function(path, name, component, ...) {
   new_cache <- old_pin$cache
   new_cache[[cache_index]] <- cache
 
+  if (is_zip) {
+    zip <- dir(temp_path, full.names = TRUE)
+    pin_log("Extracting zip file '", zip, "'")
+    utils::unzip(zip, exdir = temp_path)
+    unlink(zip)
+  }
+
+  for (file in dir(temp_path, full.names = TRUE)) {
+    file.copy(file, local_path, overwrite = TRUE, recursive = TRUE)
+  }
+
   pin_registry_update(
     name = name,
     params = list(
       path = local_path,
       cache = new_cache),
     component = component)
-
-  if (is_zip) {
-    zip <- dir(local_path, full.names = TRUE)
-    utils::unzip(zip, exdir = local_path)
-    unlink(zip)
-  }
 
   local_path
 }

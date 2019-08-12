@@ -1,6 +1,3 @@
-kaggle_dependencies <- function() {
-
-}
 
 kaggle_auth_paths <- function() {
   normalizePath(
@@ -54,7 +51,8 @@ kaggle_upload_resource <- function(path) {
   upload_url <- parsed$createUrl
   token <- parsed$token
 
-  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth())
+  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth(),
+                       http_utils_progress("up"))
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
 
@@ -228,6 +226,8 @@ board_pin_get.kaggle <- function(board, name) {
   temp_zip <- tempfile(fileext = ".zip")
 
   extended <- pin_find(name, board = board$name, extended = TRUE)
+  extended <- extended[grepl(name, extended$name),]
+
   etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
 
   local_path <- pin_download(url,
@@ -235,10 +235,6 @@ board_pin_get.kaggle <- function(board, name) {
                              component = "kaggle",
                              config = kaggle_auth(),
                              custom_etag = etag)
-
-  results <- httr::GET(url, config = kaggle_auth(), httr::write_disk(temp_zip))
-  if (httr::http_error(results))
-    stop("Failed to retrieve pin with status ", httr::status_code(results))
 
   local_path
 }

@@ -1,6 +1,3 @@
-github_dependencies <- function() {
-
-}
 
 github_authenticated <- function(board) {
   if (!is.null(board$token))
@@ -118,7 +115,8 @@ board_pin_create.github <- function(board, path, name, ...) {
                             sha = sha,
                             branch = board$branch
                           ),
-                          github_headers(board), encode = "json")
+                          github_headers(board), encode = "json",
+                          http_utils_progress("up"))
     upload <- httr::content(response)
 
     if (httr::http_error(response)) {
@@ -205,13 +203,13 @@ github_download_files <- function(index, temp_path, board) {
     pin_log("retrieving ", file$download_url)
 
     if (is.list(file) && identical(file$type, "dir")) {
-      sub_index <- httr::GET(file$url, github_headers(board)) %>% httr::content()
+      sub_index <- httr::GET(file$url, github_headers(board), http_utils_progress()) %>% httr::content()
       github_download_files(sub_index, file.path(temp_path, file$name), board)
     }
     else {
       if (!dir.exists(temp_path)) dir.create(temp_path, recursive = TRUE)
       httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
-                github_headers(board))
+                http_utils_progress(), github_headers(board))
     }
   }
 }

@@ -36,7 +36,7 @@ rsconnect_api_delete <- function(board, path) {
     httr::content()
 }
 
-rsconnect_api_post <- function(board, path, content, encode) {
+rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
   url <- paste0(board$server, path)
 
   if (identical(class(content), "form_file")) {
@@ -56,21 +56,21 @@ rsconnect_api_post <- function(board, path, content, encode) {
     result <- httr::POST(url,
                          encode = encode,
                          body = content,
-                         rsconnect_api_auth_headers(board, url, "POST", content))
+                         rsconnect_api_auth_headers(board, url, "POST", content),
+                         progress)
     content <- httr::content(result)
-  }
-  else {
-    result <- 200
-    content <- rsconnect_token_post(board, path, content, encode)
-  }
 
-  if (httr::http_error(result) && !is.list(content)) {
-    list(
-      error = paste0("Operation failed with status ", httr::status_code(result), ": ", as.character(content))
-    )
+    if (httr::http_error(result)) {
+      list(
+        error = paste0("Operation failed with status ", httr::status_code(result), ": ", as.character(content))
+      )
+    }
+    else {
+      content
+    }
   }
   else {
-    content
+    rsconnect_token_post(board, path, content, encode)
   }
 }
 
