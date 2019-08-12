@@ -188,11 +188,23 @@ github_url <- function(board, ...) {
   url
 }
 
+github_content_url <- function(board, ...) {
+  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(..., collapse = ""))
+  if (!is.null(board$branch) && nchar(board$branch) > 0)
+    url <- paste0(url, "?ref=", board$branch)
+
+  url
+}
+
+github_raw_url <- function(board, ...) {
+  paste0("https://raw.githubusercontent.com/", board$repo, "/", board$branch, "/", paste0(..., collapse = ""))
+}
+
 github_download_files <- function(index, temp_path, board) {
   for (file in index) {
     pin_log("retrieving ", file$download_url)
 
-    if (identical(file$type, "dir")) {
+    if (is.list(file) && identical(file$type, "dir")) {
       sub_index <- httr::GET(file$url, github_headers(board)) %>% httr::content()
       github_download_files(sub_index, file.path(temp_path, file$name), board)
     }
@@ -205,26 +217,41 @@ github_download_files <- function(index, temp_path, board) {
 }
 
 board_pin_get.github <- function(board, name) {
-  base_url <- github_url(board, "/contents/", board$path, name)
-  result <- httr::GET(base_url, github_headers(board))
+  base_url <- github_raw_url(board, board$path, name, "/data.txt")
+  local_path <- pin_download(base_url, name, board$board, headers = github_headers(board))
 
-  index <- httr::content(result)
+  if (file.exists(file.path(local_path, "data.txt"))) {
+    index <- pin_manifest_get(local_path)
 
-  if (httr::http_error(result))
-    stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
+    for (file in index$path) {
+      file_url <- github_raw_url(board, board$path, name, "/", file)
+      pin_download(file_url, name, board$board, headers = github_headers(board))
+    }
 
-  # need to handle case where users passes a full URL to the specific file to download
-  if (!is.null(names(index))) {
-    index <- list(index)
-    base_url <- basename(base_url)
+    local_path
   }
+  else {
+    base_url <- github_raw_url(board, board$path, name)
+    result <- httr::GET(base_url, github_headers(board))
 
-  temp_path <- tempfile()
-  dir.create(temp_path)
+    index <- httr::content(result)
 
-  github_download_files(index, temp_path, board)
+    if (httr::http_error(result))
+      stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
 
-  temp_path
+    # need to handle case where users passes a full URL to the specific file to download
+    if (!is.null(names(index))) {
+      index <- list(index)
+      base_url <- basename(base_url)
+    }
+
+    temp_path <- tempfile()
+    dir.create(temp_path)
+
+    github_download_files(index, temp_path, board)
+
+    temp_path
+  }
 }
 
 board_pin_remove.github <- function(board, name, ...) {
