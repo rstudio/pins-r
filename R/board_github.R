@@ -37,7 +37,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board
 }
 
-github_update_index <- function(board, path, commit) {
+github_update_index <- function(board, path, commit, operation) {
   index_url <- github_url(board, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
@@ -53,10 +53,20 @@ github_update_index <- function(board, path, commit) {
   }
 
   index_matches <- sapply(index, function(e) identical(e$path, path))
-  index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index)
-  if (length(index_pos) == 0) index_pos <- length(index)
+  index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index) + 1
+  if (length(index_pos) == 0) index_pos <- length(index) + 1
 
-  index[[index_pos + 1]] <- list(path = path)
+  if (identical(operation, "create")) {
+    index[[index_pos]] <- list(path = path)
+  }
+  else if (identical(operation, "remove")) {
+    if (index_pos <= length(index)) index[[index_pos]] <- NULL
+  }
+  else {
+    stop("Operation ", operation, " is unsupported")
+  }
+
+
   index_file <- tempfile(fileext = "yml")
   yaml::write_yaml(index, index_file)
 
@@ -78,7 +88,7 @@ github_update_index <- function(board, path, commit) {
 }
 
 board_pin_create.github <- function(board, path, name, ...) {
-  index <- !identical(list(...)$index, FALSE)
+  update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
 
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
@@ -124,7 +134,7 @@ board_pin_create.github <- function(board, path, name, ...) {
     }
   }
 
-  if (index) github_update_index(board, paste0(board$path, name), commit)
+  if (update_index) github_update_index(board, paste0(board$path, name), commit, operation = "create")
 
 }
 
@@ -148,7 +158,7 @@ board_pin_find.github <- function(board, text, ...) {
     result <- data.frame(
       name = folders,
       description = rep("", length(folders)),
-      type = rep("", length(folders)),
+      type = rep("files", length(folders)),
       metadata = rep("", length(folders)),
       stringsAsFactors = FALSE
     )
@@ -187,8 +197,13 @@ github_url <- function(board, ...) {
 }
 
 github_content_url <- function(board, ...) {
-  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(..., collapse = ""))
-  if (!is.null(board$branch) && nchar(board$branch) > 0)
+  args <- list(...)
+
+  use_branch <- !identical(args$branch, FALSE)
+  args$branch <- NULL
+
+  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(args, collapse = ""))
+  if (!is.null(board$branch) && nchar(board$branch) > 0 && use_branch)
     url <- paste0(url, "?ref=", board$branch)
 
   url
@@ -253,28 +268,25 @@ board_pin_get.github <- function(board, name) {
 }
 
 board_pin_remove.github <- function(board, name, ...) {
-  base_url <- github_url(board, "/contents/", board$path, name)
-  result <- httr::GET(base_url, github_headers(board))
+  update_index <- !identical(list(...)$index, FALSE)
+
+  base_url <- github_content_url(board, name, branch = FALSE)
+  result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
 
   index <- httr::content(result)
 
   if (httr::http_error(result))
     stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
 
-  # need to handle case where users passes a full URL to the specific file to download
-  if (!is.null(names(index))) {
-    index <- list(index)
-    base_url <- basename(base_url)
-  }
-
   for (file in index) {
     pin_log("deleting ", file$name)
 
     commit <- if (is.null(list(...)$commit)) paste("delete", file$name) else list(...)$commit
 
-    response <- httr::DELETE(paste0(file.path(base_url, file$name), "?ref=", board$branch), body = list(
+    response <- httr::DELETE(file.path(base_url, file$name), body = list(
       message = commit,
-      sha = file$sha
+      sha = file$sha,
+      branch = board$branch
     ), github_headers(board), encode = "json")
 
     deletion <- httr::content(response)
@@ -282,6 +294,8 @@ board_pin_remove.github <- function(board, name, ...) {
     if (httr::http_error(response))
       stop("Failed to delete ", name, " from ", board$repo, ": ", deletion$message)
   }
+
+  if (update_index) github_update_index(board, paste0(board$path, name), commit, operation = "remove")
 }
 
 board_persist.github <- function(board) {
