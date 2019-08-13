@@ -2,5 +2,13 @@ pandoc: '2.5'
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
-  boards: boards.html
+  boards-extending: boards-extending.html
+  boards-github: boards-github.html
+  boards-kaggle: boards-kaggle.html
+  boards-rsconnect: boards-rsconnect.html
+  boards-url: boards-url.html
+  pins-extending: pins-extending.html
+  pins-finding: pins-finding.html
+  pins-rstudio: pins-rstudio.html
+  pins-starting: pins-starting.html
 
