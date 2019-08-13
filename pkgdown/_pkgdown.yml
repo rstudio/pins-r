@@ -1,6 +1,7 @@
 template:
   params:
     bootswatch: flatly
+
 reference:
   - title: "Pins"
     desc: "Functions for pinning, finding, retrieveing and sharing remote resources."
@@ -10,3 +11,36 @@ reference:
     desc: "Functions for configuring remote storage lcoations, known as 'boards'."
     contents:
       - starts_with("board_")
+
+navbar:
+  title: "pins"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Articles"
+      menu:
+        - text: Pins
+        - text: "Getting Started"
+          href: articles/pins-starting.html
+        - text: "Finding Pins"
+          href: articles/pins-finding.html
+        - text: "Using Pins in RStudio"
+          href: articles/pins-rstudio.html
+        - text: "---"
+        - text: Boards
+        - text: "Storing Pins in Github"
+          href: articles/boards-github.html
+        - text: "Storing Pins in Kaggle"
+          href: articles/boards-kaggle.html
+        - text: "Storing Pins in RStudio Connect"
+          href: articles/boards-rsconnect.html
+        - text: "Storing Pins in Websites"
+          href: articles/boards-url.html
+        - text: "---"
+        - text: Extensions
+        - text: "Extending Pins"
+          href: articles/pins-extending.html
+        - text: "Extending Boards"
+          href: articles/boards-extending.html
+    - text: "Reference"
+      href: reference/index.html

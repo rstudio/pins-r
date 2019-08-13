@@ -1,5 +1,5 @@
 ---
-title: "Understanding Boards"
+title: "Extending Boards"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Understanding Boards}
@@ -31,12 +31,10 @@ The defaul board in the `pins` package is a files-based; meaning, remote files a
 ```{nomnoml echo=FALSE, out.width='100%', out.height='160px'}
 [R|
   [<note>library(pins)
-    pin(iris, "iris")]
+    pin(iris)]
 ]-[File System|
-  [<note>~/documents/
-   ~/images/
-   ~/pins/files/pins.yml
-   ~/pins/files/iris.Rds
+  [<note>~/pins/files/iris.Rds
+   ~/pins/files/data.txt
   ]
 ]
 ```
@@ -51,7 +49,7 @@ account in RStudio.
 [R|
    [<note>library(pins)
     register_board("rsconnect")
-    pin(iris, "iris")]
+    pin(iris)]
 ]-[RStudio Connect|
   [<note>iris]]
 ```

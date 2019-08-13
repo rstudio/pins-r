@@ -1,0 +1,8 @@
+---
+title: "Using RStudio Connect Boards"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Understanding Boards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
