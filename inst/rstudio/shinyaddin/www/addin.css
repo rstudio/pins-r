@@ -59,13 +59,18 @@ select {
   width: 400px;
   color: #464646;
   font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .result-entry-info-desc {
   height: 30px;
   width: 400px;
   color: #7c7c7c;
+  text-overflow: ellipsis;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .result-entry-table {
