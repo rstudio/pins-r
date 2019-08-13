@@ -10,7 +10,14 @@ reference:
   - title: "Boards"
     desc: "Functions for configuring remote storage lcoations, known as 'boards'."
     contents:
-      - starts_with("board_")
+      - board_deregister
+      - board_get
+      - board_list
+      - board_register
+  - title: "Extensions"
+    desc: "Functions for creating custom boards."
+    contents:
+      - board_pin_create
 
 navbar:
   title: "pins"
