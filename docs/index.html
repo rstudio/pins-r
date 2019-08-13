@@ -63,16 +63,19 @@
     </li>
 <li class="dropdown-header">Boards</li>
     <li>
-      <a href="articles/boards-github.html">Storing Pins in Github</a>
+      <a href="articles/boards-github.html">Understanding Boards</a>
     </li>
     <li>
-      <a href="articles/boards-kaggle.html">Storing Pins in Kaggle</a>
+      <a href="articles/boards-github.html">GitHub Boards</a>
     </li>
     <li>
-      <a href="articles/boards-rsconnect.html">Storing Pins in RStudio Connect</a>
+      <a href="articles/boards-kaggle.html">Kaggle Boards</a>
     </li>
     <li>
-      <a href="articles/boards-url.html">Storing Pins in Websites</a>
+      <a href="articles/boards-rsconnect.html">RStudio Connect Boards</a>
+    </li>
+    <li>
+      <a href="articles/boards-url.html">Website Boards</a>
     </li>
     <li class="divider">
     </li>
@@ -126,6 +129,7 @@ pins: Pin, Discover and Share Resources
 <li>
 <strong>Resources</strong> can be anything from CSV, JSON or Excel files to image archives.</li>
 </ul>
+<p>If you find yourself using <code><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file()</a></code> or asking others to download files before running your R code, use <code><a href="reference/pin.html">pin()</a></code> to achieve fast, simple and reliable reproducible research over remote resources.</p>
 <p>To start using <code>pins</code>, install this package as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
 <a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"rstudio/pins"</span>)</a></code></pre></div>
@@ -139,7 +143,6 @@ pins: Pin, Discover and Share Resources
 <p>This makes reading subsequent remotes files orders of magnitude faster, files are only downloaded when the remote resource changes; we can compare the two approaches using the <a href="https://CRAN.R-project.org/package=bench">bench</a> package:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">bench<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/bench/topics/mark">mark</a></span>(<span class="kw">read_csv</span>(url), <span class="kw">read_csv</span>(<span class="kw"><a href="reference/pin.html">pin</a></span>(url)), <span class="dt">iterations =</span> <span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
 <p><img src="tools/readme/rstudio-pin-performance-1.png" width="2187.5" style="display: block; margin: auto;"></p>
-<p>Also, if you find yourself using <code><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file()</a></code> or asking others to download files before running your R code, use <code><a href="reference/pin.html">pin()</a></code> to achieve fast, simple and reliable reproducible research over remote resources.</p>
 <p>You can also use pins to cache intermediate results to avoid having to recompute expensive operations:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">retail_sales <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(<span class="dt">month =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/month.html">month</a></span>(ds, T)) <span class="op">%&gt;%</span></a>
@@ -193,11 +196,11 @@ pins: Pin, Discover and Share Resources
 <p>You can then easily publish to Kaggle:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="dt">name =</span> <span class="st">"seattle_sales"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
-<p>There are other boards you can use or even create custom boards as described in the <a href="https://rstudio.github.io/pins/articles/boards.html">Understanding Boards</a> article; in addition, <code>pins</code> can also be used with RStudio products which we will describe next.</p>
+<p>There are other boards you can use or even create custom boards as described in the <a href="https://rstudio.github.io/pins/articles/boards-understanding.html">Understanding Boards</a> article; in addition, <code>pins</code> can also be used with RStudio products which we will describe next.</p>
 <div id="rstudio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
-<p>You can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> to discover and pin remote files and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to share content within your organization with ease.</p>
+<p>You can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to discover and share content within your organization with ease.</p>
 <p>To enable new boards, you can use <a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/">RStudio’s Data Connections</a> to start a new ‘pins’ connection and then selecting which board to connect to:</p>
 <center>
 <img src="tools/readme/rstudio-connect-board.png" style="width:70.0%">

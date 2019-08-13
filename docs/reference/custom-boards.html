@@ -35,7 +35,7 @@
 <meta property="og:title" content="Custom Boards — board_pin_create" />
 
 <meta property="og:description" content="Family of functions meant to be used to implement custom boards extensions,
-not to be used by end users." />
+not to be used by users." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -95,16 +95,19 @@ not to be used by end users." />
     <li class="divider"></li>
     <li class="dropdown-header">Boards</li>
     <li>
-      <a href="../articles/boards-github.html">Storing Pins in Github</a>
+      <a href="../articles/boards-github.html">Understanding Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-kaggle.html">Storing Pins in Kaggle</a>
+      <a href="../articles/boards-github.html">GitHub Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-rsconnect.html">Storing Pins in RStudio Connect</a>
+      <a href="../articles/boards-kaggle.html">Kaggle Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-url.html">Storing Pins in Websites</a>
+      <a href="../articles/boards-rsconnect.html">RStudio Connect Boards</a>
+    </li>
+    <li>
+      <a href="../articles/boards-url.html">Website Boards</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Extensions</li>
@@ -148,36 +151,50 @@ not to be used by end users." />
     <div class="ref-description">
     
     <p>Family of functions meant to be used to implement custom boards extensions,
-not to be used by end users.</p>
+not to be used by users.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_pin_create</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>description</span>, <span class='no'>type</span>, <span class='no'>metadata</span>)
+    <pre class="usage"><span class='fu'>board_pin_create</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>...</span>)
 
 <span class='fu'>board_initialize</span>(<span class='no'>board</span>, <span class='no'>...</span>)
 
-<span class='fu'>board_pin_get</span>(<span class='no'>board</span>, <span class='no'>name</span>, <span class='no'>details</span>)
+<span class='fu'>board_pin_get</span>(<span class='no'>board</span>, <span class='no'>name</span>, <span class='no'>details</span>, <span class='no'>...</span>)
 
-<span class='fu'>board_pin_remove</span>(<span class='no'>board</span>, <span class='no'>name</span>)
+<span class='fu'>board_pin_remove</span>(<span class='no'>board</span>, <span class='no'>name</span>, <span class='no'>...</span>)
 
 <span class='fu'>board_pin_find</span>(<span class='no'>board</span>, <span class='no'>text</span>, <span class='no'>...</span>)
 
-<span class='fu'>board_local_storage</span>(<span class='no'>component</span>)
+<span class='fu'>board_load</span>(<span class='no'>board</span>, <span class='no'>...</span>)
 
-<span class='fu'>board_load</span>(<span class='no'>board</span>)
-
-<span class='fu'>board_persist</span>(<span class='no'>board</span>)
+<span class='fu'>board_persist</span>(<span class='no'>board</span>, <span class='no'>...</span>)
 
 <span class='fu'>board_pin_store</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>description</span>, <span class='no'>type</span>, <span class='no'>metadata</span>, <span class='no'>...</span>)
 
-<span class='fu'>board_browse</span>(<span class='no'>board</span>)</pre>
+<span class='fu'>board_browse</span>(<span class='no'>board</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A local file path or an object. Boards must support storing both.</p></td>
+      <th>board</th>
+      <td><p>The board to extended, retrieved with <code><a href='board_get.html'>board_get()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>The path to store.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>The name of the pin.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameteres.</p></td>
+    </tr>
+    <tr>
+      <th>text</th>
+      <td><p>The text patteren to find a pin.</p></td>
     </tr>
     </table>
     

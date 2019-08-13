@@ -60,16 +60,19 @@
     <li class="divider">
     <li class="dropdown-header">Boards</li>
     <li>
-      <a href="../articles/boards-github.html">Storing Pins in Github</a>
+      <a href="../articles/boards-github.html">Understanding Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-kaggle.html">Storing Pins in Kaggle</a>
+      <a href="../articles/boards-github.html">GitHub Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-rsconnect.html">Storing Pins in RStudio Connect</a>
+      <a href="../articles/boards-kaggle.html">Kaggle Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-url.html">Storing Pins in Websites</a>
+      <a href="../articles/boards-rsconnect.html">RStudio Connect Boards</a>
+    </li>
+    <li>
+      <a href="../articles/boards-url.html">Website Boards</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Extensions</li>
@@ -115,20 +118,20 @@
     
     
 <p>A board is an storage location to store files for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.</p>
-<div id="htmlwidget-63e6be75bcfa25053941" style="width:100%;height:240px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-63e6be75bcfa25053941">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
+<div id="htmlwidget-7ec74bd83b8d91ecda03" style="width:100%;height:240px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7ec74bd83b8d91ecda03">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [Pin]->[Create]\n[Create]->[Board]\n[Pin]<-[Find]\n[Find]<-[Board]\n[Pin]<-[Retrieve]\n[Retrieve]<-[Board]\n[Pin]->[Remove]\n[Remove]->[Board]","svg":false},"evals":[],"jsHooks":[]}</script><div id="files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#files" class="anchor"></a>Files</h2>
 <p>The defaul board in the <code>pins</code> package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a <code>pins</code> folder under the default home folder for your user.</p>
-<div id="htmlwidget-f04f442a22e62e71ccd8" style="width:100%;height:160px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f04f442a22e62e71ccd8">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris)]\n]-[File System|\n  [<note>~/pins/files/iris.Rds\n   ~/pins/files/data.txt\n  ]\n]","svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-81525958378926450d31" style="width:100%;height:160px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-81525958378926450d31">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [R|\n  [<note>library(pins)\n    pin(iris)]\n]-[File System|\n  [<note>~/pins/files/iris.Rds\n   ~/pins/files/data.txt\n  ]\n]","svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="rstudio-connect" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
 <p><strong>RStudio Connect</strong> can be used to share pins within your organization, to use this feature you will need to configure a <a href="https://docs.rstudio.com/connect/user/publishing.html">publishing</a> account in RStudio.</p>
-<div id="htmlwidget-056c88a1cf6c2eaed2fc" style="width:100%;height:140px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-056c88a1cf6c2eaed2fc">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    register_board(\"rsconnect\")\n    pin(iris)]\n]-[RStudio Connect|\n  [<note>iris]]","svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
+<div id="htmlwidget-3d7771f8a101fa861c9c" style="width:100%;height:140px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d7771f8a101fa861c9c">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    register_board(\"rsconnect\")\n    pin(iris)]\n]-[RStudio Connect|\n  [<note>iris]]","svg":false},"evals":[],"jsHooks":[]}</script><p>To make RStudio Connect your default board run:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>)</a></code></pre></div>
 <p>Once this board is active, <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(xml2)</a>
@@ -140,8 +143,8 @@
 <div id="kaggle" class="section level2">
 <h2 class="hasAnchor">
 <a href="#kaggle" class="anchor"></a>Kaggle</h2>
-<div id="htmlwidget-8d7576e88f57a9824487" style="width:100%;height:140px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8d7576e88f57a9824487">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    register_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","svg":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-105bb57f073dc83e3f7e" style="width:100%;height:140px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-105bb57f073dc83e3f7e">{"x":{"code":"\n  #fill: #FEFEFF\n  #lineWidth: 1\n  #zoom: 4\n  #direction: right\n   [R|\n   [<note>library(pins)\n    register_board(\"kaggle\")\n    pin(iris, \"iris\")]\n]-[Kaggle|\n  [<note>iris]]","svg":false},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="other" class="section level2">
 <h2 class="hasAnchor">
@@ -158,15 +161,15 @@
 <a class="sourceLine" id="cb3-8" title="8">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.copy</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(path, <span class="dt">full.names =</span> <span class="ot">TRUE</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="st">"pins"</span>, name), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb3-9" title="9">}</a>
 <a class="sourceLine" id="cb3-10" title="10"></a>
-<a class="sourceLine" id="cb3-11" title="11">board_pin_get.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, name) {</a>
+<a class="sourceLine" id="cb3-11" title="11">board_pin_get.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, name, ...) {</a>
 <a class="sourceLine" id="cb3-12" title="12">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="st">"pins"</span>, name)</a>
 <a class="sourceLine" id="cb3-13" title="13">}</a>
 <a class="sourceLine" id="cb3-14" title="14"></a>
-<a class="sourceLine" id="cb3-15" title="15">board_pin_find.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, text) {</a>
+<a class="sourceLine" id="cb3-15" title="15">board_pin_find.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, text, ...) {</a>
 <a class="sourceLine" id="cb3-16" title="16">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="st">"pins"</span>, text), <span class="dt">stringsAsFactors =</span> F)</a>
 <a class="sourceLine" id="cb3-17" title="17">}</a>
 <a class="sourceLine" id="cb3-18" title="18"></a>
-<a class="sourceLine" id="cb3-19" title="19">board_pin_remove.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, name) {</a>
+<a class="sourceLine" id="cb3-19" title="19">board_pin_remove.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, name, ...) {</a>
 <a class="sourceLine" id="cb3-20" title="20">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlink">unlink</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="st">"pins"</span>, name), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb3-21" title="21">}</a></code></pre></div>
 </div>
