@@ -37,7 +37,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board
 }
 
-github_update_index <- function(board, path, commit, operation) {
+github_update_index <- function(board, path, commit, operation, name = NULL, description = NULL, type = NULL, metadata = NULL) {
   index_url <- github_url(board, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
@@ -45,10 +45,17 @@ github_update_index <- function(board, path, commit, operation) {
   index <- list()
   if (!httr::http_error(response)) {
     sha <- httr::content(response)$sha
+    content <- httr::content(response)
 
-    response <- httr::GET(httr::content(response)$download_url, github_headers(board))
-    if (!httr::http_error(response)) {
-      index <- yaml::yaml.load(httr::content(response))
+    # API reeturns contents when size < 1mb
+    if (!is.null(content$content)) {
+      index <- yaml::yaml.load(rawToChar(base64enc::base64decode(content$content)))
+    }
+    else {
+      response <- httr::GET(content$download_url, github_headers(board))
+      if (!httr::http_error(response)) {
+        index <- yaml::yaml.load(httr::content(response))
+      }
     }
   }
 
@@ -57,7 +64,15 @@ github_update_index <- function(board, path, commit, operation) {
   if (length(index_pos) == 0) index_pos <- length(index) + 1
 
   if (identical(operation, "create")) {
-    index[[index_pos]] <- list(path = path)
+    metadata$columns <- NULL
+
+    index[[index_pos]] <- c(
+      list(path = path),
+      if (!is.null(name)) list(name = name) else NULL,
+      if (!is.null(type)) list(type = type) else NULL,
+      if (!is.null(description)) list(description = description) else NULL,
+      metadata
+    )
   }
   else if (identical(operation, "remove")) {
     if (index_pos <= length(index)) index[[index_pos]] <- NULL
@@ -65,7 +80,6 @@ github_update_index <- function(board, path, commit, operation) {
   else {
     stop("Operation ", operation, " is unsupported")
   }
-
 
   index_file <- tempfile(fileext = "yml")
   yaml::write_yaml(index, index_file)
@@ -88,10 +102,12 @@ github_update_index <- function(board, path, commit, operation) {
 }
 
 board_pin_create.github <- function(board, path, name, ...) {
+  metadata <- if (is.null(list(...)$metadata)) "" else list(...)$metadata
+  type <- if (is.null(list(...)$type)) "" else list(...)$type
+  description <- if (is.null(list(...)$description)) "" else list(...)$description
   update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
 
-  if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", name, "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
   bundle_path <- tempfile()
@@ -134,58 +150,89 @@ board_pin_create.github <- function(board, path, name, ...) {
     }
   }
 
-  if (update_index) github_update_index(board, paste0(board$path, name), commit, operation = "create")
+  if (update_index) {
+    index_path <- paste0(board$path, name)
+
+    if (identical(type, "table")) {
+      index_path <- file.path(index_path, dir(path, "\\.csv"))
+    }
+
+    github_update_index(board, index_path, commit, operation = "create",
+                        description = description, name = name, type = type, metadata = metadata)
+  }
 
 }
 
 board_pin_find.github <- function(board, text, ...) {
-  result <- httr::GET(github_url(board, "/contents/", board$path),
+
+  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt"),
                       github_headers(board))
 
-  if (httr::http_error(result)) {
-    data.frame(
-      name = character(),
-      description = character(),
-      type = character(),
-      metadata = character(),
-      stringsAsFactors = FALSE
-    )
+  if (!httr::http_error(result)) {
+    content <- httr::content(result)
+    if (is.null(content$content)) {
+      result <- httr::GET(content$download_url, github_headers(board))
+      content <- httr::content(result)
+    }
+    else {
+      content <- rawToChar(base64enc::base64decode(content$content))
+    }
+
+    result <- yaml::yaml.load(content) %>%
+      pin_results_from_rows()
   }
   else {
-    folders <-  Filter(function(e) identical(e$type, "dir"), httr::content(result)) %>%
-      sapply(function(e) e$name)
 
-    result <- data.frame(
-      name = folders,
-      description = rep("", length(folders)),
-      type = rep("files", length(folders)),
-      metadata = rep("", length(folders)),
-      stringsAsFactors = FALSE
-    )
+    result <- httr::GET(github_url(board, "/contents/", board$path),
+                        github_headers(board))
 
-    if (is.character(text)) {
-      folders <- folders[grepl(text, folders)]
+    if (httr::http_error(result)) {
+      result <- data.frame(
+        name = character(),
+        description = character(),
+        type = character(),
+        metadata = character(),
+        stringsAsFactors = FALSE
+      )
     }
+    else {
+      folders <-  Filter(function(e) identical(e$type, "dir"), httr::content(result)) %>%
+        sapply(function(e) e$name)
 
-    if (length(folders) == 1) {
-      # retrieve additional details if searching for only one item
-      result_single <- httr::GET(github_url(board, "/contents/", board$path, folders, "/", "data.txt", "?ref=", board$branch),
-                          github_headers(board))
+      result <- data.frame(
+        name = folders,
+        description = rep("", length(folders)),
+        type = rep("files", length(folders)),
+        metadata = rep("", length(folders)),
+        stringsAsFactors = FALSE
+      )
 
-      if (!httr::http_error(result_single)) {
-        local_path <- pin_download(httr::content(result_single)$download_url,
-                                   folders,
-                                   "github",
-                                   headers = github_headers(board),
-                                   remove_query = TRUE)
-        manifest <- pin_manifest_get(local_path)
-
-        result$metadata <- as.character(jsonlite::toJSON(manifest))
-      }
+      result
     }
-
-    result
   }
+
+  if (is.character(text)) {
+    result <- result[grepl(text, result$name),]
+  }
+
+  if (nrow(result) == 1) {
+    # retrieve additional details if searching for only one item
+    result_single <- httr::GET(github_url(board, "/contents/", board$path, result$name, "/", "data.txt"),
+                               github_headers(board))
+
+    if (!httr::http_error(result_single)) {
+      local_path <- pin_download(httr::content(result_single)$download_url,
+                                 result$name,
+                                 "github",
+                                 headers = github_headers(board),
+                                 remove_query = TRUE)
+      manifest <- pin_manifest_get(local_path)
+
+      result$metadata <- as.character(jsonlite::toJSON(manifest))
+    }
+  }
+
+  result
 }
 
 github_url <- function(board, ...) {
