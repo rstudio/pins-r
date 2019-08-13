@@ -23,7 +23,8 @@ pin_results_from_rows <- function(entries) {
   names <- sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name)
   descriptions <- results_field(entries, "description", "")
   types <- results_field(entries, "type", "files")
-  metadata <- sapply(entries, function(e) as.character(jsonlite::toJSON(e[setdiff(names(e), c("name", "description", "type"))])))
+  metadata <- sapply(entries, function(e) as.character(
+    jsonlite::toJSON(e[setdiff(names(e), c("name", "description", "type"))], auto_unbox = TRUE)))
 
   data.frame(
     name = names,

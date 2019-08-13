@@ -47,7 +47,7 @@ board_pin_find.local <- function(board, text, ...) {
     metadata <- jsonlite::fromJSON(results$metadata)
     extended <- pin_manifest_get(metadata$path)
 
-    results$metadata <- as.character(jsonlite::toJSON(c(metadata, extended)))
+    results$metadata <- as.character(jsonlite::toJSON(c(metadata, extended), auto_unbox = TRUE))
   }
 
   results

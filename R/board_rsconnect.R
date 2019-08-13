@@ -186,7 +186,7 @@ board_pin_find.rsconnect <- function(board, text, ...) {
     manifest <- c(entries[[1]], manifest)
 
     results$type <- manifest$type
-    results$metadata <- as.character(jsonlite::toJSON(manifest))
+    results$metadata <- as.character(jsonlite::toJSON(manifest, auto_unbox = TRUE))
   }
 
   results

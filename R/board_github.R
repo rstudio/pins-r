@@ -228,7 +228,7 @@ board_pin_find.github <- function(board, text, ...) {
                                  remove_query = TRUE)
       manifest <- pin_manifest_get(local_path)
 
-      result$metadata <- as.character(jsonlite::toJSON(manifest))
+      result$metadata <- as.character(jsonlite::toJSON(manifest, auto_unbox = TRUE))
     }
   }
 
