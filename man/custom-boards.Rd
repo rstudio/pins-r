@@ -6,41 +6,42 @@
 \alias{board_pin_get}
 \alias{board_pin_remove}
 \alias{board_pin_find}
-\alias{board_local_storage}
 \alias{board_load}
 \alias{board_persist}
-\alias{board_info}
 \alias{board_pin_store}
 \alias{board_browse}
 \title{Custom Boards}
 \usage{
-board_pin_create(board, path, name, description, type, metadata)
+board_pin_create(board, path, name, ...)
 
 board_initialize(board, ...)
 
-board_pin_get(board, name, details)
+board_pin_get(board, name, details, ...)
 
-board_pin_remove(board, name)
+board_pin_remove(board, name, ...)
 
 board_pin_find(board, text, ...)
 
-board_local_storage(component)
+board_load(board, ...)
 
-board_load(board)
-
-board_persist(board)
-
-board_info(board)
+board_persist(board, ...)
 
 board_pin_store(board, path, name, description, type, metadata, ...)
 
-board_browse(board)
+board_browse(board, ...)
 }
 \arguments{
-\item{x}{A local file path or an object. Boards must support storing both.}
+\item{board}{The board to extended, retrieved with \code{board_get()}.}
+
+\item{path}{The path to store.}
+
+\item{name}{The name of the pin.}
+
+\item{...}{Additional parameteres.}
+
+\item{text}{The text patteren to find a pin.}
 }
 \description{
 Family of functions meant to be used to implement custom boards extensions,
-not to be used by end users.
+not to be used by users.
 }
-\keyword{internal}
