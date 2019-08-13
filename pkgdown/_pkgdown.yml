@@ -35,6 +35,8 @@ navbar:
           href: articles/pins-rstudio.html
         - text: "---"
         - text: Boards
+        - text: "Understanding Boards"
+          href: articles/boards-github.html
         - text: "Storing Pins in Github"
           href: articles/boards-github.html
         - text: "Storing Pins in Kaggle"

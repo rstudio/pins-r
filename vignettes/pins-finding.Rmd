@@ -2,7 +2,7 @@
 title: "Finding Pins"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding Boards}
+  %\VignetteIndexEntry{Finding Pins}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

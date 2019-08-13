@@ -33,6 +33,8 @@ You can use the `pins` package from **R**, or **Python**, to:
 - **Share** resources in GitHub, Kaggle or RStudio Connect by registering new boards with `board_register()`.
 - **Resources** can be anything from CSV, JSON or Excel files to image archives.
 
+If you find yourself using `download.file()` or asking others to download files before running your R code, use `pin()` to achieve fast, simple and reliable reproducible research over remote resources.
+
 To start using `pins`, install this package as follows:
 
 ``` r
@@ -57,8 +59,6 @@ This makes reading subsequent remotes files orders of magnitude faster, files ar
 ```{r rstudio-pin-performance, fig.align = 'center', message = FALSE}
 bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
 ```
-
-Also, if you find yourself using `download.file()` or asking others to download files before running your R code, use `pin()` to achieve fast, simple and reliable reproducible research over remote resources.
 
 You can also use pins to cache intermediate results to avoid having to recompute expensive operations:
 
@@ -96,11 +96,11 @@ pin_get("hpiR/seattle_sales") %>%
   pin(name = "seattle_sales", board = "kaggle")
 ```
 
-There are other boards you can use or even create custom boards as described in the [Understanding Boards](https://rstudio.github.io/pins/articles/boards.html) article; in addition, `pins` can also be used with RStudio products which we will describe next.
+There are other boards you can use or even create custom boards as described in the [Understanding Boards](https://rstudio.github.io/pins/articles/boards-understanding.html) article; in addition, `pins` can also be used with RStudio products which we will describe next.
 
 ## RStudio
 
-You can use [RStudio](https://www.rstudio.com/products/rstudio/) to discover and pin remote files and [RStudio Connect](https://www.rstudio.com/products/connect/) to share content within your organization with ease.
+You can use [RStudio](https://www.rstudio.com/products/rstudio/) and [RStudio Connect](https://www.rstudio.com/products/connect/) to discover and share content within your organization with ease.
 
 To enable new boards, you can use [RStudio's Data Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/) to start a new 'pins' connection and then selecting which board to connect to:
 

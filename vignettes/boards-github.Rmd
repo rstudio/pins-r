@@ -2,7 +2,7 @@
 title: "Using GitHub Boards"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding Boards}
+  %\VignetteIndexEntry{Using GitHub Boards}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

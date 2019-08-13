@@ -2,7 +2,7 @@
 title: "Extending Pins"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding Boards}
+  %\VignetteIndexEntry{Extending Pins}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

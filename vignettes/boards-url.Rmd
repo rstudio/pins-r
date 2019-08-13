@@ -2,7 +2,7 @@
 title: "Using URL Boards"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding Boards}
+  %\VignetteIndexEntry{Using URL Boards}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

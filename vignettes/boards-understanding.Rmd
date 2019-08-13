@@ -1,8 +1,8 @@
 ---
-title: "Using Pins in RStudio"
+title: "Understanding Boards"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using Pins in RStudio}
+  %\VignetteIndexEntry{Understanding Boards}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
