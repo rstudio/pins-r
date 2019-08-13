@@ -37,13 +37,13 @@ navbar:
         - text: Boards
         - text: "Understanding Boards"
           href: articles/boards-github.html
-        - text: "Storing Pins in Github"
+        - text: "Github Boards"
           href: articles/boards-github.html
-        - text: "Storing Pins in Kaggle"
+        - text: "Kaggle Boards"
           href: articles/boards-kaggle.html
-        - text: "Storing Pins in RStudio Connect"
+        - text: "RStudio Connect Boards"
           href: articles/boards-rsconnect.html
-        - text: "Storing Pins in Websites"
+        - text: "Website Boards"
           href: articles/boards-url.html
         - text: "---"
         - text: Extensions
