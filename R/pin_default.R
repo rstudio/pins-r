@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @export
 pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
-  if (is.null(name)) stop("The 'name' parameter is required for '", class(x)[[1]], "' objects.")
+  if (is.null(name)) name <- pin_default_name(deparse(substitute(x)), board)
 
   path <- tempfile()
   dir.create(path)
@@ -24,7 +24,5 @@ pin_preview.default <- function(x, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin_load.default <- function(path, ...) {
-  files <- dir(path, recursive = TRUE, full.names = TRUE)
-
-  files[!grepl("data\\.txt$", files)]
+  readRDS(file.path(path, "data.rds"))
 }
