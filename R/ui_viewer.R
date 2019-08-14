@@ -88,11 +88,16 @@ ui_viewer_register <- function(board) {
           attr_names <- c(attr_names, names(metadata$columns))
           attr_values <- c(attr_values, as.character(metadata$columns))
         }
+
+        if (identical(metadata$type, "files") && length(attr_names) == 0) {
+          attr_names <- c(attr_names, "files")
+          attr_values <- c(attr_values, "character")
+        }
       }
 
       if (length(attr_names) == 0) {
-        attr_names <- c(attr_names, "files")
-        attr_values <- c(attr_values, "character")
+        attr_names <- c(attr_names, "unknown")
+        attr_values <- c(attr_values, "unknown")
       }
 
       data.frame(
