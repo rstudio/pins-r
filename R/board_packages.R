@@ -21,7 +21,8 @@ board_pin_find.packages <- function(board, text, ...) {
       name = paste(package_pins$package, package_pins$dataset, sep = "/"),
       description = paste(gsub(" ?\\.$", "", package_pins$description), "from", package_pins$package, "package."),
       type = rep("table", length(package_pins$dataset)),
-      metadata = package_pins$metadata
+      metadata = package_pins$metadata,
+      stringsAsFactors = FALSE
     )
   }
   else {
