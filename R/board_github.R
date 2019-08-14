@@ -148,10 +148,6 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   if (update_index) {
     index_path <- paste0(board$path, name)
 
-    if (identical(metadata$type, "table")) {
-      index_path <- file.path(index_path, dir(path, "\\.csv"))
-    }
-
     github_update_index(board, index_path, commit, operation = "create",
                         name = name, metadata = metadata)
   }
