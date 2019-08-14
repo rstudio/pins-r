@@ -146,13 +146,13 @@ pins_connection_ui <- function() {
         condition = "input.board == 'github'",
         textInput(
           "repo",
-          "Repository:",
+          "Repo:",
           value = "owner/repo"
         ),
         textInput(
-          "path",
-          "Path/Branch:",
-          value = "master/pins"
+          "branch_path",
+          "Branch/Path:",
+          value = "master"
         ),
         textInput(
           "github",
@@ -188,7 +188,7 @@ pins_connection_server <- function(input, output, session) {
 
   generateCode <- function(board) {
     parameters <- ""
-    initializer <- ""
+    initializer <- paste0("pins::board_connect(\"", board, "\"", parameters, ")")
 
     if (identical(board, "rsconnect") && !is.null(input$server)) {
       initializer <- paste(
@@ -211,12 +211,16 @@ pins_connection_server <- function(input, output, session) {
       })
     }
     else if (identical(board, "github") && !identical(input$repo, "owner/repo")) {
-      path_parts <- strsplit(input$path, "/")[[1]]
+      path_parts <- strsplit(input$branch_path, "/")[[1]]
       branch <- path_parts[1]
       path <- if (length(path_parts) > 1) paste(path_parts[2:length(path_parts)], sep = "/") else ""
 
+      repo_parts <- strsplit(input$repo, "/")[[1]]
+      repo_name <- repo_parts[2]
+
       initializer <- paste0(
         "pins::board_register(\"github\", ",
+        "name = \"", repo_name, "\", ",
         "repo = \"", input$repo, "\"",
         ifelse(identical(path, "pins"), "", paste0(", path = \"", path, "\"")),
         ifelse(identical(branch, "master"), "", paste0(", branch = \"", branch, "\"")),
@@ -224,14 +228,7 @@ pins_connection_server <- function(input, output, session) {
         ")\n")
     }
 
-    paste(
-      initializer,
-      "pins::board_connect(",
-      "\"", board, "\"",
-      parameters,
-      ")",
-      sep = ""
-    )
+    initializer
   }
 
   codeReactive <- reactive({
