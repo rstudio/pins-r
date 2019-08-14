@@ -3,7 +3,7 @@ board_initialize.folder <- function(board, ...) {
   board
 }
 
-board_pin_create.folder <- function(board, path, name, ...) {
+board_pin_create.folder <- function(board, path, name, metadata, ...) {
   dir.create(file.path("pins", name), recursive = TRUE, showWarnings = FALSE)
   file.copy(dir(path, full.names = TRUE), file.path("pins", name), recursive = TRUE)
 }

@@ -13,11 +13,7 @@ guess_extension_from_path <- function(path) {
   tools::file_ext(path)
 }
 
-board_pin_create.local <- function(board, path, name, ...) {
-  description <- list(...)$description
-  metadata <- list(...)$metadata
-  type <- list(...)$type
-
+board_pin_create.local <- function(board, path, name, metadata, ...) {
   on.exit(board_connect(board$name))
 
   final_path <- pin_registry_update(name = name, component = "local")
@@ -33,9 +29,7 @@ board_pin_create.local <- function(board, path, name, ...) {
   pin_registry_update(
     name = name,
     params = c(list(
-      path = final_path,
-      description = description,
-      type = type
+      path = final_path
     ), metadata),
     component = "local")
 }

@@ -37,7 +37,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board
 }
 
-github_update_index <- function(board, path, commit, operation, name = NULL, description = NULL, type = NULL, metadata = NULL) {
+github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL) {
   index_url <- github_url(board, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
@@ -69,8 +69,6 @@ github_update_index <- function(board, path, commit, operation, name = NULL, des
     index[[index_pos]] <- c(
       list(path = path),
       if (!is.null(name)) list(name = name) else NULL,
-      if (!is.null(type)) list(type = type) else NULL,
-      if (!is.null(description)) list(description = description) else NULL,
       metadata
     )
   }
@@ -101,10 +99,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, des
   }
 }
 
-board_pin_create.github <- function(board, path, name, ...) {
-  metadata <- if (is.null(list(...)$metadata)) "" else list(...)$metadata
-  type <- if (is.null(list(...)$type)) "" else list(...)$type
-  description <- if (is.null(list(...)$description)) "" else list(...)$description
+board_pin_create.github <- function(board, path, name, metadata, ...) {
   update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
 
@@ -153,12 +148,12 @@ board_pin_create.github <- function(board, path, name, ...) {
   if (update_index) {
     index_path <- paste0(board$path, name)
 
-    if (identical(type, "table")) {
+    if (identical(metadata$type, "table")) {
       index_path <- file.path(index_path, dir(path, "\\.csv"))
     }
 
     github_update_index(board, index_path, commit, operation = "create",
-                        description = description, name = name, type = type, metadata = metadata)
+                        name = name, metadata = metadata)
   }
 
 }

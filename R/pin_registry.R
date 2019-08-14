@@ -51,7 +51,9 @@ pin_registry_find <- function(text, component) {
 
   results <- pin_results_from_rows(entries)
 
-  if (is.character(text)) results[grepl(text, results$name),] else results
+  if (is.character(text)) {
+    results <- results[grepl(text, results$name),]
+  }
 
   results
 }

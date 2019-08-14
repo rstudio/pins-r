@@ -11,7 +11,7 @@
 #'
 #' @rdname custom-boards
 #' @export
-board_pin_create <- function(board, path, name, ...) {
+board_pin_create <- function(board, path, name, metadata, ...) {
   UseMethod("board_pin_create")
 }
 
@@ -105,9 +105,12 @@ board_pin_store <- function(board, path, name, description, type, metadata, ...)
     }
   }
 
-  pin_manifest_create(store_path, type, description, metadata, dir(store_path, recursive = TRUE))
+  metadata$description <- description
+  metadata$type <- type
 
-  board_pin_create(board, store_path, name = name, type = type, description = description, metadata = metadata, ...)
+  pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
+
+  board_pin_create(board, store_path, name = name, metadata = metadata, ...)
 
   pin_get(name, board$name)
 }

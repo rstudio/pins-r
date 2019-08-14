@@ -63,7 +63,7 @@ kaggle_upload_resource <- function(path) {
   token
 }
 
-kaggle_create_resource <- function(name, description, token, type) {
+kaggle_create_resource <- function(name, description, token, type, metadata) {
   url <- "https://www.kaggle.com/api/v1/datasets/create/new"
 
   body <- list(
@@ -75,7 +75,7 @@ kaggle_create_resource <- function(name, description, token, type) {
     licenseName = jsonlite::unbox("CC0-1.0"),
     ownerSlug = jsonlite::unbox(kaggle_auth_info()$username),
     slug = jsonlite::unbox(name),
-    subtitle = jsonlite::unbox("none"),
+    subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
     title = jsonlite::unbox(description),
     categories = list()
   )
@@ -141,8 +141,8 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-board_pin_create.kaggle <- function(board, path, name, ...) {
-  description <- list(...)$description
+board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
+  description <- metadata$description
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", gsub("-pin$", "", name), "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
@@ -150,7 +150,7 @@ board_pin_create.kaggle <- function(board, path, name, ...) {
   on.exit(unlink(temp_bundle))
 
   token <- kaggle_upload_resource(temp_bundle)
-  kaggle_create_resource(name, description, token, type)
+  kaggle_create_resource(name, description, token, type, metadata)
 
   qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
 

@@ -78,7 +78,12 @@ board_pin_get.packages <- function(board, name) {
       full.names = TRUE)[1]
 
     file.copy(temp_file, resource_path)
-    pin_manifest_create(resource_path, "package", package_pin$description, package_pin$metadata, "")
+
+    metadata <- jsonlite::fromJSON(package_pin$metadata)
+    metadata$type <- "package"
+    metadata$description <- package_pin$description
+
+    pin_manifest_create(resource_path, metadata, "")
   }
 
   resource_path

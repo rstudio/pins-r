@@ -39,8 +39,7 @@ board_persist.rsconnect <- function(board) {
   board
 }
 
-board_pin_create.rsconnect <- function(board, path, name, ...) {
-  description <- if (is.null(list(...)$description)) "" else list(...)$description
+board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   on.exit(board_connect(board$name))
 
   deps <- rsconnect_dependencies()
@@ -86,7 +85,7 @@ board_pin_create.rsconnect <- function(board, path, name, ...) {
                                     app_mode = "static",
                                     content_category = "pin",
                                     name = name,
-                                    description = description
+                                    description = board_metadata_to_text(metadata, metadata$description)
                                   ))
       if (!is.null(content$error)) {
         stop("Failed to create pin: ", content$error)
@@ -96,6 +95,15 @@ board_pin_create.rsconnect <- function(board, path, name, ...) {
     }
     else {
       guid <- existing$guid
+
+      content <- rsconnect_api_post(board,
+                                    paste0("/__api__/v1/experimental/content/", guid),
+                                    list(
+                                      app_mode = "static",
+                                      content_category = "pin",
+                                      name = name,
+                                      description = board_metadata_to_text(metadata, metadata$description)
+                                    ))
     }
 
     files <- lapply(dir(temp_dir, recursive = TRUE, full.names = TRUE), function(path) {
@@ -171,9 +179,11 @@ board_pin_find.rsconnect <- function(board, text, ...) {
     )
   }
 
+  null_or_value <- function(e, value) if (is.null(e)) value else e
   results$name <- as.character(results$name)
-  results$type <- "files"
-  results$description <- as.character(lapply(results$description, function(e) paste0("", e)))
+  results$type <- unname(sapply(results$description, function(e) null_or_value(board_metadata_from_text(e)$type, "files")))
+  results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
+  results$description <- board_metadata_remove(results$description)
 
   if (nrow(results) == 1) {
     # enhance with pin information

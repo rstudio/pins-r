@@ -11,11 +11,9 @@ pin_manifest_get <- function(path) {
   manifest
 }
 
-pin_manifest_create <- function(path, type, description, metadata, files) {
+pin_manifest_create <- function(path, metadata, files) {
   entries <- c(list(
-    path = files,
-    type = type,
-    description = description
+    path = files
   ), metadata)
 
   entries[sapply(entries, is.null)] <- NULL
