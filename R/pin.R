@@ -112,8 +112,8 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   }
 
   if (!is.null(text)) {
-    find_names <- grepl(text, all_pins$name)
-    find_description <- if (is.null(all_pins$description)) FALSE else grepl(text, all_pins$description)
+    find_names <- grepl(text, all_pins$name, ignore.case = TRUE)
+    find_description <- if (is.null(all_pins$description)) FALSE else grepl(text, all_pins$description, ignore.case = TRUE)
     all_pins <- all_pins[find_names | find_description,]
   }
 

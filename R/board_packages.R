@@ -12,8 +12,8 @@ board_pin_find.packages <- function(board, text, ...) {
     text <- paste(parts[2:length(parts)], collapse = "/")
   }
 
-  find_names <- grepl(text, cranfiles$dataset)
-  find_description <- grepl(text, cranfiles$description)
+  find_names <- grepl(text, cranfiles$dataset, ignore.case = TRUE)
+  find_description <- grepl(text, cranfiles$description, ignore.case = TRUE)
   package_pins <- cranfiles[find_names | find_description,]
 
   if (length(package_pins$dataset) > 0) {
