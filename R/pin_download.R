@@ -1,5 +1,5 @@
 pin_download <- function(path, name, component, ...) {
-  must_cache <- identical(list(...)$cache, FALSE)
+  must_download <- identical(list(...)$download, TRUE)
   headers <- list(...)$headers
   config <- list(...)$config
   custom_etag <- list(...)$custom_etag
@@ -15,8 +15,9 @@ pin_download <- function(path, name, component, ...) {
 
   old_pin <- tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
   old_cache <- old_pin$cache
+  old_cache_missing <- is.null(old_cache)
 
-  if (is.null(old_cache)) {
+  if (old_cache_missing) {
     old_pin$cache <- old_cache <- list()
     cache_index <- 1
   }
@@ -32,8 +33,8 @@ pin_download <- function(path, name, component, ...) {
     }
   }
 
-  report_error <- if (is.null(old_cache)) stop else warning
-  catch_error <- if (is.null(old_cache)) function(e) e else function(e) tryCatch(e, error = function(e) { report_error(e$message) ; NULL })
+  report_error <- if (old_cache_missing) stop else warning
+  catch_error <- if (old_cache_missing) function(e) e else function(e) tryCatch(e, error = function(e) { report_error(e$message) ; NULL })
   if (can_fail) report_error <- function(e) NULL
 
   cache <- list()
@@ -48,7 +49,7 @@ pin_download <- function(path, name, component, ...) {
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
   # skip downloading if max-age still valid
-  if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_cache) {
+  if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_download) {
 
     status <- 200
     skip_download <- FALSE
@@ -73,7 +74,7 @@ pin_download <- function(path, name, component, ...) {
     }
 
     # skip downloading if etag has not changed
-    if (!skip_download && (is.null(old_cache) || is.null(old_cache$etag) || !identical(old_cache$etag, cache$etag) || must_cache)) {
+    if (!skip_download && (old_cache_missing || !identical(old_cache$etag, cache$etag) || must_download)) {
       if (is.character(status)) error <- paste0(status, ": ", path)
       if (status != 200) error <- paste0(status, " Failed to download remote file: ", path)
 
