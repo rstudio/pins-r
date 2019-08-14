@@ -12,7 +12,7 @@
 \alias{board_browse}
 \title{Custom Boards}
 \usage{
-board_pin_create(board, path, name, ...)
+board_pin_create(board, path, name, metadata, ...)
 
 board_initialize(board, ...)
 
