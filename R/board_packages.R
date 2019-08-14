@@ -58,7 +58,11 @@ board_pin_get.packages <- function(board, name) {
     repos <- getOption("repos")["CRAN"]
     if (length(repos) == 0 || is.na(repos) || identical(as.character(repos), "@CRAN@")) repos <- "https://cran.rstudio.com/"
 
-    utils::download.packages(package_pin$package, temp_path, repos = repos)
+    progress <- function(e) utils::capture.output(e, type = "message")
+    if (getOption("pins.progress", FALSE))
+      progress <- function(e) e
+
+    progress(result <- utils::download.packages(package_pin$package, temp_path, repos = repos))
 
     tar <- dir(
       temp_path,
