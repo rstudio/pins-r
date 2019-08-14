@@ -110,7 +110,8 @@ pins_connection_ui <- function() {
             local = "local",
             github = "github",
             kaggle = "kaggle",
-            rsconnect = "rsconnect"
+            rsconnect = "rsconnect",
+            datatxt = "datatxt"
           )
         ),
         selectize = FALSE,
@@ -164,6 +165,28 @@ pins_connection_ui <- function() {
             "github.com/settings/tokens",
             href = "https://github.com/settings/tokens"
           ),
+          class = "token-label"
+        )
+      ),
+      conditionalPanel(
+        condition = "input.board == 'datatxt'",
+        textInput(
+          "datatxt_name",
+          "name:",
+          value = "example"
+        ),
+        textInput(
+          "datatxt_url",
+          "Url:",
+          value = "https://datatxt.org/data.txt"
+        ),
+        tags$div(
+          "Using the ",
+          tags$a(
+            "datatxt.org",
+            href = "https://datatxt.org"
+          ),
+          "specification",
           class = "token-label"
         )
       )
@@ -225,6 +248,13 @@ pins_connection_server <- function(input, output, session) {
         ifelse(identical(path, "pins"), "", paste0(", path = \"", path, "\"")),
         ifelse(identical(branch, "master"), "", paste0(", branch = \"", branch, "\"")),
         ifelse(nchar(input$github) == 0, "", paste0(", token = \"", input$github, "\")")),
+        ")\n")
+    }
+    else if (identical(board, "datatxt")) {
+      initializer <- paste0(
+        "pins::board_register(\"datatxt\", ",
+        ifelse(nchar(input$datatxt_name) == 0, "", paste0("name = \"", input$datatxt_name, "\", ")),
+        "url = \"", input$datatxt_url, "\"",
         ")\n")
     }
 
