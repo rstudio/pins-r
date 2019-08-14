@@ -232,7 +232,7 @@ board_pin_get.kaggle <- function(board, name) {
 
   local_path <- pin_download(url,
                              name,
-                             component = "kaggle",
+                             component = board$name,
                              config = kaggle_auth(),
                              custom_etag = etag)
 
