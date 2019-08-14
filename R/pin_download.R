@@ -4,6 +4,7 @@ pin_download <- function(path, name, component, ...) {
   config <- list(...)$config
   custom_etag <- list(...)$custom_etag
   remove_query <- identical(list(...)$remove_query, TRUE)
+  can_fail <- identical(list(...)$can_fail, TRUE)
 
   local_path <- pin_registry_path(component, name)
 
@@ -32,6 +33,7 @@ pin_download <- function(path, name, component, ...) {
   }
 
   report_error <- if (is.null(old_cache)) stop else warning
+  if (can_fail) report_error <- function(e) NULL
 
   cache <- list()
   cache$etag <- old_cache$etag
@@ -111,7 +113,7 @@ pin_download <- function(path, name, component, ...) {
   pin_registry_update(
     name = name,
     params = list(
-      path = local_path,
+      path = if (is.null(old_pin$path)) local_path else old_pin$path,
       cache = new_cache),
     component = component)
 

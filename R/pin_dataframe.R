@@ -25,7 +25,12 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
 #' @keywords internal
 #' @export
 pin_load.table <- function(path, ...) {
-  readRDS(file.path(path, "data.rds"))
+  rds <- file.path(path, "data.rds")
+  csv <- file.path(path, "data.csv")
+
+  if (file.exists(rds)) readRDS(rds)
+  else if (file.exists(csv)) read.csv(csv, stringsAsFactors = FALSE)
+  else stop("A 'table' pin requires CSV or RDS files.")
 }
 
 #' @keywords internal
