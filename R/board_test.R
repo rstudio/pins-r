@@ -69,7 +69,9 @@ board_test <- function(board, exclude = list()) {
     if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 
     result <- pin_remove(pin_name, board = board)
+    deps$expect_equal(result, NULL)
 
+    result <- pin_remove(dataset_name, board = board)
     deps$expect_equal(result, NULL)
   })
 }
