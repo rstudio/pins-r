@@ -54,7 +54,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
   entries <- yaml::read_yaml(file.path(pins:::board_local_storage(board$name), "data.txt"))
 
   results <- data.frame(
-    name = sapply(entries, function(e) if (is.null(e$name)) basename(e$url) else e$name),
+    name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),
     description = sapply(entries, function(e) e$description),
     type = sapply(entries, function(e) if (is.null(e$type)) "files" else e$type),
     metadata = sapply(entries, function(e) jsonlite::toJSON(e, auto_unbox = TRUE)),
@@ -66,7 +66,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
 
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
-    path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$url)) dirname(metadata$url) else metadata$url
+    path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
     response <- httr::GET(file.path(board$url, path_guess, "data.txt"))
     if (!httr::http_error(response)) {
       metadata <- c(metadata, yaml::yaml.load(httr::content(response)))
