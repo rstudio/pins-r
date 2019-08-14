@@ -33,6 +33,7 @@ pin_download <- function(path, name, component, ...) {
   }
 
   report_error <- if (is.null(old_cache)) stop else warning
+  catch_error <- if (is.null(old_cache)) function(e) e else function(e) tryCatch(e, error = function(e) { report_error(e$message) ; NULL })
   if (can_fail) report_error <- function(e) NULL
 
   cache <- list()
@@ -50,23 +51,29 @@ pin_download <- function(path, name, component, ...) {
   if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_cache) {
 
     status <- 200
+    skip_download <- FALSE
     if (!is.null(custom_etag)) {
       pin_log("Using custom 'etag' (old, new): ", old_cache$etag, ", ", custom_etag)
       cache$etag <- custom_etag
     }
     else {
-      head_result <- httr::HEAD(path, httr::timeout(5), headers, config)
-      cache$etag <- head_result$headers$etag
-      cache$max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
+      head_result <- catch_error(httr::HEAD(path, httr::timeout(5), headers, config))
+      if (is.null(head_result)) {
+        skip_download <- TRUE
+      }
+      else {
+        cache$etag <- head_result$headers$etag
+        cache$max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
 
-      status <- tryCatch(httr::status_code(head_result), error = function(e) e$message)
-      cache$change_age <- as.numeric(Sys.time())
+        status <- tryCatch(httr::status_code(head_result), error = function(e) e$message)
+        cache$change_age <- as.numeric(Sys.time())
 
-      pin_log("Checking 'etag' (old, new): ", old_cache$etag, ", ", cache$etag)
+        pin_log("Checking 'etag' (old, new): ", old_cache$etag, ", ", cache$etag)
+      }
     }
 
     # skip downloading if etag has not changed
-    if (is.null(old_cache) || is.null(old_cache$etag) || !identical(old_cache$etag, cache$etag) || must_cache) {
+    if (!skip_download && (is.null(old_cache) || is.null(old_cache$etag) || !identical(old_cache$etag, cache$etag) || must_cache)) {
       if (is.character(status)) error <- paste0(status, ": ", path)
       if (status != 200) error <- paste0(status, " Failed to download remote file: ", path)
 
@@ -81,7 +88,7 @@ pin_download <- function(path, name, component, ...) {
         pin_log("Downloading ", path, " to ", destination_path)
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
-        result <- httr::GET(path, write_spec, headers, config, http_utils_progress())
+        result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress()))
         is_zip <- identical(result$headers$`content-type`, "application/zip")
         if (!is_zip && identical(result$headers$`content-type`, "application/octet-stream")) {
           is_zip <- file.size(destination_path) > 4 &&
