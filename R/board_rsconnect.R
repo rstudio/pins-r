@@ -166,7 +166,7 @@ board_pin_find.rsconnect <- function(board, text, ...) {
     filter <- paste0("search=", text)
   }
 
-  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", filter))$applications
+  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
 
   results <- pin_results_from_rows(entries)
