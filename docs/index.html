@@ -54,9 +54,6 @@
       <a href="articles/pins-starting.html">Getting Started</a>
     </li>
     <li>
-      <a href="articles/pins-finding.html">Finding Pins</a>
-    </li>
-    <li>
       <a href="articles/pins-rstudio.html">Using Pins in RStudio</a>
     </li>
     <li class="divider">
@@ -165,13 +162,15 @@ pins: Pin, Discover and Share Resources
 ## 12 Dec   8656874</code></pre>
 <p>The <code>pins</code> package allows you to <strong>discover</strong> remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code>, currently, it can search resources in CRAN packages, Kaggle and RStudio Connect. For instance, we can search resources mentioning “seattle” in CRAN packages as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="reference/pin_find.html">pin_find</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 4 x 4
+<pre><code>## # A tibble: 6 x 4
 ##   name               description                               type  board 
-##   &lt;fct&gt;              &lt;fct&gt;                                     &lt;fct&gt; &lt;chr&gt; 
-## 1 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
-## 2 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
-## 3 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
-## 4 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</code></pre>
+##   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; 
+## 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…
+## 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
+## 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…
+## 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
+## 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
+## 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</code></pre>
 <p>Notice that all pins are referenced as <code>&lt;owner&gt;/&lt;name&gt;</code> and even if the <code>&lt;owner&gt;</code> is not provided, each board will assign an appropriate one. While you can ignore <code>&lt;owner&gt;</code> and reference pins by <code>&lt;name&gt;</code>, this can fail in some boards if different owners assign the same name to a pin.</p>
 <p>You can then retrieve a pin as a local path through <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a></code></pre></div>

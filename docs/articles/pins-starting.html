@@ -52,9 +52,6 @@
       <a href="../articles/pins-starting.html">Getting Started</a>
     </li>
     <li>
-      <a href="../articles/pins-finding.html">Finding Pins</a>
-    </li>
-    <li>
       <a href="../articles/pins-rstudio.html">Using Pins in RStudio</a>
     </li>
     <li class="divider">
@@ -117,10 +114,139 @@
 
     
     
-
+<p>A <a href="https://r4ds.had.co.nz/introduction.html">typical Data Science project</a> starts with importing data and finishes with comunicating your results with others; however, some projects have a few additional steps that we will reffer as: <strong>Discover</strong>, <strong>Cache</strong> and <strong>Share</strong>. While these steps might not deserve to be part of the official Data Science diagram, they can help us understand where the <code>pins</code> package can help.</p>
+<p>Conceptually, the modified Data Science diagram looks as follows:</p>
+<p><img src="diagrams/data-science-extended.png" style="width:100.0%"></p>
+<p>The <code>pins</code> package reffers to arbitrary resources as pins, and reffers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to loose – you should always have reproducible code to regenerate a pin.</p>
+<p>Let’s now introduce each operation the <code>pins</code> package supports.</p>
+<dl>
+<dt>Discover</dt>
+<dd>In some Data Science projects, it might not be obvious which dataset you should use; therefore, a first step might be to search online for specific datasets. For instance, suppose that you are trying to figure out what kind of house remodel could increase your home property the most, where do you get such data from? You can search online but is often hard to filter results to contain only datasets, it also requires you yo have some knowledge of which data sources are trustworthy and so on. This is obviusly a hard problem and we can’t expect a single tool to magically fix this for us; instead, the <code>pins</code> package gives you a few tools to search well known data repositories through the <code><a href="../reference/pin_find.html">pin_find()</a></code> function. In addition, while most projects might have well-defined datasets to import from, you might also want to consider enhancing them with additional data sources; for example, while analysing a well-known ice-cream sales dataset, you might want still want to find resources with historical weather to properly adjust the existing data.
+</dd>
+<dt>Cache</dt>
+<dd>Once you identify which datasets to import, it is often the case that they are manually downloaded. It is common to give explicit instructions to download datasets before actually importing the dataset. However, manual steps make it hard to reproduce your code – we can no longer just copy-paste and run code. One easy solution is to use <code><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file()</a></code>; however, this would cause the file to be re-downloaded each time the code runs, so you can then try to check if the file already exists, and keep adding complexity to try to reliably download and cache files. Quoting Phil Karlton, “There are only two hard things in Computer Science: cache invalidation and naming things”. So instead of worrying when to invalidate and cache online resources, you can use <code><a href="../reference/pin.html">pin()</a></code> to cache any resource with ease.
+</dd>
+<dt>Share</dt>
+<dd>There are cases where you might want to not only communicate with others your results, but also allow others to reuse your results. For instance, once you finish analysing house remodel projects, you might also want to share your final dataset for others to reuse. The <code>pins</code> package allows you to share resources in GitHub, Kaggle, RStudio Connect and allows you to create extensions to support many other services and technologies.
+</dd>
+</dl>
+<p>Before we present code examples on how to discover datasets, install the <code>pins</code> package as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"rstudio/pins"</span>)</a></code></pre></div>
+<div id="discovering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#discovering" class="anchor"></a>Discovering</h2>
+<p>You can discover datasets with <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default will search for data inside CRAN packages. The places where <code>pins</code> can find or store resources are reffered as ‘boards’. There are multiple boards available but they require you to configure them so we will leave those for later on.</p>
+<p>As a quick example, let’s search for resources that may contain ‘home prices’:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"home prices"</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 4
+##   name               description                               type  board 
+##   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; 
+## 1 BSDA/Housing       Median home prices for 1984 and 1993 in … table packa…
+## 2 sanjosedata/media… Median Home Prices                        files kaggle</code></pre>
+<p>We’ve found out that the <code>BSDA</code> package contains a <code>Housing</code> dataset, you can then retrieve this dataset using <code><a href="../reference/pin_get.html">pin_get()</a></code> as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"BSDA/Housing"</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 74 x 3
+##    city       year   price
+##    &lt;chr&gt;      &lt;fct&gt;  &lt;int&gt;
+##  1 Albany     1984   52400
+##  2 Anaheim    1984  134900
+##  3 Atlanta    1984   64600
+##  4 Baltimore  1984   65200
+##  5 Birmingham 1984   66600
+##  6 Boston     1984  102000
+##  7 Chicago    1984   77500
+##  8 Cincinnati 1984   59600
+##  9 Cleveland  1984   65600
+## 10 Columbus   1984   60400
+## # … with 64 more rows</code></pre>
+<p>Most datasets in CRAN contain rectangular data, which <code>pins</code> knows to load as a data frame. Other boards might contain non-rectangular datasets which <code><a href="../reference/pin_get.html">pin_get()</a></code> also supports. More on this later on, but first, lets introduce caching.</p>
+</div>
+<div id="caching" class="section level2">
+<h2 class="hasAnchor">
+<a href="#caching" class="anchor"></a>Caching</h2>
+<p>Lets suppose that the ‘home prices’ dataset is not exactly what we are looking for, we can try to search online for ‘home prices’ and find out that <a href="https://catalog.data.gov/">catalog.data.gov</a> contains a more suitable <a href="https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis">FHFA House Price Indexes</a> dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use <code><a href="../reference/pin.html">pin()</a></code> to cache this dataset locally:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>)</a></code></pre></div>
+<pre><code>## [1] "/Users/javierluraschi/pins/local/HPI_master/HPI_master.csv"</code></pre>
+<p>Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
+<pre><code>## # A tibble: 108,826 x 10
+##    hpi_type hpi_flavor frequency level place_name place_id    yr period
+##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+##  1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1
+##  2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2
+##  3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3
+##  4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4
+##  5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5
+##  6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6
+##  7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7
+##  8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8
+##  9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9
+## 10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10
+## # … with 108,816 more rows, and 2 more variables: index_nsa &lt;dbl&gt;,
+## #   index_sa &lt;dbl&gt;</code></pre>
+<p>The <code>pins</code> package tries to be smart about downloading files only when the file has changede, you can skip the details on how this works but you should know you can set <code>download = TRUE</code> to force <code>pins</code> to download the file again even if we think it has not changed. The specific mechanisms <code>pins</code> used are based on HTTP headers like <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag</a> to avoid downloading files when they have not changed or when the cache has not expired.</p>
+<p>Notice that <code><a href="../reference/pin.html">pin()</a></code> assigned a name automatically, <code>HPI_master</code> for the previous example; however, you can choose your own name and be explicit about retrieving a pin with <code><a href="../reference/pin_get.html">pin_get()</a></code>:</p>
+<pre><code>## [1] "/Users/javierluraschi/pins/local/home_price_indexes/HPI_master.csv"</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
+<pre><code>## # A tibble: 108,826 x 10
+##    hpi_type hpi_flavor frequency level place_name place_id    yr period
+##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+##  1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1
+##  2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2
+##  3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3
+##  4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4
+##  5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5
+##  6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6
+##  7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7
+##  8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8
+##  9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9
+## 10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10
+## # … with 108,816 more rows, and 2 more variables: index_nsa &lt;dbl&gt;,
+## #   index_sa &lt;dbl&gt;</code></pre>
+</div>
+<div id="sharing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sharing" class="anchor"></a>Sharing</h2>
+<p>After performing a data analysis, you might want to save your dataset with others, which you can achieve using <code><a href="../reference/pin.html">pin(data, board = "&lt;board-name&gt;")</a></code>.</p>
+<p>The following example stores a siple data analysis over home prices as ‘home_price_analysis’ in the ‘local’ board.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 45 x 2
+##       yr     n
+##    &lt;dbl&gt; &lt;int&gt;
+##  1  1975   274
+##  2  1976   383
+##  3  1977   523
+##  4  1978   689
+##  5  1979   810
+##  6  1980   893
+##  7  1981   885
+##  8  1982   897
+##  9  1983  1005
+## 10  1984  1089
+## # … with 35 more rows</code></pre>
+<p>To be fair, storing pins locally is not really sharing with others; instead, you would want to replace <code>local</code> with <code>github</code>, <code>rsconnect</code> or <code>kaggle</code>. However, we will first have to configure the approriate boards, this will be presented in the <a href="boards-github.html">Understanding Boards</a> article. Before we get to that, the <a href="pins-rstudio.html">Using Pins with RStudio</a> article will present how to use the functionality presented here using RStudio’s user interface.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#discovering">Discovering</a></li>
+      <li><a href="#caching">Caching</a></li>
+      <li><a href="#sharing">Sharing</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
