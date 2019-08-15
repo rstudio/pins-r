@@ -65,7 +65,7 @@
               page: 0,
               boards: [],
               status: "Searching...",
-              maxResults: 8,
+              maxResults: Math.floor(document.getElementById("results").clientHeight / 60),
               totalPages: 1,
               currentPage: 1,
               pages: [1]
