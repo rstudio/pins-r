@@ -29,8 +29,6 @@ navbar:
         - text: Pins
         - text: "Getting Started"
           href: articles/pins-starting.html
-        - text: "Finding Pins"
-          href: articles/pins-finding.html
         - text: "Using Pins in RStudio"
           href: articles/pins-rstudio.html
         - text: "---"
