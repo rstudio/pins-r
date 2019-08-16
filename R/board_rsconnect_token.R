@@ -87,8 +87,8 @@ rsconnect_token_post <- function(board, path, content, encode) {
                                  "POST",
                                  path,
                                  rsconnect_token_headers(board, path, "POST", content),
-                                 contentType = content_type,
-                                 file = content_file)
+                                 content_type,
+                                 content_file)
 
   jsonlite::fromJSON(result$content)
 }
