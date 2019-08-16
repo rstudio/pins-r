@@ -48,7 +48,7 @@ board_pin_find <- function(board, text, ...) {
 #' @export
 #' @rdname custom-boards-utils
 #' @keywords internal
-board_local_storage <- function(component) {
+board_local_storage <- function(component = "local") {
   paths <- list(
     unix = "~/pins",
     windows = "%LOCALAPPDATA%/pins"
