@@ -1,3 +1,26 @@
 .page-header {
   margin-bottom: 0;
 }
+
+dd {
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.navbar-brand .version {
+  display: none;
+}
+
+.navbar-brand a:link,
+.navbar-brand a:visited,
+.navbar-brand a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+#addin img,
+#connection img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

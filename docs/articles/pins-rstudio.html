@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -60,16 +60,16 @@
       <a href="../articles/boards-github.html">Understanding Boards</a>
     </li>
     <li>
-      <a href="../articles/boards-github.html">GitHub Boards</a>
+      <a href="../articles/boards-github.html">GitHub</a>
     </li>
     <li>
-      <a href="../articles/boards-kaggle.html">Kaggle Boards</a>
+      <a href="../articles/boards-kaggle.html">Kaggle</a>
     </li>
     <li>
-      <a href="../articles/boards-rsconnect.html">RStudio Connect Boards</a>
+      <a href="../articles/boards-rsconnect.html">RStudio Connect</a>
     </li>
     <li>
-      <a href="../articles/boards-url.html">Website Boards</a>
+      <a href="../articles/boards-url.html">Websites</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Extensions</li>
@@ -114,10 +114,44 @@
 
     
     
-
+<p>After installing the <code>pins</code> package, two features become availble in RStudio: the <strong>Find Pins Addin</strong> and a new <strong>Pins Connection</strong> type. The addin allows you do discover datasets, while the connection allows you to registere new boards and manage your existing pins.</p>
+<div id="addin" class="section level2">
+<h2 class="hasAnchor">
+<a href="#addin" class="anchor"></a>Addin</h2>
+<p>You can use the Find Pins <a href="https://rstudio.github.io/rstudioaddins">Addin</a> to visually discover resources, this functionality is equivalent to using <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
+<p><img src="images/rstudio-discover-pins.gif" width="440"></p>
+<p>To launch this addin, use the <strong>Addins</strong> toolbar and then select <strong>Find Pins</strong>:</p>
+<p><img src="images/rstudio-pins-addin-menu.png" width="260"></p>
+<p>You can then use the search textbox to search across all registered boards, or select particular board from the dropdown to scope your search to particular ones. For instance, we can select the CRAN packages board and then search for ‘home prices’ which will update the results as you type. This example is equivalent to searching with <code><a href="../reference/pin_find.html">pin_find("home pricees", board = "packages")</a></code>.</p>
+<p><img src="images/rstudio-pins-addin-search.png" width="400"></p>
+<p>Please notice that search is implemented differently in eeach board. For the CRAN packages board, the entire search string is searched, case insensitive, in the name and description. Other boards might implement more advanced or simpled search algorithms.</p>
+</div>
+<div id="connection" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection" class="anchor"></a>Connection</h2>
+<p>You can connect to several different boards to discover, pin and share resources. This boards will be introduced in the <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle">Kaggle</a>, and [RStudio Connect](boards-rsconnect.html articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you’ve created with <code><a href="../reference/pin.html">pin()</a></code>.</p>
+<p><img src="images/rstudio-cached-pins.gif" width="440"></p>
+<p>First, open the RStudio’s <strong>Connecetions Pane</strong>, followed by selecting <strong>New Connection</strong> from the toolbar, this action will launch the connection wizard with a new <strong>Pins</strong> connection type. The connection provides support to connect to multiple boards, but for now, we will use a <strong>local</strong> connection which stores pins in a local folder.</p>
+<p><img src="images/rstudio-pins-connection.png" width="600"></p>
+<p>Once connected to a board, you can browse pins available in that particular board using the connections pane:</p>
+<p><img src="images/rstudio-pins-connection-pane.png" width="460"></p>
+<p>Each pin can the be expanded to show, when available, the columns each resource contains.</p>
+<p><img src="images/rstudio-pins-connection-columns.png" width="460"></p>
+<p>You can then preview eeaech resource by selecting the preview button which triggers code similar to <code><a href="../reference/pin_preview.html">pin_preview(pin_get("&lt;name&gt;", board = "&lt;connection-board&gt;"))</a></code>.</p>
+<p><img src="images/rstudio-pins-connection-preview.png" width="480"></p>
+<p>The next section, <a href="boards-understanding.html">Understanding Boards</a>, will properly present what exactly a board is and how to configure additional storage locations.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#addin">Addin</a></li>
+      <li><a href="#connection">Connection</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
