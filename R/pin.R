@@ -105,7 +105,13 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   for (board_name in board) {
     board_object <- board_get(board_name)
 
-    board_pins <- board_pin_find(board = board_object, text, ...)
+    board_pins <- tryCatch(
+      board_pin_find(board = board_object, text, ...),
+      error = function(e) {
+        warning("Error searching '", board_name, "' board: ", e$message)
+        board_empty_results()
+      })
+
     board_pins$board <- rep(board_name, nrow(board_pins))
 
     all_pins <- rbind(all_pins, board_pins)

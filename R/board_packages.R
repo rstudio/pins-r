@@ -26,7 +26,7 @@ board_pin_find.packages <- function(board, text, ...) {
     )
   }
   else {
-    data.frame(name = c(), description = c(), type = c(), metadata = c())
+    board_empty_results()
   }
 }
 

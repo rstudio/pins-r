@@ -1,5 +1,8 @@
 board_url_update_index <- function(board) {
   local_index <- file.path(board_local_storage(board$name), "data.txt")
+
+  if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
+
   response <- httr::GET(file.path(board$url, "data.txt"), httr::write_disk(local_index, overwrite = TRUE))
   if (httr::http_error(response)) stop("Failed to retrieve data.txt file from ", board$url)
 }

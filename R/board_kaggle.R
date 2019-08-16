@@ -184,7 +184,7 @@ board_pin_search_kaggle <- function(text = NULL) {
 }
 
 board_pin_find.kaggle <- function(board, text, ...) {
-  if (!kaggle_authenticated()) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
+  if (!kaggle_authenticated()) return(board_empty_results())
 
   if (is.null(text)) text <- ""
 
@@ -207,7 +207,7 @@ board_pin_find.kaggle <- function(board, text, ...) {
     return(results)
   }
 
-  if (length(results) == 0) return(data.frame(name = c(), description = c(), type = c(), metadata = c()))
+  if (length(results) == 0) return(board_empty_results())
 
   data.frame(
     name = as.character(results$ref),

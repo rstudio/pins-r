@@ -34,6 +34,11 @@ board_registry_persist <- function() {
     entries[[board_name]] <- board_persist(entries[[board_name]])
   }
 
+  # remove nulls
+  for (board_name in names(entries)) {
+    entries[[board_name]] <- Filter(function(e) !is.null(e), entries[[board_name]])
+  }
+
   yaml::write_yaml(entries, config)
 }
 
