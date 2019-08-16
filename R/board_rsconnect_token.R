@@ -48,7 +48,7 @@ rsconnect_token_headers <- function(board, path, verb, content) {
   server_info <- deps$server_info(board$server_name)
   service <- rsconnect_token_parse_url(server_info$url)
 
-  account_info <- deps$account_info(board$account)
+  account_info <- deps$account_info(board$account, account_info)
 
   content_file <- NULL
   if (identical(class(content), "form_file")) {
