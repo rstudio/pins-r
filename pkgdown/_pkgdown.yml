@@ -21,6 +21,7 @@ reference:
 
 navbar:
   title: "pins"
+  type: inverse
   left:
     - text: "Home"
       href: index.html
@@ -35,13 +36,13 @@ navbar:
         - text: Boards
         - text: "Understanding Boards"
           href: articles/boards-github.html
-        - text: "GitHub Boards"
+        - text: "GitHub"
           href: articles/boards-github.html
-        - text: "Kaggle Boards"
+        - text: "Kaggle"
           href: articles/boards-kaggle.html
-        - text: "RStudio Connect Boards"
+        - text: "RStudio Connect"
           href: articles/boards-rsconnect.html
-        - text: "Website Boards"
+        - text: "Websites"
           href: articles/boards-url.html
         - text: "---"
         - text: Extensions

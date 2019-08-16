@@ -1,3 +1,17 @@
 .page-header {
   margin-bottom: 0;
 }
+
+dd {
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.navbar-brand .version {
+  display: none;
+}
+
+img {
+  margin-left: auto;
+  margin-right: auto;
+}
