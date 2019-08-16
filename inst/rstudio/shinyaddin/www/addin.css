@@ -10,12 +10,12 @@ body {
   -webkit-user-select : none;
   user-select : none;
 
-  margin: 12px;
   background: #FFF;
 
   margin-bottom: 0;
 
   height: 100%;
+  margin: 0;
 }
 
 #app {
@@ -177,9 +177,14 @@ select {
 }
 
 .navigation {
-  height: 50px;
+  margin: 8px;
 }
 
 #results {
   flex-grow: 1;
+  margin: 8px;
+}
+
+#header {
+  margin: 8px;
 }
