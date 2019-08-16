@@ -43,7 +43,7 @@ navbar:
         - text: "RStudio Connect"
           href: articles/boards-rsconnect.html
         - text: "Websites"
-          href: articles/boards-url.html
+          href: articles/boards-websites.html
         - text: "---"
         - text: Extensions
         - text: "Extending Pins"
