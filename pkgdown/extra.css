@@ -11,7 +11,16 @@ dd {
   display: none;
 }
 
-img {
+.navbar-brand a:link,
+.navbar-brand a:visited,
+.navbar-brand a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+#addin img,
+#connection img {
+  display: block;
   margin-left: auto;
   margin-right: auto;
 }

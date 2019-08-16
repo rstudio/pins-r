@@ -6,3 +6,45 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
+
+After installing the `pins` package, two features become availble in RStudio: the **Find Pins Addin** and a new **Pins Connection** type. The addin allows you do discover datasets, while the connection allows you to registere new boards and manage your existing pins.
+
+## Addin
+
+You can use the Find Pins [Addin](https://rstudio.github.io/rstudioaddins) to visually discover resources, this functionality is equivalent to using `pin_find()`.
+
+![](images/rstudio-discover-pins.gif){width=440px}
+
+To launch this addin, use the **Addins** toolbar and then select **Find Pins**:
+
+![](images/rstudio-pins-addin-menu.png){width=260px}
+
+You can then use the search textbox to search across all registered boards, or select particular board from the dropdown to scope your search to particular ones. For instance, we can select the CRAN packages board and then search for 'home prices' which will update the results as you type. This example is equivalent to searching with `pin_find("home pricees", board = "packages")`.
+
+![](images/rstudio-pins-addin-search.png){width=400px}
+
+Please notice that search is implemented differently in eeach board. For the CRAN packages board, the entire search string is searched, case insensitive, in the name and description. Other boards might implement more advanced or simpled search algorithms.
+
+## Connection
+
+You can connect to several different boards to discover, pin and share resources. This boards will be introduced in the [GitHub](boards-github.html), [Kaggle](boards-kaggle), and [RStudio Connect](boards-rsconnect.html articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you've created with `pin()`.
+
+![](images/rstudio-cached-pins.gif){width=440px}
+
+First, open the RStudio's **Connecetions Pane**, followed by selecting **New Connection** from the toolbar, this action will launch the connection wizard with a new **Pins** connection type. The connection provides support to connect to multiple boards, but for now, we will use a **local** connection which stores pins in a local folder.
+
+![](images/rstudio-pins-connection.png){width=600px}
+
+Once connected to a board, you can browse pins available in that particular board using the connections pane:
+
+![](images/rstudio-pins-connection-pane.png){width=460px}
+
+Each pin can the be expanded to show, when available, the columns each resource contains.
+
+![](images/rstudio-pins-connection-columns.png){width=460px}
+
+You can then preview eeaech resource by selecting the preview button which triggers code similar to `pin_preview(pin_get("<name>", board = "<connection-board>"))`.
+
+![](images/rstudio-pins-connection-preview.png){width=480px}
+
+The next section, [Understanding Boards](boards-understanding.html), will properly present what exactly a board is and how to configure additional storage locations.
