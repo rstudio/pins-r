@@ -17,11 +17,11 @@ You can use the Find Pins [Addin](https://rstudio.github.io/rstudioaddins) to vi
 
 To launch this addin, use the **Addins** toolbar and then select **Find Pins**:
 
-![](images/rstudio-pins-addin-menu.png){width=260px}
+![](images/rstudio-pins-addin-menu.png){width=220px}
 
 You can then use the search textbox to search across all registered boards, or select particular board from the dropdown to scope your search to particular ones. For instance, we can select the CRAN packages board and then search for 'home prices' which will update the results as you type. This example is equivalent to searching with `pin_find("home pricees", board = "packages")`.
 
-![](images/rstudio-pins-addin-search.png){width=400px}
+![](images/rstudio-pins-addin-search.png){width=380px}
 
 Please notice that search is implemented differently in eeach board. For the CRAN packages board, the entire search string is searched, case insensitive, in the name and description. Other boards might implement more advanced or simpled search algorithms.
 
@@ -35,16 +35,15 @@ First, open the RStudio's **Connecetions Pane**, followed by selecting **New Con
 
 ![](images/rstudio-pins-connection.png){width=600px}
 
-Once connected to a board, you can browse pins available in that particular board using the connections pane:
+Once connected to a board, you can browse pins available in that particular board using the connections pane. Each pin can the be expanded to show, when available, the columns each resource contains.
 
-![](images/rstudio-pins-connection-pane.png){width=460px}
-
-Each pin can the be expanded to show, when available, the columns each resource contains.
-
-![](images/rstudio-pins-connection-columns.png){width=460px}
+![](images/rstudio-pins-connection-pane.png){width=600px}
 
 You can then preview eeaech resource by selecting the preview button which triggers code similar to `pin_preview(pin_get("<name>", board = "<connection-board>"))`.
 
 ![](images/rstudio-pins-connection-preview.png){width=480px}
 
-The next section, [Understanding Boards](boards-understanding.html), will properly present what exactly a board is and how to configure additional storage locations.
+The next section, [Understanding Boards](boards-understanding.html), will properly present what exactly a board is and how to configure additional storage locations. However, it's worth mentioning here that the board registration process to Github, Kaggle and RStudio Connecet boards can also be completed when creating a Pins Connection, just select the approriate board from the drop down to configure each board.
+
+![](images/rstudio-pins-boards.png){width=680px}
+
