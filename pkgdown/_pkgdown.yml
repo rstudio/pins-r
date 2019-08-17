@@ -35,7 +35,7 @@ navbar:
         - text: "---"
         - text: Boards
         - text: "Understanding Boards"
-          href: articles/boards-github.html
+          href: articles/boards-understanding.html
         - text: "GitHub"
           href: articles/boards-github.html
         - text: "Kaggle"
