@@ -203,7 +203,7 @@ board_pin_find.github <- function(board, text, ...) {
   }
 
   if (is.character(text)) {
-    result <- result[grepl(text, result$name),]
+    result <- result[grepl(text, result$name) | grepl(text, result$description),]
   }
 
   if (nrow(result) == 1) {
