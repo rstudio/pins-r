@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find Pin — pin_find • pins</title>
+<title>Register GitHub Board — board_register_github • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Find Pin — pin_find" />
+<meta property="og:title" content="Register GitHub Board — board_register_github" />
 
-<meta property="og:description" content="Find a pin in any board registered using board_register()." />
+<meta property="og:description" content="Wrapper with explicit parameters over board_register() to
+register a GitHub repo as a board." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -139,43 +140,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find Pin</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a></small>
-    <div class="hidden name"><code>pin_find.Rd</code></div>
+    <h1>Register GitHub Board</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_registration.R'><code>R/board_registration.R</code></a></small>
+    <div class="hidden name"><code>board_register_github.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Find a pin in any board registered using <code><a href='board_register.html'>board_register()</a></code>.</p>
+    <p>Wrapper with explicit parameters over <code><a href='board_register.html'>board_register()</a></code> to
+register a GitHub repo as a board.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pin_find</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register_github</span>(<span class='no'>repo</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"github"</span>, <span class='kw'>branch</span> <span class='kw'>=</span> <span class='st'>"master"</span>,
+  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>text</th>
-      <td><p>The text to find in the pin description or name.</p></td>
+      <th>repo</th>
+      <td><p>The GitHub repository formatted as 'owner/repo'.</p></td>
     </tr>
     <tr>
-      <th>board</th>
-      <td><p>The board name used to find the pin.</p></td>
+      <th>name</th>
+      <td><p>Optional name for this board, defaults to 'github'.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional parameters.</p></td>
+      <th>branch</th>
+      <td><p>The branch to use when commiting pins.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>Token to use when <code>GITHUB_PAT</code> is not specified.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>The subdireectory in the repo where the pins will be stored.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>board_register</p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='board_register.html'>board_register</a></span>(<span class='st'>"github"</span>, <span class='kw'>repo</span> <span class='kw'>=</span> <span class='st'>"datatxtorg/datatxt-site"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

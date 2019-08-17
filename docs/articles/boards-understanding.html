@@ -57,7 +57,7 @@
     <li class="divider">
     <li class="dropdown-header">Boards</li>
     <li>
-      <a href="../articles/boards-github.html">Understanding Boards</a>
+      <a href="../articles/boards-understanding.html">Understanding Boards</a>
     </li>
     <li>
       <a href="../articles/boards-github.html">GitHub</a>
@@ -69,7 +69,7 @@
       <a href="../articles/boards-rsconnect.html">RStudio Connect</a>
     </li>
     <li>
-      <a href="../articles/boards-url.html">Websites</a>
+      <a href="../articles/boards-websites.html">Websites</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Extensions</li>
@@ -114,7 +114,35 @@
 
     
     
-
+<p>Whenever you run <code><a href="../reference/pin.html">pin(resource)</a></code>, the resource is stored; by default, this means storing it locally in your computer for the purposes of caching it to avoid re-downloads, recomputing, etc. We can explore this folders storing pins by creating a pin and then enumerating the default local storage folder:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars)</a>
+<a class="sourceLine" id="cb1-3" title="3">tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">paths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="kw"><a href="../reference/custom-boards-utils.html">board_local_storage</a></span>(<span class="st">"local"</span>), <span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code># A tibble: 2 x 1
+   paths                                                
+   &lt;chr&gt;                                                
+ 1 /Users/username/pins/local/data.txt     
+ 2 /Users/username/pins/local/mtcars            </code></pre>
+<p>As you can see, each pin is stored inside a <code>pins/</code> folder and a list of resources is tracked on a <code>data.txt</code> file. The function <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> store and retrieve data from this well-known location, while <code><a href="../reference/pin_find.html">pin_find()</a></code> makes use of the index file to search for resources and track other properties like cache expiration information.</p>
+<p>Since this ‘local’ board is the default, you can also explicitly store or retrieve datasets from this board:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">name =</span> <span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<p>A local board is quite useful for all the reasons mentioned in the <a href="pins-rstudio.html">Getting Started</a> article; however, to take take full advantage of pins, you can also consider storing them in shared locations that others can access, for instance:</p>
+<dl>
+<dt>GitHub</dt>
+<dd>
+<a href="https://github.com">GitHub</a> is an American company that provides hosting for software development version control using Git and a subsidiary of Microsoft. GitHub offers plans for free, professional, and enterprise accounts; but free accounts are commonly used to host open source projects. While GitHub is mostly known to be used as a code repository, it is a common practice to also use GitHub to store datasets. However, GitHub works best with datasets under <a href="https://help.github.com/en/articles/adding-a-file-to-a-repository">25MB</a> before workarounds like <a href="https://git-lfs.github.com/">Git LFS</a> and <a href="https://help.github.com/en/articles/distributing-large-binaries">release files</a> to support up to 2GB resources. You can learn more about using <code>pins</code> with GitHub in the <a href="boards-github.html">GitHub Board</a> article.
+</dd>
+<dt>Kaggle</dt>
+<dd>
+<a href="https://www.kaggle.com">Kaggle</a> is an online community of data scientists and machine learners, owned by Google LLC. Kaggle allows users to find and publish data sets, explore and build models in a web-based data-science environment, work with other data scientists and machine learning engineers, and enter competitions to solve data science challenges. Kaggle supports storing datasets <a href="https://www.kaggle.com/product-feedback/43505#post246047">up to 10GB</a> in size and is free of charge for public datasets. You can learn more about using <code>pins</code> with GitHub in the <a href="boards-kaggle.html">Kaggle Board</a> article.
+</dd>
+<dt>RStudio Connect</dt>
+<dd>
+<a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> is a publishing platform for the work your teams create in R and Python. Share Shiny applications, R Markdown reports, Plumber APIs, dashboards, plots, Jupyter Notebooks, and more in one convenient place. RStudio Connect can be used to store private datasets and is only limited by the physical storage capacity configured in your server, learn to configure RStudio Connect in the <a href="boards-kaggle.html">RStudio Connect Board</a> article.
+</dd>
+</dl>
+<p>However, since there are many more storage locations to consider (see for instance <a href="https://github.com/swcarpentry/DEPRECATED-site/issues/797">Where should scientists store their data</a>), the <code>pins</code> also supports web-accessible locations through <a href="boards-websites.Rmd">Website Boards</a> and even custom boards to fully-support reading, writing, authentication and so on. You can learn how to create extensions at <a href="boards-extending.html">Extending Boards</a>.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
