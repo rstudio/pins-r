@@ -7,7 +7,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(pins)
 ```
 
@@ -61,7 +61,7 @@ Notice then the structure in the GitHub repo. Similar to the folder structure in
 You can also retrieve pins back from this repo using the now familiar `pin_get()` function,
 
 ```{r eval=FALSE}
-pin_get(iris, board = "github")
+pin_get("iris", board = "github")
 ```
 ```
 # A tibble: 150 x 5
