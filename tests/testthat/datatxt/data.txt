@@ -1,25 +1,12 @@
 - path: iris/data.csv
   name: iris
-  rows: 150
-  cols: 5
+  rows: '150'
+  cols: '5'
   description: This famous (Fisher's or Anderson's) iris data set gives the measurements
     in centimeters of the variables sepal length and width and petal length and width,
     respectively, for 50 flowers from each of 3 species of iris. The species are Iris
     setosa, versicolor, and virginica.
-  type: table
-- path: mtcars/data.csv
-  name: mtcars
-  rows: 32
-  cols: 11
-  description: The data was extracted from the 1974 Motor Trend US magazine, and comprises
-    fuel consumption and 10 aspects of automobile design and performance for 32 automobiles
-    (1973–74 models).
-  type: table
-- path: mtcars/data.csv
-  name: mtcars_expr
-  rows: !expr 30+2
-  cols: !expr 10+1
-  description: The data was extracted from the 1974 Motor Trend US magazine, and comprises
-    fuel consumption and 10 aspects of automobile design and performance for 32 automobiles
-    (1973–74 models).
-  type: table
+  type: "table"
+  no: "
+    - sd
+    - df"

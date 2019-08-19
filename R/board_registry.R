@@ -12,7 +12,7 @@ board_registry_load <- function() {
   config <- board_registry_config()
 
   if (!file.exists(config)) board_registry_persist()
-  .globals$boards_registered <- yaml::yaml.load_file(config)
+  .globals$boards_registered <- yaml::yaml.load_file(config, eval.expr = FALSE)
 
   for (board_name in board_registry_list()) {
     board <- board_registry_get(board_name)

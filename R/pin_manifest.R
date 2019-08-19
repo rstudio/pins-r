@@ -3,7 +3,7 @@ pin_manifest_get <- function(path) {
 
   data_txt <- file.path(path, "data.txt")
   if (file.exists(data_txt)) {
-    manifest <- yaml::read_yaml(data_txt)
+    manifest <- yaml::read_yaml(data_txt, eval.expr = FALSE)
   }
 
   if (is.null(manifest$type)) manifest$type <- "files"

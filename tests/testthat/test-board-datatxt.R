@@ -13,6 +13,15 @@ test_that("can pin_get() iris from a data.txt board", {
   expect_equal(ncol(pin_get("iris", "simpletxt")), 5)
 })
 
+test_that("can not evaluate expressions from data.txt board", {
+  metadata <- jsonlite::fromJSON(pin_find("mtcars_expr", board = "simpletxt", metadata = TRUE)$metadata)
+  expect_true(metadata$rows != 32)
+  expect_true(metadata$cols != 11)
+
+  expect_true(is.character(metadata$rows))
+  expect_true(is.character(metadata$cols))
+})
+
 test_that("can board_deregister() a data.txt board", {
   board_deregister("simpletxt")
 

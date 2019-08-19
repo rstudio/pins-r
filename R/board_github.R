@@ -49,12 +49,12 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
     # API reeturns contents when size < 1mb
     if (!is.null(content$content)) {
-      index <- yaml::yaml.load(rawToChar(base64enc::base64decode(content$content)))
+      index <- board_manifest_load(rawToChar(base64enc::base64decode(content$content)))
     }
     else {
       response <- httr::GET(content$download_url, github_headers(board))
       if (!httr::http_error(response)) {
-        index <- yaml::yaml.load(httr::content(response))
+        index <- board_manifest_load(httr::content(response))
       }
     }
   }
@@ -80,7 +80,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
   }
 
   index_file <- tempfile(fileext = "yml")
-  yaml::write_yaml(index, index_file)
+  board_manifest_create(index, index_file)
 
   file_url <- github_url(board, "/contents/", board$path, "data.txt")
 
@@ -169,7 +169,7 @@ board_pin_find.github <- function(board, text, ...) {
       content <- rawToChar(base64enc::base64decode(content$content))
     }
 
-    result <- yaml::yaml.load(content) %>%
+    result <- board_manifest_load(content) %>%
       pin_results_from_rows()
   }
   else {

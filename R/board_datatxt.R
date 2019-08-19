@@ -26,7 +26,7 @@ board_persist.datatxt <- function(board) {
 }
 
 board_pin_get.datatxt <- function(board, name, ...) {
-  index <- yaml::read_yaml(file.path(board_local_storage(board$name), "data.txt"))
+  index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
   if (length(index) == 0) stop("Could not find '", name, "' pin in '", board$name, "' board.")
@@ -54,7 +54,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
 board_pin_find.datatxt <- function(board, text, ...) {
   board_url_update_index(board)
 
-  entries <- yaml::read_yaml(file.path(pins:::board_local_storage(board$name), "data.txt"))
+  entries <- board_manifest_get(file.path(pins:::board_local_storage(board$name), "data.txt"))
 
   results <- data.frame(
     name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),
@@ -72,7 +72,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
     path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
     response <- httr::GET(file.path(board$url, path_guess, "data.txt"))
     if (!httr::http_error(response)) {
-      metadata <- c(metadata, yaml::yaml.load(httr::content(response)))
+      metadata <- c(metadata, board_manifest_load(httr::content(response)))
       results$metadata <- jsonlite::toJSON(metadata, auto_unbox = TRUE)
     }
   }

@@ -5,7 +5,7 @@ pin_registry_config <- function(component) {
 pin_registry_load_entries <- function(component) {
   entries_path <- pin_registry_config(component)
 
-  if (file.exists(entries_path)) yaml::read_yaml(entries_path) else list()
+  if (file.exists(entries_path)) yaml::read_yaml(entries_path, eval.expr = FALSE) else list()
 }
 
 pin_registry_save_entries <- function(entries, component) {
