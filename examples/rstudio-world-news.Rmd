@@ -17,10 +17,12 @@ We can then run this under RStudio Connecet on, say, a daily schedule; for this 
 
 ```{r}
 library(pins)
-board_register("rsconnect", output_files = TRUE)
+board_register("rsconnect",
+               key = Sys.getenv("RSTUDIO_KEY"),
+               server = "https://beta.rstudioconnect.com")
 ```
 
-And then create, retrieve or find pins as usual; for instnace, we can create a pin for the `world_news` dataframe:
+And then create, retrieve or find pins as usual; for instnace, we can create a pin for the `world_news` data frame:
 
 ```{r}
 pin(world_news, "worldnews", board = "rsconnect")
