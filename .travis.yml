@@ -1,5 +1,8 @@
 sudo: false
 
+repos:
+  CRAN: http://cran.rstudio.com/
+
 matrix:
   include:
     - name: "R (3.2.0)"
