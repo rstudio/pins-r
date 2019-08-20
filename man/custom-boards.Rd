@@ -28,15 +28,15 @@ board_persist(board, ...)
 board_browse(board, ...)
 }
 \arguments{
-\item{board}{The board to extended, retrieved with \code{board_get()}.}
+\item{board}{The board to extend, retrieved with \code{board_get()}.}
 
-\item{path}{The path to store.}
+\item{path}{The path to store as a pin.}
 
 \item{name}{The name of the pin.}
 
-\item{...}{Additional parameteres.}
+\item{metadata}{A list of metadata associated with this pin.}
 
-\item{text}{The text patteren to find a pin.}
+\item{...}{Additional parameteres.}
 }
 \description{
 Family of functions meant to be used to implement custom boards extensions,
