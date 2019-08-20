@@ -15,7 +15,7 @@ board_pin_create(board, path, name, metadata, ...)
 
 board_initialize(board, ...)
 
-board_pin_get(board, name, details, ...)
+board_pin_get(board, name, ...)
 
 board_pin_remove(board, name, ...)
 
@@ -37,6 +37,8 @@ board_browse(board, ...)
 \item{metadata}{A list of metadata associated with this pin.}
 
 \item{...}{Additional parameteres.}
+
+\item{text}{The text patteren to find a pin.}
 }
 \description{
 Family of functions meant to be used to implement custom boards extensions,

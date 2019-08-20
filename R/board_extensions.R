@@ -7,6 +7,8 @@
 #' @param path The path to store as a pin.
 #' @param name The name of the pin.
 #' @param metadata A list of metadata associated with this pin.
+#' @param text The text patteren to find a pin.
+#' @param details
 #' @param ... Additional parameteres.
 #'
 #' @rdname custom-boards
@@ -25,7 +27,7 @@ board_initialize.default <- function(board, ...) stop("Board '", board$name, "' 
 
 #' @export
 #' @rdname custom-boards
-board_pin_get <- function(board, name, details, ...) {
+board_pin_get <- function(board, name, ...) {
   UseMethod("board_pin_get")
 }
 
