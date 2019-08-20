@@ -17,7 +17,7 @@ register Kaggle as a board.
 }
 \examples{
 \dontrun{
-board_register_kaggle("kaggle", token = "path/to/kaggle.json")
+board_register_kaggle(token = "path/to/kaggle.json")
 }
 
 }

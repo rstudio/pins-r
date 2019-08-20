@@ -23,7 +23,7 @@ Wrapper with explicit parameters over \code{board_register()} to
 register a GitHub repo as a board.
 }
 \examples{
-board_register_github("github", repo = "datatxtorg/datatxt-site")
+board_register_github(repo = "datatxtorg/datatxt-site")
 
 }
 \seealso{
