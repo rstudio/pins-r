@@ -53,7 +53,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
 
   account_name <- board$account
   if (identical(board$output_files, TRUE)) {
-    account_name <- "___current-location___"
+    account_name <- "https://rstudio-connect-server/content/app-id/"
   }
   else {
     if (is.null(account_name)) {
