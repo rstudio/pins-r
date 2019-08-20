@@ -88,7 +88,7 @@ Coefficients:
            2.1713             0.4959             0.8292            -0.3152            -0.7236            -1.0235 
 ```
 
-Since additional metadata is being stored, other users can preview or access subsets of this models without having to reload it themselves. For instance, you can access those additional resources from GitHub or RStudio Connect:
+Since additional metadata is being stored, other users can preview or access subsets of this models without having to reload it themselves. For instance, you can access those additional resources from [GitHub](boards-github.html) or [RStudio Connect](boards-rsconnect.html):
 
 ![](images/pins-extending-metadata.png){width=100%}
 
