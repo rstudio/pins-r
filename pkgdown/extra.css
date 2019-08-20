@@ -18,8 +18,7 @@ dd {
   color: #ffffff;
 }
 
-#addin img,
-#connection img {
+p img {
   display: block;
   margin-left: auto;
   margin-right: auto;
