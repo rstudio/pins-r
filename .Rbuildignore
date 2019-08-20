@@ -10,3 +10,5 @@
 ^tools/
 ^\.travis\.yml$
 ^packages/
+^\.pytest_cache$
+\.httr-oauth$
