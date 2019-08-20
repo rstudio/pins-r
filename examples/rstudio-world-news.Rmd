@@ -9,37 +9,19 @@ The following chunks creates a list with the latest world news from the BBC:
 ```{r retrieve-world-news}
 library(xml2)
 
-world_news <- data.frame(
-  title = xml_text(
-    xml_find_all(
-      read_xml("http://feeds.bbci.co.uk/news/rss.xml"),
-      "///item/title/node()"
-    )
-  )
-)
+world_news <- data.frame(title = xml_text(xml_find_all(
+  read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()")))
 ```
 
-We can then run this under RStudio Connecet on, say, a daily schedule; for this to work, you first need to register the `rstudio`:
+We can then run this under RStudio Connecet on, say, a daily schedule; for this to work, you first need to register the `rstudio` using an API Key stored as an environment variable:
 
 ```{r}
 library(pins)
-board_register("rstudio")
+board_register("rsconnect", output_files = TRUE)
 ```
 
-And then create pins as usual,
+And then create, retrieve or find pins as usual; for instnace, we can create a pin for the `world_news` dataframe:
 
 ```{r}
-pin(world_news, "worldnews", board = "rstudio")
-```
-
-We can then access this pin with ease using a relative path [worldnews/](worldnews/). You can then copy-paste the URL and retrieve the pin in your own R session using `pins`:
-
-```{r eval=FALSE}
-pin_get("https://beta.rstudioconnect.com/content/5390/worldnews", board = "rstudio")
-```
-
-You can also skip the parts from the URL which the `pins` package can guess for you:
-
-```{r eval=FALSE}
-pin_get("5390/worldnews", board = "rstudio")
+pin(world_news, "worldnews", board = "rsconnect")
 ```
