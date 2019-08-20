@@ -81,3 +81,26 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      output_files = FALSE) {
   board_register("rsconnect", name = name, server = server, account = account, token = token, output_files = output_files)
 }
+
+#' Register Data TXT Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register as a board a website describing resources with a \code{data.txt} file.
+#'
+#' @param name The name for this board, usually the domain name of the website.
+#' @param url Path to the \code{data.txt} file or path containing it.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#'
+#' # register website board using datatxt file
+#' board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt")
+#'
+#' # find pins
+#' pin_find(board = "txtexample")
+#'
+#' @export
+board_register_datatxt <- function(name, url) {
+  board_register("datatxt", name = name, url = url)
+}
