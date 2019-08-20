@@ -22,7 +22,7 @@ board_register_kaggle(token = "path/to/kaggle.json")
 Notice that `board_register_kaggle()` is just an alias with named parameters to `board_register()`; the previous code is equivalent to:
 
 ```{r eval=FALSE}
-board_register_kaggle("kaggle", token = "path/to/kaggle.json")
+board_register("kaggle", token = "path/to/kaggle.json")
 ```
 
 Once the board is registered, you can pin and search using `pin()`, `pin_get()` and `pin_find()`.
@@ -64,7 +64,7 @@ pin_get("iris-pin", board = "kaggle")
 
 ## Discovering
 
-You can then search pins in your repo using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular GitHub board:
+You can then search pins in your repo using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular Kaggle board:
 
 ```{r eval=FALSE}
 pin_find("motor", board = "kaggle")
