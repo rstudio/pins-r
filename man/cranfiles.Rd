@@ -6,7 +6,7 @@
 \title{Index of tabular files found in CRAN packages}
 \format{An object of class \code{"data.frame"}.}
 \source{
-\href{https://cran.rstudio.com/}{CRAN}
+\href{https://cran.r-project.org}{CRAN}
 }
 \usage{
 data(cranfiles)

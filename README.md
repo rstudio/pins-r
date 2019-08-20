@@ -4,13 +4,12 @@ pins: Pin, Discover and Share Resources
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
+[![Downloads](https://cranlogs.r-pkg.org/badges/pins?color=blue)](https://cranlogs.r-pkg.org/)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Chat](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/sparklyr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub
 Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
-<a href="https://www.r-pkg.org/pkg/pins"><img src="https://cranlogs.r-pkg.org/badges/pins?color=blue" style=""></a>
-[![Join the chat at
-https://gitter.im/rstudio/pins](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/sparklyr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 You can use the `pins` package from **R**, or **Python**, to:
 
@@ -22,6 +21,10 @@ You can use the `pins` package from **R**, or **Python**, to:
     registering new boards with `board_register()`.
   - **Resources** can be anything from CSV, JSON or Excel files to image
     archives.
+
+If you find yourself using `download.file()` or asking others to
+download files before running your R code, use `pin()` to achieve fast,
+simple and reliable reproducible research over remote resources.
 
 To start using `pins`, install this package as follows:
 
@@ -61,10 +64,6 @@ bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
 
 <img src="tools/readme/rstudio-pin-performance-1.png" style="display: block; margin: auto;" />
 
-Also, if you find yourself using `download.file()` or asking others to
-download files before running your R code, use `pin()` to achieve fast,
-simple and reliable reproducible research over remote resources.
-
 You can also use pins to cache intermediate results to avoid having to
 recompute expensive operations:
 
@@ -100,13 +99,15 @@ mentioning “seattle” in CRAN packages as follows:
 pin_find("seattle", board = "packages")
 ```
 
-    ## # A tibble: 4 x 4
+    ## # A tibble: 6 x 4
     ##   name               description                               type  board 
-    ##   <fct>              <fct>                                     <fct> <chr> 
-    ## 1 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
-    ## 2 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
-    ## 3 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
-    ## 4 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
+    ##   <chr>              <chr>                                     <chr> <chr> 
+    ## 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…
+    ## 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
+    ## 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…
+    ## 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
+    ## 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
+    ## 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
 `<owner>` is not provided, each board will assign an appropriate one.
@@ -154,16 +155,15 @@ pin_get("hpiR/seattle_sales") %>%
 
 There are other boards you can use or even create custom boards as
 described in the [Understanding
-Boards](https://rstudio.github.io/pins/articles/boards.html) article; in
-addition, `pins` can also be used with RStudio products which we will
-describe next.
+Boards](https://rstudio.github.io/pins/articles/boards-understanding.html)
+article; in addition, `pins` can also be used with RStudio products
+which we will describe next.
 
 ## RStudio
 
-You can use [RStudio](https://www.rstudio.com/products/rstudio/) to
-discover and pin remote files and [RStudio
-Connect](https://www.rstudio.com/products/connect/) to share content
-within your organization with ease.
+You can use [RStudio](https://www.rstudio.com/products/rstudio/) and
+[RStudio Connect](https://www.rstudio.com/products/connect/) to discover
+and share content within your organization with ease.
 
 To enable new boards, you can use [RStudio’s Data
 Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
