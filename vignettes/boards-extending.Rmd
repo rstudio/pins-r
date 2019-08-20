@@ -7,13 +7,14 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-```{r setup, echo = FALSE, message = FALSE}
-library(nomnoml)
-```
+The GitHub, Kaggle, RStudio Connect and Website boards provide access to popular Data Science storage services; however, there can be many other interesting services to store resources through pins. For instance, Amazon S3, Amazon Glacier, Azure Blobs, Google File System and Hadoop, just to name a few. While those are not natively implemented in the `pins` package, you can create packages that extend `pins` to support many other services through custom boards.
 
-A board is an storage location to store files for personal use, with your team, or publicly with the world. A board defines four operations to manage pins in any storage system: create, find, retrieve and remove. A board can be read-only if it only supports the retrieve and find operations.
+For the purpose of creating custom boards, it helps to understand a board as a collection of files stored with a given name. It closely resembles a simple file systems, but it only requires the following operations to be implemented: create, get, find and remove. For read-only storage locations, you can also decide to implement only the 'get' and 'find' operations.
 
-```{nomnoml echo=FALSE, out.width='100%', out.height='240px'}
+```{r eval=FALSE, echo=FALSE}
+nomnoml::nomnoml("
+#padding: 10
+#spacing: 22
 [Pin]->[Create]
 [Create]->[Board]
 [Pin]<-[Find]
@@ -21,73 +22,23 @@ A board is an storage location to store files for personal use, with your team, 
 [Pin]<-[Retrieve]
 [Retrieve]<-[Board]
 [Pin]->[Remove]
-[Remove]->[Board]
+[Remove]->[Board]", "images/boards-extending-overview.png")
 ```
+![](images/boards-extending-overview.png){width=50%}
 
-## Files
+The most important S3 methods that your board needs to support are `board_pin_create()`, `board_pin_get()`, `board_pin_find()` and `board_pin_remove()` which define how to create, get, find and remove a pin.
 
-The defaul board in the `pins` package is a files-based; meaning, remote files are stored in the file system assigned to your R session. When using this from your personal computer, this defaults to a `pins` folder under the default home folder for your user.
+The next set of S3 methods to consider implementing are `board_initialize()`, `board_load()` and `board_persist()`. There methods are optional to implement but provide support for initialization, loading a board from disk and persisting a board to disk. The initialization method usually deals with authentication, while the load and persist methods can be used to avoid storing secrets or other temporal parameters to disk.
 
-```{nomnoml echo=FALSE, out.width='100%', out.height='160px'}
-[R|
-  [<note>library(pins)
-    pin(iris)]
-]-[File System|
-  [<note>~/pins/files/iris.Rds
-   ~/pins/files/data.txt
-  ]
-]
-```
+The last function to consider implementing is `board_browse()`, this function is used to browse to the location of the board. Usually implemented by calling `browseURL()` to open to website of the service hosting the custom board.
 
-## RStudio Connect
+To make this a bit more clear, the following section implements a custom board based on folders.
 
-**RStudio Connect** can be used to share pins within your organization, to
-use this feature you will need to configure a [publishing](https://docs.rstudio.com/connect/user/publishing.html)
-account in RStudio.
-
-```{nomnoml echo=FALSE, out.width='100%', out.height='140px'}
-[R|
-   [<note>library(pins)
-    register_board("rsconnect")
-    pin(iris)]
-]-[RStudio Connect|
-  [<note>iris]]
-```
-
-To make RStudio Connect your default board run:
-
-```{r eval=FALSE}
-board_register("rsconnect")
-```
-
-Once this board is active, `pin()` and `pin_get()` will default to use RStudio connect. For instance, we can retrieve the latest world news and pin them to RStudio Connect as follows:
-
-```{r eval=FALSE}
-library(xml2)
-data.frame(title = xml_text(xml_find_all(read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()"))) %>%
-  pin("worldnews", "A table with the latests world news from the BBC")
-```
-
-When using multiple publishing servers, you can specify an specific server through `register_board("rsconnect", "<server-name>")`.
-
-When using `pins` within RMarkdown documents that you want to run at a given schedule, like [rstudio-world-news.Rmd](https://github.com/rstudio/pins/blob/master/examples/rstudio-world-news.Rmd), you can simply push to RStudio Connect since the output pin will be generated as [Output Files](https://docs.rstudio.com/connect/user/r-markdown.html#r-markdown-output-files).
-
-## Kaggle
-
-```{nomnoml echo=FALSE, out.width='100%', out.height='140px'}
-[R|
-   [<note>library(pins)
-    register_board("kaggle")
-    pin(iris, "iris")]
-]-[Kaggle|
-  [<note>iris]]
-```
-
-## Other
+## Example
 
 If the boards that the `pins` package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.
 
-The following example creatse a simple folder-based board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
+The following example creates a simple folder-based board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it's a simple example that you can use to start developing custom boards:
 
 ```{r}
 board_initialize.folder <- function(board, ...) {
