@@ -2,8 +2,9 @@ sudo: false
 
 matrix:
   include:
-    - name: "R"
+    - name: "R (3.1)"
       language: r
+      r: 3.1
       warnings_are_errors: true
       cache:
         packages: true
@@ -11,7 +12,16 @@ matrix:
         - |
           R CMD build --resave-data .
           R CMD check --no-build-vignettes --no-manual pins*tar.gz
-
+    - name: "R (release)"
+      language: r
+      r: release
+      warnings_are_errors: true
+      cache:
+        packages: true
+      script:
+        - |
+          R CMD build --resave-data .
+          R CMD check --no-build-vignettes --no-manual pins*tar.gz
     - name: "Python"
       language: r
       r_packages:
