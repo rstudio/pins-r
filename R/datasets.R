@@ -13,7 +13,7 @@
 #'
 #' @keywords datasets
 #'
-#' @source \href{https://cran.rstudio.com/}{CRAN}
+#' @source \href{https://cran.r-project.org}{CRAN}
 #'
 #' @keywords internal
 #' @examples
