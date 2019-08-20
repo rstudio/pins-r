@@ -5,9 +5,9 @@ repos:
 
 matrix:
   include:
-    - name: "R (3.2.0)"
+    - name: "R (3.2.3)"
       language: r
-      r: 3.2.0
+      r: 3.2.3
       warnings_are_errors: true
       cache:
         packages: true
