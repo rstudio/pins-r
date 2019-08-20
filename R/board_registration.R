@@ -41,7 +41,7 @@ board_register_github <- function(repo,
 #' @export
 board_register_kaggle <- function(token,
                                   name = "kaggle") {
-  board_register("kaggle", name = name, token = repo)
+  board_register("kaggle", name = name, token = token)
 }
 
 #' Register RStudio Connect Board

@@ -38,6 +38,8 @@ board_test <- function(board, exclude = list()) {
   })
 
   deps$test_that(paste("can pin() data frame to", board, "board"), {
+    iris <- get("iris", envir = asNamespace("datasets"))
+
     dataset <- pin(iris, dataset_name, board = board)
 
     deps$expect_true(is.data.frame(dataset))

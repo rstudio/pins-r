@@ -54,7 +54,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
 board_pin_find.datatxt <- function(board, text, ...) {
   board_url_update_index(board)
 
-  entries <- board_manifest_get(file.path(pins:::board_local_storage(board$name), "data.txt"))
+  entries <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
 
   results <- data.frame(
     name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),

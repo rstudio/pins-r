@@ -143,6 +143,8 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
 
 board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
   description <- metadata$description
+  type <- metadata$type
+
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", gsub("-pin$", "", name), "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
