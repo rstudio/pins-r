@@ -2,9 +2,9 @@ sudo: false
 
 matrix:
   include:
-    - name: "R (3.1)"
+    - name: "R (3.2.0)"
       language: r
-      r: 3.1
+      r: 3.2.0
       warnings_are_errors: true
       cache:
         packages: true
