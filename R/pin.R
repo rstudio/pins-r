@@ -1,3 +1,10 @@
+#' Create Pin Name
+#'
+#' Creates a pin name from an character expression generated with \code{deparse(substitute(x))}.
+#'
+#' @param x The expression to generate  the pin name from.
+#' @param board The board to which this name is generating for.
+#'
 #' @export
 #' @keywords internal
 pin_default_name <- function(x, board) {

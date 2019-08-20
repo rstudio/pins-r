@@ -7,7 +7,7 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
   dir.create(path)
 
   saveRDS(x, file.path(path, "data.rds"), version = 2)
-  write.csv(x, file.path(path, "data.csv"), row.names = FALSE)
+  utils::write.csv(x, file.path(path, "data.csv"), row.names = FALSE)
   on.exit(unlink(path))
 
   columns <- lapply(x, function(e) class(e)[[1]])
@@ -29,7 +29,7 @@ pin_load.table <- function(path, ...) {
   csv <- file.path(path, "data.csv")
 
   if (file.exists(rds)) readRDS(rds)
-  else if (file.exists(csv)) read.csv(csv, stringsAsFactors = FALSE)
+  else if (file.exists(csv)) utils::read.csv(csv, stringsAsFactors = FALSE)
   else stop("A 'table' pin requires CSV or RDS files.")
 }
 
