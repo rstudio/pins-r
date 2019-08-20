@@ -52,8 +52,8 @@ board_pin_find <- function(board, text, ...) {
 #' @keywords internal
 board_local_storage <- function(component = "local") {
   paths <- list(
-    unix = "~/pins",
-    windows = "%LOCALAPPDATA%/pins"
+    unix = "~/.pins",
+    windows = file.path(Sys.getenv("LOCALAPPDATA"), "pins")
   )
 
   path <- paths[[.Platform$OS.type]]
