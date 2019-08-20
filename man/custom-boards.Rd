@@ -8,7 +8,6 @@
 \alias{board_pin_find}
 \alias{board_load}
 \alias{board_persist}
-\alias{board_pin_store}
 \alias{board_browse}
 \title{Custom Boards}
 \usage{
@@ -25,8 +24,6 @@ board_pin_find(board, text, ...)
 board_load(board, ...)
 
 board_persist(board, ...)
-
-board_pin_store(board, path, name, description, type, metadata, ...)
 
 board_browse(board, ...)
 }
