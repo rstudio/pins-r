@@ -24,6 +24,7 @@ reference:
     desc: "Functions for creating custom boards."
     contents:
       - board_pin_create
+      - board_pin_store
 
 navbar:
   title: "pins"

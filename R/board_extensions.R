@@ -83,40 +83,6 @@ board_persist.default <- function(board) structure(list(board = board$board, nam
 
 #' @export
 #' @rdname custom-boards
-board_pin_store <- function(board, path, name, description, type, metadata, ...) {
-  if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))
-
-  path <- path[!grepl("data\\.txt", path)]
-
-  store_path <- tempfile()
-  dir.create(store_path)
-  on.exit(unlink(store_path, recursive = TRUE))
-
-  for (single_path in path) {
-    if (grepl("^http", single_path)) {
-      single_path <- pin_download(single_path, name, "local", ...)
-    }
-
-    if (dir.exists(single_path)) {
-      file.copy(dir(single_path, full.names = TRUE) , store_path, recursive = TRUE)
-    }
-    else {
-      file.copy(single_path, store_path, recursive = TRUE)
-    }
-  }
-
-  metadata$description <- description
-  metadata$type <- type
-
-  pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
-
-  board_pin_create(board, store_path, name = name, metadata = metadata, ...)
-
-  pin_get(name, board$name)
-}
-
-#' @export
-#' @rdname custom-boards
 board_browse <- function(board, ...) {
   UseMethod("board_browse")
 }
