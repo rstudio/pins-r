@@ -1,6 +1,6 @@
 rsconnect_dependencies <- function() {
   list(
-    output_metadata = get_function("output_metadata", envir = asNamespace("rmarkdown"))
+    output_metadata = get_function("output_metadata", "rmarkdown")
   )
 }
 
