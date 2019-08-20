@@ -53,7 +53,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
 
   account_name <- board$account
   if (identical(board$output_files, TRUE)) {
-    account_name <- "https://rstudio-connect-server/content/app-id/"
+    account_name <- "https://rstudio-connect-server/content/app-id"
   }
   else {
     if (is.null(account_name)) {
@@ -237,6 +237,7 @@ board_pin_get.rsconnect <- function(board, name) {
     return(name)
   }
 
+  etag <- ""
   if (!grepl("^http://|^https://|^/content/", name)) {
     details <- rsconnect_get_by_name(board, name)
     if (nrow(details) == 0) stop("The pin '", name, "' is not available in the '", board$name, "' board.")

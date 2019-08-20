@@ -2,7 +2,7 @@ rsconnect_token_dependencies <- function() {
   list(
     accounts = get_function("accounts", "rsconnect"),
     account_info = get_function("accountInfo", "rsconnect"),
-    server_info = get_function("serverInfo", envir = "rsconnect"),
+    server_info = get_function("serverInfo", "rsconnect"),
     signature_headers = get_function("signatureHeaders", "rsconnect"),
     http_function = get_function("httpFunction", "rsconnect")
   )
