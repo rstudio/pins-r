@@ -1,10 +1,10 @@
 rsconnect_token_dependencies <- function() {
   list(
-    accounts = get0("accounts", envir = asNamespace("rsconnect")),
-    account_info = get0("accountInfo", envir = asNamespace("rsconnect")),
-    server_info = get0("serverInfo", envir = asNamespace("rsconnect")),
-    signature_headers = get0("signatureHeaders", envir = asNamespace("rsconnect")),
-    http_function = get0("httpFunction", envir = asNamespace("rsconnect"))
+    accounts = get_function("accounts", envir = asNamespace("rsconnect")),
+    account_info = get_function("accountInfo", envir = asNamespace("rsconnect")),
+    server_info = get_function("serverInfo", envir = asNamespace("rsconnect")),
+    signature_headers = get_function("signatureHeaders", envir = asNamespace("rsconnect")),
+    http_function = get_function("httpFunction", envir = asNamespace("rsconnect"))
   )
 }
 

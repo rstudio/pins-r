@@ -1,7 +1,6 @@
 rsconnect_dependencies <- function() {
   list(
-    current_input = get0("current_input", envir = asNamespace("knitr")),
-    output_metadata = get0("output_metadata", envir = asNamespace("rmarkdown"))
+    output_metadata = get_function("output_metadata", envir = asNamespace("rmarkdown"))
   )
 }
 
@@ -15,6 +14,7 @@ board_initialize.rsconnect <- function(board, ...) {
   board$server <- args$server
   board$server_name <- if (!is.null(args$server)) gsub("https?://|:[0-9]+/?", "", args$server) else NULL
   board$account <- args$account
+  board$output_files <- args$output_files
 
   if (identical(args$key, "")) stop("Invalid API key, the API key is empty.")
 
@@ -24,7 +24,7 @@ board_initialize.rsconnect <- function(board, ...) {
     stop("Please specify the 'server' parameter when using API keys.")
   }
 
-  if (!rsconnect_api_auth(board)) {
+  if (!rsconnect_api_auth(board) && !identical(board$output_files, TRUE)) {
     board <- rsconnect_token_initialize(board)
   }
 
@@ -52,8 +52,13 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
     readRDS(dir(path, "data\\.rds", full.names = TRUE)) else path
 
   account_name <- board$account
-  if (is.null(account_name)) {
-    account_name <- rsconnect_api_get(board, "/__api__/users/current/")$username
+  if (identical(board$output_files, TRUE)) {
+    account_name <- "___current-location___"
+  }
+  else {
+    if (is.null(account_name)) {
+      account_name <- rsconnect_api_get(board, "/__api__/users/current/")$username
+    }
   }
 
   file.copy(dir(path, full.names = TRUE), temp_dir)
@@ -63,11 +68,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
     !is.null(board$key) || !is.null(board$account)
   }
 
-  is_knitting <- function() {
-    !is.null(deps$current_input) && !is.null(deps$output_metadata) && !is.null(deps$current_input())
-  }
-
-  if (is_knitting() && !rsconnect_is_authenticated(board)) {
+  if (identical(board$output_files, TRUE)) {
     # use rsc output files when not authenticated, warn if we thing we might not be running under RSC
     if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) == 0)
       warning("Not authenticated to RStudio Connect, creating output file for pin.")
@@ -231,6 +232,10 @@ rsconnect_remote_path_from_url <- function(url) {
 
 board_pin_get.rsconnect <- function(board, name) {
   url <- name
+
+  if (identical(board$output_files, TRUE)) {
+    return(name)
+  }
 
   if (!grepl("^http://|^https://|^/content/", name)) {
     details <- rsconnect_get_by_name(board, name)
