@@ -19,7 +19,7 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
     columns = columns
   )
 
-  board_pin_store(board_get(board), path, name, description, "table", metadata,...)
+  board_pin_store(board, path, name, description, "table", metadata,...)
 }
 
 #' @keywords internal
