@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Custom Boards — board_pin_create • pins</title>
+<title>Register Data TXT Board — board_register_datatxt • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Custom Boards — board_pin_create" />
+<meta property="og:title" content="Register Data TXT Board — board_register_datatxt" />
 
-<meta property="og:description" content="Family of functions meant to be used to implement custom boards extensions,
-not to be used by users." />
+<meta property="og:description" content="Wrapper with explicit parameters over board_register() to
+register as a board a website describing resources with a data.txt file." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -140,66 +140,60 @@ not to be used by users." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Custom Boards</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_extensions.R'><code>R/board_extensions.R</code></a></small>
-    <div class="hidden name"><code>custom-boards.Rd</code></div>
+    <h1>Register Data TXT Board</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_registration.R'><code>R/board_registration.R</code></a></small>
+    <div class="hidden name"><code>board_register_datatxt.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Family of functions meant to be used to implement custom boards extensions,
-not to be used by users.</p>
+    <p>Wrapper with explicit parameters over <code><a href='board_register.html'>board_register()</a></code> to
+register as a board a website describing resources with a <code>data.txt</code> file.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_pin_create</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>metadata</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_initialize</span>(<span class='no'>board</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_pin_get</span>(<span class='no'>board</span>, <span class='no'>name</span>, <span class='no'>details</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_pin_remove</span>(<span class='no'>board</span>, <span class='no'>name</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_pin_find</span>(<span class='no'>board</span>, <span class='no'>text</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_load</span>(<span class='no'>board</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_persist</span>(<span class='no'>board</span>, <span class='no'>...</span>)
-
-<span class='fu'>board_browse</span>(<span class='no'>board</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register_datatxt</span>(<span class='no'>name</span>, <span class='no'>url</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>board</th>
-      <td><p>The board to extended, retrieved with <code><a href='board_get.html'>board_get()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>The path to store.</p></td>
-    </tr>
-    <tr>
       <th>name</th>
-      <td><p>The name of the pin.</p></td>
+      <td><p>The name for this board, usually the domain name of the website.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional parameteres.</p></td>
-    </tr>
-    <tr>
-      <th>text</th>
-      <td><p>The text patteren to find a pin.</p></td>
+      <th>url</th>
+      <td><p>Path to the <code>data.txt</code> file or path containing it.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>board_register</p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># register website board using datatxt file</span>
+<span class='fu'>board_register_datatxt</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://datatxt.org/data.txt"</span>)
+
+<span class='co'># find pins</span>
+<span class='fu'><a href='pin_find.html'>pin_find</a></span>(<span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 4</span><span>
+#&gt;   name   description                                              type  board   
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                                    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'>1</span><span> iris   This famous (Fisher's or Anderson's) iris data set give… table txtexam…
+#&gt; </span><span style='color: #555555;'>2</span><span> mtcars The data was extracted from the 1974 Motor Trend US mag… table txtexam…</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

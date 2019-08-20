@@ -116,7 +116,7 @@
     
 <p>A <a href="https://r4ds.had.co.nz/introduction.html">typical Data Science project</a> starts with importing data and finishes with communicating your results with others; however, some projects have a few additional steps that we will refer as: <strong>Discover</strong>, <strong>Cache</strong> and <strong>Share</strong>. While these steps might not deserve to be part of the official Data Science diagram, they can help us understand where the <code>pins</code> package can help.</p>
 <p>Conceptually, the modified Data Science diagram looks as follows:</p>
-<p><img src="diagrams/data-science-extended.png" style="width:100.0%"></p>
+<p><img src="images/pins-starting-overview.png" style="width:100.0%"></p>
 <p>The <code>pins</code> package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to loose – you should always have reproducible code to regenerate a pin.</p>
 <p>Let’s now introduce each operation the <code>pins</code> package supports.</p>
 <dl>
@@ -140,8 +140,6 @@
 <p>As a quick example, let’s search for resources that may contain ‘home prices’:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"home prices"</span>)</a></code></pre></div>
-<pre><code>## Warning in value[[3L]](cond): Error searching 'datatxt' board: Could not
-## resolve host: sdfdsdatatxt.org</code></pre>
 <pre><code>## # A tibble: 3 x 4
 ##   name                 description                             type  board 
 ##   &lt;chr&gt;                &lt;chr&gt;                                   &lt;chr&gt; &lt;chr&gt; 
@@ -149,7 +147,7 @@
 ## 2 sanjosedata/median-… Median Home Prices                      files kaggle
 ## 3 shrutibhatnagar/hom… Home prices prediction                  files kaggle</code></pre>
 <p>We’ve found out that the <code>BSDA</code> package contains a <code>Housing</code> dataset, you can then retrieve this dataset using <code><a href="../reference/pin_get.html">pin_get()</a></code> as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"BSDA/Housing"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"BSDA/Housing"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 74 x 3
 ##    city       year   price
 ##    &lt;chr&gt;      &lt;fct&gt;  &lt;int&gt;
@@ -170,12 +168,12 @@
 <h2 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h2>
 <p>Lets suppose that the ‘home prices’ dataset is not exactly what we are looking for, we can try to search online for ‘home prices’ and find out that <a href="https://catalog.data.gov/">catalog.data.gov</a> contains a more suitable <a href="https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis">FHFA House Price Indexes</a> dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use <code><a href="../reference/pin.html">pin()</a></code> to cache this dataset locally:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>)</a></code></pre></div>
 <pre><code>## [1] "/Users/javierluraschi/pins/local/HPI_master/HPI_master.csv"</code></pre>
 <p>Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
 <pre><code>## # A tibble: 108,826 x 10
 ##    hpi_type hpi_flavor frequency level place_name place_id    yr period
 ##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
@@ -194,8 +192,8 @@
 <p>The <code>pins</code> package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set <code>download = TRUE</code> to force <code>pins</code> to download the file again even if we think it has not changed. The specific mechanisms <code>pins</code> used are based on HTTP headers like <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag</a> to avoid downloading files when they have not changed or when the cache has not expired.</p>
 <p>Notice that <code><a href="../reference/pin.html">pin()</a></code> assigned a name automatically, <code>HPI_master</code> for the previous example; however, you can choose your own name and be explicit about retrieving a pin with <code><a href="../reference/pin_get.html">pin_get()</a></code>:</p>
 <pre><code>## [1] "/Users/javierluraschi/pins/local/home_price_indexes/HPI_master.csv"</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
 <pre><code>## # A tibble: 108,826 x 10
 ##    hpi_type hpi_flavor frequency level place_name place_id    yr period
 ##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
@@ -217,11 +215,11 @@
 <a href="#sharing" class="anchor"></a>Sharing</h2>
 <p>After performing a data analysis, you might want to save your dataset with others, which you can achieve using <code><a href="../reference/pin.html">pin(data, board = "&lt;board-name&gt;")</a></code>.</p>
 <p>The following example stores a simple data analysis over home prices as ‘home_price_analysis’ in the ‘local’ board.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 45 x 2
 ##       yr     n
 ##    &lt;dbl&gt; &lt;int&gt;

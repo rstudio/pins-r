@@ -114,10 +114,111 @@
 
     
     
-
+<div id="registering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#registering" class="anchor"></a>Registering</h2>
+<p>In order to use RStudio Connect as a <a href="boards-understanding.html">board</a>, you need to authenticate first. When using RStudio, you can authenticate launching <strong>Tools</strong> - <strong>Global Options</strong> - <strong>Publishing</strong> - <strong>Connect</strong>, and follow the instructions from that wizard:</p>
+<p>Once an RStudio Connect account is registered in RStudio, you can simply run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/board_register_rsconnect.html">board_register_rsconnect</a></span>()</a></code></pre></div>
+<p>Notice that <code><a href="../reference/board_register_rsconnect.html">board_register_rsconnect()</a></code> is just an alias with named parameters to <code><a href="../reference/board_register.html">board_register()</a></code>; the previous code is equivalent to:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>)</a></code></pre></div>
+<p>If you happen to have multiple RStudio Connect servers registered, you will have to specify the <code>server</code> parameter. Similarly, when multiple accounts are registered, you will need to specify the <code>account</code> parameter.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># register when multiple servers are available</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">server =</span> <span class="st">"https://rstudio-connect-server"</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co"># register when multiple accounts are available</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="kw"><a href="../reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">account =</span> <span class="st">"account-name"</span>)</a></code></pre></div>
+<p>Once the RStudio Connect board is registered, you can pin and search using <code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin_find.html">pin_find()</a></code> as usual.</p>
+</div>
+<div id="pinning" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pinning" class="anchor"></a>Pinning</h2>
+<p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Kaggle’s board name,</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
+<p>After a pin is created, the pin also becomes available in RStudio Connect,</p>
+<p><img src="images/boards-rsconnect-datasets.png" width="480"></p>
+<p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
+<pre><code># A tibble: 150 x 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# … with 140 more rows</code></pre>
+</div>
+<div id="discovering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#discovering" class="anchor"></a>Discovering</h2>
+<p>You can then search pins in your repo using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular RStudio Connect board:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"mt"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
+<pre><code># A tibble: 1 x 4
+  name             description                       type  board    
+  &lt;chr&gt;            &lt;chr&gt;                             &lt;chr&gt; &lt;chr&gt;    
+1 jluraschi/mtcars "The motor trend cars data set. " table rsconnect</code></pre>
+<p>Notice that the given ‘mt’ search keyword is searched as a prefix in the pin name.</p>
+</div>
+<div id="sharing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sharing" class="anchor"></a>Sharing</h2>
+<p>You can share pins with others in RStudio Connect, by changing the viewers of the document to specific groups or all users with access; or alternatively, to specific users. This is accomplished by opening the new published pin and then changing access under the settings tab.</p>
+<p><img src="images/boards-rsconnect-sharing.png" width="480"></p>
+<p>Once you share with specific users, they can follow the same steps to register their RStudio Connect board which allows them to download pins shared with them or upload their own pins.</p>
+</div>
+<div id="automation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#automation" class="anchor"></a>Automation</h2>
+<p>One significant advantage from using RStudio Connect over other boards is it’s ability to schedule R Markdown reports to run automatically. This allows you automate the creation of pins and also consume pins published manually from automated reports.</p>
+<p>To support automation you need to use an <a href="https://docs.rstudio.com/connect/user/api-keys.html">RStudio Connect API Key</a> as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">key =</span> <span class="st">"the-rstudio-connect-api-key"</span>)</a></code></pre></div>
+<p>Once authenticated, you can use <code>pins</code> as you would normally would. Let’s take a look at an automated R Markdown report which retrieves the latest news from the BBC which we can then schedule to run daily to update the pin:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb10-1" title="1">---</a>
+<a class="sourceLine" id="cb10-2" title="2">title: "RStudio Connect -- World News"</a>
+<a class="sourceLine" id="cb10-3" title="3">---</a>
+<a class="sourceLine" id="cb10-4" title="4"></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="bn">```{r, setup, include = FALSE}</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="bn">library(pins)</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="bn">register_board_rstudio(key = Sys.getenv("RSUDIO_KEY"), server = "https://rstudio-connect-serveer")</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="bn">```</span></a>
+<a class="sourceLine" id="cb10-9" title="9"></a>
+<a class="sourceLine" id="cb10-10" title="10">Create the <span class="bn">`world_news`</span> data frame,</a>
+<a class="sourceLine" id="cb10-11" title="11"></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="bn">```{r  fig.align='center', warning=FALSE}</span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="bn">library(xml2)</span></a>
+<a class="sourceLine" id="cb10-14" title="14"></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="bn">world_news &lt;- data.frame(title = xml_text(xml_find_all(</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="bn">  read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()")))</span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="bn">```</span></a>
+<a class="sourceLine" id="cb10-18" title="18"></a>
+<a class="sourceLine" id="cb10-19" title="19">Which you can then share as a pin,</a>
+<a class="sourceLine" id="cb10-20" title="20"></a>
+<a class="sourceLine" id="cb10-21" title="21"><span class="bn">```{r}</span></a>
+<a class="sourceLine" id="cb10-22" title="22"><span class="bn">pin(world_news, "worldnews", board = "rsconnect")</span></a>
+<a class="sourceLine" id="cb10-23" title="23"><span class="bn">```</span></a></code></pre></div>
+<p>The RStudio Connect board also supports RStudio Connect <a href="https://docs.rstudio.com/connect/user/r-markdown.html#r-markdown-output-files">Output Files</a> by setting <code>output_files = TRUE</code> when registering an automated report.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#registering">Registering</a></li>
+      <li><a href="#pinning">Pinning</a></li>
+      <li><a href="#discovering">Discovering</a></li>
+      <li><a href="#sharing">Sharing</a></li>
+      <li><a href="#automation">Automation</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

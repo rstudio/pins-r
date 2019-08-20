@@ -114,10 +114,81 @@
 
     
     
-
+<div id="registering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#registering" class="anchor"></a>Registering</h2>
+<p>In order to use Kaggle as a <a href="boards-understanding.html">board</a>, you need to authenticate first by creating a token file from <a href="https://www.kaggle.com/me/account">kaggle.com/me/account</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</a></code></pre></div>
+<p>Notice that <code><a href="../reference/board_register_kaggle.html">board_register_kaggle()</a></code> is just an alias with named parameters to <code><a href="../reference/board_register.html">board_register()</a></code>; the previous code is equivalent to:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"kaggle"</span>, <span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</a></code></pre></div>
+<p>Once the board is registered, you can pin and search using <code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
+</div>
+<div id="pinning" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pinning" class="anchor"></a>Pinning</h2>
+<p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Kaggle’s board name,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<p>After a pin is created, the pin also becomes available in the Kaggle’s dataset website; by defeault, they are created as private datasets.</p>
+<p><img src="images/boards-kaggle-datasets.png" width="480"></p>
+<p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function. However, since Kaggle names require at least six characters, <code>pins</code> appends <code>-pin</code> to names that are shorter than Kaggle’s required size.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris-pin"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<pre><code># A tibble: 150 x 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# … with 140 more rows</code></pre>
+</div>
+<div id="discovering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#discovering" class="anchor"></a>Discovering</h2>
+<p>You can then search pins in your repo using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular Kaggle board:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<pre><code># A tibble: 11 x 4
+   name                                         description                          type  board
+   &lt;chr&gt;                                        &lt;chr&gt;                                &lt;chr&gt; &lt;chr&gt;
+ 1 javierluraschi/mtcars                        The motor trend cars data set        files kagg…
+ 2 wkirgsn/electric-motor-temperature           Electric Motor Temperature           files kagg…
+ 3 new-york-city/nypd-motor-vehicle-collisions  NYPD Motor Vehicle Collisions        files kagg…
+ 4 rodrigodomingos/brazilian-insurance-motor-m… Brazilian Motor Insurance Market     files kagg…
+ 5 dan195/ebaymotorcycles                       Ebay Motorcycle Prices               files kagg…
+ 6 new-york-state/nys-motor-vehicle-crashes-an… NYS Motor Vehicle Crashes and Insur… files kagg…
+ 7 floser/french-motor-claims-datasets-fremtpl… French Motor Claims Datasets freMTP… files kagg…
+ 8 floser/swedish-motor-insurance               Swedish Motor Insurance              files kagg…
+ 9 kkairu/motorbike-ride-cancellation-data      MotorBike Ride Cancellation Data     files kagg…
+10 shreedevi/motor-insurance                    Motor Insurance                      files kagg…
+11 cdc/cdc-motor-vehicle-occupant-death-rate    CDC Motor Vehicle Occupant Death Ra… files kagg…</code></pre>
+<p>Notice that the given ‘motor’ search keyword is searched in the name and description fields for the pins available in this repo.</p>
+</div>
+<div id="sharing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sharing" class="anchor"></a>Sharing</h2>
+<p>When working in teams, you might want to share your pins with others. For Kaggle boards, this is accomplished by adding users or making the dataset public through Kaggle’s website.</p>
+<p><img src="images/boards-kaggle-sharing.png" width="480"></p>
+<p>Once you share with specific users, they can follow the same steps to register a Kaggle board which allows them to download pins shared with them or upload their own pins.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#registering">Registering</a></li>
+      <li><a href="#pinning">Pinning</a></li>
+      <li><a href="#discovering">Discovering</a></li>
+      <li><a href="#sharing">Sharing</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

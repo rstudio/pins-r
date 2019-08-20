@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Using URL Boards • pins</title>
+<title>Using Website Boards • pins</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Using URL Boards">
+<meta property="og:title" content="Using Website Boards">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -104,7 +104,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Using URL Boards</h1>
+      <h1>Using Website Boards</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/boards-websites.Rmd"><code>vignettes/boards-websites.Rmd</code></a></small>
@@ -114,7 +114,51 @@
 
     
     
-
+<p>The <a href="pins-starting.html">local</a>, <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a> and <a href="boards-rsconnect.html">RStudio Connect</a> boards provide support for many popular services; however, there are many cases where you would want to share resources in your own website. For instance, <a href="data.gov">data.gov</a>, <a href="http://data.uis.unesco.org">data.uis.unesco.org/</a> and <a href="http://data.un.org/">data.un.org/</a> are all examples of websites that contain datasets; in those cases, it can be preferable to avoid moving resources somewhere else. To support <code>pins</code> with websites that want to make their data available as <code>pins</code>, you can make use of a <code>data.txt</code> file to describe them with ease. You can learn more about <code>data.txt</code> files at <a href="https://datatxt.org">datatxt.org</a>.</p>
+<p>In a nutshell, a <code>data.txt</code> file is just a YAML file that you can read and write from R with ease using the <code>yaml</code> package. For instance, the following <code>data.txt</code> file can be found under <a href="https://datatxt.org/data.txt">datatxt.org/data.txt</a> to describe the famous <code>iris</code> and <code>mtcars</code> datasets:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">-</a></span> <span class="fu">path:</span><span class="at"> iris/data.csv</span></a>
+<a class="sourceLine" id="cb1-2" title="2">  <span class="fu">name:</span><span class="at"> iris</span></a>
+<a class="sourceLine" id="cb1-3" title="3">  <span class="fu">rows:</span><span class="at"> </span><span class="dv">150</span></a>
+<a class="sourceLine" id="cb1-4" title="4">  <span class="fu">cols:</span><span class="at"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb1-5" title="5">  <span class="fu">description:</span><span class="at"> This famous (Fisher's or Anderson's) iris data set gives the measurements</span></a>
+<a class="sourceLine" id="cb1-6" title="6">    in centimeters of the variables sepal length and width and petal length and width,</a>
+<a class="sourceLine" id="cb1-7" title="7">    respectively, for 50 flowers from each of 3 species of iris. The species are Iris</a>
+<a class="sourceLine" id="cb1-8" title="8">    setosa, versicolor, and virginica.</a>
+<a class="sourceLine" id="cb1-9" title="9">  <span class="fu">type:</span><span class="at"> table</span></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">-</a></span> <span class="fu">path:</span><span class="at"> mtcars/data.csv</span></a>
+<a class="sourceLine" id="cb1-11" title="11">  <span class="fu">name:</span><span class="at"> mtcars</span></a>
+<a class="sourceLine" id="cb1-12" title="12">  <span class="fu">rows:</span><span class="at"> </span><span class="dv">32</span></a>
+<a class="sourceLine" id="cb1-13" title="13">  <span class="fu">cols:</span><span class="at"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb1-14" title="14">  <span class="fu">description:</span><span class="at"> The data was extracted from the 1974 Motor Trend US magazine, and comprises</span></a>
+<a class="sourceLine" id="cb1-15" title="15">    fuel consumption and 10 aspects of automobile design and performance for 32 automobiles</a>
+<a class="sourceLine" id="cb1-16" title="16">    (1973–74 models).</a>
+<a class="sourceLine" id="cb1-17" title="17">  <span class="fu">type:</span><span class="at"> table</span></a></code></pre></div>
+<p>As a website owner, you can choose to create a similar file and place it in your website, you do not need to place it in the root of your domain, it can be any valid URL. Once defined, you can create a read-only board using the <code>datatxt</code> board. For this particular example, we will reuse <a href="https://datatxt.org/data.txt">datatxt.org/data.txt</a>, but you can replace that with your own domain name, website path, S3 bucket and so on.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register_datatxt.html">board_register_datatxt</a></span>(<span class="dt">name =</span> <span class="st">"txtexample"</span>, <span class="dt">url =</span> <span class="st">"https://datatxt.org/data.txt"</span>)</a></code></pre></div>
+<p>As you would expect, <code><a href="../reference/board_register_datatxt.html">board_register_datatxt()</a></code> is also just a wrapper function to <code><a href="../reference/board_register.html">board_register("txtexample")</a></code>.</p>
+<p>Once this board is registered, you can use <code><a href="../reference/pin_find.html">pin_find()</a></code> to discover pins,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
+<pre><code># A tibble: 2 x 4
+  name   description                                                 type  board   
+  &lt;chr&gt;  &lt;chr&gt;                                                       &lt;chr&gt; &lt;chr&gt;   
+1 iris   This famous (Fisher's or Anderson's) iris data set gives t… table txtexam…
+2 mtcars The data was extracted from the 1974 Motor Trend US magazi… table txtexam…</code></pre>
+<p>And <code><a href="../reference/pin_get.html">pin_get()</a></code> to retrieve pins,</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
+<pre><code># A tibble: 32 x 11
+     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+ 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+ 3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+ 4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+ 5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+ 6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+ 7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+ 8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+ 9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+# … with 22 more rows</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
