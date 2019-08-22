@@ -29,10 +29,11 @@ board_pin_get.datatxt <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
+  local_path <- pin_registry_path(board$name, name)
+
   if (length(index) == 0) stop("Could not find '", name, "' pin in '", board$name, "' board.")
 
-  for (path in index[[1]]$path)
-    local_path <- pin_download(file.path(board$url, path), name, board$name)
+  download_paths <- index[[1]]$path
 
   # try to download index as well
   path_guess <- if (grepl("\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
@@ -40,12 +41,19 @@ board_pin_get.datatxt <- function(board, name, ...) {
 
   manifest <- pin_manifest_get(local_path)
   if (index[[1]]$path %in% file.path(path_guess, manifest$path)) {
-    for (path in manifest$path)
-      pin_download(file.path(board$url, path_guess, path), name, board$name)
+    download_paths <- file.path(board$url, path_guess, path)
   }
   else {
     index[[1]]$path <- NULL
     pin_manifest_create(local_path, index[[1]], index[[1]]$path)
+  }
+
+  for (path in download_paths) {
+    if (!grepl("https?://", path)) {
+      path <- file.path(board$url, path)
+    }
+
+    local_path <- pin_download(path, name, board$name)
   }
 
   local_path
@@ -70,7 +78,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
     path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
-    response <- httr::GET(file.path(board$url, path_guess, "data.txt"))
+    response <- httr::GET(file.path(board$url, path_guess[[1]], "data.txt"))
     if (!httr::http_error(response)) {
       metadata <- c(metadata, board_manifest_load(httr::content(response)))
       results$metadata <- jsonlite::toJSON(metadata, auto_unbox = TRUE)
