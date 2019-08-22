@@ -110,7 +110,7 @@ kaggle_create_bundle <- function(path, type, description) {
   bundle_file <- tempfile(fileext = ".zip")
   withr::with_dir(
     bundle_path,
-    zip::zip(bundle_file, dir(bundle_path))
+    zip::zipr(bundle_file, dir(bundle_path))
   )
 
   bundle_file
