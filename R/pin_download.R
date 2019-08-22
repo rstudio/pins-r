@@ -97,7 +97,7 @@ pin_download <- function(path, name, component, ...) {
         }
 
         if (httr::http_error(result)) {
-          error <- paste0(status, " Failed to download remote file: ", path)
+          error <- paste0(httr::http_status(result)$message, ". Failed to download remote file: ", path)
           report_error(error)
         }
       }
