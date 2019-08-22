@@ -30,6 +30,7 @@ board_register_github <- function(repo,
 #'
 #' @param token The Kaggle token as a path to the \code{kaggle.json} file.
 #' @param name Optional name for this board, defaults to 'kaggle'.
+#' @param overwrite Should \code{~/.kaggle/kaggle.json} be overriden?
 #'
 #' @seealso board_register
 #'
@@ -40,8 +41,9 @@ board_register_github <- function(repo,
 #'
 #' @export
 board_register_kaggle <- function(token,
-                                  name = "kaggle") {
-  board_register("kaggle", name = name, token = token)
+                                  name = "kaggle",
+                                  overwrite = FALSE) {
+  board_register("kaggle", name = name, token = token, overwrite = overwrite)
 }
 
 #' Register RStudio Connect Board
