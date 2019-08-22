@@ -96,10 +96,6 @@ kaggle_create_bundle <- function(path, type, description) {
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))
 
-  if (identical(dir(path, "data\\.rds"), "data.rds")) {
-    loaded <- readRDS(dir(path, "data\\.rds", full.names = TRUE))
-  }
-
   if (dir.exists(path)) {
     file.copy(file.path(path, dir(path)), bundle_path, recursive = TRUE)
   }
@@ -148,10 +144,29 @@ board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
   if (is.null(description) || nchar(description) == 0) description <- paste("A pin for the", gsub("-pin$", "", name), "dataset")
   if (!file.exists(path)) stop("File does not exist: ", path)
 
-  temp_bundle <- kaggle_create_bundle(path, type, description)
-  on.exit(unlink(temp_bundle))
+  if (identical(list(...)$use_zip, TRUE)) {
+    temp_bundle <- kaggle_create_bundle(path, type, description)
+    on.exit(unlink(temp_bundle))
 
-  token <- kaggle_upload_resource(temp_bundle)
+    token <- kaggle_upload_resource(temp_bundle)
+  }
+  else {
+    token <- list()
+
+    if (dir.exists(path)) {
+      upload_files <- file.path(path, dir(path))
+    }
+    else {
+      upload_files <- path
+    }
+
+    for (upload_file in upload_files) {
+      token[[length(token) + 1]] <- kaggle_upload_resource(upload_file)
+    }
+
+    token <- unlist(token)
+  }
+
   kaggle_create_resource(name, description, token, type, metadata)
 
   qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
