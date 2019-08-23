@@ -56,7 +56,7 @@ board_pin_get.packages <- function(board, name) {
     on.exit(unlink(temp_path, recursive = TRUE))
 
     repos <- getOption("repos")["CRAN"]
-    if (length(repos) == 0 || is.na(repos) || identical(as.character(repos), "@CRAN@")) repos <- "https://cran.rstudio.com/"
+    if (is.null(repos) || length(repos) == 0 || is.na(repos) || identical(as.character(repos), "@CRAN@")) repos <- "https://cran.rstudio.com/"
 
     progress <- function(e) utils::capture.output(e, type = "message")
     if (getOption("pins.progress", FALSE))
@@ -101,6 +101,10 @@ get_cranfiles <- function() {
 
   if (is.null(.globals$datasets$cranfiles)) {
     utils::data("cranfiles", envir = .globals$datasets, package = "pins")
+  }
+
+  if (is.null(.globals$datasets$cranfiles)) {
+    stop("Failed to load 'cranfiles' dataset")
   }
 
   .globals$datasets$cranfiles
