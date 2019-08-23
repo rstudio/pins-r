@@ -38,7 +38,7 @@ pin_default_name <- function(x, board) {
 #' @details
 #'
 #' \code{pin()} allows you to cache remote resources and intermediate results with ease. When
-#' caching remote resources, usualy URLs, it will checek for HTTP caching headers to avoid
+#' caching remote resources, usually URLs, it will check for HTTP caching headers to avoid
 #' re-downloading when the remote result has not changed.
 #'
 #' This makes it ideal to support reproducible research by requiring manual instruction to
@@ -87,7 +87,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #'
 #' @details
 #'
-#' \code{pin_get()} retrieves a pin by name and, by the default, from the local board.
+#' \code{pin_get()} retrieves a pin by name and, by default, from the local board.
 #' You can use the \code{board} parameter to specify which board to retrieve a pin from.
 #' If a board is not specified, it will use \code{pin_find()} to find the pin across
 #' all boards and retrieve the one that matches by name.
@@ -170,7 +170,7 @@ pin_remove <- function(name, board) {
 #' @details
 #'
 #' \code{pin_find()} allows you to discover new resources or retrieve
-#' pins your've previously created with \code{pin()}.
+#' pins you've previously created with \code{pin()}.
 #'
 #' The \code{pins} package comes with a CRAN packages board which
 #' allows searching all CRAN packages; however, you can add additional
@@ -179,7 +179,7 @@ pin_remove <- function(name, board) {
 #' For 'local' and 'packages' boards, the 'text' parameter searches
 #' the title and description of a pin using a regular expression. Other
 #' boards search in different ways, most of them are just partial matches,
-#' please reffer to their documentation to understand how other
+#' please refer to their documentation to understand how other
 #' boards search for pins.
 #'
 #' Once you find a pin, you can retrieve with \code{pin_get("pin-name")}.
