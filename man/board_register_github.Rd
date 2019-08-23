@@ -23,8 +23,9 @@ Wrapper with explicit parameters over \code{board_register()} to
 register a GitHub repo as a board.
 }
 \examples{
-board_register_github(repo = "datatxtorg/datatxt-site")
-
+\dontrun{
+board_register_github(repo = "owner/repo")
+}
 }
 \seealso{
 board_register
