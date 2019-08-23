@@ -197,7 +197,7 @@ pin_remove <- function(name, board) {
 #' pin_find("seattle", board = "packages")
 #'
 #' # retrieve 'hpiR/seattle_sales' pin
-#' pin_get("hpiR/seattle_sales)
+#' pin_get("hpiR/seattle_sales")
 #'
 #' # search pins related to 'vaccination' in the 'packages' board
 #' pin_find("vaccination", board = "packages")
