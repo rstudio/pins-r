@@ -30,6 +30,55 @@ board_pin_find.packages <- function(board, text, ...) {
   }
 }
 
+packages_repo_default <- function() {
+  repos <- getOption("repos")["CRAN"]
+  if (is.null(repos) || length(repos) == 0 || is.na(repos) || identical(as.character(repos), "@CRAN@")) repos <- "https://cran.rstudio.com/"
+
+  repos
+}
+
+packages_download <- function(resource_path, package_pin, name) {
+  dir.create(resource_path, recursive = TRUE)
+
+  temp_path <- tempfile()
+  dir.create(temp_path)
+  on.exit(unlink(temp_path, recursive = TRUE))
+
+  repos <- packages_repo_default()
+
+  progress <- function(e) utils::capture.output(e, type = "message")
+  if (getOption("pins.progress", FALSE))
+    progress <- function(e) e
+
+  progress(result <- utils::download.packages(package_pin$package, temp_path, repos = repos))
+
+  tar <- dir(
+    temp_path,
+    pattern = paste0(package_pin$package, ".*.tar.gz"),
+    full.names = TRUE)[1]
+
+  utils::untar(tar, exdir = temp_path)
+  unlink(tar)
+
+  temp_package <- dir(
+    temp_path,
+    pattern = package_pin$package,
+    full.names = TRUE)[1]
+
+  temp_file <- dir(
+    file.path(temp_package, "data"),
+    pattern = name,
+    full.names = TRUE)[1]
+
+  file.copy(temp_file, resource_path)
+
+  metadata <- jsonlite::fromJSON(package_pin$metadata)
+  metadata$type <- "package"
+  metadata$description <- package_pin$description
+
+  pin_manifest_create(resource_path, metadata, "")
+}
+
 board_pin_get.packages <- function(board, name) {
   parts <- strsplit(name, "/")[[1]]
 
@@ -47,48 +96,8 @@ board_pin_get.packages <- function(board, name) {
 
   resource_path <- file.path(packages_path, package, name)
 
-  if (!dir.exists(resource_path)) {
-
-    dir.create(resource_path, recursive = TRUE)
-
-    temp_path <- tempfile()
-    dir.create(temp_path)
-    on.exit(unlink(temp_path, recursive = TRUE))
-
-    repos <- getOption("repos")["CRAN"]
-    if (is.null(repos) || length(repos) == 0 || is.na(repos) || identical(as.character(repos), "@CRAN@")) repos <- "https://cran.rstudio.com/"
-
-    progress <- function(e) utils::capture.output(e, type = "message")
-    if (getOption("pins.progress", FALSE))
-      progress <- function(e) e
-
-    progress(result <- utils::download.packages(package_pin$package, temp_path, repos = repos))
-
-    tar <- dir(
-      temp_path,
-      pattern = paste0(package_pin$package, ".*.tar.gz"),
-      full.names = TRUE)[1]
-
-    utils::untar(tar, exdir = temp_path)
-    unlink(tar)
-
-    temp_package <- dir(
-      temp_path,
-      pattern = package_pin$package,
-      full.names = TRUE)[1]
-
-    temp_file <- dir(
-      file.path(temp_package, "data"),
-      pattern = name,
-      full.names = TRUE)[1]
-
-    file.copy(temp_file, resource_path)
-
-    metadata <- jsonlite::fromJSON(package_pin$metadata)
-    metadata$type <- "package"
-    metadata$description <- package_pin$description
-
-    pin_manifest_create(resource_path, metadata, "")
+  if (!dir.exists(resource_path) || length(dir(resource_path)) == 0) {
+    packages_download(resource_path, package_pin, name)
   }
 
   resource_path
