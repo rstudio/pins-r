@@ -28,7 +28,7 @@ Imports:
   zip
 Suggests:
   knitr,
-  nomnoml,
+  rmarkdown,
   testthat
 VignetteBuilder: knitr
 URL: https://github.com/rstudio/pins
