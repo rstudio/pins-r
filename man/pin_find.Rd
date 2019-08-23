@@ -18,7 +18,7 @@ Find a pin in any board registered using \code{board_register()}.
 }
 \details{
 \code{pin_find()} allows you to discover new resources or retrieve
-pins your've previously created with \code{pin()}.
+pins you've previously created with \code{pin()}.
 
 The \code{pins} package comes with a CRAN packages board which
 allows searching all CRAN packages; however, you can add additional
@@ -27,8 +27,29 @@ boards to search from like Kaggle, Github and RStudio Connect.
 For 'local' and 'packages' boards, the 'text' parameter searches
 the title and description of a pin using a regular expression. Other
 boards search in different ways, most of them are just partial matches,
-please reffer to their documentation to understand how other
+please refer to their documentation to understand how other
 boards search for pins.
 
 Once you find a pin, you can retrieve with \code{pin_get("pin-name")}.
+}
+\examples{
+library(pins)
+
+# retrieve local pins
+pin_find(board = "local")
+
+# search local pins related to 'cars'
+pin_find("cars", board = "local")
+
+# search pins related to 'seattle' in the 'packages' board
+pin_find("seattle", board = "packages")
+
+# retrieve 'hpiR/seattle_sales' pin
+pin_get("hpiR/seattle_sales")
+
+# search pins related to 'vaccination' in the 'packages' board
+pin_find("vaccination", board = "packages")
+
+# retrieve 'ggalluvial/vaccinations' pin
+pin_get("ggalluvial/vaccinations")
 }

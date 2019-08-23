@@ -22,7 +22,7 @@ Pins the given resource locally or to the given board.
 }
 \details{
 \code{pin()} allows you to cache remote resources and intermediate results with ease. When
-caching remote resources, usualy URLs, it will checek for HTTP caching headers to avoid
+caching remote resources, usually URLs, it will check for HTTP caching headers to avoid
 re-downloading when the remote result has not changed.
 
 This makes it ideal to support reproducible research by requiring manual instruction to

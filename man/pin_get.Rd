@@ -19,7 +19,7 @@ pin_get(name, board = NULL, cache = TRUE, ...)
 Retrieves a pin by name from the local or given board.
 }
 \details{
-\code{pin_get()} retrieves a pin by name and, by the default, from the local board.
+\code{pin_get()} retrieves a pin by name and, by default, from the local board.
 You can use the \code{board} parameter to specify which board to retrieve a pin from.
 If a board is not specified, it will use \code{pin_find()} to find the pin across
 all boards and retrieve the one that matches by name.
