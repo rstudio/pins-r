@@ -114,7 +114,7 @@
 
     
     
-<p>The <a href="pins-starting.html">local</a>, <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a> and <a href="boards-rsconnect.html">RStudio Connect</a> boards provide support for many popular services; however, there are many cases where you would want to share resources in your own website. For instance, <a href="data.gov">data.gov</a>, <a href="http://data.uis.unesco.org">data.uis.unesco.org/</a> and <a href="http://data.un.org/">data.un.org/</a> are all examples of websites that contain datasets; in those cases, it can be preferable to avoid moving resources somewhere else. To support <code>pins</code> with websites that want to make their data available as <code>pins</code>, you can make use of a <code>data.txt</code> file to describe them with ease. You can learn more about <code>data.txt</code> files at <a href="https://datatxt.org">datatxt.org</a>.</p>
+<p>The <a href="pins-starting.html">local</a>, <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a> and <a href="boards-rsconnect.html">RStudio Connect</a> boards provide support for many popular services; however, there are many cases where you would want to share resources in your own website. For instance, <a href="data.gov">data.gov</a>, <a href="http://data.uis.unesco.org">data.uis.unesco.org</a> and <a href="https://data.nasa.gov/">data.nasa.gov</a> are all examples of websites that contain datasets; in those cases, it can be preferable to avoid moving resources somewhere else. To support <code>pins</code> with websites that want to make their data available as <code>pins</code>, you can make use of a <code>data.txt</code> file to describe them with ease. You can learn more about <code>data.txt</code> files at <a href="https://datatxt.org">datatxt.org</a>.</p>
 <p>In a nutshell, a <code>data.txt</code> file is just a YAML file that you can read and write from R with ease using the <code>yaml</code> package. For instance, the following <code>data.txt</code> file can be found under <a href="https://datatxt.org/data.txt">datatxt.org/data.txt</a> to describe the famous <code>iris</code> and <code>mtcars</code> datasets:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">-</a></span> <span class="fu">path:</span><span class="at"> iris/data.csv</span></a>
 <a class="sourceLine" id="cb1-2" title="2">  <span class="fu">name:</span><span class="at"> iris</span></a>
@@ -135,7 +135,7 @@
 <a class="sourceLine" id="cb1-17" title="17">  <span class="fu">type:</span><span class="at"> table</span></a></code></pre></div>
 <p>As a website owner, you can choose to create a similar file and place it in your website, you do not need to place it in the root of your domain, it can be any valid URL. Once defined, you can create a read-only board using the <code>datatxt</code> board. For this particular example, we will reuse <a href="https://datatxt.org/data.txt">datatxt.org/data.txt</a>, but you can replace that with your own domain name, website path, S3 bucket and so on.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register_datatxt.html">board_register_datatxt</a></span>(<span class="dt">name =</span> <span class="st">"txtexample"</span>, <span class="dt">url =</span> <span class="st">"https://datatxt.org/data.txt"</span>)</a></code></pre></div>
-<p>As you would expect, <code><a href="../reference/board_register_datatxt.html">board_register_datatxt()</a></code> is also just a wrapper function to <code><a href="../reference/board_register.html">board_register("txtexample")</a></code>.</p>
+<p>As you would expect, <code><a href="../reference/board_register_datatxt.html">board_register_datatxt()</a></code> is also just a wrapper function to <code><a href="../reference/board_register.html">board_register("datatxt")</a></code>.</p>
 <p>Once this board is registered, you can use <code><a href="../reference/pin_find.html">pin_find()</a></code> to discover pins,</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
 <pre><code># A tibble: 2 x 4
@@ -168,7 +168,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Register Kaggle Board — board_register_kaggle • pins</title>
+<title>Reactive Pin — pin_reactive • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,11 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Register Kaggle Board — board_register_kaggle" />
+<meta property="og:title" content="Reactive Pin — pin_reactive" />
 
-<meta property="og:description" content="Wrapper with explicit parameters over board_register() to
-register Kaggle as a board." />
+<meta property="og:description" content="Creates a pin that reacts to changes in the given board by
+polling pin_get(), useful when used from the shiny
+package." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -140,55 +141,66 @@ register Kaggle as a board." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Register Kaggle Board</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_registration.R'><code>R/board_registration.R</code></a></small>
-    <div class="hidden name"><code>board_register_kaggle.Rd</code></div>
+    <h1>Reactive Pin</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin_reactive.R'><code>R/pin_reactive.R</code></a></small>
+    <div class="hidden name"><code>pin_reactive.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wrapper with explicit parameters over <code><a href='board_register.html'>board_register()</a></code> to
-register Kaggle as a board.</p>
+    <p>Creates a pin that reacts to changes in the given board by
+polling <code><a href='pin_get.html'>pin_get()</a></code>, useful when used from the <code>shiny</code>
+package.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register_kaggle</span>(<span class='no'>token</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"kaggle"</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_reactive</span>(<span class='no'>name</span>, <span class='no'>board</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>token</th>
-      <td><p>The Kaggle token as a path to the <code>kaggle.json</code> file.</p></td>
-    </tr>
-    <tr>
       <th>name</th>
-      <td><p>Optional name for this board, defaults to 'kaggle'.</p></td>
+      <td><p>The name of the pin.</p></td>
     </tr>
     <tr>
-      <th>overwrite</th>
-      <td><p>Should <code>~/.kaggle/kaggle.json</code> be overriden?</p></td>
+      <th>board</th>
+      <td><p>The board where this pin will be retrieved from.</p></td>
+    </tr>
+    <tr>
+      <th>interval</th>
+      <td><p>Approximate number of milliseconds to wait to retrieve
+updated pin. This can be a numeric value, or a function that returns
+a numeric value.</p></td>
+    </tr>
+    <tr>
+      <th>session</th>
+      <td><p>The user session to associate this file reader with, or NULL if
+none. If non-null, the reader will automatically stop when the session ends.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>board_register</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>board_register_kaggle</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='st'>"path/to/kaggle.json"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>shiny</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>pins</span>)
+
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/fluidPage'>fluidPage</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/tableOutput'>tableOutput</a></span>(<span class='st'>"table"</span>))
+
+<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>) {
+  <span class='no'>mtcars_pin</span> <span class='kw'>&lt;-</span> <span class='fu'>pin_reactive</span>(<span class='st'>"mtcars"</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"local"</span>)
+  <span class='no'>output</span>$<span class='no'>table</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/renderTable'>renderTable</a></span>(<span class='fu'>mtcars_pin</span>())
+}
+
+<span class='fu'><a href='https://www.rdocumentation.org/packages/shiny/topics/shinyApp'>shinyApp</a></span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='no'>ui</span>, <span class='kw'>server</span> <span class='kw'>=</span> <span class='no'>server</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

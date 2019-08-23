@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Register Kaggle Board — board_register_kaggle • pins</title>
+<title>Pin Logging — pin_log • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Register Kaggle Board — board_register_kaggle" />
+<meta property="og:title" content="Pin Logging — pin_log" />
 
-<meta property="og:description" content="Wrapper with explicit parameters over board_register() to
-register Kaggle as a board." />
+<meta property="og:description" content="Log message for diagnosing the pins package." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -140,57 +139,35 @@ register Kaggle as a board." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Register Kaggle Board</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_registration.R'><code>R/board_registration.R</code></a></small>
-    <div class="hidden name"><code>board_register_kaggle.Rd</code></div>
+    <h1>Pin Logging</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/log.R'><code>R/log.R</code></a></small>
+    <div class="hidden name"><code>pin_log.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Wrapper with explicit parameters over <code><a href='board_register.html'>board_register()</a></code> to
-register Kaggle as a board.</p>
+    <p>Log message for diagnosing the <code>pins</code> package.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register_kaggle</span>(<span class='no'>token</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"kaggle"</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_log</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>token</th>
-      <td><p>The Kaggle token as a path to the <code>kaggle.json</code> file.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>Optional name for this board, defaults to 'kaggle'.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Should <code>~/.kaggle/kaggle.json</code> be overriden?</p></td>
+      <th>...</th>
+      <td><p>Entries to be logged.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>board_register</p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>board_register_kaggle</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='st'>"path/to/kaggle.json"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

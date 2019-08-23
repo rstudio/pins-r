@@ -169,7 +169,7 @@
 <a href="#caching" class="anchor"></a>Caching</h2>
 <p>Lets suppose that the ‘home prices’ dataset is not exactly what we are looking for, we can try to search online for ‘home prices’ and find out that <a href="https://catalog.data.gov/">catalog.data.gov</a> contains a more suitable <a href="https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis">FHFA House Price Indexes</a> dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use <code><a href="../reference/pin.html">pin()</a></code> to cache this dataset locally:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>)</a></code></pre></div>
-<pre><code>## [1] "/Users/javierluraschi/pins/local/HPI_master/HPI_master.csv"</code></pre>
+<pre><code>## [1] "/Users/javierluraschi/.pins/local/HPI_master/HPI_master.csv"</code></pre>
 <p>Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>) <span class="op">%&gt;%</span></a>
@@ -191,7 +191,7 @@
 ## #   index_sa &lt;dbl&gt;</code></pre>
 <p>The <code>pins</code> package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set <code>download = TRUE</code> to force <code>pins</code> to download the file again even if we think it has not changed. The specific mechanisms <code>pins</code> used are based on HTTP headers like <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag</a> to avoid downloading files when they have not changed or when the cache has not expired.</p>
 <p>Notice that <code><a href="../reference/pin.html">pin()</a></code> assigned a name automatically, <code>HPI_master</code> for the previous example; however, you can choose your own name and be explicit about retrieving a pin with <code><a href="../reference/pin_get.html">pin_get()</a></code>:</p>
-<pre><code>## [1] "/Users/javierluraschi/pins/local/home_price_indexes/HPI_master.csv"</code></pre>
+<pre><code>## [1] "/Users/javierluraschi/.pins/local/home_price_indexes/HPI_master.csv"</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
 <pre><code>## # A tibble: 108,826 x 10
@@ -254,7 +254,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">
