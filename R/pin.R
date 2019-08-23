@@ -35,6 +35,42 @@ pin_default_name <- function(x, board) {
 #' @param board The board where this pin will be placed.
 #' @param ... Additional parameters.
 #'
+#' @details
+#'
+#' \code{pin()} allows you to cache remote resources and intermediate results with ease. When
+#' caching remote resources, usualy URLs, it will checek for HTTP caching headers to avoid
+#' re-downloading when the remote result has not changed.
+#'
+#' This makes it ideal to support reproducible research by requiring manual instruction to
+#' download resources before running your R script.
+#'
+#' In addition, \code{pin()} still works when working offline or when the remote resource
+#' becomes unavailable; when this happens, a warning will be triggered but your code will
+#' continue to work.
+#'
+#' @examples
+#' library(pins)
+#'
+#' # cache the mtcars dataset
+#' pin(mtcars)
+#'
+#' # cache computation oveer mtcars
+#' mtcars[mtcars$mpg > 30,] %>%
+#'   pin(name = "mtefficient")
+#'
+#' # retrieve cached pin
+#' pin_get("mtefficient")
+#'
+#' # cache remote resource
+#' resource <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
+#' pin(resource, name = "example_retail_sales")
+#'
+#' # load cached csv
+#' pin_get("example_retail_sales") %>% read.csv()
+#'
+#' # cache and read csv
+#' read.csv(pin(resource))
+#'
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   UseMethod("pin")
@@ -49,6 +85,28 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @param cache Should the pin be cached for remote boards? Defaults to \code{TRUE}.
 #' @param ... Additional parameters.
 #'
+#' @details
+#'
+#' \code{pin_get()} retrieves a pin by name and, by the default, from the local board.
+#' You can use the \code{board} parameter to specify which board to retrieve a pin from.
+#' If a board is not specified, it will use \code{pin_find()} to find the pin across
+#' all boards and retrieve the one that matches by name.
+#'
+#' @examples
+#'
+#' library(pins)
+#'
+#' # cache the mtcars dataset
+#' pin(mtcars)
+#'
+#' # retrieve the mtcars pin
+#' pin_get("mtcars")
+#'
+#' # retrieve mtcars pin from local board
+#' pin_get("mtcars", board = "local")
+#'
+#' # retrieve mtcars pin from packages board
+#' pin_get("easyalluvial/mtcars2", board = "packages")
 #' @export
 pin_get <- function(name, board = NULL, cache = TRUE, ...) {
   if (is.null(board)) {
@@ -78,11 +136,24 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
 
 #' Remove Pin
 #'
-#' Unpins the given named pin from the active board.
+#' Unpins the given named pin from the given board.
 #'
 #' @param name The name for the pin.
 #' @param board The board from where this pin will be removed.
 #'
+#' @details
+#'
+#' Notice that some boards do not support deleting pins, this is the case
+#' for the Kaggle board. For these boards, you would manually have to
+#' remote resources using the tools the board provides.
+#'
+#' @examples
+#'
+#' library(pins)
+#' pin(mtcars)
+#'
+#' # remove mtcars pin
+#' pin_remove(mtcars)
 #' @export
 pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)
@@ -96,6 +167,43 @@ pin_remove <- function(name, board) {
 #' @param board The board name used to find the pin.
 #' @param ... Additional parameters.
 #'
+#' @details
+#'
+#' \code{pin_find()} allows you to discover new resources or retrieve
+#' pins your've previously created with \code{pin()}.
+#'
+#' The \code{pins} package comes with a CRAN packages board which
+#' allows searching all CRAN packages; however, you can add additional
+#' boards to search from like Kaggle, Github and RStudio Connect.
+#'
+#' For 'local' and 'packages' boards, the 'text' parameter searches
+#' the title and description of a pin using a regular expression. Other
+#' boards search in different ways, most of them are just partial matches,
+#' please reffer to their documentation to understand how other
+#' boards search for pins.
+#'
+#' Once you find a pin, you can retrieve with \code{pin_get("pin-name")}.
+#'
+#' @examples
+#' library(pins)
+#'
+#' # retrieve local pins
+#' pin_find(board = "local")
+#'
+#' # search local pins related to 'cars'
+#' pin_find("cars", board = "local")
+#'
+#' # search pins related to 'seattle' in the 'packages' board
+#' pin_find("seattle", board = "packages")
+#'
+#' # retrieve 'hpiR/seattle_sales' pin
+#' pin_get("hpiR/seattle_sales)
+#'
+#' # search pins related to 'vaccination' in the 'packages' board
+#' pin_find("vaccination", board = "packages")
+#'
+#' # retrieve 'ggalluvial/vaccinations' pin
+#' pin_get("ggalluvial/vaccinations")
 #' @export
 pin_find <- function(text = NULL, board = NULL, ...) {
   if (is.null(board) || nchar(board) == 0) board <- board_list()
