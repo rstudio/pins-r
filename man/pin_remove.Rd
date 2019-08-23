@@ -12,5 +12,18 @@ pin_remove(name, board)
 \item{board}{The board from where this pin will be removed.}
 }
 \description{
-Unpins the given named pin from the active board.
+Unpins the given named pin from the given board.
+}
+\details{
+Notice that some boards do not support deleting pins, this is the case
+for the Kaggle board. For these boards, you would manually have to
+remote resources using the tools the board provides.
+}
+\examples{
+
+library(pins)
+pin(mtcars)
+
+# remove mtcars pin
+pin_remove(mtcars)
 }

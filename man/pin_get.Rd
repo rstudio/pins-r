@@ -18,3 +18,25 @@ pin_get(name, board = NULL, cache = TRUE, ...)
 \description{
 Retrieves a pin by name from the local or given board.
 }
+\details{
+\code{pin_get()} retrieves a pin by name and, by the default, from the local board.
+You can use the \code{board} parameter to specify which board to retrieve a pin from.
+If a board is not specified, it will use \code{pin_find()} to find the pin across
+all boards and retrieve the one that matches by name.
+}
+\examples{
+
+library(pins)
+
+# cache the mtcars dataset
+pin(mtcars)
+
+# retrieve the mtcars pin
+pin_get("mtcars")
+
+# retrieve mtcars pin from local board
+pin_get("mtcars", board = "local")
+
+# retrieve mtcars pin from packages board
+pin_get("easyalluvial/mtcars2", board = "packages")
+}

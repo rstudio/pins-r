@@ -20,3 +20,39 @@ pin(x, name = NULL, description = NULL, board = NULL, ...)
 \description{
 Pins the given resource locally or to the given board.
 }
+\details{
+\code{pin()} allows you to cache remote resources and intermediate results with ease. When
+caching remote resources, usualy URLs, it will checek for HTTP caching headers to avoid
+re-downloading when the remote result has not changed.
+
+This makes it ideal to support reproducible research by requiring manual instruction to
+download resources before running your R script.
+
+In addition, \code{pin()} still works when working offline or when the remote resource
+becomes unavailable; when this happens, a warning will be triggered but your code will
+continue to work.
+}
+\examples{
+library(pins)
+
+# cache the mtcars dataset
+pin(mtcars)
+
+# cache computation oveer mtcars
+mtcars[mtcars$mpg > 30,] \%>\%
+  pin(name = "mtefficient")
+
+# retrieve cached pin
+pin_get("mtefficient")
+
+# cache remote resource
+resource <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
+pin(resource, name = "example_retail_sales")
+
+# load cached csv
+pin_get("example_retail_sales") \%>\% read.csv()
+
+# cache and read csv
+read.csv(pin(resource))
+
+}

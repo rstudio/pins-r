@@ -16,3 +16,19 @@ pin_find(text = NULL, board = NULL, ...)
 \description{
 Find a pin in any board registered using \code{board_register()}.
 }
+\details{
+\code{pin_find()} allows you to discover new resources or retrieve
+pins your've previously created with \code{pin()}.
+
+The \code{pins} package comes with a CRAN packages board which
+allows searching all CRAN packages; however, you can add additional
+boards to search from like Kaggle, Github and RStudio Connect.
+
+For 'local' and 'packages' boards, the 'text' parameter searches
+the title and description of a pin using a regular expression. Other
+boards search in different ways, most of them are just partial matches,
+please reffer to their documentation to understand how other
+boards search for pins.
+
+Once you find a pin, you can retrieve with \code{pin_get("pin-name")}.
+}
