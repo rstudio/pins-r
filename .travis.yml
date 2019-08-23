@@ -11,6 +11,8 @@ matrix:
       warnings_are_errors: true
       cache:
         packages: true
+      r_packages:
+        - tibble
       script:
         - |
           R CMD build --resave-data .
@@ -21,6 +23,7 @@ matrix:
       warnings_are_errors: true
       r_packages:
         - covr
+        - tibble
       cache:
         packages: true
       script:
@@ -34,6 +37,7 @@ matrix:
       language: r
       r_packages:
         - feather
+        - tibble
       before_install:
         - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
         - pip install pandas --user
