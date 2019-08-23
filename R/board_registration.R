@@ -12,8 +12,9 @@
 #' @seealso board_register
 #'
 #' @examples
-#' board_register_github(repo = "datatxtorg/datatxt-site")
-#'
+#' \dontrun{
+#' board_register_github(repo = "owner/repo")
+#' }
 #' @export
 board_register_github <- function(repo,
                                   name = "github",
