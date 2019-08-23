@@ -46,9 +46,9 @@ packages_download <- function(resource_path, package_pin, name) {
 
   repos <- packages_repo_default()
 
-  progress <- function(e) utils::capture.output(e, type = "message")
-  if (getOption("pins.progress", FALSE))
-    progress <- function(e) e
+  progress <- function(e) e
+  if (pins_show_progress())
+    progress <- function(e) utils::capture.output(e, type = "message")
 
   progress(result <- utils::download.packages(package_pin$package, temp_path, repos = repos))
 

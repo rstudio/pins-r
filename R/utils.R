@@ -6,3 +6,7 @@ get_function <- function(name, package) {
     get0(name, envir = asNamespace(package))
   }
 }
+
+pins_show_progress <- function() {
+  identical(getOption("pins.progress", FALSE), TRUE)
+}
