@@ -29,11 +29,11 @@ package.
 library(shiny)
 library(pins)
 
-ui <- fluidPage(tableOutput("distTable"))
+ui <- fluidPage(tableOutput("table"))
 
 server <- function(input, output) {
-  mtcars_pin <- pin_reactive("jluraschi/mtcars", "rsconnect")
-    output$distTable <- renderTable(mtcars_pin())
+  mtcars_pin <- pin_reactive("mtcars", board = "local")
+  output$table <- renderTable(mtcars_pin())
 }
 
 shinyApp(ui = ui, server = server)
