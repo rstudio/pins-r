@@ -27,7 +27,7 @@ Please notice that search is implemented differently in eeach board. For the CRA
 
 ## Connection
 
-You can connect to several different boards to discover, pin and share resources. This boards will be introduced in the [GitHub](boards-github.html), [Kaggle](boards-kaggle), and [RStudio Connect](boards-rsconnect.html articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you've created with `pin()`.
+You can connect to several different boards to discover, pin and share resources. This boards will be introduced in the [GitHub](boards-github.html), [Kaggle](boards-kaggle.html), and [RStudio Connect](boards-rsconnect.html articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you've created with `pin()`.
 
 ![](images/rstudio-cached-pins.gif){width=440px}
 
