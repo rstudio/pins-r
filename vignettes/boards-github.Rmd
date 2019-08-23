@@ -15,13 +15,13 @@ library(pins)
 
 In order to use GitHub as a [board](boards-understanding.html), you should first authenticate. If you are familiar with GitHub and is already part of your workflow, is likely that you'll have a `GITHUB_PAT` environment variable already configured. You can check if GitHub is already configured by running:
 
-```{r}
+```{r eval=FALSE}
 nchar(Sys.getenv("GITHUB_PAT")) > 0
 ```
 
 If the above statement is `TRUE`, this means GitHub is already configured, which means you can register a GitHub board as follows:
 
-```{r}
+```{r eval=FALSE}
 board_register_github(repo = "owner/repo")
 ```
 
@@ -29,7 +29,7 @@ Usually, you will want to set `owner` to be your GitHub username or an organizat
 
 Notice that `board_register_github()` is just an alias with named parameters to `board_register()`; the previous code is equivalent to:
 
-```{r}
+```{r eval=FALSE}
 board_register("github", repo = "owner/repo")
 ```
 
@@ -39,7 +39,7 @@ Alternatively, you can create a GitHub token at [github.com/settings/tokens/new]
 
 Once the token is created, you can register your GitHub board through:
 
-```{r}
+```{r eval=FALSE}
 board_register_github(repo = "owner/repo", token = "<new-token>")
 ```
 
