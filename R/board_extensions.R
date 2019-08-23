@@ -8,7 +8,6 @@
 #' @param name The name of the pin.
 #' @param metadata A list of metadata associated with this pin.
 #' @param text The text patteren to find a pin.
-#' @param details
 #' @param ... Additional parameteres.
 #'
 #' @rdname custom-boards

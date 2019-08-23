@@ -7,7 +7,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
  
-The [local](pins-starting.html), [GitHub](boards-github.html), [Kaggle](boards-kaggle.html) and [RStudio Connect](boards-rsconnect.html) boards provide support for many popular services; however, there are many cases where you would want to share resources in your own website. For instance, [data.gov](data.gov), [data.uis.unesco.org/](http://data.uis.unesco.org) and [data.nasa.gov](https://data.nasa.gov/) are all examples of websites that contain datasets; in those cases, it can be preferable to avoid moving resources somewhere else. To support `pins` with websites that want to make their data available as `pins`, you can make use of a `data.txt` file to describe them with ease. You can learn more about `data.txt` files at [datatxt.org](https://datatxt.org).
+The [local](pins-starting.html), [GitHub](boards-github.html), [Kaggle](boards-kaggle.html) and [RStudio Connect](boards-rsconnect.html) boards provide support for many popular services; however, there are many cases where you would want to share resources in your own website. For instance, [data.gov](data.gov), [data.uis.unesco.org](http://data.uis.unesco.org) and [data.nasa.gov](https://data.nasa.gov/) are all examples of websites that contain datasets; in those cases, it can be preferable to avoid moving resources somewhere else. To support `pins` with websites that want to make their data available as `pins`, you can make use of a `data.txt` file to describe them with ease. You can learn more about `data.txt` files at [datatxt.org](https://datatxt.org).
 
 In a nutshell, a `data.txt` file is just a YAML file that you can read and write from R with ease using the `yaml` package. For instance, the following `data.txt` file can be found under [datatxt.org/data.txt](https://datatxt.org/data.txt) to describe the famous `iris` and `mtcars` datasets:
 
@@ -37,7 +37,7 @@ As a website owner, you can choose to create a similar file and place it in your
 board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt")
 ```
 
-As you would expect, `board_register_datatxt()` is also just a wrapper function to `board_register("txtexample")`.
+As you would expect, `board_register_datatxt()` is also just a wrapper function to `board_register("datatxt")`.
 
 Once this board is registered, you can use `pin_find()` to discover pins,
 
