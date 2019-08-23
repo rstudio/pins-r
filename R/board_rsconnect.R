@@ -242,7 +242,7 @@ board_pin_get.rsconnect <- function(board, name) {
     details <- rsconnect_get_by_name(board, name)
     if (nrow(details) == 0) stop("The pin '", name, "' is not available in the '", board$name, "' board.")
     url <- details$url
-    etag <- as.character(details$last_deployed_time)
+    etag <- jsonlite::fromJSON(details$metadata)$last_deployed_time
   }
 
   remote_path <- rsconnect_remote_path_from_url(url)
