@@ -61,8 +61,11 @@ pin_default_name <- function(x, board) {
 #' # retrieve cached pin
 #' pin_get("mtefficient")
 #'
+#' # url to remote resource
+#' resource <- file.path("https://raw.githubusercontent.com/facebook/prophet",
+#'                       "master/examples/example_retail_sales.csv")
+#'
 #' # cache remote resource
-#' resource <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
 #' pin(resource, name = "example_retail_sales")
 #'
 #' # load cached csv
@@ -153,7 +156,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
 #' pin(mtcars)
 #'
 #' # remove mtcars pin
-#' pin_remove(mtcars)
+#' pin_remove(mtcars, board = "local")
 #' @export
 pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)
