@@ -7,7 +7,7 @@
 ^configure\.R$
 ^docs/
 ^pkgdown/
-^tools/
+^tools/process-cran.R
 ^\.travis\.yml$
 ^packages/
 ^\.pytest_cache$

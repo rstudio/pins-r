@@ -80,22 +80,53 @@ pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv")
 
 Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.
 
-```{r}
+```{r eval=FALSE}
 library(readr)
 pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv") %>%
   read_csv(col_types = cols())
+```
+```
+# A tibble: 108,826 x 10
+   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
+   <chr>    <chr>      <chr>     <chr> <chr>      <chr>    <dbl>  <dbl>     <dbl>
+ 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
+ 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
+ 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
+ 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
+ 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
+ 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
+ 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
+ 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
+ 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
+10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
+# … with 108,816 more rows, and 1 more variable: index_sa <dbl>
 ```
 
 The `pins` package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set `download = TRUE` to force `pins` to download the file again even if we think it has not changed. The specific mechanisms `pins` used are based on HTTP headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
 
 Notice that `pin()` assigned a name automatically, `HPI_master` for the previous example; however, you can choose your own name and be explicit about retrieving a pin with `pin_get()`:
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv", name = "home_price_indexes")
-```
-```{r}
+
 pin_get("home_price_indexes") %>%
   read_csv(col_types = cols())
+```
+```
+# A tibble: 108,826 x 10
+   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
+   <chr>    <chr>      <chr>     <chr> <chr>      <chr>    <dbl>  <dbl>     <dbl>
+ 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
+ 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
+ 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
+ 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
+ 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
+ 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
+ 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
+ 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
+ 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
+10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
+# … with 108,816 more rows, and 1 more variable: index_sa <dbl>
 ```
 
 ## Sharing
