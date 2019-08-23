@@ -1,3 +1,5 @@
+# nocov start
+
 ui_viewer_register <- function(board) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
 
@@ -125,3 +127,6 @@ ui_viewer_updated <- function(board) {
   if (!is.null(viewer))
     viewer$connectionUpdated(type = "Pins", host = board$name, hint = "")
 }
+
+# nocov end
+

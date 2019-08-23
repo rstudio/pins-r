@@ -1,3 +1,5 @@
+# nocov start
+
 #' Launch Finder Addin
 #'
 #' Launches the finder addin.
@@ -12,3 +14,5 @@ ui_addin_pin_find <- function() {
   app <- shinyAppDir(system.file("rstudio/shinyaddin", package = "pins"))
   runGadget(app, viewer = dialogViewer("Find Pin"))
 }
+
+# nocov end
