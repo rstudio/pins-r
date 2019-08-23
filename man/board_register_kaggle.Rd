@@ -4,12 +4,14 @@
 \alias{board_register_kaggle}
 \title{Register Kaggle Board}
 \usage{
-board_register_kaggle(token, name = "kaggle")
+board_register_kaggle(token, name = "kaggle", overwrite = FALSE)
 }
 \arguments{
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file.}
 
 \item{name}{Optional name for this board, defaults to 'kaggle'.}
+
+\item{overwrite}{Should \code{~/.kaggle/kaggle.json} be overriden?}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
