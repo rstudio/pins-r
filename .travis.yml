@@ -18,6 +18,8 @@ matrix:
           R CMD build --resave-data .
           R CMD check --no-build-vignettes --no-manual --no-tests pins*tar.gz
           Rscript ci/travis.R
+      env:
+        -TEST_GITHUB_BRANCH="travis_old"
     - name: "R (release)"
       language: r
       r: release
@@ -35,6 +37,8 @@ matrix:
       after_success:
         - rm -rf ~/.pins
         - Rscript -e 'covr::codecov()'
+      env:
+        -TEST_GITHUB_BRANCH="travis_new"
     - name: "Python"
       language: r
       r_packages:
@@ -49,6 +53,5 @@ matrix:
       script:
         - R CMD build --no-build-vignettes .
         - pytest python/pins/tests/test.py
-
 os:
   - linux
