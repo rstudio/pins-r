@@ -1,4 +1,4 @@
 library(testthat)
 library(pins)
 
-test_check("pins")
+test_check("pins", reporter = "progress")
