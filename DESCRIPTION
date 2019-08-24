@@ -29,6 +29,7 @@ Imports:
 Suggests:
   knitr,
   rmarkdown,
+  R6,
   testthat
 VignetteBuilder: knitr
 URL: https://github.com/rstudio/pins
