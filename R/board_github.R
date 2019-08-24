@@ -260,11 +260,10 @@ github_branch <- function(board, branch) {
   response <- httr::GET(github_url(board, "/git", "/refs", branch = NULL), github_headers(board))
 
   if (httr::http_error(response)) {
-    stop("Failed to retrieve branches ", as.character(httr::content(result)))
+    stop("Failed to retrieve branches ", as.character(httr::content(response)))
   }
 
-  branch_object <- httr::content(response) %>%
-    Filter(function(e) identical(e$ref, reference), .)
+  branch_object <- Filter(function(e) identical(e$ref, reference), httr::content(response))
 
   if (length(branch_object) != 1) stop("Failed to retrieve branch ", branch)
 
@@ -284,7 +283,7 @@ github_branches_create <- function(board, new_branch, base_branch) {
     github_headers(board), encode = "json")
 
   if (httr::http_error(response)) {
-    stop("Failed to create branch ", new_branch, " ", as.character(httr::content(result)))
+    stop("Failed to create branch ", new_branch, " ", as.character(httr::content(response)))
   }
 }
 

@@ -7,13 +7,7 @@ if (nchar(test_github_repo) > 0) {
 
 if (test_board_is_registered("kaggle")) {
   board_test("kaggle", exclude = "remove")
-} else {
-  test_that("can't register kaggle board", {
-    skip("failed to register kaggle board")
-  })
-}
-
-if (nchar(test_github_repo) > 0) {
+} if (nchar(test_github_repo) > 0) {
   test_that("can board_register() kaggle board", {
     base64enc::base64decode(test_github_repo) %>%
       rawToChar() %>%
@@ -32,5 +26,9 @@ if (nchar(test_github_repo) > 0) {
   test_that("can pin_get() 'got' in kaggle board", {
     dataset <- pin_get("gunnvant/game-of-thrones-srt", board = "kaggle")
     expect_gt(length(dataset), 0)
+  })
+} else {
+  test_that("test kaggle board", {
+    skip("kaggle board is not registered")
   })
 }
