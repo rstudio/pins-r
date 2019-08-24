@@ -7,7 +7,7 @@ if (nchar(test_github_repo) > 0) {
 
 if (test_board_is_registered("kaggle")) {
   board_test("kaggle", exclude = "remove")
-} if (nchar(test_github_repo) > 0) {
+} else if (nchar(test_github_repo) > 0) {
   test_that("can board_register() kaggle board", {
     base64enc::base64decode(test_github_repo) %>%
       rawToChar() %>%
