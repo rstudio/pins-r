@@ -5,7 +5,7 @@
 \title{Register RStudio Connect Board}
 \usage{
 board_register_rsconnect(name = "rsconnect", server = NULL,
-  account = NULL, token = NULL, output_files = FALSE)
+  account = NULL, key = NULL, output_files = FALSE)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'rsconnect'.}
@@ -14,7 +14,7 @@ board_register_rsconnect(name = "rsconnect", server = NULL,
 
 \item{account}{Optional account name to use with RStudio Connect.}
 
-\item{token}{The RStudio Connect API token.}
+\item{key}{The RStudio Connect API key.}
 
 \item{output_files}{Should the output in an automated report create output files?}
 }
