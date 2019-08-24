@@ -20,25 +20,9 @@ matrix:
           Rscript ci/travis.R
       env:
         -TEST_GITHUB_BRANCH="travis_old"
-    - name: "R (release)"
-      language: r
-      r: release
-      warnings_are_errors: true
-      r_packages:
-        - covr
-        - tibble
-      cache:
-        packages: true
-      script:
-        - |
-          R CMD build --resave-data .
-          R CMD check --no-build-vignettes --no-manual --no-tests pins*tar.gz
-          Rscript ci/travis.R
       after_success:
         - rm -rf ~/.pins
         - Rscript -e 'covr::codecov()'
-      env:
-        -TEST_GITHUB_BRANCH="travis_new"
     - name: "Python"
       language: r
       r_packages:
