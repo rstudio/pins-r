@@ -3,8 +3,9 @@
 #' Wrapper with explicit parameters over \code{board_register()} to
 #' register a GitHub repo as a board.
 #'
-#' @param repo The GitHub repository formatted as 'owner/repo'.
 #' @param name Optional name for this board, defaults to 'github'.
+#' @param repo The GitHub repository formatted as 'owner/repo', can be
+#'   \code{NULL} if the \code{GITHUB_PAT} environment variable is set.
 #' @param branch The branch to use when commiting pins.
 #' @param token Token to use when \code{GITHUB_PAT} is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
@@ -16,8 +17,8 @@
 #' board_register_github(repo = "owner/repo")
 #' }
 #' @export
-board_register_github <- function(repo,
-                                  name = "github",
+board_register_github <- function(name = "github",
+                                  repo = NULL,
                                   branch = "master",
                                   token = NULL,
                                   path = "") {
@@ -29,8 +30,9 @@ board_register_github <- function(repo,
 #' Wrapper with explicit parameters over \code{board_register()} to
 #' register Kaggle as a board.
 #'
-#' @param token The Kaggle token as a path to the \code{kaggle.json} file.
 #' @param name Optional name for this board, defaults to 'kaggle'.
+#' @param token The Kaggle token as a path to the \code{kaggle.json} file, can
+#'   be \code{NULL} if the \code{~/.kaggle/kaggle.json} file already exists.
 #' @param overwrite Should \code{~/.kaggle/kaggle.json} be overriden?
 #'
 #' @seealso board_register
@@ -41,8 +43,8 @@ board_register_github <- function(repo,
 #' }
 #'
 #' @export
-board_register_kaggle <- function(token,
-                                  name = "kaggle",
+board_register_kaggle <- function(name = "kaggle",
+                                  token = NULL,
                                   overwrite = FALSE) {
   board_register("kaggle", name = name, token = token, overwrite = overwrite)
 }

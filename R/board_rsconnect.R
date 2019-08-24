@@ -11,6 +11,11 @@ rsconnect_pins_supported <- function(board) {
 board_initialize.rsconnect <- function(board, ...) {
   args <- list(...)
 
+  envvar_key <- Sys.getenv("RSCONNECT_API")
+  if (!is.null(args$key) && nchar(envvar_key) > 0) {
+    args$key <- envvar_key
+  }
+
   board$server <- args$server
   board$server_name <- if (!is.null(args$server)) gsub("https?://|:[0-9]+/?", "", args$server) else NULL
   board$account <- args$account
@@ -69,10 +74,6 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   }
 
   if (identical(board$output_files, TRUE)) {
-    # use rsc output files when not authenticated, warn if we thing we might not be running under RSC
-    if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) == 0)
-      warning("Not authenticated to RStudio Connect, creating output file for pin.")
-
     knit_pin_dir <- file.path(name)
     file.copy(temp_dir, getwd(), recursive = TRUE)
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))

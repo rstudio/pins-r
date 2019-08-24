@@ -20,8 +20,8 @@ github_headers <- function(board) {
 board_initialize.github <- function(board, token = NULL, repo = NULL, path = "", branch = "master", overwrite = FALSE, ...) {
   if (!github_authenticated(board)) {
     if (is.null(token)) {
-      stop("GitHub Personal Access Token must be specified with 'token' parameter to initialize board. ",
-           "You can create a token at https://github.com/settings/tokens.")
+      stop("GitHub Personal Access Token must be specified with the 'token' parameter or with the 'GITHUB_PAT' ",
+           "environment variable. You can create a token at https://github.com/settings/tokens.")
     }
   }
 
@@ -34,11 +34,15 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board$path <- if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else ""
   board$branch <- branch
 
+  if (!identical(branch, "master") && !branch %in% github_branches(board)) {
+    github_branches_create(board, branch, "master")
+  }
+
   board
 }
 
-github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL) {
-  index_url <- github_url(board, "/contents/", board$path, "data.txt")
+github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
+  index_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
   sha <- NULL
@@ -82,7 +86,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
   index_file <- tempfile(fileext = "yml")
   board_manifest_create(index, index_file)
 
-  file_url <- github_url(board, "/contents/", board$path, "data.txt")
+  file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
   base64 <- base64enc::base64encode(index_file)
   response <- httr::PUT(file_url,
@@ -90,7 +94,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
                           message = commit,
                           content = base64,
                           sha = sha,
-                          branch = board$branch
+                          branch = branch
                         ),
                         github_headers(board), encode = "json")
 
@@ -102,8 +106,15 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 board_pin_create.github <- function(board, path, name, metadata, ...) {
   update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
+  branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
   if (!file.exists(path)) stop("File does not exist: ", path)
+
+  if (!identical(branch, board$branch)) {
+    if (!branch %in% github_branches(board)) {
+      github_branches_create(board, branch, board$branch)
+    }
+  }
 
   bundle_path <- tempfile()
   dir.create(bundle_path)
@@ -118,7 +129,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
   for (file in dir(bundle_path, recursive = TRUE)) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-    file_url <- github_url(board, "/contents/", board$path, name, "/", file)
+    file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
 
     pin_log("uploading ", file_url)
 
@@ -134,7 +145,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
                             message = commit,
                             content = base64,
                             sha = sha,
-                            branch = board$branch
+                            branch = branch
                           ),
                           github_headers(board), encode = "json",
                           http_utils_progress("up"))
@@ -149,12 +160,13 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     index_path <- paste0(board$path, name)
 
     github_update_index(board, index_path, commit, operation = "create",
-                        name = name, metadata = metadata)
+                        name = name, metadata = metadata, branch = branch)
   }
 
 }
 
 board_pin_find.github <- function(board, text, ...) {
+  branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
   result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt"),
                       github_headers(board))
@@ -174,7 +186,7 @@ board_pin_find.github <- function(board, text, ...) {
   }
   else {
 
-    result <- httr::GET(github_url(board, "/contents/", board$path),
+    result <- httr::GET(github_url(board, branch = branch, "/contents/", board$path),
                         github_headers(board))
 
     if (httr::http_error(result)) {
@@ -208,7 +220,7 @@ board_pin_find.github <- function(board, text, ...) {
 
   if (nrow(result) == 1) {
     # retrieve additional details if searching for only one item
-    result_single <- httr::GET(github_url(board, "/contents/", board$path, result$name, "/", "data.txt"),
+    result_single <- httr::GET(github_url(board, branch = branch, "/contents/", board$path, result$name, "/", "data.txt"),
                                github_headers(board))
 
     if (!httr::http_error(result_single)) {
@@ -226,29 +238,68 @@ board_pin_find.github <- function(board, text, ...) {
   result
 }
 
-github_url <- function(board, ...) {
-  url <- paste0("https://api.github.com/repos/", board$repo, paste0(..., collapse = ""))
-  if (!is.null(board$branch) && nchar(board$branch) > 0)
-    url <- paste0(url, "?ref=", board$branch)
-
-  url
-}
-
-github_content_url <- function(board, ...) {
+github_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
-  use_branch <- !identical(args$branch, FALSE)
-  args$branch <- NULL
-
-  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(args, collapse = ""))
-  if (!is.null(board$branch) && nchar(board$branch) > 0 && use_branch)
-    url <- paste0(url, "?ref=", board$branch)
+  url <- paste0("https://api.github.com/repos/", board$repo, paste0(args, collapse = ""))
+  if (!is.null(branch))
+    url <- paste0(url, "?ref=", branch)
 
   url
 }
 
-github_raw_url <- function(board, ...) {
-  paste0("https://raw.githubusercontent.com/", board$repo, "/", board$branch, "/", paste0(..., collapse = ""))
+github_branches <- function(board) {
+  httr::GET(github_url(board, "/git", "/refs", branch = NULL), github_headers(board)) %>%
+    httr::content() %>%
+    sapply(function(e) gsub("refs/heads/", "", e$ref))
+}
+
+github_branch <- function(board, branch) {
+  reference <- paste0("refs/heads/", branch)
+
+  response <- httr::GET(github_url(board, "/git", "/refs", branch = NULL), github_headers(board))
+
+  if (httr::http_error(response)) {
+    stop("Failed to retrieve branches ", as.character(httr::content(result)))
+  }
+
+  branch_object <- httr::content(response) %>%
+    Filter(function(e) identical(e$ref, reference), .)
+
+  if (length(branch_object) != 1) stop("Failed to retrieve branch ", branch)
+
+  branch_object[[1]]
+}
+
+github_branches_create <- function(board, new_branch, base_branch) {
+  reference <- paste0("refs/heads/", new_branch)
+  sha <- github_branch(board, base_branch)$object$sha
+
+  response <- httr::POST(
+    github_url(board, "/git", "/refs", branch = NULL),
+    body = list(
+      ref = reference,
+      sha = sha
+    ),
+    github_headers(board), encode = "json")
+
+  if (httr::http_error(response)) {
+    stop("Failed to create branch ", new_branch, " ", as.character(httr::content(result)))
+  }
+}
+
+github_content_url <- function(board, branch = board$branch, ...) {
+  args <- list(...)
+
+  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(args, collapse = ""))
+  if (!is.null(branch))
+    url <- paste0(url, "?ref=", branch)
+
+  url
+}
+
+github_raw_url <- function(board, branch = board$branch, ...) {
+  paste0("https://raw.githubusercontent.com/", board$repo, "/", branch, "/", paste0(..., collapse = ""))
 }
 
 github_download_files <- function(index, temp_path, board) {
@@ -267,22 +318,24 @@ github_download_files <- function(index, temp_path, board) {
   }
 }
 
-board_pin_get.github <- function(board, name) {
-  base_url <- github_raw_url(board, board$path, name, "/data.txt")
+board_pin_get.github <- function(board, name, ...) {
+  branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
+
+  base_url <- github_raw_url(board, branch = branch, board$path, name, "/data.txt")
   local_path <- pin_download(base_url, name, board$name, headers = github_headers(board))
 
   if (file.exists(file.path(local_path, "data.txt"))) {
     index <- pin_manifest_get(local_path)
 
     for (file in index$path) {
-      file_url <- github_raw_url(board, board$path, name, "/", file)
+      file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
       pin_download(file_url, name, board$name, headers = github_headers(board))
     }
 
     local_path
   }
   else {
-    base_url <- github_raw_url(board, board$path, name)
+    base_url <- github_raw_url(board, branch = branch, board$path, name)
     result <- httr::GET(base_url, github_headers(board))
 
     index <- httr::content(result)
@@ -308,7 +361,7 @@ board_pin_get.github <- function(board, name) {
 board_pin_remove.github <- function(board, name, ...) {
   update_index <- !identical(list(...)$index, FALSE)
 
-  base_url <- github_content_url(board, name, branch = FALSE)
+  base_url <- github_content_url(board, name, branch = NULL)
   result <- httr::GET(paste0(base_url, "?ref=", board$branch), github_headers(board))
 
   index <- httr::content(result)
