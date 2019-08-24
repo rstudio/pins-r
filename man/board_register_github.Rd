@@ -4,13 +4,14 @@
 \alias{board_register_github}
 \title{Register GitHub Board}
 \usage{
-board_register_github(repo, name = "github", branch = "master",
-  token = NULL, path = "")
+board_register_github(name = "github", repo = NULL,
+  branch = "master", token = NULL, path = "")
 }
 \arguments{
-\item{repo}{The GitHub repository formatted as 'owner/repo'.}
-
 \item{name}{Optional name for this board, defaults to 'github'.}
+
+\item{repo}{The GitHub repository formatted as 'owner/repo', can be
+\code{NULL} if the \code{GITHUB_PAT} environment variable is set.}
 
 \item{branch}{The branch to use when commiting pins.}
 
