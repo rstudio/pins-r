@@ -57,7 +57,7 @@ board_register_kaggle <- function(name = "kaggle",
 #' @param name Optional name for this board, defaults to 'rsconnect'.
 #' @param server Optional address to RStudio Connect server.
 #' @param account Optional account name to use with RStudio Connect.
-#' @param token The RStudio Connect API token.
+#' @param key The RStudio Connect API key.
 #' @param output_files Should the output in an automated report create output files?
 #'
 #' @seealso board_register
@@ -82,9 +82,9 @@ board_register_kaggle <- function(name = "kaggle",
 board_register_rsconnect <- function(name = "rsconnect",
                                      server = NULL,
                                      account = NULL,
-                                     token = NULL,
+                                     key = NULL,
                                      output_files = FALSE) {
-  board_register("rsconnect", name = name, server = server, account = account, token = token, output_files = output_files)
+  board_register("rsconnect", name = name, server = server, account = account, key = key, output_files = output_files)
 }
 
 #' Register Data TXT Board
