@@ -29,7 +29,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
-  local_path <- pin_registry_path(board$name, name)
+  local_path <- pin_storage_path(board$name, name)
 
   if (length(index) == 0) stop("Could not find '", name, "' pin in '", board$name, "' board.")
 

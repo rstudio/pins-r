@@ -12,7 +12,7 @@ pin_registry_save_entries <- function(entries, component) {
   yaml::write_yaml(entries, pin_registry_config(component))
 }
 
-pin_registry_path <- function(component, name) {
+pin_storage_path <- function(component, name) {
   path <- file.path(board_local_storage(component), name)
   if (!dir.exists(path)) dir.create(path, recursive = TRUE)
 
@@ -22,7 +22,7 @@ pin_registry_path <- function(component, name) {
 pin_registry_update <- function(name, component, params = list()) {
   entries <- pin_registry_load_entries(component)
 
-  path <- pin_registry_path(component, name)
+  path <- pin_storage_path(component, name)
 
   if (identical(entries, NULL)) entries <- list()
 

@@ -6,7 +6,7 @@ pin_download <- function(path, name, component, ...) {
   remove_query <- identical(list(...)$remove_query, TRUE)
   can_fail <- identical(list(...)$can_fail, TRUE)
 
-  local_path <- pin_registry_path(component, name)
+  local_path <- pin_storage_path(component, name)
 
   # use a temp path to rollback if something fails
   temp_path <- tempfile()
