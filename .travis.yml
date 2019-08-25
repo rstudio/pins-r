@@ -13,6 +13,7 @@ matrix:
         packages: true
       r_packages:
         - tibble
+        - covr
       script:
         - |
           R CMD build --resave-data .
