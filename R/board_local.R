@@ -16,7 +16,7 @@ guess_extension_from_path <- function(path) {
 board_pin_create.local <- function(board, path, name, metadata, ...) {
   on.exit(board_connect(board$name))
 
-  final_path <- pin_registry_update(name = name, component = "local")
+  final_path <- pin_registry_update(name = name, component = board$name)
 
   unlink(final_path, recursive = TRUE)
   dir.create(final_path)
@@ -31,11 +31,11 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
     params = c(list(
       path = final_path
     ), metadata),
-    component = "local")
+    component = board$name)
 }
 
 board_pin_find.local <- function(board, text, ...) {
-  results <- pin_registry_find(text, "local")
+  results <- pin_registry_find(text, board$name)
 
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
@@ -48,10 +48,10 @@ board_pin_find.local <- function(board, text, ...) {
 }
 
 board_pin_get.local <- function(board, name) {
-  entry <- pin_registry_retrieve(name, "local")
+  entry <- pin_registry_retrieve(name, board$name)
   entry$path
 }
 
 board_pin_remove.local <- function(board, name) {
-  pin_registry_remove(name, "local")
+  pin_registry_remove(name, board$name)
 }
