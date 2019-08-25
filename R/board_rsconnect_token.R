@@ -1,3 +1,5 @@
+# nocov start
+
 rsconnect_token_dependencies <- function() {
   list(
     accounts = get_function("accounts", "rsconnect"),
@@ -93,3 +95,4 @@ rsconnect_token_post <- function(board, path, content, encode) {
   jsonlite::fromJSON(result$content)
 }
 
+# nocov end
