@@ -128,5 +128,11 @@ ui_viewer_updated <- function(board) {
     viewer$connectionUpdated(type = "Pins", host = board$name, hint = "")
 }
 
+ui_viewer_closed <- function(board) {
+  viewer <- getOption("connectionObserver")
+  if (!is.null(viewer))
+    viewer$connectionClosed(type = "Pins", host = board$name)
+}
+
 # nocov end
 

@@ -27,6 +27,23 @@ board_connect <- function(name, ...) {
   invisible(board)
 }
 
+#' Disconnect to Board
+#'
+#' Disconnects board from RStudio's connection pane, when available.
+#'
+#' @param name The name of the board to deactivate.
+#' @param ... Additional parameters required to disconnect from a particular board.
+#'
+#' @keywords internal
+#' @export
+board_disconnect <- function(name, ...) {
+  board <- board_get(name)
+
+  ui_viewer_closed(board)
+
+  invisible(board)
+}
+
 #' List Boards
 #'
 #' Retrieves all available boards.
@@ -75,11 +92,32 @@ board_register <- function(board, name = board, ...) {
 
 #' Deregister Board
 #'
-#' Deregisters a board, useful to disable boards no longer in use.
+#' Deregisters a board, useful to disable boards no longer in use. This operation
+#' removes all locally cached pins.
 #'
 #' @param name An optional name to identify this board, defaults to the board name.
 #'
+#' @examples
+#'
+#' # create a new local board
+#' board_register("local", "other_board")
+#'
+#' # pin iris to new board
+#' pin(iris, board = "other_board")
+#'
+#' # deregister new board
+#' board_deregister("other_board")
+#'
 #' @export
 board_deregister <- function(name) {
+  if (!name %in% board_list()) stop("Board '", name, "' is not registered.")
+
+  board <- board_get(name)
+  storage <- board_local_storage(board$name)
+
+  board_disconnect(name)
   board_registry_set(name, NULL)
+  unlink(storage, recursive = TRUE)
+
+  invisible(NULL)
 }
