@@ -120,7 +120,8 @@ title: "RStudio Connect -- World News"
 
 `r ''````{r, setup, include = FALSE}
 library(pins)
-register_board_rstudio(key = Sys.getenv("RSCONNECT_API"), server = "https://rstudio-connect-server")
+board_register_rsconnect(key = Sys.getenv("RSCONNECT_API"),
+                         server = "https://rstudio-connect-server")
 ```
 
 Create the `world_news` data frame,
@@ -139,4 +140,4 @@ pin(world_news, "worldnews", board = "rsconnect")
 ```
 ````
 
-The RStudio Connect board also supports RStudio Connect [Output Files](https://docs.rstudio.com/connect/user/r-markdown.html#r-markdown-output-files) by setting `output_files = TRUE` when registering an automated report.
+Please note that experimental support for `pins` was introduced in RStudio Connect 1.7.8.
