@@ -41,7 +41,7 @@ Once the RStudio Connect board is registered, you can pin and search using `pin(
 
 ## Pinning
 
-Like in other boards, you can create pins for `iris` and `mtcars` by setting `board` to Kaggle's board name,
+Like in other boards, you can create pins for `iris` and `mtcars` by setting `board` to the RStudio Connect board,
 
 ```{r eval=FALSE}
 pin(iris, description = "The iris data set", board = "rsconnect")
@@ -52,7 +52,7 @@ After a pin is created, the pin also becomes available in RStudio Connect,
 
 ![](images/boards-rsconnect-datasets.png){width=480px}
 
-You can also retrieve pins back from this repo using the now familiar `pin_get()` function.
+You can also retrieve pins back from RStudio Connect using the now familiar `pin_get()` function.
 
 ```{r eval=FALSE}
 pin_get("iris", board = "rsconnect")
@@ -76,7 +76,7 @@ pin_get("iris", board = "rsconnect")
 
 ## Discovering
 
-You can then search pins in your repo using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular RStudio Connect board:
+You can then search pins in your RStudio Connect server using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular RStudio Connect board:
 
 ```{r eval=FALSE}
 pin_find("mt", board = "rsconnect")
