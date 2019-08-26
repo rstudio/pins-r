@@ -3,7 +3,12 @@ pins: Pin, Discover and Share Resources
 
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/rstudio/pins?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/pins)
+[![CRAN
+Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
+[![Code
+Coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins)
 [![Downloads](https://cranlogs.r-pkg.org/badges/pins?color=blue)](https://cranlogs.r-pkg.org/)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
