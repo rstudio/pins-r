@@ -34,15 +34,14 @@ simple and reliable reproducible research over remote resources.
 To start using `pins`, install this package as follows:
 
 ``` r
-install.packages("remotes")
-remotes::install_github("rstudio/pins")
+install.packages("pins")
 ```
 
 First, you can **pin** remote files with `pin()` to cache those files
 locally, such that, even if the remote resource is removed or while
 working offline – your code will keep working by using a local cache.
 Since `pin(x)` pins `x` and returns a locally cached version of `x`,
-this allows you to pin a remote resource while also reusing in existing
+this allows you to pin a remote resource while also reusing existing
 code with minimal changes.
 
 For instance, the following example makes use of a remote CSV file,
@@ -257,10 +256,11 @@ pin_get("sales-by-baths") %>%
 ## Python
 
 All the functionality available in `pins` can also be used from Python
-as well, first install the `pins` module:
+as well, first install the `pins`
+module:
 
 ``` bash
-pip install git+https://github.com/rstudio/pins#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python
 ```
 
 Followed by using `pins` from Python:
