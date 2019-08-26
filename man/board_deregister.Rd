@@ -10,5 +10,18 @@ board_deregister(name)
 \item{name}{An optional name to identify this board, defaults to the board name.}
 }
 \description{
-Deregisters a board, useful to disable boards no longer in use.
+Deregisters a board, useful to disable boards no longer in use. This operation
+removes all locally cached pins.
+}
+\examples{
+
+# create a new local board
+board_register("local", "other_board")
+
+# pin iris to new board
+pin(iris, board = "other_board")
+
+# deregister new board
+board_deregister("other_board")
+
 }
