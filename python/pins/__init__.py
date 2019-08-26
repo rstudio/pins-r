@@ -194,7 +194,7 @@ def _from_feather(path):
     
 def _eval_deserialize(operation):
     feather_path = r_eval('tempfile(fileext = ".feather")')
-    r_eval("feather::write_feather(" + operation + ", \"" + feather_path + "\")")
+    r_eval("feather::write_feather(pins:::pin_for_python(" + operation + "), \"" + feather_path + "\")")
     result = _from_feather(feather_path)
     os.remove(feather_path)
     return result

@@ -29,7 +29,7 @@ pin_default_name <- function(x, board) {
 #'
 #' Pins the given resource locally or to the given board.
 #'
-#' @param x And object, local file or remote URL to pin.
+#' @param x An object, local file or remote URL to pin.
 #' @param name The name for the dataset or object.
 #' @param description Optional description for this pin.
 #' @param board The board where this pin will be placed.
