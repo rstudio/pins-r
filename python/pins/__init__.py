@@ -264,7 +264,7 @@ def board_list():
     _init_pins()
     return _eval_deserialize("data.frame(board = " + _build_call("pins::board_list", { }) + ")")
      
-def board_register(board, name, **kwargs):
+def board_register(board, name = None, **kwargs):
     """
     Register Board.
     """
