@@ -41,7 +41,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
 
   manifest <- pin_manifest_get(local_path)
   if (index[[1]]$path %in% file.path(path_guess, manifest$path)) {
-    download_paths <- file.path(board$url, path_guess, path)
+    download_paths <- file.path(board$url, path_guess, manifest$path)
   }
   else {
     index[[1]]$path <- NULL
