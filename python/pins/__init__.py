@@ -160,15 +160,10 @@ def _init_pins():
     r_start()
     r_eval("""
         if (length(find.package("pins", quiet = TRUE)) == 0) {
-            if (length(find.package("remotes", quiet = TRUE)) == 0) {
-              install.packages("remotes")
-            }
-
-            remotes::install_github("rstudio/pins")
+          install.packages("pins")
         }
         
         if (length(find.package("feather", quiet = TRUE)) == 0) {
-          pin_log("Installing 'feather' package.")
           install.packages("feather")
         }
     """)
