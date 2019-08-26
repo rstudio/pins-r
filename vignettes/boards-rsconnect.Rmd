@@ -96,7 +96,7 @@ You can share pins with others in RStudio Connect, by changing the viewers of th
 
 ![](images/boards-rsconnect-sharing.png){width=480px}
 
-Once you share with specific users, they can follow the same steps to register their RStudio Connect board which allows them to download pins shared with them or upload their own pins.
+Once you share this pin with specific users, they can follow the same steps to register their RStudio Connect board, to download this pin.
 
 ## Automation
 
