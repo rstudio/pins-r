@@ -160,9 +160,9 @@ def _init_pins():
     r_start()
     r_eval("""
         if (length(find.package("pins", quiet = TRUE)) == 0) {
-          maybe_local <- dir(".", pattern = "pins_.*\\.tar\\.gz")
-          if (length(maybe_local) == 1 && file.exists(maybe_local)) {
-            install.packages(maybe_local)
+          local_bundle <- "pins_0.1.0.tar.gz"
+          if (file.exists(local_bundle)) {
+            install.packages(local_bundle)
           }
           else {
             install.packages("pins", repos = pins:::packages_repo_default())
