@@ -100,7 +100,7 @@ Once you share with specific users, they can follow the same steps to register t
 
 ## Automation
 
-One significant advantage from using RStudio Connect over other boards is it's ability to schedule R Markdown reports to run automatically. This allows you automate the creation of pins and also consume pins published manually from automated reports.
+One significant advantage from using RStudio Connect over other boards is its ability to schedule R Markdown reports to run automatically. This allows you to automate the creation of pins and also consume pins published manually from automated reports.
 
 To support automation you need to use an [RStudio Connect API Key](https://docs.rstudio.com/connect/user/api-keys.html) as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:
 
@@ -109,7 +109,7 @@ board_register_rsconnect(key = "the-rstudio-connect-api-key",
                          server = "https://rstudio-connect-server")
 ```
 
-However, since it's a best practice to not store secrets in plain text, `pins` will read also the key from the `RSCONNECT_API` environment variable, or you can retrieve explicitly as `Sys.getenv("RSCONNECT_API")` before assigning it to the key parameter.
+However, since it's a best practice to not store secrets in plain text, `pins` will also read the key from the `RSCONNECT_API` environment variable, or you can retrieve explicitly as `Sys.getenv("RSCONNECT_API")` before assigning it to the key parameter.
 
 Once authenticated, you can use `pins` as you would normally would. Let's take a look at an automated R Markdown report which retrieves the latest news from the BBC which we can then schedule to run daily to update the pin:
 

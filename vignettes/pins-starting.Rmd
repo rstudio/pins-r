@@ -31,12 +31,12 @@ nomnoml::nomnoml("
 ```
 ![](images/pins-starting-overview.png){width=100%}
 
-The `pins` package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to loose -- you should always have reproducible code to regenerate a pin.
+The `pins` package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to lose -- you should always have reproducible code to regenerate a pin.
 
 Let's now introduce each operation the `pins` package supports.
 
 Discover
-: In some Data Science projects, it might not be obvious which dataset you should use; therefore, a first step might be to search online for specific datasets. For instance, suppose that you are trying to figure out what kind of house remodel could increase your home property the most, where do you get such data from? You can search online but is often hard to filter results to contain only datasets, it also requires you yo have some knowledge of which data sources are trustworthy and so on. This is obviously a hard problem and we can't expect a single tool to magically fix this for us; instead, the `pins` package gives you a few tools to search well known data repositories through the `pin_find()` function. In addition, while most projects might have well-defined datasets to import from, you might also want to consider enhancing them with additional data sources; for example, while analyzing a well-known ice-cream sales dataset, you might want still want to find resources with historical weather to properly adjust the existing data.
+: In some Data Science projects, it might not be obvious which dataset you should use; therefore, a first step might be to search online for specific datasets. For instance, suppose that you are trying to figure out what kind of house remodel could increase your home property value the most, where do you get such data from? You can search online but is often hard to filter results to contain only datasets, it also requires you to have some knowledge of which data sources are trustworthy and so on. This is obviously a hard problem and we can't expect a single tool to magically fix this for us; instead, the `pins` package gives you a few tools to search well known data repositories through the `pin_find()` function. In addition, even though most projects have well-defined datasets to import from, you might also want to consider enhancing them with additional data sources; for example, while analyzing a well-known ice-cream sales dataset, you might want also want to find resources with historical weather to properly adjust the existing data.
 
 Cache
 : Once you identify which datasets to import, it is often the case that they are manually downloaded. It is common to give explicit instructions to download datasets before actually importing the dataset. However, manual steps make it hard to reproduce your code -- we can no longer just copy-paste and run code. One easy solution is to use `download.file()`; however, this would cause the file to be re-downloaded each time the code runs, so you can then try to check if the file already exists, and keep adding complexity to try to reliably download and cache files. Quoting Phil Karlton, "There are only two hard things in Computer Science: cache invalidation and naming things". So instead of worrying when to invalidate and cache online resources, you can use `pin()` to cache any resource with ease.
@@ -47,13 +47,12 @@ Share
 Before we present code examples on how to discover datasets, install the `pins` package as follows:
 
 ``` r
-install.packages("remotes")
-remotes::install_github("rstudio/pins")
+install.packages("pins")
 ```
 
 ## Discovering
 
-You can discover datasets with `pin_find()`, which by default will search for data inside CRAN packages. The places where `pins` can find or store resources are referred as 'boards'. There are multiple boards available but they require you to configure them so we will leave those for later on.
+You can discover datasets with `pin_find()`, which by default will search for data inside CRAN packages. The places where `pins` can find or store resources are referred to as 'boards'. There are multiple boards available but they require you to configure them so we will leave those for later on.
 
 As a quick example, let's search for resources that may contain 'home prices':
 
@@ -72,10 +71,13 @@ Most datasets in CRAN contain rectangular data, which `pins` knows to load as a 
 
 ## Caching
 
-Lets suppose that the 'home prices' dataset is not exactly what we are looking for, we can try to search online for 'home prices' and find out that [catalog.data.gov](https://catalog.data.gov/) contains a more suitable [FHFA House Price Indexes](https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis) dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use `pin()` to cache this dataset locally:
+Let's suppose that the 'home prices' dataset is not exactly what we are looking for, we can try to search online for 'home prices' and find out that [catalog.data.gov](https://catalog.data.gov/) contains a more suitable [FHFA House Price Indexes](https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis) dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use `pin()` to cache this dataset locally:
 
-```{r}
+```{r eval=FALSE}
 pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv")
+```
+```
+[1] "/Users/username/.pins/local/HPI_master/HPI_master.csv"
 ```
 
 Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.
@@ -102,12 +104,13 @@ pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv") %>%
 # … with 108,816 more rows, and 1 more variable: index_sa <dbl>
 ```
 
-The `pins` package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set `download = TRUE` to force `pins` to download the file again even if we think it has not changed. The specific mechanisms `pins` used are based on HTTP headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
+The `pins` package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set `download = TRUE` to force `pins` to download the file again even if we think it has not changed. The specific mechanisms `pins` uses are based on HTTP headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
 
 Notice that `pin()` assigned a name automatically, `HPI_master` for the previous example; however, you can choose your own name and be explicit about retrieving a pin with `pin_get()`:
 
 ```{r eval=FALSE}
-pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv", name = "home_price_indexes")
+pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv",
+    name = "home_price_indexes")
 
 pin_get("home_price_indexes") %>%
   read_csv(col_types = cols())

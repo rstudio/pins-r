@@ -22,6 +22,7 @@ nchar(Sys.getenv("GITHUB_PAT")) > 0
 If the above statement is `TRUE`, this means GitHub is already configured, which means you can register a GitHub board as follows:
 
 ```{r eval=FALSE}
+library(pins)
 board_register_github(repo = "owner/repo")
 ```
 
@@ -47,7 +48,7 @@ This completes the board registration process, you can now focus on using and sh
 
 ## Pinning
 
-Lets start by creating to pins for `iris` and `mtcars` under the GitHub board,
+Let's start by creating to pins for `iris` and `mtcars` under the GitHub board,
 
 ```{r eval=FALSE}
 pin(iris, description = "The iris data set", board = "github")
