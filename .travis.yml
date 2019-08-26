@@ -3,14 +3,16 @@ sudo: false
 repos:
   CRAN: http://cran.rstudio.com/
 
+language: r
+
+cache:
+  packages: true
+
 matrix:
   include:
-    - name: "R (3.2.3)"
-      language: r
+    - name: "R"
       r: 3.2.3
       warnings_are_errors: true
-      cache:
-        packages: true
       r_packages:
         - tibble
         - covr
@@ -25,7 +27,6 @@ matrix:
         - rm -rf ~/.pins
         - Rscript -e 'covr::codecov()'
     - name: "Python"
-      language: r
       r_packages:
         - feather
         - tibble
