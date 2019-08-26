@@ -12,6 +12,7 @@ setup(name='pins',
       install_requires=[
           'cffi>=1.0.0',
           'feather-format',
+          'pandas'
       ],
       setup_requires=["cffi>=1.0.0"],
       cffi_modules=["pins/pins_build.py:ffibuilder"],

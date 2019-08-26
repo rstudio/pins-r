@@ -3,7 +3,6 @@ The ``pins`` module provides an API to pin, discover and share files.
 """
 
 import os
-import yaml
 from _pins_cffi import ffi
 import subprocess
 import platform
@@ -136,6 +135,23 @@ def r_eval(code, environment = None):
     rlib.Rf_unprotect(1)
     return result
 
+def _build_call(function, params):
+  call = function + "("
+  first = True
+  
+  for key in params:
+    if not first:
+      call = call + ", "
+      
+    if params[key] == None:
+      continue
+      
+    call = call + key + " = \"" + params[key] + "\""
+    first = False
+  
+  call = call + ")"
+  return call
+  
 def _init_pins():
     r_start()
     r_eval("""
@@ -172,43 +188,43 @@ def _from_feather(path):
     import feather
     return feather.read_dataframe(path)
     
-def _eval_deserialize(operation, serializer):
+def _eval_deserialize(operation):
     feather_path = r_eval('tempfile(fileext = ".feather")')
     r_eval("feather::write_feather(" + operation + ", \"" + feather_path + "\")")
     result = _from_feather(feather_path)
     os.remove(feather_path)
     return result
 
-def pin_find(text = "", serializer = "feather"):
+def pin_find(text = "", board = None):
     """
     Find Pin.
     """
     _init_pins()
-    return _eval_deserialize("pins::pin_find(\"" + text + "\")", serializer)
+    return _eval_deserialize(_build_call("pins::pin_find", { 'text': text, 'board': board}))
 
-def pin_get(name, board = None, serializer = "feather"):
+def pin_get(name, board = None):
     """
     Retrieve Pin.
     """
     _init_pins()
-    return _eval_deserialize("pins::pin_get(\"" + name + "\")", serializer)
+    return _eval_deserialize(_build_call("pins::pin_get", { 'name': name, 'board': board}))
 
-def pin(x, name, description = "", board = None, serializer = "feather"):
+def pin(x, name, description = "", board = None):
     """
     Create Pin.
     """
     _init_pins()
     result = None
     
-    if serializer == "arrow":
-      raise RuntimeError("Serializing pin() with 'arrow' currently unsupported, use 'feather' instead.")
-    elif type(x) == "str":
-      result = r_eval("pins::pin(\"" + x + "\"), \"" + name + "\")")
-    else:
-      path = _to_feather(x)
-      r_eval("feather::write_feather(pins::pin(feather::read_feather(\"" + path + "\"), \"" + name + "\"), \"" + path + "\")")
-      result = _from_feather(path)
-      os.remove(path)
+    path = _to_feather(x)
+    r_eval(
+      "feather::write_feather(" +
+      _build_call("pins::pin", {
+        'x': "feather::read_feather(\"" + path + "\")",
+        'name': name }),
+      ", \"" + path + "\")")
+    result = _from_feather(path)
+    os.remove(path)
       
     return result
     
