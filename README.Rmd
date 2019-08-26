@@ -154,7 +154,7 @@ pin_get("sales-by-baths") %>%
 All the functionality available in `pins` can also be used from Python as well, first install the `pins` module:
 
 ```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python
 ```
 
 Followed by using `pins` from Python:
