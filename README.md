@@ -69,13 +69,21 @@ bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
 <img src="tools/readme/rstudio-pin-performance-1.png" style="display: block; margin: auto;" />
 
 You can also use pins to cache intermediate results to avoid having to
-recompute expensive operations:
+recompute expensive operations. The following example stores results
+computed with `dplyr` into a `sales_by_month`, which you can then
+retrive with `get_pin()` even after your R session restarts:
 
 ``` r
+# compute and pin 'sales_by_month'
 retail_sales %>%
   group_by(month = lubridate::month(ds, T)) %>%
   summarise(total = sum(y)) %>%
   pin("sales_by_month")
+```
+
+``` r
+# retrieve 'sales_by_month' pin
+pin_get("sales_by_month")
 ```
 
     ## # A tibble: 12 x 2
@@ -167,12 +175,12 @@ which we will describe next.
 
 You can use [RStudio](https://www.rstudio.com/products/rstudio/) and
 [RStudio Connect](https://www.rstudio.com/products/connect/) to discover
-and share content within your organization with ease.
+and share resources within your organization with ease.
 
 To enable new boards, you can use [RStudio’s Data
 Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
-to start a new ‘pins’ connection and then selecting which board to
-connect to:
+to start a new ‘pins’ connection and then select which board to connect
+to:
 
 <center>
 
@@ -205,14 +213,14 @@ Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
 further and then pin our results in RStudio Connect.
 
 ``` r
-board_register("rsconnect")
+board_register("rsconnect", name = "myrsc")
 ```
 
 ``` r
 pin_get("hpiR/seattle_sales") %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
-  pin("sales-by-baths", board = "rsconnect")
+  pin("sales-by-baths", board = "myrsc")
 ```
 
     ## # A tibble: 8 x 2
@@ -227,9 +235,8 @@ pin_get("hpiR/seattle_sales") %>%
     ## 7     7 3063043
     ## 8     8 4550750
 
-After a pin is published to RStudio Connect, RStudio will open the web
-interface for that pin and make available various settings applicable to
-this published pin:
+After a pin is published, you can then browse to the pin’s content from
+the RStudio Connect web interface.
 
 <center>
 
@@ -246,12 +253,24 @@ retrieving it from RStudio Connect and visualize its contents using
 `ggplot2`:
 
 ``` r
-pin_get("sales-by-baths") %>%
+library(pins)
+board_register("rsconnect", name = "myrsc")
+
+pin_get("sales-by-baths", board = "myrsc") %>%
   ggplot(aes(x = baths, y = sale)) +
     geom_point() + geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
 
 <img src="tools/readme/rstudio-plot-pin-1.png" style="display: block; margin: auto;" />
+
+Pins can also be automated using scheduled R Markdown. This makes it
+much easier to create Shiny applications that rely on scheduled data
+updates or to share prepared resources across multiple pieces of
+content. You no longer have to fuss with file paths on RStudio Connect,
+mysterious resource URLs, or redeploying application code just to update
+a dataset\!
+
+Experimental support for `pins` was introduced in RStudio Connect 1.7.8.
 
 ## Python
 
