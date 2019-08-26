@@ -13,3 +13,4 @@
 ^\.pytest_cache$
 \.httr-oauth$
 ^appveyor.yml$
+^ci$
