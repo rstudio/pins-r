@@ -146,7 +146,11 @@ def _build_call(function, params):
     if params[key] == None:
       continue
       
-    call = call + key + " = \"" + params[key] + "\""
+    if type(params[key]) is dict:
+      call = call + key + " = " + params[key]["code"]
+    else:
+      call = call + key + " = \"" + params[key] + "\""
+      
     first = False
   
   call = call + ")"
@@ -200,14 +204,14 @@ def pin_find(text = "", board = None):
     Find Pin.
     """
     _init_pins()
-    return _eval_deserialize(_build_call("pins::pin_find", { 'text': text, 'board': board}))
+    return _eval_deserialize(_build_call("pins::pin_find", { 'text': text, 'board': board }))
 
 def pin_get(name, board = None):
     """
     Retrieve Pin.
     """
     _init_pins()
-    return _eval_deserialize(_build_call("pins::pin_get", { 'name': name, 'board': board}))
+    return _eval_deserialize(_build_call("pins::pin_get", { 'name': name, 'board': board }))
 
 def pin(x, name, description = "", board = None):
     """
@@ -220,17 +224,53 @@ def pin(x, name, description = "", board = None):
     r_eval(
       "feather::write_feather(" +
       _build_call("pins::pin", {
-        'x': "feather::read_feather(\"" + path + "\")",
-        'name': name }),
+        'x': { 'code': "feather::read_feather(\"" + path + "\")" },
+        'name': name,
+        'description': description }) +
       ", \"" + path + "\")")
     result = _from_feather(path)
     os.remove(path)
       
     return result
-    
-def use_board(name):
+
+def pin_remove(name, board = None):
     """
-    Use Board.
+    Remove Pin.
     """
     _init_pins()
-    return r_eval("pins::use_board(\"" + name + "\")")
+    return _eval_deserialize(_build_call("pins::pin_remove", { 'name': name, 'board': board }))
+
+def board_deregister(name):
+    """
+    Deregister Board.
+    """
+    _init_pins()
+    r_eval(_build_call("pins::board_deregister", { 'name': name }))
+
+def board_get(name):
+    """
+    Get Board.
+    """
+    _init_pins()
+    board_call = _build_call("pins::board_get", { 'name': name })
+    board_names = "names(" + board_call + ")"
+    board_values = "as.character(" + board_call + ")"
+    return _eval_deserialize("data.frame(attribute = " + board_names + ", value = " + board_values + ")")
+
+def board_list():
+    """
+    List Boards.
+    """
+    _init_pins()
+    return _eval_deserialize("data.frame(board = " + _build_call("pins::board_list", { }) + ")")
+     
+def board_register(board, name, **kwargs):
+    """
+    Register Board.
+    """
+    _init_pins()
+    
+    params = { 'board': board, 'name': name }
+    params.update(kwargs.items())
+        
+    r_eval(_build_call("pins::board_register", params))
