@@ -7,7 +7,7 @@
 pin(x, name = NULL, description = NULL, board = NULL, ...)
 }
 \arguments{
-\item{x}{And object, local file or remote URL to pin.}
+\item{x}{An object, local file or remote URL to pin.}
 
 \item{name}{The name for the dataset or object.}
 
