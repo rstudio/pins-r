@@ -38,6 +38,7 @@ matrix:
         - pip install -e python/. --user
       script:
         - R CMD build --no-build-vignettes .
+        - Rscript -e 'install.packages(dir(".", pattern = "pins_"))'
         - pytest python/pins/tests/test.py
 os:
   - linux
