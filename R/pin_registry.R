@@ -38,7 +38,10 @@ pin_registry_update <- function(name, component, params = list()) {
   entries[[index]]$name <- name
 
   for (param in names(params)) {
-    entries[[index]][[param]] <- params[[param]]
+    if (identical(params[[param]], list()))
+      entries[[index]][[param]] <- NULL
+    else
+      entries[[index]][[param]] <- params[[param]]
   }
 
   pin_registry_save_entries(entries, component)

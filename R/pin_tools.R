@@ -39,3 +39,11 @@ pin_results_extract_column <- function(df, column) {
   df[[column]] <- sapply(df$metadata, function(e) jsonlite::fromJSON(e)[[column]])
   df
 }
+
+pin_reset_cache <- function(board, name) {
+  index <- tryCatch(pin_registry_retrieve(name, board), error = function(e) NULL)
+  if (!is.null(index)) {
+    index$cache <- list()
+    pin_registry_update(name, board, params = index)
+  }
+}

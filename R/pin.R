@@ -85,7 +85,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #'
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
-#' @param cache Should the pin be cached for remote boards? Defaults to \code{TRUE}.
+#' @param cache Should the pin cache be used? Defaults to \code{TRUE}.
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -119,6 +119,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
 
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
+        if (!cache) pin_reset_cache(board_name, name)
         result <- board_pin_get_or_null(board_get(board_name), name)
         if (!is.null(result)) break
       }
@@ -126,6 +127,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
     if (is.null(result)) stop("Failed to retrieve '", name, "' pin.")
   }
   else {
+    if (!cache) pin_reset_cache(board_name, name)
     result <- board_pin_get(board_get(board), name, ...)
   }
 
