@@ -34,7 +34,13 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board$path <- if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else ""
   board$branch <- branch
 
-  if (!identical(branch, "master") && !branch %in% github_branches(board)) {
+  branches <- tryCatch(github_branches(board), error = function(e) e)
+  if (is(branches, "error") && grepl("^Git Repository is empty", branches$message)) {
+    github_update_index(board, "", "initialize repo", operation = "initialize", branch = "master")
+    branches <- github_branches(board)
+  }
+
+  if (!identical(branch, "master") && !branch %in% branches) {
     github_branches_create(board, branch, "master")
   }
 
@@ -78,6 +84,9 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
   }
   else if (identical(operation, "remove")) {
     if (index_pos <= length(index)) index[[index_pos]] <- NULL
+  }
+  else if (identical(operation, "initialize")) {
+    index <- list()
   }
   else {
     stop("Operation ", operation, " is unsupported")
@@ -249,8 +258,10 @@ github_url <- function(board, branch = board$branch, ...) {
 }
 
 github_branches <- function(board) {
-  httr::GET(github_url(board, "/git", "/refs", branch = NULL), github_headers(board)) %>%
-    httr::content() %>%
+  response <- httr::GET(github_url(board, "/git", "/refs", branch = NULL), github_headers(board))
+  if (httr::http_error(response)) stop(httr::content(response))
+
+  httr::content(response) %>%
     sapply(function(e) gsub("refs/heads/", "", e$ref))
 }
 
