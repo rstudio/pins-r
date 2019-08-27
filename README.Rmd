@@ -33,7 +33,7 @@ You can use the `pins` package from **R**, or **Python**, to:
 - **Pin** remote resources locally with `pin()`, work offline and cache results with ease.
 - **Discover** new resources across different boards using `pin_find()`.
 - **Share** resources in GitHub, Kaggle or RStudio Connect by registering new boards with `board_register()`.
-- **Resources** can be anything from CSV, JSON or Excel files to image archives.
+- **Resources** can be anything from CSV, JSON, or image files to arbitrary R objects.
 
 If you find yourself using `download.file()` or asking others to download files before running your R code, use `pin()` to achieve fast, simple and reliable reproducible research over remote resources.
 
