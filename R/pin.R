@@ -127,7 +127,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
     if (is.null(result)) stop("Failed to retrieve '", name, "' pin.")
   }
   else {
-    if (!cache) pin_reset_cache(board_name, name)
+    if (!cache) pin_reset_cache(board, name)
     result <- board_pin_get(board_get(board), name, ...)
   }
 
