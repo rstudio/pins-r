@@ -16,7 +16,7 @@ experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https:/
 [![GitHub
 Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
-You can use the `pins` package from **R**, or **Python**, to:
+You can use the `pins` package to:
 
   - **Pin** remote resources locally with `pin()`, work offline and
     cache results with ease.
@@ -24,8 +24,8 @@ You can use the `pins` package from **R**, or **Python**, to:
     `pin_find()`.
   - **Share** resources in GitHub, Kaggle or RStudio Connect by
     registering new boards with `board_register()`.
-  - **Resources** can be anything from CSV, JSON or Excel files to image
-    archives.
+  - **Resources** can be anything from CSV, JSON, or image files to
+    arbitrary R objects.
 
 If you find yourself using `download.file()` or asking others to
 download files before running your R code, use `pin()` to achieve fast,
@@ -274,8 +274,10 @@ Experimental support for `pins` was introduced in RStudio Connect 1.7.8.
 
 ## Python
 
-All the functionality available in `pins` can also be used from Python
-as well, first install the `pins`
+Experimental support for `pins` is also available in Python. However,
+since the Python interface currently makes use of the R package, the R
+runtime needs to be installed when using `pins` from Python. To get
+started, first install the `pins`
 module:
 
 ``` bash
