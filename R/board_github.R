@@ -35,7 +35,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board$branch <- branch
 
   branches <- tryCatch(github_branches(board), error = function(e) e)
-  if (is(branches, "error") && grepl("^Git Repository is empty", branches$message)) {
+  if ("error" %in% class(branches) && grepl("^Git Repository is empty", branches$message)) {
     github_update_index(board, "", "initialize repo", operation = "initialize", branch = "master")
     branches <- github_branches(board)
   }
