@@ -24,6 +24,8 @@ register RStudio Connecet as a board.
 }
 \examples{
 \dontrun{
+# the following examples require an RStudio Connect API key
+
 # register from rstudio
 board_register_rsconnect()
 

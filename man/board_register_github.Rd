@@ -25,6 +25,7 @@ register a GitHub repo as a board.
 }
 \examples{
 \dontrun{
+# the following example requires a GitHub API key
 board_register_github(repo = "owner/repo")
 }
 }

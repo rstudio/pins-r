@@ -21,6 +21,7 @@ register Kaggle as a board.
 }
 \examples{
 \dontrun{
+# the following example requires a Kaggle API token
 board_register_kaggle(token = "path/to/kaggle.json")
 }
 

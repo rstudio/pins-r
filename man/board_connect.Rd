@@ -14,4 +14,10 @@ board_connect(name, ...)
 \description{
 Connects to a board to activate RStudio's connection pane, when available.
 }
+\examples{
+
+# define the storage location for all boards
+options(pins.path = tempdir())
+
+}
 \keyword{internal}

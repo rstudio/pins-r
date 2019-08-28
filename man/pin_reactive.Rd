@@ -24,18 +24,19 @@ polling \code{pin_get()}, useful when used from the \code{shiny}
 package.
 }
 \examples{
-\dontrun{
+if (interactive()) {
 
-library(shiny)
-library(pins)
+  library(shiny)
+  library(pins)
 
-ui <- fluidPage(tableOutput("table"))
+  ui <- fluidPage(tableOutput("table"))
 
-server <- function(input, output) {
-  mtcars_pin <- pin_reactive("mtcars", board = "local")
-  output$table <- renderTable(mtcars_pin())
-}
+  server <- function(input, output) {
+    mtcars_pin <- pin_reactive("mtcars", board = "local")
+    output$table <- renderTable(mtcars_pin())
+  }
 
-shinyApp(ui = ui, server = server)
+  shinyApp(ui = ui, server = server)
+
 }
 }
