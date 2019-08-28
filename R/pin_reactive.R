@@ -25,22 +25,6 @@ pin_changed_time <- function(name, board) {
 #' @param session The user session to associate this file reader with, or NULL if
 #'   none. If non-null, the reader will automatically stop when the session ends.
 #'
-#' @examples
-#' if (interactive()) {
-#'
-#'   library(shiny)
-#'   library(pins)
-#'
-#'   ui <- fluidPage(tableOutput("table"))
-#'
-#'   server <- function(input, output) {
-#'     mtcars_pin <- pin_reactive("mtcars", board = "local")
-#'     output$table <- renderTable(mtcars_pin())
-#'   }
-#'
-#'   shinyApp(ui = ui, server = server)
-#'
-#' }
 #' @export
 pin_reactive <- function(name, board, interval = 5000, session = NULL) {
   deps <- shiny_dependencies()
