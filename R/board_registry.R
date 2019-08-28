@@ -1,5 +1,8 @@
 board_registry_ensure <- function() {
-  if (identical(.globals$boards_registered, NULL)) .globals$boards_registered <- list()
+  if (identical(.globals$boards_registered, NULL)) {
+    .globals$boards_registered <- list()
+    board_registry_load()
+  }
 }
 
 board_registry_config <- function() {
