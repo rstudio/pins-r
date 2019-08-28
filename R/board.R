@@ -17,6 +17,11 @@ new_board <- function(board, name, ...) {
 #' @param name The name of the board to activate.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
+#' @examples
+#'
+#' # define the storage location for all boards
+#' options(pins.path = tempdir())
+#'
 #' @keywords internal
 #' @export
 board_connect <- function(name, ...) {

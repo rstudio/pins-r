@@ -42,14 +42,21 @@ board_registry_persist <- function() {
   yaml::write_yaml(entries, config)
 }
 
+board_registry_defaults <- function() {
+  if (!"local" %in% names(.globals$boards_registered)) board_register("local", connect = FALSE)
+  if (!"packages" %in% names(.globals$boards_registered)) board_register("packages", connect = FALSE)
+}
+
 board_registry_list <- function() {
   board_registry_ensure()
+  board_registry_defaults()
 
   names(.globals$boards_registered)
 }
 
 board_registry_get <- function(name) {
   board_registry_ensure()
+  board_registry_defaults()
 
   .globals$boards_registered[[name]]
 }
