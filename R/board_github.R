@@ -136,17 +136,20 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     file.copy(path, bundle_path)
   }
 
+  dir_shas <- NULL
+  dir_url <- github_url(board, branch = branch, "/contents/", board$path, name)
+  dir_response <- httr::GET(dir_url, github_headers(board))
+  if (!httr::http_error(dir_response)) {
+    dir_shas <- httr::content(dir_response)
+  }
+
   for (file in dir(bundle_path, recursive = TRUE)) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
     file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
 
     pin_log("uploading ", file_url)
 
-    sha <- NULL
-    response <- httr::GET(file_url, github_headers(board))
-    if (!httr::http_error(response)) {
-      sha <- httr::content(response)$sha
-    }
+    sha <- Filter(function(e) identical(e$path, file.path(name, file)), dir_shas)[[1]]$sha
 
     base64 <- base64enc::base64encode(file.path(bundle_path, file))
     response <- httr::PUT(file_url,
