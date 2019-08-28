@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -118,14 +118,13 @@
 <p>For the purpose of creating custom boards, it helps to understand a board as a collection of files stored with a given name. It closely resembles a simple file systems, but it only requires the following operations to be implemented: create, get, find and remove. For read-only storage locations, you can also decide to implement only the ‘get’ and ‘find’ operations.</p>
 <p><img src="images/boards-extending-overview.png" style="width:50.0%"></p>
 <p>The most important S3 methods that your board needs to support are <code><a href="../reference/custom-boards.html">board_pin_create()</a></code>, <code><a href="../reference/custom-boards.html">board_pin_get()</a></code>, <code><a href="../reference/custom-boards.html">board_pin_find()</a></code> and <code><a href="../reference/custom-boards.html">board_pin_remove()</a></code> which define how to create, get, find and remove a pin.</p>
-<p>The next set of S3 methods to consider implementing are <code><a href="../reference/custom-boards.html">board_initialize()</a></code>, <code><a href="../reference/custom-boards.html">board_load()</a></code> and <code><a href="../reference/custom-boards.html">board_persist()</a></code>. There methods are optional to implement but provide support for initialization, loading a board from disk and persisting a board to disk. The initialization method usually deals with authentication, while the load and persist methods can be used to avoid storing secrets or other temporal parameters to disk.</p>
+<p>The next set of S3 methods to consider implementing are <code><a href="../reference/custom-boards.html">board_initialize()</a></code>, <code><a href="../reference/custom-boards.html">board_load()</a></code> and <code><a href="../reference/custom-boards.html">board_persist()</a></code>. These methods are optional to implement but provide support for initialization, loading a board from disk and persisting a board to disk. The initialization method usually deals with authentication, while the load and persist methods can be used to avoid storing secrets or other temporal parameters to disk.</p>
 <p>The last function to consider implementing is <code><a href="../reference/custom-boards.html">board_browse()</a></code>, this function is used to browse to the location of the board. Usually implemented by calling <code><a href="https://www.rdocumentation.org/packages/utils/topics/browseURL">browseURL()</a></code> to open to website of the service hosting the custom board.</p>
 <p>To make this a bit more clear, the following section implements a custom board based on folders.</p>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>If the boards that the <code>pins</code> package provides are not sufficient, say, you might want to store your pins in Google Drive; you can still implement custom boards by implementing a few S3 methods. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script.</p>
-<p>The following example creates a simple folder-based board; probably not suitable for real use cases since all your pins would be lost whenever the R session restarts; however, it’s a simple example that you can use to start developing custom boards:</p>
+<p>The following example creates a simple folder-based board, which stores pins in local folders, this is similar to the default ‘local’ board. It is advisable to create an R package that provides these methods, but you can also define them in a plain R script:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">board_initialize.folder &lt;-<span class="st"> </span><span class="cf">function</span>(board, ...) {</a>
 <a class="sourceLine" id="cb1-2" title="2">  <span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.exists</a></span>(<span class="st">"pins"</span>)) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(<span class="st">"pins"</span>)</a>
 <a class="sourceLine" id="cb1-3" title="3">  board</a>

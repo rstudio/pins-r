@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -114,10 +114,10 @@
 
     
     
-<p>Whenever you run <code><a href="../reference/pin.html">pin(resource)</a></code>, the resource is stored; by default, this means storing it locally in your computer for the purposes of caching it to avoid re-downloads, recomputing, etc. We can explore this folders storing pins by creating a pin and then enumerating the default local storage folder:</p>
+<p>Whenever you run <code><a href="../reference/pin.html">pin(resource)</a></code>, the resource is stored; by default, this means storing it locally on your computer for the purposes of caching it to avoid re-downloads, recomputing, etc. We can explore this local storage by creating a pin and then enumerating the board’s storage folder:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars)</a>
-<a class="sourceLine" id="cb1-3" title="3">tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">paths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="kw"><a href="../reference/custom-boards-utils.html">board_local_storage</a></span>(<span class="st">"local"</span>), <span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" title="3">tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">paths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="kw"><a href="../reference/custom-boards-utils.html">board_local_storage</a></span>(), <span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code># A tibble: 2 x 1
    paths                                                
    &lt;chr&gt;                                                
@@ -127,7 +127,7 @@
 <p>Since this ‘local’ board is the default, you can also explicitly store or retrieve datasets from this board:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">name =</span> <span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
-<p>A local board is quite useful for all the reasons mentioned in the <a href="pins-rstudio.html">Getting Started</a> article; however, to take take full advantage of pins, you can also consider storing them in shared locations that others can access, for instance:</p>
+<p>A local board is quite useful for all the reasons mentioned in the <a href="pins-rstudio.html">Getting Started</a> article; however, to take full advantage of pins, you can also consider storing pins in shared locations that others can access, for instance:</p>
 <dl>
 <dt>GitHub</dt>
 <dd>
@@ -139,10 +139,10 @@
 </dd>
 <dt>RStudio Connect</dt>
 <dd>
-<a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> is a publishing platform for the work your teams create in R and Python. Share Shiny applications, R Markdown reports, Plumber APIs, dashboards, plots, Jupyter Notebooks, and more in one convenient place. RStudio Connect can be used to store private datasets and is only limited by the physical storage capacity configured in your server, learn to configure RStudio Connect in the <a href="boards-kaggle.html">RStudio Connect Board</a> article.
+<a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> is a publishing platform for the work your teams create in R and Python. You can share Shiny applications, R Markdown reports, Plumber APIs, dashboards, plots, Jupyter Notebooks, and more in one convenient place. RStudio Connect can be used to store private datasets and is only limited by the physical storage capacity configured in your server, learn to configure RStudio Connect in the <a href="boards-kaggle.html">RStudio Connect Board</a> article.
 </dd>
 </dl>
-<p>However, since there are many more storage locations to consider (see for instance <a href="https://github.com/swcarpentry/DEPRECATED-site/issues/797">Where should scientists store their data</a>), the <code>pins</code> also supports web-accessible locations through <a href="boards-websites.Rmd">Website Boards</a> and even custom boards to fully-support reading, writing, authentication and so on. You can learn how to create extensions at <a href="boards-extending.html">Extending Boards</a>.</p>
+<p>However, since there are many more storage locations to consider (see for instance <a href="https://github.com/swcarpentry/DEPRECATED-site/issues/797">Where should scientists store their data</a>), <code>pins</code> also supports web-accessible locations through <a href="boards-websites.html">Website Boards</a> and even custom boards to fully-support reading, writing, authentication and so on. You can learn how to create extensions at <a href="boards-extending.html">Extending Boards</a>.</p>
 <p>Please be mindful when using boards, you should <strong>only register boards you trust</strong>. As a general good practice, when using GitHub, it is not advisable to clone and build R packages from GitHub repos you don’t trust. In a similar way, you should not register GitHub boards, nor Kaggle, nor RStudio Connect, nor Website boards that you don’t trust.</p>
   </div>
 

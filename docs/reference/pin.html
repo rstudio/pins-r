@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>And object, local file or remote URL to pin.</p></td>
+      <td><p>An object, local file or remote URL to pin.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -229,7 +229,7 @@ continue to work.</p>
                       <span class='st'>"master/examples/example_retail_sales.csv"</span>)
 
 <span class='co'># cache remote resource</span>
-<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/Users/javierluraschi/.pins/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
+<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpzXaZlA/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
 <span class='co'># load cached csv</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"example_retail_sales"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.csv</a></span>()</div><div class='output co'>#&gt;             ds      y
 #&gt; 1   1992-01-01 146376

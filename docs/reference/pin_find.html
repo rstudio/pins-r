@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -188,22 +188,12 @@ boards search for pins.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>pins</span>)
 
 <span class='co'># retrieve local pins</span>
-<span class='fu'>pin_find</span>(<span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"local"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 13 x 4</span><span>
-#&gt;    name                 description type  board
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> mtcars               </span><span style='color: #555555;'>""</span><span>          table local
-#&gt; </span><span style='color: #555555;'> 2</span><span> mtefficient          </span><span style='color: #555555;'>""</span><span>          table local
-#&gt; </span><span style='color: #555555;'> 3</span><span> example_retail_sales </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'> 4</span><span> HPI_master           </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'> 5</span><span> home_price_indexes   </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'> 6</span><span> afile666             </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'> 7</span><span> afile409             </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'> 8</span><span> hello                </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'> 9</span><span> afile742             </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'>10</span><span> iris                 </span><span style='color: #555555;'>""</span><span>          table local
-#&gt; </span><span style='color: #555555;'>11</span><span> anobject             </span><span style='color: #555555;'>""</span><span>          table local
-#&gt; </span><span style='color: #555555;'>12</span><span> www_google           </span><span style='color: #555555;'>""</span><span>          files local
-#&gt; </span><span style='color: #555555;'>13</span><span> sales_by_month       </span><span style='color: #555555;'>""</span><span>          table local</div><div class='input'>
+<span class='fu'>pin_find</span>(<span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"local"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 4</span><span>
+#&gt;   name                 description type  board
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mtcars               </span><span style='color: #555555;'>""</span><span>          table local
+#&gt; </span><span style='color: #555555;'>2</span><span> mtefficient          </span><span style='color: #555555;'>""</span><span>          table local
+#&gt; </span><span style='color: #555555;'>3</span><span> example_retail_sales </span><span style='color: #555555;'>""</span><span>          files local</div><div class='input'>
 <span class='co'># search local pins related to 'cars'</span>
 <span class='fu'>pin_find</span>(<span class='st'>"cars"</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"local"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
 #&gt;   name   description type  board
@@ -235,27 +225,36 @@ boards search for pins.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> ..00… 2015..…     </span><span style='text-decoration: underline;'>488</span><span>737 2015-03-19 townhou…    79   </span><span style='text-decoration: underline;'>3</span><span>072     0          7
 #&gt; </span><span style='color: #555555;'># … with 43,303 more rows, and 7 more variables: tot_sf </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, beds </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,
 #&gt; #   baths </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, age </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, eff_age </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, longitude </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, latitude </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
-<span class='co'># search pins related to 'vaccination' in the 'packages' board</span>
-<span class='fu'>pin_find</span>(<span class='st'>"vaccination"</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"packages"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 4</span><span>
-#&gt;   name                 description                                 type  board  
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'>1</span><span> ggalluvial/vaccinat… Influenza vaccination rates from ggalluvia… table packag…
-#&gt; </span><span style='color: #555555;'>2</span><span> PBImisc/vaccination  Effective dose study from PBImisc package.  table packag…</div><div class='input'>
-<span class='co'># retrieve 'ggalluvial/vaccinations' pin</span>
-<span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"ggalluvial/vaccinations"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 117 x 5</span><span>
-#&gt;     freq       a subject survey    response
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'> 1</span><span>    48 0.050</span><span style='text-decoration: underline;'>4</span><span>        1 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 2</span><span>     9 0.009</span><span style='text-decoration: underline;'>44</span><span>       2 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 3</span><span>    66 0.069</span><span style='text-decoration: underline;'>3</span><span>        3 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 4</span><span>     1 0.001</span><span style='text-decoration: underline;'>05</span><span>       4 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 5</span><span>    11 0.011</span><span style='text-decoration: underline;'>5</span><span>        5 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 6</span><span>     1 0.001</span><span style='text-decoration: underline;'>05</span><span>       6 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 7</span><span>     5 0.005</span><span style='text-decoration: underline;'>25</span><span>       7 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 8</span><span>     4 0.004</span><span style='text-decoration: underline;'>20</span><span>       8 ms153_NSA Always  
-#&gt; </span><span style='color: #555555;'> 9</span><span>    24 0.025</span><span style='text-decoration: underline;'>2</span><span>        9 ms153_NSA Missing 
-#&gt; </span><span style='color: #555555;'>10</span><span>     4 0.004</span><span style='text-decoration: underline;'>20</span><span>      10 ms153_NSA Missing 
-#&gt; </span><span style='color: #555555;'># … with 107 more rows</span><span></div></span></pre>
+<span class='co'># search pins related to 'london' in the 'packages' board</span>
+<span class='fu'>pin_find</span>(<span class='st'>"london"</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"packages"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 28 x 4</span><span>
+#&gt;    name                     description                             type  board 
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> bsamGP/London.Mortality  Daily Moratlity in London from bsamGP … table packa…
+#&gt; </span><span style='color: #555555;'> 2</span><span> DAAG/poxetc              Deaths from various causes, in London … table packa…
+#&gt; </span><span style='color: #555555;'> 3</span><span> DAAG/whoops              Deaths from whooping cough, in London … table packa…
+#&gt; </span><span style='color: #555555;'> 4</span><span> epimdr/meas              Bi-weekly measles incidence in London … table packa…
+#&gt; </span><span style='color: #555555;'> 5</span><span> ev.trawl/hourly_bloomsb… Hourly measurements of 6 air pollutant… table packa…
+#&gt; </span><span style='color: #555555;'> 6</span><span> extremis/lse             Selected Stocks from the London Stock … table packa…
+#&gt; </span><span style='color: #555555;'> 7</span><span> geofacet/london_afford   london_afford from geofacet package.    table packa…
+#&gt; </span><span style='color: #555555;'> 8</span><span> HistData/Arbuthnot       Arbuthnot's data on male and female bi… table packa…
+#&gt; </span><span style='color: #555555;'> 9</span><span> HistData/Cholera         William Farr's Data on Cholera in Lond… table packa…
+#&gt; </span><span style='color: #555555;'>10</span><span> jomo/ExamScores          Exam results for six inner London Educ… table packa…
+#&gt; </span><span style='color: #555555;'># … with 18 more rows</span><span></div><div class='input'>
+<span class='co'># retrieve 'bsamGP/London.Mortality' pin</span>
+<span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"bsamGP/London.Mortality"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5,113 x 7</span><span>
+#&gt;    date        tmean  tmin  tmax   dewp    rh death
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1993-01-01  4.63   1.57  7.67  2.39   79.4   233
+#&gt; </span><span style='color: #555555;'> 2</span><span> 1993-01-02 -</span><span style='color: #BB0000;'>0.168</span><span> -</span><span style='color: #BB0000;'>2.76</span><span>  2.40 -</span><span style='color: #BB0000;'>1.50</span><span>   85.9   228
+#&gt; </span><span style='color: #555555;'> 3</span><span> 1993-01-03 -</span><span style='color: #BB0000;'>0.875</span><span> -</span><span style='color: #BB0000;'>5.16</span><span>  3.40 -</span><span style='color: #BB0000;'>5.22</span><span>   69.4   228
+#&gt; </span><span style='color: #555555;'> 4</span><span> 1993-01-04  2.48  -</span><span style='color: #BB0000;'>1.99</span><span>  6.94  2.04   88.2   223
+#&gt; </span><span style='color: #555555;'> 5</span><span> 1993-01-05  7.45   3.45 11.4   8.63   94.0   246
+#&gt; </span><span style='color: #555555;'> 6</span><span> 1993-01-06  9.95   7.78 12.1  10.1    90.0   242
+#&gt; </span><span style='color: #555555;'> 7</span><span> 1993-01-07  6.98   2.92 11.0   5.93   93.6   226
+#&gt; </span><span style='color: #555555;'> 8</span><span> 1993-01-08  7.34   3.43 11.2   0.177  67.0   218
+#&gt; </span><span style='color: #555555;'> 9</span><span> 1993-01-09  7.91   3.65 12.2   8.93   84.8   212
+#&gt; </span><span style='color: #555555;'>10</span><span> 1993-01-10  9.92   7.79 12.1   9.63   89.4   218
+#&gt; </span><span style='color: #555555;'># … with 5,103 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

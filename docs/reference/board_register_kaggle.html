@@ -66,7 +66,7 @@ register Kaggle as a board." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -152,18 +152,20 @@ register Kaggle as a board.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register_kaggle</span>(<span class='no'>token</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"kaggle"</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register_kaggle</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"kaggle"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>token</th>
-      <td><p>The Kaggle token as a path to the <code>kaggle.json</code> file.</p></td>
-    </tr>
-    <tr>
       <th>name</th>
       <td><p>Optional name for this board, defaults to 'kaggle'.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>The Kaggle token as a path to the <code>kaggle.json</code> file, can
+be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exists.</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
@@ -178,6 +180,7 @@ register Kaggle as a board.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># the following example requires a Kaggle API token</span>
 <span class='fu'>board_register_kaggle</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='st'>"path/to/kaggle.json"</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
