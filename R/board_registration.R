@@ -14,6 +14,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' # the following example requires a GitHub API key
 #' board_register_github(repo = "owner/repo")
 #' }
 #' @export
@@ -39,6 +40,7 @@ board_register_github <- function(name = "github",
 #'
 #' @examples
 #' \dontrun{
+#' # the following example requires a Kaggle API token
 #' board_register_kaggle(token = "path/to/kaggle.json")
 #' }
 #'
@@ -64,6 +66,8 @@ board_register_kaggle <- function(name = "kaggle",
 #'
 #' @examples
 #' \dontrun{
+#' # the following examples require an RStudio Connect API key
+#'
 #' # register from rstudio
 #' board_register_rsconnect()
 #'

@@ -90,18 +90,6 @@ board_get <- function(name = NULL) {
 #' # create a Website board
 #' board_register("datatxt", name = "txtexample", url = "https://datatxt.org/data.txt")
 #'
-#' \dontrun{
-#'
-#' # create a GitHub board
-#' board_register("github")
-#'
-#' # create a Kaggle board
-#' board_register("kaggle", token = "path/to/kaggle.json")
-#'
-#' # create a RStudio Connect board
-#' board_register("rsconnect")
-#' }
-#'
 #' @seealso \code{\link{board_register_github}}, \code{\link{board_register_kaggle}},
 #'   \code{\link{board_register_rsconnect}} and \code{\link{board_register_datatxt}}.
 #'
