@@ -114,7 +114,7 @@ pin_download <- function(path, name, component, ...) {
   if (is_zip) {
     zip <- dir(temp_path, full.names = TRUE)
     pin_log("Extracting zip file '", zip, "'")
-    utils::unzip(zip, exdir = temp_path)
+    zip::unzip(zip, exdir = temp_path)
     unlink(zip)
   }
 

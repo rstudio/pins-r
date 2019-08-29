@@ -1,5 +1,7 @@
 # pins 0.1.1 (unreleased)
 
+- Fix error when retrieving pins from Kaggle boards (#31).
+
 - Support for large files in GitHub board (#30).
 
 # pins 0.1.0
