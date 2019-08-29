@@ -9,7 +9,13 @@ rsApiUpdateDialog <- function(code) {
 }
 
 rsConnectServers <- function() {
-  as.character(rsconnect::accounts()$server)
+  auth_servers <- rsconnect::accounts()$server
+  all_servers <- rsconnect::servers()
+  all_servers <- all_servers[!grepl("^shinyapps.io", all_servers$name),]
+  valid_urls <- all_servers[all_servers$name %in% auth_servers, ]
+
+  valid_servers <- gsub("/__api__.*", "", valid_urls$url)
+  as.character(valid_servers)
 }
 
 #' @import rstudioapi
