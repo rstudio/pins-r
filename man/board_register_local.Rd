@@ -16,7 +16,7 @@ Wrapper with explicit parameters over \code{board_register()} to
 register a local folder as a board.
 }
 \examples{
-# Use the temp folder as local the local cache
+# register local board using a temp folder
 board_register_local(cache = tempfile())
 }
 \seealso{

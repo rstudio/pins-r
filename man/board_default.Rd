@@ -6,9 +6,6 @@
 \usage{
 board_default()
 }
-\arguments{
-\item{board}{The board to use as the default board.}
-}
 \description{
 Retrieves the default board, which defaults to \code{"temp"} but can also be
 configured with the \code{pins.board} option.

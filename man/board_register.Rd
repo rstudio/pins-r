@@ -16,8 +16,8 @@ board_register(board, name = board, cache = "~/.pins", ...)
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Registers a board, useful to add sources to \code{pin_find()} or pin to remote
-boards with \code{pin()}.
+Registers a board, useful to find resources with \code{pin_find()} or pin to
+additional boards with \code{pin()}.
 }
 \details{
 A board requires a local cache to avoid downloading files multiple times. It is
@@ -36,6 +36,7 @@ board_register("datatxt", name = "txtexample", url = "https://datatxt.org/data.t
 
 }
 \seealso{
-\code{\link{board_register_github}}, \code{\link{board_register_kaggle}},
-  \code{\link{board_register_rsconnect}} and \code{\link{board_register_datatxt}}.
+\code{\link{board_register_local}}, \code{\link{board_register_github}},
+  \code{\link{board_register_kaggle}}, \code{\link{board_register_rsconnect}} and
+  \code{\link{board_register_datatxt}}.
 }
