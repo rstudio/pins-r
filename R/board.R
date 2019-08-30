@@ -125,9 +125,13 @@ board_register_code <- function(board, name) {
   function_name <- NULL
 
   while (parent_idx < length(sys.parents())) {
-    this_parent_call <- match.call(definition = sys.function(sys.parent(parent_idx)),
-                                   call = sys.call(sys.parent(parent_idx)))
+    parent_func <- sys.function(sys.parent(parent_idx))
+    parent_call <- sys.call(sys.parent(parent_idx))
+    if (!is.function(parent_func) || !is.call(parent_call)) break;
 
+    this_parent_call <- tryCatch(match.call(definition = parent_func, call = parent_call), error = function(e) NULL)
+
+    if (is.null(this_parent_call)) break;
     if (length(this_parent_call) < 1) break;
 
     this_function_name <- deparse(this_parent_call[[1]])

@@ -1,5 +1,5 @@
 board_url_update_index <- function(board) {
-  local_index <- file.path(board_local_storage(board$name), "data.txt")
+  local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
