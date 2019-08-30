@@ -1,3 +1,23 @@
+#' Register Local Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a local folder as a board.
+#'
+#' @param name Optional name for this board, defaults to 'local'.
+#' @param cache The local folder to use as a cache, defaults to \code{"~/.pins"}.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' # register local board using a temp folder
+#' board_register_local(cache = tempfile())
+#' @export
+board_register_local <- function(name = "local",
+                                 cache = "~/.pins") {
+  board_register("local", name = name,
+                          cache = cache)
+}
+
 #' Register GitHub Board
 #'
 #' Wrapper with explicit parameters over \code{board_register()} to
@@ -9,6 +29,7 @@
 #' @param branch The branch to use when commiting pins.
 #' @param token Token to use when \code{GITHUB_PAT} is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
+#' @param cache The local folder to use as a cache, defaults to \code{"~/.pins"}.
 #'
 #' @seealso board_register
 #'
@@ -22,8 +43,14 @@ board_register_github <- function(name = "github",
                                   repo = NULL,
                                   branch = "master",
                                   token = NULL,
-                                  path = "") {
-  board_register("github", name = name, repo = repo, branch = branch, token = token, path = path)
+                                  path = "",
+                                  cache = "~/.pins") {
+  board_register("github", name = name,
+                           repo = repo,
+                           branch = branch,
+                           token = token,
+                           path = path,
+                           cache = cache)
 }
 
 #' Register Kaggle Board
@@ -35,6 +62,7 @@ board_register_github <- function(name = "github",
 #' @param token The Kaggle token as a path to the \code{kaggle.json} file, can
 #'   be \code{NULL} if the \code{~/.kaggle/kaggle.json} file already exists.
 #' @param overwrite Should \code{~/.kaggle/kaggle.json} be overriden?
+#' @param cache The local folder to use as a cache, defaults to \code{"~/.pins"}.
 #'
 #' @seealso board_register
 #'
@@ -47,8 +75,12 @@ board_register_github <- function(name = "github",
 #' @export
 board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
-                                  overwrite = FALSE) {
-  board_register("kaggle", name = name, token = token, overwrite = overwrite)
+                                  overwrite = FALSE,
+                                  cache = "~/.pins") {
+  board_register("kaggle", name = name,
+                           token = token,
+                           overwrite = overwrite,
+                           cache = cache)
 }
 
 #' Register RStudio Connect Board
@@ -61,6 +93,7 @@ board_register_kaggle <- function(name = "kaggle",
 #' @param account Optional account name to use with RStudio Connect.
 #' @param key The RStudio Connect API key.
 #' @param output_files Should the output in an automated report create output files?
+#' @param cache The local folder to use as a cache, defaults to \code{"~/.pins"}.
 #'
 #' @seealso board_register
 #'
@@ -87,8 +120,14 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      server = NULL,
                                      account = NULL,
                                      key = NULL,
-                                     output_files = FALSE) {
-  board_register("rsconnect", name = name, server = server, account = account, key = key, output_files = output_files)
+                                     output_files = FALSE,
+                                     cache = "~/.pins") {
+  board_register("rsconnect", name = name,
+                              server = server,
+                              account = account,
+                              key = key,
+                              output_files = output_files,
+                              cache = cache)
 }
 
 #' Register Data TXT Board
@@ -98,18 +137,23 @@ board_register_rsconnect <- function(name = "rsconnect",
 #'
 #' @param name The name for this board, usually the domain name of the website.
 #' @param url Path to the \code{data.txt} file or path containing it.
+#' @param cache The local folder to use as a cache, defaults to \code{"~/.pins"}.
 #'
 #' @seealso board_register
 #'
 #' @examples
 #'
 #' # register website board using datatxt file
-#' board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt")
+#' board_register_datatxt(name = "txtexample",
+#'                        url = "https://datatxt.org/data.txt",
+#'                        cache = tempfile())
 #'
 #' # find pins
 #' pin_find(board = "txtexample")
 #'
 #' @export
-board_register_datatxt <- function(name, url) {
-  board_register("datatxt", name = name, url = url)
+board_register_datatxt <- function(name, url, cache = "~/.pins") {
+  board_register("datatxt", name = name,
+                            url = url,
+                            cache = cache)
 }

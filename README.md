@@ -22,8 +22,8 @@ You can use the `pins` package to:
     cache results with ease.
   - **Discover** new resources across different boards using
     `pin_find()`.
-  - **Share** resources in GitHub, Kaggle or RStudio Connect by
-    registering new boards with `board_register()`.
+  - **Share** resources in local folders, GitHub, Kaggle or RStudio
+    Connect by registering new boards with `board_register()`.
   - **Resources** can be anything from CSV, JSON, or image files to
     arbitrary R objects.
 
@@ -126,7 +126,7 @@ Notice that all pins are referenced as `<owner>/<name>` and even if the
 While you can ignore `<owner>` and reference pins by `<name>`, this can
 fail in some boards if different owners assign the same name to a pin.
 
-You can then retrieve a pin as a local path through `pin_get()`:
+You can then retrieve a pin through `pin_get()`:
 
 ``` r
 pin_get("hpiR/seattle_sales")
@@ -149,13 +149,22 @@ pin_get("hpiR/seattle_sales")
     ## #   tot_sf <int>, beds <int>, baths <dbl>, age <int>, eff_age <int>,
     ## #   longitude <dbl>, latitude <dbl>
 
-Finally, you can also **share** resources with others by publishing to
-Kaggle, GitHub and RStudio Connect. To publish to say, Kaggle, you would
-first need to register the Kaggle board by creating a [Kaggle API
-Token](https://www.kaggle.com/me/account):
+Finally, you can also **share** resources with other R sessions and
+other users by publishing to a local folder, Kaggle, GitHub and RStudio
+Connect.
+
+To share with other R sessions, you can use a local board which stores
+pins in a shared path, usually `~/.pins`:
 
 ``` r
-board_register("kaggle", token = "<path-to-kaggle.json>")
+board_register_local(cache = "~/pins")
+```
+
+To publish to Kaggle, you would first need to register the Kaggle board
+by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
+
+``` r
+board_register_kaggle(token = "<path-to-kaggle.json>")
 ```
 
 You can then easily publish to Kaggle:
@@ -213,7 +222,7 @@ Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
 further and then pin our results in RStudio Connect.
 
 ``` r
-board_register("rsconnect", name = "myrsc")
+board_register_rsconnect(name = "myrsc")
 ```
 
 ``` r
@@ -254,7 +263,7 @@ retrieving it from RStudio Connect and visualize its contents using
 
 ``` r
 library(pins)
-board_register("rsconnect", name = "myrsc")
+board_register_rsconnect(name = "myrsc")
 
 pin_get("sales-by-baths", board = "myrsc") %>%
   ggplot(aes(x = baths, y = sale)) +

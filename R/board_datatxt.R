@@ -1,5 +1,5 @@
 board_url_update_index <- function(board) {
-  local_index <- file.path(board_local_storage(board$name), "data.txt")
+  local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
@@ -15,14 +15,6 @@ board_initialize.datatxt <- function(board, ...) {
   board_url_update_index(board)
 
   board
-}
-
-board_persist.datatxt <- function(board) {
-  list(
-    board = board$board,
-    name = board$name,
-    url = board$url
-  )
 }
 
 board_pin_get.datatxt <- function(board, name, ...) {

@@ -25,5 +25,5 @@ library(pins)
 pin(mtcars)
 
 # remove mtcars pin
-pin_remove(mtcars, board = "local")
+pin_remove(mtcars, board = "temp")
 }

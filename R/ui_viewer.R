@@ -1,6 +1,6 @@
 # nocov start
 
-ui_viewer_register <- function(board) {
+ui_viewer_register <- function(board, board_call) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
 
   if (identical(.globals$ui_connections[[board$name]], TRUE)) {
@@ -10,7 +10,6 @@ ui_viewer_register <- function(board) {
 
   .globals$ui_connections[[board$name]] <- TRUE
 
-  board_call <- paste0("pins::board_connect(\"", board$name, "\")")
   observer <- getOption("connectionObserver")
   if (identical(observer, NULL)) return()
 
@@ -53,6 +52,7 @@ ui_viewer_register <- function(board) {
 
     # disconnection code
     disconnect = function() {
+      board_deregister(board$name, disconnect = FALSE)
       observer$connectionClosed(type = "Pins", host = board$name)
       .globals$ui_connections[[board$name]] <- FALSE
     },
@@ -130,8 +130,10 @@ ui_viewer_updated <- function(board) {
 
 ui_viewer_closed <- function(board) {
   viewer <- getOption("connectionObserver")
-  if (!is.null(viewer))
+  if (!is.null(viewer)) {
     viewer$connectionClosed(type = "Pins", host = board$name)
+    .globals$ui_connections[[board$name]] <- FALSE
+  }
 }
 
 # nocov end

@@ -3,6 +3,7 @@ context("board local")
 text_file <- dir(getwd(), recursive = TRUE, pattern = "hello.txt", full.names = TRUE)
 
 test_that("local board is registered", {
+  board_register("local", cache = tempfile())
   expect_true("local" %in% board_list())
 })
 

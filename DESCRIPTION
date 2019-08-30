@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Javier Luraschi <javier@rstudio.com>
 Description: Pin remote resources into a local cache to work offline,
   improve speed and avoid recomputing; discover and share resources
-  with others in 'GitHub', 'Kaggle' or 'RStudio Connect'. Resources can
+  in local folders, 'GitHub', 'Kaggle' or 'RStudio Connect'. Resources can 
   be anything from 'CSV', 'JSON', or image files to arbitrary R objects.
 License: Apache License 2.0
 Encoding: UTF-8

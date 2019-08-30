@@ -4,12 +4,14 @@
 \alias{board_register_datatxt}
 \title{Register Data TXT Board}
 \usage{
-board_register_datatxt(name, url)
+board_register_datatxt(name, url, cache = "~/.pins")
 }
 \arguments{
 \item{name}{The name for this board, usually the domain name of the website.}
 
 \item{url}{Path to the \code{data.txt} file or path containing it.}
+
+\item{cache}{The local folder to use as a cache, defaults to \code{"~/.pins"}.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
@@ -18,7 +20,9 @@ register as a board a website describing resources with a \code{data.txt} file.
 \examples{
 
 # register website board using datatxt file
-board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt")
+board_register_datatxt(name = "txtexample",
+                       url = "https://datatxt.org/data.txt",
+                       cache = tempfile())
 
 # find pins
 pin_find(board = "txtexample")

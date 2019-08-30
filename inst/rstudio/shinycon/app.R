@@ -161,10 +161,6 @@ pins_connection_ui <- function() {
           "Branch/Path:",
           value = "master"
         ),
-        textInput(
-          "github",
-          "Token:"
-        ),
         tags$div(
           "Retrieve token from",
           tags$a(
@@ -217,7 +213,7 @@ pins_connection_server <- function(input, output, session) {
 
   generateCode <- function(board) {
     parameters <- ""
-    initializer <- paste0("pins::board_connect(\"", board, "\"", parameters, ")")
+    initializer <- paste0("pins::board_register(\"", board, "\"", parameters, ")")
 
     if (identical(board, "rsconnect") && !is.null(input$server)) {
       initializer <- paste(
@@ -228,11 +224,14 @@ pins_connection_server <- function(input, output, session) {
       initializer <- tryCatch({
         contents <- jsonlite::read_json(input$token$datapath)
 
+        if (!dir.exists("~/.kaggle")) dir.create("~/.kaggle")
+
         paste(
-          "pins::board_register(\"kaggle\", ",
-          "token = list(",
+          "jsonlite::write_json(list(",
           paste(names(contents), " = \"", contents, "\"", collapse = ", ", sep = ""),
-          "), overwrite = TRUE)\n",
+          "), \"~/.kaggle/kaggle.json\", auto_unbox = TRUE)\n",
+          "\n",
+          "pins::board_register(\"kaggle\")\n",
           sep = "")
       }, error = function(e) {
         rstudioapi::showDialog("Invalid Token", paste("Failed to parse the Kaggle token file:", e$message))
@@ -247,13 +246,18 @@ pins_connection_server <- function(input, output, session) {
       repo_parts <- strsplit(input$repo, "/")[[1]]
       repo_name <- repo_parts[2]
 
+      retrieve_token <- ""
+      if (nchar(Sys.getenv("GITHUB_PAT")) == 0) {
+        retrieve_token <- ", token = rstudioapi::askForSecret(\"github_pat\", \"Your GitHub Personal Access Token\", \"GitHub PAT\")"
+      }
+
       initializer <- paste0(
         "pins::board_register(\"github\", ",
         "name = \"", repo_name, "\", ",
         "repo = \"", input$repo, "\"",
-        ifelse(identical(path, "pins"), "", paste0(", path = \"", path, "\"")),
+        ifelse(nchar(path) == 0, "", paste0(", path = \"", path, "\"")),
         ifelse(identical(branch, "master"), "", paste0(", branch = \"", branch, "\"")),
-        ifelse(nchar(input$github) == 0, "", paste0(", token = \"", input$github, "\")")),
+        retrieve_token,
         ")\n")
     }
     else if (identical(board, "datatxt")) {

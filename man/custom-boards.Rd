@@ -6,8 +6,6 @@
 \alias{board_pin_get}
 \alias{board_pin_remove}
 \alias{board_pin_find}
-\alias{board_load}
-\alias{board_persist}
 \alias{board_browse}
 \title{Custom Boards}
 \usage{
@@ -20,10 +18,6 @@ board_pin_get(board, name, ...)
 board_pin_remove(board, name, ...)
 
 board_pin_find(board, text, ...)
-
-board_load(board, ...)
-
-board_persist(board, ...)
 
 board_browse(board, ...)
 }

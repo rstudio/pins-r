@@ -402,17 +402,6 @@ board_pin_remove.github <- function(board, name, ...) {
   if (update_index) github_update_index(board, paste0(board$path, name), commit, operation = "remove")
 }
 
-board_persist.github <- function(board) {
-  list(
-    board = board$board,
-    name = board$name,
-    token = board$token,
-    repo = board$repo,
-    branch = board$branch,
-    path = board$path
-  )
-}
-
 board_browse.github <- function(board) {
   utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
 }

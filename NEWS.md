@@ -1,5 +1,8 @@
 # pins 0.1.1 (unreleased)
 
+- Fix CRAN request to explicitly opt-in to use local home
+  path as cache by running `board_register_local()`.
+
 - Fix error when retrieving pins from Kaggle boards (#31).
 
 - Support for large files in GitHub board (#30).

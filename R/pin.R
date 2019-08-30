@@ -105,9 +105,6 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' # retrieve the mtcars pin
 #' pin_get("mtcars")
 #'
-#' # retrieve mtcars pin from local board
-#' pin_get("mtcars", board = "local")
-#'
 #' # retrieve mtcars pin from packages board
 #' pin_get("easyalluvial/mtcars2", board = "packages")
 #' @export
@@ -158,7 +155,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
 #' pin(mtcars)
 #'
 #' # remove mtcars pin
-#' pin_remove(mtcars, board = "local")
+#' pin_remove(mtcars, board = "temp")
 #' @export
 pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)
@@ -192,11 +189,11 @@ pin_remove <- function(name, board) {
 #' @examples
 #' library(pins)
 #'
-#' # retrieve local pins
-#' pin_find(board = "local")
+#' # retrieve pins
+#' pin_find()
 #'
-#' # search local pins related to 'cars'
-#' pin_find("cars", board = "local")
+#' # search pins related to 'cars'
+#' pin_find("cars")
 #'
 #' # search pins related to 'seattle' in the 'packages' board
 #' pin_find("seattle", board = "packages")

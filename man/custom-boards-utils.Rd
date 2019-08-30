@@ -4,7 +4,7 @@
 \alias{board_local_storage}
 \title{Custom Boards Utilities}
 \usage{
-board_local_storage(component = "local")
+board_local_storage(component = board_default(), board = NULL)
 }
 \description{
 A set of utilities used when implementing custom boards.
