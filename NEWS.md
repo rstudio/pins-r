@@ -1,4 +1,4 @@
-# pins 0.1.1 (unreleased)
+# pins 0.1.1
 
 - Fix CRAN request to explicitly opt-in to use local home
   path as cache by running `board_register_local()`.
