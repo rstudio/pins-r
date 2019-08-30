@@ -4,20 +4,16 @@
 \alias{board_connect}
 \title{Connect to Board}
 \usage{
-board_connect(name, ...)
+board_connect(board, code, ...)
 }
 \arguments{
-\item{name}{The name of the board to activate.}
+\item{board}{The name of the board to activate.}
+
+\item{code}{The code being used to registere this board.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 Connects to a board to activate RStudio's connection pane, when available.
-}
-\examples{
-
-# define the storage location for all boards
-options(pins.path = tempdir())
-
 }
 \keyword{internal}

@@ -4,14 +4,15 @@
 \alias{board_deregister}
 \title{Deregister Board}
 \usage{
-board_deregister(name)
+board_deregister(name, ...)
 }
 \arguments{
 \item{name}{An optional name to identify this board, defaults to the board name.}
+
+\item{...}{Additional parameters required to deregister a particular board.}
 }
 \description{
-Deregisters a board, useful to disable boards no longer in use. This operation
-removes all locally cached pins.
+Deregisters a board, useful to disable boards no longer in use.
 }
 \examples{
 
