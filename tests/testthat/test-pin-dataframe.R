@@ -10,7 +10,7 @@ test_that("can pin() data frame", {
 test_that("can sanitize data frame names", {
   name <- "___sdf ds32___42342     dsf dsf dsfds____"
   expect_equal(
-    pin_default_name(name, board_get("local")),
+    pin_default_name(name, board_default()),
     "sdf-ds32-42342-dsf-dsf-dsfds"
   )
 })

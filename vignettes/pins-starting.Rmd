@@ -134,7 +134,15 @@ pin_get("home_price_indexes") %>%
 
 ## Sharing
 
-After performing a data analysis, you might want to save your dataset with others, which you can achieve using `pin(data, board = "<board-name>")`.
+After performing a data analysis, you might want to share your dataset with others, which you can achieve using `pin(data, board = "<board-name>")`.
+
+There are multiple boards available, one that can help you share pins with other R sessions and tools it the 'local' board, which stores pins in your local computer. In order to use a local board, you need to register it first:
+
+```{r eval=FALSE}
+board_register_local()
+```
+
+You can also name your boards using the 'name' parameter, when a name is not specified, the `pins` package will simply name your board with the kind of board you are using, 'local' in the previous example.
 
 The following example stores a simple data analysis over home prices as 'home_price_analysis' in the 'local' board.
 
@@ -162,4 +170,6 @@ pin_get("home_price_indexes") %>%
 ## # … with 35 more rows
 ```
 
-To be fair, storing pins locally is not really sharing with others; instead, you would want to replace `local` with `github`, `rsconnect` or `kaggle`. However, we will first have to configure the appropriate boards, this will be presented in the [Understanding Boards](boards-github.html) article. Before we get to that, the [Using Pins with RStudio](pins-rstudio.html) article will present how to use the functionality presented here using RStudio's user interface.
+The local board allows you to share pins with other R sessions or even other Python sessions, to share with other people or across different computers, you can consider using the  `github`, `rsconnect` or `kaggle` boards; these boards will be introduced in the [Understanding Boards](boards-github.html) article.
+
+Before we get to that, the [Using Pins with RStudio](pins-rstudio.html) article presents a few enhancements available when using `pins` in RStudio.

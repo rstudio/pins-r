@@ -49,15 +49,12 @@ board_pin_find <- function(board, text, ...) {
 #' @export
 #' @rdname custom-boards-utils
 #' @keywords internal
-board_local_storage <- function(component = "local") {
-  paths <- list(
-    unix = "~/.pins",
-    windows = file.path(Sys.getenv("LOCALAPPDATA"), "pins")
-  )
+board_local_storage <- function(component = board_default()) {
+  board <- board_get(component)
 
-  path <- paths[[.Platform$OS.type]]
+  path <- board$cache
 
-  if (!identical(getOption("pins.path"), NULL)) path <- getOption("pins.path")
+  if (!identical(getOption("pins.path"), NULL) && identical(path, "~/.pins")) path <- getOption("pins.path")
 
   component_path <- file.path(path, component)
 

@@ -1,22 +1,22 @@
 
-kaggle_auth_paths <- function() {
+kaggle_auth_paths <- function(board) {
   normalizePath(
-    "~/.kaggle/kaggle.json",
+    board$token,
     mustWork = FALSE
   )
 }
 
-kaggle_authenticated <- function() {
-  any(file.exists(kaggle_auth_paths()))
+kaggle_authenticated <- function(board) {
+  any(file.exists(kaggle_auth_paths(board)))
 }
 
-kaggle_auth_info <- function() {
-  jsonlite::read_json(kaggle_auth_paths())
+kaggle_auth_info <- function(board) {
+  jsonlite::read_json(kaggle_auth_paths(board))
 }
 
 
-kaggle_auth <- function() {
-  kaggle_keys <- kaggle_auth_info()
+kaggle_auth <- function(board) {
+  kaggle_keys <- kaggle_auth_info(board)
 
   httr::authenticate(
     kaggle_keys$username,
@@ -24,14 +24,14 @@ kaggle_auth <- function() {
   )
 }
 
-kaggle_qualify_name <- function(name) {
+kaggle_qualify_name <- function(name, board) {
   qualified <- name
-  if (!grepl("/", qualified)) qualified <- paste0(kaggle_auth_info()$username, "/", name)
+  if (!grepl("/", qualified)) qualified <- paste0(kaggle_auth_info(board)$username, "/", name)
 
   qualified
 }
 
-kaggle_upload_resource <- function(path) {
+kaggle_upload_resource <- function(path, board) {
   path <- normalizePath(path)
   if (!file.exists(path)) stop("Invalid path: ", path)
 
@@ -40,7 +40,7 @@ kaggle_upload_resource <- function(path) {
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/upload/file/", content_length, "/", modified)
 
-  results <- httr::POST(url, body = list(fileName = basename(path)), config = kaggle_auth())
+  results <- httr::POST(url, body = list(fileName = basename(path)), config = kaggle_auth(board))
 
   if (httr::http_error(results)) stop("Upload registration failed with status ", httr::status_code(results))
 
@@ -51,7 +51,7 @@ kaggle_upload_resource <- function(path) {
   upload_url <- parsed$createUrl
   token <- parsed$token
 
-  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth(),
+  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth(board),
                        http_utils_progress("up"))
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
@@ -63,7 +63,7 @@ kaggle_upload_resource <- function(path) {
   token
 }
 
-kaggle_create_resource <- function(name, description, token, type, metadata) {
+kaggle_create_resource <- function(name, description, token, type, metadata, board) {
   url <- "https://www.kaggle.com/api/v1/datasets/create/new"
 
   body <- list(
@@ -73,14 +73,14 @@ kaggle_create_resource <- function(name, description, token, type, metadata) {
     ),
     isPrivate = jsonlite::unbox(TRUE),
     licenseName = jsonlite::unbox("CC0-1.0"),
-    ownerSlug = jsonlite::unbox(kaggle_auth_info()$username),
+    ownerSlug = jsonlite::unbox(kaggle_auth_info(board)$username),
     slug = jsonlite::unbox(name),
     subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
     title = jsonlite::unbox(description),
     categories = list()
   )
 
-  results <- httr::POST(url, body = body, config = kaggle_auth(), encode = "json")
+  results <- httr::POST(url, body = body, config = kaggle_auth(board), encode = "json")
 
   if (httr::http_error(results)) stop("Resource creation failed with status ", httr::status_code(results))
 
@@ -113,25 +113,13 @@ kaggle_create_bundle <- function(path, type, description) {
 }
 
 board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...) {
-  if (!is.null(token)) {
-    exists <- file.exists(kaggle_auth_paths())
-    if (exists && !overwrite) stop("File already exists, use 'overwrite = TRUE' to overwrite.")
-
-    if (!exists || identical(overwrite, TRUE)) {
-      token_path <- dirname(kaggle_auth_paths())
-      if (!dir.exists(token_path)) dir.create(token_path, recursive = TRUE)
-
-      if (is.list(token)) {
-         jsonlite::write_json(token, kaggle_auth_paths(), auto_unbox = TRUE)
-      }
-      else {
-        file.copy(token, kaggle_auth_paths(), overwrite = TRUE)
-      }
-    }
+  board$token <- if (is.null(token)) "~/.kaggle/kaggle.json" else token
+  if (!file.exists(board$token)) {
+    stop("Kaggle token file '", board$token, "' does not exist.")
   }
 
-  if (!kaggle_authenticated()) {
-    stop("Authentication to Kaggle failed. Was a token file specified when registering this board?")
+  if (!kaggle_authenticated(board)) {
+    stop("Authentication to Kaggle failed. Is the Kaggle token file valid?")
   }
 
   board
@@ -148,7 +136,7 @@ board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
     temp_bundle <- kaggle_create_bundle(path, type, description)
     on.exit(unlink(temp_bundle))
 
-    token <- kaggle_upload_resource(temp_bundle)
+    token <- kaggle_upload_resource(temp_bundle, board)
   }
   else {
     token <- list()
@@ -161,15 +149,15 @@ board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
     }
 
     for (upload_file in upload_files) {
-      token[[length(token) + 1]] <- kaggle_upload_resource(upload_file)
+      token[[length(token) + 1]] <- kaggle_upload_resource(upload_file, board)
     }
 
     token <- unlist(token)
   }
 
-  kaggle_create_resource(name, description, token, type, metadata)
+  kaggle_create_resource(name, description, token, type, metadata, board)
 
-  qualified_name <- paste0(kaggle_auth_info()$username, "/", name)
+  qualified_name <- paste0(kaggle_auth_info(board)$username, "/", name)
 
   retrieved <- NULL
   retries <- 10
@@ -183,7 +171,7 @@ board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
   }
 }
 
-board_pin_search_kaggle <- function(text = NULL) {
+board_pin_search_kaggle <- function(board, text = NULL) {
   base_url <- "https://www.kaggle.com/api/v1/datasets/list?"
   if (identical(text, NULL) || length(text) == 0 || nchar(text) == 0) {
     params <- "group=my"
@@ -194,14 +182,14 @@ board_pin_search_kaggle <- function(text = NULL) {
 
   url <- utils::URLencode(paste0(base_url, params))
 
-  results <- httr::GET(url, config = kaggle_auth())
+  results <- httr::GET(url, config = kaggle_auth(board))
   if (httr::http_error(results)) stop("Finding pin failed with status ", httr::status_code(results))
 
   httr::content(results)
 }
 
 board_pin_find.kaggle <- function(board, text, ...) {
-  if (!kaggle_authenticated()) return(board_empty_results())
+  if (!kaggle_authenticated(board)) return(board_empty_results())
 
   if (is.null(text)) text <- ""
 
@@ -209,10 +197,10 @@ board_pin_find.kaggle <- function(board, text, ...) {
   text <- gsub("^[^/]+/", "", text)
 
   # search private dataserts first sincee they won't search by default
-  results <- board_pin_search_kaggle()
+  results <- board_pin_search_kaggle(board)
   reults <- Filter(function(e) grepl(text, e$ref), results)
 
-  results <- c(results, board_pin_search_kaggle(text))
+  results <- c(results, board_pin_search_kaggle(board, text))
 
   results <- jsonlite::fromJSON(jsonlite::toJSON(results))
 
@@ -237,7 +225,7 @@ board_pin_find.kaggle <- function(board, text, ...) {
 }
 
 board_pin_get.kaggle <- function(board, name) {
-  if (!grepl("/", name)) name <- paste(kaggle_auth_info()$username, name, sep = "/")
+  if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
   temp_zip <- tempfile(fileext = ".zip")
@@ -250,14 +238,14 @@ board_pin_get.kaggle <- function(board, name) {
   local_path <- pin_download(url,
                              name,
                              component = board$name,
-                             config = kaggle_auth(),
+                             config = kaggle_auth(board),
                              custom_etag = etag)
 
   local_path
 }
 
 board_pin_remove.kaggle <- function(board, name) {
-  qualified <- kaggle_qualify_name(name)
+  qualified <- kaggle_qualify_name(name, board)
   stop("Please remove dataset from: https://www.kaggle.com/", qualified, "/settings")
 }
 

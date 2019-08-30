@@ -111,7 +111,4 @@ PerformanceReporter <- R6::R6Class(
   )
 )
 
-options(pins.path = tempdir())
-on.exit(options(pins.path = NULL))
-
 test_check("pins", reporter = "performance")

@@ -1,4 +1,6 @@
-board_initialize.local <- function(board, ...) {
+board_initialize.local <- function(board, cache, ...) {
+  if (!dir.exists(board$cache)) dir.create(board$cache)
+
   board
 }
 
@@ -14,8 +16,6 @@ guess_extension_from_path <- function(path) {
 }
 
 board_pin_create.local <- function(board, path, name, metadata, ...) {
-  on.exit(board_connect(board$name))
-
   final_path <- pin_registry_update(name = name, component = board$name)
 
   unlink(final_path, recursive = TRUE)
