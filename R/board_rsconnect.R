@@ -36,14 +36,6 @@ board_initialize.rsconnect <- function(board, ...) {
   board
 }
 
-board_load.rsconnect <- function(board) {
-  board
-}
-
-board_persist.rsconnect <- function(board) {
-  board
-}
-
 board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   deps <- rsconnect_dependencies()
 

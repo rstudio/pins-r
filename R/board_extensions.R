@@ -65,22 +65,6 @@ board_local_storage <- function(component = board_default()) {
 
 #' @export
 #' @rdname custom-boards
-board_load <- function(board, ...) {
-  UseMethod("board_load")
-}
-
-board_load.default <- function(board) board
-
-#' @export
-#' @rdname custom-boards
-board_persist <- function(board, ...) {
-  UseMethod("board_persist")
-}
-
-board_persist.default <- function(board) structure(list(board = board$board, name = board$name), class = board$board)
-
-#' @export
-#' @rdname custom-boards
 board_browse <- function(board, ...) {
   UseMethod("board_browse")
 }

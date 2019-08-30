@@ -28,7 +28,7 @@ nomnoml::nomnoml("
 
 The most important S3 methods that your board needs to support are `board_pin_create()`, `board_pin_get()`, `board_pin_find()` and `board_pin_remove()` which define how to create, get, find and remove a pin.
 
-The next set of S3 methods to consider implementing are `board_initialize()`, `board_load()` and `board_persist()`. These methods are optional to implement but provide support for initialization, loading a board from disk and persisting a board to disk. The initialization method usually deals with authentication, while the load and persist methods can be used to avoid storing secrets or other temporal parameters to disk.
+The next S3 method to consider implementing is `board_initialize()` which is optional to implement but provides support for initialization, this method usually deals with authentication.
 
 The last function to consider implementing is `board_browse()`, this function is used to browse to the location of the board. Usually implemented by calling `browseURL()` to open to website of the service hosting the custom board.
 

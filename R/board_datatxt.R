@@ -17,14 +17,6 @@ board_initialize.datatxt <- function(board, ...) {
   board
 }
 
-board_persist.datatxt <- function(board) {
-  list(
-    board = board$board,
-    name = board$name,
-    url = board$url
-  )
-}
-
 board_pin_get.datatxt <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
