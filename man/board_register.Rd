@@ -32,7 +32,10 @@ cache parameter can be also set with the \code{pins.path} option.
 board_register("local", "other_board", cache = tempfile())
 
 # create a Website board
-board_register("datatxt", name = "txtexample", url = "https://datatxt.org/data.txt", cache = tempfile())
+board_register("datatxt",
+               name = "txtexample",
+               url = "https://datatxt.org/data.txt",
+               cache = tempfile())
 
 }
 \seealso{

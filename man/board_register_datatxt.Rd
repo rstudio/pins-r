@@ -20,7 +20,9 @@ register as a board a website describing resources with a \code{data.txt} file.
 \examples{
 
 # register website board using datatxt file
-board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt", cache = tempfile())
+board_register_datatxt(name = "txtexample",
+                       url = "https://datatxt.org/data.txt",
+                       cache = tempfile())
 
 # find pins
 pin_find(board = "txtexample")
