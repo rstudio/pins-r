@@ -98,7 +98,10 @@ board_get <- function(name) {
 #' board_register("local", "other_board", cache = tempfile())
 #'
 #' # create a Website board
-#' board_register("datatxt", name = "txtexample", url = "https://datatxt.org/data.txt", cache = tempfile())
+#' board_register("datatxt",
+#'                name = "txtexample",
+#'                url = "https://datatxt.org/data.txt",
+#'                cache = tempfile())
 #'
 #' @seealso \code{\link{board_register_local}}, \code{\link{board_register_github}},
 #'   \code{\link{board_register_kaggle}}, \code{\link{board_register_rsconnect}} and

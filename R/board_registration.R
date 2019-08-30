@@ -144,7 +144,9 @@ board_register_rsconnect <- function(name = "rsconnect",
 #' @examples
 #'
 #' # register website board using datatxt file
-#' board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt", cache = tempfile())
+#' board_register_datatxt(name = "txtexample",
+#'                        url = "https://datatxt.org/data.txt",
+#'                        cache = tempfile())
 #'
 #' # find pins
 #' pin_find(board = "txtexample")
