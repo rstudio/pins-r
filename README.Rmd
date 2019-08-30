@@ -94,7 +94,7 @@ Finally, you can also **share** resources with other R sessions and other users 
 To share with other R sessions, you can use a local board which stores pins in a shared path, usually `~/.pins`:
 
 ```r
-board_register_local(path = "~/pins")
+board_register_local(cache = "~/pins")
 ```
 
 To publish to Kaggle, you would first need to register the Kaggle board by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
