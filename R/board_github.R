@@ -409,9 +409,9 @@ board_pin_get.github <- function(board, name, ...) {
 
     for (file in index$path) {
       file_url <- file
+      headers <- github_headers(board)
 
       if (grepl("^http://|^https://", file)) {
-        headers <- github_headers(board)
         # retrieving releases fails if auth headers are specified
         headers <- NULL
       }
