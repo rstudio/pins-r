@@ -17,3 +17,15 @@ if (test_board_is_registered("github")) {
     skip("failed to register github board")
   })
 }
+
+test_that("can pin large resources in github releases", {
+  pin(iris, "iris_large", board = "github", release_storage = TRUE)
+
+  retrieved <- pin_get("iris_large", board = "github")
+
+  expect_true(is.data.frame(retrieved))
+
+  pin_remove("iris_large", board = "github")
+
+  expect_true(!"iris_large" %in% pin_find(board = "github")$name)
+})
