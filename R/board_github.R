@@ -148,6 +148,8 @@ github_upload_release <- function(board, release, name, file, file_path) {
     http_utils_progress("up"))
 
   if (httr::http_error(response)) stop("Failed to upload asset '", file, "': ", httr::content(response)$message)
+
+  httr::content(response)$browser_download_url
 }
 
 github_upload_content <- function(board, name, file, file_path, commit, sha, branch) {
@@ -175,7 +177,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
-  use_release <- identical(list(...)$use_release, TRUE)
+  release_storage <- identical(list(...)$release_storage, TRUE)
 
   if (!file.exists(path)) stop("File does not exist: ", path)
 
@@ -204,16 +206,29 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   }
 
   release <- NULL
-  for (file in dir(bundle_path, recursive = TRUE)) {
+  release_map <- list()
+  upload_files <- dir(bundle_path, recursive = TRUE)
+
+  # data.txt must be last to fix release paths
+  upload_files <- c(Filter(function(e) e != "data.txt", upload_files), ifelse("data.txt" %in% upload_files, "data.txt", NULL))
+
+  for (file in upload_files) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
 
     sha <- Filter(function(e) identical(e$path, file.path(name, file)), dir_shas)[[1]]$sha
 
     file_path <- file.path(bundle_path, file)
 
-    if (file.info(file_path)$size > 5 * 10^7 || use_release) {
+    if (identical(file, "data.txt")) {
+      datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
+      datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
+      yaml::write_yaml(datatxt, file_path)
+    }
+
+    if ((file.info(file_path)$size > 5 * 10^7 || release_storage) && !identical(file, "data.txt")) {
       if (is.null(release)) release <- github_create_release(board, name)
-      github_upload_release(board, release, name, file, file_path)
+      download_url <- github_upload_release(board, release, name, file, file_path)
+      release_map[[file]] <- download_url
     }
     else {
       github_upload_content(board, name, file, file_path, commit, sha, branch)
@@ -393,8 +408,17 @@ board_pin_get.github <- function(board, name, ...) {
     index <- pin_manifest_get(local_path)
 
     for (file in index$path) {
-      file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
-      pin_download(file_url, name, board$name, headers = github_headers(board))
+      file_url <- file
+
+      if (grepl("^http://|^https://", file)) {
+        headers <- github_headers(board)
+        # retrieving releases fails if auth headers are specified
+        headers <- NULL
+      }
+      else {
+        file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
+      }
+      pin_download(file_url, name, board$name, headers = headers)
     }
 
     local_path
