@@ -15,9 +15,9 @@ pin_download <- function(path, name, component, ...) {
 
   old_pin <- tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
   old_cache <- old_pin$cache
-  old_cache_missing <- is.null(old_cache)
+  old_cache_missing <- TRUE
 
-  if (old_cache_missing) {
+  if (is.null(old_cache)) {
     old_pin$cache <- old_cache <- list()
     cache_index <- 1
   }
@@ -30,6 +30,7 @@ pin_download <- function(path, name, component, ...) {
     }
     else {
       old_cache <- old_cache[[cache_index]]
+      old_cache_missing <- FALSE
     }
   }
 
@@ -51,7 +52,6 @@ pin_download <- function(path, name, component, ...) {
   # skip downloading if max-age still valid
   if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_download) {
 
-    status <- 200
     skip_download <- FALSE
     if (!is.null(custom_etag)) {
       pin_log("Using custom 'etag' (old, new): ", old_cache$etag, ", ", custom_etag)
@@ -59,14 +59,10 @@ pin_download <- function(path, name, component, ...) {
     }
     else {
       head_result <- catch_error(httr::HEAD(path, httr::timeout(5), headers, config))
-      if (is.null(head_result)) {
-        skip_download <- TRUE
-      }
-      else {
+      if (!is.null(head_result)) {
         cache$etag <- head_result$headers$etag
         cache$max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
 
-        status <- tryCatch(httr::status_code(head_result), error = function(e) e$message)
         cache$change_age <- as.numeric(Sys.time())
 
         pin_log("Checking 'etag' (old, new): ", old_cache$etag, ", ", cache$etag)
@@ -74,14 +70,7 @@ pin_download <- function(path, name, component, ...) {
     }
 
     # skip downloading if etag has not changed
-    if (!skip_download && (old_cache_missing || !identical(old_cache$etag, cache$etag) || must_download)) {
-      if (is.character(status)) error <- paste0(status, ": ", path)
-      if (status != 200) error <- paste0(status, " Failed to download remote file: ", path)
-
-      if (!is.null(error)) {
-        report_error(error)
-      }
-      else {
+    if (old_cache_missing || !identical(old_cache$etag, cache$etag) || must_download) {
         download_name <- basename(path)
 
         if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
@@ -100,7 +89,6 @@ pin_download <- function(path, name, component, ...) {
           error <- paste0(httr::http_status(result)$message, ". Failed to download remote file: ", path)
           report_error(error)
         }
-      }
     }
   }
 
