@@ -166,7 +166,7 @@ board_register_code <- function(board, name) {
 #' @examples
 #'
 #' # create a new local board
-#' board_register("local", "other_board")
+#' board_register("local", "other_board", cache = tempfile())
 #'
 #' # pin iris to new board
 #' pin(iris, board = "other_board")

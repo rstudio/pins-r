@@ -7,7 +7,10 @@ if (nchar(test_github_repo) > 0) {
     board_deregister("github")
 
   if (nchar(test_github_branch) == 0) test_github_branch <- NULL
-  board_register("github", repo = test_github_repo, branch = test_github_branch)
+  board_register("github",
+                 repo = test_github_repo,
+                 branch = test_github_branch,
+                 cache = tempfile())
 }
 
 if (test_board_is_registered("github")) {
