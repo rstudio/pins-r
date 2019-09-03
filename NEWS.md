@@ -1,3 +1,8 @@
+# pins 0.1.2.9000 (unreleased)
+
+- Fix for data frames with nested data frames in rsconnect
+  boards (#36).
+
 # pins 0.1.2
 
 - Support to upload files larger than 50mb in GitHub boards
