@@ -1,4 +1,4 @@
-# pins 0.1.1.9000 (unreleased)
+# pins 0.1.2
 
 - Support to upload files larger than 50mb in GitHub boards
   as release files.

@@ -160,7 +160,7 @@ def _init_pins():
     r_start()
     r_eval("""
         if (length(find.package("pins", quiet = TRUE)) == 0) {
-          install.packages("pins", version = "0.1.1", repos = pins:::packages_repo_default())
+          install.packages("pins", version = "0.1.2", repos = pins:::packages_repo_default())
         }
         
         if (length(find.package("feather", quiet = TRUE)) == 0) {
