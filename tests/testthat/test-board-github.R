@@ -22,6 +22,8 @@ if (test_board_is_registered("github")) {
 }
 
 test_that("can pin large resources in github releases", {
+  if (!"github" %in% board_list()) skip("Board 'github' not registered.")
+
   pin(iris, "iris_large", board = "github", release_storage = TRUE)
 
   retrieved <- pin_get("iris_large", board = "github")
