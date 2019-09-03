@@ -17,7 +17,7 @@ Deregisters a board, useful to disable boards no longer in use.
 \examples{
 
 # create a new local board
-board_register("local", "other_board")
+board_register("local", "other_board", cache = tempfile())
 
 # pin iris to new board
 pin(iris, board = "other_board")
