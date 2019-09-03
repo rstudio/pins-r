@@ -112,10 +112,72 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
   }
 }
 
+github_create_release <- function(board, name) {
+  index_url <- github_url(board, branch = NULL, "/commits/", board$branch)
+  response <- httr::GET(index_url, github_headers(board))
+  version <- "initial"
+  if (!httr::http_error(response)) version <- substr(httr::content(response)$sha, 1, 7)
+
+  release_url <- github_url(board, branch = NULL, "/releases")
+
+  release <- list(
+    tag_name = paste(name, version, sep = "-"),
+    target_commitish = board$branch,
+    name = paste(name, version),
+    body = paste0("Storage for resource '", name, "' which is too large to be stored as a GitHub file.")
+  )
+
+  response <- httr::POST(
+    release_url,
+    body = release,
+    github_headers(board), encode = "json")
+
+  if (httr::http_error(response)) stop("Failed to create release '", release$tag_name, "' for '", name, "': ", httr::content(response)$message)
+
+  httr::content(response)
+}
+
+github_upload_release <- function(board, release, name, file, file_path) {
+  asset_url <- paste0(gsub("\\{.*\\}", "", release$upload_url))
+
+  response <- httr::POST(
+    asset_url,
+    query = list(name = file),
+    body = httr::upload_file(normalizePath(file_path)),
+    github_headers(board),
+    http_utils_progress("up"))
+
+  if (httr::http_error(response)) stop("Failed to upload asset '", file, "': ", httr::content(response)$message)
+
+  httr::content(response)$browser_download_url
+}
+
+github_upload_content <- function(board, name, file, file_path, commit, sha, branch) {
+  file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
+  pin_log("uploading ", file_url)
+
+  base64 <- base64enc::base64encode(file_path)
+  response <- httr::PUT(file_url,
+                        body = list(
+                          message = commit,
+                          content = base64,
+                          sha = sha,
+                          branch = branch
+                        ),
+                        github_headers(board), encode = "json",
+                        http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
+  }
+}
+
 board_pin_create.github <- function(board, path, name, metadata, ...) {
   update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
+  release_storage <- identical(list(...)$release_storage, TRUE)
 
   if (!file.exists(path)) stop("File does not exist: ", path)
 
@@ -143,28 +205,33 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     dir_shas <- httr::content(dir_response)
   }
 
-  for (file in dir(bundle_path, recursive = TRUE)) {
-    commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-    file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
+  release <- NULL
+  release_map <- list()
+  upload_files <- dir(bundle_path, recursive = TRUE)
 
-    pin_log("uploading ", file_url)
+  # data.txt must be last to fix release paths
+  upload_files <- c(Filter(function(e) e != "data.txt", upload_files), ifelse("data.txt" %in% upload_files, "data.txt", NULL))
+
+  for (file in upload_files) {
+    commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
 
     sha <- Filter(function(e) identical(e$path, file.path(name, file)), dir_shas)[[1]]$sha
 
-    base64 <- base64enc::base64encode(file.path(bundle_path, file))
-    response <- httr::PUT(file_url,
-                          body = list(
-                            message = commit,
-                            content = base64,
-                            sha = sha,
-                            branch = branch
-                          ),
-                          github_headers(board), encode = "json",
-                          http_utils_progress("up"))
-    upload <- httr::content(response)
+    file_path <- file.path(bundle_path, file)
 
-    if (httr::http_error(response)) {
-      stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
+    if (identical(file, "data.txt")) {
+      datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
+      datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
+      yaml::write_yaml(datatxt, file_path)
+    }
+
+    if ((file.info(file_path)$size > 5 * 10^7 || release_storage) && !identical(file, "data.txt")) {
+      if (is.null(release)) release <- github_create_release(board, name)
+      download_url <- github_upload_release(board, release, name, file, file_path)
+      release_map[[file]] <- download_url
+    }
+    else {
+      github_upload_content(board, name, file, file_path, commit, sha, branch)
     }
   }
 
@@ -341,8 +408,17 @@ board_pin_get.github <- function(board, name, ...) {
     index <- pin_manifest_get(local_path)
 
     for (file in index$path) {
-      file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
-      pin_download(file_url, name, board$name, headers = github_headers(board))
+      file_url <- file
+      headers <- github_headers(board)
+
+      if (grepl("^http://|^https://", file)) {
+        # retrieving releases fails if auth headers are specified
+        headers <- NULL
+      }
+      else {
+        file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
+      }
+      pin_download(file_url, name, board$name, headers = headers)
     }
 
     local_path

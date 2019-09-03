@@ -1,3 +1,8 @@
+# pins 0.1.1.9000 (unreleased)
+
+- Support to upload files larger than 50mb in GitHub boards
+  as release files.
+
 # pins 0.1.1
 
 - Fix CRAN request to explicitly opt-in to use local home
