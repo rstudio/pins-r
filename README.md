@@ -1,6 +1,8 @@
 pins: Pin, Discover and Share Resources
 ================
 
+# pins: Pin, Discover and Share Resources
+
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![AppVeyor Build
@@ -16,94 +18,77 @@ experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https:/
 [![GitHub
 Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
+## Overview
+
 You can use the `pins` package to:
 
   - **Pin** remote resources locally with `pin()`, work offline and
-    cache results with ease.
+    cache results.
   - **Discover** new resources across different boards using
     `pin_find()`.
-  - **Share** resources in local folders, GitHub, Kaggle or RStudio
+  - **Share** resources in local folders, GitHub, Kaggle, and RStudio
     Connect by registering new boards with `board_register()`.
-  - **Resources** can be anything from CSV, JSON, or image files to
-    arbitrary R objects.
 
-If you find yourself using `download.file()` or asking others to
-download files before running your R code, use `pin()` to achieve fast,
-simple and reliable reproducible research over remote resources.
-
-To start using `pins`, install this package as follows:
+## Installation
 
 ``` r
+# Install the released version from CRAN:
 install.packages("pins")
 ```
 
-First, you can **pin** remote files with `pin()` to cache those files
-locally, such that, even if the remote resource is removed or while
-working offline – your code will keep working by using a local cache.
-Since `pin(x)` pins `x` and returns a locally cached version of `x`,
-this allows you to pin a remote resource while also reusing existing
-code with minimal changes.
-
-For instance, the following example makes use of a remote CSV file,
-which you can download and cache with `pin()` before it’s loaded with
-`read_csv()`:
+## Usage
 
 ``` r
-library(tidyverse)
 library(pins)
-
-url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
-retail_sales <- read_csv(pin(url))
 ```
 
-This makes reading subsequent remotes files orders of magnitude faster,
-files are only downloaded when the remote resource changes; we can
-compare the two approaches using the
-[bench](https://CRAN.R-project.org/package=bench) package:
+### Pin
 
-``` r
-bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
-```
+There are two main ways pin a resource:
 
-<img src="tools/readme/rstudio-pin-performance-1.png" style="display: block; margin: auto;" />
+  - Pin a remote file with `pin(url)`. This will download the file and
+    make it available in a local cache:
+    
+    ``` r
+    url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
+    retail_sales <- read.csv(pin(url))
+    ```
+    
+    This makes subsequent uses much faster and allows you to work
+    offline. If the resource changes, `pin()` will automatically
+    re-download it; if goes away, `pin()` will keep the local cache.
 
-You can also use pins to cache intermediate results to avoid having to
-recompute expensive operations. The following example stores results
-computed with `dplyr` into a `sales_by_month`, which you can then
-retrive with `pin_get()` even after your R session restarts:
+  - Pin an expensive local computation with `pin(object, name)`:
+    
+    ``` r
+    library(dplyr)
+    retail_sales %>%
+      group_by(month = lubridate::month(ds, T)) %>%
+      summarise(total = sum(y)) %>%
+      pin("sales_by_month")
+    ```
+    
+    Then later retrieve it with `pin_get(name)`.
+    
+    ``` r
+    head(pin_get("sales_by_month"))
+    #> # A tibble: 6 x 2
+    #>   month   total
+    #>   <ord>   <int>
+    #> 1 Jan   6896303
+    #> 2 Feb   6890866
+    #> 3 Mar   7800074
+    #> 4 Apr   7680417
+    #> 5 May   8109219
+    #> 6 Jun   7451431
+    ```
 
-``` r
-# compute and pin 'sales_by_month'
-retail_sales %>%
-  group_by(month = lubridate::month(ds, T)) %>%
-  summarise(total = sum(y)) %>%
-  pin("sales_by_month")
-```
+### Discover
 
-``` r
-# retrieve 'sales_by_month' pin
-pin_get("sales_by_month")
-#> # A tibble: 12 x 2
-#>    month   total
-#>    <ord>   <dbl>
-#>  1 Jan   6896303
-#>  2 Feb   6890866
-#>  3 Mar   7800074
-#>  4 Apr   7680417
-#>  5 May   8109219
-#>  6 Jun   7451431
-#>  7 Jul   7470947
-#>  8 Aug   7639700
-#>  9 Sep   7130241
-#> 10 Oct   7363820
-#> 11 Nov   7438702
-#> 12 Dec   8656874
-```
-
-The `pins` package allows you to **discover** remote resources using
-`pin_find()`, currently, it can search resources in CRAN packages,
-Kaggle and RStudio Connect. For instance, we can search resources
-mentioning “seattle” in CRAN packages as follows:
+You can also discover remote resources using `pin_find()`. It can search
+for resources in CRAN packages, Kaggle, and RStudio Connect. For
+instance, we can search datasets mentioning “seattle” in CRAN packages
+with:
 
 ``` r
 pin_find("seattle", board = "packages")
@@ -118,39 +103,33 @@ pin_find("seattle", board = "packages")
 #> 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
 ```
 
-Notice that all pins are referenced as `<owner>/<name>` and even if the
-`<owner>` is not provided, each board will assign an appropriate one.
-While you can ignore `<owner>` and reference pins by `<name>`, this can
-fail in some boards if different owners assign the same name to a pin.
+Notice that the full name of a pin is `<owner>/<name>`. This namespacing
+allows multiple people (or packages) to create pins with the same name.
 
 You can then retrieve a pin through `pin_get()`:
 
 ``` r
-pin_get("hpiR/seattle_sales")
-#> # A tibble: 43,313 x 16
-#>    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
-#>    <chr> <chr>        <int> <date>     <chr>    <int>  <int> <dbl>
-#>  1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0
-#>  2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0
-#>  3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0
-#>  4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0
-#>  5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0
-#>  6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0
-#>  7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0
-#>  8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0
-#>  9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0
-#> 10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0
-#> # … with 43,303 more rows, and 8 more variables: bldg_grade <int>,
-#> #   tot_sf <int>, beds <int>, baths <dbl>, age <int>, eff_age <int>,
-#> #   longitude <dbl>, latitude <dbl>
+sales <- pin_get("hpiR/seattle_sales")
+head(sales)
+#> # A tibble: 6 x 16
+#>   pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
+#>   <chr> <chr>        <int> <date>     <chr>    <int>  <int> <dbl>
+#> 1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0
+#> 2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0
+#> 3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0
+#> 4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0
+#> 5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0
+#> 6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0
+#> # … with 8 more variables: bldg_grade <int>, tot_sf <int>, beds <int>,
+#> #   baths <dbl>, age <int>, eff_age <int>, longitude <dbl>, latitude <dbl>
 ```
 
-Finally, you can also **share** resources with other R sessions and
-other users by publishing to a local folder, Kaggle, GitHub and RStudio
-Connect.
+### Share
 
-To share with other R sessions, you can use a local board which stores
-pins in a shared path, usually `~/.pins`:
+Finally, you can share resources with other R sessions and other users
+by publishing to a local folder, Kaggle, GitHub and RStudio Connect. To
+share with other R sessions, you can use a local board which stores pins
+in a shared path, usually `~/.pins`:
 
 ``` r
 board_register_local(cache = "~/pins")
@@ -166,23 +145,18 @@ board_register_kaggle(token = "<path-to-kaggle.json>")
 You can then easily publish to Kaggle:
 
 ``` r
-pin_get("hpiR/seattle_sales") %>%
-  pin(name = "seattle_sales", board = "kaggle")
+pin(sales, name = "seattle_sales", board = "kaggle")
 ```
 
-There are other boards you can use or even create custom boards as
-described in the [Understanding
-Boards](https://rstudio.github.io/pins/articles/boards-understanding.html)
-article; in addition, `pins` can also be used with RStudio products
-which we will describe next.
+Learn more in `vignette("boards-understanding")`
 
-## RStudio
+### RStudio
 
-You can use [RStudio](https://www.rstudio.com/products/rstudio/) and
-[RStudio Connect](https://www.rstudio.com/products/connect/) to discover
-and share resources within your organization with ease.
-
-To enable new boards, you can use [RStudio’s Data
+Experimental support for `pins` was introduced in RStudio Connect 1.7.8
+so that you can use [RStudio](https://www.rstudio.com/products/rstudio/)
+and [RStudio Connect](https://www.rstudio.com/products/connect/) to
+discover and share resources within your organization with ease. To
+enable new boards, use [RStudio’s Data
 Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
 to start a new ‘pins’ connection and then select which board to connect
 to:
@@ -222,7 +196,7 @@ board_register_rsconnect(name = "myrsc")
 ```
 
 ``` r
-pin_get("hpiR/seattle_sales") %>%
+sales %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
   pin("sales-by-baths", board = "myrsc")
@@ -254,15 +228,16 @@ locally\!
 
 For instance, a colleague can reuse the `sales-by-baths` pin by
 retrieving it from RStudio Connect and visualize its contents using
-`ggplot2`:
+ggplot2:
 
 ``` r
-library(pins)
+library(ggplot2)
 board_register_rsconnect(name = "myrsc")
 
 pin_get("sales-by-baths", board = "myrsc") %>%
   ggplot(aes(x = baths, y = sale)) +
-    geom_point() + geom_smooth(method = 'lm', formula = y ~ exp(x))
+  geom_point() + 
+  geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
 
 <img src="tools/readme/rstudio-plot-pin-1.png" style="display: block; margin: auto;" />
@@ -274,14 +249,12 @@ content. You no longer have to fuss with file paths on RStudio Connect,
 mysterious resource URLs, or redeploying application code just to update
 a dataset\!
 
-Experimental support for `pins` was introduced in RStudio Connect 1.7.8.
+### Python
 
-## Python
-
-Experimental support for `pins` is also available in Python. However,
+Experimental support for pins is also available in Python. However,
 since the Python interface currently makes use of the R package, the R
-runtime needs to be installed when using `pins` from Python. To get
-started, first install the `pins` module:
+runtime needs to be installed when using pins from Python. To get
+started, first install the pins module:
 
 ``` bash
 pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python
