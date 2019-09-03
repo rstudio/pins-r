@@ -132,7 +132,7 @@ github_create_release <- function(board, name) {
     body = release,
     github_headers(board), encode = "json")
 
-  if (httr::http_error(response)) stop("Failed to create release for '", name, "': ", httr::content(response)$message)
+  if (httr::http_error(response)) stop("Failed to create release '", tag_name, "' for '", name, "': ", httr::content(response)$message)
 
   httr::content(response)
 }

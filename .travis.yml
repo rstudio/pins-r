@@ -26,7 +26,7 @@ matrix:
           R CMD check --no-build-vignettes --no-manual --no-tests pins*tar.gz
           Rscript ci/travis.R
       env:
-        -TEST_GITHUB_BRANCH="travis_old"
+        -TEST_GITHUB_BRANCH="travis"
       after_success:
         - rm -rf ~/.pins
         - Rscript -e 'covr::codecov()'
