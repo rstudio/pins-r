@@ -5,7 +5,10 @@ if (nchar(test_rsconnect_server) > 0) {
   if ("rsconnect" %in% board_list())
     board_deregister("rsconnect")
 
-  board_register("rsconnect", key = Sys.getenv("RSCONNECT_API"), server = test_rsconnect_server)
+  board_register("rsconnect",
+                 key = Sys.getenv("RSCONNECT_API"),
+                 server = test_rsconnect_server,
+                 cache = tempfile())
 }
 
 

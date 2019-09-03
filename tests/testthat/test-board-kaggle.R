@@ -13,7 +13,7 @@ if (test_board_is_registered("kaggle")) {
       rawToChar() %>%
       writeLines("kaggle.json")
 
-    board_register("kaggle", token = "kaggle.json")
+    board_register("kaggle", token = "kaggle.json", cache = tempfile())
 
     expect_true("kaggle" %in% board_list())
   })

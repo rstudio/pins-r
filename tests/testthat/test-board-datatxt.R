@@ -5,7 +5,8 @@ test_that("can board_register() a data.txt board", {
 
   board_register("datatxt",
                  name = "simpletxt",
-                 url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt")
+                 url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+                 cache = tempfile())
 
   expect_true("simpletxt" %in% board_list())
 })
