@@ -7,10 +7,14 @@ output:
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
-knitr::opts_chunk$set(eval = TRUE)
-knitr::opts_chunk$set(warning = FALSE)
-knitr::opts_chunk$set(fig.path = "tools/readme/", dev = "png")
-knitr::opts_chunk$set(dpi=300)
+knitr::opts_chunk$set(
+  warning = FALSE,
+  fig.path = "tools/readme/", 
+  dev = "png",
+  dpi = 96,
+  comment = "#>",
+  collapse = TRUE
+)
 
 if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
   knitr::knit_print(knitr::asis_output("<h1>pins: Pin, Discover and Share Resources</h1>"))
@@ -179,11 +183,11 @@ pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python
 
 Followed by using `pins` from Python:
 
-```{python echo=FALSE}
+```{python echo=FALSE, eval = FALSE}
 import pandas as pd
 pd.set_option('display.max_rows', 10)
 ```
-```{python}
+```{python, eval = FALSE}
 import pins
 pins.pin_get("hpiR/seattle_sales")
 ```

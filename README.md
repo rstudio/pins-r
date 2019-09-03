@@ -83,23 +83,22 @@ retail_sales %>%
 ``` r
 # retrieve 'sales_by_month' pin
 pin_get("sales_by_month")
+#> # A tibble: 12 x 2
+#>    month   total
+#>    <ord>   <dbl>
+#>  1 Jan   6896303
+#>  2 Feb   6890866
+#>  3 Mar   7800074
+#>  4 Apr   7680417
+#>  5 May   8109219
+#>  6 Jun   7451431
+#>  7 Jul   7470947
+#>  8 Aug   7639700
+#>  9 Sep   7130241
+#> 10 Oct   7363820
+#> 11 Nov   7438702
+#> 12 Dec   8656874
 ```
-
-    ## # A tibble: 12 x 2
-    ##    month   total
-    ##    <ord>   <dbl>
-    ##  1 Jan   6896303
-    ##  2 Feb   6890866
-    ##  3 Mar   7800074
-    ##  4 Apr   7680417
-    ##  5 May   8109219
-    ##  6 Jun   7451431
-    ##  7 Jul   7470947
-    ##  8 Aug   7639700
-    ##  9 Sep   7130241
-    ## 10 Oct   7363820
-    ## 11 Nov   7438702
-    ## 12 Dec   8656874
 
 The `pins` package allows you to **discover** remote resources using
 `pin_find()`, currently, it can search resources in CRAN packages,
@@ -108,17 +107,16 @@ mentioning “seattle” in CRAN packages as follows:
 
 ``` r
 pin_find("seattle", board = "packages")
+#> # A tibble: 6 x 4
+#>   name               description                               type  board 
+#>   <chr>              <chr>                                     <chr> <chr> 
+#> 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…
+#> 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
+#> 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…
+#> 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
+#> 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
+#> 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
 ```
-
-    ## # A tibble: 6 x 4
-    ##   name               description                               type  board 
-    ##   <chr>              <chr>                                     <chr> <chr> 
-    ## 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…
-    ## 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
-    ## 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…
-    ## 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
-    ## 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
-    ## 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
 
 Notice that all pins are referenced as `<owner>/<name>` and even if the
 `<owner>` is not provided, each board will assign an appropriate one.
@@ -129,24 +127,23 @@ You can then retrieve a pin through `pin_get()`:
 
 ``` r
 pin_get("hpiR/seattle_sales")
+#> # A tibble: 43,313 x 16
+#>    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
+#>    <chr> <chr>        <int> <date>     <chr>    <int>  <int> <dbl>
+#>  1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0
+#>  2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0
+#>  3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0
+#>  4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0
+#>  5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0
+#>  6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0
+#>  7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0
+#>  8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0
+#>  9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0
+#> 10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0
+#> # … with 43,303 more rows, and 8 more variables: bldg_grade <int>,
+#> #   tot_sf <int>, beds <int>, baths <dbl>, age <int>, eff_age <int>,
+#> #   longitude <dbl>, latitude <dbl>
 ```
-
-    ## # A tibble: 43,313 x 16
-    ##    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
-    ##    <chr> <chr>        <int> <date>     <chr>    <int>  <int> <dbl>
-    ##  1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0
-    ##  2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0
-    ##  3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0
-    ##  4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0
-    ##  5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0
-    ##  6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0
-    ##  7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0
-    ##  8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0
-    ##  9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0
-    ## 10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0
-    ## # … with 43,303 more rows, and 8 more variables: bldg_grade <int>,
-    ## #   tot_sf <int>, beds <int>, baths <dbl>, age <int>, eff_age <int>,
-    ## #   longitude <dbl>, latitude <dbl>
 
 Finally, you can also **share** resources with other R sessions and
 other users by publishing to a local folder, Kaggle, GitHub and RStudio
@@ -229,19 +226,18 @@ pin_get("hpiR/seattle_sales") %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
   pin("sales-by-baths", board = "myrsc")
+#> # A tibble: 8 x 2
+#>   baths    sale
+#>   <dbl>   <dbl>
+#> 1     1  413950
+#> 2     2  516480
+#> 3     3  638674
+#> 4     4  939602
+#> 5     5 1748859
+#> 6     6 3384514
+#> 7     7 3063043
+#> 8     8 4550750
 ```
-
-    ## # A tibble: 8 x 2
-    ##   baths    sale
-    ##   <dbl>   <dbl>
-    ## 1     1  413950
-    ## 2     2  516480
-    ## 3     3  638674
-    ## 4     4  939602
-    ## 5     5 1748859
-    ## 6     6 3384514
-    ## 7     7 3063043
-    ## 8     8 4550750
 
 After a pin is published, you can then browse to the pin’s content from
 the RStudio Connect web interface.
@@ -297,21 +293,6 @@ Followed by using `pins` from Python:
 import pins
 pins.pin_get("hpiR/seattle_sales")
 ```
-
-    ##                pinx      sale_id  sale_price  ... eff_age   longitude   latitude
-    ## 0      ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
-    ## 1      ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
-    ## 2      ..0001800075  2010..24221      333500  ...      80 -122.311654  47.561470
-    ## 3      ..0001800075   2016..6629      577200  ...      86 -122.311654  47.561470
-    ## 4      ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
-    ## ...             ...          ...         ...  ...     ...         ...        ...
-    ## 43308  ..9904000025  2013..24831      276000  ...      85 -122.302228  47.714377
-    ## 43309  ..9904000063  2016..29821      340000  ...      79 -122.303135  47.715209
-    ## 43310  ..9906000030   2013..6620     1250000  ...       7 -122.356487  47.656115
-    ## 43311  ..9906000035   2011..5655      447000  ...      83 -122.356649  47.656114
-    ## 43312  ..9906000090  2010..17848      422500  ...      63 -122.357895  47.656112
-    ## 
-    ## [43313 rows x 16 columns]
 
 Please make sure to ~~pin~~ visit,
 [rstudio.github.io/pins](https://rstudio.github.io/pins/index.html),
