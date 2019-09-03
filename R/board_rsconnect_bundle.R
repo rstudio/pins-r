@@ -36,9 +36,13 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
 
   x_preview <- utils::head(x, n = max_rows)
   x_preview <- data.frame(lapply(x_preview, function(e) {
-    if (!is.numeric(e) || !is.integer(e) || !is.logical(e) || !is.double(e))
-      as.character(e)
-    else
+    if (!is.numeric(e) || !is.integer(e) || !is.logical(e) || !is.double(e)) {
+      char_column <- as.character(e)
+      if (length(char_column) == nrow(x_preview))
+        char_column
+      else
+        rep("...", nrow(x_preview))
+    } else
       e
   }), stringsAsFactors = FALSE)
 
