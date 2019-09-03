@@ -13,7 +13,7 @@ After installing the `pins` package, two features become available in RStudio: t
 
 You can use the Find Pins [Addin](https://rstudio.github.io/rstudioaddins) to visually discover resources, this functionality is equivalent to using `pin_find()`.
 
-![](images/rstudio-discover-pins.gif){width=440px}
+![](images/rstudio-discover-pins.png){width=100%}
 
 To launch this addin, use the **Addins** toolbar and then select **Find Pins**:
 
@@ -29,7 +29,7 @@ Please notice that search is implemented differently in each board. For the CRAN
 
 You can connect to several different boards to discover, pin and share resources. Those boards will be introduced in the [GitHub](boards-github.html), [Kaggle](boards-kaggle.html), and [RStudio Connect](boards-rsconnect.html) articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you've created with `pin()`.
 
-![](images/rstudio-cached-pins.gif){width=440px}
+![](images/rstudio-cached-pins.png){width=100%}
 
 First, open the RStudio's **Connections Pane**, followed by selecting **New Connection** from the toolbar, this action will launch the connection wizard with a new **Pins** connection type. The connection provides support to connect to multiple boards, but for now, we will use a **local** connection which stores pins in a local folder.
 
