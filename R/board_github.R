@@ -113,7 +113,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 }
 
 github_create_release <- function(board, name) {
-  index_url <- github_url(board, branch = board$branch, "/contents/", board$path, "data.txt")
+  index_url <- github_url(board, branch = NULL, "/commits/", board$branch)
   response <- httr::GET(index_url, github_headers(board))
   version <- "initial"
   if (!httr::http_error(response)) version <- substr(httr::content(response)$sha, 1, 7)
