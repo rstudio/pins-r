@@ -61,7 +61,7 @@ This makes reading subsequent remotes files orders of magnitude faster, files ar
 bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
 ```
 
-You can also use pins to cache intermediate results to avoid having to recompute expensive operations. The following example stores results computed with `dplyr` into a `sales_by_month`, which you can then retrive with `get_pin()` even after your R session restarts:
+You can also use pins to cache intermediate results to avoid having to recompute expensive operations. The following example stores results computed with `dplyr` into a `sales_by_month`, which you can then retrive with `pin_get()` even after your R session restarts:
 
 ```{r results="hide"}
 # compute and pin 'sales_by_month'

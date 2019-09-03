@@ -59,8 +59,7 @@ retail_sales <- read_csv(pin(url))
 This makes reading subsequent remotes files orders of magnitude faster,
 files are only downloaded when the remote resource changes; we can
 compare the two approaches using the
-[bench](https://CRAN.R-project.org/package=bench)
-package:
+[bench](https://CRAN.R-project.org/package=bench) package:
 
 ``` r
 bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
@@ -71,7 +70,7 @@ bench::mark(read_csv(url), read_csv(pin(url)), iterations = 50) %>% autoplot()
 You can also use pins to cache intermediate results to avoid having to
 recompute expensive operations. The following example stores results
 computed with `dplyr` into a `sales_by_month`, which you can then
-retrive with `get_pin()` even after your R session restarts:
+retrive with `pin_get()` even after your R session restarts:
 
 ``` r
 # compute and pin 'sales_by_month'
@@ -286,8 +285,7 @@ Experimental support for `pins` was introduced in RStudio Connect 1.7.8.
 Experimental support for `pins` is also available in Python. However,
 since the Python interface currently makes use of the R package, the R
 runtime needs to be installed when using `pins` from Python. To get
-started, first install the `pins`
-module:
+started, first install the `pins` module:
 
 ``` bash
 pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python
