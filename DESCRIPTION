@@ -23,6 +23,7 @@ Imports:
   jsonlite,
   magrittr,
   openssl,
+  rappdirs,
   withr,
   yaml,
   zip
