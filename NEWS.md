@@ -1,5 +1,8 @@
 # pins 0.1.2.9000 (unreleased)
 
+- Fix for data.txt boards created from GitHub boards using
+  large files.
+
 - Fix for data frames with nested data frames in rsconnect
   boards (#36).
 
