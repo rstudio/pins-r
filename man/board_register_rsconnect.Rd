@@ -6,7 +6,7 @@
 \usage{
 board_register_rsconnect(name = "rsconnect", server = NULL,
   account = NULL, key = NULL, output_files = FALSE,
-  cache = "~/.pins")
+  cache = board_cache_path())
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'rsconnect'.}
@@ -19,7 +19,7 @@ board_register_rsconnect(name = "rsconnect", server = NULL,
 
 \item{output_files}{Should the output in an automated report create output files?}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{"~/.pins"}.}
+\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

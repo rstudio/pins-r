@@ -4,14 +4,14 @@
 \alias{board_register_datatxt}
 \title{Register Data TXT Board}
 \usage{
-board_register_datatxt(name, url, cache = "~/.pins")
+board_register_datatxt(name, url, cache = board_cache_path())
 }
 \arguments{
 \item{name}{The name for this board, usually the domain name of the website.}
 
 \item{url}{Path to the \code{data.txt} file or path containing it.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{"~/.pins"}.}
+\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

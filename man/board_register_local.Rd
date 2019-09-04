@@ -4,12 +4,12 @@
 \alias{board_register_local}
 \title{Register Local Board}
 \usage{
-board_register_local(name = "local", cache = "~/.pins")
+board_register_local(name = "local", cache = board_cache_path())
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'local'.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{"~/.pins"}.}
+\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
