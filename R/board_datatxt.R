@@ -32,8 +32,15 @@ board_pin_get.datatxt <- function(board, name, ...) {
   pin_download(file.path(board$url, path_guess, "data.txt"), name, board$name, can_fail = TRUE)
 
   manifest <- pin_manifest_get(local_path)
-  if (index[[1]]$path %in% file.path(path_guess, manifest$path)) {
-    download_paths <- file.path(board$url, path_guess, manifest$path)
+  if (!is.null(manifest$path)) {
+    # we find a data.txt file in subfolder with paths, we use those paths instead of the index paths.
+    download_paths <- c()
+    for (path in manifest$path) {
+      if (grepl("^https?://", path))
+        download_paths <- c(download_paths, path)
+      else
+        download_paths <- c(download_paths, file.path(board$url, path_guess, path))
+    }
   }
   else {
     index[[1]]$path <- NULL
@@ -58,7 +65,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
 
   results <- data.frame(
     name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),
-    description = sapply(entries, function(e) e$description),
+    description = sapply(entries, function(e) if (is.null(e$description)) "" else e$description),
     type = sapply(entries, function(e) if (is.null(e$type)) "files" else e$type),
     metadata = sapply(entries, function(e) jsonlite::toJSON(e, auto_unbox = TRUE)),
     stringsAsFactors = FALSE)
