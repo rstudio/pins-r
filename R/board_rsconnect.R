@@ -144,9 +144,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   }
 }
 
-board_pin_find.rsconnect <- function(board, text, ...) {
-  all_content  <- identical(list(...)$all_content, TRUE)
-
+board_pin_find.rsconnect <- function(board, text = NULL, all_content = FALSE, name = NULL, ...) {
   if (is.null(text)) text <- ""
 
   if (nchar(text) == 0) {
@@ -164,6 +162,8 @@ board_pin_find.rsconnect <- function(board, text, ...) {
   results <- pin_results_from_rows(entries)
 
   results$name <- sapply(entries, function(e) paste(e$owner_username, e$name, sep = "/"))
+
+  if (!is.null(name)) results <- results[grepl(name, results$name),]
 
   if (nrow(results) == 0) {
     return(
@@ -195,15 +195,15 @@ board_pin_find.rsconnect <- function(board, text, ...) {
 }
 
 rsconnect_get_by_name <- function(board, name) {
-  name_pattern <- if (grepl("/", name)) name else paste0(".*/", name, "$")
+  name_pattern <- if (grepl("/", name)) paste0("^", name, "$") else paste0(".*/", name, "$")
   only_name <- pin_content_name(name)
 
-  details <- board_pin_find(board, only_name)
+  details <- board_pin_find(board, name = name_pattern)
   details <- pin_results_extract_column(details, "content_category")
   details <- pin_results_extract_column(details, "url")
   details <- pin_results_extract_column(details, "guid")
 
-  details <- details[grepl(name_pattern, details$name) & details$content_category == "pin",]
+  details <- details[grepl(name_pattern, details$name),]
 
   if (nrow(details) > 1) {
     details <- details[details$owner_username == board$account,]
