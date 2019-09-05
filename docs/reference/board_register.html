@@ -34,8 +34,8 @@
   
 <meta property="og:title" content="Register Board — board_register" />
 
-<meta property="og:description" content="Registers a board, useful to add sources to pin_find() or pin to remote
-boards with pin()." />
+<meta property="og:description" content="Registers a board, useful to find resources with pin_find() or pin to
+additional boards with pin()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +66,7 @@ boards with pin()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -147,12 +147,12 @@ boards with pin()." />
 
     <div class="ref-description">
     
-    <p>Registers a board, useful to add sources to <code><a href='pin_find.html'>pin_find()</a></code> or pin to remote
-boards with <code><a href='pin.html'>pin()</a></code>.</p>
+    <p>Registers a board, useful to find resources with <code><a href='pin_find.html'>pin_find()</a></code> or pin to
+additional boards with <code><a href='pin.html'>pin()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>board</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='no'>board</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>board</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='no'>board</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,29 +166,48 @@ boards with <code><a href='pin.html'>pin()</a></code>.</p>
       <td><p>An optional name to identify this board, defaults to the board name.</p></td>
     </tr>
     <tr>
+      <th>cache</th>
+      <td><p>The local folder to use as a cache, defaults to <code><a href='board_cache_path.html'>board_cache_path()</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional parameters required to initialize a particular board.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A board requires a local cache to avoid downloading files multiple times. It is
+recommended to not specify the <code>cache</code> parameter since it defaults to a well
+known <code>rappdirs</code>. However, you are welcome to specify any other
+location for this cache or even a temp folder with <code><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile()</a></code>. Notice that,
+when using a temp folder, pins will be cleared when your R session restarts. The
+cache parameter can be also set with the <code>pins.path</code> option.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='board_register_github.html'>board_register_github</a></code>, <code><a href='board_register_kaggle.html'>board_register_kaggle</a></code>,
-  <code><a href='board_register_rsconnect.html'>board_register_rsconnect</a></code> and <code><a href='board_register_datatxt.html'>board_register_datatxt</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='board_register_local.html'>board_register_local</a></code>, <code><a href='board_register_github.html'>board_register_github</a></code>,
+  <code><a href='board_register_kaggle.html'>board_register_kaggle</a></code>, <code><a href='board_register_rsconnect.html'>board_register_rsconnect</a></code> and
+  <code><a href='board_register_datatxt.html'>board_register_datatxt</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># create a new local board</span>
-<span class='fu'>board_register</span>(<span class='st'>"local"</span>, <span class='st'>"other_board"</span>)
+<span class='fu'>board_register</span>(<span class='st'>"local"</span>, <span class='st'>"other_board"</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())
 
 <span class='co'># create a Website board</span>
-<span class='fu'>board_register</span>(<span class='st'>"datatxt"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://datatxt.org/data.txt"</span>)</div></pre>
+<span class='fu'>board_register</span>(<span class='st'>"datatxt"</span>,
+               <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>,
+               <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://datatxt.org/data.txt"</span>,
+               <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>

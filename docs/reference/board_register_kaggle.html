@@ -66,7 +66,7 @@ register Kaggle as a board." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -153,7 +153,7 @@ register Kaggle as a board.</p>
     </div>
 
     <pre class="usage"><span class='fu'>board_register_kaggle</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"kaggle"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,6 +170,10 @@ be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exis
     <tr>
       <th>overwrite</th>
       <td><p>Should <code>~/.kaggle/kaggle.json</code> be overriden?</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>The local folder to use as a cache, defaults to <code><a href='board_cache_path.html'>board_cache_path()</a></code>.</p></td>
     </tr>
     </table>
     

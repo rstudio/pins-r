@@ -13,7 +13,7 @@
 <meta property="og:title" content="Pin, Discover and Share Resources">
 <meta property="og:description" content="Pin remote resources into a local cache to work offline,
   improve speed and avoid recomputing; discover and share resources
-  with others in 'GitHub', 'Kaggle' or 'RStudio Connect'. Resources can
+  in local folders, 'GitHub', 'Kaggle' or 'RStudio Connect'. Resources can 
   be anything from 'CSV', 'JSON', or image files to arbitrary R objects.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -112,98 +112,110 @@
 
     
     
-<div class="page-header"><h1>
-pins: Pin, Discover and Share Resources
-</h1></div>
+<div id="pins-pin-discover-and-share-resources" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#pins-pin-discover-and-share-resources" class="anchor"></a>pins: Pin, Discover and Share Resources</h1></div>
 
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
 <p>You can use the <code>pins</code> package to:</p>
 <ul>
 <li>
-<strong>Pin</strong> remote resources locally with <code><a href="reference/pin.html">pin()</a></code>, work offline and cache results with ease.</li>
+<strong>Pin</strong> remote resources locally with <code><a href="reference/pin.html">pin()</a></code>, work offline and cache results.</li>
 <li>
 <strong>Discover</strong> new resources across different boards using <code><a href="reference/pin_find.html">pin_find()</a></code>.</li>
 <li>
-<strong>Share</strong> resources in GitHub, Kaggle or RStudio Connect by registering new boards with <code><a href="reference/board_register.html">board_register()</a></code>.</li>
-<li>
-<strong>Resources</strong> can be anything from CSV, JSON, or image files to arbitrary R objects.</li>
+<strong>Share</strong> resources in local folders, GitHub, Kaggle, and RStudio Connect by registering new boards with <code><a href="reference/board_register.html">board_register()</a></code>.</li>
 </ul>
-<p>If you find yourself using <code><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file()</a></code> or asking others to download files before running your R code, use <code><a href="reference/pin.html">pin()</a></code> to achieve fast, simple and reliable reproducible research over remote resources.</p>
-<p>To start using <code>pins</code>, install this package as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"pins"</span>)</a></code></pre></div>
-<p>First, you can <strong>pin</strong> remote files with <code><a href="reference/pin.html">pin()</a></code> to cache those files locally, such that, even if the remote resource is removed or while working offline – your code will keep working by using a local cache. Since <code><a href="reference/pin.html">pin(x)</a></code> pins <code>x</code> and returns a locally cached version of <code>x</code>, this allows you to pin a remote resource while also reusing existing code with minimal changes.</p>
-<p>For instance, the following example makes use of a remote CSV file, which you can download and cache with <code><a href="reference/pin.html">pin()</a></code> before it’s loaded with <code>read_csv()</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4">url &lt;-<span class="st"> "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span></a>
-<a class="sourceLine" id="cb2-5" title="5">retail_sales &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw"><a href="reference/pin.html">pin</a></span>(url))</a></code></pre></div>
-<p>This makes reading subsequent remotes files orders of magnitude faster, files are only downloaded when the remote resource changes; we can compare the two approaches using the <a href="https://CRAN.R-project.org/package=bench">bench</a> package:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">bench<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/bench/topics/mark">mark</a></span>(<span class="kw">read_csv</span>(url), <span class="kw">read_csv</span>(<span class="kw"><a href="reference/pin.html">pin</a></span>(url)), <span class="dt">iterations =</span> <span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">autoplot</span>()</a></code></pre></div>
-<p><img src="tools/readme/rstudio-pin-performance-1.png" width="2187.5" style="display: block; margin: auto;"></p>
-<p>You can also use pins to cache intermediate results to avoid having to recompute expensive operations. The following example stores results computed with <code>dplyr</code> into a <code>sales_by_month</code>, which you can then retrive with <code>get_pin()</code> even after your R session restarts:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># compute and pin 'sales_by_month'</span></a>
-<a class="sourceLine" id="cb4-2" title="2">retail_sales <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(<span class="dt">month =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/month.html">month</a></span>(ds, T)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">total =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(y)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales_by_month"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># retrieve 'sales_by_month' pin</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales_by_month"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 12 x 2
-##    month   total
-##    &lt;ord&gt;   &lt;dbl&gt;
-##  1 Jan   6896303
-##  2 Feb   6890866
-##  3 Mar   7800074
-##  4 Apr   7680417
-##  5 May   8109219
-##  6 Jun   7451431
-##  7 Jul   7470947
-##  8 Aug   7639700
-##  9 Sep   7130241
-## 10 Oct   7363820
-## 11 Nov   7438702
-## 12 Dec   8656874</code></pre>
-<p>The <code>pins</code> package allows you to <strong>discover</strong> remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code>, currently, it can search resources in CRAN packages, Kaggle and RStudio Connect. For instance, we can search resources mentioning “seattle” in CRAN packages as follows:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/pin_find.html">pin_find</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 6 x 4
-##   name               description                               type  board 
-##   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; 
-## 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…
-## 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
-## 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…
-## 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
-## 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
-## 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</code></pre>
-<p>Notice that all pins are referenced as <code>&lt;owner&gt;/&lt;name&gt;</code> and even if the <code>&lt;owner&gt;</code> is not provided, each board will assign an appropriate one. While you can ignore <code>&lt;owner&gt;</code> and reference pins by <code>&lt;name&gt;</code>, this can fail in some boards if different owners assign the same name to a pin.</p>
-<p>You can then retrieve a pin as a local path through <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 43,313 x 16
-##    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt
-##    &lt;chr&gt; &lt;chr&gt;        &lt;int&gt; &lt;date&gt;     &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;
-##  1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0
-##  2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0
-##  3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0
-##  4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0
-##  5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0
-##  6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0
-##  7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0
-##  8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0
-##  9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0
-## 10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0
-## # … with 43,303 more rows, and 8 more variables: bldg_grade &lt;int&gt;,
-## #   tot_sf &lt;int&gt;, beds &lt;int&gt;, baths &lt;dbl&gt;, age &lt;int&gt;, eff_age &lt;int&gt;,
-## #   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</code></pre>
-<p>Finally, you can also <strong>share</strong> resources with others by publishing to Kaggle, GitHub and RStudio Connect. To publish to say, Kaggle, you would first need to register the Kaggle board by creating a <a href="https://www.kaggle.com/me/account">Kaggle API Token</a>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"kaggle"</span>, <span class="dt">token =</span> <span class="st">"&lt;path-to-kaggle.json&gt;"</span>)</a></code></pre></div>
-<p>You can then easily publish to Kaggle:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="dt">name =</span> <span class="st">"seattle_sales"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
-<p>There are other boards you can use or even create custom boards as described in the <a href="https://rstudio.github.io/pins/articles/boards-understanding.html">Understanding Boards</a> article; in addition, <code>pins</code> can also be used with RStudio products which we will describe next.</p>
-<div id="rstudio" class="section level2">
+</div>
+<div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio" class="anchor"></a>RStudio</h2>
-<p>You can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to discover and share resources within your organization with ease.</p>
-<p>To enable new boards, you can use <a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/">RStudio’s Data Connections</a> to start a new ‘pins’ connection and then select which board to connect to:</p>
+<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># Install the released version from CRAN:</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"pins"</span>)</a></code></pre></div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a></code></pre></div>
+<div id="pin" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pin" class="anchor"></a>Pin</h3>
+<p>There are two main ways pin a resource:</p>
+<ul>
+<li>
+<p>Pin a remote file with <code><a href="reference/pin.html">pin(url)</a></code>. This will download the file and make it available in a local cache:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">url &lt;-<span class="st"> "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span></a>
+<a class="sourceLine" id="cb3-2" title="2">retail_sales &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/read.table">read.csv</a></span>(<span class="kw"><a href="reference/pin.html">pin</a></span>(url))</a></code></pre></div>
+<p>This makes subsequent uses much faster and allows you to work offline. If the resource changes, <code><a href="reference/pin.html">pin()</a></code> will automatically re-download it; if goes away, <code><a href="reference/pin.html">pin()</a></code> will keep the local cache.</p>
+</li>
+<li>
+<p>Pin an expensive local computation with <code><a href="reference/pin.html">pin(object, name)</a></code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb4-2" title="2">retail_sales <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">month =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/month.html">month</a></span>(ds, T)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(y)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales_by_month"</span>)</a></code></pre></div>
+<p>Then later retrieve it with <code><a href="reference/pin_get.html">pin_get(name)</a></code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales_by_month"</span>))</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt;   month   total</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt;   &lt;ord&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; 1 Jan   6896303</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt; 2 Feb   6890866</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; 3 Mar   7800074</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; 4 Apr   7680417</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt; 5 May   8109219</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt; 6 Jun   7451431</span></a></code></pre></div>
+</li>
+</ul>
+</div>
+<div id="discover" class="section level3">
+<h3 class="hasAnchor">
+<a href="#discover" class="anchor"></a>Discover</h3>
+<p>You can also discover remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code>. It can search for resources in CRAN packages, Kaggle, and RStudio Connect. For instance, we can search datasets mentioning “seattle” in CRAN packages with:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="reference/pin_find.html">pin_find</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt;   name               description                               type  board </span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</span></a></code></pre></div>
+<p>Notice that the full name of a pin is <code>&lt;owner&gt;/&lt;name&gt;</code>. This namespacing allows multiple people (or packages) to create pins with the same name.</p>
+<p>You can then retrieve a pin through <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">sales &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(sales)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;        &lt;int&gt; &lt;date&gt;     &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; 1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; 2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; 3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; 4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; 5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; 6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; # … with 8 more variables: bldg_grade &lt;int&gt;, tot_sf &lt;int&gt;, beds &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt; #   baths &lt;dbl&gt;, age &lt;int&gt;, eff_age &lt;int&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</span></a></code></pre></div>
+</div>
+<div id="share" class="section level3">
+<h3 class="hasAnchor">
+<a href="#share" class="anchor"></a>Share</h3>
+<p>Finally, you can share resources with other R sessions and other users by publishing to a local folder, Kaggle, GitHub and RStudio Connect. To share with other R sessions, you can use a local board which stores pins in a shared path, usually <code>~/.pins</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/board_register_local.html">board_register_local</a></span>(<span class="dt">cache =</span> <span class="st">"~/pins"</span>)</a></code></pre></div>
+<p>To publish to Kaggle, you would first need to register the Kaggle board by creating a <a href="https://www.kaggle.com/me/account">Kaggle API Token</a>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"&lt;path-to-kaggle.json&gt;"</span>)</a></code></pre></div>
+<p>You can then easily publish to Kaggle:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/pin.html">pin</a></span>(sales, <span class="dt">name =</span> <span class="st">"seattle_sales"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<p>Learn more in <code><a href="articles/boards-understanding.html">vignette("boards-understanding")</a></code></p>
+</div>
+<div id="rstudio" class="section level3">
+<h3 class="hasAnchor">
+<a href="#rstudio" class="anchor"></a>RStudio</h3>
+<p>Experimental support for <code>pins</code> was introduced in RStudio Connect 1.7.8 so that you can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to discover and share resources within your organization with ease. To enable new boards, use <a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/">RStudio’s Data Connections</a> to start a new ‘pins’ connection and then select which board to connect to:</p>
 <center>
 <img src="tools/readme/rstudio-connect-board.png" style="width:70.0%">
 </center>
@@ -216,61 +228,49 @@ pins: Pin, Discover and Share Resources
 <img src="tools/readme/rstudio-discover-pins.png" style="width:60.0%">
 </center>
 <p>You can then <strong>share</strong> local resources using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then pin our results in RStudio Connect.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>, <span class="dt">name =</span> <span class="st">"myrsc"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(<span class="dt">baths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">ceiling</a></span>(baths)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sale =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">floor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(sale_price))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"myrsc"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 8 x 2
-##   baths    sale
-##   &lt;dbl&gt;   &lt;dbl&gt;
-## 1     1  413950
-## 2     2  516480
-## 3     3  638674
-## 4     4  939602
-## 5     5 1748859
-## 6     6 3384514
-## 7     7 3063043
-## 8     8 4550750</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">name =</span> <span class="st">"myrsc"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">sales <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">baths =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">ceiling</a></span>(baths)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">sale =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">floor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(sale_price))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"myrsc"</span>)</a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; # A tibble: 8 x 2</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt;   baths    sale</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="co">#&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="co">#&gt; 1     1  413950</span></a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="co">#&gt; 2     2  516480</span></a>
+<a class="sourceLine" id="cb12-10" title="10"><span class="co">#&gt; 3     3  638674</span></a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="co">#&gt; 4     4  939602</span></a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="co">#&gt; 5     5 1748859</span></a>
+<a class="sourceLine" id="cb12-13" title="13"><span class="co">#&gt; 6     6 3384514</span></a>
+<a class="sourceLine" id="cb12-14" title="14"><span class="co">#&gt; 7     7 3063043</span></a>
+<a class="sourceLine" id="cb12-15" title="15"><span class="co">#&gt; 8     8 4550750</span></a></code></pre></div>
 <p>After a pin is published, you can then browse to the pin’s content from the RStudio Connect web interface.</p>
 <center>
 <img src="tools/readme/rstudio-share-resources.png" style="width:90.0%">
 </center>
 <p>You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote file locally!</p>
-<p>For instance, a colleague can reuse the <code>sales-by-baths</code> pin by retrieving it from RStudio Connect and visualize its contents using <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw"><a href="reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>, <span class="dt">name =</span> <span class="st">"myrsc"</span>)</a>
-<a class="sourceLine" id="cb16-3" title="3"></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"myrsc"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> baths, <span class="dt">y =</span> sale)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">'lm'</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(x))</a></code></pre></div>
-<p><img src="tools/readme/rstudio-plot-pin-1.png" width="2187.5" style="display: block; margin: auto;"></p>
+<p>For instance, a colleague can reuse the <code>sales-by-baths</code> pin by retrieving it from RStudio Connect and visualize its contents using ggplot2:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="kw"><a href="reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">name =</span> <span class="st">"myrsc"</span>)</a>
+<a class="sourceLine" id="cb13-3" title="3"></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"myrsc"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> baths, <span class="dt">y =</span> sale)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span>(<span class="dt">method =</span> <span class="st">'lm'</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(x))</a></code></pre></div>
+<p><img src="tools/readme/rstudio-plot-pin-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Pins can also be automated using scheduled R Markdown. This makes it much easier to create Shiny applications that rely on scheduled data updates or to share prepared resources across multiple pieces of content. You no longer have to fuss with file paths on RStudio Connect, mysterious resource URLs, or redeploying application code just to update a dataset!</p>
-<p>Experimental support for <code>pins</code> was introduced in RStudio Connect 1.7.8.</p>
 </div>
-<div id="python" class="section level2">
-<h2 class="hasAnchor">
-<a href="#python" class="anchor"></a>Python</h2>
-<p>Experimental support for <code>pins</code> is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using <code>pins</code> from Python. To get started, first install the <code>pins</code> module:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python</a></code></pre></div>
+<div id="python" class="section level3">
+<h3 class="hasAnchor">
+<a href="#python" class="anchor"></a>Python</h3>
+<p>Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python</a></code></pre></div>
 <p>Followed by using <code>pins</code> from Python:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb18-1" title="1"><span class="im">import</span> pins</a>
-<a class="sourceLine" id="cb18-2" title="2">pins.pin_get(<span class="st">"hpiR/seattle_sales"</span>)</a></code></pre></div>
-<pre><code>##                pinx      sale_id  sale_price  ... eff_age   longitude   latitude
-## 0      ..0001800010   2013..2432      289000  ...       6 -122.312491  47.561380
-## 1      ..0001800066  2013..21560      356000  ...      87 -122.322007  47.550353
-## 2      ..0001800075  2010..24221      333500  ...      80 -122.311654  47.561470
-## 3      ..0001800075   2016..6629      577200  ...      86 -122.311654  47.561470
-## 4      ..0001800080   2012..9521      237000  ...      72 -122.309695  47.561472
-## ...             ...          ...         ...  ...     ...         ...        ...
-## 43308  ..9904000025  2013..24831      276000  ...      85 -122.302228  47.714377
-## 43309  ..9904000063  2016..29821      340000  ...      79 -122.303135  47.715209
-## 43310  ..9906000030   2013..6620     1250000  ...       7 -122.356487  47.656115
-## 43311  ..9906000035   2011..5655      447000  ...      83 -122.356649  47.656114
-## 43312  ..9906000090  2010..17848      422500  ...      63 -122.357895  47.656112
-## 
-## [43313 rows x 16 columns]</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb15-1" title="1"><span class="im">import</span> pins</a>
+<a class="sourceLine" id="cb15-2" title="2">pins.pin_get(<span class="st">"hpiR/seattle_sales"</span>)</a></code></pre></div>
 <p>Please make sure to <del>pin</del> visit, <a href="https://rstudio.github.io/pins/index.html">rstudio.github.io/pins</a>, where you will find detailed documentation and additional resources.</p>
+</div>
+</div>
 </div>
   </div>
 

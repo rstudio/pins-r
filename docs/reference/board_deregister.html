@@ -34,8 +34,7 @@
   
 <meta property="og:title" content="Deregister Board — board_deregister" />
 
-<meta property="og:description" content="Deregisters a board, useful to disable boards no longer in use. This operation
-removes all locally cached pins." />
+<meta property="og:description" content="Deregisters a board, useful to disable boards no longer in use." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +65,7 @@ removes all locally cached pins." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -147,12 +146,11 @@ removes all locally cached pins." />
 
     <div class="ref-description">
     
-    <p>Deregisters a board, useful to disable boards no longer in use. This operation
-removes all locally cached pins.</p>
+    <p>Deregisters a board, useful to disable boards no longer in use.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_deregister</span>(<span class='no'>name</span>)</pre>
+    <pre class="usage"><span class='fu'>board_deregister</span>(<span class='no'>name</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,13 +159,17 @@ removes all locally cached pins.</p>
       <th>name</th>
       <td><p>An optional name to identify this board, defaults to the board name.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters required to deregister a particular board.</p></td>
+    </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># create a new local board</span>
-<span class='fu'><a href='board_register.html'>board_register</a></span>(<span class='st'>"local"</span>, <span class='st'>"other_board"</span>)
+<span class='fu'><a href='board_register.html'>board_register</a></span>(<span class='st'>"local"</span>, <span class='st'>"other_board"</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())
 
 <span class='co'># pin iris to new board</span>
 <span class='fu'><a href='pin.html'>pin</a></span>(<span class='no'>iris</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"other_board"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span><span>

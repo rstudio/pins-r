@@ -62,7 +62,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -140,12 +140,34 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-011-unreleased" class="section level1">
+    <div id="pins-0129000-unreleased" class="section level1">
 <h1 class="page-header">
-<a href="#pins-011-unreleased" class="anchor"></a>pins 0.1.1 (unreleased)<small> Unreleased </small>
+<a href="#pins-0129000-unreleased" class="anchor"></a>pins 0.1.2.9000 (unreleased)<small> Unreleased </small>
 </h1>
 <ul>
-<li>Support for large files in GitHub board (<a href='https://github.com/rstudio/pins/issues/30'>#30</a>).</li>
+<li><p>Fix intermittent failure to retrieve pins from RStudio Connect boards while creating them.</p></li>
+<li><p>Fix in RStudio Connect boards to retrieve pins that match other pin names (<a href='https://github.com/rstudio/pins/issues/45'>#45</a>).</p></li>
+<li><p>Make use of the <code>rappdirs</code> package to define the default cache path, replaces <code>~/.pins</code>. Use <code><a href="../reference/board_cache_path.html">board_cache_path()</a></code> to retrieve default cache path.</p></li>
+<li><p>Fix for data.txt boards created from GitHub boards using large files.</p></li>
+<li><p>Fix for data frames with nested data frames in rsconnect boards (<a href='https://github.com/rstudio/pins/issues/36'>#36</a>).</p></li>
+</ul>
+</div>
+    <div id="pins-012" class="section level1">
+<h1 class="page-header">
+<a href="#pins-012" class="anchor"></a>pins 0.1.2<small> 2019-09-04 </small>
+</h1>
+<ul>
+<li>Support to upload files larger than 50mb in GitHub boards as release files.</li>
+</ul>
+</div>
+    <div id="pins-011" class="section level1">
+<h1 class="page-header">
+<a href="#pins-011" class="anchor"></a>pins 0.1.1<small> 2019-08-30 </small>
+</h1>
+<ul>
+<li><p>Fix CRAN request to explicitly opt-in to use local home path as cache by running <code><a href="../reference/board_register_local.html">board_register_local()</a></code>.</p></li>
+<li><p>Fix error when retrieving pins from Kaggle boards (<a href='https://github.com/rstudio/pins/issues/31'>#31</a>).</p></li>
+<li><p>Support for large files in GitHub board (<a href='https://github.com/rstudio/pins/issues/30'>#30</a>).</p></li>
 </ul>
 </div>
     <div id="pins-010" class="section level1">
@@ -167,7 +189,9 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pins-011-unreleased">0.1.1</a></li>
+        <li><a href="#pins-0129000-unreleased">0.1.2.9000</a></li>
+        <li><a href="#pins-012">0.1.2</a></li>
+        <li><a href="#pins-011">0.1.1</a></li>
         <li><a href="#pins-010">0.1.0</a></li>
       </ul>
     </div>

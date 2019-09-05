@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -173,6 +173,13 @@
 <p>When working in teams, you might want to share your pins with others. For GitHub boards, this is accomplished by adding collaborators through the GitHub website.</p>
 <p><img src="images/boards-github-sharing.png" width="480"></p>
 <p>Once your collaborators gain access to the repo, they can follow the same steps to register the same GitHub board to allow them to upload and download pins with ease.</p>
+<div id="large-files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#large-files" class="anchor"></a>Large Files</h3>
+<p>A GitHub repo only supports files under 50MB in size (100MB in theory but there is additional overhead when using the GitHub API). To store large files, GitHub <a href="https://help.github.com/en/articles/distributing-large-binaries">recommends</a> storing them using GitHub Releases which support up to 2GB files.</p>
+<p>Therefore, to support large files, <code>pins</code> makes use of GitHub release files. When you upload a file over 50MB, <code>pins</code> will create a new GitHub release file for that particular pin. Everything else works as expected, you can still retrieve the large resource with <code><a href="../reference/pin_get.html">pin_get()</a></code> and find it with <code><a href="../reference/pin_find.html">pin_find()</a></code>. The only noticeable change is new releases being created in your repo:</p>
+<p><img src="images/boards-github-token.png" width="480"></p>
+</div>
 </div>
   </div>
 

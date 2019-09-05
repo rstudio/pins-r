@@ -66,7 +66,7 @@ register as a board a website describing resources with a data.txt file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ register as a board a website describing resources with a <code>data.txt</code> 
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register_datatxt</span>(<span class='no'>name</span>, <span class='no'>url</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register_datatxt</span>(<span class='no'>name</span>, <span class='no'>url</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +165,10 @@ register as a board a website describing resources with a <code>data.txt</code> 
       <th>url</th>
       <td><p>Path to the <code>data.txt</code> file or path containing it.</p></td>
     </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>The local folder to use as a cache, defaults to <code><a href='board_cache_path.html'>board_cache_path()</a></code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -175,7 +179,9 @@ register as a board a website describing resources with a <code>data.txt</code> 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># register website board using datatxt file</span>
-<span class='fu'>board_register_datatxt</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://datatxt.org/data.txt"</span>)
+<span class='fu'>board_register_datatxt</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>,
+                       <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://datatxt.org/data.txt"</span>,
+                       <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())
 
 <span class='co'># find pins</span>
 <span class='fu'><a href='pin_find.html'>pin_find</a></span>(<span class='kw'>board</span> <span class='kw'>=</span> <span class='st'>"txtexample"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 4</span><span>

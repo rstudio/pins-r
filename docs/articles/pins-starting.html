@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
       </span>
     </div>
 
@@ -166,7 +166,10 @@
 <a href="#caching" class="anchor"></a>Caching</h2>
 <p>Let’s suppose that the ‘home prices’ dataset is not exactly what we are looking for, we can try to search online for ‘home prices’ and find out that <a href="https://catalog.data.gov/">catalog.data.gov</a> contains a more suitable <a href="https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis">FHFA House Price Indexes</a> dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use <code><a href="../reference/pin.html">pin()</a></code> to cache this dataset locally:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>)</a></code></pre></div>
-<pre><code>[1] "/Users/username/.pins/local/HPI_master/HPI_master.csv"</code></pre>
+<pre><code>[1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmptGupyK/fileca61e837c50/temp/HPI_master/HPI_master.csv"</code></pre>
+<blockquote>
+<p><strong>Note:</strong> We intend the next release of the pins package to use the <code>rappdirs</code> package and store data in a persistent cache, see <a href="https://github.com/rstudio/pins/issues/39">issues/39</a>.</p>
+</blockquote>
 <p>Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(readr)</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv"</span>) <span class="op">%&gt;%</span></a>
@@ -206,17 +209,29 @@
  9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
 10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
 # … with 108,816 more rows, and 1 more variable: index_sa &lt;dbl&gt;</code></pre>
+<p>You can enable download progress with the <code>pins.progress</code> option and print additional caching information using the <code>pins.verebose</code> option:</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/options"># print verbose upload and download progress
+options(pins.progress = TRUE)
+
+# print verbose pins info
+options(pins.verbose = TRUE)</a></code></pre>
 </div>
 <div id="sharing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sharing" class="anchor"></a>Sharing</h2>
-<p>After performing a data analysis, you might want to save your dataset with others, which you can achieve using <code><a href="../reference/pin.html">pin(data, board = "&lt;board-name&gt;")</a></code>.</p>
+<p>After performing a data analysis, you might want to share your dataset with others, which you can achieve using <code><a href="../reference/pin.html">pin(data, board = "&lt;board-name&gt;")</a></code>.</p>
+<p>There are multiple boards available, one that can help you share pins with other R sessions and tools it the ‘local’ board, which stores pins in your local computer. In order to use a local board, you need to register it first:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/board_register_local.html">board_register_local</a></span>()</a></code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> We intend the next release of the pins package to use the <code>rappdirs</code> package and store data in a persistent cache to avoid executing <code><a href="../reference/board_register_local.html">board_register_local()</a></code> in each session, see <a href="https://github.com/rstudio/pins/issues/39">issues/39</a>.</p>
+</blockquote>
+<p>You can also name your boards using the ‘name’ parameter, when a name is not specified, the <code>pins</code> package will simply name your board with the kind of board you are using, ‘local’ in the previous example.</p>
 <p>The following example stores a simple data analysis over home prices as ‘home_price_analysis’ in the ‘local’ board.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 45 x 2
 ##       yr     n
 ##    &lt;dbl&gt; &lt;int&gt;
@@ -231,7 +246,8 @@
 ##  9  1983  1005
 ## 10  1984  1089
 ## # … with 35 more rows</code></pre>
-<p>To be fair, storing pins locally is not really sharing with others; instead, you would want to replace <code>local</code> with <code>github</code>, <code>rsconnect</code> or <code>kaggle</code>. However, we will first have to configure the appropriate boards, this will be presented in the <a href="boards-github.html">Understanding Boards</a> article. Before we get to that, the <a href="pins-rstudio.html">Using Pins with RStudio</a> article will present how to use the functionality presented here using RStudio’s user interface.</p>
+<p>The local board allows you to share pins with other R sessions or even other Python sessions, to share with other people or across different computers, you can consider using the <code>github</code>, <code>rsconnect</code> or <code>kaggle</code> boards; these boards will be introduced in the <a href="boards-github.html">Understanding Boards</a> article.</p>
+<p>Before we get to that, the <a href="pins-rstudio.html">Using Pins with RStudio</a> article presents a few enhancements available when using <code>pins</code> in RStudio.</p>
 </div>
   </div>
 
