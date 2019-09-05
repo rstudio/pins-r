@@ -141,6 +141,9 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
     if (!is.null(result$error)) {
       stop("Failed to activate pin: ", result$error)
     }
+
+    # it might take a few seconds for the pin to register in rsc, see travis failures, wait 5s
+    rsconnect_wait_by_name(board, name)
   }
 }
 
@@ -214,6 +217,14 @@ rsconnect_get_by_name <- function(board, name) {
   }
 
   details
+}
+
+rsconnect_wait_by_name <- function(board, name) {
+  wait_time <- 0
+  while (nrow(rsconnect_get_by_name(board, name)) == 0 && wait_time < getOption("pins.rsconnect.wait", 5)) {
+    Sys.sleep(1)
+    wait_time <- wait_time + 1
+  }
 }
 
 rsconnect_remote_path_from_url <- function(url) {
