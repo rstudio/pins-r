@@ -177,7 +177,7 @@ board_pin_find.rsconnect <- function(board, text = NULL, all_content = FALSE, na
   results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
   results$description <- board_metadata_remove(results$description)
 
-  if (length(results) == 1) {
+  if (length(entries) == 1) {
     # enhance with pin information
     remote_path <- rsconnect_remote_path_from_url(entries[[1]]$url)
     etag <- as.character(entries[[1]]$last_deployed_time)
