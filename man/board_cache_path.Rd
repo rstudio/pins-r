@@ -4,7 +4,7 @@
 \alias{board_cache_path}
 \title{Retrieve Default Cache Path}
 \usage{
-board_cache_path(cache = NULL)
+board_cache_path()
 }
 \description{
 Retrieves the default path used to cache boards and pins. Makes
