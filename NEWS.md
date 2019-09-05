@@ -4,6 +4,9 @@
   cache path, replaces `~/.pins`. Use `board_cache_path()`
   to retrieve default cache path.
 
+- Fix for data.txt boards created from GitHub boards using
+  large files.
+
 - Fix for data frames with nested data frames in rsconnect
   boards (#36).
 
