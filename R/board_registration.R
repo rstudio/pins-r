@@ -8,7 +8,7 @@
 #' # retrieve default cache path
 #' board_cache_path()
 #' @export
-board_cache_path <- function(cache = NULL) {
+board_cache_path <- function() {
   getOption("pins.path", rappdirs::user_cache_dir("pins"))
 }
 
