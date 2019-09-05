@@ -20,6 +20,8 @@ reference:
       - board_register_github
       - board_register_kaggle
       - board_register_rsconnect
+      - board_register_local
+      - board_register_datatxt
   - title: "Extensions"
     desc: "Functions for creating custom boards."
     contents:

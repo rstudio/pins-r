@@ -104,3 +104,11 @@ When working in teams, you might want to share your pins with others. For GitHub
 ![](images/boards-github-sharing.png){width=480px}
 
 Once your collaborators gain access to the repo, they can follow the same steps to register the same GitHub board to allow them to upload and download pins with ease.
+
+### Large Files
+
+A GitHub repo only supports files under 50MB in size (100MB in theory but there is additional overhead when using the GitHub API). To store large files, GitHub [recommends](https://help.github.com/en/articles/distributing-large-binaries) storing them using GitHub Releases which support up to 2GB files.
+
+Therefore, to support large files, `pins` makes use of GitHub release files. When you upload a file over 50MB, `pins` will create a new GitHub release file for that particular pin. Everything else works as expected, you can still retrieve the large resource with `pin_get()` and find it with `pin_find()`. The only noticeable change is new releases being created in your repo:
+
+![](images/boards-github-token.png){width=480px}

@@ -77,8 +77,10 @@ Let's suppose that the 'home prices' dataset is not exactly what we are looking 
 pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv")
 ```
 ```
-[1] "/Users/username/.pins/local/HPI_master/HPI_master.csv"
+[1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmptGupyK/fileca61e837c50/temp/HPI_master/HPI_master.csv"
 ```
+
+> **Note:** We intend the next release of the pins package to use the `rappdirs` package and store data in a persistent cache, see [issues/39](https://github.com/rstudio/pins/issues/39).
 
 Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.
 
@@ -132,6 +134,16 @@ pin_get("home_price_indexes") %>%
 # … with 108,816 more rows, and 1 more variable: index_sa <dbl>
 ```
 
+You can enable download progress with the `pins.progress` option and print additional caching information using the `pins.verebose` option:
+
+```
+# print verbose upload and download progress
+options(pins.progress = TRUE)
+
+# print verbose pins info
+options(pins.verbose = TRUE)
+```
+
 ## Sharing
 
 After performing a data analysis, you might want to share your dataset with others, which you can achieve using `pin(data, board = "<board-name>")`.
@@ -141,6 +153,8 @@ There are multiple boards available, one that can help you share pins with other
 ```{r eval=FALSE}
 board_register_local()
 ```
+
+> **Note:** We intend the next release of the pins package to use the `rappdirs` package and store data in a persistent cache to avoid executing `board_register_local()` in each session, see [issues/39](https://github.com/rstudio/pins/issues/39).
 
 You can also name your boards using the 'name' parameter, when a name is not specified, the `pins` package will simply name your board with the kind of board you are using, 'local' in the previous example.
 

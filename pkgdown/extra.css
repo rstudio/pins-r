@@ -23,3 +23,9 @@ p img {
   margin-left: auto;
   margin-right: auto;
 }
+
+blockquote {
+  font-size: inherit;
+  background: #f0ffe0;
+  border-left: 5px solid #b4d88e;
+}
