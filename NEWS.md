@@ -1,5 +1,8 @@
 # pins 0.1.2.9000 (unreleased)
 
+- Fix in RStudio Connect boards to retrieve pins that match
+  other pin names (#45).
+
 - Fix for data.txt boards created from GitHub boards using
   large files.
 
