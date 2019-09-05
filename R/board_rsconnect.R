@@ -159,11 +159,11 @@ board_pin_find.rsconnect <- function(board, text = NULL, all_content = FALSE, na
   entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
 
+  entries <- lapply(entries, function(e) { e$name <- paste(e$owner_username, e$name, sep = "/") ; e })
+
+  if (!is.null(name)) entries <- Filter(function(e) grepl(name, e$name), entries)
+
   results <- pin_results_from_rows(entries)
-
-  results$name <- sapply(entries, function(e) paste(e$owner_username, e$name, sep = "/"))
-
-  if (!is.null(name)) results <- results[grepl(name, results$name),]
 
   if (nrow(results) == 0) {
     return(
@@ -177,7 +177,7 @@ board_pin_find.rsconnect <- function(board, text = NULL, all_content = FALSE, na
   results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
   results$description <- board_metadata_remove(results$description)
 
-  if (nrow(results) == 1) {
+  if (length(results) == 1) {
     # enhance with pin information
     remote_path <- rsconnect_remote_path_from_url(entries[[1]]$url)
     etag <- as.character(entries[[1]]$last_deployed_time)
