@@ -6,6 +6,10 @@
 - Fix in RStudio Connect boards to retrieve pins that match
   other pin names (#45).
 
+- Make use of the `rappdirs` package to define the default
+  cache path, replaces `~/.pins`. Use `board_cache_path()`
+  to retrieve default cache path.
+
 - Fix for data.txt boards created from GitHub boards using
   large files.
 

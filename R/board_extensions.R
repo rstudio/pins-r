@@ -54,8 +54,6 @@ board_local_storage <- function(component = board_default(), board = NULL) {
 
   path <- board$cache
 
-  if (!identical(getOption("pins.path"), NULL) && identical(path, "~/.pins")) path <- getOption("pins.path")
-
   component_path <- file.path(path, component)
 
   if (!dir.exists(component_path)) dir.create(component_path, recursive = TRUE)
