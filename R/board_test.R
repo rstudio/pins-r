@@ -46,8 +46,6 @@ board_test <- function(board, exclude = list()) {
   })
 
   deps$test_that(paste("can pin_get() a pin from", board, "board"), {
-    pin(text_file, pin_name)
-
     cached_path <- pin_get(pin_name, board = board)
 
     deps$expect_true(is.character(cached_path))

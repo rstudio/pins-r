@@ -1,5 +1,11 @@
 # pins 0.1.2.9000 (unreleased)
 
+- Fix intermittent failure to retrieve pins from RStudio
+  Connect boards while creating them.
+
+- Fix in RStudio Connect boards to retrieve pins that match
+  other pin names (#45).
+
 - Make use of the `rappdirs` package to define the default
   cache path, replaces `~/.pins`. Use `board_cache_path()`
   to retrieve default cache path.
