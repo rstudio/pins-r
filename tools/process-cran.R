@@ -174,6 +174,13 @@ cran_find_config <- function(workers = 3, worker_cpus = 8) {
   config
 }
 
+cran_clean_dataset <- function(cranfiles) {
+  dplyr::mutate(
+    cranfiles,
+    description = ifelse(length(tools::showNonASCII(description)) > 0, description, "")
+  )
+}
+
 cran_save_dataset <- function(cran_index) {
   if (!dir.exists("data")) dir.create("data")
 
@@ -186,6 +193,8 @@ cran_save_dataset <- function(cran_index) {
     cols = cols,
     class = class
   )
+
+  cranfiles <- cran_clean_dataset(cranfiles)
 
   save(cranfiles, file = "data/cranfiles.rda")
 }
