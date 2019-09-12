@@ -265,6 +265,8 @@ pin_find <- function(text = NULL, board = NULL, ...) {
 #' @param board The board where this pin will be retrieved from.
 #' @param ... Additional parameters.
 #'
+#' @rdname custom-pins
+#'
 #' @keywords internal
 #' @export
 pin_preview <- function(x, board = NULL, ...) {
@@ -277,6 +279,8 @@ pin_preview <- function(x, board = NULL, ...) {
 #'
 #' @param path The file to load as a pin.
 #' @param ... Additional parameters.
+#'
+#' @rdname custom-pins
 #'
 #' @keywords internal
 #' @export
