@@ -256,32 +256,15 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   format_tibble(all_pins)
 }
 
-#' Preview Pin
-#'
-#' Previews a subset of the pin contents, useful to print or display
-#' a subset of the pin contents.
-#'
-#' @param x The pin to preview, retrieved with \code{pin_get()}.
-#' @param board The board where this pin will be retrieved from.
-#' @param ... Additional parameters.
-#'
+
 #' @rdname custom-pins
-#'
 #' @keywords internal
 #' @export
 pin_preview <- function(x, board = NULL, ...) {
   UseMethod("pin_preview")
 }
 
-#' Load Pin
-#'
-#' Load a pin from the given file path making use of the pin type.
-#'
-#' @param path The file to load as a pin.
-#' @param ... Additional parameters.
-#'
 #' @rdname custom-pins
-#'
 #' @keywords internal
 #' @export
 pin_load <- function(path, ...) {
