@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Custom Pins — board_pin_store • pins</title>
+<title>Custom Pins — pin_preview • pins</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Custom Pins — board_pin_store" />
+<meta property="og:title" content="Custom Pins — pin_preview" />
 
 <meta property="og:description" content="Family of functions meant to be used to implement custom pin extensions, not to be used by users." />
 <meta name="twitter:card" content="summary" />
@@ -140,7 +140,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Custom Pins</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin_extensions.R'><code>R/pin_extensions.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a>, <a href='https://github.com/rstudio/pins/blob/master/R/pin_extensions.R'><code>R/pin_extensions.R</code></a></small>
     <div class="hidden name"><code>custom-pins.Rd</code></div>
     </div>
 
@@ -150,7 +150,11 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_pin_store</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>description</span>, <span class='no'>type</span>, <span class='no'>metadata</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_preview</span>(<span class='no'>x</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='fu'>pin_load</span>(<span class='no'>path</span>, <span class='no'>...</span>)
+
+<span class='fu'>board_pin_store</span>(<span class='no'>board</span>, <span class='no'>path</span>, <span class='no'>name</span>, <span class='no'>description</span>, <span class='no'>type</span>, <span class='no'>metadata</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +162,10 @@
     <tr>
       <th>board</th>
       <td><p>The board to extended, retrieved with <code><a href='board_get.html'>board_get()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameteres.</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -178,10 +186,6 @@
     <tr>
       <th>metadata</th>
       <td><p>A list containing additional metadata desecribing the pin.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameteres.</p></td>
     </tr>
     </table>
     

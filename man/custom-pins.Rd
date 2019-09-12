@@ -4,7 +4,7 @@
 \alias{pin_preview}
 \alias{pin_load}
 \alias{board_pin_store}
-\title{Preview Pin}
+\title{Custom Pins}
 \usage{
 pin_preview(x, board = NULL, ...)
 
@@ -13,13 +13,11 @@ pin_load(path, ...)
 board_pin_store(board, path, name, description, type, metadata, ...)
 }
 \arguments{
-\item{x}{The pin to preview, retrieved with \code{pin_get()}.}
+\item{board}{The board to extended, retrieved with \code{board_get()}.}
 
-\item{board}{The board where this pin will be retrieved from.}
+\item{...}{Additional parameteres.}
 
-\item{...}{Additional parameters.}
-
-\item{path}{The file to load as a pin.}
+\item{path}{The path to store.}
 
 \item{name}{The name of the pin.}
 
@@ -28,21 +26,8 @@ board_pin_store(board, path, name, description, type, metadata, ...)
 \item{type}{The type of pin being stored.}
 
 \item{metadata}{A list containing additional metadata desecribing the pin.}
-
-\item{...}{Additional parameters.}
-
-\item{board}{The board to extended, retrieved with \code{board_get()}.}
-
-\item{path}{The path to store.}
-
-\item{...}{Additional parameteres.}
 }
 \description{
-Previews a subset of the pin contents, useful to print or display
-a subset of the pin contents.
-
-Load a pin from the given file path making use of the pin type.
-
 Family of functions meant to be used to implement custom pin extensions, not to be used by users.
 }
 \keyword{internal}

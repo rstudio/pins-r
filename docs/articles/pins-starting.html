@@ -139,10 +139,9 @@
 <p>As a quick example, let’s search for resources that may contain ‘home prices’:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"home prices"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 1 x 4
-##   name       description                                       type  board 
-##   &lt;chr&gt;      &lt;chr&gt;                                             &lt;chr&gt; &lt;chr&gt; 
-## 1 BSDA/Hous… Median home prices for 1984 and 1993 in 37 marke… table packa…</code></pre>
+<pre><code>## # A tibble: 0 x 4
+## # … with 4 variables: name &lt;fct&gt;, description &lt;fct&gt;, type &lt;fct&gt;,
+## #   board &lt;fct&gt;</code></pre>
 <p>We’ve found out that the <code>BSDA</code> package contains a <code>Housing</code> dataset, you can then retrieve this dataset using <code><a href="../reference/pin_get.html">pin_get()</a></code> as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"BSDA/Housing"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 74 x 3
