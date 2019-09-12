@@ -176,15 +176,13 @@
 <a href="#discover" class="anchor"></a>Discover</h3>
 <p>You can also discover remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code>. It can search for resources in CRAN packages, Kaggle, and RStudio Connect. For instance, we can search datasets mentioning “seattle” in CRAN packages with:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="reference/pin_find.html">pin_find</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt;   name               description                               type  board </span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; </span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…</span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; # A tibble: 4 x 4</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt;   name                    description                         type  board  </span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;                               &lt;chr&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; 1 hpiR/seattle_sales      Boston Housing Prices from hpiR pa… table packag…</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; 2 microsynth/seattledmi   Boston Housing Prices from microsy… table packag…</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; 3 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; 4 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…</span></a></code></pre></div>
 <p>Notice that the full name of a pin is <code>&lt;owner&gt;/&lt;name&gt;</code>. This namespacing allows multiple people (or packages) to create pins with the same name.</p>
 <p>You can then retrieve a pin through <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">sales &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a>

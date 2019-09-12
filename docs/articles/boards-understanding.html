@@ -121,12 +121,14 @@
 <pre><code># A tibble: 2 x 1
    paths                                                
    &lt;chr&gt;                                                
- 1 /Users/username/pins/local/data.txt     
- 2 /Users/username/pins/local/mtcars            </code></pre>
-<p>As you can see, each pin is stored inside a <code>pins/</code> folder and a list of resources is tracked on a <code>data.txt</code> file. The function <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> store and retrieve data from this well-known location, while <code><a href="../reference/pin_find.html">pin_find()</a></code> makes use of the index file to search for resources and track other properties like cache expiration information.</p>
-<p>Since this ‘local’ board is the default, you can also explicitly store or retrieve datasets from this board:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">name =</span> <span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+ 1 /private/var/folders/ks/RtmpL6bsZy/file5d7f/temp/data.txt     
+ 2 /private/var/folders/ks/RtmpL6bsZy/file5d7f/temp/mtcars            </code></pre>
+<p>As you can see, each pin is stored inside the temp folder and a list of resources is tracked on a <code>data.txt</code> file. The function <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> store and retrieve data from this well-known location, while <code><a href="../reference/pin_find.html">pin_find()</a></code> makes use of the index file to search for resources and track other properties like cache expiration information.</p>
+<p>To avoid pins being reset aftere your R session restarts, you can register and use a ‘local’ board and explicitly store or retrieve datasets from this board:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/board_register_local.html">board_register_local</a></span>()</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">name =</span> <span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
 <p>A local board is quite useful for all the reasons mentioned in the <a href="pins-rstudio.html">Getting Started</a> article; however, to take full advantage of pins, you can also consider storing pins in shared locations that others can access, for instance:</p>
 <dl>
 <dt>GitHub</dt>

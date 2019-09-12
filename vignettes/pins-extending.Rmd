@@ -54,7 +54,7 @@ pin.lm <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   dev.off()
   
   metadata <- list(
-    formula = deparse(formula(x))
+    columns = list(formula = deparse(formula(x)))
   )
 
   board_pin_store(board, path, name, description, "linear_model", metadata, ...)
@@ -63,7 +63,13 @@ pin.lm <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 pin_load.linear_model <- function(path, ...) {
   readRDS(file.path(path, "model.rds"))
 }
+
+pin_preview.linear_model <- function(x, ...) {
+  x
+}
 ```
+
+**Note:** The `metadata$columns` parameter is used to extract columns in RStudio's Connection viewer, if one is not specified, RStudio will display `unknown`.
 
 Once defined, you can pin this model in any board you've previously registered,
 

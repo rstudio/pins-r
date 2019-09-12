@@ -27,6 +27,8 @@ reference:
     contents:
       - board_pin_create
       - board_pin_store
+      - pin_preview
+      - pin_load
 
 navbar:
   title: "pins"

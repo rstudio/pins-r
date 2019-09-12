@@ -10,6 +10,8 @@
 #' @param metadata A list containing additional metadata desecribing the pin.
 #' @param ... Additional parameteres.
 #'
+#' @rdname custom-pins
+#'
 #' @export
 #' @rdname custom-pins
 board_pin_store <- function(board, path, name, description, type, metadata, ...) {
