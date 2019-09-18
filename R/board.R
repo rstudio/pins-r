@@ -188,10 +188,15 @@ board_deregister <- function(name, ...) {
 
 #' Default Board
 #'
-#' Retrieves the default board, which defaults to \code{"temp"} but can also be
+#' Retrieves the default board, which defaults to \code{"local"} but can also be
 #' configured with the \code{pins.board} option.
 #'
 #' @examples
+#'
+#' library(pins)
+#'
+#' # create temp board
+#' board_register_local("temp")
 #'
 #' # configure default board
 #' options(pind.board = "temp")
@@ -201,5 +206,5 @@ board_deregister <- function(name, ...) {
 #'
 #' @export
 board_default <- function() {
-  getOption("pins.board", "temp")
+  getOption("pins.board", "local")
 }

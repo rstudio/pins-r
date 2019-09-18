@@ -6,8 +6,8 @@ board_registry_ensure <- function() {
 }
 
 board_registry_defaults <- function() {
-  if (!"temp" %in% names(.globals$boards_registered)) board_register("local", name = "temp", cache = tempfile(), connect = FALSE)
-  if (!"packages" %in% names(.globals$boards_registered)) board_register("packages", cache = tempfile(), connect = FALSE)
+  if (!"local" %in% names(.globals$boards_registered)) board_register("local", name = "local", connect = FALSE)
+  if (!"packages" %in% names(.globals$boards_registered)) board_register("packages", cache = dirname(board_local_storage("local")), connect = FALSE)
   if (!board_default() %in% names(.globals$boards_registered)) board_register(board_default(), connect = FALSE)
 }
 
