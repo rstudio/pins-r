@@ -1,5 +1,8 @@
 # pins 0.1.2.9000 (unreleased)
 
+- Registers "local" board by default, you no longer need to 
+  explicitly run `board_register_local()`.
+
 - Fix intermittent failure to retrieve pins from RStudio
   Connect boards while creating them.
 
