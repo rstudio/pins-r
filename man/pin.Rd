@@ -35,6 +35,9 @@ continue to work.
 \examples{
 library(pins)
 
+# define local board
+board_register_local(cache = tempfile())
+
 # cache the mtcars dataset
 pin(mtcars)
 

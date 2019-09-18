@@ -28,6 +28,9 @@ all boards and retrieve the one that matches by name.
 
 library(pins)
 
+# define local board
+board_register_local(cache = tempfile())
+
 # cache the mtcars dataset
 pin(mtcars)
 
