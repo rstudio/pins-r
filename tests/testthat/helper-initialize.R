@@ -11,3 +11,5 @@ test_board_is_registered <- function(board) {
     FALSE
   })
 }
+
+board_register_local(cache = tempfile())
