@@ -18,17 +18,13 @@ tibble::tibble(paths = dir(board_local_storage(), full.names = TRUE))
 # A tibble: 2 x 1
    paths                                                
    <chr>                                                
- 1 /private/var/folders/ks/RtmpL6bsZy/file5d7f/temp/data.txt     
- 2 /private/var/folders/ks/RtmpL6bsZy/file5d7f/temp/mtcars            
+ 1 /Users/username/Library/Caches/pins/local/data.txt   
+ 2 /Users/username/Library/Caches/pins/local/mtcars          
 ```
 
-As you can see, each pin is stored inside the temp folder and a list of resources is tracked on a `data.txt` file. The function `pin()` and `pin_get()` store and retrieve data from this well-known location, while `pin_find()` makes use of the index file to search for resources and track other properties like cache expiration information.
-
-To avoid pins being reset aftere your R session restarts, you can register and use a 'local' board and explicitly store or retrieve datasets from this board:
+As you can see, each pin is stored inside the `rappdirs::user_cache_dir()` folder and a list of resources is tracked on a `data.txt` file. The function `pin()` and `pin_get()` store and retrieve data from this well-known location, while `pin_find()` makes use of the index file to search for resources and track other properties like cache expiration information. We can make explicit use of the default "local" board as follows:
 
 ```{r eval=FALSE}
-board_register_local()
-
 pin(mtcars, name = "mtcars", board = "local")
 pin_get("mtcars", board = "local")
 ```

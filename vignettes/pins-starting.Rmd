@@ -77,10 +77,8 @@ Let's suppose that the 'home prices' dataset is not exactly what we are looking 
 pin("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv")
 ```
 ```
-[1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmptGupyK/fileca61e837c50/temp/HPI_master/HPI_master.csv"
+[1] "/Users/username/Library/Caches/pins/local/HPI_master/HPI_master.csv"
 ```
-
-> **Note:** We intend the next release of the pins package to use the `rappdirs` package and store data in a persistent cache, see [issues/39](https://github.com/rstudio/pins/issues/39).
 
 Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.
 
@@ -148,13 +146,14 @@ options(pins.verbose = TRUE)
 
 After performing a data analysis, you might want to share your dataset with others, which you can achieve using `pin(data, board = "<board-name>")`.
 
-There are multiple boards available, one that can help you share pins with other R sessions and tools it the 'local' board, which stores pins in your local computer. In order to use a local board, you need to register it first:
+There are multiple boards available, one of them is the "local" board which `pins` uses by default. A "local" board can help you share pins with other R sessions and tools using a well-known cache folder in your local computer defined in the `rappdirs` package. Notice that this board is available by default:
 
 ```{r eval=FALSE}
-board_register_local()
+board_list()
 ```
-
-> **Note:** We intend the next release of the pins package to use the `rappdirs` package and store data in a persistent cache to avoid executing `board_register_local()` in each session, see [issues/39](https://github.com/rstudio/pins/issues/39).
+```
+[1] "local"    "packages"
+```
 
 You can also name your boards using the 'name' parameter, when a name is not specified, the `pins` package will simply name your board with the kind of board you are using, 'local' in the previous example.
 
@@ -165,23 +164,23 @@ pin_get("home_price_indexes") %>%
   read_csv(col_types = cols()) %>%
   dplyr::group_by(yr) %>%
   dplyr::count() %>%
-  pin("home_price_analysis", board = "local")
+  pin("home_price_analysis")
 ```
 ```
-## # A tibble: 45 x 2
-##       yr     n
-##    <dbl> <int>
-##  1  1975   274
-##  2  1976   383
-##  3  1977   523
-##  4  1978   689
-##  5  1979   810
-##  6  1980   893
-##  7  1981   885
-##  8  1982   897
-##  9  1983  1005
-## 10  1984  1089
-## # … with 35 more rows
+# A tibble: 45 x 2
+      yr     n
+   <dbl> <int>
+ 1  1975   274
+ 2  1976   383
+ 3  1977   524
+ 4  1978   689
+ 5  1979   812
+ 6  1980   894
+ 7  1981   886
+ 8  1982   898
+ 9  1983  1005
+10  1984  1088
+# … with 35 more rows
 ```
 
 The local board allows you to share pins with other R sessions or even other Python sessions, to share with other people or across different computers, you can consider using the  `github`, `rsconnect` or `kaggle` boards; these boards will be introduced in the [Understanding Boards](boards-github.html) article.
