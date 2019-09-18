@@ -1,6 +1,6 @@
 new_board <- function(board, name, cache, ...) {
 
-  if (is.null(cache)) stop("Please specify the 'cache' parameter, usually set to '~/.pins'.")
+  if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
   board <- structure(list(
       board = board,
@@ -197,6 +197,9 @@ board_deregister <- function(name, ...) {
 #'
 #' # create temp board
 #' board_register_local("temp", cache = tempfile())
+#'
+#' # configure default board
+#' options(pind.board = "temp")
 #'
 #' # retrieve default board
 #' board_default()
