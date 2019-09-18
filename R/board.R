@@ -196,10 +196,7 @@ board_deregister <- function(name, ...) {
 #' library(pins)
 #'
 #' # create temp board
-#' board_register_local("temp")
-#'
-#' # configure default board
-#' options(pind.board = "temp")
+#' board_register_local("temp", cache = tempfile())
 #'
 #' # retrieve default board
 #' board_default()
