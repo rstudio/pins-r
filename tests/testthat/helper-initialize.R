@@ -1,3 +1,6 @@
+board_register("local", cache = tempfile(), connect = FALSE)
+board_register("packages", cache = tempfile(), connect = FALSE)
+
 test_board_is_registered <- function(board) {
   tryCatch({
     if (!board %in% board_list()) {
@@ -11,5 +14,3 @@ test_board_is_registered <- function(board) {
     FALSE
   })
 }
-
-board_register_local(cache = tempfile())
