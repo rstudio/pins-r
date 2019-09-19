@@ -1,6 +1,6 @@
 new_board <- function(board, name, cache, ...) {
 
-  if (is.null(cache)) stop("Please specify the 'cache' parameter, usually set to '~/.pins'.")
+  if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
   board <- structure(list(
       board = board,
@@ -55,7 +55,8 @@ board_disconnect <- function(name, ...) {
 #'
 #' @export
 board_list <- function() {
-  board_registry_list()
+  defaults <- c("local", "packages", board_default())
+  unique(c(board_registry_list(), defaults))
 }
 
 #' Get Board
@@ -68,8 +69,14 @@ board_list <- function() {
 board_get <- function(name) {
   if (is.null(name)) name <- board_default()
 
-  if (!name %in% board_list())
-    stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
+  if (!name %in% board_registry_list()) {
+    # attempt to automatically register board
+    tryCatch(board_register(name, connect = !identical(name, "packages")), error = function(e) NULL)
+
+    if (!name %in% board_registry_list()) {
+      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
+    }
+  }
 
   board_registry_get(name)
 }
@@ -176,7 +183,7 @@ board_register_code <- function(board, name) {
 #'
 #' @export
 board_deregister <- function(name, ...) {
-  if (!name %in% board_list()) stop("Board '", name, "' is not registered.")
+  if (!name %in% board_registry_list()) stop("Board '", name, "' is not registered.")
 
   board <- board_get(name)
 
@@ -188,10 +195,15 @@ board_deregister <- function(name, ...) {
 
 #' Default Board
 #'
-#' Retrieves the default board, which defaults to \code{"temp"} but can also be
+#' Retrieves the default board, which defaults to \code{"local"} but can also be
 #' configured with the \code{pins.board} option.
 #'
 #' @examples
+#'
+#' library(pins)
+#'
+#' # create temp board
+#' board_register_local("temp", cache = tempfile())
 #'
 #' # configure default board
 #' options(pind.board = "temp")
@@ -201,5 +213,5 @@ board_deregister <- function(name, ...) {
 #'
 #' @export
 board_default <- function() {
-  getOption("pins.board", "temp")
+  getOption("pins.board", "local")
 }

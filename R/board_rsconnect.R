@@ -16,6 +16,11 @@ board_initialize.rsconnect <- function(board, ...) {
     args$key <- envvar_key
   }
 
+  envvar_server <- Sys.getenv("RSCONNECT_SERVER")
+  if (is.null(args$server) && nchar(envvar_server) > 0) {
+    args$server <- envvar_server
+  }
+
   board$server <- args$server
   board$server_name <- if (!is.null(args$server)) gsub("https?://|:[0-9]+/?", "", args$server) else NULL
   board$account <- args$account

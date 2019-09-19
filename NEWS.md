@@ -1,5 +1,16 @@
 # pins 0.1.2.9000 (unreleased)
 
+- Add support for `RSCONNECT_SERVER` environment variable to
+  ease configuration of automated RStudio Connect reports.
+
+- Using a board will attempt to automatically register, such
+  that `pin(iris, board = "rsconnect")` would work for
+  the default configuration even when the board is not
+  explicitly registered (#50).
+
+- Registers "local" board by default, you no longer need to 
+  explicitly run `board_register_local()` (#56).
+
 - Fix intermittent failure to retrieve pins from RStudio
   Connect boards while creating them.
 

@@ -51,6 +51,9 @@ pin_default_name <- function(x, board) {
 #' @examples
 #' library(pins)
 #'
+#' # define local board
+#' board_register_local(cache = tempfile())
+#'
 #' # cache the mtcars dataset
 #' pin(mtcars)
 #'
@@ -98,6 +101,9 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @examples
 #'
 #' library(pins)
+#'
+#' # define local board
+#' board_register_local(cache = tempfile())
 #'
 #' # cache the mtcars dataset
 #' pin(mtcars)
@@ -152,10 +158,15 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
 #' @examples
 #'
 #' library(pins)
+#'
+#' # define local board
+#' board_register_local(cache = tempfile())
+#'
+#' # create mtcars pin
 #' pin(mtcars)
 #'
 #' # remove mtcars pin
-#' pin_remove(mtcars, board = "temp")
+#' pin_remove(mtcars, board = "local")
 #' @export
 pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)

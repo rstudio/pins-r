@@ -7,10 +7,15 @@
 board_default()
 }
 \description{
-Retrieves the default board, which defaults to \code{"temp"} but can also be
+Retrieves the default board, which defaults to \code{"local"} but can also be
 configured with the \code{pins.board} option.
 }
 \examples{
+
+library(pins)
+
+# create temp board
+board_register_local("temp", cache = tempfile())
 
 # configure default board
 options(pind.board = "temp")

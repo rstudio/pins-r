@@ -1,4 +1,7 @@
 board_initialize.packages <- function(board, ...) {
+  # use local board cache to avoid 'board_register("packages", cache = tempfile())' examples
+  if (identical(board$cache, board_cache_path())) board$cache <- dirname(board_local_storage("local"))
+
   board
 }
 

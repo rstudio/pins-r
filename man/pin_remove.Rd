@@ -22,8 +22,13 @@ remote resources using the tools the board provides.
 \examples{
 
 library(pins)
+
+# define local board
+board_register_local(cache = tempfile())
+
+# create mtcars pin
 pin(mtcars)
 
 # remove mtcars pin
-pin_remove(mtcars, board = "temp")
+pin_remove(mtcars, board = "local")
 }
