@@ -54,17 +54,49 @@ install.packages("pins")
 
 You can discover datasets with `pin_find()`, which by default will search for data inside CRAN packages. The places where `pins` can find or store resources are referred to as 'boards'. There are multiple boards available but they require you to configure them so we will leave those for later on.
 
-As a quick example, let's search for resources that may contain 'home prices':
+As a quick example, let's search for resources that may contain 'boston housing':
 
-```{r}
+```{r eval=FALSE}
 library(pins)
-pin_find("home prices")
+pin_find("boston housing")
+```
+```
+# A tibble: 18,695 x 4
+   name                         description                                     type  board   
+   <chr>                        <chr>                                           <chr> <chr>   
+ 1 A3/housing                   Boston Housing Prices from A3 package.          table packages
+ 2 A3/multifunctionality        Boston Housing Prices from A3 package.          table packages
+ 3 abc.data/musigma2            Boston Housing Prices from abc.data package.    table packages
+ 4 abc.data/ppc                 Boston Housing Prices from abc.data package.    table packages
+ 5 ABC.RAP/annotation_file      Boston Housing Prices from ABC.RAP package.     table packages
+ 6 ABC.RAP/nonspecific_probes   Boston Housing Prices from ABC.RAP package.     table packages
+ 7 ABC.RAP/test_data            Boston Housing Prices from ABC.RAP package.     table packages
+ 8 ABCanalysis/SwissInhabitants Boston Housing Prices from ABCanalysis package. table packages
+ 9 ABCp2/fungus                 Boston Housing Prices from ABCp2 package.       table packages
+10 ABCp2/newt                   Boston Housing Prices from ABCp2 package.       table packages
+# … with 18,685 more rows
 ```
 
 We've found out that the `BSDA` package contains a `Housing` dataset, you can then retrieve this dataset using `pin_get()` as follows:
 
-```{r}
+```{r eval=FALSE}
 pin_get("BSDA/Housing")
+```
+```
+# A tibble: 74 x 3
+   city       year   price
+   <chr>      <fct>  <int>
+ 1 Albany     1984   52400
+ 2 Anaheim    1984  134900
+ 3 Atlanta    1984   64600
+ 4 Baltimore  1984   65200
+ 5 Birmingham 1984   66600
+ 6 Boston     1984  102000
+ 7 Chicago    1984   77500
+ 8 Cincinnati 1984   59600
+ 9 Cleveland  1984   65600
+10 Columbus   1984   60400
+# … with 64 more rows
 ```
 
 Most datasets in CRAN contain rectangular data, which `pins` knows to load as a data frame. Other boards might contain non-rectangular datasets which `pin_get()` also supports. More on this later on, but first, lets introduce caching.
