@@ -1,11 +1,11 @@
-# pins 0.1.2.9000 (unreleased)
+# pins 0.1.3 (unreleased)
 
 ## RStudio Connect
 
 - Support for retrieving pins shared by others in RStudio
   Connect boards.
 
-- Support for RStudio Connect servers running undere a
+- Support for RStudio Connect servers running under a
   subpath in the server.
 
 - Add support for `RSCONNECT_SERVER` environment variable to
