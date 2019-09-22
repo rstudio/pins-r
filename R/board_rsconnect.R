@@ -22,7 +22,7 @@ board_initialize.rsconnect <- function(board, ...) {
   }
 
   board$server <- args$server
-  board$server_name <- if (!is.null(args$server)) gsub("https?://|:[0-9]+/?", "", args$server) else NULL
+  board$server_name <- if (!is.null(args$server)) gsub("https?://|:[0-9]+/?|/.*", "", args$server) else NULL
   board$account <- args$account
   board$output_files <- args$output_files
 
@@ -155,7 +155,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
 board_pin_find.rsconnect <- function(board, text = NULL, all_content = FALSE, name = NULL, ...) {
   if (is.null(text)) text <- ""
 
-  if (nchar(text) == 0) {
+  if (nchar(text) == 0 && is.null(name)) {
     # it can be quite slow to list all content in RStudio Connect so we scope to the user content
     account_id <- rsconnect_api_get(board, "/__api__/users/current/")$id
     filter <- paste0("filter=account_id:", account_id, "&accountId:", account_id)

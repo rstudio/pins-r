@@ -23,6 +23,7 @@ rsconnect_token_parse_url <- function(urlText) {
   url$host <- components[[3]]
   url$port <- components[[4]]
   url$path <- components[[5]]
+  url$path_sans_api <- base_path <- gsub("/__api__", "", url$path)
   url
 }
 
@@ -63,7 +64,7 @@ rsconnect_token_headers <- function(board, path, verb, content) {
     writeChar(content, content_file,  eos = NULL, useBytes = TRUE)
   }
 
-  deps$signature_headers(account_info, verb, path, content_file)
+  deps$signature_headers(account_info, verb, paste0(service$path_sans_api, path), content_file)
 }
 
 rsconnect_token_post <- function(board, path, content, encode) {
@@ -87,7 +88,7 @@ rsconnect_token_post <- function(board, path, content, encode) {
                                  parsed$host,
                                  parsed$port,
                                  "POST",
-                                 path,
+                                 paste0(parsed$path_sans_api, path),
                                  rsconnect_token_headers(board, path, "POST", content),
                                  content_type,
                                  content_file)
