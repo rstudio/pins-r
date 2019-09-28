@@ -20,6 +20,11 @@
 - Fix for data frames with nested data frames in rsconnect
   boards (#36).
   
+## GitHub
+
+- Allow overriding GitHub pin over a pin that partially failed
+  to be created.
+  
 ## Boards
 
 - Using a board will attempt to automatically register, such
