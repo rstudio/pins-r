@@ -169,6 +169,7 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
   upload <- httr::content(response)
 
   if (httr::http_error(response)) {
+    pin_log("Failed to upload ", file, " response: ", upload)
     stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
   }
 }
@@ -214,8 +215,8 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
   for (file in upload_files) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-
-    sha <- Filter(function(e) identical(e$path, file.path(name, file)), dir_shas)[[1]]$sha
+    named_sha <- Filter(function(e) identical(e$path, file.path(name, file)), dir_shas)
+    sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
 
     file_path <- file.path(bundle_path, file)
 
@@ -247,7 +248,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 board_pin_find.github <- function(board, text, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt"),
+  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt", branch = branch),
                       github_headers(board))
 
   if (!httr::http_error(result)) {
