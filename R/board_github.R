@@ -113,7 +113,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 }
 
 github_create_release <- function(board, name) {
-  index_url <- github_url(board, branch = NULL, "/commits/")
+  index_url <- github_url(board, branch = NULL, "/commits/", board$branch)
   response <- httr::GET(index_url, github_headers(board))
   version <- "initial"
   if (!httr::http_error(response)) version <- substr(httr::content(response)$sha, 1, 7)
@@ -248,7 +248,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 board_pin_find.github <- function(board, text, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt", branch = NULL),
+  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt", branch = branch),
                       github_headers(board))
 
   if (!httr::http_error(result)) {
