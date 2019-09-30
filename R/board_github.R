@@ -271,33 +271,8 @@ board_pin_find.github <- function(board, text, ...) {
       pin_results_from_rows()
   }
   else {
-
-    result <- httr::GET(github_url(board, branch = branch, "/contents/", board$path),
-                        github_headers(board))
-
-    if (httr::http_error(result)) {
-      result <- data.frame(
-        name = character(),
-        description = character(),
-        type = character(),
-        metadata = character(),
-        stringsAsFactors = FALSE
-      )
-    }
-    else {
-      folders <-  Filter(function(e) identical(e$type, "dir"), httr::content(result)) %>%
-        sapply(function(e) e$name)
-
-      result <- data.frame(
-        name = folders,
-        description = rep("", length(folders)),
-        type = rep("files", length(folders)),
-        metadata = rep("", length(folders)),
-        stringsAsFactors = FALSE
-      )
-
-      result
-    }
+    pin_log("Failed to find 'data.txt' file in repo '", board$repo, "', path '", board$path, "' and branch '", branch, "'.")
+    result <- pin_find_empty()
   }
 
   if (is.character(text)) {
