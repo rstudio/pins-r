@@ -1,4 +1,4 @@
-# pins 0.1.3 (unreleased)
+# pins 0.2.0
 
 ## RStudio Connect
 
