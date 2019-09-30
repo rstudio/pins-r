@@ -45,6 +45,11 @@ board_register_local <- function(name = "local",
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #'
+#' @details
+#'
+#' This function requires a GitHub repo to be manually created; otherwise,
+#' registering a GitHub board will fail.
+#'
 #' @seealso board_register
 #'
 #' @examples

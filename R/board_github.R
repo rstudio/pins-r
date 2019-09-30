@@ -34,6 +34,12 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board$path <- if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else ""
   board$branch <- branch
 
+  # check repo exists
+  check_exists <- httr::GET(github_url(board, branch = NULL), github_headers(board))
+  if (httr::http_error(check_exists)) {
+    stop("The repo '", board$repo, "' does not exist or can't be accessed: ", httr::content(check_exists)$message)
+  }
+
   branches <- tryCatch(github_branches(board), error = function(e) e)
   if ("error" %in% class(branches) && grepl("^Git Repository is empty", branches$message)) {
     github_update_index(board, "", "initialize repo", operation = "initialize", branch = "master")

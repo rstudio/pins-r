@@ -19,7 +19,7 @@ In order to use GitHub as a [board](boards-understanding.html), you should first
 nchar(Sys.getenv("GITHUB_PAT")) > 0
 ```
 
-If the above statement is `TRUE`, this means GitHub is already configured, which means you can register a GitHub board as follows:
+If the above statement is `TRUE`, this means GitHub is already configured, which means you can register an existing GitHub board as follows. However, when using a new repo, first manually create an empty repo from [github.com/new](https://github.com/new).
 
 ```{r eval=FALSE}
 library(pins)

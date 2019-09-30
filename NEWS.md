@@ -22,6 +22,8 @@
   
 ## GitHub
 
+- `board_register_github()` now checks for the repo to exist (#63).
+
 - Adjusted max upload file to 25mb to avoid "server error" in
   the API, larger files than 25mb uploaded as release files. This
   can be configured using the `pins.github.upload` option, which
