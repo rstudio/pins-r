@@ -36,6 +36,8 @@ test_that("can pin large resources in github releases", {
 })
 
 test_that("uninitialized repo returns empty results", {
+  if (nchar(Sys.getenv("GITHUB_PAT")) == 0) skip("GITHUB_PAT envvar required.")
+
   board_register_github(name = "sparklyr", repo = "rstudio/sparklyr")
 
   total <- nrow(pin_find("", board = "sparklyr"))
