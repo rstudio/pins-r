@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
 <a href="#registering" class="anchor"></a>Registering</h2>
 <p>In order to use GitHub as a <a href="boards-understanding.html">board</a>, you should first authenticate. If you are familiar with GitHub and is already part of your workflow, is likely that you’ll have a <code>GITHUB_PAT</code> environment variable already configured. You can check if GitHub is already configured by running:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nchar">nchar</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></a></code></pre></div>
-<p>If the above statement is <code>TRUE</code>, this means GitHub is already configured, which means you can register a GitHub board as follows:</p>
+<p>If the above statement is <code>TRUE</code>, this means GitHub is already configured, which means you can register an existing GitHub board as follows. However, when using a new repo, first manually create an empty repo from <a href="https://github.com/new">github.com/new</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/board_register_github.html">board_register_github</a></span>(<span class="dt">repo =</span> <span class="st">"owner/repo"</span>)</a></code></pre></div>
 <p>Usually, you will want to set <code>owner</code> to be your GitHub username or an organization name you belong to, learn more <a href="https://help.github.com/en/articles/about-repositories">About Repositories</a> in the GitHub docs.</p>
@@ -176,9 +176,10 @@
 <div id="large-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#large-files" class="anchor"></a>Large Files</h3>
-<p>A GitHub repo only supports files under 50MB in size (100MB in theory but there is additional overhead when using the GitHub API). To store large files, GitHub <a href="https://help.github.com/en/articles/distributing-large-binaries">recommends</a> storing them using GitHub Releases which support up to 2GB files.</p>
-<p>Therefore, to support large files, <code>pins</code> makes use of GitHub release files. When you upload a file over 50MB, <code>pins</code> will create a new GitHub release file for that particular pin. Everything else works as expected, you can still retrieve the large resource with <code><a href="../reference/pin_get.html">pin_get()</a></code> and find it with <code><a href="../reference/pin_find.html">pin_find()</a></code>. The only noticeable change is new releases being created in your repo:</p>
-<p><img src="images/boards-github-token.png" width="480"></p>
+<p>A GitHub repo only supports files under 25MB in size (100MB in theory but there is additional overhead when using the GitHub API). To store large files, GitHub <a href="https://help.github.com/en/articles/distributing-large-binaries">recommends</a> storing them using GitHub Releases which support up to 2GB files.</p>
+<p>Therefore, to support large files, <code>pins</code> makes use of GitHub release files. When you upload a file over , <code>pins</code> will create a new GitHub release file for that particular pin. Everything else works as expected, you can still retrieve the large resource with <code><a href="../reference/pin_get.html">pin_get()</a></code> and find it with <code><a href="../reference/pin_find.html">pin_find()</a></code>. The only noticeable change is new releases being created in your repo:</p>
+<p><img src="images/boards-github-release.png" width="480"></p>
+<p>You can configure the 25MB check to use release files with the <code>pins.github.release</code> option.</p>
 </div>
 </div>
   </div>
