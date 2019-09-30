@@ -172,6 +172,16 @@ pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)
 }
 
+pin_find_empty <- function() {
+  data.frame(
+    name = character(),
+    description = character(),
+    type = character(),
+    metadata = character(),
+    board = character(),
+    stringsAsFactors = FALSE)
+}
+
 #' Find Pin
 #'
 #' Find a pin in any board registered using \code{board_register()}.
@@ -226,12 +236,7 @@ pin_find <- function(text = NULL, board = NULL, ...) {
   metadata <- identical(list(...)$metadata, TRUE)
   text <- pin_content_name(text)
 
-  all_pins <- data.frame(
-    name = character(),
-    description = character(),
-    type = character(),
-    metadata = character(),
-    board = character())
+  all_pins <- pin_find_empty()
 
   for (board_name in board) {
     board_object <- board_get(board_name)

@@ -26,6 +26,15 @@ board_register_github(name = "github", repo = NULL,
 Wrapper with explicit parameters over \code{board_register()} to
 register a GitHub repo as a board.
 }
+\details{
+This function requires a GitHub repo to be manually created; otherwise,
+registering a GitHub board will fail.
+
+When a file upload exceeds 25MB, a GitHub release file will be used since
+they support up to 2GB file uploads. This threshold can be configured through
+the \code{pins.github.release} option which is specified in megabytes and
+defaults to \code{25}.
+}
 \examples{
 \dontrun{
 # the following example requires a GitHub API key

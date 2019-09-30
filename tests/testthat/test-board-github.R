@@ -34,3 +34,13 @@ test_that("can pin large resources in github releases", {
 
   expect_true(!"iris_large" %in% pin_find(board = "github")$name)
 })
+
+test_that("uninitialized repo returns empty results", {
+  board_register_github(name = "sparklyr", repo = "rstudio/sparklyr")
+
+  total <- nrow(pin_find("", board = "sparklyr"))
+
+  board_deregister("sparklyr")
+
+  expect_equal(total, 0)
+})

@@ -66,7 +66,7 @@ register a GitHub repo as a board." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -186,6 +186,15 @@ register a GitHub repo as a board.</p>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function requires a GitHub repo to be manually created; otherwise,
+registering a GitHub board will fail.</p>
+<p>When a file upload exceeds 25MB, a GitHub release file will be used since
+they support up to 2GB file uploads. This threshold can be configured through
+the <code>pins.github.release</code> option which is specified in megabytes and
+defaults to <code>25</code>.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>board_register</p></div>
@@ -202,6 +211,8 @@ register a GitHub repo as a board.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>

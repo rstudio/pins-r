@@ -107,8 +107,10 @@ Once your collaborators gain access to the repo, they can follow the same steps 
 
 ### Large Files
 
-A GitHub repo only supports files under 50MB in size (100MB in theory but there is additional overhead when using the GitHub API). To store large files, GitHub [recommends](https://help.github.com/en/articles/distributing-large-binaries) storing them using GitHub Releases which support up to 2GB files.
+A GitHub repo only supports files under 25MB in size (100MB in theory but there is additional overhead when using the GitHub API). To store large files, GitHub [recommends](https://help.github.com/en/articles/distributing-large-binaries) storing them using GitHub Releases which support up to 2GB files.
 
-Therefore, to support large files, `pins` makes use of GitHub release files. When you upload a file over 50MB, `pins` will create a new GitHub release file for that particular pin. Everything else works as expected, you can still retrieve the large resource with `pin_get()` and find it with `pin_find()`. The only noticeable change is new releases being created in your repo:
+Therefore, to support large files, `pins` makes use of GitHub release files. When you upload a file over , `pins` will create a new GitHub release file for that particular pin. Everything else works as expected, you can still retrieve the large resource with `pin_get()` and find it with `pin_find()`. The only noticeable change is new releases being created in your repo:
 
-![](images/boards-github-token.png){width=480px}
+![](images/boards-github-release.png){width=480px}
+
+You can configure the 25MB check to use release files with the `pins.github.release` option.

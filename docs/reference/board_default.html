@@ -34,7 +34,7 @@
   
 <meta property="og:title" content="Default Board — board_default" />
 
-<meta property="og:description" content="Retrieves the default board, which defaults to &quot;temp&quot; but can also be
+<meta property="og:description" content="Retrieves the default board, which defaults to &quot;local&quot; but can also be
 configured with the pins.board option." />
 <meta name="twitter:card" content="summary" />
 
@@ -66,7 +66,7 @@ configured with the pins.board option." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ configured with the pins.board option." />
 
     <div class="ref-description">
     
-    <p>Retrieves the default board, which defaults to <code>"temp"</code> but can also be
+    <p>Retrieves the default board, which defaults to <code>"local"</code> but can also be
 configured with the <code>pins.board</code> option.</p>
     
     </div>
@@ -157,11 +157,16 @@ configured with the <code>pins.board</code> option.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>pins</span>)
+
+<span class='co'># create temp board</span>
+<span class='fu'><a href='board_register_local.html'>board_register_local</a></span>(<span class='st'>"temp"</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())
+
 <span class='co'># configure default board</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>pind.board</span> <span class='kw'>=</span> <span class='st'>"temp"</span>)
 
 <span class='co'># retrieve default board</span>
-<span class='fu'>board_default</span>()</div><div class='output co'>#&gt; [1] "temp"</div><div class='input'>
+<span class='fu'>board_default</span>()</div><div class='output co'>#&gt; [1] "local"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

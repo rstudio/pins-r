@@ -50,6 +50,11 @@ board_register_local <- function(name = "local",
 #' This function requires a GitHub repo to be manually created; otherwise,
 #' registering a GitHub board will fail.
 #'
+#' When a file upload exceeds 25MB, a GitHub release file will be used since
+#' they support up to 2GB file uploads. This threshold can be configured through
+#' the \code{pins.github.release} option which is specified in megabytes and
+#' defaults to \code{25}.
+#'
 #' @seealso board_register
 #'
 #' @examples

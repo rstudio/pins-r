@@ -232,7 +232,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
       yaml::write_yaml(datatxt, file_path)
     }
 
-    if ((file.info(file_path)$size > getOption("pins.github.upload", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
+    if ((file.info(file_path)$size > getOption("pins.github.release", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
       if (is.null(release)) release <- github_create_release(board, name)
       download_url <- github_upload_release(board, release, name, file, file_path)
       release_map[[file]] <- download_url
@@ -271,33 +271,8 @@ board_pin_find.github <- function(board, text, ...) {
       pin_results_from_rows()
   }
   else {
-
-    result <- httr::GET(github_url(board, branch = branch, "/contents/", board$path),
-                        github_headers(board))
-
-    if (httr::http_error(result)) {
-      result <- data.frame(
-        name = character(),
-        description = character(),
-        type = character(),
-        metadata = character(),
-        stringsAsFactors = FALSE
-      )
-    }
-    else {
-      folders <-  Filter(function(e) identical(e$type, "dir"), httr::content(result)) %>%
-        sapply(function(e) e$name)
-
-      result <- data.frame(
-        name = folders,
-        description = rep("", length(folders)),
-        type = rep("files", length(folders)),
-        metadata = rep("", length(folders)),
-        stringsAsFactors = FALSE
-      )
-
-      result
-    }
+    pin_log("Failed to find 'data.txt' file in repo '", board$repo, "', path '", board$path, "' and branch '", branch, "'.")
+    result <- pin_find_empty()
   }
 
   if (is.character(text)) {
