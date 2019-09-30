@@ -26,7 +26,7 @@
 
 - Adjusted max upload file to 25mb to avoid "server error" in
   the API, larger files than 25mb uploaded as release files. This
-  can be configured using the `pins.github.upload` option, which
+  can be configured using the `pins.github.release` option, which
   deefaults to 25.
 
 - Allow overriding GitHub pin over a pin that partially failed

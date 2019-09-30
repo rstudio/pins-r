@@ -232,7 +232,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
       yaml::write_yaml(datatxt, file_path)
     }
 
-    if ((file.info(file_path)$size > getOption("pins.github.upload", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
+    if ((file.info(file_path)$size > getOption("pins.github.release", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
       if (is.null(release)) release <- github_create_release(board, name)
       download_url <- github_upload_release(board, release, name, file, file_path)
       release_map[[file]] <- download_url
