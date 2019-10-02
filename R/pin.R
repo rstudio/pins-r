@@ -188,6 +188,7 @@ pin_find_empty <- function() {
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
+#' @param name The exact name of the pin to match when searching.
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -231,7 +232,7 @@ pin_find_empty <- function() {
 #' }
 #'
 #' @export
-pin_find <- function(text = NULL, board = NULL, ...) {
+pin_find <- function(text = NULL, board = NULL, name = NULL, ...) {
   if (is.null(board) || nchar(board) == 0) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
   text <- pin_content_name(text)
@@ -242,7 +243,7 @@ pin_find <- function(text = NULL, board = NULL, ...) {
     board_object <- board_get(board_name)
 
     board_pins <- tryCatch(
-      board_pin_find(board = board_object, text, ...),
+      board_pin_find(board = board_object, text, name = name, ...),
       error = function(e) {
         warning("Error searching '", board_name, "' board: ", e$message)
         board_empty_results()
@@ -263,9 +264,8 @@ pin_find <- function(text = NULL, board = NULL, ...) {
     all_pins <- all_pins[, names(all_pins) != "metadata"]
   }
 
-  if (!is.null(list(...)$name)) {
-    name <- list(...)$name
-    all_pins <- all_pins[all_pins$name == name,]
+  if (!is.null(name)) {
+    all_pins <- all_pins[grepl(paste0("(.*/)?", name, "$"), all_pins$name),]
     if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
   }
 
