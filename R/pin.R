@@ -243,7 +243,7 @@ pin_find <- function(text = NULL, board = NULL, name = NULL, ...) {
     board_object <- board_get(board_name)
 
     board_pins <- tryCatch(
-      board_pin_find(board = board_object, text, ...),
+      board_pin_find(board = board_object, text, name = name, ...),
       error = function(e) {
         warning("Error searching '", board_name, "' board: ", e$message)
         board_empty_results()
