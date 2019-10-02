@@ -2,6 +2,9 @@
 
 ## RStudio Connect
 
+- Fix issue expanding pins columns in RStudio for pins with
+  similar names in RStudio Connect boards.
+
 - Fix issue removing pins with similar names in RStudio
   Connect boards.
 

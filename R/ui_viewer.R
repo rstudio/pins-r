@@ -81,7 +81,7 @@ ui_viewer_register <- function(board, board_call) {
       attr_names <- c()
       attr_values <- c()
 
-      pin_index <- pin_find(table, board = board$name, metadata = TRUE)
+      pin_index <- pin_find(table, board = board$name, name = table, metadata = TRUE)
       pin_index <- pin_index[table == pin_index$name,]
 
       if (!is.null(pin_index$metadata) || nchar(pin_index$metadata) > 0) {
