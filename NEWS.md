@@ -1,3 +1,10 @@
+# pins 0.2.0.9999 (unreleased)
+
+## RStudio Connect
+
+- Fix issue removing pins with similar names in RStudio
+  Connect boards.
+
 # pins 0.2.0
 
 ## RStudio Connect
