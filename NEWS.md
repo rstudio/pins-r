@@ -1,5 +1,9 @@
 # pins 0.2.0.9999 (unreleased)
 
+## RStudio
+
+- Fix connection code when a board is registered automatically.
+
 ## RStudio Connect
 
 - Fix issue expanding pins columns in RStudio for pins with

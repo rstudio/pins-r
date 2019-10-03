@@ -69,9 +69,14 @@ board_list <- function() {
 board_get <- function(name) {
   if (is.null(name)) name <- board_default()
 
+  register_call <- paste0("board_register(board = \"", name, "\")")
+
   if (!name %in% board_registry_list()) {
     # attempt to automatically register board
-    tryCatch(board_register(name, connect = !identical(name, "packages")), error = function(e) NULL)
+    tryCatch(board_register(name,
+                            connect = !identical(name, "packages"),
+                            register_call = register_call),
+             error = function(e) NULL)
 
     if (!name %in% board_registry_list()) {
       stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
@@ -121,7 +126,8 @@ board_register <- function(board, name = board, cache = board_cache_path(), ...)
 
   board_registry_set(name, board)
 
-  register_call <- board_register_code(board$name, name)
+  register_call <- list(...)$register_call
+  if (is.null(register_call)) register_call <- board_register_code(board$name, name)
 
   if (!identical(params$connect, FALSE)) board_connect(name, register_call)
 
