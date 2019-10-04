@@ -1,5 +1,5 @@
 board_initialize.local <- function(board, cache, ...) {
-  if (!dir.exists(board$cache)) dir.create(board$cache)
+  if (!dir.exists(board$cache)) dir.create(board$cache, recursive = TRUE)
 
   board
 }

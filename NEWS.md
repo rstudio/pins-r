@@ -1,5 +1,10 @@
 # pins 0.2.0.9999 (unreleased)
 
+## Boards
+
+- Avoid "cannot create dir" warning in systems with an
+  empty cache folder.
+  
 ## RStudio
 
 - Fix connection code when a board is registered automatically.
