@@ -1,0 +1,64 @@
+---
+title: "Reusing Tidy Datasets"
+output:
+  html_document:
+    df_print: paged
+---
+
+This dataset makes use of the "A Million News Headlines" dataset available at [kaggle.com/therohk/million-headlines](https://www.kaggle.com/therohk/million-headlines).
+
+As a start, lets retrieve the dataset using `pins` and load is using `readr`:
+
+```{r}
+library(pins)
+
+news <- pin_get("therohk/million-headlines", board = "kaggle") %>%
+  readr::read_csv()
+
+news
+```
+
+First, lets clean up this dataset. For instance, the 'publish_date' column is a character, not a date:
+
+```{r}
+library(dplyr)
+
+news_cleaned <- news %>%
+  mutate(publish_date = as.Date(as.character(publish_date), format = "%Y%m%d"))
+
+news_cleaned
+```
+
+Lets also assume we are interested in understanding when news outlets publish news, not what headlines are published. For this, we can keep the counts per day and month and throw away the other columns:
+
+```{r}
+news_totals <- news_cleaned %>%
+  group_by(publish_date) %>%
+  summarize(count = n())
+```
+
+We can now plot by month the total amount of news being produced by this news outlet:
+
+```{r}
+library(ggplot2)
+
+news_totals %>%
+  group_by(publish_date = lubridate::floor_date(publish_date, "year")) %>%
+  summarize(count = sum(count)) %>%
+  ggplot(aes(x=publish_date, y=count)) +
+  geom_line() 
+```
+
+Now, while this might complete our particular analysis, others in your team might be interested in easily fetching your tidied data set, which you can now easily share with `pins` in any available board. The following example uses RStudio Connect but this board can also be replaced to use Kaggle, GitHub or even custom boards:
+
+```{r eval=FALSE}
+pins::pin(news_totals, board = "rsconnect")
+```
+
+![](images/reusing-analysis-rsconnect.png)
+
+A colleague can now reuse your tidy dataset by fetching it from the source location:
+
+```{r}
+pin_get("news-totals", board = "rsconnect")
+```
