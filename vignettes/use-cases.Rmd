@@ -1,0 +1,19 @@
+---
+title: "Use Cases"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+source("utils.R")
+```
+
+There are many interesting use cases available for `pins` some of which we present here:
+
+```{r}
+pins_site_gallery(list(
+  list(image       = "images/use-cases-reuse-tidy-datasets.png",
+       title       = "Reuse Tidy Datasets",
+       href        = "http://rstudio-pubs-static.s3.amazonaws.com/535744_82d11cfd9fe2475db35101c45d514d50.html",
+       description = "Doing data analysis usually requires tidying your data, a tidy dataset is something worth considering sharing with others or your future self. You can easily incorporate 'pins' in your data analysis workflows by sharing your tidy dataset with others in any of the supported boards (GitHub, Kaggle, RStudio Connect, etc).")
+))
+```

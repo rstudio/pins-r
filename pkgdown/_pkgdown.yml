@@ -61,5 +61,7 @@ navbar:
           href: articles/pins-extending.html
         - text: "Extending Boards"
           href: articles/boards-extending.html
+    - text: "Use Cases"
+      href: articles/use-cases.html
     - text: "Reference"
       href: reference/index.html
