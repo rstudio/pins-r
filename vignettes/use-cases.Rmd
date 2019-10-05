@@ -18,18 +18,22 @@ pins_site_gallery(list(
   list(image       = "images/use-cases-reuse-tidy-datasets.png",
        title       = "Reuse Tidy Datasets",
        href        = "use-cases/reuse-tidy-datasets.html",
-       description = "Doing data analysis usually requires tidying your data, a tidy dataset is something worth considering sharing with others or your future self. You can easily incorporate 'pins' in your data analysis workflows by sharing your tidy dataset with others in any of the supported boards (GitHub, Kaggle, RStudio Connect, etc)."),
-   list(image       = "images/use-cases-reuse-tidy-datasets.png",
+       description = "Doing data analysis usually requires tidying your data, a tidy dataset is something worth considering sharing with others or your future self. You can easily incorporate 'pins' in your data analysis workflows by sharing your tidy dataset with others in any of the supported boards (GitHub, Kaggle, RStudio Connect, etc).",
+       app         = "https://beta.rstudioconnect.com/connect/#/apps/6522/access"),
+   list(image      = "images/use-cases-schedule-dataset-updates.png",
        title       = "Schedule Dataset Updates",
        href        = "use-cases/schedule-dataset-updates.html",
-       description = ""),
+       description = "Once a dataset is shared with as a pin, it is natural to consider automating the process of updating it. This is especially relevant for datasets that change frequently. You can use automated tools like Travis, AppVeyor, GitHub Actions or RStudio Connect in combination with R and the pins package to keep these dataset up to date.",
+       app         = "https://beta.rstudioconnect.com/connect/#/apps/6446/access"),
    list(image       = "images/use-cases-reuse-tidy-datasets.png",
        title       = "Create Simple Data Pipelines",
        href        = "use-cases/create-simple-data-pipelines.html",
-       description = ""),
+       description = "",
+       app         = ""),
    list(image       = "images/use-cases-reuse-tidy-datasets.png",
        title       = "Update Plumber and Shiny Apps",
        href        = "use-cases/update-plumber-and-shiny-apps.html",
-       description = "")
+       description = "",
+       app         = "")
 ))
 ```

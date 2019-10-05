@@ -8,7 +8,11 @@ pins_site_gallery_entry <- function(entry) {
     ),
     div(
       h3(entry$title),
-      entry$description
+      entry$description,
+      br(),
+      a(class = "pin-link",
+        href = entry$app,
+        "Preview Pin")
     )
   )
 }

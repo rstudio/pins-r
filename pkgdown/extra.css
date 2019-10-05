@@ -30,6 +30,10 @@ blockquote {
   border-left: 5px solid #b4d88e;
 }
 
+.use-case {
+  margin-bottom: 20px;
+}
+
 .use-case a {
   margin: 10px 40px 10px 40px;
   display: inline-block;
@@ -42,6 +46,12 @@ blockquote {
 
 .use-case > div {
   display: inline-block;
-  width: 500px;
+  width: 560px;
   position: absolute;
+  text-align: justify;
+}
+
+.use-case a.pin-link {
+  float: right;
+  margin: 0;
 }

@@ -55,10 +55,12 @@ Now, while this might complete our particular analysis, others in your team migh
 pins::pin(news_totals, board = "rsconnect")
 ```
 
-![](images/reuse-analysis-rsconnect.png)
+[![](images/reuse-analysis-rsconnect.png)](https://beta.rstudioconnect.com/connect/#/apps/6522/access)
 
 You can then use the board's user interface to share this pin with others. A colleague can now reuse your tidy dataset by fetching it from the applicable board:
 
 ```{r}
 pin_get("news-totals", board = "rsconnect")
 ```
+
+You can preview the RStudio Connect pin for this tidy dataset at [beta.rstudioconnect.com/connect/#/apps/6522/access](https://beta.rstudioconnect.com/connect/#/apps/6522/access) or preview this bellow:

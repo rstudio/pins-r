@@ -63,5 +63,19 @@ navbar:
           href: articles/boards-extending.html
     - text: "Use Cases"
       href: articles/use-cases.html
+      menu:
+        - text: Overview
+        - text: "Use Cases"
+          href: articles/use-cases.html
+        - text: "---"
+        - text: "Use Cases"
+        - text: "Reuse Tidy Datasets"
+          href: articles/use-cases/reuse-tidy-datasets.html
+        - text: "Schedule Dataset Updates"
+          href: articles/use-cases/schedule-dataset-updates.html
+        - text: "Create Simple Data Pipelines"
+          href: articles/use-cases/create-simple-data-pipelines.html
+        - text: "Update Plumber and Shiny Apps"
+          href: articles/use-cases/update-plumber-and-shiny-apps.html
     - text: "Reference"
       href: reference/index.html
