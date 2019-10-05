@@ -1,0 +1,6 @@
+---
+title: "Update Plumber and Shiny Apps"
+output:
+  html_document:
+    df_print: paged
+---

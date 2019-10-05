@@ -1,11 +1,11 @@
 ---
-title: "Reusing Tidy Datasets"
+title: "Reuse Tidy Datasets"
 output:
   html_document:
     df_print: paged
 ---
 
-This dataset makes use of the "A Million News Headlines" dataset available at [kaggle.com/therohk/million-headlines](https://www.kaggle.com/therohk/million-headlines).
+This notebook showcases the `pins` package ability to help you share and reuse tidy datasets with others. We will make use of the "A Million News Headlines" dataset from [kaggle.com/therohk/million-headlines](https://www.kaggle.com/therohk/million-headlines).
 
 As a start, lets retrieve the dataset using `pins` and load is using `readr`:
 
@@ -55,9 +55,9 @@ Now, while this might complete our particular analysis, others in your team migh
 pins::pin(news_totals, board = "rsconnect")
 ```
 
-![](images/reusing-analysis-rsconnect.png)
+![](images/reuse-analysis-rsconnect.png)
 
-A colleague can now reuse your tidy dataset by fetching it from the source location:
+You can then use the board's user interface to share this pin with others. A colleague can now reuse your tidy dataset by fetching it from the applicable board:
 
 ```{r}
 pin_get("news-totals", board = "rsconnect")

@@ -15,4 +15,4 @@
 ^appveyor.yml$
 ^ci$
 ^LICENSE$
-^gallerey$
+^vignettes/use-cases$

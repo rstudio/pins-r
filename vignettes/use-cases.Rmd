@@ -7,13 +7,29 @@ knitr::opts_chunk$set(echo = FALSE)
 source("utils.R")
 ```
 
-There are many interesting use cases available for `pins` some of which we present here:
+There are many interesting use cases available for `pins`, which we present next.
+
+For instance, after cleaning up your data, you can consider letting others [reuse your tidy datasets](use-cases/reusing-tidy-datasets.html). Once your data is in a shared location, you might want to consider to [schedule dataset updates](use-cases/schedule-dataset-updates.html) automatically. It is then natural to attempt to pipe multiple scheduled datasets to [create simple data pipelines](use-cases/create-simple-data-pipelines.html) or [update plumber and shiny apps](use-cases/update-plumber-and-shiny-apps.html).
+
+For ease of use, the use cases are presented using [RStudio Connect](https://rstudio.com/products/connect/); however, similar workflows can be built in, say GitHub, by making use of [Travis](https://travis-ci.org), [AppVeyor](http://appveyor.com) or [GitHub Actions](https://github.com/features/actions).
 
 ```{r}
 pins_site_gallery(list(
   list(image       = "images/use-cases-reuse-tidy-datasets.png",
        title       = "Reuse Tidy Datasets",
-       href        = "http://rstudio-pubs-static.s3.amazonaws.com/535744_82d11cfd9fe2475db35101c45d514d50.html",
-       description = "Doing data analysis usually requires tidying your data, a tidy dataset is something worth considering sharing with others or your future self. You can easily incorporate 'pins' in your data analysis workflows by sharing your tidy dataset with others in any of the supported boards (GitHub, Kaggle, RStudio Connect, etc).")
+       href        = "use-cases/reuse-tidy-datasets.html",
+       description = "Doing data analysis usually requires tidying your data, a tidy dataset is something worth considering sharing with others or your future self. You can easily incorporate 'pins' in your data analysis workflows by sharing your tidy dataset with others in any of the supported boards (GitHub, Kaggle, RStudio Connect, etc)."),
+   list(image       = "images/use-cases-reuse-tidy-datasets.png",
+       title       = "Schedule Dataset Updates",
+       href        = "use-cases/schedule-dataset-updates.html",
+       description = ""),
+   list(image       = "images/use-cases-reuse-tidy-datasets.png",
+       title       = "Create Simple Data Pipelines",
+       href        = "use-cases/create-simple-data-pipelines.html",
+       description = ""),
+   list(image       = "images/use-cases-reuse-tidy-datasets.png",
+       title       = "Update Plumber and Shiny Apps",
+       href        = "use-cases/update-plumber-and-shiny-apps.html",
+       description = "")
 ))
 ```
