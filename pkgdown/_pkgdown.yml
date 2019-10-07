@@ -74,7 +74,7 @@ navbar:
         - text: "Schedule Dataset Updates"
           href: articles/use-cases/schedule-dataset-updates.html
         - text: "Create Simple Data Pipelines"
-          href: articles/use-cases/create-simple-data-pipelines.html
+          href: articles/use-cases/create-simple-pipelines.html
         - text: "Update Plumber and Shiny Apps"
           href: articles/use-cases/update-plumber-and-shiny-apps.html
     - text: "Reference"

@@ -1,0 +1,30 @@
+---
+title: "Create Simple Pipelines"
+output:
+  html_document:
+    df_print: paged
+---
+
+Once you have shared datasets (manually created by [Reusing Tidy Datasets](reuse-tidy-datasets.htm) or by automating them with [Scheduled Dataset Updates](schedule-dataset-updates.html)), you can also consider creating code that depends on one or many pins to further process datasets or pin other objects like visualizations, models, and so on.
+
+For instance, we could use the `worldnews` pin to create a deep learning model on a daily schedule. One of the state-of-the-art language models is [BERT](https://arxiv.org/abs/1810.04805), which we can also use from R through an experimental [rbert](https://github.com/jonathanbratt/RBERT/) package. The following code initialized the BERT model:
+
+```{r eval=FALSE}
+tensorflow::install_tensorflow(version = "1.13.1")
+```
+```{r}
+library(tensorflow)
+
+# download gpt-2 model
+model_base <- "https://storage.googleapis.com/gpt-2/models/124M/"
+model_files <- c("checkpoint", "encoder.json", "hparams.json", "model.ckpt.data-00000-of-00001", "model.ckpt.index", "model.ckpt.meta", "vocab.bpe")
+model_urls <- paste0(model_base, model_files)
+
+model_local <- pins::pin(model_urls)
+
+```
+
+
+```{r}
+pin_get("jluraschi/worldnews", board = "rsconnect")
+```

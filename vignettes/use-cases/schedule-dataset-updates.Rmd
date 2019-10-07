@@ -5,7 +5,7 @@ output:
     df_print: paged
 ---
 
-After a dataset are shared (as showcased in the [Reuse Tidy Datasets](reuse-tidy-datasets.htm) use case), it is often useful to also consider automating this process. This is specially interesting for datasets that tend to get out-of-date constantly. This would be the case if we were interesting in maintaining a pin to track daily news through the following repos:
+After a datasets are shared (as showcased in the [Reuse Tidy Datasets](reuse-tidy-datasets.htm) use case), it is often useful to also consider automating this process. This is specially interesting for datasets that tend to get out-of-date constantly. This would be the case if we were interesting in maintaining a pin to track daily news through the following repos:
 
 ````markdown
 ---

@@ -1,6 +1,0 @@
----
-title: "Create Simple Data Pipelines"
-output:
-  html_document:
-    df_print: paged
----
