@@ -1,5 +1,10 @@
 # pins 0.2.0.9999 (unreleased)
 
+## Pins
+
+- Support creating automatic `name` when using `pin()` and
+  multiple URL.
+
 ## Boards
 
 - Avoid "cannot create dir" warning in systems with an
