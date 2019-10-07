@@ -69,7 +69,7 @@ board_list <- function() {
 board_get <- function(name) {
   if (is.null(name)) name <- board_default()
 
-  register_call <- paste0("board_register(board = \"", name, "\")")
+  register_call <- paste0("pins::board_register(board = \"", name, "\")")
 
   if (!name %in% board_registry_list()) {
     # attempt to automatically register board
