@@ -20,9 +20,6 @@ Then you can retrieve the previous automated pin, apply the GPT-2 text generatio
 library(pins)
 
 pin_get("worldnews", board = "rsconnect") %>%
-  dplyr::top_n(1) %>%
-  dplyr::pull(title) %>%
-  as.character() %>%
-  gpt2::gpt2("124M") %>%
-  pin("news-generated")
+  dplyr::mutate(generated = gpt2::gpt2(title)) %>%
+  pin("news-generated", board = "rsconnect")
 ```
