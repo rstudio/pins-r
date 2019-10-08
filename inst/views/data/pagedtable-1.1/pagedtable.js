@@ -400,13 +400,14 @@ var PagedTable = function (pagedTable) {
           maxChars = Math.max(maxChars, data.getRow(idxRow)[column.name.toString()].toString().length);
         }
 
+        var maxWidth = pagedTable.clientWidth - 2 * columnNavigationWidthPX - 2 * measures.padding;
         me.widths[column.name] = {
           // width in characters
           chars: maxChars,
           // width for the inner html columns
-          inner: maxChars * measures.character,
+          inner: Math.min(maxWidth, maxChars * measures.character),
           // width adding outer styles like padding
-          outer: maxChars * measures.character + measures.padding
+          outer: Math.min(maxWidth, maxChars * measures.character) + measures.padding
         };
       });
     };

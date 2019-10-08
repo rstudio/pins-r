@@ -12,6 +12,9 @@
   
 ## RStudio
 
+- Fix data frames previewing character columns with special
+  characters.
+
 - Fix connection code when a board is registered automatically.
 
 ## RStudio Connect
