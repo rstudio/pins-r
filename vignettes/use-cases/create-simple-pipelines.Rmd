@@ -14,12 +14,18 @@ remotes::install_github("javierluraschi/gpt2")
 gpt2::install_gpt2()
 ```
 
-Then you can retrieve the previous automated pin, apply the GPT-2 text generation model and pin the result in a new pin -- which essentially creates a simple data processing pipeline:
+YOu can then retrieve the previous automated pin, apply the GPT-2 text generation model and pin the result in a new pin -- which essentially creates a simple data processing pipeline:
 
-```{r}
+```{r eval=FALSE}
 library(pins)
 
 pin_get("worldnews", board = "rsconnect") %>%
   dplyr::mutate(generated = gpt2::gpt2(title)) %>%
   pin("news-generated", board = "rsconnect")
 ```
+
+You can browse this application running at [beta.rstudioconnect.com/connect/#/apps/6565/access](https://beta.rstudioconnect.com/connect/#/apps/6565/access)
+
+[![](images/create-pipelines-rsconnect.png)](https://beta.rstudioconnect.com/connect/#/apps/6565/access)
+
+You could also create an automated report to process this dataset with the techniquest presented on [Schedule Dataset Updates](schedule-dataset-updates.html).

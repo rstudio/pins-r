@@ -29,7 +29,7 @@ pins_site_gallery(list(
        title       = "Create Simple Pipelines",
        href        = "use-cases/create-simple-pipelines.html",
        description = "You can then reuse the automatically generated pin with subsequent reports to create additional datasets, visualizations or even models based on one or many pins previously generated pins. This can be useful to avoid recomputing similar reports multiple times and encouraging others to reuse your workflows.",
-       app         = ""),
+       app         = "https://beta.rstudioconnect.com/connect/#/apps/6565/access"),
    list(image       = "images/use-cases-reuse-tidy-datasets.png",
        title       = "Update Plumber and Shiny Apps",
        href        = "use-cases/update-plumber-and-shiny-apps.html",
