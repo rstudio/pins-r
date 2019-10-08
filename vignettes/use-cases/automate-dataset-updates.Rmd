@@ -1,5 +1,5 @@
 ---
-title: "Schedule Dataset Updates"
+title: "Automate Dataset Updates"
 output:
   html_document:
     df_print: paged
@@ -36,7 +36,7 @@ pin(world_news, "worldnews", board = "rsconnect")
 
 While you can run manually this report each time you need the `worldnews` pin update, using automated techniques makes so much sense.
 
-The `pins` package does not provide support to schedule execution of R code; however, many tools and services can be used in combination with `pins` to update datasets with ease. For instance, when using GitHub, Travis can be used in combination with a `GITHUB_PAT` environment variable to knit this daily news report and update pins in GitHub. Similarily, using RStudio Connect, we can easily publish this report and configure RStudio Connect to run this daily -- the pin will then be kept up to date every day automatically!
+The `pins` package does not provide support to automate execution of R code; however, many tools and services can be used in combination with `pins` to update datasets with ease. For instance, when using GitHub, Travis can be used in combination with a `GITHUB_PAT` environment variable to knit this daily news report and update pins in GitHub. Similarily, using RStudio Connect, we can easily publish this report and configure RStudio Connect to run this daily -- the pin will then be kept up to date every day automatically!
 
 You can take a look at this up-to-date daily news dataset at [beta.rstudioconnect.com/connect/#/apps/6446/access](https://beta.rstudioconnect.com/connect/#/apps/6446/access) or preview this bellow:
 

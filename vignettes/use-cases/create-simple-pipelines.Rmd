@@ -5,12 +5,12 @@ output:
     df_print: paged
 ---
 
-Once you have shared datasets (manually created by [Reusing Tidy Datasets](reuse-tidy-datasets.htm) or by automating them with [Scheduled Dataset Updates](schedule-dataset-updates.html)), you can also consider creating code that depends on one or many pins to further process datasets or pin other objects like visualizations, models, and so on.
+Once you have shared datasets (manually created by [Reusing Tidy Datasets](reuse-tidy-datasets.htm) or by [Automating Dataset Updates](automate-dataset-updates.html)), you can also consider creating code that depends on one or many pins to further process datasets or pin other objects like visualizations, models, and so on.
 
-For instance, we could use the `worldnews` pin to create a deep learning model on a daily schedule. One of the state-of-the-art language models is [GPT-2](https://openai.com/blog/better-language-models/), which we can also use from R through an experimental [gpt2](https://github.com/javierluraschi/gpt2/) package. First install the package and dependencies,
+For instance, we could use the `worldnews` pin to create a deep learning model on a daily schedule. One of the state-of-the-art language models is [GPT-2](https://openai.com/blog/better-language-models/), which we can also use from R through an experimental [gpt2](https://github.com/r-tensorflow/gpt2/) package. First install the package and dependencies,
 
 ```{r eval=FALSE}
-remotes::install_github("javierluraschi/gpt2")
+remotes::install_github("r-tensorflow/gpt2")
 gpt2::install_gpt2()
 ```
 
@@ -28,4 +28,4 @@ You can browse this application running at [beta.rstudioconnect.com/connect/#/ap
 
 [![](images/create-pipelines-rsconnect.png)](https://beta.rstudioconnect.com/connect/#/apps/6565/access)
 
-You could also create an automated report to process this dataset with the techniquest presented on [Schedule Dataset Updates](schedule-dataset-updates.html).
+You could also create an automated report to process this dataset with the techniquest presented on [Automate Dataset Updates](automate-dataset-updates.html).
