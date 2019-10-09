@@ -7,10 +7,11 @@ output:
 
 This notebook showcases the `pins` package ability to help you share and reuse tidy datasets with others. We will make use of the "A Million News Headlines" dataset from [kaggle.com/therohk/million-headlines](https://www.kaggle.com/therohk/million-headlines).
 
-As a start, lets retrieve the dataset using `pins` and load is using `readr`:
+As a start, lets retrieve the dataset using `pins` and load it using `readr`. You will need to authenticate to Kaggle by downloading your token file from [kaggle.com/me/account](https://www.kaggle.com/me/account).
 
 ```{r}
 library(pins)
+board_register_kaggle(token = "path/to/kaggle.json")
 
 news <- pin_get("therohk/million-headlines", board = "kaggle") %>%
   readr::read_csv()
@@ -18,7 +19,7 @@ news <- pin_get("therohk/million-headlines", board = "kaggle") %>%
 news
 ```
 
-First, lets clean up this dataset. For instance, the 'publish_date' column is a character, not a date:
+First, let's clean up this dataset. For instance, the 'publish_date' column is a character, not a date:
 
 ```{r}
 library(dplyr)
@@ -29,7 +30,7 @@ news_cleaned <- news %>%
 news_cleaned
 ```
 
-Lets also assume we are interested in understanding when news outlets publish news, not what headlines are published. For this, we can keep the counts per day and month and throw away the other columns:
+Let's also assume we are interested in understanding when news outlets publish news, not what headlines are published. For this, we can keep the counts per day and month and throw away the other columns:
 
 ```{r}
 news_totals <- news_cleaned %>%
@@ -49,7 +50,7 @@ news_totals %>%
   geom_line() 
 ```
 
-Now, while this might complete our particular analysis, others in your team might be interested in easily fetching your tidied data set, which you can now easily share with `pins` in any available board. The following example uses RStudio Connect but this board can also be replaced to use Kaggle, GitHub or even custom boards:
+Now, while this might complete our particular analysis, others in your team might be interested in easily fetching your tidy dataset, which you can now easily share with `pins` in any available board. The following example uses RStudio Connect but this board can also be replaced to use Kaggle, GitHub or even custom boards:
 
 ```{r eval=FALSE}
 pins::pin(news_totals, board = "rsconnect")
@@ -57,10 +58,10 @@ pins::pin(news_totals, board = "rsconnect")
 
 [![](images/reuse-analysis-rsconnect.png)](https://beta.rstudioconnect.com/connect/#/apps/6522/access)
 
-You can then use the board's user interface to share this pin with others. A colleague can now reuse your tidy dataset by fetching it from the applicable board:
+You can then use the board's user interface to share this pin with others. A colleague can now reuse your tidy dataset by fetching it from the given board using pins:
 
 ```{r}
 pin_get("news-totals", board = "rsconnect")
 ```
 
-You can preview the RStudio Connect pin for this tidy dataset at [beta.rstudioconnect.com/connect/#/apps/6522/access](https://beta.rstudioconnect.com/connect/#/apps/6522/access) or preview this bellow:
+You can preview the RStudio Connect pin for this tidy dataset at [beta.rstudioconnect.com/connect/#/apps/6522/access](https://beta.rstudioconnect.com/connect/#/apps/6522/access).

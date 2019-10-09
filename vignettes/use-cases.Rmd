@@ -7,7 +7,7 @@ knitr::opts_chunk$set(echo = FALSE)
 source("utils.R")
 ```
 
-There are many interesting use cases available for `pins`, from easily caching remote resources to creating complex data pipelines which we can't possible describe exhaustively. Therefore, the purpose of this section is to mention a few use cases that can help you get inspired on how to use `pins`.
+There are many interesting use cases available for `pins`, from easily caching remote resources to creating complex data pipelines, and many more use cases which we can't possible describe exhaustively. Therefore, the purpose of this section is to mention a few use cases that can help you get inspired on how to use `pins`.
 
 For instance, after cleaning up your data, you can consider letting others [reuse your tidy datasets](use-cases/reusing-tidy-datasets.html). Once your data is in a shared location, you might want to consider [automating dataset updates](use-cases/automate-dataset-updates.html). You can then attempt to pipe multiple datasets to [create data pipelines](use-cases/create-data-pipelines.html) or partially [update plumber and shiny apps](use-cases/update-plumber-and-shiny-apps.html) using pins.
 
@@ -33,7 +33,7 @@ pins_site_gallery(list(
    list(image       = "images/use-cases-update-shiny-apps.png",
        title       = "Update Plumber and Shiny Apps",
        href        = "use-cases/update-plumber-and-shiny-apps.html",
-       description = "Last but not least, you can use pins with Plumber and Shiny apps to updatee them with ease by reusing datasets, models or visualizations generated with pins. For instance, we can create a web application that makes use of a data pipeline by converting the results into a reactive pin.",
+       description = "Last but not least, you can use pins with Plumber and Shiny apps to update them with ease by reusing datasets, models or visualizations generated with pins. For instance, we can create a web application that makes use of a data pipeline by converting the results into a reactive pin.",
        app         = "https://beta.rstudioconnect.com/connect/#/apps/6578/access")
 ))
 ```
