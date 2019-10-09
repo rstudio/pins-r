@@ -2,6 +2,9 @@
 
 ## Pins
 
+- Support for `I()` to force a pin to be created without additional
+  overhead of exporting CSV and other enhancements (#73).
+
 - Support creating automatic `name` when using `pin()` and
   multiple URL.
 
