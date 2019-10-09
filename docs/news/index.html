@@ -62,7 +62,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.1</span>
       </span>
     </div>
 
@@ -112,6 +112,33 @@
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Use Cases
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Overview</li>
+    <li>
+      <a href="../articles/use-cases.html">Use Cases</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Use Cases</li>
+    <li>
+      <a href="../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
+    </li>
+    <li>
+      <a href="../articles/use-cases/automate-dataset-updates.html">Schedule Dataset Updates</a>
+    </li>
+    <li>
+      <a href="../articles/use-cases/create-data-pipelines.html">Create Simple Data Pipelines</a>
+    </li>
+    <li>
+      <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -140,13 +167,48 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-013-unreleased" class="section level1">
+    <div id="pins-0209999-unreleased" class="section level1">
 <h1 class="page-header">
-<a href="#pins-013-unreleased" class="anchor"></a>pins 0.1.3 (unreleased)<small> Unreleased </small>
+<a href="#pins-0209999-unreleased" class="anchor"></a>pins 0.2.0.9999 (unreleased)<small> Unreleased </small>
 </h1>
+<div id="pins" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pins" class="anchor"></a>Pins</h2>
+<ul>
+<li>Support creating automatic <code>name</code> when using <code><a href="../reference/pin.html">pin()</a></code> and multiple URL.</li>
+</ul>
+</div>
+<div id="boards" class="section level2">
+<h2 class="hasAnchor">
+<a href="#boards" class="anchor"></a>Boards</h2>
+<ul>
+<li>Avoid “cannot create dir” warning in systems with an empty cache folder.</li>
+</ul>
+</div>
+<div id="rstudio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio" class="anchor"></a>RStudio</h2>
+<ul>
+<li><p>Fix data frames previewing character columns with special characters.</p></li>
+<li><p>Fix connection code when a board is registered automatically.</p></li>
+</ul>
+</div>
 <div id="rstudio-connect" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<ul>
+<li><p>Fix issue expanding pins columns in RStudio for pins with similar names in RStudio Connect boards.</p></li>
+<li><p>Fix issue removing pins with similar names in RStudio Connect boards.</p></li>
+</ul>
+</div>
+</div>
+    <div id="pins-020" class="section level1">
+<h1 class="page-header">
+<a href="#pins-020" class="anchor"></a>pins 0.2.0<small> 2019-10-01 </small>
+</h1>
+<div id="rstudio-connect-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for retrieving pins shared by others in RStudio Connect boards.</p></li>
 <li><p>Support for RStudio Connect servers running under a subpath in the server.</p></li>
@@ -165,9 +227,9 @@
 <li><p>Allow overriding GitHub pin over a pin that partially failed to be created.</p></li>
 </ul>
 </div>
-<div id="boards" class="section level2">
+<div id="boards-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#boards" class="anchor"></a>Boards</h2>
+<a href="#boards-1" class="anchor"></a>Boards</h2>
 <ul>
 <li><p>Using a board will attempt to automatically register, such that <code><a href="../reference/pin.html">pin(iris, board = "rsconnect")</a></code> would work for the default configuration even when the board is not explicitly registered (<a href='https://github.com/rstudio/pins/issues/50'>#50</a>).</p></li>
 <li><p>Registers “local” board by default, you no longer need to explicitly run <code><a href="../reference/board_register_local.html">board_register_local()</a></code> (<a href='https://github.com/rstudio/pins/issues/56'>#56</a>).</p></li>
@@ -219,7 +281,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pins-013-unreleased">0.1.3</a></li>
+        <li><a href="#pins-0209999-unreleased">0.2.0.9999</a></li>
+        <li><a href="#pins-020">0.2.0</a></li>
         <li><a href="#pins-012">0.1.2</a></li>
         <li><a href="#pins-011">0.1.1</a></li>
         <li><a href="#pins-010">0.1.0</a></li>

@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.1</span>
       </span>
     </div>
 
@@ -112,6 +112,33 @@
     </li>
     <li>
       <a href="../articles/boards-extending.html">Extending Boards</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Use Cases
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Overview</li>
+    <li>
+      <a href="../articles/use-cases.html">Use Cases</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Use Cases</li>
+    <li>
+      <a href="../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
+    </li>
+    <li>
+      <a href="../articles/use-cases/automate-dataset-updates.html">Schedule Dataset Updates</a>
+    </li>
+    <li>
+      <a href="../articles/use-cases/create-data-pipelines.html">Create Simple Data Pipelines</a>
+    </li>
+    <li>
+      <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
     </li>
   </ul>
 </li>
@@ -232,7 +259,7 @@ continue to work.</p>
                       <span class='st'>"master/examples/example_retail_sales.csv"</span>)
 
 <span class='co'># cache remote resource</span>
-<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/Rtmp8vWdKM/filef48039459843/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
+<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpvIwVc9/filedea524679f91/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
 <span class='co'># load cached csv</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"example_retail_sales"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.csv</a></span>()</div><div class='output co'>#&gt;             ds      y
 #&gt; 1   1992-01-01 146376

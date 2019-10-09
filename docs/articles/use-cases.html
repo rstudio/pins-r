@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Using Pins in RStudio • pins</title>
+<title>Use Cases • pins</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Using Pins in RStudio">
+<meta property="og:title" content="Use Cases">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -131,53 +131,58 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Using Pins in RStudio</h1>
+      <h1>Use Cases</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/pins-rstudio.Rmd"><code>vignettes/pins-rstudio.Rmd</code></a></small>
-      <div class="hidden name"><code>pins-rstudio.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/use-cases.Rmd"><code>vignettes/use-cases.Rmd</code></a></small>
+      <div class="hidden name"><code>use-cases.Rmd</code></div>
 
     </div>
 
     
     
-<p>After installing the <code>pins</code> package, two features become available in RStudio: the <strong>Find Pins Addin</strong> and a new <strong>Pins Connection</strong> type. The addin allows you do discover datasets while the connection allows you to register new boards and manage your existing pins.</p>
-<div id="addin" class="section level2">
-<h2 class="hasAnchor">
-<a href="#addin" class="anchor"></a>Addin</h2>
-<p>You can use the Find Pins <a href="https://rstudio.github.io/rstudioaddins">Addin</a> to visually discover resources, this functionality is equivalent to using <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
-<p><img src="images/rstudio-discover-pins.png" style="width:100.0%"></p>
-<p>To launch this addin, use the <strong>Addins</strong> toolbar and then select <strong>Find Pins</strong>:</p>
-<p><img src="images/rstudio-pins-addin-menu.png" width="220"></p>
-<p>You can then use the search textbox to search across all registered boards, or select particular board from the dropdown to scope your search to particular ones. For instance, we can select the CRAN packages board and then search for ‘home prices’ which will update the results as you type. This example is equivalent to searching with <code><a href="../reference/pin_find.html">pin_find("home prices", board = "packages")</a></code>.</p>
-<p><img src="images/rstudio-pins-addin-search.png" width="380"></p>
-<p>Please notice that search is implemented differently in each board. For the CRAN packages board, the entire search string is searched, case insensitive, in the name and description. Other boards might implement more advanced or simple search algorithms.</p>
+<p>There are many interesting use cases available for <code>pins</code>, from easily caching remote resources to creating complex data pipelines which we can’t possible describe exhaustively. Therefore, the purpose of this section is to mention a few use cases that can help you get inspired on how to use <code>pins</code>.</p>
+<p>For instance, after cleaning up your data, you can consider letting others <a href="use-cases/reusing-tidy-datasets.html">reuse your tidy datasets</a>. Once your data is in a shared location, you might want to consider <a href="use-cases/automate-dataset-updates.html">automating dataset updates</a>. You can then attempt to pipe multiple datasets to <a href="use-cases/create-data-pipelines.html">create data pipelines</a> or partially <a href="use-cases/update-plumber-and-shiny-apps.html">update plumber and shiny apps</a> using pins.</p>
+<p>The use cases are presented using <a href="https://rstudio.com/products/connect/">RStudio Connect</a>; however, similar workflows can be built in GitHub or Kaggle by making use of <a href="https://travis-ci.org">Travis</a>, <a href="http://appveyor.com">AppVeyor</a> or <a href="https://github.com/features/actions">GitHub Actions</a>.</p>
+<div class="row use-case">
+<a href="use-cases/reuse-tidy-datasets.html">
+<img src="images/use-cases-reuse-tidy-datasets.png"></a>
+<div>
+<h3>Reuse Tidy Datasets</h3>
+Doing data analysis usually requires tidying your dataset first, this can take quite some time so it's worth considering sharing the tidy dataset with others or your future self. You can easily incorporate pins in your data analysis workflows by sharing your tidy dataset with others in any of the supported boards (GitHub, Kaggle, RStudio Connect, etc).
+<br><a class="pin-link" href="https://beta.rstudioconnect.com/connect/#/apps/6522/access">Preview Pin</a>
 </div>
-<div id="connection" class="section level2">
-<h2 class="hasAnchor">
-<a href="#connection" class="anchor"></a>Connection</h2>
-<p>You can connect to several different boards to discover, pin and share resources. Those boards will be introduced in the <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a>, and <a href="boards-rsconnect.html">RStudio Connect</a> articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you’ve created with <code><a href="../reference/pin.html">pin()</a></code>.</p>
-<p><img src="images/rstudio-cached-pins.png" style="width:100.0%"></p>
-<p>First, open the RStudio’s <strong>Connections Pane</strong>, followed by selecting <strong>New Connection</strong> from the toolbar, this action will launch the connection wizard with a new <strong>Pins</strong> connection type. The connection provides support to connect to multiple boards, but for now, we will use a <strong>local</strong> connection which stores pins in a local folder.</p>
-<p><img src="images/rstudio-pins-connection.png" width="600"></p>
-<p>Once connected to a board, you can browse pins available in that particular board using the connections pane. Each pin can then be expanded to show, when available, the columns each resource contains.</p>
-<p><img src="images/rstudio-pins-connection-pane.png" width="600"></p>
-<p>You can then preview each resource by selecting the preview button which triggers code similar to <code><a href="../reference/custom-pins.html">pin_preview(pin_get("&lt;name&gt;", board = "&lt;connection-board&gt;"))</a></code>.</p>
-<p><img src="images/rstudio-pins-connection-preview.png" width="480"></p>
-<p>The next section, <a href="boards-understanding.html">Understanding Boards</a>, will properly present what exactly a board is and how to configure additional storage locations. However, it’s worth mentioning here that the board registration process to Github, Kaggle and RStudio Connect boards can also be completed when creating a Pins Connection, just select the appropriate board from the drop down to configure each board.</p>
-<p><img src="images/rstudio-pins-boards.png" width="680"></p>
+</div>
+<div class="row use-case">
+<a href="use-cases/automate-dataset-updates.html">
+<img src="images/use-cases-automate-dataset-updates.png"></a>
+<div>
+<h3>Automate Dataset Updates</h3>
+Once a dataset is shared as a pin, it is natural to consider automating the process of updating it. This is especially relevant for datasets that change frequently. You can use automated tools like Travis, AppVeyor, GitHub Actions or RStudio Connect in combination with R and the pins package to keep your datasets up to date.
+<br><a class="pin-link" href="https://beta.rstudioconnect.com/connect/#/apps/6446/access">Preview Pin</a>
+</div>
+</div>
+<div class="row use-case">
+<a href="use-cases/create-data-pipelines.html">
+<img src="images/use-cases-create-data-pipelines.png"></a>
+<div>
+<h3>Create Data Pipelines</h3>
+You can then reuse the automatically generated pin with subsequent reports to create additional datasets, visualizations or even models based on one or many pins previously generated pins. This can be useful to avoid recomputing similar reports multiple times and encouraging others to reuse your workflows.
+<br><a class="pin-link" href="https://beta.rstudioconnect.com/connect/#/apps/6565/access">Preview Pin</a>
+</div>
+</div>
+<div class="row use-case">
+<a href="use-cases/update-plumber-and-shiny-apps.html">
+<img src="images/use-cases-update-shiny-apps.png"></a>
+<div>
+<h3>Update Plumber and Shiny Apps</h3>
+Last but not least, you can use pins with Plumber and Shiny apps to updatee them with ease by reusing datasets, models or visualizations generated with pins. For instance, we can create a web application that makes use of a data pipeline by converting the results into a reactive pin.
+<br><a class="pin-link" href="https://beta.rstudioconnect.com/connect/#/apps/6578/access">Preview Pin</a>
+</div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#addin">Addin</a></li>
-      <li><a href="#connection">Connection</a></li>
-      </ul>
-</div>
       </div>
 
 </div>
