@@ -71,6 +71,14 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
   "data.rds"
 }
 
+rsconnect_bundle_create.AsIs <- function(x, temp_dir, name, board, account_name) {
+  rsconnect_bundle_create.default(x = x,
+                                  temp_dir = temp_dir,
+                                  name = name,
+                                  board = board,
+                                  account_name = account_name)
+}
+
 rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_name) {
   html_file <- file.path(temp_dir, "index.html")
 
