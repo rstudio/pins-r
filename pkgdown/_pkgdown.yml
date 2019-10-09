@@ -72,9 +72,9 @@ navbar:
         - text: "Reuse Tidy Datasets"
           href: articles/use-cases/reuse-tidy-datasets.html
         - text: "Schedule Dataset Updates"
-          href: articles/use-cases/schedule-dataset-updates.html
+          href: articles/use-cases/automate-dataset-updates.html
         - text: "Create Simple Data Pipelines"
-          href: articles/use-cases/create-simple-pipelines.html
+          href: articles/use-cases/create-data-pipelines.html
         - text: "Update Plumber and Shiny Apps"
           href: articles/use-cases/update-plumber-and-shiny-apps.html
     - text: "Reference"

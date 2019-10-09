@@ -1,5 +1,5 @@
 ---
-title: "Create Simple Pipelines"
+title: "Create Data Pipelines"
 output:
   html_document:
     df_print: paged
