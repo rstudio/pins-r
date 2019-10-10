@@ -81,7 +81,7 @@ news_totals %>%
   ggplot(aes(x=publish_date, y=count)) +
   geom_line() 
 ```
-![](images/reuse-analysis-ggplot2.png)
+![](images/reuse-analysis-ggplot2.png){width=70%}
 
 Now, while this might complete our particular analysis, others in your team might be interested in easily fetching your tidy dataset, which you can now easily share with `pins` in any available board. The following example uses RStudio Connect but this board can also be replaced to use Kaggle, GitHub or even custom boards:
 
