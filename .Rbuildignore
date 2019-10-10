@@ -15,3 +15,5 @@
 ^appveyor.yml$
 ^ci$
 ^LICENSE$
+^vignettes/use-cases$
+^examples$

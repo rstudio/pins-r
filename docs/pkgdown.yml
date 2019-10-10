@@ -11,4 +11,9 @@ articles:
   pins-extending: pins-extending.html
   pins-rstudio: pins-rstudio.html
   pins-starting: pins-starting.html
+  automate-dataset-updates: use-cases/automate-dataset-updates.html
+  create-data-pipelines: use-cases/create-data-pipelines.html
+  reuse-tidy-datasets: use-cases/reuse-tidy-datasets.html
+  update-plumber-and-shiny-apps: use-cases/update-plumber-and-shiny-apps.html
+  use-cases: use-cases.html
 
