@@ -98,10 +98,10 @@
       <a href="../../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
     </li>
     <li>
-      <a href="../../articles/use-cases/automate-dataset-updates.html">Schedule Dataset Updates</a>
+      <a href="../../articles/use-cases/automate-dataset-updates.html">Automate Dataset Updates</a>
     </li>
     <li>
-      <a href="../../articles/use-cases/create-data-pipelines.html">Create Simple Data Pipelines</a>
+      <a href="../../articles/use-cases/create-data-pipelines.html">Create Data Pipelines</a>
     </li>
     <li>
       <a href="../../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
@@ -142,93 +142,82 @@
     
     
 <p>This notebook showcases the <code>pins</code> package ability to help you share and reuse tidy datasets with others. We will make use of the “A Million News Headlines” dataset from <a href="https://www.kaggle.com/therohk/million-headlines">kaggle.com/therohk/million-headlines</a>.</p>
-<p>As a start, lets retrieve the dataset using <code>pins</code> and load is using <code>readr</code>:</p>
+<p>As a start, lets retrieve the dataset using <code>pins</code> and load it using <code>readr</code>. You will need to authenticate to Kaggle by downloading your token file from <a href="https://www.kaggle.com/me/account">kaggle.com/me/account</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3">news &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/pin_get.html">pin_get</a></span>(<span class="st">"therohk/million-headlines"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="st">  </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>()</a></code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   publish_date = col_double(),
-##   headline_text = col_character()
-## )</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">news</a></code></pre></div>
-<pre><code>## # A tibble: 1,103,663 x 2
-##    publish_date headline_text                                     
-##           &lt;dbl&gt; &lt;chr&gt;                                             
-##  1     20030219 aba decides against community broadcasting licence
-##  2     20030219 act fire witnesses must be aware of defamation    
-##  3     20030219 a g calls for infrastructure protection summit    
-##  4     20030219 air nz staff in aust strike for pay rise          
-##  5     20030219 air nz strike to affect australian travellers     
-##  6     20030219 ambitious olsson wins triple jump                 
-##  7     20030219 antic delighted with record breaking barca        
-##  8     20030219 aussie qualifier stosur wastes four memphis match 
-##  9     20030219 aust addresses un security council over iraq      
-## 10     20030219 australia is locked into war timetable opp        
-## # … with 1,103,653 more rows</code></pre>
-<p>First, lets clean up this dataset. For instance, the ‘publish_date’ column is a character, not a date:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a></code></pre></div>
-<pre><code>## Warning: package 'dplyr' was built under R version 3.5.2</code></pre>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">news_cleaned &lt;-<span class="st"> </span>news <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">publish_date =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">as.character</a></span>(publish_date), <span class="dt">format =</span> <span class="st">"%Y%m%d"</span>))</a>
-<a class="sourceLine" id="cb10-3" title="3"></a>
-<a class="sourceLine" id="cb10-4" title="4">news_cleaned</a></code></pre></div>
-<pre><code>## # A tibble: 1,103,663 x 2
-##    publish_date headline_text                                     
-##    &lt;date&gt;       &lt;chr&gt;                                             
-##  1 2003-02-19   aba decides against community broadcasting licence
-##  2 2003-02-19   act fire witnesses must be aware of defamation    
-##  3 2003-02-19   a g calls for infrastructure protection summit    
-##  4 2003-02-19   air nz staff in aust strike for pay rise          
-##  5 2003-02-19   air nz strike to affect australian travellers     
-##  6 2003-02-19   ambitious olsson wins triple jump                 
-##  7 2003-02-19   antic delighted with record breaking barca        
-##  8 2003-02-19   aussie qualifier stosur wastes four memphis match 
-##  9 2003-02-19   aust addresses un security council over iraq      
-## 10 2003-02-19   australia is locked into war timetable opp        
-## # … with 1,103,653 more rows</code></pre>
-<p>Lets also assume we are interested in understanding when news outlets publish news, not what headlines are published. For this, we can keep the counts per day and month and throw away the other columns:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">news_totals &lt;-<span class="st"> </span>news_cleaned <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(publish_date) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">count =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/n.html">n</a></span>())</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="../../reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4">news &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/pin_get.html">pin_get</a></span>(<span class="st">"therohk/million-headlines"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="st">  </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>()</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">news</a></code></pre></div>
+<pre><code># A tibble: 1,103,663 x 2
+   publish_date headline_text                                     
+          &lt;dbl&gt; &lt;chr&gt;                                             
+ 1     20030219 aba decides against community broadcasting licence
+ 2     20030219 act fire witnesses must be aware of defamation    
+ 3     20030219 a g calls for infrastructure protection summit    
+ 4     20030219 air nz staff in aust strike for pay rise          
+ 5     20030219 air nz strike to affect australian travellers     
+ 6     20030219 ambitious olsson wins triple jump                 
+ 7     20030219 antic delighted with record breaking barca        
+ 8     20030219 aussie qualifier stosur wastes four memphis match 
+ 9     20030219 aust addresses un security council over iraq      
+10     20030219 australia is locked into war timetable opp        
+# … with 1,103,653 more rows</code></pre>
+<p>First, let’s clean up this dataset. For instance, the ‘publish_date’ column is a character, not a date:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3">news_cleaned &lt;-<span class="st"> </span>news <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">publish_date =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">as.character</a></span>(publish_date), <span class="dt">format =</span> <span class="st">"%Y%m%d"</span>))</a>
+<a class="sourceLine" id="cb3-5" title="5"></a>
+<a class="sourceLine" id="cb3-6" title="6">news_cleaned</a></code></pre></div>
+<pre><code># A tibble: 1,103,663 x 2
+   publish_date headline_text                                     
+   &lt;date&gt;       &lt;chr&gt;                                             
+ 1 2003-02-19   aba decides against community broadcasting licence
+ 2 2003-02-19   act fire witnesses must be aware of defamation    
+ 3 2003-02-19   a g calls for infrastructure protection summit    
+ 4 2003-02-19   air nz staff in aust strike for pay rise          
+ 5 2003-02-19   air nz strike to affect australian travellers     
+ 6 2003-02-19   ambitious olsson wins triple jump                 
+ 7 2003-02-19   antic delighted with record breaking barca        
+ 8 2003-02-19   aussie qualifier stosur wastes four memphis match 
+ 9 2003-02-19   aust addresses un security council over iraq      
+10 2003-02-19   australia is locked into war timetable opp        
+# … with 1,103,653 more rows</code></pre>
+<p>Let’s also assume we are interested in understanding when news outlets publish news, not what headlines are published. For this, we can keep the counts per day and month and throw away the other columns:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">news_totals &lt;-<span class="st"> </span>news_cleaned <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(publish_date) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">count =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/n.html">n</a></span>())</a></code></pre></div>
 <p>We can now plot by month the total amount of news being produced by this news outlet:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a></code></pre></div>
-<pre><code>## Warning: package 'ggplot2' was built under R version 3.5.2</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">news_totals <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">publish_date =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/round_date.html">floor_date</a></span>(publish_date, <span class="st">"year"</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">count =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(count)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-4" title="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>publish_date, <span class="dt">y=</span>count)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-5" title="5"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() </a></code></pre></div>
-<p><img src="reuse-tidy-datasets_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<p>Now, while this might complete our particular analysis, others in your team might be interested in easily fetching your tidied data set, which you can now easily share with <code>pins</code> in any available board. The following example uses RStudio Connect but this board can also be replaced to use Kaggle, GitHub or even custom boards:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">pins<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/pins/topics/pin">pin</a></span>(news_totals, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb6-2" title="2"></a>
+<a class="sourceLine" id="cb6-3" title="3">news_totals <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">publish_date =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/round_date.html">floor_date</a></span>(publish_date, <span class="st">"year"</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">count =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(count)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>publish_date, <span class="dt">y=</span>count)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() </a></code></pre></div>
+<p><img src="images/reuse-analysis-ggplot2.png" style="width:70.0%"></p>
+<p>Now, while this might complete our particular analysis, others in your team might be interested in easily fetching your tidy dataset, which you can now easily share with <code>pins</code> in any available board. The following example uses RStudio Connect but this board can also be replaced to use Kaggle, GitHub or even custom boards:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">pins<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/pins/topics/pin">pin</a></span>(news_totals, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
 <p><a href="https://beta.rstudioconnect.com/connect/#/apps/6522/access"><img src="images/reuse-analysis-rsconnect.png"></a></p>
-<p>You can then use the board’s user interface to share this pin with others. A colleague can now reuse your tidy dataset by fetching it from the applicable board:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="../../reference/pin_get.html">pin_get</a></span>(<span class="st">"news-totals"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 5,422 x 2
-##    publish_date count
-##    &lt;date&gt;       &lt;int&gt;
-##  1 2003-02-19     198
-##  2 2003-02-20     250
-##  3 2003-02-21     250
-##  4 2003-02-22     126
-##  5 2003-02-23     136
-##  6 2003-02-24     250
-##  7 2003-02-25     250
-##  8 2003-02-26     250
-##  9 2003-02-27     222
-## 10 2003-02-28     249
-## # … with 5,412 more rows</code></pre>
-<p>You can preview the RStudio Connect pin for this tidy dataset at <a href="https://beta.rstudioconnect.com/connect/#/apps/6522/access">beta.rstudioconnect.com/connect/#/apps/6522/access</a> or preview this bellow:</p>
+<p>You can then use the board’s user interface to share this pin with others. A colleague can now reuse your tidy dataset by fetching it from the given board using pins:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../../reference/pin_get.html">pin_get</a></span>(<span class="st">"news-totals"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
+<pre><code># A tibble: 5,422 x 2
+   publish_date count
+   &lt;date&gt;       &lt;int&gt;
+ 1 2003-02-19     198
+ 2 2003-02-20     250
+ 3 2003-02-21     250
+ 4 2003-02-22     126
+ 5 2003-02-23     136
+ 6 2003-02-24     250
+ 7 2003-02-25     250
+ 8 2003-02-26     250
+ 9 2003-02-27     222
+10 2003-02-28     249
+# … with 5,412 more rows</code></pre>
+<p>You can preview the RStudio Connect pin for this tidy dataset at <a href="https://beta.rstudioconnect.com/connect/#/apps/6522/access">beta.rstudioconnect.com/connect/#/apps/6522/access</a>.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

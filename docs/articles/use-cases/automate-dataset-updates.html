@@ -98,10 +98,10 @@
       <a href="../../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
     </li>
     <li>
-      <a href="../../articles/use-cases/automate-dataset-updates.html">Schedule Dataset Updates</a>
+      <a href="../../articles/use-cases/automate-dataset-updates.html">Automate Dataset Updates</a>
     </li>
     <li>
-      <a href="../../articles/use-cases/create-data-pipelines.html">Create Simple Data Pipelines</a>
+      <a href="../../articles/use-cases/create-data-pipelines.html">Create Data Pipelines</a>
     </li>
     <li>
       <a href="../../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
@@ -141,7 +141,8 @@
 
     
     
-<p>After a datasets are shared (as showcased in the <a href="reuse-tidy-datasets.htm">Reuse Tidy Datasets</a> use case), it is often useful to also consider automating this process. This is specially interesting for datasets that tend to get out-of-date constantly. This would be the case if we were interesting in maintaining a pin to track daily news through the following repos:</p>
+<p>After datasets are shared (as showcased in the <a href="reuse-tidy-datasets.htm">Reuse Tidy Datasets</a> use case), it is often useful to also consider automating this process. This is especially interesting for datasets that tend to get out-of-date constantly.</p>
+<p>For example, if we were interested in updating a pin to track daily news from the <a href="http://feeds.bbci.co.uk/news/world/rss.xml">BBC World News RSS</a>, we could create the following <a href="https://rmarkdown.rstudio.com/">R Markdown</a> report to download the RSS feed, tidy the news, and publish a pin with the up-to-date news:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb1-1" title="1">---</a>
 <a class="sourceLine" id="cb1-2" title="2">title: "RStudio Connect -- World News"</a>
 <a class="sourceLine" id="cb1-3" title="3">---</a>
@@ -166,9 +167,9 @@
 <a class="sourceLine" id="cb1-22" title="22"><span class="bn">```{r}</span></a>
 <a class="sourceLine" id="cb1-23" title="23"><span class="bn">pin(world_news, "worldnews", board = "rsconnect")</span></a>
 <a class="sourceLine" id="cb1-24" title="24"><span class="bn">```</span></a></code></pre></div>
-<p>While you can run manually this report each time you need the <code>worldnews</code> pin update, using automated techniques makes so much sense.</p>
-<p>The <code>pins</code> package does not provide support to automate execution of R code; however, many tools and services can be used in combination with <code>pins</code> to update datasets with ease. For instance, when using GitHub, Travis can be used in combination with a <code>GITHUB_PAT</code> environment variable to knit this daily news report and update pins in GitHub. Similarily, using RStudio Connect, we can easily publish this report and configure RStudio Connect to run this daily – the pin will then be kept up to date every day automatically!</p>
-<p>You can take a look at this up-to-date daily news dataset at <a href="https://beta.rstudioconnect.com/connect/#/apps/6446/access">beta.rstudioconnect.com/connect/#/apps/6446/access</a> or preview this bellow:</p>
+<p>While you can run manually this report each time you need the <code>worldnews</code> pin updated, using automated techniques makes so much sense.</p>
+<p>The <code>pins</code> package does not provide support to automate execution of R code; however, many tools and services can be used in combination with <code>pins</code> to update datasets with ease. For instance, when using GitHub, Travis can be used in combination with a <code>GITHUB_PAT</code> environment variable to knit this daily news report and update pins in GitHub. Similarly, using RStudio Connect, we can easily publish this report and configure RStudio Connect to run this report daily – the pin will then be kept up-to-date, every-day, automatically!</p>
+<p>You can preview the <code>worldnews</code> dataset at <a href="https://beta.rstudioconnect.com/connect/#/apps/6446/access">beta.rstudioconnect.com/connect/#/apps/6446/access</a>:</p>
 <p><a href="https://beta.rstudioconnect.com/connect/#/apps/6446/access"><img src="images/schedule-updates-rsconnect.png"></a></p>
   </div>
 

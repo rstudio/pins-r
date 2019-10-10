@@ -98,10 +98,10 @@
       <a href="../../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
     </li>
     <li>
-      <a href="../../articles/use-cases/automate-dataset-updates.html">Schedule Dataset Updates</a>
+      <a href="../../articles/use-cases/automate-dataset-updates.html">Automate Dataset Updates</a>
     </li>
     <li>
-      <a href="../../articles/use-cases/create-data-pipelines.html">Create Simple Data Pipelines</a>
+      <a href="../../articles/use-cases/create-data-pipelines.html">Create Data Pipelines</a>
     </li>
     <li>
       <a href="../../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
@@ -142,18 +142,19 @@
     
     
 <p>Once you have shared datasets (manually created by <a href="reuse-tidy-datasets.htm">Reusing Tidy Datasets</a> or by <a href="automate-dataset-updates.html">Automating Dataset Updates</a>), you can also consider creating code that depends on one or many pins to further process datasets or pin other objects like visualizations, models, and so on.</p>
-<p>For instance, we could use the <code>worldnews</code> pin to create a deep learning model on a daily schedule. One of the state-of-the-art language models is <a href="https://openai.com/blog/better-language-models/">GPT-2</a>, which we can also use from R through an experimental <a href="https://github.com/r-tensorflow/gpt2/">gpt2</a> package. First install the package and dependencies,</p>
+<p>For instance, we could use the <code>worldnews</code> pin to create a deep learning model on a daily schedule. One of the state-of-the-art language models is <a href="https://openai.com/blog/better-language-models/">GPT-2</a>, which we can also use from R through the <a href="https://github.com/r-tensorflow/gpt2/">gpt2</a> package.</p>
+<p>Let’s first install the package and dependencies,</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"r-tensorflow/gpt2"</span>)</a>
 <a class="sourceLine" id="cb1-2" title="2">gpt2<span class="op">::</span><span class="kw">install_gpt2</span>()</a></code></pre></div>
-<p>YOu can then retrieve the previous automated pin, apply the GPT-2 text generation model and pin the result in a new pin – which essentially creates a simple data processing pipeline:</p>
+<p>You can then retrieve the <code>worldnews</code> pin, apply the GPT-2 text generation model, and pin the result in a new pin – which essentially creates a simple data processing pipeline:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pins)</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="../../reference/pin_get.html">pin_get</a></span>(<span class="st">"worldnews"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">generated =</span> gpt2<span class="op">::</span><span class="kw">gpt2</span>(title)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span><span class="kw"><a href="../../reference/pin.html">pin</a></span>(<span class="st">"news-generated"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
-<p>You can browse this application running at <a href="https://beta.rstudioconnect.com/connect/#/apps/6565/access">beta.rstudioconnect.com/connect/#/apps/6565/access</a></p>
+<p>You can preview this pipeline at <a href="https://beta.rstudioconnect.com/connect/#/apps/6565/access">beta.rstudioconnect.com/connect/#/apps/6565/access</a></p>
 <p><a href="https://beta.rstudioconnect.com/connect/#/apps/6565/access"><img src="images/create-pipelines-rsconnect.png"></a></p>
-<p>You could also create an automated report to process this dataset with the techniquest presented on <a href="automate-dataset-updates.html">Automate Dataset Updates</a>.</p>
+<p>You can also automate this process by reusing the techniquest presented in the <a href="automate-dataset-updates.html">Automate Dataset Updates</a> use-case.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

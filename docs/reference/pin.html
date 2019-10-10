@@ -132,10 +132,10 @@
       <a href="../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
     </li>
     <li>
-      <a href="../articles/use-cases/automate-dataset-updates.html">Schedule Dataset Updates</a>
+      <a href="../articles/use-cases/automate-dataset-updates.html">Automate Dataset Updates</a>
     </li>
     <li>
-      <a href="../articles/use-cases/create-data-pipelines.html">Create Simple Data Pipelines</a>
+      <a href="../articles/use-cases/create-data-pipelines.html">Create Data Pipelines</a>
     </li>
     <li>
       <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
@@ -259,7 +259,7 @@ continue to work.</p>
                       <span class='st'>"master/examples/example_retail_sales.csv"</span>)
 
 <span class='co'># cache remote resource</span>
-<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpvIwVc9/filedea524679f91/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
+<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpCo0xu4/file1095979f17448/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
 <span class='co'># load cached csv</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"example_retail_sales"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.csv</a></span>()</div><div class='output co'>#&gt;             ds      y
 #&gt; 1   1992-01-01 146376
