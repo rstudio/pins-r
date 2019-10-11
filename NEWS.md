@@ -22,6 +22,9 @@
 
 ## RStudio Connect
 
+- Fix for RStudio Connect servers where `/content/` is not 
+  used in content URLs.
+
 - Fix issue expanding pins columns in RStudio for pins with
   similar names in RStudio Connect boards.
 

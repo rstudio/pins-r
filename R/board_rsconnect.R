@@ -190,7 +190,7 @@ board_pin_find.rsconnect <- function(board, text = NULL, name = NULL, all_conten
 
   if (length(entries) == 1) {
     # enhance with pin information
-    remote_path <- rsconnect_remote_path_from_url(entries[[1]]$url)
+    remote_path <- rsconnect_remote_path_from_url(board, entries[[1]]$url)
     etag <- as.character(entries[[1]]$last_deployed_time)
 
     local_path <- rsconnect_api_download(board, entries[[1]]$name, file.path(remote_path, "data.txt"), etag = etag)
@@ -232,9 +232,9 @@ rsconnect_wait_by_name <- function(board, name) {
   }
 }
 
-rsconnect_remote_path_from_url <- function(url) {
-  url <- gsub("/$", "", url)
-  gsub("//", "/", file.path("/content", gsub("(^.*/|^)content/", "", url)))
+rsconnect_remote_path_from_url <- function(board, url) {
+  url <- gsub(board$server, "", url, fixed = TRUE)
+  gsub("/$", "", url)
 }
 
 board_pin_get.rsconnect <- function(board, name) {
@@ -252,7 +252,7 @@ board_pin_get.rsconnect <- function(board, name) {
     etag <- jsonlite::fromJSON(details$metadata)$last_deployed_time
   }
 
-  remote_path <- rsconnect_remote_path_from_url(url)
+  remote_path <- rsconnect_remote_path_from_url(board, url)
 
   local_path <- rsconnect_api_download(board, name, file.path(remote_path, "data.txt"), etag = etag)
   manifest <- pin_manifest_get(local_path)
