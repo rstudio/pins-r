@@ -5,8 +5,8 @@ if (test_board_is_registered("rsconnect")) {
 } else {
   test_rsconnect_server <- Sys.getenv("TEST_RSCONNECT_SERVERS", "")
   if (nchar(test_rsconnect_server) > 0) {
-    rsc_servers <- strsplit(test_rsconnect_server, "|", fixed = TRUE)[[1]]
-    rsc_apis <- strsplit(Sys.getenv("TEST_RSCONNECT_APIS"), "|", fixed = TRUE)[[1]]
+    rsc_servers <- strsplit(test_rsconnect_server, ",", fixed = TRUE)[[1]]
+    rsc_apis <- strsplit(Sys.getenv("TEST_RSCONNECT_APIS"), ",", fixed = TRUE)[[1]]
 
     if (length(rsc_servers) != length(rsc_apis)) stop("Incorrect length for TEST_RSCONNECT_SERVER and RSCONNECT_API.")
 
