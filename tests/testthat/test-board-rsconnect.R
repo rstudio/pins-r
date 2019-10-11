@@ -5,9 +5,6 @@ if (test_board_is_registered("rsconnect")) {
 } else {
   test_rsconnect_server <- Sys.getenv("TEST_RSCONNECT_SERVERS", "")
   if (nchar(test_rsconnect_server) > 0) {
-    if ("rsconnect" %in% board_list())
-      board_deregister("rsconnect")
-
     rsc_servers <- strsplit(test_rsconnect_server, "|", fixed = TRUE)[[1]]
     rsc_apis <- strsplit(Sys.getenv("TEST_RSCONNECT_APIS"), "|", fixed = TRUE)[[1]]
 
@@ -20,6 +17,8 @@ if (test_board_is_registered("rsconnect")) {
                      cache = tempfile())
 
       board_test("rsconnect", destination = paste0(rsc_servers[[rsc_index]]))
+
+      board_deregister("rsconnect")
     }
   } else {
     test_that("can't register rsconnect board", {
