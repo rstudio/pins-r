@@ -4,12 +4,15 @@
 \alias{board_test}
 \title{Test Board}
 \usage{
-board_test(board, exclude = list())
+board_test(board, exclude = list(), destination = paste(board,
+  "board"))
 }
 \arguments{
-\item{exclude}{Names of tests to exclude form test}
+\item{exclude}{Names of tests to exclude form test.}
 
-\item{name}{The name of the board to test}
+\item{destination}{The text to describe where the board is.}
+
+\item{name}{The name of the board to test.}
 }
 \description{
 Tests a particular board, useful only when creating new boards.
