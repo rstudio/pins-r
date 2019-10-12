@@ -1,4 +1,4 @@
-# pins 0.2.0.9999 (unreleased)
+# pins 0.2.0.9999
 
 ## Pins
 
