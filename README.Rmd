@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_light())
 ```
 
-# pins: Pin, Discover and Share Resources
+# pins: Pin, Discover and Share Resources <img src="man/figures/logo.png" align="right" />
 
 [![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rstudio/pins?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/pins)
@@ -44,6 +44,13 @@ You can use the `pins` package to:
 ```{r, eval = FALSE}
 # Install the released version from CRAN:
 install.packages("pins")
+```
+
+To get a bug fix, or use a feature from the development version, you can install pins from GitHub.
+
+```{r}
+# install.packages("remotes")
+remotes::install_github("rstudio/pins")
 ```
 
 ## Usage
