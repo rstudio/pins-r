@@ -1,10 +1,6 @@
-template:
-  params:
-    bootswatch: flatly
-
 reference:
   - title: "Pins"
-    desc: "Functions for pinning, finding, retrieveing and sharing remote resources."
+    desc: "Functions for pinning, finding, retrieving and sharing remote resources."
     contents:
       - starts_with("pin")
   - title: "Boards"
@@ -32,7 +28,6 @@ reference:
 
 navbar:
   title: "pins"
-  type: inverse
   left:
     - text: "Home"
       href: index.html
@@ -79,3 +74,11 @@ navbar:
           href: articles/use-cases/update-plumber-and-shiny-apps.html
     - text: "Reference"
       href: reference/index.html
+    - text: News
+      menu:
+      - text: "Release notes"
+      - text: "Version 0.1.0"
+        href: https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/
+      - text: "Change log"
+        href: news/index.html
+
