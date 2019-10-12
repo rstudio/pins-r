@@ -18,7 +18,7 @@ experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https:/
 [![GitHub
 Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
-## Overview
+## Overview <img src="man/figures/logo.png" align="right" />
 
 You can use the `pins` package to:
 
@@ -34,6 +34,13 @@ You can use the `pins` package to:
 ``` r
 # Install the released version from CRAN:
 install.packages("pins")
+```
+
+To get a bug fix, or use a feature from the development version, you can install pins from GitHub.
+
+``` r
+# install.packages("remotes")
+remotes::install_github("rstudio/pins")
 ```
 
 ## Usage
