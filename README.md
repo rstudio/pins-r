@@ -51,7 +51,7 @@ library(pins)
 
 ### Pin
 
-There are two main ways pin a resource:
+There are two main ways to pin a resource:
 
   - Pin a remote file with `pin(url)`. This will download the file and
     make it available in a local cache:
