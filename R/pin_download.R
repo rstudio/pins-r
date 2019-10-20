@@ -45,6 +45,7 @@ pin_download <- function(path, name, component, ...) {
   cache$url <- path
 
   error <- NULL
+  extract_type <- NULL
 
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
@@ -99,10 +100,12 @@ pin_download <- function(path, name, component, ...) {
   new_cache <- old_pin$cache
   new_cache[[cache_index]] <- cache
 
-  pin_extract(
-    structure(dir(temp_path, full.names = TRUE), class = extract_type),
-    temp_path
-  )
+  if (!is.null(extract_type)) {
+    pin_extract(
+      structure(dir(temp_path, full.names = TRUE), class = extract_type),
+      temp_path
+    )
+  }
 
   for (file in dir(temp_path, full.names = TRUE)) {
     file.copy(file, local_path, overwrite = TRUE, recursive = TRUE)
