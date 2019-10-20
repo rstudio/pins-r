@@ -8,6 +8,8 @@ import subprocess
 import platform
 import sys
 
+rlib = None
+
 def _get_rhome():
     r_home = os.environ.get("R_HOME")
     if r_home:
@@ -61,7 +63,6 @@ def _busy(which):
 def _main_loop_started():
     return rlib.ptr_R_WriteConsoleEx != ffi.NULL or rlib.R_GlobalEnv != ffi.NULL
 
-rlib = None
 def r_start():
     global rlib
     if (rlib != None):
@@ -103,7 +104,9 @@ def r_eval(code, environment = None):
     
     cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
     rlib.Rf_protect(cmdSexp)
-    rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
+    
+    ffi_code = ffi.new("char[]", code.encode("ASCII"))
+    rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(ffi_code));
     
     status = ffi.new("ParseStatus *")
     cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue))
@@ -188,7 +191,7 @@ def _from_feather(path):
     return feather.read_dataframe(path)
     
 def _eval_deserialize(operation):
-    feather_path = r_eval('tempfile(fileext = ".feather")')
+    feather_path = r_eval('tempfile(fileext = ".feather")').decode("utf-8")
     r_eval("feather::write_feather(pins:::pin_for_python(" + operation + "), \"" + feather_path + "\")")
     result = _from_feather(feather_path)
     os.remove(feather_path)
