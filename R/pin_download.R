@@ -45,7 +45,6 @@ pin_download <- function(path, name, component, ...) {
   cache$url <- path
 
   error <- NULL
-  is_zip <- FALSE
 
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
