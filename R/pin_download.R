@@ -47,6 +47,8 @@ pin_download <- function(path, name, component, ...) {
   error <- NULL
   is_zip <- FALSE
 
+  content_length <- 0
+
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
   # skip downloading if max-age still valid
@@ -65,6 +67,8 @@ pin_download <- function(path, name, component, ...) {
 
         cache$change_age <- as.numeric(Sys.time())
 
+        content_length <- head_result$headers$`content-length`
+
         pin_log("Checking 'etag' (old, new): ", old_cache$etag, ", ", cache$etag)
       }
     }
@@ -78,7 +82,7 @@ pin_download <- function(path, name, component, ...) {
         pin_log("Downloading ", path, " to ", destination_path)
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
-        result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress()))
+        result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress(size = content_length)))
         is_zip <- identical(result$headers$`content-type`, "application/zip")
         if (!is_zip && identical(result$headers$`content-type`, "application/octet-stream")) {
           is_zip <- file.size(destination_path) > 4 &&
