@@ -16,3 +16,6 @@ pin_extract.gzip <- function(file, destination) {
     gunzip(file, destname = file.path(destination, gsub(".gz", "", basename(file), fixed = TRUE)))
   }
 }
+
+pin_extract.default <- function(file, destination) {
+}
