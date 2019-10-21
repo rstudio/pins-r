@@ -48,6 +48,8 @@ matrix:
       r_packages:
         - feather
         - tibble
+      sources:
+        - deadsnakes
       before_install:
         - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
         - pip install pandas --user
