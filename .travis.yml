@@ -50,10 +50,10 @@ matrix:
         - tibble
       before_install:
         - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
-        - pip install pandas --user
-        - pip install pytest --user
-        - pip install feather-format --user
-        - pip install -e python/. --user
+        - pip3 install pandas --user
+        - pip3 install pytest --user
+        - pip3 install feather-format --user
+        - pip3 install -e python/. --user
       script:
         - R CMD build --no-build-vignettes .
         - Rscript -e 'install.packages(dir(".", pattern = "pins_"))'
@@ -64,6 +64,7 @@ matrix:
           sources:
             - deadsnakes
           packages:
-            - python3.6
+            - python3
+            - python3-pip
 os:
   - linux
