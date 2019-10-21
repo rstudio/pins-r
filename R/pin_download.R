@@ -45,7 +45,7 @@ pin_download <- function(path, name, component, ...) {
   cache$url <- path
 
   error <- NULL
-  is_zip <- FALSE
+  extract_type <- NULL
 
   content_length <- 0
 
@@ -83,10 +83,11 @@ pin_download <- function(path, name, component, ...) {
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
         result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress(size = content_length)))
-        is_zip <- identical(result$headers$`content-type`, "application/zip")
-        if (!is_zip && identical(result$headers$`content-type`, "application/octet-stream")) {
-          is_zip <- file.size(destination_path) > 4 &&
-            identical(readBin(destination_path, raw(), 4), as.raw(c(0x50, 0x4b, 0x03, 0x04)))
+        extract_type <- gsub("application/(x-)?", "", result$headers$`content-type`)
+        if (identical(result$headers$`content-type`, "application/octet-stream")) {
+          if (file.size(destination_path) > 4 &&
+              identical(readBin(destination_path, raw(), 4), as.raw(c(0x50, 0x4b, 0x03, 0x04))))
+            extract_type <- "zip"
         }
 
         if (httr::http_error(result)) {
@@ -103,11 +104,11 @@ pin_download <- function(path, name, component, ...) {
   new_cache <- old_pin$cache
   new_cache[[cache_index]] <- cache
 
-  if (is_zip) {
-    zip <- dir(temp_path, full.names = TRUE)
-    pin_log("Extracting zip file '", zip, "'")
-    zip::unzip(zip, exdir = temp_path)
-    unlink(zip)
+  if (!is.null(extract_type)) {
+    pin_extract(
+      structure(dir(temp_path, full.names = TRUE), class = extract_type),
+      temp_path
+    )
   }
 
   for (file in dir(temp_path, full.names = TRUE)) {
