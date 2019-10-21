@@ -58,7 +58,7 @@ matrix:
       script:
         - R CMD build --no-build-vignettes .
         - Rscript -e 'install.packages(dir(".", pattern = "pins_"))'
-        - python3 -m pytest python/pins/tests/test.py
+        - pytest python/pins/tests/test.py
       addons:
         apt:
           update: true
