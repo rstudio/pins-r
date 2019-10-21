@@ -53,6 +53,7 @@ matrix:
         - pip3 install pandas --user
         - pip3 install pytest --user
         - pip3 install feather-format --user
+        - pip3 install python3-setuptools --user
         - pip3 install -e python/. --user
       script:
         - R CMD build --no-build-vignettes .
