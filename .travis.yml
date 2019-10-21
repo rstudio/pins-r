@@ -50,7 +50,7 @@ matrix:
         - tibble
       before_install:
         - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
-        - pip3 install python3-setuptools --user
+        - pip3 install setuptools --user
         - pip3 install pandas --user
         - pip3 install pytest --user
         - pip3 install feather-format --user
