@@ -4,6 +4,8 @@
 
 - Support to extract gzip files when the `R.utils` package is installed.
 
+- Show download progress for files larger than 10mb.
+
 - Support for `I()` to force a pin to be created without additional
   overhead of exporting CSV and other enhancements (#73).
 

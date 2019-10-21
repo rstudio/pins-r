@@ -7,6 +7,7 @@ get_function <- function(name, package) {
   }
 }
 
-pins_show_progress <- function() {
-  identical(getOption("pins.progress", FALSE), TRUE)
+pins_show_progress <- function(size = 0) {
+  large_file <- getOption("pins.progress.size", 10^7)
+  identical(getOption("pins.progress", FALSE), size > large_file)
 }
