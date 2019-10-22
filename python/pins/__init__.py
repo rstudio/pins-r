@@ -8,6 +8,8 @@ import subprocess
 import platform
 import sys
 
+rlib = None
+
 def _get_rhome():
     r_home = os.environ.get("R_HOME")
     if r_home:
@@ -61,7 +63,6 @@ def _busy(which):
 def _main_loop_started():
     return rlib.ptr_R_WriteConsoleEx != ffi.NULL or rlib.R_GlobalEnv != ffi.NULL
 
-rlib = None
 def r_start():
     global rlib
     if (rlib != None):
@@ -103,7 +104,9 @@ def r_eval(code, environment = None):
     
     cmdSexp = rlib.Rf_allocVector(rlib.STRSXP, 1)
     rlib.Rf_protect(cmdSexp)
-    rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(code));
+    
+    ffi_code = ffi.new("char[]", code.encode("ASCII"))
+    rlib.SET_STRING_ELT(cmdSexp, 0, rlib.Rf_mkChar(ffi_code));
     
     status = ffi.new("ParseStatus *")
     cmdexpr = rlib.Rf_protect(rlib.R_ParseVector(cmdSexp, -1, status, rlib.R_NilValue))
@@ -125,9 +128,9 @@ def r_eval(code, environment = None):
 
     rtype = result.sxpinfo.type
     if (rtype == rlib.CHARSXP):
-        result = ffi.string(rlib.R_CHAR(result))
+        result = ffi.string(rlib.R_CHAR(result)).decode("utf-8")
     elif (rtype == rlib.STRSXP):
-        result = ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0)))
+        result = ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0))).decode("utf-8")
     elif (rtype == rlib.RAWSXP):
         n = rlib.Rf_xlength(result)
         result = ffi.buffer(rlib.RAW(result), n)

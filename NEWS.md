@@ -35,6 +35,10 @@
 - Fix issue removing pins with similar names in RStudio
   Connect boards.
 
+## Python
+
+- Support for Python 3.
+
 # pins 0.2.0
 
 ## RStudio Connect

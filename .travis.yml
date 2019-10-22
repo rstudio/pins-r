@@ -30,7 +30,7 @@ matrix:
       after_success:
         - rm -rf ~/.pins
         - Rscript -e 'covr::codecov()'
-    - name: "Python"
+    - name: "Python (2.7)"
       r_packages:
         - feather
         - tibble
@@ -44,5 +44,28 @@ matrix:
         - R CMD build --no-build-vignettes .
         - Rscript -e 'install.packages(dir(".", pattern = "pins_"))'
         - pytest python/pins/tests/test.py
+    - name: "Python (3.6)"
+      r_packages:
+        - feather
+        - tibble
+      before_install:
+        - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
+        - python3.6 -m pip install setuptools --user
+        - python3.6 -m pip install pandas --user
+        - python3.6 -m pip install pytest --user
+        - python3.6 -m pip install feather-format --user
+        - python3.6 -m pip install -e python/. --user
+      script:
+        - R CMD build --no-build-vignettes .
+        - Rscript -e 'install.packages(dir(".", pattern = "pins_"))'
+        - python3.6 -m pytest python/pins/tests/test.py
+      addons:
+        apt:
+          update: true
+          sources:
+            - deadsnakes
+          packages:
+            - python3.6
+            - python3-pip
 os:
   - linux
