@@ -128,9 +128,9 @@ def r_eval(code, environment = None):
 
     rtype = result.sxpinfo.type
     if (rtype == rlib.CHARSXP):
-        result = ffi.string(rlib.R_CHAR(result))
+        result = ffi.string(rlib.R_CHAR(result)).decode("utf-8")
     elif (rtype == rlib.STRSXP):
-        result = ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0)))
+        result = ffi.string(rlib.R_CHAR(rlib.STRING_ELT(result, 0))).decode("utf-8")
     elif (rtype == rlib.RAWSXP):
         n = rlib.Rf_xlength(result)
         result = ffi.buffer(rlib.RAW(result), n)
@@ -191,7 +191,7 @@ def _from_feather(path):
     return feather.read_dataframe(path)
     
 def _eval_deserialize(operation):
-    feather_path = r_eval('tempfile(fileext = ".feather")').decode("utf-8")
+    feather_path = r_eval('tempfile(fileext = ".feather")')
     r_eval("feather::write_feather(pins:::pin_for_python(" + operation + "), \"" + feather_path + "\")")
     result = _from_feather(feather_path)
     os.remove(feather_path)
