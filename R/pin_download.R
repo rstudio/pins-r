@@ -1,4 +1,4 @@
-pin_download <- function(path, name, component, ...) {
+pin_download <- function(path, name, component, extract = FALSE, ...) {
   must_download <- identical(list(...)$download, TRUE)
   headers <- list(...)$headers
   config <- list(...)$config
@@ -104,7 +104,7 @@ pin_download <- function(path, name, component, ...) {
   new_cache <- old_pin$cache
   new_cache[[cache_index]] <- cache
 
-  if (!is.null(extract_type)) {
+  if (!is.null(extract_type) && identical(extract, TRUE)) {
     pin_extract(
       structure(dir(temp_path, full.names = TRUE), class = extract_type),
       temp_path

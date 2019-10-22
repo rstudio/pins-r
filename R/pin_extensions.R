@@ -28,7 +28,8 @@ board_pin_store <- function(board, path, name, description, type, metadata, ...)
 
   for (single_path in path) {
     if (grepl("^http", single_path)) {
-      single_path <- pin_download(single_path, name, board_default(), ...)
+      can_extract <- !identical(tools::file_ext(single_path), "rds")
+      single_path <- pin_download(single_path, name, board_default(), extract = can_extract, ...)
     }
 
     if (dir.exists(single_path)) {
