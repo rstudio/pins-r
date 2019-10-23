@@ -17,5 +17,11 @@ pin_extract.gzip <- function(file, destination) {
   }
 }
 
+`pin_extract.compressed-tar` <- function(file, destination) {
+  pin_log("Extracting tgz file '", file, "'")
+  utils::untar(file, exdir = destination)
+  unlink(file)
+}
+
 pin_extract.default <- function(file, destination) {
 }
