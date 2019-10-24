@@ -181,3 +181,34 @@ board_register_datatxt <- function(name, url, cache = board_cache_path()) {
                             url = url,
                             cache = cache)
 }
+
+#' Register S3 Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register an Amazon S3 bucket as a board.
+#'
+#' @param name Optional name for this board, defaults to 'github'.
+#' @param bucket The name of the Amazon S3 bucket.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#'
+#' @details
+#'
+#' This function requires an Amazon S3 bucket to be manually created; otherwise,
+#' registering an S3 board will fail.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following example requires an Amazon S3 API key
+#' board_register_s3(bucket = "owner/repo")
+#' }
+#' @export
+board_register_s3 <- function(name = "github",
+                              bucket,
+                              cache = board_cache_path()) {
+  board_register("s3",
+                 name = name,
+                 bucket = bucket,
+                 cache = cache)
+}
