@@ -12,9 +12,19 @@ s3_signature <- function(content, secret, bucket, path) {
     base64enc::base64encode()
 }
 
-board_initialize.s3 <- function(board, bucket, ...) {
+board_initialize.s3 <- function(board,
+                                bucket,
+                                key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                                secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                                ...) {
   board$bucket <- bucket
   if (identical(bucket, NULL)) stop("The 's3' board requires a 'bucket' parameter.")
+
+  board$key <- key
+  board$secret <- secret
+
+  if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
+  if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
 
   board
 }
