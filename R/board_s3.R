@@ -1,3 +1,16 @@
+s3_signature <- function(content, secret, bucket, path) {
+  content <- paste(
+    "PUT",
+    "",
+    "application/octet-stream",
+    format(Sys.time(), "%a, %b %d %Y %X"),
+    file.path("", bucket, path),
+    sep = "\n"
+  )
+
+  openssl::sha1(charToRaw(content), key = secret) %>%
+    base64enc::base64encode()
+}
 
 board_initialize.s3 <- function(board, bucket, ...) {
   board$bucket <- bucket
