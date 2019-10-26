@@ -1,4 +1,4 @@
-s3_headers <- function(verb, secret, bucket, path) {
+s3_headers <- function(board, verb, path) {
   date <- format(Sys.time(), "%a, %b %d %Y %X")
 
   content <- paste(
@@ -41,7 +41,7 @@ board_initialize.s3 <- function(board,
 }
 
 board_pin_get.s3 <- function(board, name, ...) {
-  headers <- s3_headers(verb = "GET", path = name)
+  headers <- s3_headers(board, verb = "GET", path = name)
 
   s3_path <- paste0("http://", board$bucket, ".s3.amazonaws.com/", name)
 
