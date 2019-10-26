@@ -1,15 +1,26 @@
-s3_signature <- function(content, secret, bucket, path) {
+s3_headers <- function(verb, secret, bucket, path) {
+  date <- format(Sys.time(), "%a, %b %d %Y %X")
+
   content <- paste(
-    "PUT",
+    verb,
     "",
     "application/octet-stream",
-    format(Sys.time(), "%a, %b %d %Y %X"),
-    file.path("", bucket, path),
+    date,
+    file.path("", board$bucket, path),
     sep = "\n"
   )
 
-  openssl::sha1(charToRaw(content), key = secret) %>%
+  signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
     base64enc::base64encode()
+
+  headers <- list(
+    Host = paste0(board$bucket, ".s3.amazonaws.com"),
+    Date = date,
+    `Content-Type` = "application/octet-stream",
+    Authorization = paste0("AWS ", board$key, ":", signature)
+  )
+
+  headers
 }
 
 board_initialize.s3 <- function(board,
@@ -30,7 +41,13 @@ board_initialize.s3 <- function(board,
 }
 
 board_pin_get.s3 <- function(board, name, ...) {
-  NULL
+  headers <- s3_headers(verb = "GET", path = name)
+
+  s3_path <- paste0("http://", board$bucket, ".s3.amazonaws.com/", name)
+
+  local_path <- pin_download(s3_path, name, board$name, headers = headers)
+
+  local_path
 }
 
 board_pin_find.s3 <- function(board, text, ...) {
