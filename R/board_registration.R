@@ -204,7 +204,7 @@ board_register_datatxt <- function(name, url, cache = board_cache_path()) {
 #' board_register_s3(bucket = "owner/repo")
 #' }
 #' @export
-board_register_s3 <- function(name = "github",
+board_register_s3 <- function(name = "s3",
                               bucket,
                               cache = board_cache_path()) {
   board_register("s3",
