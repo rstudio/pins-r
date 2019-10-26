@@ -19,6 +19,7 @@ board_cache_path <- function() {
 #'
 #' @param name Optional name for this board, defaults to 'local'.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @seealso board_register
 #'
@@ -27,9 +28,11 @@ board_cache_path <- function() {
 #' board_register_local(cache = tempfile())
 #' @export
 board_register_local <- function(name = "local",
-                                 cache = board_cache_path()) {
+                                 cache = board_cache_path(),
+                                 ...) {
   board_register("local", name = name,
-                          cache = cache)
+                          cache = cache,
+                          ...)
 }
 
 #' Register GitHub Board
@@ -44,6 +47,7 @@ board_register_local <- function(name = "local",
 #' @param token Token to use when \code{GITHUB_PAT} is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
 #'
@@ -68,13 +72,15 @@ board_register_github <- function(name = "github",
                                   branch = "master",
                                   token = NULL,
                                   path = "",
-                                  cache = board_cache_path()) {
+                                  cache = board_cache_path(),
+                                  ...) {
   board_register("github", name = name,
                            repo = repo,
                            branch = branch,
                            token = token,
                            path = path,
-                           cache = cache)
+                           cache = cache,
+                           ...)
 }
 
 #' Register Kaggle Board
@@ -87,6 +93,7 @@ board_register_github <- function(name = "github",
 #'   be \code{NULL} if the \code{~/.kaggle/kaggle.json} file already exists.
 #' @param overwrite Should \code{~/.kaggle/kaggle.json} be overriden?
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @seealso board_register
 #'
@@ -100,11 +107,13 @@ board_register_github <- function(name = "github",
 board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
                                   overwrite = FALSE,
-                                  cache = board_cache_path()) {
+                                  cache = board_cache_path(),
+                                  ...) {
   board_register("kaggle", name = name,
                            token = token,
                            overwrite = overwrite,
-                           cache = cache)
+                           cache = cache,
+                           ...)
 }
 
 #' Register RStudio Connect Board
@@ -118,6 +127,7 @@ board_register_kaggle <- function(name = "kaggle",
 #' @param key The RStudio Connect API key.
 #' @param output_files Should the output in an automated report create output files?
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @seealso board_register
 #'
@@ -145,13 +155,15 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      account = NULL,
                                      key = NULL,
                                      output_files = FALSE,
-                                     cache = board_cache_path()) {
+                                     cache = board_cache_path(),
+                                     ...) {
   board_register("rsconnect", name = name,
                               server = server,
                               account = account,
                               key = key,
                               output_files = output_files,
-                              cache = cache)
+                              cache = cache,
+                              ...)
 }
 
 #' Register Data TXT Board
@@ -163,6 +175,7 @@ board_register_rsconnect <- function(name = "rsconnect",
 #' @param url Path to the \code{data.txt} file or path containing it.
 #' @param headers Optional list of headers to include or a function to generate them.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @seealso board_register
 #'
@@ -180,11 +193,13 @@ board_register_rsconnect <- function(name = "rsconnect",
 board_register_datatxt <- function(name,
                                    url,
                                    headers = NULL,
-                                   cache = board_cache_path()) {
+                                   cache = board_cache_path(),
+                                   ...) {
   board_register("datatxt", name = name,
                             url = url,
                             headers = headers,
-                            cache = cache)
+                            cache = cache,
+                            ...)
 }
 
 #' Register S3 Board
@@ -195,6 +210,7 @@ board_register_datatxt <- function(name,
 #' @param name Optional name for this board, defaults to 'github'.
 #' @param bucket The name of the Amazon S3 bucket.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
 #'
@@ -211,9 +227,11 @@ board_register_datatxt <- function(name,
 #' @export
 board_register_s3 <- function(name = "s3",
                               bucket,
-                              cache = board_cache_path()) {
+                              cache = board_cache_path(),
+                              ...) {
   board_register("s3",
                  name = name,
                  bucket = bucket,
-                 cache = cache)
+                 cache = cache,
+                 ...)
 }

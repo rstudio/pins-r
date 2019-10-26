@@ -1,19 +1,23 @@
-board_url_update_index <- function(board) {
+board_url_update_index <- function(board, allow_empty = FALSE) {
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
-  response <- httr::GET(file.path(board$url, "data.txt"), httr::write_disk(local_index, overwrite = TRUE))
-  if (httr::http_error(response)) stop("Failed to retrieve data.txt file from ", board$url)
+  index_url <- file.path(board$url, "data.txt")
+  response <- httr::GET(index_url,
+                        httr::write_disk(local_index, overwrite = TRUE),
+                        headers = board_headers(board, index_url))
+
+  if (httr::http_error(response) && !identical(allow_empty, TRUE)) stop("Failed to retrieve data.txt file from ", board$url)
 }
 
-board_initialize.datatxt <- function(board, headers = NULL, ...) {
+board_initialize.datatxt <- function(board, headers = NULL, allow_empty = FALSE, ...) {
   board$url <- list(...)$url
   if (identical(board$url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
   board$url <- gsub("/?data\\.txt$", "", board$url)
   board$headers <- headers
 
-  board_url_update_index(board)
+  board_url_update_index(board, allow_empty = allow_empty)
 
   board
 }

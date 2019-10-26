@@ -43,7 +43,8 @@ board_initialize.s3 <- function(board,
   board_register_datatxt(name = board$name,
                          url = s3_url,
                          cache = cache,
-                         headers = s3_headers)
+                         headers = s3_headers,
+                         allow_empty = TRUE)
 
   board_get(board$name)
 }

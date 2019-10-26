@@ -4,7 +4,7 @@
 \alias{board_register_s3}
 \title{Register S3 Board}
 \usage{
-board_register_s3(name = "s3", bucket, cache = board_cache_path())
+board_register_s3(name = "s3", bucket, cache = board_cache_path(), ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'github'.}
@@ -12,6 +12,8 @@ board_register_s3(name = "s3", bucket, cache = board_cache_path())
 \item{bucket}{The name of the Amazon S3 bucket.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
