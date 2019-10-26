@@ -1,5 +1,5 @@
 s3_headers <- function(board, verb, path) {
-  date <- format(Sys.time(), "%a, %b %d %Y %X")
+  date <- format(Sys.time(), "%a, %d %b %Y %X %z")
 
   content <- paste(
     verb,
