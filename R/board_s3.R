@@ -27,6 +27,7 @@ board_initialize.s3 <- function(board,
                                 bucket,
                                 key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                                 secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                                cache = NULL,
                                 ...) {
   board$bucket <- bucket
   if (identical(bucket, NULL)) stop("The 's3' board requires a 'bucket' parameter.")
@@ -37,27 +38,13 @@ board_initialize.s3 <- function(board,
   if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
 
-  board
+  s3_url <- paste0("http://", board$bucket, ".s3.amazonaws.com/")
+
+  board_register_datatxt(name = board$name,
+                         url = s3_url,
+                         cache = cache,
+                         headers = s3_headers)
+
+  board_get(board$name)
 }
 
-board_pin_get.s3 <- function(board, name, ...) {
-  headers <- s3_headers(board, verb = "GET", path = name)
-
-  s3_path <- paste0("http://", board$bucket, ".s3.amazonaws.com/", name)
-
-  local_path <- pin_download(s3_path, name, board$name, headers = headers)
-
-  local_path
-}
-
-board_pin_find.s3 <- function(board, text, ...) {
-  board_empty_results()
-}
-
-board_pin_create.s3 <- function(board, path, name, metadata, ...) {
-  stop("The 's3' board does not support creating pins.")
-}
-
-board_pin_remove.s3 <- function(board, name, ...) {
-  stop("The 's3' board does not support removing pins.")
-}

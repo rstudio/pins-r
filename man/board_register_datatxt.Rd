@@ -4,12 +4,15 @@
 \alias{board_register_datatxt}
 \title{Register Data TXT Board}
 \usage{
-board_register_datatxt(name, url, cache = board_cache_path())
+board_register_datatxt(name, url, headers = NULL,
+  cache = board_cache_path())
 }
 \arguments{
 \item{name}{The name for this board, usually the domain name of the website.}
 
 \item{url}{Path to the \code{data.txt} file or path containing it.}
+
+\item{headers}{Optional list of headers to include or a function to generate them.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 }

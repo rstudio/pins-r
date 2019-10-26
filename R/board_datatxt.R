@@ -7,10 +7,11 @@ board_url_update_index <- function(board) {
   if (httr::http_error(response)) stop("Failed to retrieve data.txt file from ", board$url)
 }
 
-board_initialize.datatxt <- function(board, ...) {
+board_initialize.datatxt <- function(board, headers = NULL, ...) {
   board$url <- list(...)$url
   if (identical(board$url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
   board$url <- gsub("/?data\\.txt$", "", board$url)
+  board$headers <- headers
 
   board_url_update_index(board)
 
@@ -29,7 +30,8 @@ board_pin_get.datatxt <- function(board, name, ...) {
 
   # try to download index as well
   path_guess <- if (grepl("\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
-  pin_download(file.path(board$url, path_guess, "data.txt"), name, board$name, can_fail = TRUE)
+  download_path <- file.path(board$url, path_guess, "data.txt")
+  pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
 
   manifest <- pin_manifest_get(local_path)
   if (!is.null(manifest$path)) {
@@ -52,7 +54,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
       path <- file.path(board$url, path)
     }
 
-    local_path <- pin_download(path, name, board$name)
+    local_path <- pin_download(path, name, board$name, headers = board_headers(board, path))
   }
 
   local_path

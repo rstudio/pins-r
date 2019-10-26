@@ -4,7 +4,7 @@
 \alias{board_register_s3}
 \title{Register S3 Board}
 \usage{
-board_register_s3(name = "github", bucket, cache = board_cache_path())
+board_register_s3(name = "s3", bucket, cache = board_cache_path())
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'github'.}

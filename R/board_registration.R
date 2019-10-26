@@ -161,6 +161,7 @@ board_register_rsconnect <- function(name = "rsconnect",
 #'
 #' @param name The name for this board, usually the domain name of the website.
 #' @param url Path to the \code{data.txt} file or path containing it.
+#' @param headers Optional list of headers to include or a function to generate them.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #'
 #' @seealso board_register
@@ -176,9 +177,13 @@ board_register_rsconnect <- function(name = "rsconnect",
 #' pin_find(board = "txtexample")
 #'
 #' @export
-board_register_datatxt <- function(name, url, cache = board_cache_path()) {
+board_register_datatxt <- function(name,
+                                   url,
+                                   headers = NULL,
+                                   cache = board_cache_path()) {
   board_register("datatxt", name = name,
                             url = url,
+                            headers = headers,
                             cache = cache)
 }
 
