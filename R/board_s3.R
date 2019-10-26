@@ -13,7 +13,7 @@ s3_headers <- function(board, verb, path) {
   signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
     base64enc::base64encode()
 
-  headers <- list(
+  headers <- httr::add_headers(
     Host = paste0(board$bucket, ".s3.amazonaws.com"),
     Date = date,
     `Content-Type` = "application/octet-stream",
