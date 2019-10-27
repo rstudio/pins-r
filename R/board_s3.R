@@ -44,7 +44,7 @@ board_initialize.s3 <- function(board,
                          url = s3_url,
                          cache = cache,
                          headers = s3_headers,
-                         allow_empty = TRUE)
+                         needs_index = FALSE)
 
   board_get(board$name)
 }

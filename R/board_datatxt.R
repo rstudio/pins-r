@@ -1,4 +1,4 @@
-board_url_update_index <- function(board, allow_empty = FALSE) {
+board_url_update_index <- function(board) {
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
@@ -8,16 +8,25 @@ board_url_update_index <- function(board, allow_empty = FALSE) {
                         httr::write_disk(local_index, overwrite = TRUE),
                         headers = board_headers(board, index_url))
 
-  if (httr::http_error(response) && !identical(allow_empty, TRUE)) stop("Failed to retrieve data.txt file from ", board$url)
+  if (httr::http_error(response)) {
+    if (identical(board$needs_index, FALSE)) {
+      unlink(local_index)
+      yaml::write_yaml(list(), local_index)
+    }
+    else {
+      stop("Failed to retrieve data.txt file from ", board$url)
+    }
+  }
 }
 
-board_initialize.datatxt <- function(board, headers = NULL, allow_empty = FALSE, ...) {
+board_initialize.datatxt <- function(board, headers = NULL, needs_index = TRUE, ...) {
   board$url <- list(...)$url
   if (identical(board$url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
   board$url <- gsub("/?data\\.txt$", "", board$url)
   board$headers <- headers
+  board$needs_index <- needs_index
 
-  board_url_update_index(board, allow_empty = allow_empty)
+  board_url_update_index(board)
 
   board
 }
@@ -28,29 +37,37 @@ board_pin_get.datatxt <- function(board, name, ...) {
 
   local_path <- pin_storage_path(board$name, name)
 
-  if (length(index) == 0) stop("Could not find '", name, "' pin in '", board$name, "' board.")
+  if (length(index) == 0 && identical(board$needs_index, TRUE)) {
+    stop("Could not find '", name, "' pin in '", board$name, "' board.")
+  }
 
-  download_paths <- index[[1]]$path
+  if (length(index) > 0) {
+    download_paths <- index[[1]]$path
 
-  # try to download index as well
-  path_guess <- if (grepl("\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
-  download_path <- file.path(board$url, path_guess, "data.txt")
-  pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
+    # try to download index as well
+    path_guess <- if (grepl("\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
+    download_path <- file.path(board$url, path_guess, "data.txt")
+    pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
 
-  manifest <- pin_manifest_get(local_path)
-  if (!is.null(manifest$path)) {
-    # we find a data.txt file in subfolder with paths, we use those paths instead of the index paths.
-    download_paths <- c()
-    for (path in manifest$path) {
-      if (grepl("^https?://", path))
-        download_paths <- c(download_paths, path)
-      else
-        download_paths <- c(download_paths, file.path(board$url, path_guess, path))
+    manifest <- pin_manifest_get(local_path)
+    if (!is.null(manifest$path)) {
+      # we find a data.txt file in subfolder with paths, we use those paths instead of the index paths.
+      download_paths <- c()
+      for (path in manifest$path) {
+        if (grepl("^https?://", path))
+          download_paths <- c(download_paths, path)
+        else
+          download_paths <- c(download_paths, file.path(board$url, path_guess, path))
+      }
+    }
+    else {
+      index[[1]]$path <- NULL
+      pin_manifest_create(local_path, index[[1]], index[[1]]$path)
     }
   }
   else {
-    index[[1]]$path <- NULL
-    pin_manifest_create(local_path, index[[1]], index[[1]]$path)
+    # attempt to download from path when index not available
+    download_paths <- paste0(board$url, name)
   }
 
   for (path in download_paths) {
