@@ -164,13 +164,11 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
 
     response <- httr::PUT(upload_url,
                           body = httr::upload_file(normalizePath(file.path(path, file))),
-                          headers = board_headers(board, file, verb = "PUT"))
+                          board_headers(board, file, verb = "PUT"))
 
     if (httr::http_error(response))
       stop("Failed to upload '", file, "' to '", upload_url, "'. Errpr: ", httr::content(response))
   }
-
-  stop("The 'url' board does not support creating pins.")
 }
 
 board_pin_remove.datatxt <- function(board, name, ...) {
