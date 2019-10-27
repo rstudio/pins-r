@@ -160,15 +160,22 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
   upload_files <- dir(path, recursive = TRUE)
 
   for (file in upload_files) {
-    upload_url <- paste0(board$url, file)
+    subpath <- file.path(name, file)
+    upload_url <- paste0(board$url, subpath)
 
     response <- httr::PUT(upload_url,
                           body = httr::upload_file(normalizePath(file.path(path, file))),
-                          board_headers(board, file, verb = "PUT"))
+                          board_headers(board, subpath, verb = "PUT"))
 
     if (httr::http_error(response))
-      stop("Failed to upload '", file, "' to '", upload_url, "'. Errpr: ", httr::content(response))
+      stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", httr::content(response))
   }
+
+  datatxt_update_index(board = board,
+                       path = path,
+                       operation = "create",
+                       name = name,
+                       metadata = metadata)
 }
 
 board_pin_remove.datatxt <- function(board, name, ...) {
