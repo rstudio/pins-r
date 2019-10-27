@@ -3,10 +3,10 @@ board_url_update_index <- function(board) {
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
-  index_url <- file.path(board$url, "data.txt")
+  index_url <- paste0(board$url, "data.txt")
   response <- httr::GET(index_url,
                         httr::write_disk(local_index, overwrite = TRUE),
-                        headers = board_headers(board, index_url))
+                        board_headers(board, "data.txt"))
 
   if (httr::http_error(response)) {
     if (identical(board$needs_index, FALSE)) {
