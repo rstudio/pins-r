@@ -148,8 +148,8 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   board_manifest_create(index, index_file)
 
   response <- httr::PUT(index_url,
-                        body = httr::upload_file(normalizePath(file)),
-                        board_headers(board))
+                        body = httr::upload_file(normalizePath(index_file)),
+                        board_headers(board, "data.txt", verb = "PUT"))
 
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", httr::content(response))
