@@ -26,6 +26,10 @@ board_initialize.datatxt <- function(board, headers = NULL, needs_index = TRUE, 
   board$headers <- headers
   board$needs_index <- needs_index
 
+  for (key in names(list(...))) {
+    board[[key]] <- list(...)[[key]]
+  }
+
   board_url_update_index(board)
 
   board
@@ -110,7 +114,61 @@ board_pin_find.datatxt <- function(board, text, ...) {
   results
 }
 
+datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
+  index_url <- paste0(board$url, "data.txt")
+  response <- httr::GET(index_url, github_headers(board))
+
+  index <- list()
+  if (!httr::http_error(response)) {
+    content <- httr::content(response)
+    index <- board_manifest_load(rawToChar(base64enc::base64decode(content$content)))
+  }
+
+  index_matches <- sapply(index, function(e) identical(e$path, path))
+  index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index) + 1
+  if (length(index_pos) == 0) index_pos <- length(index) + 1
+
+  if (identical(operation, "create")) {
+    metadata$columns <- NULL
+
+    index[[index_pos]] <- c(
+      list(path = path),
+      if (!is.null(name)) list(name = name) else NULL,
+      metadata
+    )
+  }
+  else if (identical(operation, "remove")) {
+    if (index_pos <= length(index)) index[[index_pos]] <- NULL
+  }
+  else {
+    stop("Operation ", operation, " is unsupported")
+  }
+
+  index_file <- tempfile(fileext = "yml")
+  board_manifest_create(index, index_file)
+
+  response <- httr::PUT(index_url,
+                        body = httr::upload_file(normalizePath(file)),
+                        board_headers(board))
+
+  if (httr::http_error(response)) {
+    stop("Failed to update data.txt file: ", httr::content(response))
+  }
+}
+
 board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
+  upload_files <- dir(path, recursive = TRUE)
+
+  for (file in upload_files) {
+    upload_url <- paste0(board$url, file)
+
+    response <- httr::PUT(upload_url,
+                          body = httr::upload_file(normalizePath(file.path(path, file))),
+                          headers = board_headers(board, upload_url, verb = "PUT"))
+
+    if (httr::http_error(response)) stop("Failed to upload '", file, "' to '", upload_url, "'.")
+  }
+
   stop("The 'url' board does not support creating pins.")
 }
 
