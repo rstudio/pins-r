@@ -3,7 +3,7 @@ board_url_update_index <- function(board) {
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
-  index_url <- paste0(board$url, "data.txt")
+  index_url <- file.path(board$url, "data.txt")
   response <- httr::GET(index_url,
                         httr::write_disk(local_index, overwrite = TRUE),
                         board_headers(board, "data.txt"))
@@ -71,7 +71,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
   }
   else {
     # attempt to download from path when index not available
-    download_paths <- paste0(board$url, name)
+    download_paths <- file.path(board$url, name)
   }
 
   for (path in download_paths) {
@@ -115,7 +115,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
 }
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
-  index_url <- paste0(board$url, "data.txt")
+  index_url <- file.path(board$url, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
   index <- list()
@@ -161,7 +161,7 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
 
   for (file in upload_files) {
     subpath <- file.path(name, file)
-    upload_url <- paste0(board$url, subpath)
+    upload_url <- file.path(board$url, subpath)
 
     response <- httr::PUT(upload_url,
                           body = httr::upload_file(normalizePath(file.path(path, file))),
@@ -172,7 +172,7 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
   }
 
   datatxt_update_index(board = board,
-                       path = path,
+                       path = name,
                        operation = "create",
                        name = name,
                        metadata = metadata)

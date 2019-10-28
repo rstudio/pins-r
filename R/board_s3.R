@@ -1,6 +1,9 @@
 s3_headers <- function(board, verb, path) {
   date <- format(Sys.time(), "%a, %d %b %Y %X %z")
 
+  # allow full urls to allow arbitrary file downloads
+  path <- gsub(paste0(board$url, "/"), "", path, fixed = TRUE)
+
   content <- paste(
     verb,
     "",
@@ -35,7 +38,7 @@ board_initialize.s3 <- function(board,
   if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
 
-  s3_url <- paste0("http://", board$bucket, ".s3.amazonaws.com/")
+  s3_url <- paste0("http://", board$bucket, ".s3.amazonaws.com")
 
   board_register_datatxt(name = board$name,
                          url = s3_url,
