@@ -121,7 +121,10 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   index <- list()
   if (!httr::http_error(response)) {
     content <- httr::content(response)
-    index <- board_manifest_load(rawToChar(base64enc::base64decode(content$content)))
+    if (!is.raw(content)) {
+      content <- base64enc::base64decode(content$content)
+    }
+    index <- board_manifest_load(rawToChar(content))
   }
 
   index_matches <- sapply(index, function(e) identical(e$path, path))
