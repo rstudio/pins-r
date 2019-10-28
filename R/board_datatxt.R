@@ -1,4 +1,4 @@
-board_url_update_index <- function(board) {
+datatxt_refresh_index <- function(board) {
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
 
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
@@ -30,7 +30,7 @@ board_initialize.datatxt <- function(board, headers = NULL, needs_index = TRUE, 
     board[[key]] <- list(...)[[key]]
   }
 
-  board_url_update_index(board)
+  datatxt_refresh_index(board)
 
   board
 }
@@ -86,7 +86,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
 }
 
 board_pin_find.datatxt <- function(board, text, ...) {
-  board_url_update_index(board)
+  datatxt_refresh_index(board)
 
   entries <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
 
@@ -116,7 +116,7 @@ board_pin_find.datatxt <- function(board, text, ...) {
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
   index_url <- file.path(board$url, "data.txt")
-  response <- httr::GET(index_url, github_headers(board))
+  response <- httr::GET(index_url, board_headers(board, index_url))
 
   index <- list()
   if (!httr::http_error(response)) {
