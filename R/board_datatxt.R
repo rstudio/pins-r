@@ -179,5 +179,21 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
 }
 
 board_pin_remove.datatxt <- function(board, name, ...) {
-  stop("The 'url' board does not support removing pins.")
+  files <- pin_files(name, board = board$name, absolute = FALSE)
+
+  for (file in files) {
+    subpath <- file.path(name, file)
+    delete_url <- file.path(board$url, subpath)
+
+    response <- httr::DELETE(delete_url,
+                             board_headers(board, subpath, verb = "DELETE"))
+
+    if (httr::http_error(response))
+      warning("Failed to remove '", file, "' from '", board$name, "' board. Error: ", httr::content(response))
+  }
+
+  datatxt_update_index(board = board,
+                       path = name,
+                       operation = "remove",
+                       name = name)
 }
