@@ -27,7 +27,7 @@ s3_headers <- function(board, verb, path) {
 }
 
 board_initialize.s3 <- function(board,
-                                bucket,
+                                bucket = Sys.getenv("AWS_BUCKET"),
                                 key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                                 secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                                 cache = NULL,

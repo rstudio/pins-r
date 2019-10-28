@@ -208,8 +208,13 @@ board_register_datatxt <- function(name,
 #' register an Amazon S3 bucket as a board.
 #'
 #' @param name Optional name for this board, defaults to 'github'.
-#' @param bucket The name of the Amazon S3 bucket.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param bucket The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
+#'   variable.
+#' @param key The key of the Amazon S3 bucket. Defaults to the \code{AWS_ACCESS_KEY_ID} environment
+#'   variable.
+#' @param key The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
+#'   variable.
+#' @param secret The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -226,7 +231,9 @@ board_register_datatxt <- function(name,
 #' }
 #' @export
 board_register_s3 <- function(name = "s3",
-                              bucket,
+                              bucket = Sys.getenv("AWS_BUCKET"),
+                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                               cache = board_cache_path(),
                               ...) {
   board_register("s3",

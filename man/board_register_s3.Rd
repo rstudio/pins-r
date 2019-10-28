@@ -4,16 +4,26 @@
 \alias{board_register_s3}
 \title{Register S3 Board}
 \usage{
-board_register_s3(name = "s3", bucket, cache = board_cache_path(), ...)
+board_register_s3(name = "s3", bucket = Sys.getenv("AWS_BUCKET"),
+  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  cache = board_cache_path(), ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'github'.}
 
-\item{bucket}{The name of the Amazon S3 bucket.}
+\item{bucket}{The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
+variable.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{key}{The key of the Amazon S3 bucket. Defaults to the \code{AWS_ACCESS_KEY_ID} environment
+variable.}
+
+\item{secret}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{key}{The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
+variable.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
