@@ -47,7 +47,7 @@ board_initialize.wasb <- function(board,
   )
 
   board_register_datatxt(name = board$name,
-                         wasb = wasb_url,
+                         url = wasb_url,
                          cache = cache,
                          headers = wasb_headers,
                          needs_index = FALSE,
