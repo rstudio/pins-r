@@ -20,6 +20,7 @@ matrix:
       r_packages:
         - tibble
         - covr
+        - xml2
       script:
         - |
           R CMD build --resave-data .
