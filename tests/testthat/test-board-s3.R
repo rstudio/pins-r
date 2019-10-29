@@ -11,7 +11,7 @@ if (nchar(test_s3_bucket) > 0) {
   board_register("s3",
                  bucket = test_s3_bucket,
                  key = test_s3_key,
-                 secrete = test_s3_secret,
+                 secret = test_s3_secret,
                  cache = tempfile())
 }
 
