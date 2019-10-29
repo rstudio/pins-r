@@ -18,12 +18,12 @@ variable.}
 \item{key}{The key of the Amazon S3 bucket. Defaults to the \code{AWS_ACCESS_KEY_ID} environment
 variable.}
 
-\item{secret}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{secret}{The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
+variable.}
+
+\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
-
-\item{key}{The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
-variable.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
