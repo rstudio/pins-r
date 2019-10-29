@@ -147,7 +147,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
     stop("Operation ", operation, " is unsupported")
   }
 
-  index_file <- tempfile(fileext = "yml")
+  index_file <- file.path(board_local_storage(board$name, board = board), "data.txt")
   board_manifest_create(index, index_file)
 
   response <- httr::PUT(index_url,
