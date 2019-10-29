@@ -38,6 +38,10 @@ board_initialize.s3 <- function(board,
   if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
 
+  # validate date configured properly
+  date_check <- format(Sys.time(), "%a, %d %b %Y %X %z")
+  if (!grepl("[0-9]{4}$", date_check)) stop("R dates not correctly configured, time zone missing from: ", date_check)
+
   s3_url <- paste0("http://", board$bucket, ".s3.amazonaws.com")
 
   board_register_datatxt(name = board$name,
