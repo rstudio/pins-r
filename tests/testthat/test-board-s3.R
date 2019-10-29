@@ -4,8 +4,13 @@ test_s3_bucket <- Sys.getenv("TEST_AWS_BUCKET", "")
 test_s3_key <- Sys.getenv("TEST_AWS_KEY", "")
 test_s3_secret <- Sys.getenv("TEST_AWS_SECRET", "")
 
-test_that("can pin large resources in github releases", {
-  expect_equal(format(Sys.time(), "%a, %d %b %Y %X %z"), "")
+test_that("board contain proper s3 headers", {
+  headers <- names(s3_headers(list(), "PUT", "x")$headers)
+
+  expect_true("Host" %in% headers)
+  expect_true("Date" %in% headers)
+  expect_true("Content-Type" %in% headers)
+  expect_true("Authorization" %in% headers)
 })
 
 if (nchar(test_s3_bucket) > 0) {
