@@ -14,14 +14,13 @@ wasb_headers <- function(board, verb, path) {
     "restype:container",
     sep = "\n")
 
-  signature <- openssl::sha256(charToRaw(content), key = board$secret) %>%
+  signature <- openssl::sha256(charToRaw(content), key = board$key) %>%
     base64enc::base64encode()
 
   headers <- httr::add_headers(
     `x-ms-date` = date,
     `x-ms-version` = wasb_version,
-    Authorization = paste0("SharedKey ", board$account, ":", signature),
-    `Content-Length` = "0"
+    Authorization = paste0("SharedKey ", board$account, ":", signature)
   )
 
   headers
@@ -42,8 +41,7 @@ board_initialize.wasb <- function(board,
     "https://",
     account,
     ".blob.core.windows.net/",
-    container,
-    "?comp=list&restype=container"
+    container
   )
 
   board_register_datatxt(name = board$name,
