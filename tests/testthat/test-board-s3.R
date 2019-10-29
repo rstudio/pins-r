@@ -4,7 +4,7 @@ test_s3_bucket <- Sys.getenv("TEST_AWS_BUCKET", "")
 test_s3_key <- Sys.getenv("TEST_AWS_KEY", "")
 test_s3_secret <- Sys.getenv("TEST_AWS_SECRET", "")
 
-test_that("board contain proper s3 headers", {
+test_that("board contains proper s3 headers", {
   headers <- names(s3_headers(list(), "PUT", "x")$headers)
 
   expect_true("Host" %in% headers)

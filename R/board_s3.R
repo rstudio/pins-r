@@ -1,5 +1,5 @@
 s3_headers <- function(board, verb, path) {
-  date <- format(Sys.time(), "%a, %d %b %Y %X %z")
+  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z")
 
   # allow full urls to allow arbitrary file downloads
   path <- gsub(paste0(board$url, "/"), "", path, fixed = TRUE)
