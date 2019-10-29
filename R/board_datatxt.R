@@ -19,10 +19,10 @@ datatxt_refresh_index <- function(board) {
   }
 }
 
-board_initialize.datatxt <- function(board, headers = NULL, needs_index = TRUE, ...) {
-  board$url <- list(...)$url
-  if (identical(board$url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
-  board$url <- gsub("/?data\\.txt$", "", board$url)
+board_initialize.datatxt <- function(board, headers = NULL, cache = board_cache_path(), url = NULL, needs_index = TRUE, ...) {
+  if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
+
+  board$url <- gsub("/?data\\.txt$", "", url)
   board$headers <- headers
   board$needs_index <- needs_index
 
