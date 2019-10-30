@@ -49,7 +49,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
     download_paths <- index[[1]]$path
 
     # try to download index as well
-    path_guess <- if (grepl("\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
+    path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
     download_path <- file.path(board$url, path_guess, "data.txt")
     pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
 

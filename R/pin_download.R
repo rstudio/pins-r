@@ -117,10 +117,13 @@ pin_download <- function(path, name, component, extract = FALSE, ...) {
     file.copy(file, local_path, overwrite = TRUE, recursive = TRUE)
   }
 
+  # use relative paths to match remote service downloads and allow moving pins foldeer, potentially
+  relative_path <- gsub(pin_storage_path(component, ""), "", local_path, fixed = TRUE)
+
   pin_registry_update(
     name = name,
     params = list(
-      path = if (is.null(old_pin$path)) local_path else old_pin$path,
+      path = if (is.null(old_pin$path)) relative_path else old_pin$path,
       cache = new_cache),
     component = component)
 
