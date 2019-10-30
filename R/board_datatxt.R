@@ -122,7 +122,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   if (!httr::http_error(response)) {
     content <- httr::content(response)
     if (is.raw(content)) {
-      content <- rawToChar(content$content)
+      content <- rawToChar(content)
     }
 
     index <- board_manifest_load(content)
