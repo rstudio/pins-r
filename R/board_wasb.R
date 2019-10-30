@@ -8,13 +8,12 @@ wasb_headers <- function(board, verb, path) {
   content <- paste(
     verb,
     "\n\n\n\n\n\n\n\n\n\n",
-    paste(date, wasb_version, sep = "\n"),
-    paste0("/", board$account, "/", board$container),
-    "comp:list",
-    "restype:container",
+    paste("x-ms-date", date, sep = ":"),
+    paste("x-ms-version", wasb_version, sep = ":"),
+    paste0("/", board$account, "/", board$container, "/", path),
     sep = "\n")
 
-  signature <- openssl::sha256(charToRaw(content), key = board$key) %>%
+  signature <- openssl::sha256(charToRaw(content), key = base64enc::base64decode(board$key)) %>%
     base64enc::base64encode()
 
   headers <- httr::add_headers(
