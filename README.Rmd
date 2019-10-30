@@ -19,8 +19,6 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_light())
 ```
 
-# pins: Pin, Discover and Share Resources <img src="man/figures/logo.png" align="right" />
-
 [![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rstudio/pins?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/pins)
 [![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
@@ -32,6 +30,8 @@ ggplot2::theme_set(ggplot2::theme_light())
 
 ## Overview
 
+<img src="man/figures/logo.png" align="right" width="130px"/>
+
 You can use the `pins` package to:
 
 - **Pin** remote resources locally with `pin()`, work offline and cache results.
@@ -41,14 +41,14 @@ You can use the `pins` package to:
 
 ## Installation 
 
-```{r, eval = FALSE}
+```{r eval = FALSE}
 # Install the released version from CRAN:
 install.packages("pins")
 ```
 
 To get a bug fix, or use a feature from the development version, you can install pins from GitHub.
 
-```{r}
+```{r eval = FALSE}
 # install.packages("remotes")
 remotes::install_github("rstudio/pins")
 ```
@@ -135,19 +135,19 @@ Learn more in `vignette("boards-understanding")`
 Experimental support for `pins` was introduced in RStudio Connect 1.7.8 so that you can use [RStudio](https://www.rstudio.com/products/rstudio/) and [RStudio Connect](https://www.rstudio.com/products/connect/) to discover and share resources within your organization with ease. To enable new boards, use [RStudio's Data Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/) to start a new 'pins' connection and then select which board to connect to:
 
 <center>
-![](tools/readme/rstudio-connect-board.png){width=70%}
+  <img src="tools/readme/rstudio-connect-board.png" width="70%">
 </center>
 
 Once connected, you can use the connections pane to track the pins you own and preview them with ease. Notice that one connection is created for each board.
 
 <center>
-![](tools/readme/rstudio-explore-pins.png){width=50%}
+  <img src="tools/readme/rstudio-explore-pins.png" width="50%">
 </center>
 
 To **discover** remote resources, simply expand the "Addins" menu and select "Find Pin" from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:
 
 <center>
-![](tools/readme/rstudio-discover-pins.png){width=60%}
+  <img src="tools/readme/rstudio-discover-pins.png" width="60%">
 </center>
 
 You can then **share** local resources using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then pin our results in RStudio Connect.
