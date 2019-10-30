@@ -1,4 +1,4 @@
-s3_headers <- function(board, verb, path) {
+s3_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z")
 
   # allow full urls to allow arbitrary file downloads

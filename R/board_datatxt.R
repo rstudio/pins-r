@@ -152,7 +152,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
 
   response <- httr::PUT(index_url,
                         body = httr::upload_file(normalizePath(index_file)),
-                        board_headers(board, "data.txt", verb = "PUT"))
+                        board_headers(board, "data.txt", verb = "PUT", file = normalizePath(index_file)))
 
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", httr::content(response))
@@ -166,9 +166,10 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
     subpath <- file.path(name, file)
     upload_url <- file.path(board$url, subpath)
 
+    file_path <- normalizePath(file.path(path, file))
     response <- httr::PUT(upload_url,
-                          body = httr::upload_file(normalizePath(file.path(path, file))),
-                          board_headers(board, subpath, verb = "PUT"))
+                          body = httr::upload_file(file_path),
+                          board_headers(board, subpath, verb = "PUT", file = file_path))
 
     if (httr::http_error(response))
       stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", httr::content(response))

@@ -1,4 +1,4 @@
-board_headers <- function(board, path, verb = "GET") {
+board_headers <- function(board, path, verb = "GET", file = NULL) {
   if (is.list(board$headers)) {
     httr::add_headers(.headers = unlist(board$headers))
   }
@@ -9,7 +9,7 @@ board_headers <- function(board, path, verb = "GET") {
     board$headers
   }
   else if (is.function(board$headers)) {
-    board$headers(board, verb, path)
+    board$headers(board, verb, path, file)
   }
   else {
     stop("Unsupported '", class(board$headers)[[1]], "' class for board headers.")

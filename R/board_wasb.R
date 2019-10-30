@@ -1,13 +1,26 @@
-wasb_headers <- function(board, verb, path) {
+wasb_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %Z", tz = "GMT")
   wasb_version <- "2015-04-05"
 
   # allow full urls to allow arbitrary file downloads
   path <- gsub(paste0(board$url, "/"), "", path, fixed = TRUE)
 
+  content_length <- ""
+  content_type <- ""
+
+  if (!is.null(file)) {
+    content_length <- as.integer(fs::file_size(file))
+    content_type <- mime::guess_type(file)
+  }
+
   content <- paste(
     verb,
-    "\n\n\n\n\n\n\n\n\n\n",
+    "\n",
+    content_length,
+    "",
+    content_type,
+    "\n\n\n\n\n",
+    paste("x-ms-blob-type", "BlockBlob", sep = ":"),
     paste("x-ms-date", date, sep = ":"),
     paste("x-ms-version", wasb_version, sep = ":"),
     paste0("/", board$account, "/", board$container, "/", path),
@@ -19,6 +32,7 @@ wasb_headers <- function(board, verb, path) {
   headers <- httr::add_headers(
     `x-ms-date` = date,
     `x-ms-version` = wasb_version,
+    `x-ms-blob-type` = "BlockBlob",
     Authorization = paste0("SharedKey ", board$account, ":", signature)
   )
 
