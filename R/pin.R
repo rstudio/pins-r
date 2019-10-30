@@ -293,5 +293,5 @@ pin_files <- function(name, board = NULL, absolute = TRUE, ...) {
   if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
   metadata <- jsonlite::fromJSON(as.list(entry)$metadata)
 
-  dir(file.path(board_local_storage("s3"), metadata$path), recursive = TRUE, full.names = absolute)
+  dir(file.path(board_local_storage(board), metadata$path), recursive = TRUE, full.names = absolute)
 }
