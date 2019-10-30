@@ -9,7 +9,7 @@ wasb_headers <- function(board, verb, path, file) {
   content_type <- ""
 
   if (!is.null(file)) {
-    content_length <- as.integer(fs::file_size(file))
+    content_length <- as.integer(file.info("README.Rmd")$size)
     content_type <- mime::guess_type(file)
   }
 
