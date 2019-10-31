@@ -29,7 +29,7 @@ gfs_candidates <- function(binary) {
     c(
       function() Sys.which(binary_name),
       function() paste("~/google-cloud-sdk/bin", binary_name, sep = "/"),
-      function() file.path(gcloud_binary_default(), "bin", binary_name)
+      function() file.path(Sys.getenv("GCLOUD_INSTALL_PATH", "~/google-cloud-sdk"), "bin", binary_name)
     )
   }
 }
