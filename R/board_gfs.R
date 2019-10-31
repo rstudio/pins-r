@@ -1,11 +1,14 @@
 gfs_headers <- function(board, verb, path, file) {
-  headers <- httr::add_headers(
-    Authorization = paste("Bearer", board$token)
-  )
 
+  content_type <- NULL
   if (!is.null(file)) {
-    headers[["Content-Type"]] <- mime::guess_type(file)
+    content_type <- mime::guess_type(file)
   }
+
+  headers <- httr::add_headers(
+    Authorization = paste("Bearer", board$token),
+    `Content-Type` = content_type
+  )
 
   headers
 }
