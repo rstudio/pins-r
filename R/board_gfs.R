@@ -1,6 +1,6 @@
 gfs_headers <- function(board, verb, path, file) {
   headers <- httr::add_headers(
-    Authorization = paste("Bearer", board$access_token)
+    Authorization = paste("Bearer", board$token)
   )
 
   headers
@@ -43,18 +43,18 @@ gfs_binary <- function() {
 
 board_initialize.gfs <- function(board,
                                  bucket = Sys.getenv("GOOGLE_STORAGE_BUCKET"),
-                                 access_token = NULL,
+                                 token = NULL,
                                  cache = NULL,
                                  ...) {
 
   if (nchar(bucket) == 0) stop("Board 'gfs' requires a 'bucket' parameter.")
 
-  if (is.null(access_token)) {
-    access_token <- Sys.getenv("GOOGLE_STORAGE_ACCESS_TOKEN")
-    if (nchar(access_token) == 0) {
+  if (is.null(token)) {
+    token <- Sys.getenv("GOOGLE_STORAGE_ACCESS_TOKEN")
+    if (nchar(token) == 0) {
       gcloud <- gfs_binary()
       if (!is.null(gcloud)) {
-        access_token <- system2(gfs_binary(), args = c("auth", "print-access-token"), stdout = TRUE)
+        token <- system2(gfs_binary(), args = c("auth", "print-access-token"), stdout = TRUE)
       }
       else {
         stop("Board 'gfs' requires an 'access' parameter with a Google Cloud Access Token.")
@@ -63,17 +63,17 @@ board_initialize.gfs <- function(board,
   }
 
   gfs_url <- paste0(
-    "https://www.googleapis.com/storage/v1/b/",
-    bucket,
-    "/o/"
+    "https://storage.googleapis.com/",
+    bucket
   )
 
   board_register_datatxt(name = board$name,
                          url = gfs_url,
                          cache = cache,
+                         headers = gfs_headers,
                          needs_index = FALSE,
                          bucket = bucket,
-                         access_token = access_token)
+                         token = token)
 
   board_get(board$name)
 }
