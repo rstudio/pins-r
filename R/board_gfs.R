@@ -3,6 +3,10 @@ gfs_headers <- function(board, verb, path, file) {
     Authorization = paste("Bearer", board$token)
   )
 
+  if (!is.null(file)) {
+    headers[["Content-Type"]] <- mime::guess_type(file)
+  }
+
   headers
 }
 
