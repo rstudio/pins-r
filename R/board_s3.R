@@ -33,7 +33,7 @@ board_initialize.s3 <- function(board,
                                 cache = NULL,
                                 ...) {
   board$bucket <- bucket
-  if (identical(bucket, NULL)) stop("The 's3' board requires a 'bucket' parameter.")
+  if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
 
   if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
