@@ -80,7 +80,8 @@ board_initialize.gcloud <- function(board,
                          headers = gcloud_headers,
                          needs_index = FALSE,
                          bucket = bucket,
-                         token = token)
+                         token = token,
+                         connect = FALSE)
 
   board_get(board$name)
 }

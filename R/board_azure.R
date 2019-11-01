@@ -64,7 +64,8 @@ board_initialize.azure <- function(board,
                          needs_index = FALSE,
                          container = container,
                          account = account,
-                         key = key)
+                         key = key,
+                         connect = FALSE)
 
   board_get(board$name)
 }

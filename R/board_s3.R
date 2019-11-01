@@ -47,7 +47,8 @@ board_initialize.s3 <- function(board,
                          needs_index = FALSE,
                          key = key,
                          secret = secret,
-                         bucket = bucket)
+                         bucket = bucket,
+                         connect = FALSE)
 
   board_get(board$name)
 }
