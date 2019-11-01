@@ -10,7 +10,7 @@ board_register_s3(name = "s3", bucket = Sys.getenv("AWS_BUCKET"),
   cache = board_cache_path(), ...)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 'github'.}
+\item{name}{Optional name for this board, defaults to 's3'.}
 
 \item{bucket}{The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
 variable.}
@@ -36,7 +36,7 @@ registering an S3 board will fail.
 \examples{
 \dontrun{
 # the following example requires an Amazon S3 API key
-board_register_s3(bucket = "owner/repo")
+board_register_s3(bucket = "s3bucket")
 }
 }
 \seealso{
