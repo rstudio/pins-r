@@ -49,10 +49,10 @@ gcloud_binary <- function() {
 }
 
 board_initialize.gcloud <- function(board,
-                                 bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
-                                 token = NULL,
-                                 cache = NULL,
-                                 ...) {
+                                    bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+                                    token = NULL,
+                                    cache = NULL,
+                                    ...) {
 
   if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
 

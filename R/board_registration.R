@@ -292,7 +292,7 @@ board_register_azure <- function(name = "azure",
 #' register a Google Cloud Storage container as a board.
 #'
 #' @param name Optional name for this board, defaults to 'gcloud'.
-#' @param container The name of the Google Cloud Storage container. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
+#' @param bucket The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
 #'   variable.
 #' @param token The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
