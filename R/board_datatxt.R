@@ -85,7 +85,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
   local_path
 }
 
-board_pin_find.datatxt <- function(board, text, ...) {
+board_pin_find.datatxt <- function(board, text, name, ...) {
   datatxt_refresh_index(board)
 
   entries <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
@@ -97,8 +97,8 @@ board_pin_find.datatxt <- function(board, text, ...) {
     metadata = sapply(entries, function(e) jsonlite::toJSON(e, auto_unbox = TRUE)),
     stringsAsFactors = FALSE)
 
-  if (is.character(text)) {
-    results <- results[grepl(text, results$name),]
+  if (is.character(name)) {
+    results <- results[identical(results$name, name),]
   }
 
   if (nrow(results) == 1) {

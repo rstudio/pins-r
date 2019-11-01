@@ -39,6 +39,10 @@
 
 - Support for Python 3.
 
+## Websites
+
+- Fix in `pin_find()` to properly search desecription files.
+
 # pins 0.2.0
 
 ## RStudio Connect
