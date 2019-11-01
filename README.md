@@ -1,8 +1,6 @@
 pins: Pin, Discover and Share Resources
 ================
 
-# pins: Pin, Discover and Share Resources
-
 [![Build
 Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
 [![AppVeyor Build
@@ -18,7 +16,9 @@ experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https:/
 [![GitHub
 Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
-## Overview <img src="man/figures/logo.png" align="right" />
+## Overview
+
+<img src="man/figures/logo.png" align="right" width="130px"/>
 
 You can use the `pins` package to:
 
@@ -36,7 +36,8 @@ You can use the `pins` package to:
 install.packages("pins")
 ```
 
-To get a bug fix, or use a feature from the development version, you can install pins from GitHub.
+To get a bug fix, or use a feature from the development version, you can
+install pins from GitHub.
 
 ``` r
 # install.packages("remotes")
@@ -54,7 +55,8 @@ library(pins)
 There are two main ways to pin a resource:
 
   - Pin a remote file with `pin(url)`. This will download the file and
-    make it available in a local cache:
+    make it available in a local
+    cache:
     
     ``` r
     url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
@@ -99,15 +101,13 @@ with:
 
 ``` r
 pin_find("seattle", board = "packages")
-#> # A tibble: 6 x 4
-#>   name               description                               type  board 
-#>   <chr>              <chr>                                     <chr> <chr> 
-#> 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…
-#> 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…
-#> 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…
-#> 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…
-#> 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…
-#> 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…
+#> # A tibble: 4 x 4
+#>   name                    description                         type  board  
+#>   <chr>                   <chr>                               <chr> <chr>  
+#> 1 hpiR/seattle_sales      Boston Housing Prices from hpiR pa… table packag…
+#> 2 microsynth/seattledmi   Boston Housing Prices from microsy… table packag…
+#> 3 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…
+#> 4 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…
 ```
 
 Notice that the full name of a pin is `<owner>/<name>`. This namespacing
@@ -170,7 +170,7 @@ to:
 
 <center>
 
-![](tools/readme/rstudio-connect-board.png)
+<img src="tools/readme/rstudio-connect-board.png" width="70%">
 
 </center>
 
@@ -180,7 +180,7 @@ for each board.
 
 <center>
 
-![](tools/readme/rstudio-explore-pins.png)
+<img src="tools/readme/rstudio-explore-pins.png" width="50%">
 
 </center>
 
@@ -190,7 +190,7 @@ pins across all boards, or scope your search to particular ones as well:
 
 <center>
 
-![](tools/readme/rstudio-discover-pins.png)
+<img src="tools/readme/rstudio-discover-pins.png" width="60%">
 
 </center>
 
@@ -261,7 +261,8 @@ a dataset\!
 Experimental support for pins is also available in Python. However,
 since the Python interface currently makes use of the R package, the R
 runtime needs to be installed when using pins from Python. To get
-started, first install the pins module:
+started, first install the pins
+module:
 
 ``` bash
 pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python

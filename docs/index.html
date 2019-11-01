@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.3</span>
       </span>
     </div>
 
@@ -158,19 +158,14 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
 <div id="pins-pin-discover-and-share-resources" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#pins-pin-discover-and-share-resources" class="anchor"></a>pins: Pin, Discover and Share Resources</h1></div>
-</div>
-<div id="pins-pin-discover-and-share-resources-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#pins-pin-discover-and-share-resources-1" class="anchor"></a>pins: Pin, Discover and Share Resources</h1>
 
-<div id="overview-" class="section level2">
+<div id="overview" class="section level2">
 <h2 class="hasAnchor">
-<a href="#overview-" class="anchor"></a>Overview <img src="reference/figures/logo.png" align="right">
-</h2>
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p><img src="reference/figures/logo.png" align="right" width="130px"></p>
 <p>You can use the <code>pins</code> package to:</p>
 <ul>
 <li>
@@ -197,7 +192,7 @@
 <div id="pin" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pin" class="anchor"></a>Pin</h3>
-<p>There are two main ways pin a resource:</p>
+<p>There are two main ways to pin a resource:</p>
 <ul>
 <li>
 <p>Pin a remote file with <code><a href="reference/pin.html">pin(url)</a></code>. This will download the file and make it available in a local cache:</p>
@@ -231,15 +226,13 @@
 <a href="#discover" class="anchor"></a>Discover</h3>
 <p>You can also discover remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code>. It can search for resources in CRAN packages, Kaggle, and RStudio Connect. For instance, we can search datasets mentioning “seattle” in CRAN packages with:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/pin_find.html">pin_find</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt;   name               description                               type  board </span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; </span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…</span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; # A tibble: 4 x 4</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt;   name                    description                         type  board  </span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;                               &lt;chr&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; 1 hpiR/seattle_sales      Boston Housing Prices from hpiR pa… table packag…</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; 2 microsynth/seattledmi   Boston Housing Prices from microsy… table packag…</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; 3 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; 4 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…</span></a></code></pre></div>
 <p>Notice that the full name of a pin is <code>&lt;owner&gt;/&lt;name&gt;</code>. This namespacing allows multiple people (or packages) to create pins with the same name.</p>
 <p>You can then retrieve a pin through <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">sales &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a>
@@ -273,20 +266,17 @@
 <p>Experimental support for <code>pins</code> was introduced in RStudio Connect 1.7.8 so that you can use <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> and <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> to discover and share resources within your organization with ease. To enable new boards, use <a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/">RStudio’s Data Connections</a> to start a new ‘pins’ connection and then select which board to connect to:</p>
 <center>
 
-![](tools/readme/rstudio-connect-board.png)
-
+<img src="tools/readme/rstudio-connect-board.png" width="70%">
 </center>
 <p>Once connected, you can use the connections pane to track the pins you own and preview them with ease. Notice that one connection is created for each board.</p>
 <center>
 
-![](tools/readme/rstudio-explore-pins.png)
-
+<img src="tools/readme/rstudio-explore-pins.png" width="50%">
 </center>
 <p>To <strong>discover</strong> remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:</p>
 <center>
 
-![](tools/readme/rstudio-discover-pins.png)
-
+<img src="tools/readme/rstudio-discover-pins.png" width="60%">
 </center>
 <p>You can then <strong>share</strong> local resources using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then pin our results in RStudio Connect.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">name =</span> <span class="st">"myrsc"</span>)</a></code></pre></div>
@@ -335,7 +325,6 @@
 </div>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
