@@ -13,11 +13,14 @@ reference:
   - title: "Aliases"
     desc: "Alias functions to help register boards."
     contents:
+      - board_register_azure
+      - board_register_datatxt
+      - board_register_gcloud
       - board_register_github
       - board_register_kaggle
-      - board_register_rsconnect
       - board_register_local
-      - board_register_datatxt
+      - board_register_rsconnect
+      - board_register_s3
   - title: "Extensions"
     desc: "Functions for creating custom boards."
     contents:
