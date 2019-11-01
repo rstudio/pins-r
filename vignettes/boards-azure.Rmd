@@ -22,7 +22,7 @@ You can then use the Azure Storage conatiner, account, and key to authenticate:
 ```{r eval=FALSE}
 board_register_azure(container = "pinscontainer",
                      account = "pinsstorage",
-                     key = "abcabcabcabcabcabcabcabcabcab==")
+                     key = "ABCABCABCABCABCABCABCABCABCAB==")
 ```
 
 Notice that `board_register_azure()` is just an alias with named parameters to `board_register()`; the previous code is equivalent to:
@@ -30,7 +30,7 @@ Notice that `board_register_azure()` is just an alias with named parameters to `
 ```{r eval=FALSE}
 board_register("azure", container = "pinscontainer",
                         account = "pinsstorage",
-                        key = "abcabcabcabcabcabcabcabcabcab==")
+                        key = "ABCABCABCABCABCABCABCABCABCAB==")
 ```
 
 Once the board is registered, you can pin and search using `pin()`, `pin_get()` and `pin_find()`.

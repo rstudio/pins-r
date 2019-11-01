@@ -13,24 +13,24 @@ library(pins)
 
 ## Registering
 
-In order to use Amazon S3 Storage as a [board](boards-understanding.html), you need an Amazon S3 bucket and a user key enabled for programmatic access container created with enough permissions to access the S3 bucket. You can sign-up and create those from [amazonaws.com](http://amazonaws.com):
+In order to use Amazon S3 Storage as a [board](boards-understanding.html), you need an Amazon S3 bucket and a user key enabled for programmatic access container created with enough permissions to access the S3 bucket. You can sign-up and create those from [amazonaws.com](http://amazonaws.com). Please notice that after crating a bucket, it can take several minutes for this bucket to be usable.
 
 ![](images/boards-s3-create-storage.png)
 
-You can then use the S3 Storage conatiner, account, and key to authenticate:
+You can then use the S3 Storage bucket, key, and secret to authenticate:
 
 ```{r eval=FALSE}
-board_register_s3(bucket = "pinscontainer",
-                  key = "pinsstorage",
-                  secret = "abcabcabcabcabcabcabcabcabcab==")
+board_register_s3(bucket = "pinsbucket",
+                  key = "AAAAAAAAAAAAAAAAAAAA",
+                  secret = "ABCABCABCABCABCABCABCABCABCABCABCABCABCA==")
 ```
 
 Notice that `board_register_s3()` is just an alias with named parameters to `board_register()`; the previous code is equivalent to:
 
 ```{r eval=FALSE}
-board_register("s3", bucket = "pinscontainer",
-                     key = "AKIASEBKRIFXHLW4OXHQ",
-                     secret = "L2Viko3oSNpFZd0T2f9XJibvDUzpsRj5uXWvZ7EL==")
+board_register("s3", bucket = "pinsbucket",
+                     key = "AAAAAAAAAAAAAAAAAAAA",
+                     secret = "ABCABCABCABCABCABCABCABCABCABCABCABCABCA==")
 ```
 
 Once the board is registered, you can pin and search using `pin()`, `pin_get()` and `pin_find()`.
