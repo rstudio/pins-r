@@ -1,8 +1,8 @@
 ---
-title: "Using Azure Boards"
+title: "Using S3 Boards"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using Azure Boards}
+  %\VignetteIndexEntry{Using S3 Boards}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -13,24 +13,24 @@ library(pins)
 
 ## Registering
 
-In order to use Microsoft Azure Storage as a [board](boards-understanding.html), you need an Azure Storage account, an Azure Storage container, and an Azure Storage key. You can sign-up and create those from [portal.azure.com](https://portal.azure.com):
+In order to use Amazon S3 Storage as a [board](boards-understanding.html), you need an Amazon S3 bucket and a user key enabled for programmatic access container created with enough permissions to access the S3 bucket. You can sign-up and create those from [amazonaws.com](http://amazonaws.com):
 
-![](images/boards-azure-create-storage.png)
+![](images/boards-s3-create-storage.png)
 
-You can then use the Azure Storage conatiner, account, and key to authenticate:
+You can then use the S3 Storage conatiner, account, and key to authenticate:
 
 ```{r eval=FALSE}
-board_register_azure(container = "pinscontainer",
-                     account = "pinsstorage",
-                     key = "abcabcabcabcabcabcabcabcabcab==")
+board_register_s3(bucket = "pinscontainer",
+                  key = "pinsstorage",
+                  secret = "abcabcabcabcabcabcabcabcabcab==")
 ```
 
-Notice that `board_register_azure()` is just an alias with named parameters to `board_register()`; the previous code is equivalent to:
+Notice that `board_register_s3()` is just an alias with named parameters to `board_register()`; the previous code is equivalent to:
 
 ```{r eval=FALSE}
-board_register("azure", container = "pinscontainer",
-                        account = "pinsstorage",
-                        key = "abcabcabcabcabcabcabcabcabcab==")
+board_register("s3", bucket = "pinscontainer",
+                     key = "AKIASEBKRIFXHLW4OXHQ",
+                     secret = "L2Viko3oSNpFZd0T2f9XJibvDUzpsRj5uXWvZ7EL==")
 ```
 
 Once the board is registered, you can pin and search using `pin()`, `pin_get()` and `pin_find()`.
@@ -40,18 +40,18 @@ Once the board is registered, you can pin and search using `pin()`, `pin_get()` 
 Like in other boards, you can create pins for `iris` and `mtcars` by setting `board` to Kaggle's board name,
 
 ```{r eval=FALSE}
-pin(iris, description = "The iris data set", board = "azure")
-pin(mtcars, description = "The motor trend cars data set", board = "azure")
+pin(iris, description = "The iris data set", board = "s3")
+pin(mtcars, description = "The motor trend cars data set", board = "s3")
 ```
 
 After a pin is created, the pin also becomes available in the Kaggle's dataset website; by default, they are created as private datasets.
 
-![](images/boards-azure-storage-pin.png){width=480px}
+![](images/boards-s3-storage-pin.png){width=480px}
 
 You can also retrieve pins back from this repo using the now familiar `pin_get()` function. 
 
 ```{r eval=FALSE}
-pin_get("iris", board = "azure")
+pin_get("iris", board = "s3")
 ```
 ```
 # A tibble: 150 x 5
@@ -72,17 +72,17 @@ pin_get("iris", board = "azure")
 
 ## Discovering
 
-You can then search pins in your Azure board using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular board:
+You can then search pins in your S3 board using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular board:
 
 ```{r eval=FALSE}
-pin_find("data", board = "azure")
+pin_find("data", board = "s3")
 ```
 ```
 # A tibble: 2 x 4
   name   description                   type  board
   <chr>  <chr>                         <chr> <chr>
-1 iris   The iris data set             table azure
-2 mtcars The motor trend cars data set table azure
+1 iris   The iris data set             table s3   
+2 mtcars The motor trend cars data set table s3 
 ```
 
 Notice that the given 'data' search keyword is searched in the name and description fields for the pins available in this repo.
