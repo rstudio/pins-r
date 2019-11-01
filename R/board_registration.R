@@ -207,7 +207,7 @@ board_register_datatxt <- function(name,
 #' Wrapper with explicit parameters over \code{board_register()} to
 #' register an Amazon S3 bucket as a board.
 #'
-#' @param name Optional name for this board, defaults to 'github'.
+#' @param name Optional name for this board, defaults to 's3'.
 #' @param bucket The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
 #'   variable.
 #' @param key The key of the Amazon S3 bucket. Defaults to the \code{AWS_ACCESS_KEY_ID} environment
@@ -227,7 +227,7 @@ board_register_datatxt <- function(name,
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key
-#' board_register_s3(bucket = "owner/repo")
+#' board_register_s3(bucket = "s3bucket")
 #' }
 #' @export
 board_register_s3 <- function(name = "s3",
@@ -243,25 +243,25 @@ board_register_s3 <- function(name = "s3",
                  ...)
 }
 
-#' Register Microsoft Azure Board
+#' Register Azure Board
 #'
 #' Wrapper with explicit parameters over \code{board_register()} to
 #' register a Microsoft Azure Storage Blob as a board.
 #'
-#' @param name Optional name for this board, defaults to 'github'.
+#' @param name Optional name for this board, defaults to 'azure'.
 #' @param container The name of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_CONTAINER} environment
 #'   variable.
 #' @param account The account of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_ACCOUNT} environment
 #'   variable.
-#' @param secret The secret of the Amazon S3 bucket. Defaults to the \code{AZURE_STORAGE_KEY} environment
+#' @param key The key of the Azure Storage container Defaults to the \code{AZURE_STORAGE_KEY} environment
 #'   variable.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
 #'
-#' This function requires an Azure S3 bucket to be manually created; otherwise,
-#' registering an S3 board will fail.
+#' This function requires an Azure Storage container to be manually created; otherwise,
+#' registering an Azire board will fail.
 #'
 #' @seealso board_register
 #'
@@ -280,6 +280,43 @@ board_register_azure <- function(name = "azure",
                                  cache = board_cache_path(),
                                  ...) {
   board_register("azure",
+                 name = name,
+                 bucket = bucket,
+                 cache = cache,
+                 ...)
+}
+
+#' Register Google Cloud Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a Google Cloud Storage container as a board.
+#'
+#' @param name Optional name for this board, defaults to 'gcloud'.
+#' @param container The name of the Google Cloud Storage container. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
+#'   variable.
+#' @param token The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @details
+#'
+#' This function requires a Google Cloud Storage container to be manually created; otherwise,
+#' registering a Google Cloud board will fail.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following example requires the Google Cloud SDK to be configured
+#' board_register_gcloud(container = "gcloudcontainer")
+#' }
+#' @export
+board_register_gcloud <- function(name = "gcloud",
+                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+                                  token = NULL,
+                                  cache = board_cache_path(),
+                                  ...) {
+  board_register("gcloud",
                  name = name,
                  bucket = bucket,
                  cache = cache,

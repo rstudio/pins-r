@@ -1,4 +1,4 @@
-gfs_headers <- function(board, verb, path, file) {
+gcloud_headers <- function(board, verb, path, file) {
 
   content_type <- NULL
   if (!is.null(file)) {
@@ -13,7 +13,7 @@ gfs_headers <- function(board, verb, path, file) {
   headers
 }
 
-gfs_candidates <- function(binary) {
+gcloud_candidates <- function(binary) {
   if (.Platform$OS.type == "windows") {
     appdata <- normalizePath(Sys.getenv("localappdata"), winslash = "/")
     binary_name <- paste(binary, "cmd", sep = ".")
@@ -34,12 +34,12 @@ gfs_candidates <- function(binary) {
   }
 }
 
-gfs_binary <- function() {
+gcloud_binary <- function() {
   user_path <- Sys.getenv("gcloud.binary.path", getOption("gcloud.binary.path", ""))
   if (nchar(user_path) > 0)
     return(normalizePath(user_path))
 
-  candidates <- gfs_candidates("gcloud")
+  candidates <- gcloud_candidates("gcloud")
 
   for (candidate in candidates)
     if (file.exists(candidate()))
@@ -48,36 +48,36 @@ gfs_binary <- function() {
   NULL
 }
 
-board_initialize.gfs <- function(board,
-                                 bucket = Sys.getenv("GOOGLE_STORAGE_BUCKET"),
+board_initialize.gcloud <- function(board,
+                                 bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                                  token = NULL,
                                  cache = NULL,
                                  ...) {
 
-  if (nchar(bucket) == 0) stop("Board 'gfs' requires a 'bucket' parameter.")
+  if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
 
   if (is.null(token)) {
     token <- Sys.getenv("GOOGLE_STORAGE_ACCESS_TOKEN")
     if (nchar(token) == 0) {
-      gcloud <- gfs_binary()
+      gcloud <- gcloud_binary()
       if (!is.null(gcloud)) {
-        token <- system2(gfs_binary(), args = c("auth", "print-access-token"), stdout = TRUE)
+        token <- system2(gcloud_binary(), args = c("auth", "print-access-token"), stdout = TRUE)
       }
       else {
-        stop("Board 'gfs' requires an 'access' parameter with a Google Cloud Access Token.")
+        stop("Board 'gcloud' requires an 'access' parameter with a Google Cloud Access Token.")
       }
     }
   }
 
-  gfs_url <- paste0(
+  gcloud_url <- paste0(
     "https://storage.googleapis.com/",
     bucket
   )
 
   board_register_datatxt(name = board$name,
-                         url = gfs_url,
+                         url = gcloud_url,
                          cache = cache,
-                         headers = gfs_headers,
+                         headers = gcloud_headers,
                          needs_index = FALSE,
                          bucket = bucket,
                          token = token)
