@@ -239,6 +239,8 @@ board_register_s3 <- function(name = "s3",
   board_register("s3",
                  name = name,
                  bucket = bucket,
+                 key = key,
+                 secret = secret,
                  cache = cache,
                  ...)
 }
