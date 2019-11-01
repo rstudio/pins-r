@@ -46,7 +46,7 @@ pin(mtcars, description = "The motor trend cars data set", board = "azure")
 
 After a pin is created, the pin also becomes available in the Kaggle's dataset website; by default, they are created as private datasets.
 
-![](images/boards-kaggle-datasets.png){width=480px}
+![](images/boards-azure-storage-pin.png){width=480px}
 
 You can also retrieve pins back from this repo using the now familiar `pin_get()` function. 
 
