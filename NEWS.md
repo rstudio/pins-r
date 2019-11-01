@@ -1,5 +1,11 @@
 # pins 0.2.0.9999
 
+- Support for Azure board.
+
+- Support for Google Cloud board.
+
+- Support for S3 board.
+
 ## Pins
 
 - Support to extract gzip files when the `R.utils` package is installed.
