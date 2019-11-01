@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.4</span>
       </span>
     </div>
 
@@ -68,13 +68,22 @@
       <a href="../articles/boards-understanding.html">Understanding Boards</a>
     </li>
     <li>
+      <a href="../articles/boards-azure.html">Azure</a>
+    </li>
+    <li>
       <a href="../articles/boards-github.html">GitHub</a>
+    </li>
+    <li>
+      <a href="../articles/boards-gcloud.html">Google Cloud</a>
     </li>
     <li>
       <a href="../articles/boards-kaggle.html">Kaggle</a>
     </li>
     <li>
       <a href="../articles/boards-rsconnect.html">RStudio Connect</a>
+    </li>
+    <li>
+      <a href="../articles/boards-s3.html">S3</a>
     </li>
     <li>
       <a href="../articles/boards-websites.html">Websites</a>
@@ -180,9 +189,17 @@
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
 <p>A local board is quite useful for all the reasons mentioned in the <a href="pins-rstudio.html">Getting Started</a> article; however, to take full advantage of pins, you can also consider storing pins in shared locations that others can access, for instance:</p>
 <dl>
+<dt>Azure</dt>
+<dd>
+<a href="https://azure.microsoft.com">Azure</a> is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications and services through Microsoft-managed data centers. Azure provides storage services for storing and accessing data on the cloud. You can learn more about using <code>pins</code> with Azure in the <a href="boards-azure.html">Azure Board</a> article.
+</dd>
 <dt>GitHub</dt>
 <dd>
 <a href="https://github.com">GitHub</a> is an American company that provides hosting for software development version control using Git and a subsidiary of Microsoft. GitHub offers plans for free, professional, and enterprise accounts; but free accounts are commonly used to host open source projects. While GitHub is mostly known to be used as a code repository, it is a common practice to also use GitHub to store datasets. However, GitHub works best with datasets under <a href="https://help.github.com/en/articles/adding-a-file-to-a-repository">25MB</a> before workarounds like <a href="https://git-lfs.github.com/">Git LFS</a> and <a href="https://help.github.com/en/articles/distributing-large-binaries">release files</a> to support up to 2GB resources. You can learn more about using <code>pins</code> with GitHub in the <a href="boards-github.html">GitHub Board</a> article.
+</dd>
+<dt>Google Cloud</dt>
+<dd>
+<a href="https://cloud.google.com/">Google Cloud</a> Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search and YouTube. Google Cloud provides object storage with integrated edge caching to store unstructured data. You can learn more about using <code>pins</code> with Google Cloud in the <a href="boards-gcloud.html">Google Cloud Board</a> article.
 </dd>
 <dt>Kaggle</dt>
 <dd>
@@ -191,6 +208,9 @@
 <dt>RStudio Connect</dt>
 <dd>
 <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> is a publishing platform for the work your teams create in R and Python. You can share Shiny applications, R Markdown reports, Plumber APIs, dashboards, plots, Jupyter Notebooks, and more in one convenient place. RStudio Connect can be used to store private datasets and is only limited by the physical storage capacity configured in your server, learn to configure RStudio Connect in the <a href="boards-kaggle.html">RStudio Connect Board</a> article.
+</dd>
+<dt>S3</dt>
+<dd>Amazon Web Services is a subsidiary of Amazon that provides on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered pay-as-you-go basis. Amazon Simple Storage Service (S3) is a service offered by Amazon Web Services that provides object storage through a web service interface. Amazon S3 uses the same scalable storage infrastructure that Amazon.com uses to run its global e-commerce network. You can learn more about using <code>pins</code> with Amazon S3 in the <a href="boards-s3.html">S3 Board</a> article.
 </dd>
 </dl>
 <p>However, since there are many more storage locations to consider (see for instance <a href="https://github.com/swcarpentry/DEPRECATED-site/issues/797">Where should scientists store their data</a>), <code>pins</code> also supports web-accessible locations through <a href="boards-websites.html">Website Boards</a> and even custom boards to fully-support reading, writing, authentication and so on. You can learn how to create extensions at <a href="boards-extending.html">Extending Boards</a>.</p>

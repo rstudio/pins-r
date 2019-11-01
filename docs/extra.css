@@ -76,8 +76,9 @@ blockquote {
   padding-left: 60px;
 }
 
-#overview- > h2 > img {
+#overview > p > img {
   width: 130px;
+  margin-top: -20px;
 }
 
 .container {

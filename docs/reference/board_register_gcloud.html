@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Register Kaggle Board — board_register_kaggle • pins</title>
+<title>Register Google Cloud Board — board_register_gcloud • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -41,10 +41,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Register Kaggle Board — board_register_kaggle" />
+<meta property="og:title" content="Register Google Cloud Board — board_register_gcloud" />
 
 <meta property="og:description" content="Wrapper with explicit parameters over board_register() to
-register Kaggle as a board." />
+register a Google Cloud Storage container as a board." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -205,36 +205,37 @@ register Kaggle as a board." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Register Kaggle Board</h1>
+    <h1>Register Google Cloud Board</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_registration.R'><code>R/board_registration.R</code></a></small>
-    <div class="hidden name"><code>board_register_kaggle.Rd</code></div>
+    <div class="hidden name"><code>board_register_gcloud.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
     <p>Wrapper with explicit parameters over <code><a href='board_register.html'>board_register()</a></code> to
-register Kaggle as a board.</p>
+register a Google Cloud Storage container as a board.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register_kaggle</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"kaggle"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register_gcloud</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"gcloud"</span>,
+  <span class='kw'>bucket</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"GCLOUD_STORAGE_BUCKET"</span>), <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Optional name for this board, defaults to 'kaggle'.</p></td>
+      <td><p>Optional name for this board, defaults to 'gcloud'.</p></td>
+    </tr>
+    <tr>
+      <th>bucket</th>
+      <td><p>The name of the Google Cloud Storage bucket. Defaults to the <code>GCLOUD_STORAGE_BUCKET</code> environment
+variable.</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>The Kaggle token as a path to the <code>kaggle.json</code> file, can
-be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exists.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Should <code>~/.kaggle/kaggle.json</code> be overriden?</p></td>
+      <td><p>The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -246,6 +247,11 @@ be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exis
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function requires a Google Cloud Storage container to be manually created; otherwise,
+registering a Google Cloud board will fail.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>board_register</p></div>
@@ -253,8 +259,8 @@ be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exis
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># the following example requires a Kaggle API token</span>
-<span class='fu'>board_register_kaggle</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='st'>"path/to/kaggle.json"</span>)
+<span class='co'># the following example requires the Google Cloud SDK to be configured</span>
+<span class='fu'>board_register_gcloud</span>(<span class='kw'>container</span> <span class='kw'>=</span> <span class='st'>"gcloudcontainer"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -262,6 +268,8 @@ be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exis
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
