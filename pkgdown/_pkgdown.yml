@@ -42,12 +42,18 @@ navbar:
         - text: Boards
         - text: "Understanding Boards"
           href: articles/boards-understanding.html
+        - text: "Azure"
+          href: articles/boards-azure.html
         - text: "GitHub"
           href: articles/boards-github.html
+        - text: "Google Cloud"
+          href: articles/boards-gcloud.html
         - text: "Kaggle"
           href: articles/boards-kaggle.html
         - text: "RStudio Connect"
           href: articles/boards-rsconnect.html
+        - text: "S3"
+          href: articles/boards-s3.html
         - text: "Websites"
           href: articles/boards-websites.html
         - text: "---"
