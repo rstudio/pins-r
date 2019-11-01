@@ -1,6 +1,6 @@
-wasb_headers <- function(board, verb, path, file) {
+azure_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %Z", tz = "GMT")
-  wasb_version <- "2015-04-05"
+  azure_version <- "2015-04-05"
 
   # allow full urls to allow arbitrary file downloads
   path <- gsub(paste0(board$url, "/"), "", path, fixed = TRUE)
@@ -22,7 +22,7 @@ wasb_headers <- function(board, verb, path, file) {
     "\n\n\n\n\n",
     paste("x-ms-blob-type", "BlockBlob", sep = ":"),
     paste("x-ms-date", date, sep = ":"),
-    paste("x-ms-version", wasb_version, sep = ":"),
+    paste("x-ms-version", azure_version, sep = ":"),
     paste0("/", board$account, "/", board$container, "/", path),
     sep = "\n")
 
@@ -31,7 +31,7 @@ wasb_headers <- function(board, verb, path, file) {
 
   headers <- httr::add_headers(
     `x-ms-date` = date,
-    `x-ms-version` = wasb_version,
+    `x-ms-version` = azure_version,
     `x-ms-blob-type` = "BlockBlob",
     Authorization = paste0("SharedKey ", board$account, ":", signature)
   )
@@ -39,18 +39,18 @@ wasb_headers <- function(board, verb, path, file) {
   headers
 }
 
-board_initialize.wasb <- function(board,
+board_initialize.azure <- function(board,
                                   container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                                   account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
                                   key = Sys.getenv("AZURE_STORAGE_KEY"),
                                   cache = NULL,
                                   ...) {
-  if (nchar(container) == 0)  stop("The 'wasb' board requires a 'container' parameter.")
-  if (nchar(account) == 0)  stop("The 'wasb' board requires an 'account' parameter.")
-  if (nchar(key) == 0)  stop("The 'wasb' board requires a 'key' parameter.")
+  if (nchar(container) == 0)  stop("The 'azure' board requires a 'container' parameter.")
+  if (nchar(account) == 0)  stop("The 'azure' board requires an 'account' parameter.")
+  if (nchar(key) == 0)  stop("The 'azure' board requires a 'key' parameter.")
 
 
-  wasb_url <- paste0(
+  azure_url <- paste0(
     "https://",
     account,
     ".blob.core.windows.net/",
@@ -58,9 +58,9 @@ board_initialize.wasb <- function(board,
   )
 
   board_register_datatxt(name = board$name,
-                         url = wasb_url,
+                         url = azure_url,
                          cache = cache,
-                         headers = wasb_headers,
+                         headers = azure_headers,
                          needs_index = FALSE,
                          container = container,
                          account = account,

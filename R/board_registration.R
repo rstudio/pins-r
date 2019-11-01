@@ -242,3 +242,46 @@ board_register_s3 <- function(name = "s3",
                  cache = cache,
                  ...)
 }
+
+#' Register Microsoft Azure Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a Microsoft Azure Storage Blob as a board.
+#'
+#' @param name Optional name for this board, defaults to 'github'.
+#' @param container The name of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_CONTAINER} environment
+#'   variable.
+#' @param account The account of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_ACCOUNT} environment
+#'   variable.
+#' @param secret The secret of the Amazon S3 bucket. Defaults to the \code{AZURE_STORAGE_KEY} environment
+#'   variable.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @details
+#'
+#' This function requires an Azure S3 bucket to be manually created; otherwise,
+#' registering an S3 board will fail.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following example requires an Azure Storage key
+#' board_register_azure(container = "pinscontainer",
+#'                      account = "pinsstorage",
+#'                      key = "abcabcabcabcabcabcabcabcabcab==")
+#' }
+#' @export
+board_register_azure <- function(name = "azure",
+                                 container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+                                 account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+                                 key = Sys.getenv("AZURE_STORAGE_KEY"),
+                                 cache = board_cache_path(),
+                                 ...) {
+  board_register("azure",
+                 name = name,
+                 bucket = bucket,
+                 cache = cache,
+                 ...)
+}
