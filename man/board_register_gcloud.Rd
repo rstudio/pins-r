@@ -11,14 +11,14 @@ board_register_gcloud(name = "gcloud",
 \arguments{
 \item{name}{Optional name for this board, defaults to 'gcloud'.}
 
+\item{bucket}{The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
+variable.}
+
 \item{token}{The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
-
-\item{container}{The name of the Google Cloud Storage container. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
-variable.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
