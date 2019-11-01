@@ -98,7 +98,7 @@ board_pin_find.datatxt <- function(board, text, name, ...) {
     stringsAsFactors = FALSE)
 
   if (is.character(name)) {
-    results <- results[identical(results$name, name),]
+    results <- results[results$name == name,]
   }
 
   if (nrow(results) == 1) {
