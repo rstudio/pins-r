@@ -321,6 +321,7 @@ board_register_gcloud <- function(name = "gcloud",
   board_register("gcloud",
                  name = name,
                  bucket = bucket,
+                 token = token,
                  cache = cache,
                  ...)
 }
