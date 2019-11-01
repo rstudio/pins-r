@@ -15,7 +15,7 @@ library(pins)
 
 In order to use Google Cloud Storage as a [board](boards-understanding.html), you need a Google Cloud Storage account, a Google Storage bucket, and an access token or the [Gogole Cloud SDK](https://cloud.google.com/sdk/) properly installed and configured. You can sign-up and create those from [console.cloud.google.com](https://console.cloud.google.com):
 
-![](images/boards-gcloud-create-storage.png)
+![](images/boards-gcloud-create-storage.png){width=500px}
 
 You can then use the Google Cloud Storage bucket and implicitly the Google Cloud SDK (or an explicit token) to authenticate:
 
@@ -44,7 +44,7 @@ pin(mtcars, description = "The motor trend cars data set", board = "gcloud")
 
 After a pin is created, the pin also becomes available in the Kaggle's dataset website; by default, they are created as private datasets.
 
-![](images/boards-gcloud-storage-pin.png){width=480px}
+![](images/boards-gcloud-storage-pin.png){width=500px}
 
 You can also retrieve pins back from this repo using the now familiar `pin_get()` function. 
 
