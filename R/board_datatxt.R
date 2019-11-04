@@ -17,7 +17,7 @@ board_initialize.datatxt <- function(board, ...) {
   board
 }
 
-board_pin_get.datatxt <- function(board, name, ...) {
+board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
@@ -52,7 +52,7 @@ board_pin_get.datatxt <- function(board, name, ...) {
       path <- file.path(board$url, path)
     }
 
-    local_path <- pin_download(path, name, board$name)
+    local_path <- pin_download(path, name, board$name, extract = identical(extract, TRUE))
   }
 
   local_path

@@ -224,11 +224,10 @@ board_pin_find.kaggle <- function(board, text, ...) {
     unique()
 }
 
-board_pin_get.kaggle <- function(board, name) {
+board_pin_get.kaggle <- function(board, name, extract = NULL, ...) {
   if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
-  temp_zip <- tempfile(fileext = ".zip")
 
   extended <- pin_find(name, board = board$name, extended = TRUE)
   extended <- extended[grepl(name, extended$name),]
@@ -239,7 +238,8 @@ board_pin_get.kaggle <- function(board, name) {
                              name,
                              component = board$name,
                              config = kaggle_auth(board),
-                             custom_etag = etag)
+                             custom_etag = etag,
+                             extract = !identical(extract, FALSE))
 
   local_path
 }

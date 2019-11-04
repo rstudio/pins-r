@@ -1,4 +1,4 @@
-pin_download <- function(path, name, component, extract = TRUE, ...) {
+pin_download <- function(path, name, component, extract = FALSE, ...) {
   must_download <- identical(list(...)$download, TRUE)
   headers <- list(...)$headers
   config <- list(...)$config

@@ -400,7 +400,7 @@ board_pin_get.github <- function(board, name, ...) {
       else {
         file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
       }
-      pin_download(file_url, name, board$name, headers = headers)
+      pin_download(file_url, name, board$name, headers = headers, extract = identical(extract, TRUE))
     }
 
     local_path

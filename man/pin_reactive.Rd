@@ -4,7 +4,8 @@
 \alias{pin_reactive}
 \title{Reactive Pin}
 \usage{
-pin_reactive(name, board, interval = 5000, session = NULL)
+pin_reactive(name, board, interval = 5000, session = NULL,
+  extract = NULL)
 }
 \arguments{
 \item{name}{The name of the pin.}

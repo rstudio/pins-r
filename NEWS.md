@@ -2,6 +2,9 @@
 
 ## Pins
 
+- Support for `extract` parameter in `pin_get()`, `pin()`, and
+  `pin_reactive()` to override default file extraction behavior.
+  
 - Support to extract gzip files when the `R.utils` package is installed.
 
 - Show download progress for files larger than 10mb.

@@ -237,7 +237,7 @@ rsconnect_remote_path_from_url <- function(board, url) {
   gsub("/$", "", url)
 }
 
-board_pin_get.rsconnect <- function(board, name) {
+board_pin_get.rsconnect <- function(board, name, ...) {
   url <- name
 
   if (identical(board$output_files, TRUE)) {
