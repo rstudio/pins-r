@@ -84,7 +84,7 @@ pin_download <- function(path, name, component, extract = FALSE, ...) {
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
         result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress(size = content_length)))
         extract_type <- gsub("application/(x-)?", "", result$headers$`content-type`)
-        if (result$headers$`content-type` %in% c("application/octet-stream", "application/zip")) {
+        if (!is.null(result$headers$`content-type`) && result$headers$`content-type` %in% c("application/octet-stream", "application/zip")) {
           if (file.size(destination_path) > 4 &&
               identical(readBin(destination_path, raw(), 4), as.raw(c(0x50, 0x4b, 0x03, 0x04))))
             extract_type <- "zip"

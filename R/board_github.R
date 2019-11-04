@@ -380,7 +380,7 @@ github_download_files <- function(index, temp_path, board) {
   }
 }
 
-board_pin_get.github <- function(board, name, ...) {
+board_pin_get.github <- function(board, name, extract = NULL, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
   base_url <- github_raw_url(board, branch = branch, board$path, name, "/data.txt")
