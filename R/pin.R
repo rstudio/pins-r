@@ -57,7 +57,7 @@ pin_default_name <- function(x, board) {
 #' # cache the mtcars dataset
 #' pin(mtcars)
 #'
-#' # cache computation oveer mtcars
+#' # cache computation over mtcars
 #' mtcars[mtcars$mpg > 30,] %>%
 #'   pin(name = "mtefficient")
 #'
