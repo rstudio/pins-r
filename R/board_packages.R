@@ -82,7 +82,7 @@ packages_download <- function(resource_path, package_pin, name) {
   pin_manifest_create(resource_path, metadata, "")
 }
 
-board_pin_get.packages <- function(board, name) {
+board_pin_get.packages <- function(board, name, ...) {
   parts <- strsplit(name, "/")[[1]]
 
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")

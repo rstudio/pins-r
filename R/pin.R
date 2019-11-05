@@ -57,7 +57,7 @@ pin_default_name <- function(x, board) {
 #' # cache the mtcars dataset
 #' pin(mtcars)
 #'
-#' # cache computation oveer mtcars
+#' # cache computation over mtcars
 #' mtcars[mtcars$mpg > 30,] %>%
 #'   pin(name = "mtefficient")
 #'
@@ -89,6 +89,8 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
 #' @param cache Should the pin cache be used? Defaults to \code{TRUE}.
+#' @param extract Should compressed files be extracted? Each board defines the
+#'   deefault behavior.
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -114,7 +116,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' # retrieve mtcars pin from packages board
 #' pin_get("easyalluvial/mtcars2", board = "packages")
 #' @export
-pin_get <- function(name, board = NULL, cache = TRUE, ...) {
+pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
 
@@ -123,7 +125,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
         if (!cache) pin_reset_cache(board_name, name)
-        result <- board_pin_get_or_null(board_get(board_name), name)
+        result <- board_pin_get_or_null(board_get(board_name), name, extract = extract)
         if (!is.null(result)) break
       }
     }
@@ -131,7 +133,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, ...) {
   }
   else {
     if (!cache) pin_reset_cache(board, name)
-    result <- board_pin_get(board_get(board), name, ...)
+    result <- board_pin_get(board_get(board), name, extract = extract, ...)
   }
 
   manifest <- pin_manifest_get(result)
