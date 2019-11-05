@@ -4,7 +4,8 @@
 \alias{pin_reactive}
 \title{Reactive Pin}
 \usage{
-pin_reactive(name, board, interval = 5000, session = NULL)
+pin_reactive(name, board, interval = 5000, session = NULL,
+  extract = NULL)
 }
 \arguments{
 \item{name}{The name of the pin.}
@@ -17,6 +18,9 @@ a numeric value.}
 
 \item{session}{The user session to associate this file reader with, or NULL if
 none. If non-null, the reader will automatically stop when the session ends.}
+
+\item{extract}{Should compressed files be extracted? Each board defines the
+deefault behavior.}
 }
 \description{
 Creates a pin that reacts to changes in the given board by

@@ -4,7 +4,7 @@
 \alias{pin_get}
 \title{Retrieve Pin}
 \usage{
-pin_get(name, board = NULL, cache = TRUE, ...)
+pin_get(name, board = NULL, cache = TRUE, extract = NULL, ...)
 }
 \arguments{
 \item{name}{The name of the pin.}
@@ -12,6 +12,9 @@ pin_get(name, board = NULL, cache = TRUE, ...)
 \item{board}{The board where this pin will be retrieved from.}
 
 \item{cache}{Should the pin cache be used? Defaults to \code{TRUE}.}
+
+\item{extract}{Should compressed files be extracted? Each board defines the
+deefault behavior.}
 
 \item{...}{Additional parameters.}
 }
