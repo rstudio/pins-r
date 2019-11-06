@@ -180,7 +180,7 @@ pins_connection_ui <- function() {
         condition = "input.board == 'datatxt'",
         textInput(
           "datatxt_name",
-          "name:",
+          "Name:",
           value = "example"
         ),
         textInput(
@@ -202,7 +202,7 @@ pins_connection_ui <- function() {
         condition = "input.board == 'gcloud'",
         textInput(
           "gcloud_bucket",
-          "bucket:",
+          "Bucket:",
           value = ""
         ),
         tags$div(
@@ -215,6 +215,30 @@ pins_connection_ui <- function() {
           ),
           class = "token-label"
         )
+      )
+    ),
+    conditionalPanel(
+      condition = "input.board == 'azure'",
+      textInput(
+        "azure_container",
+        "Container:",
+        value = ""
+      ),
+      conditionalPanel(
+        condition = "output.showAzureAccount",
+        textInput(
+          "azure_account",
+          "Account:",
+          value = ""
+        )
+      ),
+      tags$div(
+        "Requires an Azure container from",
+        tags$a(
+          "portal.azure.com",
+          href = "https://portal.azure.com/"
+        ),
+        class = "token-label"
       )
     ),
     tags$div(
@@ -233,6 +257,16 @@ pins_connection_server <- function(input, output, session) {
     }
   })
   outputOptions(output, 'showHint', suspendWhenHidden=FALSE)
+
+  output$showAzureAccount <- reactive({
+    if (identical(input$board, "azure")) {
+      nchar(Sys.getenv("AZURE_STORAGE_ACCOUNT")) == 0
+    }
+    else {
+      TRUE
+    }
+  })
+  outputOptions(output, 'showAzureAccount', suspendWhenHidden=FALSE)
 
   observe({
     if (identical(input$board, "rsconnect")) {
@@ -305,6 +339,24 @@ pins_connection_server <- function(input, output, session) {
         "pins::board_register(\"gcloud\", ",
         "name = \"", input$gcloud_bucket, "\", ",
         "bucket = \"", input$gcloud_bucket, "\")\n", sep = "")
+    }
+    else if (identical(board, "azure") && nchar(input$azure_container) > 0) {
+      azure_secrets <- ""
+      if (nchar(Sys.getenv("AZURE_STORAGE_ACCOUNT")) == 0) {
+        azure_secrets <- paste0(", account = \"", input$azure_account, "\"")
+      }
+
+      if (nchar(Sys.getenv("AZURE_STORAGE_KEY")) == 0) {
+        azure_secrets <- paste0(
+          azure_secrets,
+          ", token = rstudioapi::askForSecret(\"azure_secret\", \"Your Azure Storage Secret\", \"Azure Secret\")"
+        )
+      }
+
+      initializer <- paste(
+        "pins::board_register(\"azure\", ",
+        "name = \"", input$azure_container, "\", ",
+        "bucket = \"", input$azure_container, "\"", azure_secrets, ")\n", sep = "")
     }
 
     initializer
