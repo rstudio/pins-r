@@ -1,5 +1,11 @@
 # pins 0.2.0.9999
 
+- Support for Azure board.
+
+- Support for Google Cloud board.
+
+- Support for S3 board.
+
 ## Pins
 
 - Support for `extract` parameter in `pin_get()`, `pin()`, and
@@ -41,6 +47,10 @@
 ## Python
 
 - Support for Python 3.
+
+## Websites
+
+- Fix in `pin_find()` to properly search desecription files.
 
 # pins 0.2.0
 

@@ -6,7 +6,7 @@
 \usage{
 board_register_github(name = "github", repo = NULL,
   branch = "master", token = NULL, path = "",
-  cache = board_cache_path())
+  cache = board_cache_path(), ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'github'.}
@@ -21,6 +21,8 @@ board_register_github(name = "github", repo = NULL,
 \item{path}{The subdirectory in the repo where the pins will be stored.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

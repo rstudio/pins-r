@@ -5,7 +5,7 @@
 \title{Register Kaggle Board}
 \usage{
 board_register_kaggle(name = "kaggle", token = NULL,
-  overwrite = FALSE, cache = board_cache_path())
+  overwrite = FALSE, cache = board_cache_path(), ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'kaggle'.}
@@ -16,6 +16,8 @@ be \code{NULL} if the \code{~/.kaggle/kaggle.json} file already exists.}
 \item{overwrite}{Should \code{~/.kaggle/kaggle.json} be overriden?}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

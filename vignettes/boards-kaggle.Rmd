@@ -36,7 +36,7 @@ pin(iris, description = "The iris data set", board = "kaggle")
 pin(mtcars, description = "The motor trend cars data set", board = "kaggle")
 ```
 
-After a pin is created, the pin also becomes available in the Kaggle's dataset website; by defeault, they are created as private datasets.
+After a pin is created, the pin also becomes available in the Kaggle's dataset website; by default, they are created as private datasets.
 
 ![](images/boards-kaggle-datasets.png){width=480px}
 
@@ -64,7 +64,7 @@ pin_get("iris-pin", board = "kaggle")
 
 ## Discovering
 
-You can then search pins in your repo using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular Kaggle board:
+You can then search pins in Kaggle using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular Kaggle board:
 
 ```{r eval=FALSE}
 pin_find("motor", board = "kaggle")

@@ -12,6 +12,10 @@ branches:
   only:
     - master
 
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+
 matrix:
   include:
     - name: "R"
@@ -20,7 +24,15 @@ matrix:
       r_packages:
         - tibble
         - covr
+        - xml2
       script:
+        - gcloud version || true
+        - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+        - source /home/travis/google-cloud-sdk/path.bash.inc
+        - gcloud version
+        - echo $TEST_GOOGLE_KEY_FILE > gcloud.b64
+        - base64 --decode gcloud.b64 > gcloud.json
+        - gcloud auth activate-service-account --key-file gcloud.json
         - |
           R CMD build --resave-data .
           R CMD check --no-build-vignettes --no-manual --no-tests pins*tar.gz

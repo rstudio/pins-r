@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.4</span>
       </span>
     </div>
 
@@ -106,13 +106,22 @@
       <a href="../articles/boards-understanding.html">Understanding Boards</a>
     </li>
     <li>
+      <a href="../articles/boards-azure.html">Azure</a>
+    </li>
+    <li>
       <a href="../articles/boards-github.html">GitHub</a>
+    </li>
+    <li>
+      <a href="../articles/boards-gcloud.html">Google Cloud</a>
     </li>
     <li>
       <a href="../articles/boards-kaggle.html">Kaggle</a>
     </li>
     <li>
       <a href="../articles/boards-rsconnect.html">RStudio Connect</a>
+    </li>
+    <li>
+      <a href="../articles/boards-s3.html">S3</a>
     </li>
     <li>
       <a href="../articles/boards-websites.html">Websites</a>
@@ -288,7 +297,7 @@ continue to work.</p>
                       <span class='st'>"master/examples/example_retail_sales.csv"</span>)
 
 <span class='co'># cache remote resource</span>
-<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/Rtmpi4aj9q/file11c4d221e63bf/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
+<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpMVpGmC/file4534621f815a/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
 <span class='co'># load cached csv</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"example_retail_sales"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>()</div><div class='output co'>#&gt;             ds      y
 #&gt; 1   1992-01-01 146376

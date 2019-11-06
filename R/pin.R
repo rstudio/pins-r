@@ -288,3 +288,12 @@ pin_preview <- function(x, board = NULL, ...) {
 pin_load <- function(path, ...) {
   UseMethod("pin_load")
 }
+
+pin_files <- function(name, board = NULL, absolute = TRUE, ...) {
+  entry <- pin_find(name = name, board = board, metadata = TRUE)
+
+  if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
+  metadata <- jsonlite::fromJSON(as.list(entry)$metadata)
+
+  dir(file.path(board_local_storage(board), metadata$path), recursive = TRUE, full.names = absolute)
+}

@@ -63,7 +63,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
     sha <- httr::content(response)$sha
     content <- httr::content(response)
 
-    # API reeturns contents when size < 1mb
+    # API returns contents when size < 1mb
     if (!is.null(content$content)) {
       index <- board_manifest_load(rawToChar(base64enc::base64decode(content$content)))
     }

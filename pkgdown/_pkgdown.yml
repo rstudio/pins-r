@@ -13,11 +13,14 @@ reference:
   - title: "Aliases"
     desc: "Alias functions to help register boards."
     contents:
+      - board_register_azure
+      - board_register_datatxt
+      - board_register_gcloud
       - board_register_github
       - board_register_kaggle
-      - board_register_rsconnect
       - board_register_local
-      - board_register_datatxt
+      - board_register_rsconnect
+      - board_register_s3
   - title: "Extensions"
     desc: "Functions for creating custom boards."
     contents:
@@ -42,12 +45,18 @@ navbar:
         - text: Boards
         - text: "Understanding Boards"
           href: articles/boards-understanding.html
+        - text: "Azure"
+          href: articles/boards-azure.html
         - text: "GitHub"
           href: articles/boards-github.html
+        - text: "Google Cloud"
+          href: articles/boards-gcloud.html
         - text: "Kaggle"
           href: articles/boards-kaggle.html
         - text: "RStudio Connect"
           href: articles/boards-rsconnect.html
+        - text: "S3"
+          href: articles/boards-s3.html
         - text: "Websites"
           href: articles/boards-websites.html
         - text: "---"

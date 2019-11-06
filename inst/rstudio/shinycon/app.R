@@ -114,10 +114,13 @@ pins_connection_ui <- function() {
         choices = c(
           list(
             local = "local",
+            azure = "azure",
+            datatxt = "datatxt",
+            gcloud = "gcloud",
             github = "github",
             kaggle = "kaggle",
             rsconnect = "rsconnect",
-            datatxt = "datatxt"
+            s3 = "s3"
           )
         ),
         selectize = FALSE,
@@ -161,20 +164,23 @@ pins_connection_ui <- function() {
           "Branch/Path:",
           value = "master"
         ),
-        tags$div(
-          "Retrieve token from",
-          tags$a(
-            "github.com/settings/tokens",
-            href = "https://github.com/settings/tokens"
-          ),
-          class = "token-label"
+        conditionalPanel(
+          condition = "output.showOptional",
+          tags$div(
+            "Retrieve token from",
+            tags$a(
+              "github.com/settings/tokens",
+              href = "https://github.com/settings/tokens"
+            ),
+            class = "token-label"
+          )
         )
       ),
       conditionalPanel(
         condition = "input.board == 'datatxt'",
         textInput(
           "datatxt_name",
-          "name:",
+          "Name:",
           value = "example"
         ),
         textInput(
@@ -191,6 +197,72 @@ pins_connection_ui <- function() {
           "specification",
           class = "token-label"
         )
+      ),
+      conditionalPanel(
+        condition = "input.board == 'gcloud'",
+        textInput(
+          "gcloud_bucket",
+          "Bucket:",
+          value = ""
+        ),
+        tags$div(
+          "Requires Google Cloud SDK and bucket",
+          tags$br(),
+          "from ",
+          tags$a(
+            "console.cloud.google.com",
+            href = "https://console.cloud.google.com/"
+          ),
+          class = "token-label"
+        )
+      )
+    ),
+    conditionalPanel(
+      condition = "input.board == 'azure'",
+      textInput(
+        "azure_container",
+        "Container:",
+        value = ""
+      ),
+      conditionalPanel(
+        condition = "output.showOptional",
+        textInput(
+          "azure_account",
+          "Account:",
+          value = ""
+        )
+      ),
+      tags$div(
+        "Requires an Azure container from",
+        tags$a(
+          "portal.azure.com",
+          href = "https://portal.azure.com/"
+        ),
+        class = "token-label"
+      )
+    ),
+    conditionalPanel(
+      condition = "input.board == 's3'",
+      textInput(
+        "s3_bucket",
+        "Bucket:",
+        value = ""
+      ),
+      conditionalPanel(
+        condition = "output.showOptional",
+        textInput(
+          "s3_key",
+          "Key:",
+          value = ""
+        )
+      ),
+      tags$div(
+        "Requires an S3 bucket from",
+        tags$a(
+          "amazonaws.com",
+          href = "http://amazonaws.com/"
+        ),
+        class = "token-label"
       )
     ),
     tags$div(
@@ -200,6 +272,21 @@ pins_connection_ui <- function() {
 }
 
 pins_connection_server <- function(input, output, session) {
+  output$showOptional <- reactive({
+    if (identical(input$board, "github")) {
+      nchar(Sys.getenv("GITHUB_PAT")) == 0
+    }
+    else if (identical(input$board, "azure")) {
+      nchar(Sys.getenv("AZURE_STORAGE_ACCOUNT")) == 0
+    }
+    else if (identical(input$board, "s3")) {
+      nchar(Sys.getenv("AWS_ACCESS_KEY_ID")) == 0
+    }
+    else {
+      TRUE
+    }
+  })
+  outputOptions(output, 'showOptional', suspendWhenHidden = FALSE)
 
   observe({
     if (identical(input$board, "rsconnect")) {
@@ -266,6 +353,48 @@ pins_connection_server <- function(input, output, session) {
         ifelse(nchar(input$datatxt_name) == 0, "", paste0("name = \"", input$datatxt_name, "\", ")),
         "url = \"", input$datatxt_url, "\"",
         ")\n")
+    }
+    else if (identical(board, "gcloud") && nchar(input$gcloud_bucket) > 0) {
+      initializer <- paste(
+        "pins::board_register(\"gcloud\", ",
+        "name = \"", input$gcloud_bucket, "\", ",
+        "bucket = \"", input$gcloud_bucket, "\")\n", sep = "")
+    }
+    else if (identical(board, "azure") && nchar(input$azure_container) > 0) {
+      azure_params <- ""
+      if (nchar(Sys.getenv("AZURE_STORAGE_ACCOUNT")) == 0) {
+        azure_params <- paste0(", account = \"", input$azure_account, "\"")
+      }
+
+      if (nchar(Sys.getenv("AZURE_STORAGE_KEY")) == 0) {
+        azure_params <- paste0(
+          azure_params,
+          ", token = rstudioapi::askForSecret(\"azure_secret\", \"Your Azure Storage Secret\", \"Azure Secret\")"
+        )
+      }
+
+      initializer <- paste(
+        "pins::board_register(\"azure\", ",
+        "name = \"", input$azure_container, "\", ",
+        "bucket = \"", input$azure_container, "\"", azure_params, ")\n", sep = "")
+    }
+    else if (identical(board, "s3") && nchar(input$s3_bucket) > 0) {
+      s3_params <- ""
+      if (nchar(Sys.getenv("AWS_ACCESS_KEY_ID")) == 0) {
+        s3_params <- paste0(", key = \"", input$s3_key, "\"")
+      }
+
+      if (nchar(Sys.getenv("AWS_SECRET_ACCESS_KEY")) == 0) {
+        s3_params <- paste0(
+          s3_params,
+          ", secret = rstudioapi::askForSecret(\"s3_token\", \"Your S3 Storage Token\", \"S3 Token\")"
+        )
+      }
+
+      initializer <- paste(
+        "pins::board_register(\"s3\", ",
+        "name = \"", input$s3_bucket, "\", ",
+        "bucket = \"", input$s3_bucket, "\"", s3_params, ")\n", sep = "")
     }
 
     initializer
