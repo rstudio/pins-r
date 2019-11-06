@@ -164,13 +164,16 @@ pins_connection_ui <- function() {
           "Branch/Path:",
           value = "master"
         ),
-        tags$div(
-          "Retrieve token from",
-          tags$a(
-            "github.com/settings/tokens",
-            href = "https://github.com/settings/tokens"
-          ),
-          class = "token-label"
+        conditionalPanel(
+          condition = "output.showHint",
+          tags$div(
+            "Retrieve token from",
+            tags$a(
+              "github.com/settings/tokens",
+              href = "https://github.com/settings/tokens"
+            ),
+            class = "token-label"
+          )
         )
       ),
       conditionalPanel(
@@ -221,6 +224,15 @@ pins_connection_ui <- function() {
 }
 
 pins_connection_server <- function(input, output, session) {
+  output$showHint <- reactive({
+    if (identical(input$board, "github")) {
+      nchar(Sys.getenv("GITHUB_PAT")) == 0
+    }
+    else {
+      TRUE
+    }
+  })
+  outputOptions(output, 'showHint', suspendWhenHidden=FALSE)
 
   observe({
     if (identical(input$board, "rsconnect")) {
