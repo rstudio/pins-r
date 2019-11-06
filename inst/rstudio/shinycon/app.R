@@ -165,7 +165,7 @@ pins_connection_ui <- function() {
           value = "master"
         ),
         conditionalPanel(
-          condition = "output.showHint",
+          condition = "output.showOptional",
           tags$div(
             "Retrieve token from",
             tags$a(
@@ -225,7 +225,7 @@ pins_connection_ui <- function() {
         value = ""
       ),
       conditionalPanel(
-        condition = "output.showAzureAccount",
+        condition = "output.showOptional",
         textInput(
           "azure_account",
           "Account:",
@@ -241,6 +241,30 @@ pins_connection_ui <- function() {
         class = "token-label"
       )
     ),
+    conditionalPanel(
+      condition = "input.board == 's3'",
+      textInput(
+        "s3_bucket",
+        "Bucket:",
+        value = ""
+      ),
+      conditionalPanel(
+        condition = "output.showOptional",
+        textInput(
+          "s3_key",
+          "Key:",
+          value = ""
+        )
+      ),
+      tags$div(
+        "Requires an S3 bucket from",
+        tags$a(
+          "amazonaws.com",
+          href = "http://amazonaws.com/"
+        ),
+        class = "token-label"
+      )
+    ),
     tags$div(
       style = paste("display: table-row; height: 10px")
     )
@@ -248,25 +272,21 @@ pins_connection_ui <- function() {
 }
 
 pins_connection_server <- function(input, output, session) {
-  output$showHint <- reactive({
+  output$showOptional <- reactive({
     if (identical(input$board, "github")) {
       nchar(Sys.getenv("GITHUB_PAT")) == 0
     }
-    else {
-      TRUE
-    }
-  })
-  outputOptions(output, 'showHint', suspendWhenHidden=FALSE)
-
-  output$showAzureAccount <- reactive({
-    if (identical(input$board, "azure")) {
+    else if (identical(input$board, "azure")) {
       nchar(Sys.getenv("AZURE_STORAGE_ACCOUNT")) == 0
     }
+    else if (identical(input$board, "s3")) {
+      nchar(Sys.getenv("AWS_ACCESS_KEY_ID")) == 0
+    }
     else {
       TRUE
     }
   })
-  outputOptions(output, 'showAzureAccount', suspendWhenHidden=FALSE)
+  outputOptions(output, 'showOptional', suspendWhenHidden = FALSE)
 
   observe({
     if (identical(input$board, "rsconnect")) {
@@ -341,14 +361,14 @@ pins_connection_server <- function(input, output, session) {
         "bucket = \"", input$gcloud_bucket, "\")\n", sep = "")
     }
     else if (identical(board, "azure") && nchar(input$azure_container) > 0) {
-      azure_secrets <- ""
+      azure_params <- ""
       if (nchar(Sys.getenv("AZURE_STORAGE_ACCOUNT")) == 0) {
-        azure_secrets <- paste0(", account = \"", input$azure_account, "\"")
+        azure_params <- paste0(", account = \"", input$azure_account, "\"")
       }
 
       if (nchar(Sys.getenv("AZURE_STORAGE_KEY")) == 0) {
-        azure_secrets <- paste0(
-          azure_secrets,
+        azure_params <- paste0(
+          azure_params,
           ", token = rstudioapi::askForSecret(\"azure_secret\", \"Your Azure Storage Secret\", \"Azure Secret\")"
         )
       }
@@ -356,7 +376,25 @@ pins_connection_server <- function(input, output, session) {
       initializer <- paste(
         "pins::board_register(\"azure\", ",
         "name = \"", input$azure_container, "\", ",
-        "bucket = \"", input$azure_container, "\"", azure_secrets, ")\n", sep = "")
+        "bucket = \"", input$azure_container, "\"", azure_params, ")\n", sep = "")
+    }
+    else if (identical(board, "s3") && nchar(input$s3_bucket) > 0) {
+      s3_params <- ""
+      if (nchar(Sys.getenv("AWS_ACCESS_KEY_ID")) == 0) {
+        s3_params <- paste0(", key = \"", input$s3_key, "\"")
+      }
+
+      if (nchar(Sys.getenv("AWS_SECRET_ACCESS_KEY")) == 0) {
+        s3_params <- paste0(
+          s3_params,
+          ", secret = rstudioapi::askForSecret(\"s3_token\", \"Your S3 Storage Token\", \"S3 Token\")"
+        )
+      }
+
+      initializer <- paste(
+        "pins::board_register(\"s3\", ",
+        "name = \"", input$s3_bucket, "\", ",
+        "bucket = \"", input$s3_bucket, "\"", s3_params, ")\n", sep = "")
     }
 
     initializer
