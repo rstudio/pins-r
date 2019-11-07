@@ -165,7 +165,7 @@ sales %>%
 After a pin is published, you can then browse to the pin's content from the RStudio Connect web interface.
 
 <center>
-![](tools/readme/rstudio-share-resources.png){width=90%}
+  <img src="tools/readme/rstudio-share-resources.png" width="90%">
 </center>
 
 You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote file locally!
