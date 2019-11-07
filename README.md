@@ -225,7 +225,7 @@ the RStudio Connect web interface.
 
 <center>
 
-![](tools/readme/rstudio-share-resources.png)
+<img src="tools/readme/rstudio-share-resources.png" width="90%">
 
 </center>
 

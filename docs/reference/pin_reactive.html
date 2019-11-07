@@ -219,7 +219,8 @@ package.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pin_reactive</span>(<span class='no'>name</span>, <span class='no'>board</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_reactive</span>(<span class='no'>name</span>, <span class='no'>board</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>extract</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,6 +243,11 @@ a numeric value.</p></td>
       <th>session</th>
       <td><p>The user session to associate this file reader with, or NULL if
 none. If non-null, the reader will automatically stop when the session ends.</p></td>
+    </tr>
+    <tr>
+      <th>extract</th>
+      <td><p>Should compressed files be extracted? Each board defines the
+deefault behavior.</p></td>
     </tr>
     </table>
     
