@@ -3,7 +3,7 @@ title: "pins"
 description: |
   pins
 output_dir: "../docs/blog/"
-base_url: http://localhost/
+base_url: https://rstudio.github.io/pins/blog/
 navbar:
   right:
     - text: "Home"
