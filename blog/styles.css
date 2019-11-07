@@ -58,10 +58,16 @@
 
 @media only screen and (min-width: 1000px) {
   .distill-site-header .nav-left {
-    margin-left: 115px;
+    margin-left: 135px;
   }
   
   .distill-site-header .nav-right {
-    margin-right: 115px;
+    margin-right: 135px;
   }
+}
+
+d-article > p > img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
