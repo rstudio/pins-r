@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="http://localhost/index.xml" />
+  <link rel="alternate" type="application/rss+xml" href="https://rstudio.github.io/pins/blog/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -1260,8 +1260,84 @@
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  .distill-site-nav {
+    background: #ffffff;
+    box-shadow: 0 10px 10px -5px rgba(0,0,0,.1);
+  }
+  
+  .distill-site-header {
+    color: #555;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    height: 58px;
+  }
+  
+  .distill-site-header .title {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  
+  .distill-site-header a:hover {
+    color: #555;
+  }
+  
+  .nav-left {
+    margin-left: 15px;
+    background-image: url("../reference/figures/logo.png"), url("../../../reference/figures/logo.png");
+    background-size: 32px auto;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    padding-left: 60px;
+    margin-top: 2px;
+  }
+  
+  .nav-left .a {
+    padding-left: 0px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .title {
+      padding-left: 0px;
+    }
+  }
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .title {
+      padding-left: 0px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 15px;
+    }
+    
+    .distill-site-header .nav-right {
+      margin-right: 15px;
+    }
+  }
+  
+  @media only screen and (min-width: 1000px) {
+    .distill-site-header .nav-left {
+      margin-left: 135px;
+    }
+    
+    .distill-site-header .nav-right {
+      margin-right: 135px;
+    }
+  }
+  
+  d-article > p > img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  </style>
   <!--/radix_placeholder_site_in_header-->
 
+  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
@@ -1281,8 +1357,7 @@
 <a href="index.html" class="title">pins</a>
 </div>
 <div class="nav-right">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
+<a href="../index.html">Home</a>
 <a href="index.xml">
 <i class="fa fa-rss"></i>
 </a>
@@ -1613,18 +1688,16 @@ function init_posts_list() {
 <div class="posts-container posts-apply-limit l-page">
 <div class="posts-list">
 <h1 class="posts-list-caption">pins</h1>
-<a href="posts/welcome/" class="post-preview">
+<a href="posts/pins-0-2-0/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
-<div class="publishedDate">Nov. 6, 2019</div>
+<div class="publishedDate">Nov. 7, 2019</div>
 </div>
-<div class="thumbnail">
-<img/>
-</div>
+<div class="thumbnail"></div>
 <div class="description">
-<h2>Welcome to pins</h2>
-<p>Welcome to our new blog, pins. We hope you enjoy 
-reading what we have to say!</p>
+<h2>pins-0.2.0</h2>
+<p>Today we are excited to announce the pins package is available on CRAN! pins allows you to pin,
+discover and share remote resources, locally or in remote storage.</p>
 </div>
 </a>
 </div>

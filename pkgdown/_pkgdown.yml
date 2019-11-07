@@ -86,5 +86,5 @@ navbar:
     - text: News
       href: news/index.html
     - text: Blog
-      href: blog/index.html
+      href: blog/iframe.html
 
