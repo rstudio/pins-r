@@ -206,3 +206,8 @@ board_pin_remove.datatxt <- function(board, name, ...) {
                        operation = "remove",
                        name = name)
 }
+
+board_browse.datatxt <- function(board) {
+  utils::browseURL(board$url)
+}
+

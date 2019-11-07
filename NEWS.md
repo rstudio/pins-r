@@ -28,6 +28,8 @@
   
 ## RStudio
 
+- Website boards now support the browse menu item in the connection.
+
 - Fix data frames previewing character columns with special
   characters.
 
