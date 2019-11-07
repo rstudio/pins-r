@@ -1,7 +1,8 @@
 ---
 title: "pins-0.2.0"
 description: |
-  A short description of the post.
+  Today we are excited to announce the pins package is available on CRAN! pins allows you to pin,
+  discover and share remote resources, locally or in remote storage.
 date: 11-07-2019
 output:
   distill::distill_article:
