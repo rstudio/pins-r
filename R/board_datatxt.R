@@ -19,12 +19,19 @@ datatxt_refresh_index <- function(board) {
   }
 }
 
-board_initialize.datatxt <- function(board, headers = NULL, cache = board_cache_path(), url = NULL, needs_index = TRUE, ...) {
+board_initialize.datatxt <- function(board,
+                                     headers = NULL,
+                                     cache = board_cache_path(),
+                                     url = NULL,
+                                     needs_index = TRUE,
+                                     browse_url = url,
+                                     ...) {
   if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
 
   board$url <- gsub("/?data\\.txt$", "", url)
   board$headers <- headers
   board$needs_index <- needs_index
+  board$borwse_url <- browse_url
 
   for (key in names(list(...))) {
     board[[key]] <- list(...)[[key]]
@@ -208,6 +215,6 @@ board_pin_remove.datatxt <- function(board, name, ...) {
 }
 
 board_browse.datatxt <- function(board) {
-  utils::browseURL(board$url)
+  utils::browseURL(board$borwse_url)
 }
 

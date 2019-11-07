@@ -81,7 +81,8 @@ board_initialize.gcloud <- function(board,
                          needs_index = FALSE,
                          bucket = bucket,
                          token = token,
-                         connect = FALSE)
+                         connect = FALSE,
+                         browse_url = paste0("https://console.cloud.google.com/storage/browser/", bucket))
 
   board_get(board$name)
 }
