@@ -1,0 +1,17 @@
+[
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to pins",
+    "description": "Welcome to our new blog, pins. We hope you enjoy \nreading what we have to say!",
+    "author": [
+      {
+        "name": "Nora Jones",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2019-11-06",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-11-06T15:16:52-08:00"
+  }
+]

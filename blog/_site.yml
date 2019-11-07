@@ -1,0 +1,13 @@
+name: "blog"
+title: "pins"
+description: |
+  pins
+output_dir: "docs"
+base_url: http://localhost/
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article

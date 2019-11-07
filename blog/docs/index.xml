@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>pins</title>
+    <link>http://localhost/</link>
+    <atom:link href="http://localhost/index.xml" rel="self" type="application/rss+xml"/>
+    <description>pins
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Wed, 06 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Welcome to pins</title>
+      <dc:creator>Nora Jones</dc:creator>
+      <link>http://localhost/posts/welcome</link>
+      <description>Welcome to our new blog, pins. We hope you enjoy 
+reading what we have to say!</description>
+      <guid>http://localhost/posts/welcome</guid>
+      <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
