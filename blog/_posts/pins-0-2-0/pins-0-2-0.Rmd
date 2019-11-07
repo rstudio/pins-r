@@ -1,9 +1,15 @@
 ---
-title: "pins-0.2.0"
+title: "pins: Pin, Discover and Share Resources"
 description: |
-  Today we are excited to announce the pins package is available on CRAN! pins allows you to pin,
-  discover and share remote resources, locally or in remote storage.
-date: 11-07-2019
+  The new pins package allows you to pin, discover and share remote resources,
+  locally or in remote storage using services like GitHub, Kaggle
+  or RStudio Connect.
+date: 09-09-2019
+author:
+  - name: "Javier Luraschi"
+    url: https://github.com/javierluraschi
+    affiliation: RStudio
+    affiliation_url: https://www.rstudio.com
 output:
   distill::distill_article:
     self_contained: false
