@@ -84,10 +84,7 @@ navbar:
     - text: "Reference"
       href: reference/index.html
     - text: News
-      menu:
-      - text: "Release notes"
-      - text: "Version 0.1.0"
-        href: https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/
-      - text: "Change log"
-        href: news/index.html
+      href: news/index.html
+    - text: Blog
+      href: blog/index.html
 
