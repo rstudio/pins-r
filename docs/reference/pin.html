@@ -166,21 +166,11 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Release notes</li>
-    <li>
-      <a href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/">Version 0.1.0</a>
-    </li>
-    <li>
-      <a href="../news/index.html">Change log</a>
-    </li>
-  </ul>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
+  <a href="../blog/index.html">Blog</a>
 </li>
       </ul>
       
@@ -297,7 +287,7 @@ continue to work.</p>
                       <span class='st'>"master/examples/example_retail_sales.csv"</span>)
 
 <span class='co'># cache remote resource</span>
-<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpSMDs6d/filebd653fcc4308/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
+<span class='fu'>pin</span>(<span class='no'>resource</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"example_retail_sales"</span>)</div><div class='output co'>#&gt; [1] "/private/var/folders/ks/wm_bx4cn70s6h0r5vgqpsldm0000gn/T/RtmpPhSRni/filecf0815143ded/local/example_retail_sales/example_retail_sales.csv"</div><div class='input'>
 <span class='co'># load cached csv</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span>(<span class='st'>"example_retail_sales"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>()</div><div class='output co'>#&gt;             ds      y
 #&gt; 1   1992-01-01 146376
