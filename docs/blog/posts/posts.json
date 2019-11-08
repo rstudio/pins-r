@@ -10,8 +10,12 @@
       }
     ],
     "date": "2019-09-09",
-    "categories": [],
+    "categories": [
+      "Packages",
+      "Introductions",
+      "Releases"
+    ],
     "preview": {},
-    "last_modified": "2019-11-08T10:21:53-08:00"
+    "last_modified": "2019-11-08T11:41:01-08:00"
   }
 ]
