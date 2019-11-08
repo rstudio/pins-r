@@ -10,6 +10,10 @@ author:
     url: https://github.com/javierluraschi
     affiliation: RStudio
     affiliation_url: https://www.rstudio.com
+categories:
+  - Packages
+  - Introductions
+  - Releases
 output:
   distill::distill_article:
     self_contained: false
