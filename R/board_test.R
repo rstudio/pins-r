@@ -66,19 +66,23 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
     deps$expect_true(grepl(pin_name, results$name))
   })
 
-  deps$test_that(paste("can pin_remove() from", destination), {
+  deps$test_that(paste("can pin_remove() file from", destination), {
     if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 
     result <- pin_remove(pin_name, board = board)
     deps$expect_equal(result, NULL)
 
     results <- pin_find(name = pin_name, board = board)
-    deps$expect_equal(nrow(results), 0)
+    deps$expect_equal(result$name, character(0))
+  })
+
+  deps$test_that(paste("can pin_remove() dataset from", destination), {
+    if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 
     result <- pin_remove(dataset_name, board = board)
     deps$expect_equal(result, NULL)
 
     results <- pin_find(name = dataset_name, board = board)
-    deps$expect_equal(nrow(results), 0)
+    deps$expect_equal(result$name, character(0))
   })
 }
