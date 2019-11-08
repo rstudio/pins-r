@@ -13,3 +13,8 @@ navbar:
 output:
   distill::distill_article:
     css: styles.css
+collections:
+  posts:
+    creative_commons: CC BY
+    share: [twitter, linkedin]
+    subscribe: _subscribe.html
