@@ -283,7 +283,7 @@ board_register_azure <- function(name = "azure",
                                  ...) {
   board_register("azure",
                  name = name,
-                 bucket = bucket,
+                 container = container,
                  cache = cache,
                  ...)
 }
