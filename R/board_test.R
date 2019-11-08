@@ -6,7 +6,8 @@ test_dependencies <- function() {
     test_that = get("test_that", envir = asNamespace("testthat")),
     expect_true = get("expect_true", envir = asNamespace("testthat")),
     expect_equal = get("expect_equal", envir = asNamespace("testthat")),
-    skip = get("skip", envir = asNamespace("testthat"))
+    skip = get("skip", envir = asNamespace("testthat")),
+    fail = get("fail", envir = asNamespace("testthat"))
   )
 }
 
