@@ -191,6 +191,7 @@ pin_find_empty <- function() {
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
 #' @param name The exact name of the pin to match when searching.
+#' @param extended Should additional board-specific colulmns be shown?
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -234,7 +235,11 @@ pin_find_empty <- function() {
 #' }
 #'
 #' @export
-pin_find <- function(text = NULL, board = NULL, name = NULL, ...) {
+pin_find <- function(text = NULL,
+                     board = NULL,
+                     name = NULL,
+                     extended = FALSE,
+                     ...) {
   if (is.null(board) || nchar(board) == 0) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
   text <- pin_content_name(text)
@@ -245,13 +250,19 @@ pin_find <- function(text = NULL, board = NULL, name = NULL, ...) {
     board_object <- board_get(board_name)
 
     board_pins <- tryCatch(
-      board_pin_find(board = board_object, text, name = name, ...),
+      board_pin_find(board = board_object, text, name = name, extended = extended, ...),
       error = function(e) {
         warning("Error searching '", board_name, "' board: ", e$message)
         board_empty_results()
       })
 
     board_pins$board <- rep(board_name, nrow(board_pins))
+
+    # fill non-overlapping columns with NAs
+    if (identical(extended, TRUE)) {
+      all_pins[setdiff(names(board_pins), names(all_pins))] <- NA
+      board_pins[setdiff(names(all_pins), names(board_pins))] <- NA
+    }
 
     all_pins <- rbind(all_pins, board_pins)
   }

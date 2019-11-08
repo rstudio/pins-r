@@ -152,7 +152,12 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   }
 }
 
-board_pin_find.rsconnect <- function(board, text = NULL, name = NULL, all_content = FALSE, ...) {
+board_pin_find.rsconnect <- function(board,
+                                     text = NULL,
+                                     name = NULL,
+                                     all_content = FALSE,
+                                     extended = FALSE,
+                                     ...) {
   if (is.null(text)) text <- ""
 
   if (nchar(text) == 0 && is.null(name)) {
@@ -185,7 +190,11 @@ board_pin_find.rsconnect <- function(board, text = NULL, name = NULL, all_conten
   null_or_value <- function(e, value) if (is.null(e)) value else e
   results$name <- as.character(results$name)
   results$type <- unname(sapply(results$description, function(e) null_or_value(board_metadata_from_text(e)$type, "files")))
-  results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
+
+  if (!identical(extended, TRUE)) {
+    results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
+  }
+
   results$description <- board_metadata_remove(results$description)
 
   if (length(entries) == 1) {
