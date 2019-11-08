@@ -73,8 +73,8 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
     deps$expect_equal(result, NULL)
 
     results <- pin_find(name = pin_name, board = board)
-    if (nrow(result$name) > 0)
-      deps$fail("Pin '", paste(result$name, collapse = ","), "' still exists after removal.")
+    if (nrow(results) > 0)
+      deps$fail("Pin '", paste(results$name, collapse = ","), "' still exists after removal.")
   })
 
   deps$test_that(paste("can pin_remove() dataset from", destination), {
@@ -84,7 +84,7 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
     deps$expect_equal(result, NULL)
 
     results <- pin_find(name = dataset_name, board = board)
-    if (nrow(result$name) > 0)
-      deps$fail("Pin '", paste(result$name, collapse = ","), "' still exists after removal.")
+    if (nrow(results) > 0)
+      deps$fail("Pin '", paste(results$name, collapse = ","), "' still exists after removal.")
   })
 }
