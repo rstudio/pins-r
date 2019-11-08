@@ -57,7 +57,12 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
 
     # try to download index as well
     path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
-    download_path <- file.path(board$url, path_guess, "data.txt")
+    # if `path_guess` already has a scheme, don't prepend board URL
+    download_path <- if (grepl("^https?://", path_guess)) {
+      file.path(path_guess, "data.txt")
+    } else {
+      file.path(board$url, path_guess, "data.txt")
+    }
     pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
 
     manifest <- pin_manifest_get(local_path)
