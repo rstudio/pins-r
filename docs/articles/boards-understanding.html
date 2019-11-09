@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.5</span>
       </span>
     </div>
 
@@ -132,7 +132,7 @@
   <a href="../news/index.html">News</a>
 </li>
 <li>
-  <a href="../blog/index.html">Blog</a>
+  <a href="../blog/iframe.html">Blog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -205,6 +205,16 @@
 </dd>
 </dl>
 <p>However, since there are many more storage locations to consider (see for instance <a href="https://github.com/swcarpentry/DEPRECATED-site/issues/797">Where should scientists store their data</a>), <code>pins</code> also supports web-accessible locations through <a href="boards-websites.html">Website Boards</a> and even custom boards to fully-support reading, writing, authentication and so on. You can learn how to create extensions at <a href="boards-extending.html">Extending Boards</a>.</p>
+<p>For instance, there are various ongoing projects to implement additional boards:</p>
+<dl>
+<dt>Databases</dt>
+<dd>A <a href="https://en.wikipedia.org/wiki/Database">database</a> is an organized collection of data, generally stored and accessed electronically from a computer system. Where databases are more complex they are often developed using formal design and modeling techniques. In R, packages like <a href="https://CRAN.R-project.org/package=DBI">DBI</a> and <a href="https://CRAN.R-project.org/package=odbc">odbc</a> allow you to connect to many different databases. The <a href="https://edgararuiz.github.io/connections/">connections</a> package integrates DBI-compliant packages with the RStudio IDE’s Connection Pane and <strong>experimental</strong> support for pins.
+</dd>
+<dt>Nextcloud</dt>
+<dd>
+<a href="https://nextcloud.com/">Nextcloud</a> is a suite of client-server software for creating and using file hosting services. Nextcloud application functionally is similar to Dropbox. Unlike Dropbox, Nextcloud does not offer off-premises file storage hosting. Nextcloud is free and open-source, which means that anyone is allowed to install and operate it on their own private server devices. The <a href="https://gitlab.com/gwmngilfen/nextcloudr">nextcloudr</a> package provides an interface to Nextcloud and <strong>experimental</strong> support for pins.
+</dd>
+</dl>
 <p>Please be mindful when using boards, you should <strong>only register boards you trust</strong>. As a general good practice, when using GitHub, it is not advisable to clone and build R packages from GitHub repos you don’t trust. In a similar way, you should not register GitHub boards, nor Kaggle, nor RStudio Connect, nor Website boards that you don’t trust.</p>
   </div>
 
