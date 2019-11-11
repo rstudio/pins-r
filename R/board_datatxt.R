@@ -52,20 +52,32 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
     stop("Could not find '", name, "' pin in '", board$name, "' board.")
   }
 
+  index_entry <- NULL
   if (length(index) > 0) {
-    download_paths <- index[[1]]$path
+    index_entry <- index[[1]]
+  }
+  else {
+    # if there is no index, fallback to downloading data.txt for the pin,
+    # this can happen with incomplete indexees.
+    index_entry <- list(path = name)
+  }
 
-    # try to download index as well
-    path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index[[1]]$path[1])) dirname(index[[1]]$path[1]) else index[[1]]$path[1]
-    # if `path_guess` doesn't already have a scheme, prepend board URL
-    path_guess <- if (grepl("^https?://", path_guess)) {
-      path_guess
-    } else {
-      file.path(board$url, path_guess, fsep = "/")
-    }
-    download_path <- file.path(path_guess, "data.txt")
+  # try to download index as well
+  path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index_entry$path[1])) dirname(index_entry$path[1]) else index_entry$path[1]
 
-    pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
+  # if `path_guess` already has a scheme, don't prepend board URL
+  path_guess <- if (grepl("^https?://", path_guess)) {
+    path_guess
+  } else {
+    file.path(board$url, path_guess, fsep = "/")
+  }
+  download_path <- file.path(path_guess, "data.txt")
+
+  pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
+  manifest <- pin_manifest_get(local_path)
+
+  if (!is.null(manifest)) {
+    download_paths <- index_entry$path
 
     manifest <- pin_manifest_get(local_path)
     if (!is.null(manifest$path)) {
@@ -79,8 +91,8 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
       }
     }
     else {
-      index[[1]]$path <- NULL
-      pin_manifest_create(local_path, index[[1]], index[[1]]$path)
+      index_entry$path <- NULL
+      pin_manifest_create(local_path, index_entry, index_entry$path)
     }
   }
   else {
