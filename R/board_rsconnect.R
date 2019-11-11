@@ -179,6 +179,9 @@ board_pin_find.rsconnect <- function(board,
     entries <- Filter(function(e) grepl(name_pattern, e$name), entries)
   }
 
+  if (identical(extended, TRUE))
+    return(jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE)))
+
   results <- pin_results_from_rows(entries)
 
   if (nrow(results) == 0) {

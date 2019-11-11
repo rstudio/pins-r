@@ -260,8 +260,12 @@ pin_find <- function(text = NULL,
 
     # fill non-overlapping columns with NAs
     if (identical(extended, TRUE)) {
-      all_pins[setdiff(names(board_pins), names(all_pins))] <- NA
-      board_pins[setdiff(names(all_pins), names(board_pins))] <- NA
+      if (nrow(all_pins) > 0) {
+        all_pins[,setdiff(names(board_pins), names(all_pins))] <- ""
+      }
+
+      board_pins[,setdiff(names(all_pins), names(board_pins))] <- ""
+      rownames(board_pins) <- c()
     }
 
     all_pins <- rbind(all_pins, board_pins)
