@@ -372,7 +372,7 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
 
 #' @keywords internal
 #' @export
-print.pin_info <- function(info) {
+print.pin_info <- function(info, ...) {
   cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
   if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
 
