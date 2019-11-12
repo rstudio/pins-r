@@ -51,3 +51,20 @@ pin_reset_cache <- function(board, name) {
 pin_entries_to_dataframe <- function(entries) {
   jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE))
 }
+
+pin_results_merege <- function(r1, r2, merge) {
+  if (nrow(r1) > 0) {
+    col_diff <- setdiff(names(r2), names(r1))
+    if (length(col_diff) > 0) r1[, col_diff] <- ""
+  }
+
+  if (nrow(r2) > 0) {
+    col_diff <- setdiff(names(r1), names(r2))
+    if (length(col_diff) > 0) {
+      r2[, col_diff] <- ""
+      rownames(r2) <- c()
+    }
+  }
+
+  rbind(r1, r2)
+}

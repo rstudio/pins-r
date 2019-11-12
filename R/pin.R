@@ -258,19 +258,7 @@ pin_find <- function(text = NULL,
 
     board_pins$board <- rep(board_name, nrow(board_pins))
 
-    # fill non-overlapping columns with NAs
-    if (identical(extended, TRUE)) {
-      if (nrow(all_pins) > 0) {
-        all_pins[,setdiff(names(board_pins), names(all_pins))] <- ""
-      }
-
-      if (nrow(board_pins) > 0) {
-        board_pins[,setdiff(names(all_pins), names(board_pins))] <- ""
-        rownames(board_pins) <- c()
-      }
-    }
-
-    all_pins <- rbind(all_pins, board_pins)
+    all_pins <- pin_results_merege(all_pins, board_pins, identical(extended, TRUE))
   }
 
   if (!is.null(text)) {
