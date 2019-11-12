@@ -70,7 +70,7 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
   deps$test_that(paste("can pin_info() in", destination), {
     info <- pin_info(pin_name, board = board)
 
-    deps$expect_equal(info$name, pin_name)
+    deps$expect_true(grepl(pin_name, info$name))
   })
 
   deps$test_that(paste("can pin_remove() file from", destination), {
