@@ -202,7 +202,7 @@ board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
 
   results <- c(results, board_pin_search_kaggle(board, text))
 
-  results <- pin_enties_to_dataframe(results)
+  results <- pin_entries_to_dataframe(results)
 
   if (identical(extended, TRUE)) {
     results$name <- results$ref

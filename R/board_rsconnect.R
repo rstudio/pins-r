@@ -174,7 +174,7 @@ board_pin_find.rsconnect <- function(board,
   }
 
   if (identical(extended, TRUE))
-    return(pin_enties_to_dataframe(entries))
+    return(pin_entries_to_dataframe(entries))
 
   results <- pin_results_from_rows(entries)
 

@@ -48,6 +48,6 @@ pin_reset_cache <- function(board, name) {
   }
 }
 
-pin_enties_to_dataframe <- function(entries) {
+pin_entries_to_dataframe <- function(entries) {
   jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE))
 }
