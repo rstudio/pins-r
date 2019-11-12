@@ -159,15 +159,9 @@ board_pin_find.rsconnect <- function(board,
                                      extended = FALSE,
                                      ...) {
   if (is.null(text)) text <- ""
+  if (!is.null(name)) text <- pin_content_name(name)
 
-  if (nchar(text) == 0 && is.null(name)) {
-    # it can be quite slow to list all content in RStudio Connect so we scope to the user content
-    account_id <- rsconnect_api_get(board, "/__api__/users/current/")$id
-    filter <- paste0("filter=account_id:", account_id, "&accountId:", account_id)
-  }
-  else {
-    filter <- paste0("search=", text)
-  }
+  filter <- paste0("search=", text)
 
   entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
