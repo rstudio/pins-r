@@ -363,6 +363,7 @@ print_pin_info <- function(name, e, ident) {
     cat(crayon::silver(paste0("#", ident, "- ", name, ": ", paste(e, collapse = ", "), "\n")))
   }
   else if (is.list(e)) {
+    cat(crayon::silver(paste0("#", ident, "- ", name, ": \n")))
     for (i in names(e)) {
       print_pin_info(i, e[[i]], paste0(ident, "  "))
     }
