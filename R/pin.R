@@ -312,3 +312,68 @@ pin_files <- function(name, board = NULL, absolute = TRUE, ...) {
 
   dir(file.path(board_local_storage(board), metadata$path), recursive = TRUE, full.names = absolute)
 }
+
+#' Pin Info
+#'
+#' Retrieve information for a given pin.
+#'
+#' @param name The exact name of the pin to match when searching.
+#' @param board The board name used to find the pin.
+#' @param extended Should additional board-specific colulmns be shown?
+#' @param ... Additional parameters.
+#'
+#' @examples
+#' library(pins)
+#'
+#' # define local board
+#' board_register_local(cache = tempfile())
+#'
+#' # cache the mtcars dataset
+#' pin(mtcars)
+#'
+#' # print pin information
+#' pin_info("mtcars")
+#'
+#' @export
+pin_info <- function(name, board = NULL, extended = TRUE, ...) {
+  entry <- pin_find(name = name, board = board)
+
+  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
+  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, llapse = ","),  ".")
+
+  entry <- as.list(entry)
+  entry_ext <- list()
+
+  if (extended) {
+    entry_ext <- pin_find(name = name, board = board, extended = TRUE)
+    if (nrow(entry_ext) == 1) {
+      entry_ext <- as.list(entry_ext)
+    }
+  }
+
+  for (name in entry) {
+    entry_ext[[name]] <- entry[[name]]
+  }
+
+  structure(entry_ext, class = "pin_info")
+}
+
+#' @keywords internal
+#' @export
+print.pin_info <- function(info) {
+  cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
+  if (nchar(info$description) > 0) cat(crayon::silver("# Description: ", info$description))
+
+  info$board <- info$name <- info$type <- info$description <- NULL
+
+  is_first <- TRUE
+  for (name in names(info)) {
+    e <- info[[name]]
+    if (!is.na(e) && !is.null(e) && !(is.character(e) && nchar(e) == 0)) {
+      if (is_first) cat(crayon::silver(paste0("# Extended:", "\n")))
+      is_first <- FALSE
+
+      cat(crayon::silver(paste0("#   - ", name, ": ", e, "\n")))
+    }
+  }
+}
