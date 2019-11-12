@@ -264,8 +264,10 @@ pin_find <- function(text = NULL,
         all_pins[,setdiff(names(board_pins), names(all_pins))] <- ""
       }
 
-      board_pins[,setdiff(names(all_pins), names(board_pins))] <- ""
-      rownames(board_pins) <- c()
+      if (nrow(board_pins) > 0) {
+        board_pins[,setdiff(names(all_pins), names(board_pins))] <- ""
+        rownames(board_pins) <- c()
+      }
     }
 
     all_pins <- rbind(all_pins, board_pins)
