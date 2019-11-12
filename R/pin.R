@@ -258,7 +258,7 @@ pin_find <- function(text = NULL,
 
     board_pins$board <- rep(board_name, nrow(board_pins))
 
-    all_pins <- pin_results_merege(all_pins, board_pins, identical(extended, TRUE))
+    all_pins <- pin_results_merge(all_pins, board_pins, identical(extended, TRUE))
   }
 
   if (!is.null(text)) {
@@ -375,7 +375,9 @@ print_pin_info <- function(name, e, ident) {
 
 #' @keywords internal
 #' @export
-print.pin_info <- function(info, ...) {
+print.pin_info <- function(x, ...) {
+  info <- x
+
   cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
   if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
 
