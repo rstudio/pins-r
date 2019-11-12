@@ -137,6 +137,10 @@ board_pin_find.datatxt <- function(board, text, name, ...) {
     response <- httr::GET(file.path(board$url, path_guess[[1]], "data.txt"))
     if (!httr::http_error(response)) {
       metadata <- c(metadata, board_manifest_load(httr::content(response)))
+
+      # remeve duplicates
+      metadata[duplicated(names(metadata))] <- NULL
+
       results$metadata <- jsonlite::toJSON(metadata, auto_unbox = TRUE)
     }
   }
