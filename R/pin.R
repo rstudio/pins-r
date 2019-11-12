@@ -336,10 +336,15 @@ pin_files <- function(name, board = NULL, absolute = TRUE, ...) {
 #'
 #' @export
 pin_info <- function(name, board = NULL, extended = TRUE, ...) {
-  entry <- pin_find(name = name, board = board)
+  entry <- pin_find(name = name, board = board, metadata = TRUE)
 
   if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
   if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, llapse = ","),  ".")
+
+  metadata <- list()
+  if (!is.null(entry$metadata) && nchar(entry$metadata) > 0) {
+    metadata <- jsonlite::fromJSON(entry$metadata)
+  }
 
   entry <- as.list(entry)
   entry_ext <- list()
@@ -351,7 +356,12 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
     }
   }
 
-  for (name in entry) {
+  for (name in names(metadata)) {
+    entry_ext[[name]] <- metadata[[name]]
+  }
+  entry$metadata <- NULL
+
+  for (name in names(entry)) {
     entry_ext[[name]] <- entry[[name]]
   }
 
