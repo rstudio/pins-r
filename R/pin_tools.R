@@ -47,3 +47,7 @@ pin_reset_cache <- function(board, name) {
     pin_registry_update(name, board, params = index)
   }
 }
+
+pin_enties_to_dataframe <- function(entries) {
+  jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE))
+}

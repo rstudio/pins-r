@@ -180,7 +180,7 @@ board_pin_find.rsconnect <- function(board,
   }
 
   if (identical(extended, TRUE))
-    return(jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE)))
+    return(pin_enties_to_dataframe(entries))
 
   results <- pin_results_from_rows(entries)
 
