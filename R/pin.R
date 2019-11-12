@@ -370,6 +370,20 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
   structure(entry_ext, class = "pin_info")
 }
 
+print_pin_info <- function(name, e, ident) {
+  if (is.character(e)) {
+    cat(crayon::silver(paste0("#", ident, "- ", name, ": ", paste(e, collapse = ", "), "\n")))
+  }
+  else if (is.list(e)) {
+    for (i in names(e)) {
+      print_pin_info(i, e[[i]], paste0(ident, "  "))
+    }
+  }
+  else {
+    cat(crayon::silver(paste0("#", ident, "- ", name, ": ", class(e)[[1]], "\n")))
+  }
+}
+
 #' @keywords internal
 #' @export
 print.pin_info <- function(info, ...) {
@@ -385,7 +399,7 @@ print.pin_info <- function(info, ...) {
       if (is_first) cat(crayon::silver(paste0("# Extended:", "\n")))
       is_first <- FALSE
 
-      cat(crayon::silver(paste0("#   - ", name, ": ", e, "\n")))
+      print_pin_info(name, e, "   ")
     }
   }
 }
