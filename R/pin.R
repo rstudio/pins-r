@@ -345,9 +345,9 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
   entry_ext <- list()
 
   if (extended) {
-    entry_ext <- pin_find(name = name, board = board, extended = TRUE)
-    if (nrow(entry_ext) == 1) {
-      entry_ext <- as.list(entry_ext)
+    entry_df <- pin_find(name = name, board = board, extended = TRUE)
+    if (nrow(entry_df) == 1) {
+      entry_ext <- as.list(entry_df)
     }
   }
 
