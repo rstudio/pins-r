@@ -256,9 +256,11 @@ pin_find <- function(text = NULL,
         board_empty_results()
       })
 
-    board_pins$board <- rep(board_name, nrow(board_pins))
+    if (nrow(board_pins) > 0) {
+      board_pins$board <- rep(board_name, nrow(board_pins))
 
-    all_pins <- pin_results_merge(all_pins, board_pins, identical(extended, TRUE))
+      all_pins <- pin_results_merge(all_pins, board_pins, identical(extended, TRUE))
+    }
   }
 
   if (!is.null(text)) {
