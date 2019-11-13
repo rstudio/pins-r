@@ -257,6 +257,17 @@ pin_find <- function(text = NULL,
         board_empty_results()
       })
 
+    if (identical(extended, TRUE)) {
+      ext_df <- tryCatch(
+        paste("[", paste(board_pins$metadata, collapse = ","), "]") %>% jsonlite::fromJSON(),
+        error = function(e) NULL)
+
+      if (is.data.frame(ext_df) && nrow(board_pins) == nrow(ext_df)) {
+        ext_df[, colnames(board_pins)] <- NULL
+        board_pins <- cbind(board_pins, ext_df)
+      }
+    }
+
     if (nrow(board_pins) > 0) {
       board_pins$board <- rep(board_name, nrow(board_pins))
 
@@ -369,12 +380,17 @@ print_pin_info <- function(name, e, ident) {
   # avoid empty lavels that are nested
   if (is.list(e) && is.null(names(e)) && length(e) == 1) e <- e[[1]]
 
-  if (is.vector(e)) {
+  # one-row data frames are better displayed as lists
+  if (is.data.frame(e) && nrow(e) == 1) e <- as.list(e)
+
+  if (!is.list(e) && is.vector(e)) {
     cat(crayon::silver(paste0("#", ident, "- ", name, ": ", paste(e, collapse = ", "), "\n")))
   }
   else if (is.data.frame(e)) {
     cat(crayon::silver(paste0("#", ident, "- ", name, ": ")))
+    if (length(colnames(e)) > 0) cat(crayon::silver(paste0("(", colnames(e)[[1]], ") ")))
     cat(crayon::silver(paste(e[,1], collapse = ", ")))
+    if (length(colnames(e)) > 1) cat(crayon::silver("..."))
     cat(crayon::silver("\n"))
   }
   else if (is.list(e)) {

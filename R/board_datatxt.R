@@ -115,10 +115,12 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
   local_path
 }
 
-board_pin_find.datatxt <- function(board, text, name, ...) {
+board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   datatxt_refresh_index(board)
 
   entries <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
+
+  if (identical(extended, TRUE)) return(pin_entries_to_dataframe(entries))
 
   results <- data.frame(
     name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),
