@@ -417,7 +417,7 @@ print.pin_info <- function(x, ...) {
   is_first <- TRUE
   for (name in names(info)) {
     e <- info[[name]]
-    if (!is.na(e) && !is.null(e) && !(is.character(e) && nchar(e) == 0)) {
+    if (identical(is.na(e), FALSE) && identical(is.null(e), FALSE) && !(is.character(e) && nchar(e) == 0)) {
       if (is_first) cat(crayon::silver(paste0("# Extended:", "\n")))
       is_first <- FALSE
 
