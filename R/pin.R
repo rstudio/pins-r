@@ -347,6 +347,8 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
     if (nrow(entry_df) == 1) {
       entry_ext <- as.list(entry_df)
     }
+
+    entry_ext <- Filter(function(e) !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0, entry_df)
   }
 
   for (name in names(metadata)) {
@@ -362,8 +364,16 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
 }
 
 print_pin_info <- function(name, e, ident) {
+  # avoid empty lavels that are nested
+  if (is.list(e) && is.null(names(e)) && length(e) == 1) e <- e[[1]]
+
   if (is.character(e)) {
     cat(crayon::silver(paste0("#", ident, "- ", name, ": ", paste(e, collapse = ", "), "\n")))
+  }
+  else if (is.data.frame(e)) {
+    cat(crayon::silver(paste0("#", ident, "- ", name, ": ")))
+    cat(crayon::silver(paste(e[,1], collapse = ", ")))
+    cat(crayon::silver("\n"))
   }
   else if (is.list(e)) {
     cat(crayon::silver(paste0("#", ident, "- ", name, ": \n")))
