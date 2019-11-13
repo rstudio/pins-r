@@ -95,6 +95,45 @@ pin_find("motor", board = "github")
 1 mtcars The motor trend cars data set table github
 ```
 
+GitHub boards contain extended fields that go beyond the fields `pins` requires, to retrieve all the additional fields use `extended = TRUE`:
+
+```{r eval=FALSE}
+pin_find("data", board = "github", extended = TRUE)
+```
+```
+# A tibble: 2 x 7
+  name   description                   type  path    rows  cols board 
+  <chr>  <chr>                         <chr> <chr>  <int> <int> <chr> 
+1 iris   The iris data set             table iris     150     5 github
+2 mtcars The motor trend cars data set table mtcars    32    11 github
+```
+
+Or `pin_info()` to retrieve all the information associated with a particular pin,
+
+```{r eval=FALSE}
+pin_info("mtcars", board = "github")
+```
+```
+# Source: github<mtcars> [table]
+# Description: The motor trend cars data set
+# Extended:
+#   - path: data.csv, data.rds
+#   - rows: 32
+#   - cols: 11
+#   - columns: 
+#     - mpg: numeric
+#     - cyl: numeric
+#     - disp: numeric
+#     - hp: numeric
+#     - drat: numeric
+#     - wt: numeric
+#     - qsec: numeric
+#     - vs: numeric
+#     - am: numeric
+#     - gear: numeric
+#     - carb: numeric
+```
+
 Notice that the given 'motor' search keyword is searched in the name and description fields for the pins available in this repo.
 
 ## Sharing
