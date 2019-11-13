@@ -345,6 +345,8 @@ pin_info <- function(name, board = NULL, extended = TRUE, ...) {
   if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
   if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, llapse = ","),  ".")
 
+  board <- entry$board
+
   metadata <- list()
   if (!is.null(entry$metadata) && nchar(entry$metadata) > 0) {
     metadata <- jsonlite::fromJSON(entry$metadata)
