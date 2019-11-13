@@ -120,7 +120,7 @@ pin_info("electric-motor-temperature", board = "kaggle")
 # Extended:
 #   - id: 236410
 #   - subtitle: 140 hrs recordings from a permanent magnet synchronous motor (PMSM)
-#   - tags: time series, electrical components, electrical engineering, automobiles, regression
+#   - tags: (ref) time series, electrical components, electrical engineering, automobiles, regression...
 #   - creatorName: Kirgsn
 #   - creatorUrl: wkirgsn
 #   - totalBytes: 49334849
@@ -135,7 +135,7 @@ pin_info("electric-motor-temperature", board = "kaggle")
 #   - ownerRef: wkirgsn
 #   - kernelCount: 24
 #   - topicCount: 1
-#   - viewCount: 40678
+#   - viewCount: 40705
 #   - voteCount: 190
 #   - currentVersionNumber: 2
 #   - usabilityRating: 1
