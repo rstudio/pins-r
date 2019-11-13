@@ -243,6 +243,7 @@ pin_find <- function(text = NULL,
   if (is.null(board) || nchar(board) == 0) board <- board_list()
   metadata <- identical(list(...)$metadata, TRUE)
   text <- pin_content_name(text)
+  if (is.null(text) && !is.null(name)) text <- name
 
   all_pins <- pin_find_empty()
 
