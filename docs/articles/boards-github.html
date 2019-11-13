@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.6</span>
       </span>
     </div>
 
@@ -216,6 +216,33 @@
   name   description                   type  board 
   &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt; 
 1 mtcars The motor trend cars data set table github</code></pre>
+<p>GitHub boards contain extended fields that go beyond the fields <code>pins</code> requires, to retrieve all the additional fields use <code>extended = TRUE</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"github"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code># A tibble: 2 x 7
+  name   description                   type  path    rows  cols board 
+  &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;chr&gt; 
+1 iris   The iris data set             table iris     150     5 github
+2 mtcars The motor trend cars data set table mtcars    32    11 github</code></pre>
+<p>Or <code><a href="../reference/pin_info.html">pin_info()</a></code> to retrieve all the information associated with a particular pin,</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</a></code></pre></div>
+<pre><code># Source: github&lt;mtcars&gt; [table]
+# Description: The motor trend cars data set
+# Extended:
+#   - path: data.csv, data.rds
+#   - rows: 32
+#   - cols: 11
+#   - columns: 
+#     - mpg: numeric
+#     - cyl: numeric
+#     - disp: numeric
+#     - hp: numeric
+#     - drat: numeric
+#     - wt: numeric
+#     - qsec: numeric
+#     - vs: numeric
+#     - am: numeric
+#     - gear: numeric
+#     - carb: numeric</code></pre>
 <p>Notice that the given ‘motor’ search keyword is searched in the name and description fields for the pins available in this repo.</p>
 </div>
 <div id="sharing" class="section level2">
