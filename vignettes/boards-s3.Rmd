@@ -37,14 +37,14 @@ Once the board is registered, you can pin and search using `pin()`, `pin_get()` 
 
 ## Pinning
 
-Like in other boards, you can create pins for `iris` and `mtcars` by setting `board` to Kaggle's board name,
+Like in other boards, you can create pins for `iris` and `mtcars` by setting `board` to Amazon S3 Bucket's name,
 
 ```{r eval=FALSE}
 pin(iris, description = "The iris data set", board = "s3")
 pin(mtcars, description = "The motor trend cars data set", board = "s3")
 ```
 
-After a pin is created, the pin also becomes available in the Kaggle's dataset website; by default, they are created as private datasets.
+After a pin is created, the pin also becomes available in the Amazon S3 Bucket; by default, they are created as private datasets.
 
 ![](images/boards-s3-storage-pin.png){width=480px}
 
