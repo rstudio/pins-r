@@ -263,7 +263,7 @@ pin_find <- function(text = NULL,
         error = function(e) NULL)
 
       if (is.data.frame(ext_df) && nrow(board_pins) == nrow(ext_df)) {
-        ext_df[, colnames(board_pins)] <- NULL
+        ext_df <- ext_df[, !names(ext_df) %in% colnames(board_pins)]
         board_pins <- cbind(board_pins, ext_df)
       }
     }
