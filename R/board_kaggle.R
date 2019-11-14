@@ -188,7 +188,7 @@ board_pin_search_kaggle <- function(board, text = NULL) {
   httr::content(results)
 }
 
-board_pin_find.kaggle <- function(board, text, ...) {
+board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
   if (!kaggle_authenticated(board)) return(board_empty_results())
 
   if (is.null(text)) text <- ""
@@ -202,9 +202,9 @@ board_pin_find.kaggle <- function(board, text, ...) {
 
   results <- c(results, board_pin_search_kaggle(board, text))
 
-  results <- jsonlite::fromJSON(jsonlite::toJSON(results))
+  results <- pin_entries_to_dataframe(results)
 
-  if (identical(list(...)$extended, TRUE)) {
+  if (identical(extended, TRUE)) {
     results$name <- results$ref
     results$description <- results$title
     results$ref <- NULL

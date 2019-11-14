@@ -37,6 +37,9 @@
 
 ## RStudio Connect
 
+- Removed `pin_find()` workaround for beta rsconnect server where
+  searching was causing timeout.
+
 - Fix for RStudio Connect servers where `/content/` is not 
   used in content URLs.
 

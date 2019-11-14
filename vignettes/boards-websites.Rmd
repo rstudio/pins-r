@@ -31,6 +31,8 @@ In a nutshell, a `data.txt` file is just a YAML file that you can read and write
   type: table
 ```
 
+## Registering
+
 As a website owner, you can choose to create a similar file and place it in your website, you do not need to place it in the root of your domain, it can be any valid URL. Once defined, you can create a read-only board using the `datatxt` board. For this particular example, we will reuse [datatxt.org/data.txt](https://datatxt.org/data.txt), but you can replace that with your own domain name, website path, S3 bucket and so on.
 
 ```{r eval=FALSE}
@@ -38,6 +40,8 @@ board_register_datatxt(name = "txtexample", url = "https://datatxt.org/data.txt"
 ```
 
 As you would expect, `board_register_datatxt()` is also just a wrapper function to `board_register("datatxt")`.
+
+## Discovering
 
 Once this board is registered, you can use `pin_find()` to discover pins,
 
@@ -52,7 +56,35 @@ pin_find(board = "txtexample")
 2 mtcars The data was extracted from the 1974 Motor Trend US magazi… table txtexam…
 ```
 
-And `pin_get()` to retrieve pins,
+Website boards contain extended fields that go beyond the fields `pins` requires, to retrieve all the additional fields use `extended = TRUE`:
+
+```{r eval=FALSE}
+pin_find(board = "txtexample", extended = TRUE)
+```
+```
+# A tibble: 2 x 8
+  path      name    rows  cols description                              type  title        board 
+  <chr>     <chr>  <int> <int> <chr>                                    <chr> <chr>        <chr> 
+1 iris/dat… iris     150     5 This famous (Fisher's or Anderson's) ir… table NA           txtex…
+2 mtcars/d… mtcars    32    11 The data was extracted from the 1974 Mo… table Motor Trend… txtex…
+```
+
+Or `pin_info()` to retrieve all the information associated with a particular pin,
+
+```{r eval=FALSE}
+pin_info("mtcars", board = "txtexample")
+```
+```
+# Source: txtexample<mtcars> [table]
+# Description: The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+# Extended:
+#   - path: mtcars/data.csv
+#   - rows: 32
+#   - cols: 11
+#   - title: Motor Trend Car Road Tests
+```
+
+You can then use `pin_get()` to retrieve a pin,
 
 ```{r eval=FALSE}
 pin_get("mtcars", board = "txtexample")

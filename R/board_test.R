@@ -67,6 +67,12 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
     deps$expect_true(grepl(pin_name, results$name))
   })
 
+  deps$test_that(paste("can pin_info() in", destination), {
+    info <- pin_info(pin_name, board = board)
+
+    deps$expect_true(grepl(pin_name, info$name))
+  })
+
   deps$test_that(paste("can pin_remove() file from", destination), {
     if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 

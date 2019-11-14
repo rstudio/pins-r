@@ -4,7 +4,8 @@
 \alias{pin_find}
 \title{Find Pin}
 \usage{
-pin_find(text = NULL, board = NULL, name = NULL, ...)
+pin_find(text = NULL, board = NULL, name = NULL, extended = FALSE,
+  ...)
 }
 \arguments{
 \item{text}{The text to find in the pin description or name.}
@@ -12,6 +13,8 @@ pin_find(text = NULL, board = NULL, name = NULL, ...)
 \item{board}{The board name used to find the pin.}
 
 \item{name}{The exact name of the pin to match when searching.}
+
+\item{extended}{Should additional board-specific colulmns be shown?}
 
 \item{...}{Additional parameters.}
 }

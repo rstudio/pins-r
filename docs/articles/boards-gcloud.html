@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.6</span>
       </span>
     </div>
 
@@ -180,10 +180,10 @@
 <div id="pinning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pinning" class="anchor"></a>Pinning</h2>
-<p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Kaggle’s board name,</p>
+<p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Google Cloud Storage bucket name,</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"gcloud"</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"gcloud"</span>)</a></code></pre></div>
-<p>After a pin is created, the pin also becomes available in the Kaggle’s dataset website; by default, they are created as private datasets.</p>
+<p>After a pin is created, the pin also becomes available in the Google Cloud Storage; by default, they are created as private datasets.</p>
 <p><img src="images/boards-gcloud-storage-pin.png" width="500"></p>
 <p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"gcloud"</span>)</a></code></pre></div>

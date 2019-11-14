@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.6</span>
       </span>
     </div>
 
@@ -184,9 +184,16 @@
 <a class="sourceLine" id="cb1-15" title="15">    fuel consumption and 10 aspects of automobile design and performance for 32 automobiles</a>
 <a class="sourceLine" id="cb1-16" title="16">    (1973–74 models).</a>
 <a class="sourceLine" id="cb1-17" title="17">  <span class="fu">type:</span><span class="at"> table</span></a></code></pre></div>
+<div id="registering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#registering" class="anchor"></a>Registering</h2>
 <p>As a website owner, you can choose to create a similar file and place it in your website, you do not need to place it in the root of your domain, it can be any valid URL. Once defined, you can create a read-only board using the <code>datatxt</code> board. For this particular example, we will reuse <a href="https://datatxt.org/data.txt">datatxt.org/data.txt</a>, but you can replace that with your own domain name, website path, S3 bucket and so on.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register_datatxt.html">board_register_datatxt</a></span>(<span class="dt">name =</span> <span class="st">"txtexample"</span>, <span class="dt">url =</span> <span class="st">"https://datatxt.org/data.txt"</span>)</a></code></pre></div>
 <p>As you would expect, <code><a href="../reference/board_register_datatxt.html">board_register_datatxt()</a></code> is also just a wrapper function to <code><a href="../reference/board_register.html">board_register("datatxt")</a></code>.</p>
+</div>
+<div id="discovering" class="section level2">
+<h2 class="hasAnchor">
+<a href="#discovering" class="anchor"></a>Discovering</h2>
 <p>Once this board is registered, you can use <code><a href="../reference/pin_find.html">pin_find()</a></code> to discover pins,</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
 <pre><code># A tibble: 2 x 4
@@ -194,8 +201,24 @@
   &lt;chr&gt;  &lt;chr&gt;                                                       &lt;chr&gt; &lt;chr&gt;   
 1 iris   This famous (Fisher's or Anderson's) iris data set gives t… table txtexam…
 2 mtcars The data was extracted from the 1974 Motor Trend US magazi… table txtexam…</code></pre>
-<p>And <code><a href="../reference/pin_get.html">pin_get()</a></code> to retrieve pins,</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
+<p>Website boards contain extended fields that go beyond the fields <code>pins</code> requires, to retrieve all the additional fields use <code>extended = TRUE</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="dt">board =</span> <span class="st">"txtexample"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code># A tibble: 2 x 8
+  path      name    rows  cols description                              type  title        board 
+  &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                    &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt; 
+1 iris/dat… iris     150     5 This famous (Fisher's or Anderson's) ir… table NA           txtex…
+2 mtcars/d… mtcars    32    11 The data was extracted from the 1974 Mo… table Motor Trend… txtex…</code></pre>
+<p>Or <code><a href="../reference/pin_info.html">pin_info()</a></code> to retrieve all the information associated with a particular pin,</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
+<pre><code># Source: txtexample&lt;mtcars&gt; [table]
+# Description: The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+# Extended:
+#   - path: mtcars/data.csv
+#   - rows: 32
+#   - cols: 11
+#   - title: Motor Trend Car Road Tests</code></pre>
+<p>You can then use <code><a href="../reference/pin_get.html">pin_get()</a></code> to retrieve a pin,</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"txtexample"</span>)</a></code></pre></div>
 <pre><code># A tibble: 32 x 11
      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -210,9 +233,18 @@
  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 # … with 22 more rows</code></pre>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#registering">Registering</a></li>
+      <li><a href="#discovering">Discovering</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

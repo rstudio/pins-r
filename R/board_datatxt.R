@@ -115,10 +115,12 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
   local_path
 }
 
-board_pin_find.datatxt <- function(board, text, name, ...) {
+board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   datatxt_refresh_index(board)
 
   entries <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
+
+  if (identical(extended, TRUE)) return(pin_entries_to_dataframe(entries))
 
   results <- data.frame(
     name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),
@@ -137,6 +139,10 @@ board_pin_find.datatxt <- function(board, text, name, ...) {
     response <- httr::GET(file.path(board$url, path_guess[[1]], "data.txt"))
     if (!httr::http_error(response)) {
       metadata <- c(metadata, board_manifest_load(httr::content(response)))
+
+      # remeve duplicates
+      metadata[duplicated(names(metadata))] <- NULL
+
       results$metadata <- jsonlite::toJSON(metadata, auto_unbox = TRUE)
     }
   }

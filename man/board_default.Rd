@@ -18,7 +18,7 @@ library(pins)
 board_register_local("temp", cache = tempfile())
 
 # configure default board
-options(pind.board = "temp")
+options(pins.board = "temp")
 
 # retrieve default board
 board_default()
