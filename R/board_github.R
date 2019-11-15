@@ -254,7 +254,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 board_pin_find.github <- function(board, text, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt", branch = branch),
+  result <- httr::GET(github_url(board, "/contents/", board$path, "data.txt", branch = branch),
                       github_headers(board))
 
   if (!httr::http_error(result)) {
