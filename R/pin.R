@@ -427,3 +427,10 @@ print.pin_info <- function(x, ...) {
     }
   }
 }
+
+#' @rdname custom-pins
+#' @keywords internal
+#' @export
+pin_fetch <- function(path, ...) {
+  UseMethod("pin_fetch")
+}

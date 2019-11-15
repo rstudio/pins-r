@@ -261,9 +261,9 @@ board_pin_get.rsconnect <- function(board, name, ...) {
   remote_path <- rsconnect_remote_path_from_url(board, url)
 
   local_path <- rsconnect_api_download(board, name, file.path(remote_path, "data.txt"), etag = etag)
-  manifest <- pin_manifest_get(local_path)
+  manifest_paths <- pin_manifest_download(local_path)
 
-  for (file in manifest$path) {
+  for (file in manifest_paths) {
     rsconnect_api_download(board, name, file.path(remote_path, file), etag = etag)
   }
 

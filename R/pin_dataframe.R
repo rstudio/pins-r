@@ -35,6 +35,14 @@ pin_load.table <- function(path, ...) {
 
 #' @keywords internal
 #' @export
+pin_fetch.table <- function(path, ...) {
+  rds_match <- grepl(".*.rds", path)
+  fetch_all <- identical(getOption("pins.fetch", "auto"), "all")
+  if (any(rds_match) && !fetch_all) path[rds_match] else path
+}
+
+#' @keywords internal
+#' @export
 pin_preview.data.frame <- function(x, board = NULL, ...) {
   utils::head(x, n = getOption("pins.preview", 10^3))
 }

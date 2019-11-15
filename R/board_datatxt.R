@@ -79,11 +79,11 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
   if (!is.null(manifest)) {
     download_paths <- index_entry$path
 
-    manifest <- pin_manifest_get(local_path)
-    if (!is.null(manifest$path)) {
+    manifest_paths <- pin_manifest_download(local_path)
+    if (!is.null(manifest_paths)) {
       # we find a data.txt file in subfolder with paths, we use those paths instead of the index paths.
       download_paths <- c()
-      for (path in manifest$path) {
+      for (path in manifest_paths) {
         if (grepl("^https?://", path))
           download_paths <- c(download_paths, path)
         else

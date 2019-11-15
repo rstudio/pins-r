@@ -387,9 +387,9 @@ board_pin_get.github <- function(board, name, extract = NULL, ...) {
   local_path <- pin_download(base_url, name, board$name, headers = github_headers(board))
 
   if (file.exists(file.path(local_path, "data.txt"))) {
-    index <- pin_manifest_get(local_path)
+    index_path <- pin_manifest_download(local_path)
 
-    for (file in index$path) {
+    for (file in index_path) {
       file_url <- file
       headers <- github_headers(board)
 
