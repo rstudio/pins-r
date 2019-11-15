@@ -23,3 +23,9 @@ pin_preview.default <- function(x, board = NULL, ...) {
 pin_load.default <- function(path, ...) {
   readRDS(file.path(path, "data.rds"))
 }
+
+#' @keywords internal
+#' @export
+pin_fetch.default <- function(path, ...) {
+  path
+}

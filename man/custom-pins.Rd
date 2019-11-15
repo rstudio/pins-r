@@ -3,12 +3,15 @@
 \name{pin_preview}
 \alias{pin_preview}
 \alias{pin_load}
+\alias{pin_fetch}
 \alias{board_pin_store}
 \title{Custom Pins}
 \usage{
 pin_preview(x, board = NULL, ...)
 
 pin_load(path, ...)
+
+pin_fetch(path, ...)
 
 board_pin_store(board, path, name, description, type, metadata, ...)
 }

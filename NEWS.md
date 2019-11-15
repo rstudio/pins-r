@@ -8,6 +8,9 @@
 
 ## Pins
 
+- Support for `pin_info()` to describe a pin and `extended = TRUE` in
+  `pin_find()` to show all extended information about each pin.
+
 - Support for `extract` parameter in `pin_get()`, `pin()`, and
   `pin_reactive()` to override default file extraction behavior.
   

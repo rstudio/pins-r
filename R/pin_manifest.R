@@ -20,3 +20,11 @@ pin_manifest_create <- function(path, metadata, files) {
 
   yaml::write_yaml(entries, file.path(path, "data.txt"))
 }
+
+# retrieve a list of files dow download
+pin_manifest_download <- function(path) {
+  manifest <- pin_manifest_get(path)
+
+  if (is.null(manifest$path)) return(NULL)
+  pin_fetch(structure(manifest$path, class = manifest$type))
+}
