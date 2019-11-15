@@ -63,6 +63,11 @@
 
 - Fix in `pin_find()` to properly search desecription files.
 
+## GitHub
+
+- Various fixes for GitHub boards using the `path` parameter
+  when registering the board (#121).
+
 # pins 0.2.0
 
 ## RStudio Connect
