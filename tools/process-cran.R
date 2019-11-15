@@ -164,7 +164,7 @@ cran_find_config <- function(workers = 3, worker_cpus = 8) {
   config <- spark_config()
 
   config["sparklyr.shell.driver-memory"] <- "8g"
-  config["sparklyr.shell.executor-memory"] <- "1g"
+  config["sparklyr.shell.executor-memory"] <- "3g"
   config["sparklyr.shell.executor-cores"] <- 1
   config["sparklyr.shell.num-executors"] <- workers * worker_cpus
   config["spark.speculation"] <- TRUE
@@ -194,12 +194,10 @@ cran_save_dataset <- function(cran_index) {
     class = class
   )
 
-  cranfiles <- cran_clean_dataset(cranfiles)
-
   save(cranfiles, file = "data/cranfiles.rda")
 }
 
-cran_clean_dataset <- function(cran_index) {
+cran_clean_dataset <- function() {
   cranfiles <- get(load("data/cranfiles.rda"))
   cranfiles <- cranfiles[cranfiles$package != "error" & cranfiles$rows > 0 & cranfiles$cols > 0,]
   cranfiles$metadata <- sapply(1:nrow(cranfiles), function(e) paste0('{"rows":', cranfiles[e,]$rows, ',"cols":', cranfiles[e,]$cols, '}'))
