@@ -353,7 +353,7 @@ github_branches_create <- function(board, new_branch, base_branch) {
 github_content_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
-  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(args, collapse = ""))
+  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(board$path, paste0(args, collapse = "")))
   if (!is.null(branch))
     url <- paste0(url, "?ref=", branch)
 
