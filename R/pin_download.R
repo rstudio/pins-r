@@ -1,11 +1,15 @@
-pin_download <- function(path, name, component, extract = FALSE, ...) {
-  must_download <- identical(list(...)$download, TRUE)
-  headers <- list(...)$headers
-  config <- list(...)$config
-  custom_etag <- list(...)$custom_etag
-  remove_query <- identical(list(...)$remove_query, TRUE)
-  can_fail <- identical(list(...)$can_fail, TRUE)
-
+pin_download <- function(path,
+                         name,
+                         omponent,
+                         extract = FALSE,
+                         custom_etag = NULL,
+                         remove_query = TRUE,
+                         config = NULL,
+                         headers = NULL,
+                         can_fail = TRUE,
+                         must_download = TRUE,
+                         content_length = 0,
+                         ...) {
   local_path <- pin_storage_path(component, name)
 
   # use a temp path to rollback if something fails
