@@ -221,7 +221,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
   for (file in upload_files) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-    named_sha <- Filter(function(e) identical(e$path, file.path(name, file)), dir_shas)
+    named_sha <- Filter(function(e) identical(e$path, paste0(board$path, file.path(name, file))), dir_shas)
     sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
 
     file_path <- file.path(bundle_path, file)
@@ -254,7 +254,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 board_pin_find.github <- function(board, text, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  result <- httr::GET(github_url(board, "/contents/", board$path, "/data.txt", branch = branch),
+  result <- httr::GET(github_url(board, "/contents/", board$path, "data.txt", branch = branch),
                       github_headers(board))
 
   if (!httr::http_error(result)) {
@@ -353,7 +353,7 @@ github_branches_create <- function(board, new_branch, base_branch) {
 github_content_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
-  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(args, collapse = ""))
+  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(board$path, paste0(args, collapse = "")))
   if (!is.null(branch))
     url <- paste0(url, "?ref=", branch)
 
