@@ -1,0 +1,37 @@
+---
+title: "pins 0.3: S3, Azure and Google Cloud"
+description: |
+  A new CRAN release for pins adds support to create boards using
+  various cloud providers and new functionality to existing boards.
+author:
+  - name: "Javier Luraschi"
+    url: https://github.com/javierluraschi
+    affiliation: RStudio
+    affiliation_url: https://www.rstudio.com
+date: 11-18-2019
+categories:
+  - Packages
+  - Releases
+  - Cloud
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+A new version of `pins` is available on CRAN! `pins 0.3` comes with many improvements and the following major feaures:
+- Support for Azure, S3 and Google Cloud boards.
+- A new `pin_info()` function to retrieve additional metadata.
+
+In addition, there is a new [Use Cases](https://rstudio.github.io/pins/articles/use-cases.html) section in our docs, various improvements (see [NEWS](https://rstudio.github.io/pins/news/index.html)) and two community extensions being developed to support [databases](https://edgararuiz.github.io/connections/#pins) and [nextcloud](https://gitlab.com/gwmngilfen/nextcloudr) as boards.
+
+You can install this new version from CRAN as follows:
+
+```r
+install.packages("pins")
+```
+
+If you need assistance, please open a [GitHub](https://github.com/rstudio/pins/issues/new) issue or chat with us in [Gitter](https://gitter.im/rstudio/pins).
