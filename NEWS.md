@@ -37,6 +37,9 @@
 
 ## RStudio Connect
 
+- Store all downloaded content under user subfolder insited 
+  rsconnect cache.
+
 - Removed `pin_find()` workaround for beta rsconnect server where
   searching was causing timeout.
 
