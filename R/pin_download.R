@@ -2,12 +2,12 @@ pin_download <- function(path,
                          name,
                          omponent,
                          extract = FALSE,
-                         custom_etag = NULL,
-                         remove_query = TRUE,
+                         custom_etag = "",
+                         remove_query = FALSE,
                          config = NULL,
                          headers = NULL,
-                         can_fail = TRUE,
-                         must_download = TRUE,
+                         can_fail = FALSE,
+                         must_download = FALSE,
                          content_length = 0,
                          ...) {
   local_path <- pin_storage_path(component, name)
@@ -50,8 +50,6 @@ pin_download <- function(path,
 
   error <- NULL
   extract_type <- NULL
-
-  content_length <- 0
 
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
