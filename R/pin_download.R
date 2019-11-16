@@ -1,6 +1,6 @@
 pin_download <- function(path,
                          name,
-                         omponent,
+                         component,
                          extract = FALSE,
                          custom_etag = "",
                          remove_query = FALSE,
