@@ -190,8 +190,8 @@ board_register_rsconnect <- function(name = "rsconnect",
 #' pin_find(board = "txtexample")
 #'
 #' @export
-board_register_datatxt <- function(name,
-                                   url,
+board_register_datatxt <- function(url,
+                                   name = NULL,
                                    headers = NULL,
                                    cache = board_cache_path(),
                                    ...) {
