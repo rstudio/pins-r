@@ -13,9 +13,11 @@
     "categories": [
       "Packages",
       "Introductions",
-      "Releases"
+      "Releases",
+      "R"
     ],
     "preview": {},
-    "last_modified": "2019-11-08T11:41:01-08:00"
+    "last_modified": "2019-11-18T14:47:17-08:00",
+    "input_file": "pins-0-2-0.utf8.md"
   }
 ]
