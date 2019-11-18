@@ -14,6 +14,7 @@ categories:
   - Packages
   - Introductions
   - Releases
+  - R
 output:
   distill::distill_article:
     self_contained: false

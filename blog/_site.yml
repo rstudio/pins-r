@@ -10,6 +10,8 @@ navbar:
       href: ../index.html
     - icon: fa fa-rss
       href: index.xml
+rss:
+  full_content: TRUE
 output:
   distill::distill_article:
     css: styles.css
