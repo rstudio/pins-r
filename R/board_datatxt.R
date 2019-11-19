@@ -28,7 +28,7 @@ board_initialize.datatxt <- function(board,
                                      ...) {
   if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
 
-  board$url <- gsub("/?data\\.txt$", "", url)
+  board$url <- gsub("/?data\\.txt$|/$", "", url)
   board$headers <- headers
   board$needs_index <- needs_index
   board$borwse_url <- browse_url
