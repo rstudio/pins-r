@@ -206,6 +206,7 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
     file_path <- normalizePath(file.path(path, file))
     response <- httr::PUT(upload_url,
                           body = httr::upload_file(file_path),
+                          http_utils_progress("up", size = file.info(file_path)$size),
                           board_headers(board, subpath, verb = "PUT", file = file_path))
 
     if (httr::http_error(response))

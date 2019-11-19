@@ -52,7 +52,7 @@ kaggle_upload_resource <- function(path, board) {
   token <- parsed$token
 
   results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth(board),
-                       http_utils_progress("up"))
+                       http_utils_progress("up", size = file.info(normalizePath(path))$size))
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
 

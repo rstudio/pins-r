@@ -149,7 +149,8 @@ github_upload_release <- function(board, release, name, file, file_path) {
   response <- httr::POST(
     asset_url,
     query = list(name = file),
-    body = httr::upload_file(normalizePath(file_path)),
+    body = httr::upload_file(normalizePath(file_path),
+                             http_utils_progress("up", size = file.info(normalizePath(file_path))$size)),
     github_headers(board),
     http_utils_progress("up"))
 

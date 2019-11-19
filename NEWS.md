@@ -8,6 +8,8 @@
 
 ## Pins
 
+- Show upload progress for files larger than 10mb.
+
 - Support for `pin_info()` to describe a pin and `extended = TRUE` in
   `pin_find()` to show all extended information about each pin.
 
