@@ -29,7 +29,7 @@
 &lt;/div&gt;
 
 
-&lt;p&gt;A new version of &lt;code&gt;pins&lt;/code&gt; is available on CRAN! &lt;code&gt;pins 0.3&lt;/code&gt; comes with many improvements and the following major feaures:&lt;/p&gt;
+&lt;p&gt;A new version of &lt;code&gt;pins&lt;/code&gt; is available on CRAN! &lt;code&gt;pins 0.3&lt;/code&gt; comes with many improvements and the following major features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Use new &lt;strong&gt;cloud boards&lt;/strong&gt; to pin resources in &lt;a href="../../../articles/boards-azure.html"&gt;Azure&lt;/a&gt;, &lt;a href="../../../articles/boards-gcloud.html"&gt;GCloud&lt;/a&gt; and &lt;a href="../../../articles/boards-s3.html"&gt;S3&lt;/a&gt; storage.&lt;/li&gt;
 &lt;li&gt;Retrieve &lt;strong&gt;pin information&lt;/strong&gt; with &lt;code&gt;pin_info()&lt;/code&gt; including metadata particular to each board.&lt;/li&gt;
@@ -67,7 +67,7 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 &lt;pre class="r"&gt;&lt;code&gt;indicators &amp;lt;- pin_get(&amp;quot;worldbank/world-development-indicators&amp;quot;)[6] %&amp;gt;%
   readr::read_csv()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Analysing the indicators dataset is quite interesting; however, this focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an &lt;a href="../../../articles/boards-s3.html"&gt;S3 board&lt;/a&gt;. To publish to other cloud providers, take a look at the &lt;a href="../../../articles/boards-gcloud.html"&gt;Google Cloud&lt;/a&gt; and &lt;a href="../../../articles/boards-azure.html"&gt;Azure boards&lt;/a&gt; articles.&lt;/p&gt;
-&lt;p&gt;As usual, first we need to register the S3 board. When using RStudio, you can use the “New Connection” action to guide you through this process, or you can specify your &lt;code&gt;key&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; as follows. Please reffer to the &lt;a href="../../../articles/boards-s3.html"&gt;S3 board&lt;/a&gt; article to understand how to store your credentials securely.&lt;/p&gt;
+&lt;p&gt;As usual, first we need to register the S3 board. When using RStudio, you can use the “New Connection” action to guide you through this process, or you can specify your &lt;code&gt;key&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; as follows. Please refer to the &lt;a href="../../../articles/boards-s3.html"&gt;S3 board&lt;/a&gt; article to understand how to store your credentials securely.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;board_register_s3(name = &amp;quot;rpins&amp;quot;,
                   bucket  = &amp;quot;rpins&amp;quot;,
                   key = &amp;quot;VerySecretKey&amp;quot;,
@@ -75,7 +75,7 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 &lt;p&gt;With the S3 board registered, we can now pin the indicators dataset with &lt;code&gt;pin()&lt;/code&gt;:&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;pin(indicators, name = &amp;quot;worldbank/indicators&amp;quot;, board = &amp;quot;rpins&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;That’s about it! We can now find and retrieve this dataset from S3 using &lt;code&gt;pin_find()&lt;/code&gt; and &lt;code&gt;pin_get()&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to the this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!&lt;/p&gt;
+&lt;p&gt;To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;pins::pin_get(&amp;quot;worldbank/indicators&amp;quot;, &amp;quot;https://rpins.s3.amazonaws.com&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;# A tibble: 5,656,458 x 6
    CountryName CountryCode IndicatorName                          IndicatorCode    Year      Value
@@ -93,16 +93,15 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 # … with 5,656,448 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This works since &lt;code&gt;pins 0.3&lt;/code&gt; automatically register URLs as a &lt;a href="../../../articles/boards-websites.html"&gt;website boards&lt;/a&gt; to save you from having to explicitly call &lt;code&gt;board_register_datatxt()&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;It’s also worth mentioning that &lt;code&gt;pins&lt;/code&gt; stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.&lt;/p&gt;
-&lt;p&gt;This &lt;code&gt;pins&lt;/code&gt; makes it a great tool for easily sharing datasets in your organization or the world.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id="pin-information" class="section level2"&gt;
 &lt;h2&gt;Pin Information&lt;/h2&gt;
-&lt;p&gt;Boards like &lt;a href="../../../articles/boards-kaggle.html"&gt;Kaggle&lt;/a&gt; and &lt;a href="../../../articles/boards-rsconnect.html"&gt;RStudio Connect&lt;/a&gt;, store additional information for each pin which you can now esily retrieve with &lt;code&gt;pin_info()&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For instance, we can retrieve additional informationfrom the indicators pin from Kaggle as follows,&lt;/p&gt;
+&lt;p&gt;Boards like &lt;a href="../../../articles/boards-kaggle.html"&gt;Kaggle&lt;/a&gt; and &lt;a href="../../../articles/boards-rsconnect.html"&gt;RStudio Connect&lt;/a&gt;, store additional information for each pin which you can now easily retrieve with &lt;code&gt;pin_info()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For instance, we can retrieve additional properties from the indicators pin from Kaggle as follows,&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;pin_info(&amp;quot;worldbank/world-development-indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;# Source: kaggle&amp;lt;worldbank/world-development-indicators&amp;gt; [files]
 # Description: World Development Indicators
-# Extended:
+# Properties:
 #   - id: 23
 #   - subtitle: Explore country development indicators from around the world
 #   - tags: (ref) business, economics, international relations, business finance...
@@ -125,10 +124,10 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 #   - currentVersionNumber: 2
 #   - usabilityRating: 0.7647
 #   - extension: zip&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Or from RStudio Connect boards,&lt;/p&gt;
+&lt;p&gt;And from RStudio Connect boards as well,&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;pin_info(&amp;quot;worldnews&amp;quot;, board = &amp;quot;rsconnect&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;# Source: rsconnect&amp;lt;jluraschi/worldnews&amp;gt; [table]
-# Extended:
+# Properties:
 #   - id: 6446
 #   - guid: 1b9f04c5-ddd4-43ca-8352-98f6f01a7034
 #   - access_type: all
@@ -152,7 +151,7 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 #   - cols: 1&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;To retrieve all the extended information when discovering pins, pass &lt;code&gt;extended = TRUE&lt;/code&gt; to &lt;code&gt;pin_find()&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Thank you for reading this post!&lt;/p&gt;
-&lt;p&gt;Please reffer to &lt;a href="https://rstudio.github.io/pins"&gt;rstudio.github.io/pins&lt;/a&gt; for detailed documentation, open a &lt;a href="https://github.com/rstudio/pins/issues/new"&gt;new GitHub&lt;/a&gt; issues for use-cases we should investigate and &lt;a href="https://gitter.im/rstudio/pins"&gt;Gitter&lt;/a&gt; to chat with us about anything else.&lt;/p&gt;
+&lt;p&gt;Please refer to &lt;a href="https://rstudio.github.io/pins"&gt;rstudio.github.io/pins&lt;/a&gt; for detailed documentation, open a &lt;a href="https://github.com/rstudio/pins/issues/new"&gt;new GitHub&lt;/a&gt; issues for use-cases we should investigate and &lt;a href="https://gitter.im/rstudio/pins"&gt;Gitter&lt;/a&gt; to chat with us about anything else.&lt;/p&gt;
 &lt;/div&gt;
 
 

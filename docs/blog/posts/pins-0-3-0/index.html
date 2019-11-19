@@ -1402,7 +1402,7 @@ d-article > p > img {
 </div>
 
 <div class="d-article">
-<p>A new version of <code>pins</code> is available on CRAN! <code>pins 0.3</code> comes with many improvements and the following major feaures:</p>
+<p>A new version of <code>pins</code> is available on CRAN! <code>pins 0.3</code> comes with many improvements and the following major features:</p>
 <ul>
 <li>Use new <strong>cloud boards</strong> to pin resources in <a href="../../../articles/boards-azure.html">Azure</a>, <a href="../../../articles/boards-gcloud.html">GCloud</a> and <a href="../../../articles/boards-s3.html">S3</a> storage.</li>
 <li>Retrieve <strong>pin information</strong> with <code>pin_info()</code> including metadata particular to each board.</li>
@@ -1445,7 +1445,7 @@ pin_get(&quot;worldbank/world-development-indicators&quot;)</code></pre>
 indicators &lt;- pin_get(&quot;worldbank/world-development-indicators&quot;)[6] %&gt;%
   readr::read_csv()</code></pre>
 <p>Analysing the indicators dataset is quite interesting; however, this focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an <a href="../../../articles/boards-s3.html">S3 board</a>. To publish to other cloud providers, take a look at the <a href="../../../articles/boards-gcloud.html">Google Cloud</a> and <a href="../../../articles/boards-azure.html">Azure boards</a> articles.</p>
-<p>As usual, first we need to register the S3 board. When using RStudio, you can use the “New Connection” action to guide you through this process, or you can specify your <code>key</code> and <code>secret</code> as follows. Please reffer to the <a href="../../../articles/boards-s3.html">S3 board</a> article to understand how to store your credentials securely.</p>
+<p>As usual, first we need to register the S3 board. When using RStudio, you can use the “New Connection” action to guide you through this process, or you can specify your <code>key</code> and <code>secret</code> as follows. Please refer to the <a href="../../../articles/boards-s3.html">S3 board</a> article to understand how to store your credentials securely.</p>
 <pre class="r"><code>
 board_register_s3(name = &quot;rpins&quot;,
                   bucket  = &quot;rpins&quot;,
@@ -1455,7 +1455,7 @@ board_register_s3(name = &quot;rpins&quot;,
 <pre class="r"><code>
 pin(indicators, name = &quot;worldbank/indicators&quot;, board = &quot;rpins&quot;)</code></pre>
 <p>That’s about it! We can now find and retrieve this dataset from S3 using <code>pin_find()</code> and <code>pin_get()</code>.</p>
-<p>To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to the this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!</p>
+<p>To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!</p>
 <pre class="r"><code>
 pins::pin_get(&quot;worldbank/indicators&quot;, &quot;https://rpins.s3.amazonaws.com&quot;)</code></pre>
 <pre><code>
@@ -1475,16 +1475,15 @@ pins::pin_get(&quot;worldbank/indicators&quot;, &quot;https://rpins.s3.amazonaws
 # … with 5,656,448 more rows</code></pre>
 <p>This works since <code>pins 0.3</code> automatically register URLs as a <a href="../../../articles/boards-websites.html">website boards</a> to save you from having to explicitly call <code>board_register_datatxt()</code>.</p>
 <p>It’s also worth mentioning that <code>pins</code> stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.</p>
-<p>This <code>pins</code> makes it a great tool for easily sharing datasets in your organization or the world.</p>
 <h2 id="pin-information">Pin Information</h2>
-<p>Boards like <a href="../../../articles/boards-kaggle.html">Kaggle</a> and <a href="../../../articles/boards-rsconnect.html">RStudio Connect</a>, store additional information for each pin which you can now esily retrieve with <code>pin_info()</code>.</p>
-<p>For instance, we can retrieve additional informationfrom the indicators pin from Kaggle as follows,</p>
+<p>Boards like <a href="../../../articles/boards-kaggle.html">Kaggle</a> and <a href="../../../articles/boards-rsconnect.html">RStudio Connect</a>, store additional information for each pin which you can now easily retrieve with <code>pin_info()</code>.</p>
+<p>For instance, we can retrieve additional properties from the indicators pin from Kaggle as follows,</p>
 <pre class="r"><code>
 pin_info(&quot;worldbank/world-development-indicators&quot;, board = &quot;kaggle&quot;)</code></pre>
 <pre><code>
 # Source: kaggle&lt;worldbank/world-development-indicators&gt; [files]
 # Description: World Development Indicators
-# Extended:
+# Properties:
 #   - id: 23
 #   - subtitle: Explore country development indicators from around the world
 #   - tags: (ref) business, economics, international relations, business finance...
@@ -1507,12 +1506,12 @@ pin_info(&quot;worldbank/world-development-indicators&quot;, board = &quot;kaggl
 #   - currentVersionNumber: 2
 #   - usabilityRating: 0.7647
 #   - extension: zip</code></pre>
-<p>Or from RStudio Connect boards,</p>
+<p>And from RStudio Connect boards as well,</p>
 <pre class="r"><code>
 pin_info(&quot;worldnews&quot;, board = &quot;rsconnect&quot;)</code></pre>
 <pre><code>
 # Source: rsconnect&lt;jluraschi/worldnews&gt; [table]
-# Extended:
+# Properties:
 #   - id: 6446
 #   - guid: 1b9f04c5-ddd4-43ca-8352-98f6f01a7034
 #   - access_type: all
@@ -1536,7 +1535,7 @@ pin_info(&quot;worldnews&quot;, board = &quot;rsconnect&quot;)</code></pre>
 #   - cols: 1</code></pre>
 <p>To retrieve all the extended information when discovering pins, pass <code>extended = TRUE</code> to <code>pin_find()</code>.</p>
 <p>Thank you for reading this post!</p>
-<p>Please reffer to <a href="https://rstudio.github.io/pins">rstudio.github.io/pins</a> for detailed documentation, open a <a href="https://github.com/rstudio/pins/issues/new">new GitHub</a> issues for use-cases we should investigate and <a href="https://gitter.im/rstudio/pins">Gitter</a> to chat with us about anything else.</p>
+<p>Please refer to <a href="https://rstudio.github.io/pins">rstudio.github.io/pins</a> for detailed documentation, open a <a href="https://github.com/rstudio/pins/issues/new">new GitHub</a> issues for use-cases we should investigate and <a href="https://gitter.im/rstudio/pins">Gitter</a> to chat with us about anything else.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
