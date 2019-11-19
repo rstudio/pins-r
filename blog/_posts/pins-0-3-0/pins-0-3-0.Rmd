@@ -126,7 +126,7 @@ pins::pin_get("worldbank/indicators", "https://rpins.s3.amazonaws.com")
 # … with 5,656,448 more rows
 ```
 
-This works since `pins 0.3` automatically register URLs as a [website boards](../../../articles/boards-websites.html) to save you from having to explicitly call `board_register_datatxt()`.
+This works since `pins 0.3` automatically register URLs as a [website board](../../../articles/boards-websites.html) to save you from having to explicitly call `board_register_datatxt()`.
 
 It's also worth mentioning that `pins` stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.
 
