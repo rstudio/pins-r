@@ -49,7 +49,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["pins-0-3-0_files/bowser-1.9.3/bowser.min.js","pins-0-3-0_files/distill-2.2.21/template.v2.js","pins-0-3-0_files/jquery-1.11.3/jquery.min.js","pins-0-3-0_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["images/pins-cloud-boards-azure-gcloud-s3.png","images/pins-upload-s3-results.png","pins-0-3-0_files/bowser-1.9.3/bowser.min.js","pins-0-3-0_files/distill-2.2.21/template.v2.js","pins-0-3-0_files/jquery-1.11.3/jquery.min.js","pins-0-3-0_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -965,8 +965,8 @@
 <div class="d-article">
 <p>A new version of <code>pins</code> is available on CRAN! <code>pins 0.3</code> comes with many improvements and the following major features:</p>
 <ul>
-<li>Use new <strong>cloud boards</strong> to pin resources in <a href="../../../articles/boards-azure.html">Azure</a>, <a href="../../../articles/boards-gcloud.html">GCloud</a> and <a href="../../../articles/boards-s3.html">S3</a> storage.</li>
-<li>Retrieve <strong>pin information</strong> with <code>pin_info()</code> including metadata particular to each board.</li>
+<li>Support for new <strong>cloud boards</strong> to pin resources in <a href="../../../articles/boards-azure.html">Azure</a>, <a href="../../../articles/boards-gcloud.html">GCloud</a> and <a href="../../../articles/boards-s3.html">S3</a> storage.</li>
+<li>Retrieve <strong>pin information</strong> with <code>pin_info()</code> including properties particular to each board.</li>
 </ul>
 <p>You can install this new version from CRAN as follows:</p>
 <pre class="r"><code>
@@ -974,6 +974,7 @@ install.packages(&quot;pins&quot;)</code></pre>
 <p>In addition, there is a new <a href="https://rstudio.github.io/pins/articles/use-cases.html">Use Cases</a> section in our docs, various improvements (see <a href="https://rstudio.github.io/pins/news/index.html">NEWS</a>) and two community extensions being developed to support <a href="https://edgararuiz.github.io/connections/#pins">databases</a> and <a href="https://gitlab.com/gwmngilfen/nextcloudr">Nextcloud</a> as boards.</p>
 <h2 id="cloud-boards">Cloud Boards</h2>
 <p><code>pins 0.3</code> adds support to find, retrieve and store resources in various cloud providers like: <a href="https://azure.microsoft.com/">Microsoft Azure</a>, <a href="https://cloud.google.com/">Google Cloud</a> and <a href="https://aws.amazon.com/">Amazon Web Services</a>.</p>
+<p><img src="images/pins-cloud-boards-azure-gcloud-s3.png" /></p>
 <p>To illustrate how they work, lets first try to find the World Bank indicators dataset in <a href="https://www.kaggle.com/">Kaggle</a>:</p>
 <pre class="r"><code>
 library(pins)
@@ -1001,12 +1002,12 @@ pin_get(&quot;worldbank/world-development-indicators&quot;)</code></pre>
 [6] &quot;/.../worldbank/world-development-indicators/Indicators.csv&quot;  
 [7] &quot;/.../worldbank/world-development-indicators/Series.csv&quot;      
 [8] &quot;/.../worldbank/world-development-indicators/SeriesNotes.csv&quot; </code></pre>
-<p>The <code>Indicators.csv</code> file is interesting, so let’s load it with <a href="https://readr.tidyverse.org/">readr</a>:</p>
+<p>The <code>Indicators.csv</code> file contains all the indicators, so let’s load it with <a href="https://readr.tidyverse.org/">readr</a>:</p>
 <pre class="r"><code>
 indicators &lt;- pin_get(&quot;worldbank/world-development-indicators&quot;)[6] %&gt;%
   readr::read_csv()</code></pre>
-<p>Analysing the indicators dataset is quite interesting; however, this focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an <a href="../../../articles/boards-s3.html">S3 board</a>. To publish to other cloud providers, take a look at the <a href="../../../articles/boards-gcloud.html">Google Cloud</a> and <a href="../../../articles/boards-azure.html">Azure boards</a> articles.</p>
-<p>As usual, first we need to register the S3 board. When using RStudio, you can use the “New Connection” action to guide you through this process, or you can specify your <code>key</code> and <code>secret</code> as follows. Please refer to the <a href="../../../articles/boards-s3.html">S3 board</a> article to understand how to store your credentials securely.</p>
+<p>Analysing the this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an <a href="../../../articles/boards-s3.html">S3 board</a>. To publish to other cloud providers, take a look at the <a href="../../../articles/boards-gcloud.html">Google Cloud</a> and <a href="../../../articles/boards-azure.html">Azure boards</a> articles.</p>
+<p>As you would expect, the first step is to register the S3 board. When using RStudio, you can use the <a href="../../../articles/pins-rstudio.html">New Connection</a> action to guide you through this process, or you can specify your <code>key</code> and <code>secret</code> as follows. Please refer to the <a href="../../../articles/boards-s3.html">S3 board</a> article to understand how to store your credentials securely.</p>
 <pre class="r"><code>
 board_register_s3(name = &quot;rpins&quot;,
                   bucket  = &quot;rpins&quot;,
@@ -1015,7 +1016,8 @@ board_register_s3(name = &quot;rpins&quot;,
 <p>With the S3 board registered, we can now pin the indicators dataset with <code>pin()</code>:</p>
 <pre class="r"><code>
 pin(indicators, name = &quot;worldbank/indicators&quot;, board = &quot;rpins&quot;)</code></pre>
-<p>That’s about it! We can now find and retrieve this dataset from S3 using <code>pin_find()</code> and <code>pin_get()</code>.</p>
+<p>That’s about it! We can now find and retrieve this dataset from S3 using <code>pin_find()</code>, <code>pin_get()</code> or view the uploaded resources in the S3 management console:</p>
+<p><img src="images/pins-upload-s3-results.png" /></p>
 <p>To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!</p>
 <pre class="r"><code>
 pins::pin_get(&quot;worldbank/indicators&quot;, &quot;https://rpins.s3.amazonaws.com&quot;)</code></pre>
