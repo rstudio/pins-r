@@ -28,9 +28,11 @@ pin_load.table <- function(path, ...) {
   rds <- file.path(path, "data.rds")
   csv <- file.path(path, "data.csv")
 
-  if (file.exists(rds)) readRDS(rds)
-  else if (file.exists(csv)) utils::read.csv(csv, stringsAsFactors = FALSE)
+  if (file.exists(rds)) result <- readRDS(rds)
+  else if (file.exists(csv)) result <- utils::read.csv(csv, stringsAsFactors = FALSE)
   else stop("A 'table' pin requires CSV or RDS files.")
+
+  format_tibble(result)
 }
 
 #' @keywords internal
