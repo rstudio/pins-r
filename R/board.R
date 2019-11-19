@@ -78,6 +78,9 @@ board_get <- function(name) {
       url <- name
       board_type <- "datatxt"
 
+      # use only subdomain as friendly name which is also used as cache folder
+      name <- gsub("https?://|\\..*", "", url)
+
       register_call <- paste0("pins::board_register(board = \"datatxt\", name = \"", name, "\", url = \"", url, "\")")
     }
 
