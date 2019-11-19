@@ -115,12 +115,12 @@ pins_connection_ui <- function() {
           list(
             local = "local",
             azure = "azure",
-            datatxt = "datatxt",
             gcloud = "gcloud",
             github = "github",
             kaggle = "kaggle",
             rsconnect = "rsconnect",
-            s3 = "s3"
+            s3 = "s3",
+            website = "datatxt"
           )
         ),
         selectize = FALSE,
