@@ -64,11 +64,11 @@ test_that("can board_register() with URL and no name", {
   skip_on_cran()
 
   iris_pin <- pin_get("iris",
-                      board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
-                      cache = tempfile())
+                      board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt")
 
   expect_equal(nrow(iris_pin), 150)
 
-  board_deregister("raw")
+  # manually unlink since pin_get() does not support cache param
+  unlink(pins:::pin_storage_path("raw", ""), recursive = TRUE)
 })
 
