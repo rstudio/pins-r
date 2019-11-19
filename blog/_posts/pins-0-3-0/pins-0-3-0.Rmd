@@ -1,8 +1,7 @@
 ---
 title: "pins 0.3: Azure, GCloud and S3"
 description: |
-  A new CRAN release for pins adds support to create boards using
-  various cloud providers and new functionality to existing boards.
+  New CRAN release for pins adds support for cloud boards (Azure, Google Cloud and S3), new functions, use cases and many other improvements.
 author:
   - name: "Javier Luraschi"
     url: https://github.com/javierluraschi
@@ -23,11 +22,10 @@ output:
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-A new version of `pins` is available on CRAN! `pins 0.3` comes with many improvements and the following major feaures:
-- Use new **cloud boards** to pin resources in Azure, GCloud and S3 storage.
-- Retrieve pin information with `pin_info()` to describe the pin's metadata and additional information from each board.
+A new version of `pins` is available on CRAN! `pins 0.3` comes with many improvements and the following major features:
 
-In addition, there is a new [Use Cases](https://rstudio.github.io/pins/articles/use-cases.html) section in our docs, various improvements (see [NEWS](https://rstudio.github.io/pins/news/index.html)) and two community extensions being developed to support [databases](https://edgararuiz.github.io/connections/#pins) and [nextcloud](https://gitlab.com/gwmngilfen/nextcloudr) as boards.
+- Use new **cloud boards** to pin resources in [Azure](../../../articles/boards-azure.html), [GCloud](../../../articles/boards-gcloud.html) and [S3](../../../articles/boards-s3.html) storage.
+- Retrieve **pin information** with `pin_info()` including metadata particular to each board.
 
 You can install this new version from CRAN as follows:
 
@@ -35,9 +33,13 @@ You can install this new version from CRAN as follows:
 install.packages("pins")
 ```
 
+In addition, there is a new [Use Cases](https://rstudio.github.io/pins/articles/use-cases.html) section in our docs, various improvements (see [NEWS](https://rstudio.github.io/pins/news/index.html)) and two community extensions being developed to support [databases](https://edgararuiz.github.io/connections/#pins) and [Nextcloud](https://gitlab.com/gwmngilfen/nextcloudr) as boards.
+
 ## Cloud Boards
 
-`pins 0.3` adds support to find, retrieve and store resources in various cloud providers like: Microsoft Azure, Google Cloud Platform and Amazon Web Services. To illustrate how they work, lets first try to find the World Bank indicators dataset in Kaggle
+`pins 0.3` adds support to find, retrieve and store resources in various cloud providers like: [Microsoft Azure](https://azure.microsoft.com/), [Google Cloud](https://cloud.google.com/) and [Amazon Web Services](https://aws.amazon.com/).
+
+To illustrate how they work, lets first try to find the World Bank indicators dataset in [Kaggle](https://www.kaggle.com/):
 
 ```r
 library(pins)
@@ -56,7 +58,7 @@ pin_find("indicators", board = "kaggle")
 6 loveall/human-happiness-indicators              Human Happiness Indicators              files kaggle
 ```
 
-We can then easily download the "World Development Indicators", beware this is a 2GB download, good thing `pins 0.3` shows a progress bar for large downloads!
+Which we can then easily download with `pin_get()`, beware this is a 2GB download:
 
 ```r
 pin_get("worldbank/world-development-indicators")
@@ -72,16 +74,16 @@ pin_get("worldbank/world-development-indicators")
 [8] "/.../worldbank/world-development-indicators/SeriesNotes.csv" 
 ```
 
-The `Indicators.csv` file is really interesting, so let's load it with `readr`:
+The `Indicators.csv` file is interesting, so let's load it with [readr](https://readr.tidyverse.org/):
 
 ```r
 indicators <- pin_get("worldbank/world-development-indicators")[6] %>%
   readr::read_csv()
 ```
 
-While you can do really interesting analysis with dataset, in this post we will learn how to easily share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an S3 board; to publish to other cloud providers, take a look at the Google Cloud and Azure boards articles.
+Analysing the indicators dataset is quite interesting; however, this focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an [S3 board](../../../articles/boards-s3.html). To publish to other cloud providers, take a look at the [Google Cloud](../../../articles/boards-gcloud.html) and [Azure boards](../../../articles/boards-azure.html) articles.
 
-As usual, the first we need to registere the S3 board. When using RStudio, you can use the "New Connection" action to guide you through this process, or you can specify your key and secret  as follows. Please read the S3 board article to understand more secure options to store your credentials!
+As usual, first we need to register the S3 board. When using RStudio, you can use the "New Connection" action to guide you through this process, or you can specify your `key` and `secret` as follows. Please refer to the [S3 board](../../../articles/boards-s3.html) article to understand how to store your credentials securely.
 
 ```r
 board_register_s3(name = "rpins",
@@ -90,15 +92,15 @@ board_register_s3(name = "rpins",
                   secret = "EvenMoreImportantSecret")
 ```
 
-With the S3 board registered, we can simply pin the indicators dataset with `pin()`:
+With the S3 board registered, we can now pin the indicators dataset with `pin()`:
 
 ```r
 pin(indicators, name = "worldbank/indicators", board = "rpins")
 ```
 
-That's about it! We can now find and retrieve this dataset from S3 with ease.
+That's about it! We can now find and retrieve this dataset from S3 using `pin_find()` and `pin_get()`.
 
-To make this even easier for others to consume, we've made this S3 bucket public; which means you can now connect to the `rstudio-datasets` board without even having to configure S3. We also made the `rstudio-datasets` bucket available under a `datasets.rstudio.com` domain, which makes it possible to retrieve this dataset with just one line!
+To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!
 
 ```r
 pins::pin_get("worldbank/indicators", "https://rpins.s3.amazonaws.com")
@@ -120,20 +122,20 @@ pins::pin_get("worldbank/indicators", "https://rpins.s3.amazonaws.com")
 # … with 5,656,448 more rows
 ```
 
-In `pins 0.3`, when you use a board that starts with `https://`, `pins` will automatically register this board as a [website board](https://rstudio.github.io/pins/articles/boards-websites.html) to save you from having to explicitly call `board_register_datatxt(url = "https://rpins.s3.amazonaws.com", name = "rpins")`.
+This works since `pins 0.3` automatically register URLs as a [website boards](../../../articles/boards-websites.html) to save you from having to explicitly call `board_register_datatxt()`.
 
-It's also worth mentioning that `pins` stores the dataset using an R native format, which requires only 72MB and loads much faster than the original CSV and the original 2GB dataset!
+It's also worth mentioning that `pins` stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.
 
-In combination with boards like RStudio Connect, `pins` makes it a great tool for easily sharing datasets in your organization or the world.
+This `pins` makes it a great tool for easily sharing datasets in your organization or the world.
 
 ## Pin Information
 
-Boards likee Kaggle and RStudio Connect, store additional information for each pin which you can now esily retrieve with `pin_info()`.
+Boards like [Kaggle](../../../articles/boards-kaggle.html) and [RStudio Connect](../../../articles/boards-rsconnect.html), store additional information for each pin which you can now easily retrieve with `pin_info()`.
 
-For instance, we can retrieve additional informationfrom the `worldbank/indicators` directly from Kaggle as follows,
+For instance, we can retrieve additional information from the indicators pin from Kaggle as follows,
 
 ```r
-pin_info("worldbank/world-development-indicators")
+pin_info("worldbank/world-development-indicators", board = "kaggle")
 ```
 ```
 # Source: kaggle<worldbank/world-development-indicators> [files]
@@ -166,7 +168,7 @@ pin_info("worldbank/world-development-indicators")
 Or from RStudio Connect boards,
 
 ```r
-pin_info("worldnews")
+pin_info("worldnews", board = "rsconnect")
 ```
 ```
 # Source: rsconnect<jluraschi/worldnews> [table]
@@ -196,4 +198,6 @@ pin_info("worldnews")
 
 To retrieve all the extended information when discovering pins, pass `extended = TRUE` to `pin_find()`.
 
-Thank for reading this post! Please use [rstudio.github.io/pins](https://rstudio.github.io/pins) for additional news and documentation, [GitHub](https://github.com/rstudio/pins/issues/new) to open issues we should investigate and [Gitter](https://gitter.im/rstudio/pins) to chat with us.
+Thank you for reading this post!
+
+Please refer to [rstudio.github.io/pins](https://rstudio.github.io/pins) for detailed documentation, open a [new GitHub](https://github.com/rstudio/pins/issues/new) issues for use-cases we should investigate and [Gitter](https://gitter.im/rstudio/pins) to chat with us about anything else.
