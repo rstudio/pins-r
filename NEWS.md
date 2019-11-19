@@ -63,6 +63,8 @@
 
 ## Websites
 
+- The `name` parameter in `board_register_datatxt()` is now optional.
+
 - Fix in `pin_find()` to properly search desecription files.
 
 ## GitHub

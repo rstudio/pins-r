@@ -171,8 +171,8 @@ board_register_rsconnect <- function(name = "rsconnect",
 #' Wrapper with explicit parameters over \code{board_register()} to
 #' register as a board a website describing resources with a \code{data.txt} file.
 #'
-#' @param name The name for this board, usually the domain name of the website.
 #' @param url Path to the \code{data.txt} file or path containing it.
+#' @param name The name for this board, usually the domain name of the website.
 #' @param headers Optional list of headers to include or a function to generate them.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param ... Additional parameters required to initialize a particular board.
@@ -182,8 +182,8 @@ board_register_rsconnect <- function(name = "rsconnect",
 #' @examples
 #'
 #' # register website board using datatxt file
-#' board_register_datatxt(name = "txtexample",
-#'                        url = "https://datatxt.org/data.txt",
+#' board_register_datatxt(url = "https://datatxt.org/data.txt",
+#'                        name = "txtexample",
 #'                        cache = tempfile())
 #'
 #' # find pins
