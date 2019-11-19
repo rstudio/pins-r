@@ -420,7 +420,7 @@ print.pin_info <- function(x, ...) {
   for (name in names(info)) {
     e <- info[[name]]
     if (identical(is.na(e), FALSE) && identical(is.null(e), FALSE) && !(is.character(e) && nchar(e) == 0)) {
-      if (is_first) cat(crayon::silver(paste0("# Extended:", "\n")))
+      if (is_first) cat(crayon::silver(paste0("# Properties:", "\n")))
       is_first <- FALSE
 
       print_pin_info(name, e, "   ")
