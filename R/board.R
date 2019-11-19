@@ -68,19 +68,23 @@ board_list <- function() {
 #' @export
 board_get <- function(name) {
   if (is.null(name)) name <- board_default()
+  board_type <- name
 
   register_call <- paste0("pins::board_register(board = \"", name, "\")")
 
   if (!name %in% board_registry_list()) {
     # if boards starts with http:// or https:// assume this is a website board
     if (grepl("^http://|^https://", name)) {
-      name <- "datatxt"
       url <- name
+      board_type <- "datatxt"
+
+      register_call <- paste0("pins::board_register(board = \"datatxt\", name = \"", name, "\", url = \"", url, "\")")
     }
 
     # attempt to automatically register board
-    tryCatch(board_register(name,
-                            connect = !identical(name, "packages"),
+    tryCatch(board_register(board_type,
+                            name = name,
+                            connect = !identical(board_type, "packages"),
                             register_call = register_call,
                             url = url),
              error = function(e) NULL)
