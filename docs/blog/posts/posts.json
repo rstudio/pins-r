@@ -1,5 +1,26 @@
 [
   {
+    "path": "posts/pins-0-3-0/",
+    "title": "pins 0.3: Azure, GCloud and S3",
+    "description": "New CRAN release for pins adds support for cloud boards (Azure, Google Cloud and S3), new functions, use cases and many other improvements.",
+    "author": [
+      {
+        "name": "Javier Luraschi",
+        "url": "https://github.com/javierluraschi"
+      }
+    ],
+    "date": "2019-11-18",
+    "categories": [
+      "Packages",
+      "Releases",
+      "Cloud",
+      "R"
+    ],
+    "preview": {},
+    "last_modified": "2019-11-18T21:43:44-08:00",
+    "input_file": "pins-0-3-0.utf8.md"
+  },
+  {
     "path": "posts/pins-0-2-0/",
     "title": "pins: Pin, Discover and Share Resources",
     "description": "The new pins package allows you to pin, discover and share remote resources,\nlocally or in remote storage using services like GitHub, Kaggle\nor RStudio Connect.",
