@@ -13,6 +13,7 @@ categories:
   - Packages
   - Releases
   - Cloud
+  - R
 output:
   distill::distill_article:
     self_contained: false
@@ -85,8 +86,8 @@ While you can do really interesting analysis with dataset, in this post we will 
 As usual, the first we need to registere the S3 board. When using RStudio, you can use the "New Connection" action to guide you through this process, or you can specify your key and secret  as follows. Please read the S3 board article to understand more secure options to store your credentials!
 
 ```r
-board_register_s3(name = "rstudio-datasets",
-                  bucket  = "rstudio-datasets",
+board_register_s3(name = "rpins",
+                  bucket  = "rpins",
                   key = "VerySecretKey",
                   secret = "EvenMoreImportantSecret")
 ```
@@ -94,7 +95,7 @@ board_register_s3(name = "rstudio-datasets",
 With the S3 board registered, we can simply pin the indicators dataset with `pin()`:
 
 ```r
-pin(indicators, name = "worldbank/indicators", board = "rstudio-datasets")
+pin(indicators, name = "worldbank/indicators", board = "rpins")
 ```
 
 That's about it! We can now find and retrieve this dataset from S3 with ease.
@@ -102,7 +103,7 @@ That's about it! We can now find and retrieve this dataset from S3 with ease.
 To make this even easier for others to consume, we've made this S3 bucket public; which means you can now connect to the `rstudio-datasets` board without even having to configure S3. We also made the `rstudio-datasets` bucket available under a `datasets.rstudio.com` domain, which makes it possible to retrieve this dataset with just one line!
 
 ```r
-pins::pin_get("worldbank/indicators", "https://datasets.rstudio.com")
+pins::pin_get("worldbank/indicators", "https://rpins.s3.amazonaws.com")
 ```
 ```
 # A tibble: 5,656,458 x 6
