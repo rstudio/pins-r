@@ -9,7 +9,7 @@ datatxt_refresh_index <- function(board) {
                         board_headers(board, "data.txt"))
 
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
-  current_index <- board_manifest_get(local_index)
+  current_index <- board_manifest_get(local_index, default_empty = TRUE)
 
   if (httr::http_error(response)) {
     if (!identical(board$needs_index, FALSE)) {
