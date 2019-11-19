@@ -24,8 +24,8 @@ knitr::opts_chunk$set(eval = FALSE)
 
 A new version of `pins` is available on CRAN! `pins 0.3` comes with many improvements and the following major features:
 
-- Use new **cloud boards** to pin resources in [Azure](../../../articles/boards-azure.html), [GCloud](../../../articles/boards-gcloud.html) and [S3](../../../articles/boards-s3.html) storage.
-- Retrieve **pin information** with `pin_info()` including metadata particular to each board.
+- Support for new **cloud boards** to pin resources in [Azure](../../../articles/boards-azure.html), [GCloud](../../../articles/boards-gcloud.html) and [S3](../../../articles/boards-s3.html) storage.
+- Retrieve **pin information** with `pin_info()` including properties particular to each board.
 
 You can install this new version from CRAN as follows:
 
@@ -38,6 +38,8 @@ In addition, there is a new [Use Cases](https://rstudio.github.io/pins/articles/
 ## Cloud Boards
 
 `pins 0.3` adds support to find, retrieve and store resources in various cloud providers like: [Microsoft Azure](https://azure.microsoft.com/), [Google Cloud](https://cloud.google.com/) and [Amazon Web Services](https://aws.amazon.com/).
+
+![](images/pins-cloud-boards-azure-gcloud-s3.png)
 
 To illustrate how they work, lets first try to find the World Bank indicators dataset in [Kaggle](https://www.kaggle.com/):
 
@@ -74,16 +76,16 @@ pin_get("worldbank/world-development-indicators")
 [8] "/.../worldbank/world-development-indicators/SeriesNotes.csv" 
 ```
 
-The `Indicators.csv` file is interesting, so let's load it with [readr](https://readr.tidyverse.org/):
+The `Indicators.csv` file contains all the indicators, so let's load it with [readr](https://readr.tidyverse.org/):
 
 ```r
 indicators <- pin_get("worldbank/world-development-indicators")[6] %>%
   readr::read_csv()
 ```
 
-Analysing the indicators dataset is quite interesting; however, this focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an [S3 board](../../../articles/boards-s3.html). To publish to other cloud providers, take a look at the [Google Cloud](../../../articles/boards-gcloud.html) and [Azure boards](../../../articles/boards-azure.html) articles.
+Analysing the this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an [S3 board](../../../articles/boards-s3.html). To publish to other cloud providers, take a look at the [Google Cloud](../../../articles/boards-gcloud.html) and [Azure boards](../../../articles/boards-azure.html) articles.
 
-As usual, first we need to register the S3 board. When using RStudio, you can use the "New Connection" action to guide you through this process, or you can specify your `key` and `secret` as follows. Please refer to the [S3 board](../../../articles/boards-s3.html) article to understand how to store your credentials securely.
+As you would expect, the first step is to register the S3 board. When using RStudio, you can use the [New Connection](../../../articles/pins-rstudio.html) action to guide you through this process, or you can specify your `key` and `secret` as follows. Please refer to the [S3 board](../../../articles/boards-s3.html) article to understand how to store your credentials securely.
 
 ```r
 board_register_s3(name = "rpins",
@@ -98,7 +100,9 @@ With the S3 board registered, we can now pin the indicators dataset with `pin()`
 pin(indicators, name = "worldbank/indicators", board = "rpins")
 ```
 
-That's about it! We can now find and retrieve this dataset from S3 using `pin_find()` and `pin_get()`.
+That's about it! We can now find and retrieve this dataset from S3 using `pin_find()`, `pin_get()` or view the uploaded resources in the S3 management console:
+
+![](images/pins-upload-s3-results.png)
 
 To make this even easier for others to consume, we can make this S3 bucket public; which means you can now connect to this board without even having to configure S3, making it possible to retrieve this dataset with just one line of R code!
 
