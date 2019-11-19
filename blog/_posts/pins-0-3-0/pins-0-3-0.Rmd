@@ -126,13 +126,11 @@ This works since `pins 0.3` automatically register URLs as a [website boards](..
 
 It's also worth mentioning that `pins` stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.
 
-This `pins` makes it a great tool for easily sharing datasets in your organization or the world.
-
 ## Pin Information
 
 Boards like [Kaggle](../../../articles/boards-kaggle.html) and [RStudio Connect](../../../articles/boards-rsconnect.html), store additional information for each pin which you can now easily retrieve with `pin_info()`.
 
-For instance, we can retrieve additional information from the indicators pin from Kaggle as follows,
+For instance, we can retrieve additional properties from the indicators pin from Kaggle as follows,
 
 ```r
 pin_info("worldbank/world-development-indicators", board = "kaggle")
@@ -140,7 +138,7 @@ pin_info("worldbank/world-development-indicators", board = "kaggle")
 ```
 # Source: kaggle<worldbank/world-development-indicators> [files]
 # Description: World Development Indicators
-# Extended:
+# Properties:
 #   - id: 23
 #   - subtitle: Explore country development indicators from around the world
 #   - tags: (ref) business, economics, international relations, business finance...
@@ -165,14 +163,14 @@ pin_info("worldbank/world-development-indicators", board = "kaggle")
 #   - extension: zip
 ```
 
-Or from RStudio Connect boards,
+And from RStudio Connect boards as well,
 
 ```r
 pin_info("worldnews", board = "rsconnect")
 ```
 ```
 # Source: rsconnect<jluraschi/worldnews> [table]
-# Extended:
+# Properties:
 #   - id: 6446
 #   - guid: 1b9f04c5-ddd4-43ca-8352-98f6f01a7034
 #   - access_type: all
