@@ -57,7 +57,7 @@ pin_download <- function(path,
   if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_download) {
 
     skip_download <- FALSE
-    if (!is.null(custom_etag)) {
+    if (is.character(custom_etag) && nchar(custom_etag) > 0) {
       pin_log("Using custom 'etag' (old, new): ", old_cache$etag, ", ", custom_etag)
       cache$etag <- custom_etag
     }
