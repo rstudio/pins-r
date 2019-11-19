@@ -1,22 +1,32 @@
 datatxt_refresh_index <- function(board) {
-  local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
-
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
   index_url <- file.path(board$url, "data.txt")
+
+  temp_index <- tempfile()
   response <- httr::GET(index_url,
-                        httr::write_disk(local_index, overwrite = TRUE),
+                        httr::write_disk(temp_index, overwrite = TRUE),
                         board_headers(board, "data.txt"))
 
+  local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
+  current_index <- board_manifest_get(local_index)
+
   if (httr::http_error(response)) {
-    if (identical(board$needs_index, FALSE)) {
-      unlink(local_index)
-      yaml::write_yaml(list(), local_index)
-    }
-    else {
+    if (!identical(board$needs_index, FALSE)) {
       stop("Failed to retrieve data.txt file from ", board$url)
     }
   }
+  else {
+    new_index <- board_manifest_get(temp_index)
+    current_names <- sapply(current_index, function(e) e$name)
+    for (new_entry in new_index) {
+      if (!new_entry$name %in% current_names) {
+        current_index[[length(current_index) + 1]] <- new_entry
+      }
+    }
+  }
+
+  yaml::write_yaml(current_index, local_index)
 }
 
 board_initialize.datatxt <- function(board,
