@@ -21,7 +21,13 @@ pin_preview.default <- function(x, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin_load.default <- function(path, ...) {
-  readRDS(file.path(path, "data.rds"))
+  result <- readRDS(file.path(path, "data.rds"))
+
+  if ("AsIs" %in% class(result)) {
+    class(result) <- class(result)[class(result) != "AsIs"]
+  }
+
+  result
 }
 
 #' @keywords internal

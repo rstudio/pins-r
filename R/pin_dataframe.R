@@ -1,6 +1,13 @@
 #' @keywords internal
 #' @export
 pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+
+  if ("data.table" %in% class(x)) {
+    return(
+      pin.default(x, name = name, description = description, board = board, ...)
+    )
+  }
+
   if (is.null(name)) name <- pin_default_name(deparse(substitute(x)), board)
 
   path <- tempfile()
