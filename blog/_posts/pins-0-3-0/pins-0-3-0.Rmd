@@ -35,8 +35,6 @@ You can install this new version from CRAN as follows:
 install.packages("pins")
 ```
 
-If you need assistance, please open a [GitHub](https://github.com/rstudio/pins/issues/new) issue or chat with us in [Gitter](https://gitter.im/rstudio/pins).
-
 ## Cloud Boards
 
 `pins 0.3` adds support to find, retrieve and store resources in various cloud providers like: Microsoft Azure, Google Cloud Platform and Amazon Web Services. To illustrate how they work, lets first try to find the World Bank indicators dataset in Kaggle
@@ -122,7 +120,7 @@ pins::pin_get("worldbank/indicators", "https://rpins.s3.amazonaws.com")
 # … with 5,656,448 more rows
 ```
 
-A new feature in `pins 0.3` is that, when using a board that starts with `http`, `pins` will automatically register this board as a [website board]() to save you from having to explicitly call `board_register_datatxt(url = "https://datasets.rstudio.com", name = "rstudio-datsets")`.
+In `pins 0.3`, when you use a board that starts with `https://`, `pins` will automatically register this board as a [website board](https://rstudio.github.io/pins/articles/boards-websites.html) to save you from having to explicitly call `board_register_datatxt(url = "https://rpins.s3.amazonaws.com", name = "rpins")`.
 
 It's also worth mentioning that `pins` stores the dataset using an R native format, which requires only 72MB and loads much faster than the original CSV and the original 2GB dataset!
 
@@ -130,4 +128,72 @@ In combination with boards like RStudio Connect, `pins` makes it a great tool fo
 
 ## Pin Information
 
-RStudio Connect / Kaggle
+Boards likee Kaggle and RStudio Connect, store additional information for each pin which you can now esily retrieve with `pin_info()`.
+
+For instance, we can retrieve additional informationfrom the `worldbank/indicators` directly from Kaggle as follows,
+
+```r
+pin_info("worldbank/world-development-indicators")
+```
+```
+# Source: kaggle<worldbank/world-development-indicators> [files]
+# Description: World Development Indicators
+# Extended:
+#   - id: 23
+#   - subtitle: Explore country development indicators from around the world
+#   - tags: (ref) business, economics, international relations, business finance...
+#   - creatorName: Megan Risdal
+#   - creatorUrl: mrisdal
+#   - totalBytes: 387054886
+#   - url: https://www.kaggle.com/worldbank/world-development-indicators
+#   - lastUpdated: 2017-05-01T17:50:44.863Z
+#   - downloadCount: 42961
+#   - isPrivate: FALSE
+#   - isReviewed: TRUE
+#   - isFeatured: FALSE
+#   - licenseName: World Bank Dataset Terms of Use
+#   - ownerName: World Bank
+#   - ownerRef: worldbank
+#   - kernelCount: 422
+#   - topicCount: 7
+#   - viewCount: 254379
+#   - voteCount: 1121
+#   - currentVersionNumber: 2
+#   - usabilityRating: 0.7647
+#   - extension: zip
+```
+
+Or from RStudio Connect boards,
+
+```r
+pin_info("worldnews")
+```
+```
+# Source: rsconnect<jluraschi/worldnews> [table]
+# Extended:
+#   - id: 6446
+#   - guid: 1b9f04c5-ddd4-43ca-8352-98f6f01a7034
+#   - access_type: all
+#   - url: https://beta.rstudioconnect.com/content/6446/
+#   - vanity_url: FALSE
+#   - bundle_id: 16216
+#   - app_mode: 4
+#   - content_category: pin
+#   - has_parameters: FALSE
+#   - created_time: 2019-09-30T18:20:21.911777Z
+#   - last_deployed_time: 2019-11-18T16:00:16.919478Z
+#   - build_status: 2
+#   - run_as_current_user: FALSE
+#   - owner_first_name: Javier
+#   - owner_last_name: Luraschi
+#   - owner_username: jluraschi
+#   - owner_guid: ac498f34-174c-408f-8089-a9f10c630a37
+#   - owner_locked: FALSE
+#   - is_scheduled: FALSE
+#   - rows: 44
+#   - cols: 1
+```
+
+To retrieve all the extended information when discovering pins, pass `extended = TRUE` to `pin_find()`.
+
+Thank for reading this post! Please use [rstudio.github.io/pins](https://rstudio.github.io/pins) for additional news and documentation, [GitHub](https://github.com/rstudio/pins/issues/new) to open issues we should investigate and [Gitter](https://gitter.im/rstudio/pins) to chat with us.
