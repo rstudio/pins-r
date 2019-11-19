@@ -36,3 +36,37 @@ test_that("can board_deregister() a data.txt board", {
 
   expect_true(!"simpletxt" %in% board_list())
 })
+
+test_that("can board_register() with URL and name", {
+  skip_on_cran()
+
+  board_name <- board_register("https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+                               name = "simpletxt",
+                               cache = tempfile())
+
+  expect_equal(board_name, "simpletxt")
+
+  board_deregister("simpletxt")
+})
+
+test_that("can board_register() with URL and no name", {
+  skip_on_cran()
+
+  board_name <- board_register("https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+                               cache = tempfile())
+
+  expect_equal(board_name, "raw")
+
+  board_deregister("raw")
+})
+
+test_that("can board_register() with URL and no name", {
+  skip_on_cran()
+
+  iris_pin <- pin_get("iris", board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt")
+
+  expect_equal(nrow(iris_pin), 150)
+
+  board_deregister("raw")
+})
+
