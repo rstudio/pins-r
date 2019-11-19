@@ -63,7 +63,9 @@ test_that("can board_register() with URL and no name", {
 test_that("can board_register() with URL and no name", {
   skip_on_cran()
 
-  iris_pin <- pin_get("iris", board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt")
+  iris_pin <- pin_get("iris",
+                      board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+                      cache = tempfile())
 
   expect_equal(nrow(iris_pin), 150)
 
