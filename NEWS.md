@@ -8,6 +8,8 @@
 
 ## Pins
 
+- Show upload progress for files larger than 10mb.
+
 - Avoid changing `data.table` when using `pin()` and `get_pin()`.
 
 - Support for `pin_info()` to describe a pin and `extended = TRUE` in
@@ -62,6 +64,8 @@
 - Support for Python 3.
 
 ## Websites
+
+- The `name` parameter in `board_register_datatxt()` is now optional.
 
 - Fix in `pin_find()` to properly search desecription files.
 

@@ -25,7 +25,6 @@ body {
 }
 
 table {
-  width: 100%;
   margin-bottom: 12px;
   padding-bottom: 6px;
   border-bottom: solid 1px #DFDFDF;
@@ -147,7 +146,7 @@ select {
 }
 
 .navigation {
-  width: 100%;
+  flex-grow: 0;
   border-top: solid 1px #DFDFDF;
   margin-left: auto;
   margin-right: auto;
@@ -187,4 +186,5 @@ select {
 
 #header {
   margin: 8px;
+  flex-grow: 0;
 }

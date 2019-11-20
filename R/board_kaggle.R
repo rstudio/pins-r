@@ -52,7 +52,7 @@ kaggle_upload_resource <- function(path, board) {
   token <- parsed$token
 
   results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth(board),
-                       http_utils_progress("up"))
+                       http_utils_progress("up", size = file.info(normalizePath(path))$size))
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
 
@@ -229,17 +229,18 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, ...) {
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
 
-  extended <- pin_find(name, board = board$name, extended = TRUE)
-  extended <- extended[grepl(name, extended$name),]
+  extended <- pin_find(name = name, board = board$name, extended = TRUE)
 
   etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
+  content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
 
   local_path <- pin_download(url,
                              name,
                              component = board$name,
                              config = kaggle_auth(board),
                              custom_etag = etag,
-                             extract = !identical(extract, FALSE))
+                             extract = !identical(extract, FALSE),
+                             content_length = content_length)
 
   local_path
 }

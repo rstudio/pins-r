@@ -1,11 +1,15 @@
-pin_download <- function(path, name, component, extract = FALSE, ...) {
-  must_download <- identical(list(...)$download, TRUE)
-  headers <- list(...)$headers
-  config <- list(...)$config
-  custom_etag <- list(...)$custom_etag
-  remove_query <- identical(list(...)$remove_query, TRUE)
-  can_fail <- identical(list(...)$can_fail, TRUE)
-
+pin_download <- function(path,
+                         name,
+                         component,
+                         extract = FALSE,
+                         custom_etag = "",
+                         remove_query = FALSE,
+                         config = NULL,
+                         headers = NULL,
+                         can_fail = FALSE,
+                         must_download = FALSE,
+                         content_length = 0,
+                         ...) {
   local_path <- pin_storage_path(component, name)
 
   # use a temp path to rollback if something fails
@@ -47,15 +51,13 @@ pin_download <- function(path, name, component, extract = FALSE, ...) {
   error <- NULL
   extract_type <- NULL
 
-  content_length <- 0
-
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
 
   # skip downloading if max-age still valid
   if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_download) {
 
     skip_download <- FALSE
-    if (!is.null(custom_etag)) {
+    if (is.character(custom_etag) && nchar(custom_etag) > 0) {
       pin_log("Using custom 'etag' (old, new): ", old_cache$etag, ", ", custom_etag)
       cache$etag <- custom_etag
     }

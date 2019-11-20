@@ -59,6 +59,39 @@ board_list <- function() {
   unique(c(board_registry_list(), defaults))
 }
 
+board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, connect = NULL, url = NULL) {
+  inferred <- list(
+    name = name,
+    board = if (is.null(board)) name else board,
+    connect = if (is.null(connect)) !identical(name, "packages") else connect,
+    url = url,
+    register_call = register_call
+  )
+
+  # if boards starts with http:// or https:// assume this is a website board
+  if (grepl("^http://|^https://", x)) {
+    inferred$url <- x
+    inferred$board <- "datatxt"
+
+    # use only subdomain as friendly name which is also used as cache folder
+    if (is.null(name) || identical(x, name)) {
+      inferred$name <- gsub("https?://|\\..*", "", inferred$url)
+    }
+
+    inferred$register_call <- paste0("pins::board_register(board = \"datatxt\", name = \"",
+                                     inferred$name,
+                                     "\", url = \"",
+                                     inferred$url,
+                                     "\")")
+  }
+
+  if (is.null(inferred$name)) inferred$name <- x
+  if (is.null(inferred$board)) inferred$board <- x
+
+  inferred
+}
+
+
 #' Get Board
 #'
 #' Retrieves information about a particular board.
@@ -72,10 +105,15 @@ board_get <- function(name) {
   register_call <- paste0("pins::board_register(board = \"", name, "\")")
 
   if (!name %in% board_registry_list()) {
+    board_inferred <- board_infer(name)
+
     # attempt to automatically register board
-    tryCatch(board_register(name,
-                            connect = !identical(name, "packages"),
-                            register_call = register_call),
+    name <- board_inferred$name
+    tryCatch(board_register(board_inferred$board,
+                            name = board_inferred$name,
+                            connect = board_inferred$connect,
+                            register_call = board_inferred$register_call,
+                            url = board_inferred$url),
              error = function(e) NULL)
 
     if (!name %in% board_registry_list()) {
@@ -122,16 +160,30 @@ board_get <- function(name) {
 #' @export
 board_register <- function(board, name = board, cache = board_cache_path(), ...) {
   params <- list(...)
-  board <- new_board(board, name, cache = cache, ...)
 
-  board_registry_set(name, board)
+  inferred <- board_infer(board,
+                          board = board,
+                          name = name,
+                          register_call = params$register_call,
+                          connect = params$connect,
+                          url = params$url)
+  params$url <- NULL
 
-  register_call <- list(...)$register_call
-  if (is.null(register_call)) register_call <- board_register_code(board$name, name)
+  new_params <- c(
+    list(inferred$board, inferred$name, cache = cache),
+    params,
+    url = inferred$url
+  )
 
-  if (!identical(params$connect, FALSE)) board_connect(name, register_call)
+  board <- do.call("new_board", new_params)
 
-  invisible(name)
+  board_registry_set(inferred$name, board)
+
+  if (is.null(inferred$register_call)) inferred$register_call <- board_register_code(board$name, inferred$name)
+
+  if (!identical(inferred$connect, FALSE)) board_connect(board$name, inferred$register_call)
+
+  invisible(inferred$name)
 }
 
 # need to find the correct wrapper to support board_register_()

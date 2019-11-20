@@ -115,12 +115,12 @@ pins_connection_ui <- function() {
           list(
             local = "local",
             azure = "azure",
-            datatxt = "datatxt",
             gcloud = "gcloud",
             github = "github",
             kaggle = "kaggle",
             rsconnect = "rsconnect",
-            s3 = "s3"
+            s3 = "s3",
+            website = "datatxt"
           )
         ),
         selectize = FALSE,
@@ -179,14 +179,9 @@ pins_connection_ui <- function() {
       conditionalPanel(
         condition = "input.board == 'datatxt'",
         textInput(
-          "datatxt_name",
-          "Name:",
-          value = "example"
-        ),
-        textInput(
           "datatxt_url",
           "Url:",
-          value = "https://datatxt.org/data.txt"
+          value = "https://datatxt.org"
         ),
         tags$div(
           "Using the ",
@@ -349,9 +344,8 @@ pins_connection_server <- function(input, output, session) {
     }
     else if (identical(board, "datatxt")) {
       initializer <- paste0(
-        "pins::board_register(\"datatxt\", ",
-        ifelse(nchar(input$datatxt_name) == 0, "", paste0("name = \"", input$datatxt_name, "\", ")),
-        "url = \"", input$datatxt_url, "\"",
+        "pins::board_register(",
+        "\"", input$datatxt_url, "\"",
         ")\n")
     }
     else if (identical(board, "gcloud") && nchar(input$gcloud_bucket) > 0) {

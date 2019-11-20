@@ -81,7 +81,7 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
 
     results <- pin_find(name = pin_name, board = board)
     if (nrow(results) > 0)
-      deps$fail("Pin '", paste(results$name, collapse = ","), "' still exists after removal.")
+      deps$fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
   })
 
   deps$test_that(paste("can pin_remove() dataset from", destination), {
@@ -92,6 +92,6 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
 
     results <- pin_find(name = dataset_name, board = board)
     if (nrow(results) > 0)
-      deps$fail("Pin '", paste(results$name, collapse = ","), "' still exists after removal.")
+      deps$fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
   })
 }
