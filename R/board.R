@@ -85,6 +85,9 @@ board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, conn
                                      "\")")
   }
 
+  if (is.null(inferred$name)) inferred$name <- x
+  if (is.null(inferred$board)) inferred$board <- x
+
   inferred
 }
 

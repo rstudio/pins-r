@@ -69,6 +69,6 @@ test_that("can board_register() with URL and no name", {
   expect_equal(nrow(iris_pin), 150)
 
   # manually unlink since pin_get() does not support cache param
-  unlink(pins:::pin_storage_path("raw", ""), recursive = TRUE)
+  unlink(file.path(board_cache_path(), "raw"), recursive = TRUE)
 })
 
