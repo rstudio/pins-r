@@ -139,9 +139,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
   manifest <- pin_manifest_get(result)
   if (is.null(manifest$type)) manifest$type <- "files"
 
-  result <- pin_load(structure(result, class = manifest$type))
-
-  format_tibble(result)
+  pin_load(structure(result, class = manifest$type))
 }
 
 #' Remove Pin

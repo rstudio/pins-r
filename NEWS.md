@@ -8,6 +8,8 @@
 
 ## Pins
 
+- Avoid changing `data.table` when using `pin()` and `get_pin()`.
+
 - Support for `pin_info()` to describe a pin and `extended = TRUE` in
   `pin_find()` to show all extended information about each pin.
 
