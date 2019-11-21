@@ -8,6 +8,9 @@
 
 ## Pins
 
+- `pin()` no longer prints the pin, you can revert this behavior with
+  `options(pins.invisible = FALSE)` (#122).
+
 - Show upload progress for files larger than 10mb.
 
 - Avoid changing `data.table` when using `pin()` and `get_pin()`.
