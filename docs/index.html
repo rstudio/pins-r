@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.8</span>
       </span>
     </div>
 
@@ -207,16 +207,22 @@
 <a class="sourceLine" id="cb5-4" title="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(y)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales_by_month"</span>)</a></code></pre></div>
 <p>Then later retrieve it with <code><a href="reference/pin_get.html">pin_get(name)</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales_by_month"</span>))</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; # A tibble: 6 x 2</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt;   month   total</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt;   &lt;ord&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; 1 Jan   6896303</span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; 2 Feb   6890866</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; 3 Mar   7800074</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; 4 Apr   7680417</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; 5 May   8109219</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; 6 Jun   7451431</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"sales_by_month"</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; # A tibble: 12 x 2</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt;    month   total</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt;    &lt;ord&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt;  1 Jan   6896303</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt;  2 Feb   6890866</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;  3 Mar   7800074</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  4 Apr   7680417</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  5 May   8109219</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt;  6 Jun   7451431</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt;  7 Jul   7470947</span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;  8 Aug   7639700</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;  9 Sep   7130241</span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt; 10 Oct   7363820</span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; 11 Nov   7438702</span></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; 12 Dec   8656874</span></a></code></pre></div>
 </li>
 </ul>
 </div>
@@ -225,38 +231,54 @@
 <a href="#discover" class="anchor"></a>Discover</h3>
 <p>You can also discover remote resources using <code><a href="reference/pin_find.html">pin_find()</a></code>. It can search for resources in CRAN packages, Kaggle, and RStudio Connect. For instance, we can search datasets mentioning “seattle” in CRAN packages with:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/pin_find.html">pin_find</a></span>(<span class="st">"seattle"</span>, <span class="dt">board =</span> <span class="st">"packages"</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; # A tibble: 4 x 4</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt;   name                    description                         type  board  </span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;                               &lt;chr&gt; &lt;chr&gt;  </span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; 1 hpiR/seattle_sales      Boston Housing Prices from hpiR pa… table packag…</span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; 2 microsynth/seattledmi   Boston Housing Prices from microsy… table packag…</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; 3 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…</span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; 4 vegawidget/data_seattl… Boston Housing Prices from vegawid… table packag…</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; # A tibble: 6 x 4</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt;   name               description                               type  board </span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR p… table packa…</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.     table packa…</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Se… table packa…</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; 4 microsynth/seattl… Data for a crime intervention in Seattle… table packa…</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; 5 vegawidget/data_s… Example dataset: Seattle daily weather f… table packa…</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; 6 vegawidget/data_s… Example dataset: Seattle hourly temperat… table packa…</span></a></code></pre></div>
 <p>Notice that the full name of a pin is <code>&lt;owner&gt;/&lt;name&gt;</code>. This namespacing allows multiple people (or packages) to create pins with the same name.</p>
 <p>You can then retrieve a pin through <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">sales &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(sales)</a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; # A tibble: 6 x 16</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt;   pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;        &lt;int&gt; &lt;date&gt;     &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; 1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; 2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0</span></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt; 3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt; 4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; 5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt; 6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt; # … with 8 more variables: bldg_grade &lt;int&gt;, tot_sf &lt;int&gt;, beds &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; #   baths &lt;dbl&gt;, age &lt;int&gt;, eff_age &lt;int&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">seattle_sales &lt;-<span class="st"> </span><span class="kw"><a href="reference/pin_get.html">pin_get</a></span>(<span class="st">"hpiR/seattle_sales"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; # A tibble: 43,313 x 16</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt;    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;        &lt;int&gt; &lt;date&gt;     &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;  1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;  2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;  9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; 10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; # … with 43,303 more rows, and 8 more variables: bldg_grade &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; #   tot_sf &lt;int&gt;, beds &lt;int&gt;, baths &lt;dbl&gt;, age &lt;int&gt;, eff_age &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; #   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</span></a></code></pre></div>
+<p>Or explore additional properties in this pin with <code><a href="reference/pin_info.html">pin_info()</a></code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/pin_info.html">pin_info</a></span>(<span class="st">"hpiR/seattle_sales"</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; # Source: packages&lt;hpiR/seattle_sales&gt; [table]</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; # Description: Seattle Home Sales from hpiR package.</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; # Properties:</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; #   - rows: 43313</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; #   - cols: 16</span></a></code></pre></div>
 </div>
 <div id="share" class="section level3">
 <h3 class="hasAnchor">
 <a href="#share" class="anchor"></a>Share</h3>
-<p>Finally, you can share resources with other R sessions and other users by publishing to a local folder, Kaggle, GitHub and RStudio Connect. To share with other R sessions, you can use a local board which stores pins in a shared path, usually <code>~/.pins</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/board_register_local.html">board_register_local</a></span>(<span class="dt">cache =</span> <span class="st">"~/pins"</span>)</a></code></pre></div>
+<p>Finally, you can share resources with other users by publishing to <a href="https://rstudio.github.io/pins/articles/boards-kaggle.html">Kaggle</a>, <a href="https://rstudio.github.io/pins/articles/boards-github.html">GitHub</a>, <a href="https://rstudio.github.io/pins/articles/boards-rsconnect.html">RStudio Connect</a>, <a href="https://rstudio.github.io/pins/articles/boards-azure.html">Azure</a>, <a href="https://rstudio.github.io/pins/articles/boards-gcloud.html">Google Cloud</a>, <a href="https://rstudio.github.io/pins/articles/boards-s3.html">S3</a> or integrate them to your <a href="https://rstudio.github.io/pins/articles/boards-websites.html">website</a> as well.</p>
 <p>To publish to Kaggle, you would first need to register the Kaggle board by creating a <a href="https://www.kaggle.com/me/account">Kaggle API Token</a>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"&lt;path-to-kaggle.json&gt;"</span>)</a></code></pre></div>
 <p>You can then easily publish to Kaggle:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin.html">pin</a></span>(sales, <span class="dt">name =</span> <span class="st">"seattle_sales"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/pin.html">pin</a></span>(seattle_sales, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<center>
+
+<img src="tools/readme/kaggle-uploaded-dataset.png" width="70%">
+</center>
 <p>Learn more in <code><a href="articles/boards-understanding.html">vignette("boards-understanding")</a></code></p>
 </div>
 <div id="rstudio" class="section level3">
@@ -279,21 +301,10 @@
 </center>
 <p>You can then <strong>share</strong> local resources using the RStudio Connect board. Lets use <code>dplyr</code> and the <code>hpiR_seattle_sales</code> pin to analyze this further and then pin our results in RStudio Connect.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">name =</span> <span class="st">"myrsc"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">sales <span class="op">%&gt;%</span></a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">seattle_sales <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">baths =</span> <span class="kw"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span>(baths)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">sale =</span> <span class="kw"><a href="https://rdrr.io/r/base/Round.html">floor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(sale_price))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"myrsc"</span>)</a>
-<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt; # A tibble: 8 x 2</span></a>
-<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt;   baths    sale</span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; 1     1  413950</span></a>
-<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt; 2     2  516480</span></a>
-<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt; 3     3  638674</span></a>
-<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt; 4     4  939602</span></a>
-<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt; 5     5 1748859</span></a>
-<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; 6     6 3384514</span></a>
-<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; 7     7 3063043</span></a>
-<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; 8     8 4550750</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/pin.html">pin</a></span>(<span class="st">"sales-by-baths"</span>, <span class="dt">board =</span> <span class="st">"myrsc"</span>)</a></code></pre></div>
 <p>After a pin is published, you can then browse to the pin’s content from the RStudio Connect web interface.</p>
 <center>
 
@@ -315,7 +326,7 @@
 <h3 class="hasAnchor">
 <a href="#python" class="anchor"></a>Python</h3>
 <p>Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins.git@v0.2.0#subdirectory=python</a></code></pre></div>
 <p>Followed by using <code>pins</code> from Python:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb16-1" title="1"><span class="im">import</span> pins</a>
 <a class="sourceLine" id="cb16-2" title="2">pins.pin_get(<span class="st">"hpiR/seattle_sales"</span>)</a></code></pre></div>
