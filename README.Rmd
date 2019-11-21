@@ -77,7 +77,7 @@ There are two main ways to pin a resource:
     
 *   Pin an expensive local computation with `pin(object, name)`:
 
-    ```{r results="hide", message = FALSE}
+    ```{r, message = FALSE}
     library(dplyr)
     retail_sales %>%
       group_by(month = lubridate::month(ds, T)) %>%
@@ -88,7 +88,7 @@ There are two main ways to pin a resource:
     Then later retrieve it with `pin_get(name)`.  
     
     ```{r}
-    head(pin_get("sales_by_month"))
+    pin_get("sales_by_month")
     ```
 
 ### Discover
@@ -104,17 +104,18 @@ Notice that the full name of a pin is `<owner>/<name>`. This namespacing allows 
 You can then retrieve a pin through `pin_get()`:
 
 ```{r}
-sales <- pin_get("hpiR/seattle_sales")
-head(sales)
+seattle_sales <- pin_get("hpiR/seattle_sales") %>% print()
+```
+
+Or explore additional properties in this pin with `pin_info()`:
+
+```{r}
+pin_info("hpiR/seattle_sales")
 ```
 
 ### Share
 
-Finally, you can share resources with other R sessions and other users by publishing to a local folder, Kaggle, GitHub and RStudio Connect. To share with other R sessions, you can use a local board which stores pins in a shared path, usually `~/.pins`:
-
-```{r, eval = FALSE}
-board_register_local(cache = "~/pins")
-```
+Finally, you can share resources with other users by publishing to [Kaggle](https://rstudio.github.io/pins/articles/boards-kaggle.html), [GitHub](https://rstudio.github.io/pins/articles/boards-github.html), [RStudio Connect](https://rstudio.github.io/pins/articles/boards-rsconnect.html), [Azure](https://rstudio.github.io/pins/articles/boards-azure.html), [Google Cloud](https://rstudio.github.io/pins/articles/boards-gcloud.html), [S3](https://rstudio.github.io/pins/articles/boards-s3.html) or integrate them to your [website](https://rstudio.github.io/pins/articles/boards-websites.html) as well.
 
 To publish to Kaggle, you would first need to register the Kaggle board by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
 
@@ -125,8 +126,12 @@ board_register_kaggle(token = "<path-to-kaggle.json>")
 You can then easily publish to Kaggle:
 
 ```{r eval = FALSE}
-pin(sales, name = "seattle_sales", board = "kaggle")
+pin(seattle_sales, board = "kaggle")
 ```
+
+<center>
+  <img src="tools/readme/kaggle-uploaded-dataset.png" width="70%">
+</center>
 
 Learn more in `vignette("boards-understanding")`
 
@@ -156,7 +161,7 @@ You can then **share** local resources using the RStudio Connect board. Lets use
 board_register_rsconnect(name = "myrsc")
 ```
 ```{r}
-sales %>%
+seattle_sales %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
   pin("sales-by-baths", board = "myrsc")
@@ -189,7 +194,7 @@ Pins can also be automated using scheduled R Markdown. This makes it much easier
 Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:
 
 ```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins.git@v0.1.0#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.2.0#subdirectory=python
 ```
 
 Followed by using `pins` from Python:
