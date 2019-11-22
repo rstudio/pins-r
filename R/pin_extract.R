@@ -24,4 +24,12 @@ pin_extract.gzip <- function(file, destination) {
 }
 
 pin_extract.default <- function(file, destination) {
+  ext_map <- list(
+    "\\.tar\\.gz$" = `pin_extract.compressed-tar`,
+    "\\.zip$" = pin_extract.zip,
+    "\\.gz$" = pin_extract.gzip
+  )
+
+  matches <- sapply(names(ext_map), function(e) grepl(e, file))
+  if (any(matches)) ext_map[[names(which(matches)[1])]](file, destination)
 }
