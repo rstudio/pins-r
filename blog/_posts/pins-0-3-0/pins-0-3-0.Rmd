@@ -202,4 +202,4 @@ To retrieve all the extended information when discovering pins, pass `extended =
 
 Thank you for reading this post!
 
-Please refer to [rstudio.github.io/pins](https://rstudio.github.io/pins) for detailed documentation, open a [new GitHub](https://github.com/rstudio/pins/issues/new) issues or feature requests and [Gitter](https://gitter.im/rstudio/pins) to chat with us about anything else.
+Please refer to [rstudio.github.io/pins](https://rstudio.github.io/pins) for detailed documentation, [GitHub](https://github.com/rstudio/pins/issues/new) to file issues or feature requests and [Gitter](https://gitter.im/rstudio/pins) to chat with us about anything else.
