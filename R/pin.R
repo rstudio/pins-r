@@ -33,7 +33,6 @@ pin_default_name <- function(x, board) {
 #' @param name The name for the dataset or object.
 #' @param description Optional description for this pin.
 #' @param board The board where this pin will be placed.
-#' @param extract Should compressed files be extracted?
 #' @param ... Additional parameters.
 #'
 #' @details
