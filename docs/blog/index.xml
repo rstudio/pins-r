@@ -8,7 +8,6 @@
 </description>
     <generator>Distill</generator>
     <lastBuildDate>Mon, 18 Nov 2019 00:00:00 +0000</lastBuildDate>
-    <category>Packages/Releases/Cloud/R/Introductions</category>
     <item>
       <title>pins 0.3: Azure, GCloud and S3</title>
       <dc:creator>Javier Luraschi</dc:creator>
@@ -202,6 +201,7 @@ $(document).ready(function () {
 &lt;/script&gt;
 
 </description>
+      <distill:md5>c36bd621a4b04a4dcf4e9c96354e0598</distill:md5>
       <category>Packages</category>
       <category>Releases</category>
       <category>Cloud</category>
