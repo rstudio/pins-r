@@ -16,6 +16,8 @@ pin(x, name = NULL, description = NULL, board = NULL, ...)
 \item{board}{The board where this pin will be placed.}
 
 \item{...}{Additional parameters.}
+
+\item{extract}{Should compressed files be extracted?}
 }
 \description{
 Pins the given resource locally or to the given board.
