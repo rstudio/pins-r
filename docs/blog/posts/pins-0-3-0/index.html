@@ -1475,7 +1475,7 @@ pins::pin_get(&quot;worldbank/indicators&quot;, &quot;https://rpins.s3.amazonaws
  9 Arab World  ARB         CO2 emissions (metric tons per capita) EN.ATM.CO2E.PC   1960    6.44e-1
 10 Arab World  ARB         CO2 emissions from gaseous fuel consu… EN.ATM.CO2E.GF…  1960    5.04e+0
 # … with 5,656,448 more rows</code></pre>
-<p>This works since <code>pins 0.3</code> automatically register URLs as a <a href="../../../articles/boards-websites.html">website boards</a> to save you from having to explicitly call <code>board_register_datatxt()</code>.</p>
+<p>This works since <code>pins 0.3</code> automatically register URLs as a <a href="../../../articles/boards-websites.html">website board</a> to save you from having to explicitly call <code>board_register_datatxt()</code>.</p>
 <p>It’s also worth mentioning that <code>pins</code> stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.</p>
 <h2 id="pin-information">Pin Information</h2>
 <p>Boards like <a href="../../../articles/boards-kaggle.html">Kaggle</a> and <a href="../../../articles/boards-rsconnect.html">RStudio Connect</a>, store additional information for each pin which you can now easily retrieve with <code>pin_info()</code>.</p>
@@ -1537,7 +1537,7 @@ pin_info(&quot;worldnews&quot;, board = &quot;rsconnect&quot;)</code></pre>
 #   - cols: 1</code></pre>
 <p>To retrieve all the extended information when discovering pins, pass <code>extended = TRUE</code> to <code>pin_find()</code>.</p>
 <p>Thank you for reading this post!</p>
-<p>Please refer to <a href="https://rstudio.github.io/pins">rstudio.github.io/pins</a> for detailed documentation, open a <a href="https://github.com/rstudio/pins/issues/new">new GitHub</a> issues for use-cases we should investigate and <a href="https://gitter.im/rstudio/pins">Gitter</a> to chat with us about anything else.</p>
+<p>Please refer to <a href="https://rstudio.github.io/pins">rstudio.github.io/pins</a> for detailed documentation, open a <a href="https://github.com/rstudio/pins/issues/new">new GitHub</a> issues or feature requests and <a href="https://gitter.im/rstudio/pins">Gitter</a> to chat with us about anything else.</p>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

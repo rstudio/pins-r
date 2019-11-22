@@ -93,7 +93,7 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
  9 Arab World  ARB         CO2 emissions (metric tons per capita) EN.ATM.CO2E.PC   1960    6.44e-1
 10 Arab World  ARB         CO2 emissions from gaseous fuel consu… EN.ATM.CO2E.GF…  1960    5.04e+0
 # … with 5,656,448 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This works since &lt;code&gt;pins 0.3&lt;/code&gt; automatically register URLs as a &lt;a href="../../../articles/boards-websites.html"&gt;website boards&lt;/a&gt; to save you from having to explicitly call &lt;code&gt;board_register_datatxt()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This works since &lt;code&gt;pins 0.3&lt;/code&gt; automatically register URLs as a &lt;a href="../../../articles/boards-websites.html"&gt;website board&lt;/a&gt; to save you from having to explicitly call &lt;code&gt;board_register_datatxt()&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;It’s also worth mentioning that &lt;code&gt;pins&lt;/code&gt; stores the dataset using an R native format, which requires only 72MB and loads much faster than the original 2GB dataset.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id="pin-information" class="section level2"&gt;
@@ -153,7 +153,7 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 #   - cols: 1&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;To retrieve all the extended information when discovering pins, pass &lt;code&gt;extended = TRUE&lt;/code&gt; to &lt;code&gt;pin_find()&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Thank you for reading this post!&lt;/p&gt;
-&lt;p&gt;Please refer to &lt;a href="https://rstudio.github.io/pins"&gt;rstudio.github.io/pins&lt;/a&gt; for detailed documentation, open a &lt;a href="https://github.com/rstudio/pins/issues/new"&gt;new GitHub&lt;/a&gt; issues for use-cases we should investigate and &lt;a href="https://gitter.im/rstudio/pins"&gt;Gitter&lt;/a&gt; to chat with us about anything else.&lt;/p&gt;
+&lt;p&gt;Please refer to &lt;a href="https://rstudio.github.io/pins"&gt;rstudio.github.io/pins&lt;/a&gt; for detailed documentation, open a &lt;a href="https://github.com/rstudio/pins/issues/new"&gt;new GitHub&lt;/a&gt; issues or feature requests and &lt;a href="https://gitter.im/rstudio/pins"&gt;Gitter&lt;/a&gt; to chat with us about anything else.&lt;/p&gt;
 &lt;/div&gt;
 
 
