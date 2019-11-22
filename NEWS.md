@@ -8,6 +8,9 @@
 
 ## Pins
 
+- `pin()` extracts URLs that end in `.gz` and `zip`, which can be
+  disabled with `pin("<url>", extract = FALSE)`.
+
 - `pin()` no longer prints the pin, you can revert this behavior with
   `options(pins.invisible = FALSE)` (#122).
 

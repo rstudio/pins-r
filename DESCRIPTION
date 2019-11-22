@@ -1,7 +1,7 @@
 Package: pins
 Type: Package
 Title: Pin, Discover and Share Resources
-Version: 0.2.0.0008
+Version: 0.2.0.0009
 Authors@R: c(
     person("Javier", "Luraschi", email = "javier@rstudio.com", role = c("aut", "cre")),
     person(family = "RStudio", role = c("cph"))
