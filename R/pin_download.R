@@ -108,6 +108,12 @@ pin_download <- function(path,
   new_cache <- old_pin$cache
   new_cache[[cache_index]] <- cache
 
+  # allow to override extraction method, useful in pin() from URLs.
+  if (is.character(extract)) {
+    extract_type <- extract
+    extract <- TRUE
+  }
+
   if (!is.null(extract_type) && identical(extract, TRUE)) {
     pin_extract(
       structure(dir(temp_path, full.names = TRUE), class = extract_type),
