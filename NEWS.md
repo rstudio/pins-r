@@ -1,4 +1,4 @@
-# pins 0.2.0.9999
+# pins 0.3.0
 
 - Support for Azure board.
 
