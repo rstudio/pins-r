@@ -38,6 +38,8 @@ board_initialize.rsconnect <- function(board, ...) {
     board <- rsconnect_token_initialize(board)
   }
 
+  board$pins_supported <- tryCatch(rsconnect_pins_supported(board), error = function(e) FALSE)
+
   board
 }
 
@@ -163,8 +165,11 @@ board_pin_find.rsconnect <- function(board,
   if (!is.null(name)) text <- pin_content_name(name)
 
   filter <- paste0("search=", text)
+  content_filter <- ""
 
-  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", utils::URLencode(filter)))$applications
+  if (identical(board$pins_supported, TRUE)) content_filter <- "filter=content_type:pin&"
+
+  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", content_filter, utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
 
   entries <- lapply(entries, function(e) { e$name <- paste(e$owner_username, e$name, sep = "/") ; e })

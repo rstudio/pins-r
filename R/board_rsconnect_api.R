@@ -16,7 +16,7 @@ rsconnect_api_auth_headers <- function(board, path, verb, content = NULL) {
 }
 
 rsconnect_api_version <- function(board) {
-  jsonlite::fromJSON(rsconnect_api_get(board, "/server_settings")$content)$version
+  rsconnect_api_get(board, "/__api__/server_settings")$version
 }
 
 rsconnect_api_get <- function(board, path) {

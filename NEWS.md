@@ -50,6 +50,12 @@
 
 ## RStudio Connect
 
+- Fix issue where `pin_find()` would not show all available
+  pins.
+
+- Fix issue where RStudio Connections pane would not show
+  all pins.
+
 - Store all downloaded content under user subfolder insited 
   rsconnect cache.
 
