@@ -104,11 +104,11 @@ pin_get(&amp;quot;hpiR/seattle_sales&amp;quot;) %&amp;gt;%
 &lt;h2&gt;RStudio&lt;/h2&gt;
 &lt;p&gt;You can use &lt;a href="https://www.rstudio.com/products/rstudio/"&gt;RStudio&lt;/a&gt; and &lt;a href="https://www.rstudio.com/products/connect/"&gt;RStudio Connect&lt;/a&gt; to discover and share content within your organization with ease.&lt;/p&gt;
 &lt;p&gt;To enable new boards, like Kaggle and RStudio Connect, you can use &lt;a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/"&gt;RStudio’s Data Connections&lt;/a&gt; to create a new ‘pins’ connection, which provides you access to many boards:&lt;/p&gt;
-&lt;p&gt;&lt;img src="images/2019-09-09-rstudio-connect-board.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-connect-board.png" style="width:60.0%" /&gt;&lt;/p&gt;
 &lt;p&gt;Once connected, you can use the connections pane to track the pins you own and preview them with ease. Notice that one connection is created for each board.&lt;/p&gt;
-&lt;p&gt;&lt;img src="images/2019-09-09-rstudio-explore-pins.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-explore-pins.png" style="width:60.0%" /&gt;&lt;/p&gt;
 &lt;p&gt;To &lt;strong&gt;discover&lt;/strong&gt; remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:&lt;/p&gt;
-&lt;p&gt;&lt;img src="images/2019-09-09-rstudio-discover-pins.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-discover-pins.png" style="width:60.0%" /&gt;&lt;/p&gt;
 &lt;p&gt;You can then &lt;strong&gt;share&lt;/strong&gt; local resources using the RStudio Connect board. Lets use &lt;code&gt;dplyr&lt;/code&gt; and the &lt;code&gt;hpiR_seattle_sales&lt;/code&gt; pin to analyze this further and then pin our results in RStudio Connect.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;board_register_rsconnect()
 
@@ -117,7 +117,7 @@ pin_get(&amp;quot;hpiR/seattle_sales&amp;quot;) %&amp;gt;%
   summarise(sale = floor(mean(sale_price))) %&amp;gt;%
   pin(&amp;quot;sales-by-baths&amp;quot;, board = &amp;quot;rsconnect&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;After a pin is published, you can then browse to the pin’s content from the RStudio Connect web interface.&lt;/p&gt;
-&lt;p&gt;&lt;img src="images/2019-09-09-rstudio-share-resources.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-share-resources.png" style="width:60.0%" /&gt;&lt;/p&gt;
 &lt;p&gt;You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote pin locally!&lt;/p&gt;
 &lt;p&gt;For instance, a colleague can reuse the &lt;code&gt;sales-by-baths&lt;/code&gt; pin by retrieving it from RStudio Connect and visualize its contents using &lt;code&gt;ggplot2&lt;/code&gt;:&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;library(pins)
@@ -126,7 +126,7 @@ board_register_rsconnect()
 pin_get(&amp;quot;sales-by-baths&amp;quot;) %&amp;gt;%
   ggplot(aes(x = baths, y = sale)) +
     geom_point() + geom_smooth(method = &amp;#39;lm&amp;#39;, formula = y ~ exp(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="images/2019-09-09-rstudio-reuse-pin-ggplot2.png" height="280" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-reuse-pin-ggplot2.png" height="280" /&gt;&lt;/p&gt;
 &lt;p&gt;Pins can also be automated using scheduled R Markdown. This makes it much easier to create Shiny applications that rely on scheduled data updates or to share prepared resources across multiple pieces of content. You no longer have to fuss with file paths on RStudio Connect, mysterious resource URLs, or redeploying application code just to update a dataset!&lt;/p&gt;
 &lt;p&gt;Experimental support for &lt;code&gt;pins&lt;/code&gt; will be introduced in an upcoming release, stay tuned for RStudio Connect 1.7.8!&lt;/p&gt;
 &lt;p&gt;Please also make sure to &lt;del&gt;pin&lt;/del&gt; visit, &lt;a href="https://rstudio.github.io/pins"&gt;rstudio.github.io/pins&lt;/a&gt;, where you can find detailed documentation and additional resources. Thanks!&lt;/p&gt;
