@@ -15,6 +15,13 @@
 ^appveyor.yml$
 ^ci$
 ^LICENSE$
-^vignettes/use-cases$
+^vignettes/use-cases/
+^vignettes/use-cases.Rmd
+^vignettes/images/use-cases
+^vignettes/boards-azure.Rmd
+^vignettes/boards-gcloud.Rmd
+^vignettes/images/boards-azure
+^vignettes/images/boards-gcloud
 ^examples$
 ^blog$
+^build$
