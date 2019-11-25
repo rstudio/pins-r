@@ -63,6 +63,7 @@ matrix:
         - tibble
       before_install:
         - export LD_LIBRARY_PATH="/home/travis/R-bin/lib/R/lib:$LD_LIBRARY_PATH"
+        - python3.6 -m pip install --upgrade pip
         - python3.6 -m pip install setuptools --user
         - python3.6 -m pip install pandas --user
         - python3.6 -m pip install pytest --user
