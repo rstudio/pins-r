@@ -9,7 +9,7 @@ image_files <- dir("vignettes/images", full.names = T)
 for (file in image_files) {
   message("Processing ", file)
 
-  target_file <- paste(tools::file_path_sans_ext(file), ".jpg")
+  target_file <- paste0(tools::file_path_sans_ext(file), ".jpg")
   system2("convert", c(file, "-resize", "20%", target_file))
 
   unlink(file)
