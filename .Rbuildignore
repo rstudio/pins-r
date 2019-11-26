@@ -8,6 +8,7 @@
 ^docs/
 ^pkgdown/
 ^tools/process-cran.R
+^tools/release-cran.R
 ^\.travis\.yml$
 ^packages/
 ^\.pytest_cache$
@@ -15,12 +16,5 @@
 ^appveyor.yml$
 ^ci$
 ^LICENSE$
-^vignettes/use-cases/
-^vignettes/use-cases.Rmd
-^vignettes/images/use-cases
-^vignettes/boards-azure.Rmd
-^vignettes/boards-gcloud.Rmd
-^vignettes/images/boards-azure
-^vignettes/images/boards-gcloud
 ^examples$
 ^blog$
