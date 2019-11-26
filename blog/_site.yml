@@ -12,6 +12,9 @@ navbar:
       href: index.xml
 rss:
   full_content: TRUE
+  categories:
+    - R
+    - Releases
 output:
   distill::distill_article:
     css: styles.css
