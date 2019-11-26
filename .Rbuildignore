@@ -16,5 +16,7 @@
 ^appveyor.yml$
 ^ci$
 ^LICENSE$
+^vignettes/use-cases/
+^vignettes/use-cases.Rmd
 ^examples$
 ^blog$
