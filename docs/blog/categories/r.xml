@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/" version="2.0">
+  <channel>
+    <title>pins</title>
+    <link>https://rstudio.github.io/pins/blog/</link>
+    <atom:link href="https://rstudio.github.io/pins/blog/index.xml" rel="self" type="application/rss+xml"/>
+    <description>pins
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Mon, 09 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>pins: Pin, Discover and Share Resources</title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Javier Luraschi</dc:creator>
+      <link>https://rstudio.github.io/pins/blog/posts/pins-0-2-0</link>
+      <description>
+
+
+&lt;div class="container-fluid main-container"&gt;
+
+
+
+
+&lt;div class="fluid-row" id="header"&gt;
+
+
+
+
+&lt;/div&gt;
+
+
+&lt;p&gt;Today we are excited to announce the &lt;a href="https://github.com/rstudio/pins"&gt;pins&lt;/a&gt; package is available on CRAN! &lt;code&gt;pins&lt;/code&gt; allows you to &lt;strong&gt;pin&lt;/strong&gt;, &lt;strong&gt;discover&lt;/strong&gt; and &lt;strong&gt;share&lt;/strong&gt; remote &lt;strong&gt;resources&lt;/strong&gt;, locally or in remote storage.&lt;/p&gt;
+&lt;p&gt;If you find yourself using &lt;code&gt;download.file()&lt;/code&gt; or asking others to download files before running your R code, use &lt;code&gt;pin()&lt;/code&gt; to achieve fast, simple and reliable reproducible research over remote resources.&lt;/p&gt;
+&lt;div id="pins" class="section level2"&gt;
+&lt;h2&gt;Pins&lt;/h2&gt;
+&lt;p&gt;You can use the &lt;code&gt;pins&lt;/code&gt; package to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pin&lt;/strong&gt; remote resources locally to work offline and cache results with ease, &lt;code&gt;pin()&lt;/code&gt; stores resources in boards which you can then retrieve with &lt;code&gt;pin_get()&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Discover&lt;/strong&gt; new resources across different boards using &lt;code&gt;pin_find()&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Share&lt;/strong&gt; resources on GitHub, Kaggle or RStudio Connect by registering new boards with &lt;code&gt;board_register()&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Resources&lt;/strong&gt; can be anything from CSV, JSON, or image files to arbitrary R objects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can install &lt;code&gt;pins&lt;/code&gt; from CRAN with:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;install.packages(&amp;quot;pins&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can &lt;strong&gt;pin&lt;/strong&gt; remote files with &lt;code&gt;pin(url)&lt;/code&gt;. &lt;code&gt;pin(url)&lt;/code&gt; downloads and caches the remote &lt;code&gt;url&lt;/code&gt;, returning the path to the locally cached file. This gives you the ability to work offline (or continue working even if the remote resource disappears) with minimal changes to your existing code. When called again in the future, &lt;code&gt;pin()&lt;/code&gt; will automatically check for changes, and only re-download the file if needed.&lt;/p&gt;
+&lt;p&gt;For instance, the following example makes use of a remote CSV file, which you can download and cache with &lt;code&gt;pin()&lt;/code&gt; before it’s loaded with &lt;code&gt;read_csv()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(tidyverse)
+library(pins)
+
+url &amp;lt;- &amp;quot;https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv&amp;quot;
+retail_sales &amp;lt;- read_csv(pin(url))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 293 x 2
+   ds              y
+   &amp;lt;date&amp;gt;      &amp;lt;dbl&amp;gt;
+ 1 1992-01-01 146376
+ 2 1992-02-01 147079
+ 3 1992-03-01 159336
+ 4 1992-04-01 163669
+ 5 1992-05-01 170068
+ 6 1992-06-01 168663
+ 7 1992-07-01 169890
+ 8 1992-08-01 170364
+ 9 1992-09-01 164617
+10 1992-10-01 173655
+# … with 283 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This makes reading subsequent remotes files orders of magnitude faster, files are only downloaded when the remote resource changes.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;pins&lt;/code&gt; package allows you to &lt;strong&gt;discover&lt;/strong&gt; remote resources using &lt;code&gt;pin_find()&lt;/code&gt;, currently, it can search resources in CRAN packages, Kaggle and RStudio Connect. For instance, we can search resources mentioning “seattle” in CRAN packages as follows:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin_find(&amp;quot;seattle&amp;quot;, board = &amp;quot;packages&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 6 x 4
+  name                description                                        type  board 
+  &amp;lt;chr&amp;gt;               &amp;lt;chr&amp;gt;                                              &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; 
+1 hpiR/ex_sales       Subset of Seattle Home Sales from hpiR package.    table packa…
+2 hpiR/seattle_sales  Seattle Home Sales from hpiR package.              table packa…
+3 latticeExtra/Seata… Daily Rainfall and Temperature at the Seattle-Tac… table packa…
+4 microsynth/seattle… Data for a crime intervention in Seattle, Washing… table packa…
+5 vegawidget/data_se… Example dataset: Seattle daily weather from vegaw… table packa…
+6 vegawidget/data_se… Example dataset: Seattle hourly temperatures from… table packa…&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that all pins are referenced as &lt;code&gt;&amp;lt;owner&amp;gt;/&amp;lt;name&amp;gt;&lt;/code&gt; and even if the &lt;code&gt;&amp;lt;owner&amp;gt;&lt;/code&gt; is not provided, each board will assign an appropriate one. While you can ignore &lt;code&gt;&amp;lt;owner&amp;gt;&lt;/code&gt; and reference pins by &lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt;, this can fail in some boards if different owners assign the same name to a pin.&lt;/p&gt;
+&lt;p&gt;You can then retrieve a pin as a local path through &lt;code&gt;pin_get()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin_get(&amp;quot;hpiR/seattle_sales&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 43,313 x 16
+   pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt bldg_grade tot_sf
+   &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;        &amp;lt;int&amp;gt; &amp;lt;date&amp;gt;     &amp;lt;chr&amp;gt;    &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt;
+ 1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0          7   2560
+ 2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0          6   1540
+ 3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0          8   2380
+ 4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0          8   2380
+ 5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0          7   1370
+ 6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0          7    880
+ 7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0          7   1640
+ 8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0          7   1990
+ 9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0          7   1980
+10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0          7   1980
+# … with 43,303 more rows, and 6 more variables: beds &amp;lt;int&amp;gt;, baths &amp;lt;dbl&amp;gt;,
+#   age &amp;lt;int&amp;gt;, eff_age &amp;lt;int&amp;gt;, longitude &amp;lt;dbl&amp;gt;, latitude &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally, you can also &lt;strong&gt;share&lt;/strong&gt; resources with other R sessions and other users by publishing to a local folder, Kaggle, GitHub and RStudio Connect.&lt;/p&gt;
+&lt;p&gt;To publish resources in Kaggle, you would first need to register the Kaggle board by creating a &lt;a href="https://www.kaggle.com/me/account"&gt;Kaggle API Token&lt;/a&gt;, and then publishing to Kaggle by storing a pin in the ‘kaggle’ board:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;board_register_kaggle(token = &amp;quot;&amp;lt;path-to-kaggle.json&amp;gt;&amp;quot;)
+
+pin_get(&amp;quot;hpiR/seattle_sales&amp;quot;) %&amp;gt;%
+  pin(name = &amp;quot;seattle_sales&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are other boards you can use or even create custom boards as described in the &lt;a href="https://rstudio.github.io/pins/articles/boards-understanding.html"&gt;Understanding Boards&lt;/a&gt; article; in addition, &lt;code&gt;pins&lt;/code&gt; can also be used with RStudio products which we will describe next.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="rstudio" class="section level2"&gt;
+&lt;h2&gt;RStudio&lt;/h2&gt;
+&lt;p&gt;You can use &lt;a href="https://www.rstudio.com/products/rstudio/"&gt;RStudio&lt;/a&gt; and &lt;a href="https://www.rstudio.com/products/connect/"&gt;RStudio Connect&lt;/a&gt; to discover and share content within your organization with ease.&lt;/p&gt;
+&lt;p&gt;To enable new boards, like Kaggle and RStudio Connect, you can use &lt;a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/"&gt;RStudio’s Data Connections&lt;/a&gt; to create a new ‘pins’ connection, which provides you access to many boards:&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-connect-board.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;Once connected, you can use the connections pane to track the pins you own and preview them with ease. Notice that one connection is created for each board.&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-explore-pins.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;To &lt;strong&gt;discover&lt;/strong&gt; remote resources, simply expand the “Addins” menu and select “Find Pin” from the dropdown. This addin allows you to search for pins across all boards, or scope your search to particular ones as well:&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-discover-pins.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;You can then &lt;strong&gt;share&lt;/strong&gt; local resources using the RStudio Connect board. Lets use &lt;code&gt;dplyr&lt;/code&gt; and the &lt;code&gt;hpiR_seattle_sales&lt;/code&gt; pin to analyze this further and then pin our results in RStudio Connect.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;board_register_rsconnect()
+
+pin_get(&amp;quot;hpiR/seattle_sales&amp;quot;) %&amp;gt;%
+  group_by(baths = ceiling(baths)) %&amp;gt;%
+  summarise(sale = floor(mean(sale_price))) %&amp;gt;%
+  pin(&amp;quot;sales-by-baths&amp;quot;, board = &amp;quot;rsconnect&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After a pin is published, you can then browse to the pin’s content from the RStudio Connect web interface.&lt;/p&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-share-resources.png" style="width:60.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;You can now set the appropriate permissions in RStudio Connect, and voila! From now on, those with access can make use of this remote pin locally!&lt;/p&gt;
+&lt;p&gt;For instance, a colleague can reuse the &lt;code&gt;sales-by-baths&lt;/code&gt; pin by retrieving it from RStudio Connect and visualize its contents using &lt;code&gt;ggplot2&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(pins)
+board_register_rsconnect()
+
+pin_get(&amp;quot;sales-by-baths&amp;quot;) %&amp;gt;%
+  ggplot(aes(x = baths, y = sale)) +
+    geom_point() + geom_smooth(method = &amp;#39;lm&amp;#39;, formula = y ~ exp(x))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="posts/pins-0-2-0/images/2019-09-09-rstudio-reuse-pin-ggplot2.png" height="280" /&gt;&lt;/p&gt;
+&lt;p&gt;Pins can also be automated using scheduled R Markdown. This makes it much easier to create Shiny applications that rely on scheduled data updates or to share prepared resources across multiple pieces of content. You no longer have to fuss with file paths on RStudio Connect, mysterious resource URLs, or redeploying application code just to update a dataset!&lt;/p&gt;
+&lt;p&gt;Experimental support for &lt;code&gt;pins&lt;/code&gt; will be introduced in an upcoming release, stay tuned for RStudio Connect 1.7.8!&lt;/p&gt;
+&lt;p&gt;Please also make sure to &lt;del&gt;pin&lt;/del&gt; visit, &lt;a href="https://rstudio.github.io/pins"&gt;rstudio.github.io/pins&lt;/a&gt;, where you can find detailed documentation and additional resources. Thanks!&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;/div&gt;
+
+&lt;script&gt;
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+&lt;/script&gt;
+
+&lt;!-- tabsets --&gt;
+
+&lt;script&gt;
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown &gt; .nav-tabs &gt; li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+&lt;/script&gt;
+
+&lt;!-- code folding --&gt;
+
+
+&lt;!-- dynamically load mathjax for compatibility with self-contained --&gt;
+&lt;script&gt;
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+&lt;/script&gt;
+
+</description>
+      <distill:md5 xmlns:distill="https://distill.pub/journal/">d599914b545890e2e646d7eb8a185a45</distill:md5>
+      <category>Packages</category>
+      <category>Introductions</category>
+      <category>Releases</category>
+      <category>R</category>
+      <guid>https://rstudio.github.io/pins/blog/posts/pins-0-2-0</guid>
+      <pubDate>Mon, 09 Sep 2019 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
