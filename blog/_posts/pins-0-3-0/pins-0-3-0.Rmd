@@ -83,7 +83,7 @@ indicators <- pin_get("worldbank/world-development-indicators")[6] %>%
   readr::read_csv()
 ```
 
-Analysing the this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an [S3 board](../../../articles/boards-s3.html). To publish to other cloud providers, take a look at the [Google Cloud](../../../articles/boards-gcloud.html) and [Azure boards](../../../articles/boards-azure.html) articles.
+Analysing this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an [S3 board](../../../articles/boards-s3.html). To publish to other cloud providers, take a look at the [Google Cloud](../../../articles/boards-gcloud.html) and [Azure boards](../../../articles/boards-azure.html) articles.
 
 As you would expect, the first step is to register the S3 board. When using RStudio, you can use the [New Connection](../../../articles/pins-rstudio.html) action to guide you through this process, or you can specify your `key` and `secret` as follows. Please refer to the [S3 board](../../../articles/boards-s3.html) article to understand how to store your credentials securely.
 
