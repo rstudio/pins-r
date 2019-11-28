@@ -7,7 +7,7 @@
     <description>pins
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 18 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Nov 2019 00:00:00 +0000</lastBuildDate>
     <item>
       <title>pins: Pin, Discover and Share Resources</title>
       <dc:creator>Javier Luraschi</dc:creator>
@@ -384,7 +384,7 @@ $(document).ready(function () {
       <category>Cloud</category>
       <category>R</category>
       <guid>https://rstudio.github.io/pins/blog/posts/pins-0-3-0</guid>
-      <pubDate>Mon, 18 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 28 Nov 2019 00:00:00 +0000</pubDate>
     </item>
     <item xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/">
       <title>pins: Pin, Discover and Share Resources</title>
