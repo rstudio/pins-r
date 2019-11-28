@@ -45,7 +45,6 @@ To illustrate how they work, lets first try to find the World Bank indicators da
 
 ```r
 library(pins)
-
 pin_find("indicators", board = "kaggle")
 ```
 ```
