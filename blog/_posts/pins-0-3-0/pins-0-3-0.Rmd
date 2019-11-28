@@ -7,7 +7,7 @@ author:
     url: https://github.com/javierluraschi
     affiliation: RStudio
     affiliation_url: https://www.rstudio.com
-date: 11-18-2019
+date: 11-28-2019
 categories:
   - Packages
   - Releases
