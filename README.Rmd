@@ -25,7 +25,7 @@ ggplot2::theme_set(ggplot2::theme_light())
 [![Code Coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins)
 [![Downloads](https://cranlogs.r-pkg.org/badges/pins?color=blue)](https://cranlogs.r-pkg.org/)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Chat](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/sparklyr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Chat](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/pins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
 ## Overview
@@ -194,7 +194,7 @@ Pins can also be automated using scheduled R Markdown. This makes it much easier
 Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:
 
 ```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins.git@v0.2.0#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.3.0#subdirectory=python
 ```
 
 Followed by using `pins` from Python:

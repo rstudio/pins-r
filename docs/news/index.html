@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -196,9 +196,9 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-0209999" class="section level1">
+    <div id="pins-030" class="section level1">
 <h1 class="page-header">
-<a href="#pins-0209999" class="anchor"></a>pins 0.2.0.9999<small> Unreleased </small>
+<a href="#pins-030" class="anchor"></a>pins 0.3.0<small> 2019-11-26 </small>
 </h1>
 <ul>
 <li><p>Support for Azure board.</p></li>
@@ -209,6 +209,11 @@
 <h2 class="hasAnchor">
 <a href="#pins" class="anchor"></a>Pins</h2>
 <ul>
+<li><p><code><a href="../reference/pin.html">pin()</a></code> extracts URLs that end in <code>.gz</code> and <code>zip</code>, which can be disabled with <code><a href="../reference/pin.html">pin("&lt;url&gt;", extract = FALSE)</a></code>.</p></li>
+<li><p><code><a href="../reference/pin.html">pin()</a></code> no longer prints the pin, you can revert this behavior with <code><a href="https://rdrr.io/r/base/options.html">options(pins.invisible = FALSE)</a></code> (<a href='https://github.com/rstudio/pins/issues/122'>#122</a>).</p></li>
+<li><p>Show upload progress for files larger than 10mb.</p></li>
+<li><p>Avoid changing <code>data.table</code> when using <code><a href="../reference/pin.html">pin()</a></code> and <code>get_pin()</code>.</p></li>
+<li><p>Support for <code><a href="../reference/pin_info.html">pin_info()</a></code> to describe a pin and <code>extended = TRUE</code> in <code><a href="../reference/pin_find.html">pin_find()</a></code> to show all extended information about each pin.</p></li>
 <li><p>Support for <code>extract</code> parameter in <code><a href="../reference/pin_get.html">pin_get()</a></code>, <code><a href="../reference/pin.html">pin()</a></code>, and <code><a href="../reference/pin_reactive.html">pin_reactive()</a></code> to override default file extraction behavior.</p></li>
 <li><p>Support to extract gzip files when the <code>R.utils</code> package is installed.</p></li>
 <li><p>Show download progress for files larger than 10mb.</p></li>
@@ -236,6 +241,9 @@
 <h2 class="hasAnchor">
 <a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
 <ul>
+<li><p>Fix issue where <code><a href="../reference/pin_find.html">pin_find()</a></code> would not show all available pins.</p></li>
+<li><p>Fix issue where RStudio Connections pane would not show all pins.</p></li>
+<li><p>Store all downloaded content under user subfolder insited rsconnect cache.</p></li>
 <li><p>Removed <code><a href="../reference/pin_find.html">pin_find()</a></code> workaround for beta rsconnect server where searching was causing timeout.</p></li>
 <li><p>Fix for RStudio Connect servers where <code>/content/</code> is not used in content URLs.</p></li>
 <li><p>Fix issue expanding pins columns in RStudio for pins with similar names in RStudio Connect boards.</p></li>
@@ -253,7 +261,15 @@
 <h2 class="hasAnchor">
 <a href="#websites" class="anchor"></a>Websites</h2>
 <ul>
-<li>Fix in <code><a href="../reference/pin_find.html">pin_find()</a></code> to properly search desecription files.</li>
+<li><p>The <code>name</code> parameter in <code><a href="../reference/board_register_datatxt.html">board_register_datatxt()</a></code> is now optional.</p></li>
+<li><p>Fix in <code><a href="../reference/pin_find.html">pin_find()</a></code> to properly search desecription files.</p></li>
+</ul>
+</div>
+<div id="github" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github" class="anchor"></a>GitHub</h2>
+<ul>
+<li>Various fixes for GitHub boards using the <code>path</code> parameter when registering the board (<a href='https://github.com/rstudio/pins/issues/121'>#121</a>).</li>
 </ul>
 </div>
 </div>
@@ -273,9 +289,9 @@
 <li><p>Fix for data frames with nested data frames in rsconnect boards (<a href='https://github.com/rstudio/pins/issues/36'>#36</a>).</p></li>
 </ul>
 </div>
-<div id="github" class="section level2">
+<div id="github-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github" class="anchor"></a>GitHub</h2>
+<a href="#github-1" class="anchor"></a>GitHub</h2>
 <ul>
 <li><p><code><a href="../reference/board_register_github.html">board_register_github()</a></code> now checks for the repo to exist (<a href='https://github.com/rstudio/pins/issues/63'>#63</a>).</p></li>
 <li><p>Adjusted max upload file to 25mb to avoid “server error” in the API, larger files than 25mb uploaded as release files. This can be configured using the <code>pins.github.release</code> option, which deefaults to 25.</p></li>
@@ -336,7 +352,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pins-0209999">0.2.0.9999</a></li>
+        <li><a href="#pins-030">0.3.0</a></li>
         <li><a href="#pins-020">0.2.0</a></li>
         <li><a href="#pins-012">0.1.2</a></li>
         <li><a href="#pins-011">0.1.1</a></li>

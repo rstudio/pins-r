@@ -12,7 +12,7 @@ Coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](htt
 [![Downloads](https://cranlogs.r-pkg.org/badges/pins?color=blue)](https://cranlogs.r-pkg.org/)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Chat](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/sparklyr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Chat](https://badges.gitter.im/rstudio/pins.svg)](https://gitter.im/rstudio/pins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub
 Stars](https://img.shields.io/github/stars/rstudio/pins.svg)](https://github.com/rstudio/pins/stargazers)
 
@@ -287,7 +287,7 @@ started, first install the pins
 module:
 
 ``` bash
-pip install git+https://github.com/rstudio/pins.git@v0.2.0#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.3.0#subdirectory=python
 ```
 
 Followed by using `pins` from Python:
