@@ -42,7 +42,6 @@
 &lt;p&gt;&lt;img src="posts/pins-0-3-0/images/pins-cloud-boards-azure-gcloud-s3.png" /&gt;&lt;/p&gt;
 &lt;p&gt;To illustrate how they work, lets first try to find the World Bank indicators dataset in &lt;a href="https://www.kaggle.com/"&gt;Kaggle&lt;/a&gt;:&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;library(pins)
-
 pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;# A tibble: 6 x 4
   name                                            description                             type  board 
@@ -66,7 +65,7 @@ pin_find(&amp;quot;indicators&amp;quot;, board = &amp;quot;kaggle&amp;quot;)&lt;
 &lt;p&gt;The &lt;code&gt;Indicators.csv&lt;/code&gt; file contains all the indicators, so let’s load it with &lt;a href="https://readr.tidyverse.org/"&gt;readr&lt;/a&gt;:&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;indicators &amp;lt;- pin_get(&amp;quot;worldbank/world-development-indicators&amp;quot;)[6] %&amp;gt;%
   readr::read_csv()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Analysing the this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an &lt;a href="../../../articles/boards-s3.html"&gt;S3 board&lt;/a&gt;. To publish to other cloud providers, take a look at the &lt;a href="../../../articles/boards-gcloud.html"&gt;Google Cloud&lt;/a&gt; and &lt;a href="../../../articles/boards-azure.html"&gt;Azure boards&lt;/a&gt; articles.&lt;/p&gt;
+&lt;p&gt;Analysing this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an &lt;a href="../../../articles/boards-s3.html"&gt;S3 board&lt;/a&gt;. To publish to other cloud providers, take a look at the &lt;a href="../../../articles/boards-gcloud.html"&gt;Google Cloud&lt;/a&gt; and &lt;a href="../../../articles/boards-azure.html"&gt;Azure boards&lt;/a&gt; articles.&lt;/p&gt;
 &lt;p&gt;As you would expect, the first step is to register the S3 board. When using RStudio, you can use the &lt;a href="../../../articles/pins-rstudio.html"&gt;New Connection&lt;/a&gt; action to guide you through this process, or you can specify your &lt;code&gt;key&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; as follows. Please refer to the &lt;a href="../../../articles/boards-s3.html"&gt;S3 board&lt;/a&gt; article to understand how to store your credentials securely.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;board_register_s3(name = &amp;quot;rpins&amp;quot;,
                   bucket  = &amp;quot;rpins&amp;quot;,

@@ -978,7 +978,6 @@ install.packages(&quot;pins&quot;)</code></pre>
 <p>To illustrate how they work, lets first try to find the World Bank indicators dataset in <a href="https://www.kaggle.com/">Kaggle</a>:</p>
 <pre class="r"><code>
 library(pins)
-
 pin_find(&quot;indicators&quot;, board = &quot;kaggle&quot;)</code></pre>
 <pre><code>
 # A tibble: 6 x 4
@@ -1006,7 +1005,7 @@ pin_get(&quot;worldbank/world-development-indicators&quot;)</code></pre>
 <pre class="r"><code>
 indicators &lt;- pin_get(&quot;worldbank/world-development-indicators&quot;)[6] %&gt;%
   readr::read_csv()</code></pre>
-<p>Analysing the this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an <a href="../../../articles/boards-s3.html">S3 board</a>. To publish to other cloud providers, take a look at the <a href="../../../articles/boards-gcloud.html">Google Cloud</a> and <a href="../../../articles/boards-azure.html">Azure boards</a> articles.</p>
+<p>Analysing this dataset would be quite interesting; however, this post focuses on how to share this in S3, Google Cloud or Azure storage. More specifically, we will learn how to publish to an <a href="../../../articles/boards-s3.html">S3 board</a>. To publish to other cloud providers, take a look at the <a href="../../../articles/boards-gcloud.html">Google Cloud</a> and <a href="../../../articles/boards-azure.html">Azure boards</a> articles.</p>
 <p>As you would expect, the first step is to register the S3 board. When using RStudio, you can use the <a href="../../../articles/pins-rstudio.html">New Connection</a> action to guide you through this process, or you can specify your <code>key</code> and <code>secret</code> as follows. Please refer to the <a href="../../../articles/boards-s3.html">S3 board</a> article to understand how to store your credentials securely.</p>
 <pre class="r"><code>
 board_register_s3(name = &quot;rpins&quot;,
