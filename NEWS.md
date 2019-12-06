@@ -4,6 +4,10 @@
 
 - Added missing `key` parameter in `board_register_azure()`.
 
+## RStudio
+
+- Fixed connection launcher for Azure connections.
+
 # pins 0.3.0
 
 - Support for Azure board.
