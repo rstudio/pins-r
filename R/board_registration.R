@@ -285,6 +285,7 @@ board_register_azure <- function(name = "azure",
                  name = name,
                  account = account,
                  container = container,
+                 key = key,
                  cache = cache,
                  ...)
 }
