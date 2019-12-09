@@ -363,14 +363,14 @@ pins_connection_server <- function(input, output, session) {
       if (nchar(Sys.getenv("AZURE_STORAGE_KEY")) == 0) {
         azure_params <- paste0(
           azure_params,
-          ", token = rstudioapi::askForSecret(\"azure_secret\", \"Your Azure Storage Secret\", \"Azure Secret\")"
+          ", key = rstudioapi::askForSecret(\"azure_secret\", \"Your Azure Storage Secret\", \"Azure Secret\")"
         )
       }
 
       initializer <- paste(
         "pins::board_register(\"azure\", ",
         "name = \"", input$azure_container, "\", ",
-        "bucket = \"", input$azure_container, "\"", azure_params, ")\n", sep = "")
+        "container = \"", input$azure_container, "\"", azure_params, ")\n", sep = "")
     }
     else if (identical(board, "s3") && nchar(input$s3_bucket) > 0) {
       s3_params <- ""
