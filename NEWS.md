@@ -1,8 +1,10 @@
-# pins 0.3.0.9001
+# pins 0.3.0.9002
 
 ## Pins
 
-- Fixed issue when pinning complex data frames with nested lists (#142)
+- Fixed issue in `pin_remove()` for S3, Azure, GCloud, Google and website boards (#138).
+
+- Fixed issue when pinning complex data frames with nested lists (#142).
 
 ## Azure
 
