@@ -1,4 +1,8 @@
-# pins 0.3.0.9000
+# pins 0.3.0.9001
+
+## Pins
+
+- Fixed issue when pinning complex data frames with nested lists (#142)
 
 ## Azure
 

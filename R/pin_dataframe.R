@@ -14,7 +14,7 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
   dir.create(path)
 
   saveRDS(x, file.path(path, "data.rds"), version = 2)
-  utils::write.csv(x, file.path(path, "data.csv"), row.names = FALSE)
+  pins_safe_csv(x, file.path(path, "data.csv"))
   on.exit(unlink(path))
 
   columns <- lapply(x, function(e) class(e)[[1]])
