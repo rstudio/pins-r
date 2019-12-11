@@ -52,7 +52,6 @@ pin_registry_update <- function(name, component, params = list()) {
 
 pin_registry_find <- function(text, component) {
   entries <- pin_registry_load_entries(component)
-  name <- pin_registry_qualify_name(name, entries)
 
   results <- pin_results_from_rows(entries)
 
