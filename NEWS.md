@@ -1,4 +1,4 @@
-# pins 0.3.0.9003
+# pins 0.3.0.9004
 
 ## Pins
 
@@ -13,6 +13,8 @@
 - Added missing `key` parameter in `board_register_azure()`.
 
 ## RStudio
+
+- Fixed connection suggested code when caused by `pin_find()` (#137).
 
 - Fixed connection launcher for Azure connections.
 
