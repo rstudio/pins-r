@@ -21,6 +21,7 @@ pin_storage_path <- function(component, name) {
 
 pin_registry_update <- function(name, component, params = list()) {
   entries <- pin_registry_load_entries(component)
+  name <- pin_registry_qualify_name(name, entries)
 
   path <- pin_storage_path(component, name)
 
@@ -63,6 +64,7 @@ pin_registry_find <- function(text, component) {
 
 pin_registry_retrieve <- function(name, component) {
   entries <- pin_registry_load_entries(component)
+  name <- pin_registry_qualify_name(name, entries)
 
   names <- sapply(entries, function(e) e$name)
   if (!name %in% names) stop("Pin '", name, "' not found in '", component, "' board.")
@@ -72,6 +74,7 @@ pin_registry_retrieve <- function(name, component) {
 
 pin_registry_remove <- function(name, component, unlink = TRUE) {
   entries <- pin_registry_load_entries(component)
+  name <- pin_registry_qualify_name(name, entries)
 
   remove <- Filter(function(x) x$name == name, entries)
   if (length(remove) > 0)
@@ -84,4 +87,16 @@ pin_registry_remove <- function(name, component, unlink = TRUE) {
   if (unlink) unlink(remove$path, recursive = TRUE)
 
   pin_registry_save_entries(entries, component)
+}
+
+pin_registry_qualify_name <- function(name, entries) {
+  names <- sapply(entries, function(e) e$name)
+  name_pattern <- if (grepl("/", name)) paste0("^", name, "$") else paste0(".*/", name, "$")
+  name_candidate <- names[grepl(name_pattern, names)]
+
+  if (length(name_candidate) == 1) {
+    name <- name_candidate
+  }
+
+  name
 }

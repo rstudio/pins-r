@@ -146,12 +146,13 @@ board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
     path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
-    response <- httr::GET(file.path(board$url, path_guess[[1]], "data.txt"))
-    if (!httr::http_error(response)) {
-      metadata <- c(metadata, board_manifest_load(httr::content(response)))
+    datatxt_path <- file.path(board$url, path_guess[[1]], "data.txt")
 
-      # remeve duplicates
-      metadata[duplicated(names(metadata))] <- NULL
+    response <- httr::GET(datatxt_path, board_headers(board, datatxt_path))
+    if (!httr::http_error(response)) {
+      pin_metadata <- board_manifest_load(datatxt_response_content(response))
+
+      metadata <- pin_manifest_merge(metadata, pin_metadata)
 
       results$metadata <- jsonlite::toJSON(metadata, auto_unbox = TRUE)
     }
@@ -160,16 +161,22 @@ board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   results
 }
 
+datatxt_response_content <- function(response) {
+  content <- httr::content(response)
+  if (is.raw(content)) {
+    content <- rawToChar(content)
+  }
+
+  content
+}
+
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
   index_url <- file.path(board$url, "data.txt")
   response <- httr::GET(index_url, board_headers(board, index_url))
 
   index <- list()
   if (!httr::http_error(response)) {
-    content <- httr::content(response)
-    if (is.raw(content)) {
-      content <- rawToChar(content)
-    }
+    content <- datatxt_response_content(response)
 
     index <- board_manifest_load(content)
   }
@@ -202,7 +209,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
                         board_headers(board, "data.txt", verb = "PUT", file = normalizePath(index_file)))
 
   if (httr::http_error(response)) {
-    stop("Failed to update data.txt file: ", httr::content(response))
+    stop("Failed to update data.txt file: ", datatxt_response_content(response))
   }
 }
 
@@ -220,7 +227,7 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
                           board_headers(board, subpath, verb = "PUT", file = file_path))
 
     if (httr::http_error(response))
-      stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", httr::content(response))
+      stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", datatxt_response_content(response))
   }
 
   datatxt_update_index(board = board,
@@ -233,15 +240,17 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
 board_pin_remove.datatxt <- function(board, name, ...) {
   files <- pin_files(name, board = board$name, absolute = FALSE)
 
+  # also attempt to delete data.txt
+  files <- c(files, file.path(name, "data.txt"))
+
   for (file in files) {
-    subpath <- file.path(name, file)
-    delete_url <- file.path(board$url, subpath)
+    delete_url <- file.path(board$url, file)
 
     response <- httr::DELETE(delete_url,
-                             board_headers(board, subpath, verb = "DELETE"))
+                             board_headers(board, file, verb = "DELETE"))
 
     if (httr::http_error(response))
-      warning("Failed to remove '", file, "' from '", board$name, "' board. Error: ", httr::content(response))
+      warning("Failed to remove '", file, "' from '", board$name, "' board. Error: ", datatxt_response_content(response))
   }
 
   datatxt_update_index(board = board,
