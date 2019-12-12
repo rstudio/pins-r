@@ -152,15 +152,7 @@ board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
     if (!httr::http_error(response)) {
       pin_metadata <- board_manifest_load(datatxt_response_content(response))
 
-      # path requires special merge
-      if (!is.null(pin_metadata$path) && !is.null(metadata$path) && !grepl("https?://", metadata$path)) {
-        metadata$path <- file.path(metadata$path, pin_metadata$path)
-      }
-
-      metadata <- c(metadata, pin_metadata)
-
-      # remeve duplicates
-      metadata[duplicated(names(metadata))] <- NULL
+      metadata <- pin_manifest_merge(metadata, pin_metadata)
 
       results$metadata <- jsonlite::toJSON(metadata, auto_unbox = TRUE)
     }

@@ -40,8 +40,9 @@ board_pin_find.local <- function(board, text, ...) {
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
     extended <- pin_manifest_get(metadata$path)
+    merged <- pin_manifest_merge(metadata, extended)
 
-    results$metadata <- as.character(jsonlite::toJSON(c(metadata, extended), auto_unbox = TRUE))
+    results$metadata <- as.character(jsonlite::toJSON(merged, auto_unbox = TRUE))
   }
 
   results
