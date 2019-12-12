@@ -51,7 +51,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -101,7 +101,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Use Cases
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -139,7 +139,7 @@
 <li>
   <a href="https://github.com/rstudio/pins">
     <span class="fab fa fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -150,21 +150,21 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Using RStudio Connect Boards</h1>
-            
-      
+
+
       <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/boards-rsconnect.Rmd"><code>vignettes/boards-rsconnect.Rmd</code></a></small>
       <div class="hidden name"><code>boards-rsconnect.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <div id="registering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#registering" class="anchor"></a>Registering</h2>
@@ -193,17 +193,17 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
 <pre><code># A tibble: 150 x 5
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
- 1          5.1         3.5          1.4         0.2 setosa 
- 2          4.9         3            1.4         0.2 setosa 
- 3          4.7         3.2          1.3         0.2 setosa 
- 4          4.6         3.1          1.5         0.2 setosa 
- 5          5           3.6          1.4         0.2 setosa 
- 6          5.4         3.9          1.7         0.4 setosa 
- 7          4.6         3.4          1.4         0.3 setosa 
- 8          5           3.4          1.5         0.2 setosa 
- 9          4.4         2.9          1.4         0.2 setosa 
-10          4.9         3.1          1.5         0.1 setosa 
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;
+ 1          5.1         3.5          1.4         0.2 setosa
+ 2          4.9         3            1.4         0.2 setosa
+ 3          4.7         3.2          1.3         0.2 setosa
+ 4          4.6         3.1          1.5         0.2 setosa
+ 5          5           3.6          1.4         0.2 setosa
+ 6          5.4         3.9          1.7         0.4 setosa
+ 7          4.6         3.4          1.4         0.3 setosa
+ 8          5           3.4          1.5         0.2 setosa
+ 9          4.4         2.9          1.4         0.2 setosa
+10          4.9         3.1          1.5         0.1 setosa
 # … with 140 more rows</code></pre>
 </div>
 <div id="discovering" class="section level2">
@@ -212,16 +212,16 @@
 <p>You can then search pins in your RStudio Connect server using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular RStudio Connect board:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"mt"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a></code></pre></div>
 <pre><code># A tibble: 1 x 4
-  name             description                       type  board    
-  &lt;chr&gt;            &lt;chr&gt;                             &lt;chr&gt; &lt;chr&gt;    
+  name             description                       type  board
+  &lt;chr&gt;            &lt;chr&gt;                             &lt;chr&gt; &lt;chr&gt;
 1 jluraschi/mtcars "The motor trend cars data set. " table rsconnect</code></pre>
 <p>RStudio Connect boards contain extended fields that go beyond the fields <code>pins</code> requires, to retrieve all the additional fields use <code>extended = TRUE</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="dt">board =</span> <span class="st">"rsconnect"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code># A tibble: 2 x 38
      id guid  access_type connection_time… read_timeout init_timeout idle_timeout max_processes
-  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;       &lt;lgl&gt;            &lt;lgl&gt;        &lt;lgl&gt;        &lt;lgl&gt;        &lt;lgl&gt;        
-1  6446 1b9f… all         NA               NA           NA           NA           NA           
-2  6612 bf5d… acl         NA               NA           NA           NA           NA           
+  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;       &lt;lgl&gt;            &lt;lgl&gt;        &lt;lgl&gt;        &lt;lgl&gt;        &lt;lgl&gt;
+1  6446 1b9f… all         NA               NA           NA           NA           NA
+2  6612 bf5d… acl         NA               NA           NA           NA           NA
 # … with 30 more variables: min_processes &lt;lgl&gt;, max_conns_per_process &lt;lgl&gt;, load_factor &lt;lgl&gt;,
 #   url &lt;chr&gt;, vanity_url &lt;lgl&gt;, name &lt;chr&gt;, title &lt;lgl&gt;, bundle_id &lt;int&gt;, app_mode &lt;int&gt;,
 #   content_category &lt;chr&gt;, has_parameters &lt;lgl&gt;, created_time &lt;chr&gt;, last_deployed_time &lt;chr&gt;,
@@ -270,7 +270,7 @@
 <p>To support automation you need to use an <a href="https://docs.rstudio.com/connect/user/api-keys.html">RStudio Connect API Key</a> as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">key =</span> <span class="st">"the-rstudio-connect-api-key"</span>,</a>
 <a class="sourceLine" id="cb13-2" title="2">                         <span class="dt">server =</span> <span class="st">"https://rstudio-connect-server"</span>)</a></code></pre></div>
-<p>However, since it’s a best practice to not store secrets in plain text, <code>pins</code> will also read the key from the <code>RSCONNECT_API_KEY</code> environment variable, or you can retrieve explicitly as <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("RSCONNECT_API_KEY")</a></code> before assigning it to the key parameter.</p>
+<p>However, since it’s a best practice to not store secrets in plain text, <code>pins</code> will also read the key from the <code>CONNECT_API_KEY</code> environment variable, or you can retrieve explicitly as <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("CONNECT_API_KEY")</a></code> before assigning it to the key parameter.</p>
 <p>Once authenticated, you can use <code>pins</code> as you would normally would. Let’s take a look at an automated R Markdown report which retrieves the latest news from the BBC which we can then schedule to run daily to update the pin:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb14-1" title="1">---</a>
 <a class="sourceLine" id="cb14-2" title="2">title: "RStudio Connect -- World News"</a>
@@ -278,8 +278,8 @@
 <a class="sourceLine" id="cb14-4" title="4"></a>
 <a class="sourceLine" id="cb14-5" title="5"><span class="bn">```{r, setup, include = FALSE}</span></a>
 <a class="sourceLine" id="cb14-6" title="6"><span class="bn">library(pins)</span></a>
-<a class="sourceLine" id="cb14-7" title="7"><span class="bn">board_register_rsconnect(key = Sys.getenv("RSCONNECT_API_KEY"),</span></a>
-<a class="sourceLine" id="cb14-8" title="8"><span class="bn">                         server = Sys.getenv("RSCONNECT_SERVER"))</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="bn">board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),</span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="bn">                         server = Sys.getenv("CONNECT_SERVER"))</span></a>
 <a class="sourceLine" id="cb14-9" title="9"><span class="bn">```</span></a>
 <a class="sourceLine" id="cb14-10" title="10"></a>
 <a class="sourceLine" id="cb14-11" title="11">Create the <span class="bn">`world_news`</span> data frame,</a>
@@ -329,7 +329,7 @@
       </footer>
 </div>
 
-  
+
 
 
   </body>
