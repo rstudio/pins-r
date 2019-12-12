@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9001</span>
       </span>
     </div>
 
@@ -196,6 +196,42 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pins-0309000" class="section level1">
+<h1 class="page-header">
+<a href="#pins-0309000" class="anchor"></a>pins 0.3.0.9000<small> Unreleased </small>
+</h1>
+<div id="pins" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pins" class="anchor"></a>Pins</h2>
+<ul>
+<li><p><code><a href="../reference/pin_info.html">pin_info()</a></code> prints long character strings in their own line.</p></li>
+<li><p>Fixed issue in <code><a href="../reference/pin_remove.html">pin_remove()</a></code> for S3, Azure, GCloud, Google and website boards (<a href='https://github.com/rstudio/pins/issues/138'>#138</a>).</p></li>
+<li><p>Fixed issue when pinning complex data frames with nested lists (<a href='https://github.com/rstudio/pins/issues/142'>#142</a>).</p></li>
+</ul>
+</div>
+<div id="azure" class="section level2">
+<h2 class="hasAnchor">
+<a href="#azure" class="anchor"></a>Azure</h2>
+<ul>
+<li>Added missing <code>key</code> parameter in <code><a href="../reference/board_register_azure.html">board_register_azure()</a></code>.</li>
+</ul>
+</div>
+<div id="rstudio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio" class="anchor"></a>RStudio</h2>
+<ul>
+<li><p>Fixed connection suggested code when caused by <code><a href="../reference/pin_find.html">pin_find()</a></code> (<a href='https://github.com/rstudio/pins/issues/137'>#137</a>).</p></li>
+<li><p>Fixed connection launcher for Azure connections.</p></li>
+</ul>
+</div>
+<div id="rstudio-connect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<ul>
+<li>Added support for <code>RSCONNECT_API_KEY</code> in place of <code>RSCONNECT_API</code>, the latter still supported for backwards-compatibility.</li>
+</ul>
+</div>
+</div>
     <div id="pins-030" class="section level1">
 <h1 class="page-header">
 <a href="#pins-030" class="anchor"></a>pins 0.3.0<small> 2019-11-26 </small>
@@ -205,9 +241,9 @@
 <li><p>Support for Google Cloud board.</p></li>
 <li><p>Support for S3 board.</p></li>
 </ul>
-<div id="pins" class="section level2">
+<div id="pins-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pins" class="anchor"></a>Pins</h2>
+<a href="#pins-1" class="anchor"></a>Pins</h2>
 <ul>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> extracts URLs that end in <code>.gz</code> and <code>zip</code>, which can be disabled with <code><a href="../reference/pin.html">pin("&lt;url&gt;", extract = FALSE)</a></code>.</p></li>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> no longer prints the pin, you can revert this behavior with <code><a href="https://rdrr.io/r/base/options.html">options(pins.invisible = FALSE)</a></code> (<a href='https://github.com/rstudio/pins/issues/122'>#122</a>).</p></li>
@@ -228,18 +264,18 @@
 <li>Avoid “cannot create dir” warning in systems with an empty cache folder.</li>
 </ul>
 </div>
-<div id="rstudio" class="section level2">
+<div id="rstudio-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio" class="anchor"></a>RStudio</h2>
+<a href="#rstudio-1" class="anchor"></a>RStudio</h2>
 <ul>
 <li><p>Website boards now support the browse menu item in the connection.</p></li>
 <li><p>Fix data frames previewing character columns with special characters.</p></li>
 <li><p>Fix connection code when a board is registered automatically.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect" class="section level2">
+<div id="rstudio-connect-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue where <code><a href="../reference/pin_find.html">pin_find()</a></code> would not show all available pins.</p></li>
 <li><p>Fix issue where RStudio Connections pane would not show all pins.</p></li>
@@ -277,9 +313,9 @@
 <h1 class="page-header">
 <a href="#pins-020" class="anchor"></a>pins 0.2.0<small> 2019-10-01 </small>
 </h1>
-<div id="rstudio-connect-1" class="section level2">
+<div id="rstudio-connect-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for retrieving pins shared by others in RStudio Connect boards.</p></li>
 <li><p>Support for RStudio Connect servers running under a subpath in the server.</p></li>
@@ -352,6 +388,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#pins-0309000">0.3.0.9000</a></li>
         <li><a href="#pins-030">0.3.0</a></li>
         <li><a href="#pins-020">0.2.0</a></li>
         <li><a href="#pins-012">0.1.2</a></li>
