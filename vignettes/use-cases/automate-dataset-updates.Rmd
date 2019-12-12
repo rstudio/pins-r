@@ -17,7 +17,7 @@ title: "RStudio Connect -- World News"
 `r ''````{r, setup, include = FALSE}
 library(pins)
 board_register_rsconnect(key = Sys.getenv("RSCONNECT_API_KEY"),
-                         server = "https://rstudio-connect-server")
+                         server = Sys.getenv("RSCONNECT_SERVER"))
 ```
 
 Create the `world_news` data frame,
