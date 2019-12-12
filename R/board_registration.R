@@ -145,8 +145,8 @@ board_register_kaggle <- function(name = "kaggle",
 #' board_register_rsconnect(account = "account-name")
 #'
 #' # register automated report for rstudio connect
-#' board_register_rsconnect(key = Sys.getenv("RSCONNECT_API_KEY"),
-#'                          server = Sys.getenv("RSCONNECT_SERVER"))
+#' board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),
+#'                          server = Sys.getenv("CONNECT_SERVER"))
 #' }
 #'
 #' @export

@@ -20,8 +20,9 @@
 
 ## RStudio Connect
 
-- Added support for `RSCONNECT_API_KEY` in place of `RSCONNECT_API`, the latter
-  still supported for backwards-compatibility.
+- Added support for `CONNECT_API_KEY` and `CONNECT_SERVER` in place of
+  `RSCONNECT_API` and `RSCONNECT_SERVER`, which they are still supported
+  for backwards-compatibility.
 
 # pins 0.3.0
 
