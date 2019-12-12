@@ -16,7 +16,7 @@ title: "RStudio Connect -- World News"
 
 `r ''````{r, setup, include = FALSE}
 library(pins)
-board_register_rsconnect(key = Sys.getenv("RSCONNECT_API"),
+board_register_rsconnect(key = Sys.getenv("RSCONNECT_API_KEY"),
                          server = "https://rstudio-connect-server")
 ```
 

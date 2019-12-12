@@ -1,4 +1,4 @@
-# pins 0.3.0.9004
+# pins 0.3.0.9000
 
 ## Pins
 
@@ -17,6 +17,11 @@
 - Fixed connection suggested code when caused by `pin_find()` (#137).
 
 - Fixed connection launcher for Azure connections.
+
+## RStudio Connect
+
+- Added support for `RSCONNECT_API_KEY` in place of `RSCONNECT_API`, the latter
+  still supported for backwards-compatibility.
 
 # pins 0.3.0
 

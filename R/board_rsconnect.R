@@ -11,7 +11,7 @@ rsconnect_pins_supported <- function(board) {
 board_initialize.rsconnect <- function(board, ...) {
   args <- list(...)
 
-  envvar_key <- Sys.getenv("RSCONNECT_API")
+  envvar_key <- Sys.getenv("RSCONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))
   if (is.null(args$key) && nchar(envvar_key) > 0) {
     args$key <- envvar_key
   }
