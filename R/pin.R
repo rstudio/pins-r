@@ -383,24 +383,35 @@ print_pin_info <- function(name, e, ident) {
   # one-row data frames are better displayed as lists
   if (is.data.frame(e) && nrow(e) == 1) e <- as.list(e)
 
+  name_prefix <- if (!is.null(name) && nchar(name) > 0) paste0(name, ": ") else ""
+
   if (!is.list(e) && is.vector(e)) {
-    cat(crayon::silver(paste0("#", ident, "- ", name, ": ", paste(e, collapse = ", "), "\n")))
+    # Long strings (like paths) print better on their own line
+    if (length(e) > 1 && is.character(e) && max(nchar(e)) > 20) {
+      cat(crayon::silver(paste0("#", ident, "- ", name_prefix, "\n")))
+      for (i in e) {
+        print_pin_info("", i, paste0(ident, "  "))
+      }
+    }
+    else {
+      cat(crayon::silver(paste0("#", ident, "- ", name_prefix, paste(e, collapse = ", "), "\n")))
+    }
   }
   else if (is.data.frame(e)) {
-    cat(crayon::silver(paste0("#", ident, "- ", name, ": ")))
+    cat(crayon::silver(paste0("#", ident, "- ", name_prefix)))
     if (length(colnames(e)) > 0) cat(crayon::silver(paste0("(", colnames(e)[[1]], ") ")))
     cat(crayon::silver(paste(e[,1], collapse = ", ")))
     if (length(colnames(e)) > 1) cat(crayon::silver("..."))
     cat(crayon::silver("\n"))
   }
   else if (is.list(e)) {
-    cat(crayon::silver(paste0("#", ident, "- ", name, ": \n")))
+    cat(crayon::silver(paste0("#", ident, "- ", name_prefix, "\n")))
     for (i in names(e)) {
       print_pin_info(i, e[[i]], paste0(ident, "  "))
     }
   }
   else {
-    cat(crayon::silver(paste0("#", ident, "- ", name, ": ", class(e)[[1]], "\n")))
+    cat(crayon::silver(paste0("#", ident, "- ", name_prefix, class(e)[[1]], "\n")))
   }
 }
 

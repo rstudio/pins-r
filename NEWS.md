@@ -1,6 +1,8 @@
-# pins 0.3.0.9002
+# pins 0.3.0.9003
 
 ## Pins
+
+- `pin_info()` prints long character strings in their own line.
 
 - Fixed issue in `pin_remove()` for S3, Azure, GCloud, Google and website boards (#138).
 
