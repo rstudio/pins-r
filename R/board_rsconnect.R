@@ -103,6 +103,10 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
                                       name = name,
                                       description = board_metadata_to_text(metadata, metadata$description)
                                     ))
+
+      if (!is.null(content$error)) {
+        stop("Failed to create pin: ", content$error)
+      }
     }
 
     files <- lapply(dir(temp_dir, recursive = TRUE, full.names = TRUE), function(path) {
