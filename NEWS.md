@@ -20,6 +20,8 @@
 
 ## RStudio Connect
 
+- Improve error messages when a pin fails to be created (#149).
+
 - Added support for `CONNECT_API_KEY` and `CONNECT_SERVER` in place of
   `RSCONNECT_API` and `RSCONNECT_SERVER`, which they are still supported
   for backwards-compatibility.
