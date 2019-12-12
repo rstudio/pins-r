@@ -41,8 +41,8 @@ board_register_rsconnect(server = "https://rstudio-connect-server")
 board_register_rsconnect(account = "account-name")
 
 # register automated report for rstudio connect
-board_register_rsconnect(key = Sys.getenv("RSTUDIO_KEY"),
-                         server = "https://rstudio-connect-server")
+board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),
+                         server = Sys.getenv("CONNECT_SERVER"))
 }
 
 }

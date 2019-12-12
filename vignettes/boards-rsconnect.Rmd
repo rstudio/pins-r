@@ -160,7 +160,7 @@ board_register_rsconnect(key = "the-rstudio-connect-api-key",
                          server = "https://rstudio-connect-server")
 ```
 
-However, since it's a best practice to not store secrets in plain text, `pins` will also read the key from the `RSCONNECT_API` environment variable, or you can retrieve explicitly as `Sys.getenv("RSCONNECT_API")` before assigning it to the key parameter.
+However, since it's a best practice to not store secrets in plain text, `pins` will also read the key from the `CONNECT_API_KEY` environment variable, or you can retrieve explicitly as `Sys.getenv("CONNECT_API_KEY")` before assigning it to the key parameter.
 
 Once authenticated, you can use `pins` as you would normally would. Let's take a look at an automated R Markdown report which retrieves the latest news from the BBC which we can then schedule to run daily to update the pin:
 
@@ -171,8 +171,8 @@ title: "RStudio Connect -- World News"
 
 `r ''````{r, setup, include = FALSE}
 library(pins)
-board_register_rsconnect(key = Sys.getenv("RSCONNECT_API"),
-                         server = "https://rstudio-connect-server")
+board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),
+                         server = Sys.getenv("CONNECT_SERVER"))
 ```
 
 Create the `world_news` data frame,
