@@ -20,6 +20,9 @@
 
 ## RStudio Connect
 
+- Fix issue uploading large pins causing `is.character(type) is not TRUE`
+  error.
+
 - Fix issue affecting boards registered with trailing slash (#151).
 
 - Improve error messages when a pin fails to be created (#149).
