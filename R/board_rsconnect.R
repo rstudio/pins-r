@@ -138,8 +138,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
 
     upload <- rsconnect_api_post(board,
                                  paste0("/__api__/v1/experimental/content/", guid, "/upload"),
-                                 httr::upload_file(normalizePath(bundle),
-                                                   type = "application/gzip"),
+                                 httr::upload_file(normalizePath(bundle)),
                                  progress = http_utils_progress("up", size = file.info(normalizePath(bundle))$size))
 
     if (!is.null(upload$error)) {
