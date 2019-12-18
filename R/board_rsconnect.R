@@ -68,7 +68,6 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   file.copy(dir(path, full.names = TRUE), temp_dir)
   data_files <- tryCatch({
     rsconnect_bundle_create(x, temp_dir, name, board, account_name)
-    stop("blah")
   }, error = function(e) {
     NULL
   })
