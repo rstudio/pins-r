@@ -74,6 +74,8 @@
   
 ## RStudio
 
+- Gracefully handle errors when a pin's preview can't be created.
+
 - Website boards now support the browse menu item in the connection.
 
 - Fix data frames previewing character columns with special

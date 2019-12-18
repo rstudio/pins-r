@@ -66,7 +66,21 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
   }
 
   file.copy(dir(path, full.names = TRUE), temp_dir)
-  data_files <- rsconnect_bundle_create(x, temp_dir, name, board, account_name)
+  data_files <- tryCatch({
+    rsconnect_bundle_create(x, temp_dir, name, board, account_name)
+    stop("blah")
+  }, error = function(e) {
+    NULL
+  })
+
+  # handle unexepcted failures gracefully
+  if (is.null(data_files)) {
+    warning("Falied to create preview files for pin.")
+    unlink(temp_dir, recursive = TRUE)
+    dir.create(temp_dir, recursive = TRUE)
+    file.copy(dir(path, full.names = TRUE), temp_dir)
+    data_files <- rsconnect_bundle_create.default(x, temp_dir, name, board, account_name)
+  }
 
   rsconnect_is_authenticated <- function(board) {
     !is.null(board$key) || !is.null(board$account)
