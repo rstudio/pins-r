@@ -166,7 +166,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
 #' pin(mtcars)
 #'
 #' # remove mtcars pin
-#' pin_remove(mtcars, board = "local")
+#' pin_remove("mtcars", board = "local")
 #' @export
 pin_remove <- function(name, board) {
   board_pin_remove(board_get(board), name)
