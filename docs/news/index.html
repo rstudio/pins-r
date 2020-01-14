@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -196,9 +196,9 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-0309000" class="section level1">
+    <div id="pins-031" class="section level1">
 <h1 class="page-header">
-<a href="#pins-0309000" class="anchor"></a>pins 0.3.0.9000<small> Unreleased </small>
+<a href="#pins-031" class="anchor"></a>pins 0.3.1<small> 2020-01-10 </small>
 </h1>
 <div id="pins" class="section level2">
 <h2 class="hasAnchor">
@@ -228,7 +228,10 @@
 <h2 class="hasAnchor">
 <a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
 <ul>
-<li>Added support for <code>CONNECT_API_KEY</code> and <code>CONNECT_SERVER</code> in place of <code>RSCONNECT_API</code> and <code>RSCONNECT_SERVER</code>, which they are still supported for backwards-compatibility.</li>
+<li><p>Fix issue uploading large pins causing <code>is.character(type) is not TRUE</code> error.</p></li>
+<li><p>Fix issue affecting boards registered with trailing slash (<a href='https://github.com/rstudio/pins/issues/151'>#151</a>).</p></li>
+<li><p>Improve error messages when a pin fails to be created (<a href='https://github.com/rstudio/pins/issues/149'>#149</a>).</p></li>
+<li><p>Added support for <code>CONNECT_API_KEY</code> and <code>CONNECT_SERVER</code> in place of <code>RSCONNECT_API</code> and <code>RSCONNECT_SERVER</code>, which they are still supported for backwards-compatibility.</p></li>
 </ul>
 </div>
 </div>
@@ -268,6 +271,7 @@
 <h2 class="hasAnchor">
 <a href="#rstudio-1" class="anchor"></a>RStudio</h2>
 <ul>
+<li><p>Gracefully handle errors when a pin’s preview can’t be created.</p></li>
 <li><p>Website boards now support the browse menu item in the connection.</p></li>
 <li><p>Fix data frames previewing character columns with special characters.</p></li>
 <li><p>Fix connection code when a board is registered automatically.</p></li>
@@ -388,7 +392,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pins-0309000">0.3.0.9000</a></li>
+        <li><a href="#pins-031">0.3.1</a></li>
         <li><a href="#pins-030">0.3.0</a></li>
         <li><a href="#pins-020">0.2.0</a></li>
         <li><a href="#pins-012">0.1.2</a></li>
