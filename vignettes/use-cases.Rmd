@@ -24,7 +24,7 @@ pins_site_gallery(list(
        title       = "Automate Dataset Updates",
        href        = "use-cases/automate-dataset-updates.html",
        description = "Once a dataset is shared as a pin, it is natural to consider automating the process of updating it. This is especially relevant for datasets that change frequently. You can use automated tools like Travis, AppVeyor, GitHub Actions or RStudio Connect in combination with R and the pins package to keep your datasets up to date.",
-       app         = "https://beta.rstudioconnect.com/connect/#/apps/6446/access"),
+       app         = "https://beta.rstudioconnect.com/connect/#/apps/7532/access"),
    list(image      = "images/use-cases-create-data-pipelines.png",
        title       = "Create Data Pipelines",
        href        = "use-cases/create-data-pipelines.html",
