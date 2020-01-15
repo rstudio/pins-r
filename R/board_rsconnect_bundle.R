@@ -1,8 +1,8 @@
 
 rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   html_file <- file.path(temp_dir, "index.html")
-  user_file <- Sys.getenv("RSCONNECT_HTML_PATH")
-  if (user_file != "") {
+  user_file <- getOption("RSCONNECT_HTML_PATH")
+  if (!is.null(user_file)) {
     html_index <- readLines(user_file)
   } else {
     html_index <- readLines(html_file)
