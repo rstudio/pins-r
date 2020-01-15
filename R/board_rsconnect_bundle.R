@@ -1,6 +1,12 @@
+
 rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   html_file <- file.path(temp_dir, "index.html")
-  html_index <- readLines(html_file)
+  user_file <- getOption("RSCONNECT_HTML_PATH")
+  if (!is.null(user_file)) {
+    html_index <- readLines(user_file)
+  } else {
+    html_index <- readLines(html_file)
+  }
 
   value <- gsub("\\n", "\\\\n", value, fixed = TRUE)
   html_index <- gsub(paste0("{{", template, "}}"), value, html_index, fixed = TRUE)
