@@ -181,6 +181,7 @@ board_pin_find.rsconnect <- function(board,
                                      name = NULL,
                                      all_content = FALSE,
                                      extended = FALSE,
+                                     metadata = FALSE,
                                      ...) {
   if (is.null(text)) text <- ""
   if (!is.null(name)) text <- pin_content_name(name)
@@ -200,9 +201,6 @@ board_pin_find.rsconnect <- function(board,
     entries <- Filter(function(e) grepl(name_pattern, e$name), entries)
   }
 
-  if (identical(extended, TRUE))
-    return(pin_entries_to_dataframe(entries))
-
   results <- pin_results_from_rows(entries)
 
   if (nrow(results) == 0) {
@@ -215,7 +213,7 @@ board_pin_find.rsconnect <- function(board,
   results$name <- as.character(results$name)
   results$type <- unname(sapply(results$description, function(e) null_or_value(board_metadata_from_text(e)$type, "files")))
 
-  if (!identical(extended, TRUE)) {
+  if (identical(metadata, TRUE)) {
     results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
   }
 
@@ -227,12 +225,21 @@ board_pin_find.rsconnect <- function(board,
     etag <- as.character(entries[[1]]$last_deployed_time)
 
     local_path <- rsconnect_api_download(board, entries[[1]]$name, file.path(remote_path, "data.txt"), etag = etag)
-    manifest <- pin_manifest_get(local_path)
 
-    manifest <- c(entries[[1]], manifest)
+    manifest <- list()
+    if (identical(metadata, TRUE)) {
+      manifest <- pin_manifest_get(local_path)
+    }
+
+    if (identical(extended, TRUE)) {
+      manifest <- c(entries[[1]], manifest)
+    }
 
     results$type <- manifest$type
-    results$metadata <- as.character(jsonlite::toJSON(manifest, auto_unbox = TRUE))
+
+    if (identical(metadata, TRUE)) {
+      results$metadata <- as.character(jsonlite::toJSON(manifest, auto_unbox = TRUE))
+    }
   }
 
   results
