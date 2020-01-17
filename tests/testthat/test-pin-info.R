@@ -27,7 +27,7 @@ test_that("can retrieve pin_info() with no metadata info across all boards", {
 
   expect_equal(entries$name, "iris")
   expect_equal(entries$type, "table")
-  expect_equal(as.character(entries$rows), "150")
+  expect_equal("rows" %in% colnames(entries$rows), FALSE)
 })
 
 test_that("can retrieve pin_info() with no extended nor metadata info across all boards", {
@@ -37,5 +37,5 @@ test_that("can retrieve pin_info() with no extended nor metadata info across all
 
   expect_equal(entries$name, "iris")
   expect_equal(entries$type, "table")
-  expect_equal(as.character(entries$rows), "150")
+  expect_equal("rows" %in% colnames(entries$rows), FALSE)
 })
