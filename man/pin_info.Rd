@@ -4,14 +4,16 @@
 \alias{pin_info}
 \title{Pin Info}
 \usage{
-pin_info(name, board = NULL, extended = TRUE, ...)
+pin_info(name, board = NULL, extended = TRUE, metadata = TRUE, ...)
 }
 \arguments{
 \item{name}{The exact name of the pin to match when searching.}
 
 \item{board}{The board name used to find the pin.}
 
-\item{extended}{Should additional board-specific colulmns be shown?}
+\item{extended}{Should additional board-specific information be shown?}
+
+\item{metadata}{Should additional pin-specific information be shown?}
 
 \item{...}{Additional parameters.}
 }
