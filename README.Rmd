@@ -194,7 +194,7 @@ Pins can also be automated using scheduled R Markdown. This makes it much easier
 Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:
 
 ```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins.git@v0.3.0#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.3.1#subdirectory=python
 ```
 
 Followed by using `pins` from Python:

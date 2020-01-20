@@ -287,7 +287,7 @@ started, first install the pins
 module:
 
 ``` bash
-pip install git+https://github.com/rstudio/pins.git@v0.3.0#subdirectory=python
+pip install git+https://github.com/rstudio/pins.git@v0.3.1#subdirectory=python
 ```
 
 Followed by using `pins` from Python:
