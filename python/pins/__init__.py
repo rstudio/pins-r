@@ -9,6 +9,7 @@ import platform
 import sys
 
 rlib = None
+pins_init = False
 
 def _get_rhome():
     r_home = os.environ.get("R_HOME")
@@ -160,17 +161,22 @@ def _build_call(function, params):
   return call
   
 def _init_pins():
+  global pins_init
+  
+  if not pins_init:
     r_start()
-    r_eval("""
-        if (length(find.package("pins", quiet = TRUE)) == 0) {
-          install.packages("pins", version = "0.3.1", repos = pins:::packages_repo_default())
-        }
-        
-        if (length(find.package("feather", quiet = TRUE)) == 0) {
-          install.packages("feather", repos = pins:::packages_repo_default())
-        }
-    """)
+    pins_installed = r_eval("as.character(length(find.package('pins', quiet = TRUE)) > 0)")
+    feather_installed = r_eval("as.character(length(find.package('feather', quiet = TRUE)) > 0)")
+    
+    if pins_installed != "TRUE":
+      r_eval("install.packages('pins', version = '0.3.1', repos = pins:::packages_repo_default())")
+    
+    if feather_installed != "TRUE":
+      r_eval("install.packages('feather', repos = pins:::packages_repo_default())")
+
+    _print("loading pins package")
     r_eval("library('pins')")
+    pins_init = True
     
 def _from_arrow(buffer):
     import pyarrow as pa
