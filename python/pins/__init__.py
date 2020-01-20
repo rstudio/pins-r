@@ -173,8 +173,7 @@ def _init_pins():
     
     if feather_installed != "TRUE":
       r_eval("install.packages('feather', repos = pins:::packages_repo_default())")
-
-    _print("loading pins package")
+    
     r_eval("library('pins')")
     pins_init = True
     
