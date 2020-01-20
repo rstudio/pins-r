@@ -230,7 +230,8 @@ def pin(x, name, description = "", board = None):
       _build_call("pins::pin", {
         'x': { 'code': "feather::read_feather(\"" + path + "\")" },
         'name': name,
-        'description': description }) +
+        'description': description,
+        'board': board }) +
       ", \"" + path + "\")")
     result = _from_feather(path)
     os.remove(path)
