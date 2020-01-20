@@ -1,3 +1,9 @@
+# pins 0.3.1.9000
+
+## Pins
+
+- `pin_info()` adds support for `metadata` parameter to avoid retrieving pin contents.
+
 # pins 0.3.1
 
 ## Pins

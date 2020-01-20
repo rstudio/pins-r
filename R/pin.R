@@ -321,7 +321,8 @@ pin_files <- function(name, board = NULL, ...) {
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.
-#' @param extended Should additional board-specific colulmns be shown?
+#' @param extended Should additional board-specific information be shown?
+#' @param metadata Should additional pin-specific information be shown?
 #' @param ... Additional parameters.
 #'
 #' @examples
@@ -337,40 +338,30 @@ pin_files <- function(name, board = NULL, ...) {
 #' pin_info("mtcars")
 #'
 #' @export
-pin_info <- function(name, board = NULL, extended = TRUE, ...) {
-  entry <- pin_find(name = name, board = board, metadata = TRUE)
+pin_info <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) {
+  # first ensure there is always one pin since metadata with multiple entries can fail
+  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
 
   if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
   if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, llapse = ","),  ".")
 
   board <- entry$board
+  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
+
+  board <- entry$board
 
   metadata <- list()
-  if (!is.null(entry$metadata) && nchar(entry$metadata) > 0) {
+  if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
     metadata <- jsonlite::fromJSON(entry$metadata)
   }
 
-  entry <- as.list(entry)
-  entry_ext <- list()
+  entry_ext <- as.list(entry)
+  entry_ext$metadata <- NULL
 
-  if (extended) {
-    entry_df <- pin_find(name = name, board = board, extended = TRUE)
-    if (nrow(entry_df) == 1) {
-      entry_ext <- as.list(entry_df)
-    }
-
-    entry_ext <- Filter(function(e) !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0, entry_df)
-  }
+  entry_ext <- Filter(function(e) !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0, entry_ext)
 
   for (name in names(metadata)) {
-    if (nrow(entry_ext) == length(metadata[[name]])) {
-      entry_ext[[name]] <- metadata[[name]]
-    }
-  }
-  entry$metadata <- NULL
-
-  for (name in names(entry)) {
-    entry_ext[[name]] <- entry[[name]]
+    entry_ext[[name]] <- metadata[[name]]
   }
 
   structure(entry_ext, class = "pin_info")
