@@ -1,5 +1,5 @@
 
-add_user_html <- function(dir, path = getOption("RSCONNECT_HTML_PATH")) {
+add_user_html <- function(dir, path = getOption("RSCONNECT_HTML_PATH", "")) {
   if (path != "") {
     file.copy(path, file.path(dir, "index.html"), overwrite = TRUE)
   }
