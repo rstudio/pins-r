@@ -1,7 +1,13 @@
+
+add_user_html <- function(dir, path = getOption("RSCONNECT_HTML_PATH", "")) {
+  if (path != "") {
+    file.copy(path, file.path(dir, "index.html"), overwrite = TRUE)
+  }
+}
+
 rsconnect_bundle_template_html <- function(temp_dir, template, value) {
   html_file <- file.path(temp_dir, "index.html")
   html_index <- readLines(html_file)
-
   value <- gsub("\\n", "\\\\n", value, fixed = TRUE)
   html_index <- gsub(paste0("{{", template, "}}"), value, html_index, fixed = TRUE)
   writeLines(html_index, html_file)
@@ -31,6 +37,8 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
     recursive = TRUE)
+
+  add_user_html(temp_dir)
 
   max_rows <- min(nrow(x), getOption("pins.preview.rows", 10^4))
 
@@ -91,6 +99,7 @@ rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_na
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
     recursive = TRUE)
+  add_user_html(temp_dir)
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
   rsconnect_bundle_template_html(temp_dir, "data_preview", "{\"data\": [], \"columns\": []}")
@@ -113,6 +122,7 @@ rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
     recursive = TRUE)
+  add_user_html(temp_dir)
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
   rsconnect_bundle_template_html(temp_dir, "data_preview", "{\"data\": [], \"columns\": []}")

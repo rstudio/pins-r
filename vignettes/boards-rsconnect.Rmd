@@ -149,6 +149,15 @@ You can share pins with others in RStudio Connect, by changing the viewers of th
 
 Once you share this pin with specific users, they can follow the same steps to register their RStudio Connect board, to download this pin.
 
+### Modifying pins front matter
+
+When you share a pin on RStudio Connect, the user will see instructions for getting the pin from R or Python as well as the first few rows of the dataset. This material is provided by the pins package based on an html template. The template can be modified in a few steps: 
+
+1) Locate the file with `system.file("views/data/index.html", package = "pins")`
+1) Copy the file to a new location and make any changes to it
+1) Set the file path as an option using `Sys.setenv(RSCONNECT_HTML_PATH = <your index>)`
+1) Pin a dataset normally
+
 ## Automation
 
 One significant advantage from using RStudio Connect over other boards is its ability to schedule R Markdown reports to run automatically. This allows you to automate the creation of pins and also consume pins published manually from automated reports.
