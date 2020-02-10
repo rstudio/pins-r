@@ -1,4 +1,10 @@
-# pins 0.3.1.9000
+# pins 0.3.2.9000
+
+## RStudio
+
+- `pin()` now refreshes the connections pane.
+
+# pins 0.3.2
 
 ## Pins
 
