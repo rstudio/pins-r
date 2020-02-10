@@ -46,6 +46,8 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
 
   board_pin_create(board, store_path, name = name, metadata = metadata, ...)
 
+  ui_viewer_updated(board)
+
   pin_get(name, board$name, ...) %>%
     invisible_maybe()
 }
