@@ -189,7 +189,7 @@ pin_find_empty <- function() {
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
 #' @param name The exact name of the pin to match when searching.
-#' @param extended Should additional board-specific colulmns be shown?
+#' @param extended Should additional board-specific columns be shown?
 #' @param ... Additional parameters.
 #'
 #' @details
