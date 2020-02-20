@@ -4,6 +4,10 @@
 
 - `pin()` now refreshes the connections pane.
 
+## RStudio Connect
+
+- Improve error message for `pin_get()` with duplicate names (#171).
+
 # pins 0.3.2
 
 ## Pins
