@@ -1,5 +1,7 @@
 # pins 0.3.2.9000
 
+- Support for DigitalOcean board.
+
 ## RStudio
 
 - `pin()` now refreshes the connections pane.
