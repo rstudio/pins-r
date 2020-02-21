@@ -27,6 +27,7 @@ Imports:
   openssl,
   rappdirs,
   withr,
+  xml2,
   yaml,
   zip
 Suggests:
