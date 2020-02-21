@@ -13,10 +13,16 @@ board_register_dospace(name = "dospace",
 \arguments{
 \item{name}{Optional name for this board, defaults to 's3'.}
 
+\item{space}{The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
+variable.}
+
 \item{key}{The key of the DigitalOcean space. Defaults to the \code{DO_ACCESS_KEY_ID} environment
 variable.}
 
 \item{secret}{The secret of the DigitalOcean space. Defaults to the \code{DO_SECRET_ACCESS_KEY} environment
+variable.}
+
+\item{datacenter}{The datacenter of the DigitalOcean space. Defaults to the \code{DO_DATACENTER} environment
 variable.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
@@ -24,9 +30,6 @@ variable.}
 \item{host}{The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
-
-\item{bucket}{The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
-variable.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to
