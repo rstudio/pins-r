@@ -31,7 +31,8 @@ Notice that `board_register_dospace()` is just an alias with named parameters to
 ```{r eval=FALSE}
 board_register("dospace", space = "pinstest",
                           key = "AAAAAAAAAAAAAAAAAAAA",
-                          secret = "ABCABCABCABCABCABCABCABCABCABCABCABCABCA==")
+                          secret = "ABCABCABCABCABCABCABCABCABCABCABCABCABCA==",
+                          datacenter = "sfo2")
 ```
 
 Once the board is registered, you can pin and search using `pin()`, `pin_get()` and `pin_find()`.

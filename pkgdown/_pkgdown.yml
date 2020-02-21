@@ -47,6 +47,8 @@ navbar:
           href: articles/boards-understanding.html
         - text: "Azure"
           href: articles/boards-azure.html
+        - text: "DigitalOcean"
+          href: articles/boards-dospace.html
         - text: "GitHub"
           href: articles/boards-github.html
         - text: "Google Cloud"
