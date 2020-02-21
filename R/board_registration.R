@@ -215,6 +215,7 @@ board_register_datatxt <- function(url,
 #' @param secret The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
 #'   variable.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param host The host to use for storage, defaults to \code{"s3.amazonaws.com"}.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -235,6 +236,7 @@ board_register_s3 <- function(name = "s3",
                               key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                               secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                               cache = board_cache_path(),
+                              host = "s3.amazonaws.com",
                               ...) {
   board_register("s3",
                  name = name,

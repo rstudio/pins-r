@@ -10,6 +10,10 @@
 
 - `pin_info()` adds support for `metadata` parameter to avoid retrieving pin contents.
 
+## S3
+
+- Added support for `host` parameter to configure "s3.amazonaws.com" to custom locations.
+
 ## GitHub
 
 - Fix regression uploading large datasets as release files.
