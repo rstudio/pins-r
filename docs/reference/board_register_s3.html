@@ -78,7 +78,7 @@ register an Amazon S3 bucket as a board." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
       </span>
     </div>
 
@@ -108,6 +108,9 @@ register an Amazon S3 bucket as a board." />
     </li>
     <li>
       <a href="../articles/boards-azure.html">Azure</a>
+    </li>
+    <li>
+      <a href="../articles/boards-dospace.html">DigitalOcean</a>
     </li>
     <li>
       <a href="../articles/boards-github.html">GitHub</a>
@@ -210,7 +213,7 @@ register an Amazon S3 bucket as a board.</p>
     <pre class="usage"><span class='fu'>board_register_s3</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"s3"</span>, <span class='kw'>bucket</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"AWS_BUCKET"</span>),
   <span class='kw'>key</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"AWS_ACCESS_KEY_ID"</span>),
   <span class='kw'>secret</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"AWS_SECRET_ACCESS_KEY"</span>),
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(), <span class='no'>...</span>)</pre>
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"s3.amazonaws.com"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,6 +240,10 @@ variable.</p></td>
     <tr>
       <th>cache</th>
       <td><p>The local folder to use as a cache, defaults to <code><a href='board_cache_path.html'>board_cache_path()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>host</th>
+      <td><p>The host to use for storage, defaults to <code>"s3.amazonaws.com"</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>

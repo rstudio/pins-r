@@ -164,8 +164,9 @@ Connect](https://rstudio.github.io/pins/articles/boards-rsconnect.html),
 [Azure](https://rstudio.github.io/pins/articles/boards-azure.html),
 [Google
 Cloud](https://rstudio.github.io/pins/articles/boards-gcloud.html),
-[S3](https://rstudio.github.io/pins/articles/boards-s3.html) or
-integrate them to your
+[S3](https://rstudio.github.io/pins/articles/boards-s3.html),
+[DigitalOcean](https://rstudio.github.io/pins/articles/boards-dospace.html)
+or integrate them to your
 [website](https://rstudio.github.io/pins/articles/boards-websites.html)
 as well.
 

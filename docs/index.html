@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
       </span>
     </div>
 
@@ -72,6 +72,9 @@
     </li>
     <li>
       <a href="articles/boards-azure.html">Azure</a>
+    </li>
+    <li>
+      <a href="articles/boards-dospace.html">DigitalOcean</a>
     </li>
     <li>
       <a href="articles/boards-github.html">GitHub</a>
@@ -270,7 +273,7 @@
 <div id="share" class="section level3">
 <h3 class="hasAnchor">
 <a href="#share" class="anchor"></a>Share</h3>
-<p>Finally, you can share resources with other users by publishing to <a href="https://rstudio.github.io/pins/articles/boards-kaggle.html">Kaggle</a>, <a href="https://rstudio.github.io/pins/articles/boards-github.html">GitHub</a>, <a href="https://rstudio.github.io/pins/articles/boards-rsconnect.html">RStudio Connect</a>, <a href="https://rstudio.github.io/pins/articles/boards-azure.html">Azure</a>, <a href="https://rstudio.github.io/pins/articles/boards-gcloud.html">Google Cloud</a>, <a href="https://rstudio.github.io/pins/articles/boards-s3.html">S3</a> or integrate them to your <a href="https://rstudio.github.io/pins/articles/boards-websites.html">website</a> as well.</p>
+<p>Finally, you can share resources with other users by publishing to <a href="https://rstudio.github.io/pins/articles/boards-kaggle.html">Kaggle</a>, <a href="https://rstudio.github.io/pins/articles/boards-github.html">GitHub</a>, <a href="https://rstudio.github.io/pins/articles/boards-rsconnect.html">RStudio Connect</a>, <a href="https://rstudio.github.io/pins/articles/boards-azure.html">Azure</a>, <a href="https://rstudio.github.io/pins/articles/boards-gcloud.html">Google Cloud</a>, <a href="https://rstudio.github.io/pins/articles/boards-s3.html">S3</a>, <a href="https://rstudio.github.io/pins/articles/boards-dospace.html">DigitalOcean</a> or integrate them to your <a href="https://rstudio.github.io/pins/articles/boards-websites.html">website</a> as well.</p>
 <p>To publish to Kaggle, you would first need to register the Kaggle board by creating a <a href="https://www.kaggle.com/me/account">Kaggle API Token</a>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"&lt;path-to-kaggle.json&gt;"</span>)</a></code></pre></div>
 <p>You can then easily publish to Kaggle:</p>
@@ -326,7 +329,7 @@
 <h3 class="hasAnchor">
 <a href="#python" class="anchor"></a>Python</h3>
 <p>Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins.git@v0.3.0#subdirectory=python</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="ex">pip</span> install git+https://github.com/rstudio/pins.git@v0.3.1#subdirectory=python</a></code></pre></div>
 <p>Followed by using <code>pins</code> from Python:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb16-1" title="1"><span class="im">import</span> pins</a>
 <a class="sourceLine" id="cb16-2" title="2">pins.pin_get(<span class="st">"hpiR/seattle_sales"</span>)</a></code></pre></div>

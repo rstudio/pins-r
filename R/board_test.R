@@ -96,12 +96,14 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
   })
 
   deps$test_that(paste("can pin() medium files", destination), {
+    deps$skip("This test is too slow")
+
     if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 
     flights_file <- tempfile(fileext = ".csv")
     on.exit(unlink(flights_file))
 
-    pin_get("nycflights13/flights") %>% write.csv(flights_file)
+    pin_get("nycflights13/flights") %>% utils::write.csv(flights_file)
 
     flights_name <- paste0("flights", round(stats::runif(1, 1, 1000)))
     result <- pin(flights_file, name = flights_name, board = board)

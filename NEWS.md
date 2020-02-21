@@ -1,5 +1,7 @@
 # pins 0.3.2.9000
 
+- Support for DigitalOcean board.
+
 ## RStudio
 
 - `pin()` now refreshes the connections pane.
@@ -13,6 +15,10 @@
 ## Pins
 
 - `pin_info()` adds support for `metadata` parameter to avoid retrieving pin contents.
+
+## S3
+
+- Added support for `host` parameter to configure "s3.amazonaws.com" to custom locations.
 
 ## GitHub
 

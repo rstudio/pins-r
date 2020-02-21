@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
       </span>
     </div>
 
@@ -69,6 +69,9 @@
     </li>
     <li>
       <a href="../articles/boards-azure.html">Azure</a>
+    </li>
+    <li>
+      <a href="../articles/boards-dospace.html">DigitalOcean</a>
     </li>
     <li>
       <a href="../articles/boards-github.html">GitHub</a>
@@ -296,6 +299,18 @@
 <a class="sourceLine" id="cb14-22" title="22"><span class="bn">```{r}</span></a>
 <a class="sourceLine" id="cb14-23" title="23"><span class="bn">pin(world_news, "worldnews", board = "rsconnect")</span></a>
 <a class="sourceLine" id="cb14-24" title="24"><span class="bn">```</span></a></code></pre></div>
+</div>
+<div id="customizing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#customizing" class="anchor"></a>Customizing</h2>
+<p>A pin is displayed in RStudio Connect with an auto-generated page showcasing instructions for getting the pin and a preview of the dataset, this page can be customized as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Locate the file with <code><a href="https://rdrr.io/r/base/system.file.html">system.file("views/data/index.html", package = "pins")</a></code>
+</li>
+<li>Copy the file to a new location and make any changes to it.</li>
+<li>Set the file path as an option using <code>Sys.setenv(RSCONNECT_HTML_PATH = &lt;your index&gt;)</code>.</li>
+<li>Pin a dataset normally,</li>
+</ol>
 <p>Please note that experimental support for <code>pins</code> was introduced in RStudio Connect 1.7.8.</p>
 </div>
   </div>
@@ -310,6 +325,7 @@
       <li><a href="#discovering">Discovering</a></li>
       <li><a href="#sharing">Sharing</a></li>
       <li><a href="#automation">Automation</a></li>
+      <li><a href="#customizing">Customizing</a></li>
       </ul>
 </div>
       </div>
