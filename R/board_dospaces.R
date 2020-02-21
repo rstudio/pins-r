@@ -1,5 +1,5 @@
 dospace_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z")
+  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z", tz = "UTC")
 
   # allow full urls to allow arbitrary file downloads
   path <- gsub(paste0(board$url, "/"), "", path, fixed = TRUE)
