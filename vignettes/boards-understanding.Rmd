@@ -34,6 +34,9 @@ A local board is quite useful for all the reasons mentioned in the [Getting Star
 Azure
 : [Azure](https://azure.microsoft.com) is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications and services through Microsoft-managed data centers. Azure provides storage services for storing and accessing data on the cloud. You can learn more about using `pins` with Azure in the [Azure Board](boards-azure.html) article.
 
+DigitalOcean
+: [DigitalOcean](https://digitalocean.com) is an American cloud infrastructure provider with data centers worldwide. DigitalOcean Spaces is an S3-compatible object storage service that lets you store and serve large amounts of data.  You can learn more aboaut using `pins` with DigitalOcean in the [DigitalOcean Board](boards-dospace.Rmd) article.
+
 GitHub
 : [GitHub](https://github.com) is an American company that provides hosting for software development version control using Git and a subsidiary of Microsoft. GitHub offers plans for free, professional, and enterprise accounts; but free accounts are commonly used to host open source projects. While GitHub is mostly known to be used as a code repository, it is a common practice to also use GitHub to store datasets. However, GitHub works best with datasets under [25MB](https://help.github.com/en/articles/adding-a-file-to-a-repository) before workarounds like [Git LFS](https://git-lfs.github.com/) and [release files](https://help.github.com/en/articles/distributing-large-binaries) to support up to 2GB resources. You can learn more about using `pins` with GitHub in the [GitHub Board](boards-github.html) article.
 
