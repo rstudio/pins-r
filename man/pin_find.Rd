@@ -14,7 +14,7 @@ pin_find(text = NULL, board = NULL, name = NULL, extended = FALSE,
 
 \item{name}{The exact name of the pin to match when searching.}
 
-\item{extended}{Should additional board-specific colulmns be shown?}
+\item{extended}{Should additional board-specific columns be shown?}
 
 \item{...}{Additional parameters.}
 }

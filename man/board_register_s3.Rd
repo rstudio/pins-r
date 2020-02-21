@@ -7,7 +7,7 @@
 board_register_s3(name = "s3", bucket = Sys.getenv("AWS_BUCKET"),
   key = Sys.getenv("AWS_ACCESS_KEY_ID"),
   secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  cache = board_cache_path(), ...)
+  cache = board_cache_path(), host = "s3.amazonaws.com", ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 's3'.}
@@ -22,6 +22,8 @@ variable.}
 variable.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{host}{The host to use for storage, defaults to \code{"s3.amazonaws.com"}.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
