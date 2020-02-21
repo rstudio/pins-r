@@ -115,6 +115,7 @@ pins_connection_ui <- function() {
           list(
             local = "local",
             azure = "azure",
+            dospace = "dospace",
             gcloud = "gcloud",
             github = "github",
             kaggle = "kaggle",
@@ -260,6 +261,35 @@ pins_connection_ui <- function() {
         class = "token-label"
       )
     ),
+    conditionalPanel(
+      condition = "input.board == 'dospace'",
+      textInput(
+        "do_space",
+        "Space:",
+        value = ""
+      ),
+      textInput(
+        "do_datacenter",
+        "Datacenter:",
+        value = ""
+      ),
+      conditionalPanel(
+        condition = "output.showOptional",
+        textInput(
+          "do_key",
+          "Key:",
+          value = ""
+        )
+      ),
+      tags$div(
+        "Requires a DigitalOcean space from",
+        tags$a(
+          "digitalocean.com",
+          href = "http://digitalocean.com/"
+        ),
+        class = "token-label"
+      )
+    ),
     tags$div(
       style = paste("display: table-row; height: 10px")
     )
@@ -276,6 +306,9 @@ pins_connection_server <- function(input, output, session) {
     }
     else if (identical(input$board, "s3")) {
       nchar(Sys.getenv("AWS_ACCESS_KEY_ID")) == 0
+    }
+    else if (identical(input$board, "dospace")) {
+      nchar(Sys.getenv("DO_ACCESS_KEY_ID")) == 0
     }
     else {
       TRUE
@@ -389,6 +422,26 @@ pins_connection_server <- function(input, output, session) {
         "pins::board_register(\"s3\", ",
         "name = \"", input$s3_bucket, "\", ",
         "bucket = \"", input$s3_bucket, "\"", s3_params, ")\n", sep = "")
+    }
+    else if (identical(board, "dospace") && nchar(input$do_space) > 0) {
+      do_params <- ""
+      if (nchar(Sys.getenv("DO_ACCESS_KEY_ID")) == 0) {
+        do_params <- paste0(", key = \"", input$do_key, "\"")
+      }
+
+      if (nchar(Sys.getenv("DO_SECRET_ACCESS_KEY")) == 0) {
+        do_params <- paste0(
+          do_params,
+          ", secret = rstudioapi::askForSecret(\"do_token\", \"Your DigitalOcean Token\", \"DigitalOcean Token\")"
+        )
+      }
+
+      initializer <- paste(
+        "pins::board_register(\"dospace\", ",
+        "name = \"", input$do_space, "\", ",
+        "space = \"", input$do_space, "\", ",
+        "datacenter = \"", input$do_datacenter, "\"",
+        do_params, ")\n", sep = "")
     }
 
     initializer
