@@ -103,7 +103,7 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
     flights_file <- tempfile(fileext = ".csv")
     on.exit(unlink(flights_file))
 
-    pin_get("nycflights13/flights") %>% write.csv(flights_file)
+    pin_get("nycflights13/flights") %>% utils::write.csv(flights_file)
 
     flights_name <- paste0("flights", round(stats::runif(1, 1, 1000)))
     result <- pin(flights_file, name = flights_name, board = board)
