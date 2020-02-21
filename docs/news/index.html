@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
       </span>
     </div>
 
@@ -105,6 +105,9 @@
     </li>
     <li>
       <a href="../articles/boards-azure.html">Azure</a>
+    </li>
+    <li>
+      <a href="../articles/boards-dospace.html">DigitalOcean</a>
     </li>
     <li>
       <a href="../articles/boards-github.html">GitHub</a>
@@ -196,13 +199,56 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-031" class="section level1">
+    <div id="pins-0329000" class="section level1">
 <h1 class="page-header">
-<a href="#pins-031" class="anchor"></a>pins 0.3.1<small> 2020-01-10 </small>
+<a href="#pins-0329000" class="anchor"></a>pins 0.3.2.9000<small> Unreleased </small>
+</h1>
+<ul>
+<li>Support for DigitalOcean board.</li>
+</ul>
+<div id="rstudio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio" class="anchor"></a>RStudio</h2>
+<ul>
+<li>
+<code><a href="../reference/pin.html">pin()</a></code> now refreshes the connections pane.</li>
+</ul>
+</div>
+</div>
+    <div id="pins-032" class="section level1">
+<h1 class="page-header">
+<a href="#pins-032" class="anchor"></a>pins 0.3.2<small> 2020-02-06 </small>
 </h1>
 <div id="pins" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pins" class="anchor"></a>Pins</h2>
+<ul>
+<li>
+<code><a href="../reference/pin_info.html">pin_info()</a></code> adds support for <code>metadata</code> parameter to avoid retrieving pin contents.</li>
+</ul>
+</div>
+<div id="s3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#s3" class="anchor"></a>S3</h2>
+<ul>
+<li>Added support for <code>host</code> parameter to configure “s3.amazonaws.com” to custom locations.</li>
+</ul>
+</div>
+<div id="github" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github" class="anchor"></a>GitHub</h2>
+<ul>
+<li>Fix regression uploading large datasets as release files.</li>
+</ul>
+</div>
+</div>
+    <div id="pins-031" class="section level1">
+<h1 class="page-header">
+<a href="#pins-031" class="anchor"></a>pins 0.3.1<small> 2020-01-10 </small>
+</h1>
+<div id="pins-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pins-1" class="anchor"></a>Pins</h2>
 <ul>
 <li><p><code><a href="../reference/pin_info.html">pin_info()</a></code> prints long character strings in their own line.</p></li>
 <li><p>Fixed issue in <code><a href="../reference/pin_remove.html">pin_remove()</a></code> for S3, Azure, GCloud, Google and website boards (<a href='https://github.com/rstudio/pins/issues/138'>#138</a>).</p></li>
@@ -216,9 +262,9 @@
 <li>Added missing <code>key</code> parameter in <code><a href="../reference/board_register_azure.html">board_register_azure()</a></code>.</li>
 </ul>
 </div>
-<div id="rstudio" class="section level2">
+<div id="rstudio-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio" class="anchor"></a>RStudio</h2>
+<a href="#rstudio-1" class="anchor"></a>RStudio</h2>
 <ul>
 <li><p>Fixed connection suggested code when caused by <code><a href="../reference/pin_find.html">pin_find()</a></code> (<a href='https://github.com/rstudio/pins/issues/137'>#137</a>).</p></li>
 <li><p>Fixed connection launcher for Azure connections.</p></li>
@@ -244,9 +290,9 @@
 <li><p>Support for Google Cloud board.</p></li>
 <li><p>Support for S3 board.</p></li>
 </ul>
-<div id="pins-1" class="section level2">
+<div id="pins-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pins-1" class="anchor"></a>Pins</h2>
+<a href="#pins-2" class="anchor"></a>Pins</h2>
 <ul>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> extracts URLs that end in <code>.gz</code> and <code>zip</code>, which can be disabled with <code><a href="../reference/pin.html">pin("&lt;url&gt;", extract = FALSE)</a></code>.</p></li>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> no longer prints the pin, you can revert this behavior with <code><a href="https://rdrr.io/r/base/options.html">options(pins.invisible = FALSE)</a></code> (<a href='https://github.com/rstudio/pins/issues/122'>#122</a>).</p></li>
@@ -267,9 +313,9 @@
 <li>Avoid “cannot create dir” warning in systems with an empty cache folder.</li>
 </ul>
 </div>
-<div id="rstudio-1" class="section level2">
+<div id="rstudio-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-1" class="anchor"></a>RStudio</h2>
+<a href="#rstudio-2" class="anchor"></a>RStudio</h2>
 <ul>
 <li><p>Gracefully handle errors when a pin’s preview can’t be created.</p></li>
 <li><p>Website boards now support the browse menu item in the connection.</p></li>
@@ -305,9 +351,9 @@
 <li><p>Fix in <code><a href="../reference/pin_find.html">pin_find()</a></code> to properly search desecription files.</p></li>
 </ul>
 </div>
-<div id="github" class="section level2">
+<div id="github-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github" class="anchor"></a>GitHub</h2>
+<a href="#github-1" class="anchor"></a>GitHub</h2>
 <ul>
 <li>Various fixes for GitHub boards using the <code>path</code> parameter when registering the board (<a href='https://github.com/rstudio/pins/issues/121'>#121</a>).</li>
 </ul>
@@ -329,9 +375,9 @@
 <li><p>Fix for data frames with nested data frames in rsconnect boards (<a href='https://github.com/rstudio/pins/issues/36'>#36</a>).</p></li>
 </ul>
 </div>
-<div id="github-1" class="section level2">
+<div id="github-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-1" class="anchor"></a>GitHub</h2>
+<a href="#github-2" class="anchor"></a>GitHub</h2>
 <ul>
 <li><p><code><a href="../reference/board_register_github.html">board_register_github()</a></code> now checks for the repo to exist (<a href='https://github.com/rstudio/pins/issues/63'>#63</a>).</p></li>
 <li><p>Adjusted max upload file to 25mb to avoid “server error” in the API, larger files than 25mb uploaded as release files. This can be configured using the <code>pins.github.release</code> option, which deefaults to 25.</p></li>
@@ -392,6 +438,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#pins-0329000">0.3.2.9000</a></li>
+        <li><a href="#pins-032">0.3.2</a></li>
         <li><a href="#pins-031">0.3.1</a></li>
         <li><a href="#pins-030">0.3.0</a></li>
         <li><a href="#pins-020">0.2.0</a></li>
