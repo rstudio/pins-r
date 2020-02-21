@@ -336,11 +336,13 @@ board_register_gcloud <- function(name = "gcloud",
 #' register a DigitalOcean Spaces board.
 #'
 #' @param name Optional name for this board, defaults to 's3'.
-#' @param bucket The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
+#' @param space The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
 #'   variable.
 #' @param key The key of the DigitalOcean space. Defaults to the \code{DO_ACCESS_KEY_ID} environment
 #'   variable.
 #' @param secret The secret of the DigitalOcean space. Defaults to the \code{DO_SECRET_ACCESS_KEY} environment
+#'   variable.
+#' @param datacenter The datacenter of the DigitalOcean space. Defaults to the \code{DO_DATACENTER} environment
 #'   variable.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param host The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.
