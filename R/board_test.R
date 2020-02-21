@@ -96,6 +96,8 @@ board_test <- function(board, exclude = list(), destination = paste(board, "boar
   })
 
   deps$test_that(paste("can pin() medium files", destination), {
+    deps$skip("This test is too slow")
+
     if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
 
     flights_file <- tempfile(fileext = ".csv")
