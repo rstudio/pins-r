@@ -254,11 +254,15 @@ rsconnect_get_by_name <- function(board, name) {
   details <- pin_results_extract_column(details, "guid")
 
   if (nrow(details) > 1) {
-    details <- details[details$owner_username == board$account,]
+    owner_details <- details[details$owner_username == board$account,]
+    if (nrow(owner_details) == 1) {
+      details <- owner_details
+    }
   }
 
   if (nrow(details) > 1) {
-    stop("Multiple pins named '", name, "' in board '", board$name, "'")
+    stop("Multiple pins named '", name, "' in board '", board$name,
+         "', choose from: ", paste0("'", paste0(details$name, collapse = "', '"), "'."))
   }
 
   details
