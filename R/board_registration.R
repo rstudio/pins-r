@@ -46,6 +46,7 @@ board_register_local <- function(name = "local",
 #' @param branch The branch to use when commiting pins.
 #' @param token Token to use when \code{GITHUB_PAT} is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
+#' @param host The URL hosting the GitHub API, defaults to \code{"https://api.github.com"}.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
@@ -58,6 +59,9 @@ board_register_local <- function(name = "local",
 #' they support up to 2GB file uploads. This threshold can be configured through
 #' the \code{pins.github.release} option which is specified in megabytes and
 #' defaults to \code{25}.
+#'
+#' When using GitHub Enterprise, consider customizing the \code{host} parameter to
+#' \code{"https://yourhostname/api/v3"}.
 #'
 #' @seealso board_register
 #'
@@ -72,6 +76,7 @@ board_register_github <- function(name = "github",
                                   branch = "master",
                                   token = NULL,
                                   path = "",
+                                  host = "https://api.github.com",
                                   cache = board_cache_path(),
                                   ...) {
   board_register("github", name = name,
@@ -80,6 +85,7 @@ board_register_github <- function(name = "github",
                            token = token,
                            path = path,
                            cache = cache,
+                           host = host,
                            ...)
 }
 

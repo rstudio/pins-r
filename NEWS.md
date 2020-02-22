@@ -10,6 +10,11 @@
 
 - Improve error message for `pin_get()` with duplicate names (#171).
 
+## GitHub
+
+- Support for custom GitHub hosts including GitHub Enterprise using the
+  `host` parameter in `board_register_github()` (#163).
+
 # pins 0.3.2
 
 ## Pins
