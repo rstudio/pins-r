@@ -6,7 +6,7 @@
 \usage{
 board_register_github(name = "github", repo = NULL,
   branch = "master", token = NULL, path = "",
-  cache = board_cache_path(), ...)
+  host = "https://api.github.com", cache = board_cache_path(), ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'github'.}
@@ -19,6 +19,8 @@ board_register_github(name = "github", repo = NULL,
 \item{token}{Token to use when \code{GITHUB_PAT} is not specified.}
 
 \item{path}{The subdirectory in the repo where the pins will be stored.}
+
+\item{host}{The URL hosting the GitHub API, defaults to \code{"https://api.github.com"}.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
@@ -36,6 +38,9 @@ When a file upload exceeds 25MB, a GitHub release file will be used since
 they support up to 2GB file uploads. This threshold can be configured through
 the \code{pins.github.release} option which is specified in megabytes and
 defaults to \code{25}.
+
+When using GitHub Enterprise, consider customizing the \code{host} parameter to
+\code{"https://yourhostname/api/v3"}.
 }
 \examples{
 \dontrun{
