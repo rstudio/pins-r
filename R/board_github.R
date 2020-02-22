@@ -17,7 +17,14 @@ github_headers <- function(board) {
   httr::add_headers(Authorization = paste("token", github_auth(board)))
 }
 
-board_initialize.github <- function(board, token = NULL, repo = NULL, path = "", branch = "master", overwrite = FALSE, ...) {
+board_initialize.github <- function(board,
+                                    token = NULL,
+                                    repo = NULL,
+                                    path = "",
+                                    branch = "master",
+                                    overwrite = FALSE,
+                                    host = "https://api.github.com",
+                                    ...) {
   if (!github_authenticated(board)) {
     if (is.null(token)) {
       stop("GitHub Personal Access Token must be specified with the 'token' parameter or with the 'GITHUB_PAT' ",
@@ -33,6 +40,7 @@ board_initialize.github <- function(board, token = NULL, repo = NULL, path = "",
   board$repo <- repo
   board$path <- if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else ""
   board$branch <- branch
+  board$host <- host
 
   # check repo exists
   check_exists <- httr::GET(github_url(board, branch = NULL), github_headers(board))
@@ -303,7 +311,7 @@ board_pin_find.github <- function(board, text, ...) {
 github_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
-  url <- paste0("https://api.github.com/repos/", board$repo, paste0(args, collapse = ""))
+  url <- paste0(board$host, "/repos/", board$repo, paste0(args, collapse = ""))
   if (!is.null(branch))
     url <- paste0(url, "?ref=", branch)
 
@@ -354,7 +362,7 @@ github_branches_create <- function(board, new_branch, base_branch) {
 github_content_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
-  url <- paste0("https://api.github.com/repos/", board$repo, "/contents/", paste0(board$path, paste0(args, collapse = "")))
+  url <- paste0(board$host, "/repos/", board$repo, "/contents/", paste0(board$path, paste0(args, collapse = "")))
   if (!is.null(branch))
     url <- paste0(url, "?ref=", branch)
 
