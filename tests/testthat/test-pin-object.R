@@ -9,3 +9,28 @@ test_that("can pin() object", {
 
   expect_equal(an_object, as.data.frame(roundtrip))
 })
+
+test_that("can pin() concurrently", {
+
+  temp_path <- tempfile()
+  dir.create(temp_path)
+
+  processes <- list()
+  for (i in 1:10) {
+    processes[[i]] <- callr::r_bg(function(temp_path) {
+      options(pins.path = temp_path)
+
+      for (i in 1:100) {
+        pins::pin(list(message = "concurrent test"), name = basename(tempfile()))
+      }
+    }, args = list(temp_path), )
+  }
+
+  for (i in 1:10) {
+    processes[[i]]$wait()
+  }
+
+  index <- yaml::read_yaml(file.path(temp_path, "local", "data.txt"))
+
+  expect_equal(length(index), 1000)
+})
