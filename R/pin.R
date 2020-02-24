@@ -434,3 +434,33 @@ print.pin_info <- function(x, ...) {
 pin_fetch <- function(path, ...) {
   UseMethod("pin_fetch")
 }
+
+#' Pin Versions
+#'
+#' Retrieve versions available for a given pin.
+#'
+#' @param name The exact name of the pin to match when searching.
+#' @param board The board name used to find the pin.
+#' @param ... Additional parameters.
+#'
+#' @examples
+#' library(pins)
+#'
+#' # define local board with versioning enabled
+#' board_register_local(cache = tempfile(), versions = TRUE)
+#'
+#' # cache the mtcars dataset
+#' pin(mtcars, name = "mtcars")
+#' pin(mtcars * 10, name = "mtcars")
+#'
+#' # print pin versions
+#' pin_versions("mtcars")
+#'
+#' # print version information
+#' pin_info("mtcars", version = "abcdc")
+#' pin_info("mtcars", version = "defgh")
+#'
+#' @export
+pin_versions <- function() {
+
+}
