@@ -315,6 +315,19 @@ pin_files <- function(name, board = NULL, ...) {
   metadata$path
 }
 
+pin_get_one <- function(name, board, extended, metadata) {
+  # first ensure there is always one pin since metadata with multiple entries can fail
+  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
+
+  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
+  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
+
+  board <- entry$board
+  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
+
+  entry
+}
+
 #' Pin Info
 #'
 #' Retrieve information for a given pin.
@@ -339,14 +352,7 @@ pin_files <- function(name, board = NULL, ...) {
 #'
 #' @export
 pin_info <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) {
-  # first ensure there is always one pin since metadata with multiple entries can fail
-  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
-
-  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
-  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
-
-  board <- entry$board
-  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
+  entry <- pin_get_one(name, board, extended, metadata)
 
   board <- entry$board
 
@@ -461,6 +467,8 @@ pin_fetch <- function(path, ...) {
 #' pin_info("mtcars", version = "defgh")
 #'
 #' @export
-pin_versions <- function() {
+pin_versions <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) {
+  entry <- pin_get_one(name, board, extended = FALSE, metadata = FALSE)
 
+  tibble::tibble(name = name, versions = 0)
 }
