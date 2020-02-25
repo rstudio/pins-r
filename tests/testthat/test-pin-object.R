@@ -18,13 +18,13 @@ test_that("can pin() concurrently", {
 
   processes <- list()
   for (i in 1:10) {
-    processes[[i]] <- callr::r_bg(function(temp_path) {
+    processes[[i]] <- callr::r_bg(function(temp_path, proc) {
       options(pins.path = temp_path)
 
       for (i in 1:10) {
-        pins::pin(list(message = "concurrent test"), name = basename(tempfile()))
+        pins::pin(list(message = "concurrent test"), name = (proc * 100 + i), board = "local")
       }
-    }, args = list(temp_path), )
+    }, args = list(temp_path, i))
   }
 
   for (i in 1:10) {
