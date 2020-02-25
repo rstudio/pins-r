@@ -16,7 +16,7 @@ guess_extension_from_path <- function(path) {
 }
 
 board_pin_create.local <- function(board, path, name, metadata, ...) {
-  final_path <- pin_registry_update(name = name, component = board$name)
+  final_path <- pin_storage_path(component = board$name, name = name)
 
   unlink(final_path, recursive = TRUE)
   dir.create(final_path)
