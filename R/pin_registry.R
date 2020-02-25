@@ -20,6 +20,9 @@ pin_storage_path <- function(component, name) {
 }
 
 pin_registry_update <- function(name, component, params = list()) {
+  lock_file <- paste0(pin_registry_config(component), ".lock")
+  lock <- filelock::lock(lock_file, timeout = getOption("pins.lock.timeout", Inf))
+
   entries <- pin_registry_load_entries(component)
   name <- pin_registry_qualify_name(name, entries)
 
@@ -47,6 +50,7 @@ pin_registry_update <- function(name, component, params = list()) {
 
   pin_registry_save_entries(entries, component)
 
+  filelock::unlock(lock)
   path
 }
 

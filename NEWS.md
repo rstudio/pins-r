@@ -2,6 +2,10 @@
 
 - Support for DigitalOcean board.
 
+## Pin
+
+- Support for using `pin()` across multiple concurrent processes (#182).
+
 ## RStudio
 
 - `pin()` now refreshes the connections pane.

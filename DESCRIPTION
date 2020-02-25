@@ -1,7 +1,7 @@
 Package: pins
 Type: Package
 Title: Pin, Discover and Share Resources
-Version: 0.3.2.9002
+Version: 0.3.2.9003
 Authors@R: c(
     person("Javier", "Luraschi", email = "javier@rstudio.com", role = c("aut", "cre")),
     person(family = "RStudio", role = c("cph"))
@@ -20,6 +20,7 @@ Depends:
 Imports:
   base64enc,
   crayon,
+  filelock,
   httr,
   jsonlite,
   magrittr,
