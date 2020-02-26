@@ -10,5 +10,5 @@ pin_versions_path <- function(component, name) {
 }
 
 board_versions_enabled <- function(board) {
-  identical(board$versioned, TRUE)
+  identical(board$versions, TRUE)
 }
