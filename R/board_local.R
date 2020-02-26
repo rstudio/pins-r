@@ -26,7 +26,10 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
   if (board_versions_enabled(board)) {
     version_path <- pin_versions_path(component = board$name, name = name)
 
-    file.copy(dir(path, full.names = TRUE) , version_path, recursive = TRUE)
+    if (dir.exists(version_path)) unlink(version_path, recursive = TRUE)
+    dir.create(version_path, recursive = TRUE)
+
+    file.copy(dir(path, full.names = TRUE), version_path, recursive = TRUE)
   }
 
   # reduce index size
