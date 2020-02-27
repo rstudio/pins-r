@@ -45,11 +45,8 @@ rsconnect_token_initialize <- function(board) {
   board
 }
 
-rsconnect_token_headers <- function(board, path, verb, content) {
+rsconnect_token_headers <- function(url, verb, content) {
   deps <- rsconnect_token_dependencies()
-
-  server_info <- deps$server_info(board$server_name)
-  service <- rsconnect_token_parse_url(server_info$url)
 
   account_info <- deps$account_info(board$account, board$server_name)
 
@@ -64,7 +61,7 @@ rsconnect_token_headers <- function(board, path, verb, content) {
     writeChar(content, content_file,  eos = NULL, useBytes = TRUE)
   }
 
-  deps$signature_headers(account_info, verb, paste0(service$path_sans_api, path), content_file)
+  deps$signature_headers(account_info, verb, url, content_file)
 }
 
 rsconnect_token_post <- function(board, path, content, encode) {
@@ -89,7 +86,7 @@ rsconnect_token_post <- function(board, path, content, encode) {
                                  parsed$port,
                                  "POST",
                                  paste0(parsed$path_sans_api, path),
-                                 rsconnect_token_headers(board, path, "POST", content),
+                                 rsconnect_token_headers(rsconnect_url_from_path(board, path), "POST", content),
                                  content_type,
                                  content_file)
 

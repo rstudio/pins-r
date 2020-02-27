@@ -321,3 +321,8 @@ board_pin_remove.rsconnect <- function(board, name) {
 board_browse.rsconnect <- function(board) {
   utils::browseURL(board$server)
 }
+
+board_http_headers.rsconnect <- function(board, url, verb = "GET", file = NULL, content = NULL, ...) {
+  rsconnect_token_headers(url, verb = verb, content = content)
+}
+

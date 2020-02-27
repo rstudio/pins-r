@@ -40,7 +40,7 @@ kaggle_upload_resource <- function(path, board) {
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/upload/file/", content_length, "/", modified)
 
-  results <- httr::POST(url, body = list(fileName = basename(path)), config = kaggle_auth(board))
+  results <- httr::POST(url, body = list(fileName = basename(path)), kaggle_auth(board))
 
   if (httr::http_error(results)) stop("Upload registration failed with status ", httr::status_code(results))
 
@@ -51,7 +51,7 @@ kaggle_upload_resource <- function(path, board) {
   upload_url <- parsed$createUrl
   token <- parsed$token
 
-  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), config = kaggle_auth(board),
+  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), kaggle_auth(board),
                        http_utils_progress("up", size = file.info(normalizePath(path))$size))
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
@@ -80,7 +80,7 @@ kaggle_create_resource <- function(name, description, token, type, metadata, boa
     categories = list()
   )
 
-  results <- httr::POST(url, body = body, config = kaggle_auth(board), encode = "json")
+  results <- httr::POST(url, body = body, kaggle_auth(board), encode = "json")
 
   if (httr::http_error(results)) stop("Resource creation failed with status ", httr::status_code(results))
 
@@ -182,7 +182,7 @@ board_pin_search_kaggle <- function(board, text = NULL) {
 
   url <- utils::URLencode(paste0(base_url, params))
 
-  results <- httr::GET(url, config = kaggle_auth(board))
+  results <- httr::GET(url, kaggle_auth(board))
   if (httr::http_error(results)) stop("Finding pin failed with status ", httr::status_code(results))
 
   httr::content(results)
@@ -237,7 +237,7 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, ...) {
   local_path <- pin_download(url,
                              name,
                              component = board$name,
-                             config = kaggle_auth(board),
+                             kaggle_auth(board),
                              custom_etag = etag,
                              extract = !identical(extract, FALSE),
                              content_length = content_length)
@@ -254,3 +254,6 @@ board_browse.kaggle <- function(board) {
   utils::browseURL("https://www.kaggle.com/datasets?tab=my")
 }
 
+board_http_headers.kaggle <- function(board, url, verb = "GET", file = NULL, content = NULL, ...) {
+  kaggle_auth(board)
+}

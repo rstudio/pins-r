@@ -1,4 +1,4 @@
-board_headers <- function(board, path, verb = "GET", file = NULL) {
+board_datatxt_headers <- function(board, path, verb = "GET", file = NULL) {
   if (is.list(board$headers)) {
     httr::add_headers(.headers = unlist(board$headers))
   }

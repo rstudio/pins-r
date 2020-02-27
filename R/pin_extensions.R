@@ -28,7 +28,12 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
 
   for (single_path in path) {
     if (grepl("^http", single_path)) {
-      single_path <- pin_download(single_path, name, board_default(), extract = extract, ...)
+      single_path <- pin_download(single_path,
+                                  name,
+                                  board_default(),
+                                  extract = extract,
+                                  headers = board_http_headers(board, url = single_path, verb = "GET"),
+                                  ...)
     }
 
     if (dir.exists(single_path)) {

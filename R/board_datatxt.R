@@ -6,7 +6,7 @@ datatxt_refresh_index <- function(board) {
   temp_index <- tempfile()
   response <- httr::GET(index_url,
                         httr::write_disk(temp_index, overwrite = TRUE),
-                        board_headers(board, "data.txt"))
+                        board_datatxt_headers(board, "data.txt"))
 
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
   current_index <- board_manifest_get(local_index, default_empty = TRUE)
@@ -83,7 +83,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
   }
   download_path <- file.path(path_guess, "data.txt")
 
-  pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_headers(board, download_path))
+  pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
   manifest <- pin_manifest_get(local_path)
 
   if (!is.null(manifest)) {
@@ -119,7 +119,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
                                name,
                                board$name,
                                extract = identical(extract, TRUE),
-                               headers = board_headers(board, path))
+                               headers = board_datatxt_headers(board, path))
   }
 
   local_path
@@ -148,7 +148,7 @@ board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
     path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
     datatxt_path <- file.path(board$url, path_guess[[1]], "data.txt")
 
-    response <- httr::GET(datatxt_path, board_headers(board, datatxt_path))
+    response <- httr::GET(datatxt_path, board_datatxt_headers(board, datatxt_path))
     if (!httr::http_error(response)) {
       pin_metadata <- board_manifest_load(datatxt_response_content(response))
 
@@ -172,7 +172,7 @@ datatxt_response_content <- function(response) {
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
   index_url <- file.path(board$url, "data.txt")
-  response <- httr::GET(index_url, board_headers(board, index_url))
+  response <- httr::GET(index_url, board_datatxt_headers(board, index_url))
 
   index <- list()
   if (!httr::http_error(response)) {
@@ -206,7 +206,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
 
   response <- httr::PUT(index_url,
                         body = httr::upload_file(normalizePath(index_file)),
-                        board_headers(board, "data.txt", verb = "PUT", file = normalizePath(index_file)))
+                        board_datatxt_headers(board, "data.txt", verb = "PUT", file = normalizePath(index_file)))
 
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", datatxt_response_content(response))
@@ -224,7 +224,7 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
     response <- httr::PUT(upload_url,
                           body = httr::upload_file(file_path),
                           http_utils_progress("up", size = file.info(file_path)$size),
-                          board_headers(board, subpath, verb = "PUT", file = file_path))
+                          board_datatxt_headers(board, subpath, verb = "PUT", file = file_path))
 
     if (httr::http_error(response))
       stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", datatxt_response_content(response))
@@ -247,7 +247,7 @@ board_pin_remove.datatxt <- function(board, name, ...) {
     delete_url <- file.path(board$url, file)
 
     response <- httr::DELETE(delete_url,
-                             board_headers(board, file, verb = "DELETE"))
+                             board_datatxt_headers(board, file, verb = "DELETE"))
 
     if (httr::http_error(response))
       warning("Failed to remove '", file, "' from '", board$name, "' board. Error: ", datatxt_response_content(response))
@@ -263,3 +263,6 @@ board_browse.datatxt <- function(board) {
   utils::browseURL(board$borwse_url)
 }
 
+board_http_headers.datatxt <- function(board, url, verb = "GET", file = NULL, content = NULL, ...) {
+  board_datatxt_headers(board, path = url, verb = verb, file = file)
+}

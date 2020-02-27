@@ -7,9 +7,10 @@ pin_download <- function(path,
                          config = NULL,
                          headers = NULL,
                          can_fail = FALSE,
-                         must_download = FALSE,
+                         cache = TRUE,
                          content_length = 0,
                          ...) {
+  must_download <- !cache
   local_path <- pin_storage_path(component, name)
 
   # use a temp path to rollback if something fails
