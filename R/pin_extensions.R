@@ -32,7 +32,6 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
                                   name,
                                   board_default(),
                                   extract = extract,
-                                  headers = board_http_headers(board, url = single_path, verb = "GET"),
                                   ...)
     }
 
