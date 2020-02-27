@@ -6,6 +6,7 @@
 \alias{board_pin_get}
 \alias{board_pin_remove}
 \alias{board_pin_find}
+\alias{board_http_headers}
 \alias{board_browse}
 \title{Custom Boards}
 \usage{
@@ -18,6 +19,8 @@ board_pin_get(board, name, ...)
 board_pin_remove(board, name, ...)
 
 board_pin_find(board, text, ...)
+
+board_http_headers(board, url, verb = "GET", file = NULL, ...)
 
 board_browse(board, ...)
 }
