@@ -467,7 +467,7 @@ pin_fetch <- function(path, ...) {
 #' pin_info("mtcars", version = "defgh")
 #'
 #' @export
-pin_versions <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) {
+pin_versions <- function(name, board = NULL, ...) {
   entry <- pin_get_one(name, board, extended = FALSE, metadata = FALSE)
 
   tibble::tibble(name = name, versions = 0)

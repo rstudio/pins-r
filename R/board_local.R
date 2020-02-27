@@ -65,3 +65,7 @@ board_pin_get.local <- function(board, name, ...) {
 board_pin_remove.local <- function(board, name) {
   pin_registry_remove(name, board$name)
 }
+
+board_pin_versions.local <- function(board, name) {
+
+}
