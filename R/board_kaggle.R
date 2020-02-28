@@ -237,7 +237,7 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, ...) {
   local_path <- pin_download(url,
                              name,
                              component = board$name,
-                             kaggle_auth(board),
+                             config = kaggle_auth(board),
                              custom_etag = etag,
                              extract = !identical(extract, FALSE),
                              content_length = content_length)
