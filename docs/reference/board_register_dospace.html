@@ -78,7 +78,7 @@ register a DigitalOcean Spaces board." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9004</span>
       </span>
     </div>
 
@@ -224,6 +224,11 @@ register a DigitalOcean Spaces board.</p>
       <td><p>Optional name for this board, defaults to 's3'.</p></td>
     </tr>
     <tr>
+      <th>space</th>
+      <td><p>The name of the DigitalOcean space. Defaults to the <code>DO_SPACE</code> environment
+variable.</p></td>
+    </tr>
+    <tr>
       <th>key</th>
       <td><p>The key of the DigitalOcean space. Defaults to the <code>DO_ACCESS_KEY_ID</code> environment
 variable.</p></td>
@@ -231,6 +236,11 @@ variable.</p></td>
     <tr>
       <th>secret</th>
       <td><p>The secret of the DigitalOcean space. Defaults to the <code>DO_SECRET_ACCESS_KEY</code> environment
+variable.</p></td>
+    </tr>
+    <tr>
+      <th>datacenter</th>
+      <td><p>The datacenter of the DigitalOcean space. Defaults to the <code>DO_DATACENTER</code> environment
 variable.</p></td>
     </tr>
     <tr>
@@ -244,11 +254,6 @@ variable.</p></td>
     <tr>
       <th>...</th>
       <td><p>Additional parameters required to initialize a particular board.</p></td>
-    </tr>
-    <tr>
-      <th>bucket</th>
-      <td><p>The name of the DigitalOcean space. Defaults to the <code>DO_SPACE</code> environment
-variable.</p></td>
     </tr>
     </table>
     

@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9004</span>
       </span>
     </div>
 
@@ -206,12 +206,34 @@
 <ul>
 <li>Support for DigitalOcean board.</li>
 </ul>
+<div id="pin" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pin" class="anchor"></a>Pin</h2>
+<ul>
+<li><p>Support for using <code><a href="../reference/pin.html">pin()</a></code> across multiple concurrent processes (<a href='https://github.com/rstudio/pins/issues/182'>#182</a>).</p></li>
+<li><p>Support in <code><a href="../reference/pin_get.html">pin_get()</a></code> to download arbitrary files from cloud boards like Azure, DigitalOcean, GitHub, Google Cloud, RStudio Connect, and S3.</p></li>
+</ul>
+</div>
 <div id="rstudio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
 <ul>
 <li>
 <code><a href="../reference/pin.html">pin()</a></code> now refreshes the connections pane.</li>
+</ul>
+</div>
+<div id="rstudio-connect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<ul>
+<li>Improve error message for <code><a href="../reference/pin_get.html">pin_get()</a></code> with duplicate names (<a href='https://github.com/rstudio/pins/issues/171'>#171</a>).</li>
+</ul>
+</div>
+<div id="github" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github" class="anchor"></a>GitHub</h2>
+<ul>
+<li>Support for custom GitHub hosts including GitHub Enterprise using the <code>host</code> parameter in <code><a href="../reference/board_register_github.html">board_register_github()</a></code> (<a href='https://github.com/rstudio/pins/issues/163'>#163</a>).</li>
 </ul>
 </div>
 </div>
@@ -234,9 +256,9 @@
 <li>Added support for <code>host</code> parameter to configure “s3.amazonaws.com” to custom locations.</li>
 </ul>
 </div>
-<div id="github" class="section level2">
+<div id="github-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github" class="anchor"></a>GitHub</h2>
+<a href="#github-1" class="anchor"></a>GitHub</h2>
 <ul>
 <li>Fix regression uploading large datasets as release files.</li>
 </ul>
@@ -270,9 +292,9 @@
 <li><p>Fixed connection launcher for Azure connections.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect" class="section level2">
+<div id="rstudio-connect-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue uploading large pins causing <code>is.character(type) is not TRUE</code> error.</p></li>
 <li><p>Fix issue affecting boards registered with trailing slash (<a href='https://github.com/rstudio/pins/issues/151'>#151</a>).</p></li>
@@ -323,9 +345,9 @@
 <li><p>Fix connection code when a board is registered automatically.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-1" class="section level2">
+<div id="rstudio-connect-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue where <code><a href="../reference/pin_find.html">pin_find()</a></code> would not show all available pins.</p></li>
 <li><p>Fix issue where RStudio Connections pane would not show all pins.</p></li>
@@ -351,9 +373,9 @@
 <li><p>Fix in <code><a href="../reference/pin_find.html">pin_find()</a></code> to properly search desecription files.</p></li>
 </ul>
 </div>
-<div id="github-1" class="section level2">
+<div id="github-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-1" class="anchor"></a>GitHub</h2>
+<a href="#github-2" class="anchor"></a>GitHub</h2>
 <ul>
 <li>Various fixes for GitHub boards using the <code>path</code> parameter when registering the board (<a href='https://github.com/rstudio/pins/issues/121'>#121</a>).</li>
 </ul>
@@ -363,9 +385,9 @@
 <h1 class="page-header">
 <a href="#pins-020" class="anchor"></a>pins 0.2.0<small> 2019-10-01 </small>
 </h1>
-<div id="rstudio-connect-2" class="section level2">
+<div id="rstudio-connect-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for retrieving pins shared by others in RStudio Connect boards.</p></li>
 <li><p>Support for RStudio Connect servers running under a subpath in the server.</p></li>
@@ -375,9 +397,9 @@
 <li><p>Fix for data frames with nested data frames in rsconnect boards (<a href='https://github.com/rstudio/pins/issues/36'>#36</a>).</p></li>
 </ul>
 </div>
-<div id="github-2" class="section level2">
+<div id="github-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-2" class="anchor"></a>GitHub</h2>
+<a href="#github-3" class="anchor"></a>GitHub</h2>
 <ul>
 <li><p><code><a href="../reference/board_register_github.html">board_register_github()</a></code> now checks for the repo to exist (<a href='https://github.com/rstudio/pins/issues/63'>#63</a>).</p></li>
 <li><p>Adjusted max upload file to 25mb to avoid “server error” in the API, larger files than 25mb uploaded as release files. This can be configured using the <code>pins.github.release</code> option, which deefaults to 25.</p></li>
