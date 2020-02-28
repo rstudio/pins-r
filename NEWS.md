@@ -6,6 +6,9 @@
 
 - Support for using `pin()` across multiple concurrent processes (#182).
 
+- Support in `pin_get()` to download arbitrary files from cloud boards
+  like Azure, DigitalOcean, GitHub, Google Cloud, RStudio Connect, and S3.
+  
 ## RStudio
 
 - `pin()` now refreshes the connections pane.
