@@ -4,10 +4,13 @@ azure_headers <- function(board, verb, path, file) {
 
   # allow full urls to allow arbitrary file downloads
   container <- board$container
+  account <- board$accound
   if (grepl("^https?://", path)) {
     path_nohttp <-  gsub("^https?://", "", path)
-    path <- gsub("^[^/]+/", "", path_nohttp)
-    container <- gsub("\\..*", "", path_nohttp)
+    sub_path <- gsub("^[^/]+/", "", path_nohttp)
+    account <- gsub("\\..*", "", path_nohttp)
+    path <- gsub("^[^/]+/", "", sub_path)
+    container <- sub("/.*", "", sub_path)
   }
 
   content_length <- ""
@@ -28,7 +31,7 @@ azure_headers <- function(board, verb, path, file) {
     paste("x-ms-blob-type", "BlockBlob", sep = ":"),
     paste("x-ms-date", date, sep = ":"),
     paste("x-ms-version", azure_version, sep = ":"),
-    paste0("/", board$account, "/", container, "/", path),
+    paste0("/", account, "/", container, "/", path),
     sep = "\n")
 
   signature <- openssl::sha256(charToRaw(content), key = base64enc::base64decode(board$key)) %>%
@@ -38,7 +41,7 @@ azure_headers <- function(board, verb, path, file) {
     `x-ms-date` = date,
     `x-ms-version` = azure_version,
     `x-ms-blob-type` = "BlockBlob",
-    Authorization = paste0("SharedKey ", board$account, ":", signature)
+    Authorization = paste0("SharedKey ", account, ":", signature)
   )
 
   headers
