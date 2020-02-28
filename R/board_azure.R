@@ -4,7 +4,7 @@ azure_headers <- function(board, verb, path, file) {
 
   # allow full urls to allow arbitrary file downloads
   container <- board$container
-  account <- board$accound
+  account <- board$account
   if (grepl("^https?://", path)) {
     path_nohttp <-  gsub("^https?://", "", path)
     sub_path <- gsub("^[^/]+/", "", path_nohttp)
