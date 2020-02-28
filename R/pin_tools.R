@@ -41,6 +41,9 @@ pin_results_extract_column <- function(df, column) {
 }
 
 pin_reset_cache <- function(board, name) {
+  # clean up name in case it's a full url
+  name <- gsub("^https?://", "", name)
+
   index <- tryCatch(pin_registry_retrieve(name, board), error = function(e) NULL)
   if (!is.null(index)) {
     index$cache <- list()
