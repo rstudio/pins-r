@@ -262,7 +262,3 @@ board_pin_remove.datatxt <- function(board, name, ...) {
 board_browse.datatxt <- function(board) {
   utils::browseURL(board$borwse_url)
 }
-
-board_http_headers.datatxt <- function(board, url, verb = "GET", file = NULL, content = NULL, ...) {
-  board_datatxt_headers(board, path = url, verb = verb, file = file)
-}

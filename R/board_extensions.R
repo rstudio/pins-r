@@ -42,12 +42,6 @@ board_pin_find <- function(board, text, ...) {
   UseMethod("board_pin_find")
 }
 
-#' @export
-#' @rdname custom-boards
-board_http_headers <- function(board, url, verb = "GET", file = NULL, ...) {
-  UseMethod("board_http_headers")
-}
-
 #' Custom Boards Utilities
 #'
 #' A set of utilities used when implementing custom boards.

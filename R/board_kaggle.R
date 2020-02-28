@@ -253,7 +253,3 @@ board_pin_remove.kaggle <- function(board, name) {
 board_browse.kaggle <- function(board) {
   utils::browseURL("https://www.kaggle.com/datasets?tab=my")
 }
-
-board_http_headers.kaggle <- function(board, url, verb = "GET", file = NULL, content = NULL, ...) {
-  kaggle_auth(board)
-}

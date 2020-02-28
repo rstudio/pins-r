@@ -472,7 +472,3 @@ board_pin_remove.github <- function(board, name, ...) {
 board_browse.github <- function(board) {
   utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
 }
-
-board_http_headers.github <- function(board, url, verb = "GET", file = NULL, content = NULL, ...) {
-  github_headers(board)
-}
