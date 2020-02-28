@@ -70,6 +70,15 @@ pin_get("iris", board = "s3")
 # … with 140 more rows
 ```
 
+Notice you can also retrieve an arbitrary file using the path to the file or its URL as well:
+
+```{r eval=FALSE, echo=FALSE}
+pin_get("https://pinsbucket.region.amazonaws.com/iris/data.csv", board = "s3")
+```
+```{r eval=FALSE}
+pin_get("iris/data.csv", board = "s3")
+```
+
 ## Discovering
 
 You can then search pins in your S3 board using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular board:

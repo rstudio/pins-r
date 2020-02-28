@@ -68,6 +68,15 @@ pin_get("iris", board = "gcloud")
 # … with 140 more rows
 ```
 
+Notice you can also retrieve an arbitrary file using the path to the file or its full URL as well:
+
+```{r eval=FALSE, echo=FALSE}
+pin_get("https://storage.googleapis.com/pinscontainer/iris/data.csv", board = "gcloud")
+```
+```{r eval=FALSE}
+pin_get("iris/data.csv", board = "gcloud")
+```
+
 ## Discovering
 
 You can then search pins in your Google Cloud board using `pin_find()`, which by default search all boards but you can also explicitly request to use this particular board:
