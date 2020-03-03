@@ -20,6 +20,7 @@ Depends:
 Imports:
   base64enc,
   crayon,
+  digest,
   filelock,
   httr,
   jsonlite,
