@@ -22,7 +22,7 @@ pin_download <- function(path,
   dir.create(temp_path)
   on.exit(unlink(temp_path, recursive = TRUE))
 
-  old_pin <- tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
+  old_pin <- pin_registry_retrieve_maybe(name, component)
   old_cache <- old_pin$cache
   old_cache_missing <- TRUE
 

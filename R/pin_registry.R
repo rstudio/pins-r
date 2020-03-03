@@ -87,6 +87,10 @@ pin_registry_retrieve <- function(name, component) {
   entries[[which(names == name)]]
 }
 
+pin_registry_retrieve_maybe <- function(name, component) {
+  tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
+}
+
 pin_registry_remove <- function(name, component, unlink = TRUE) {
   entries <- pin_registry_load_entries(component)
   name <- pin_registry_qualify_name(name, entries)
