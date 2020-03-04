@@ -473,8 +473,5 @@ pin_fetch <- function(path, ...) {
 #'
 #' @export
 pin_versions <- function(name, board = NULL, ...) {
-  entry <- pin_get_one(name, board, extended = FALSE, metadata = FALSE)
-
-  versions <- data.frame(name = name, versions = 0, stringsAsFactors = FALSE)
-  format_tibble(versions)
+  format_tibble(board_pin_versions(board_get(board), name))
 }

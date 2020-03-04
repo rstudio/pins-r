@@ -42,6 +42,10 @@ board_pin_find <- function(board, text, ...) {
   UseMethod("board_pin_find")
 }
 
+board_pin_versions <- function(board, name, ...) {
+  UseMethod("board_pin_versions")
+}
+
 #' Custom Boards Utilities
 #'
 #' A set of utilities used when implementing custom boards.
@@ -71,4 +75,8 @@ board_browse.default <- function(board) { invisible(NULL) }
 
 board_empty_results <- function() {
   data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
+}
+
+board_pin_versions.default <- function(board, name, ...) {
+  data.frame(versions = character(0), stringsAsFactors = FALSE)
 }

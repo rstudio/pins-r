@@ -36,3 +36,16 @@ board_versions_create <- function(board, name) {
 
   versions
 }
+
+board_versions_get <- function(board, name) {
+  versions <- data.frame(versions = character(0), stringsAsFactors = FALSE)
+
+  entries <- pin_registry_retrieve_maybe(name = name, component = board$name)
+  versions <- entries$versions
+
+  if (length(versions) > 0) {
+    versions <- data.frame(versions = versions, stringsAsFactors = FALSE)
+  }
+
+  versions
+}
