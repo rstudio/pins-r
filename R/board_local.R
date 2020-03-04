@@ -52,8 +52,8 @@ board_pin_find.local <- function(board, text, ...) {
   results <- pin_registry_find(text, board$name)
 
   if (nrow(results) == 1) {
-    path <- pin_registry_absolute(metadata$path, component = board$name)
     metadata <- jsonlite::fromJSON(results$metadata)
+    path <- pin_registry_absolute(metadata$path, component = board$name)
     extended <- pin_manifest_get(path)
     merged <- pin_manifest_merge(metadata, extended)
 
