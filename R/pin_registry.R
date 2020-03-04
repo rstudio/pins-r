@@ -129,3 +129,17 @@ pin_registry_unlock <- function(lock) {
   filelock::unlock(lock)
 }
 
+pin_registry_relative <- function(path, component) {
+  base_path <- file.path(board_local_storage(component), "")
+  gsub(base_path, "", path)
+}
+
+pin_registry_absolute <- function(path, component) {
+  base_path <- board_local_storage(component)
+
+  if (startsWith(path, base_path)) {
+    path
+  } else {
+    file.path(base_path, path)
+  }
+}

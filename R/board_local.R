@@ -33,7 +33,7 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
 
     file.copy(dir(path, full.names = TRUE), version_path, recursive = TRUE)
 
-    versions <- c(entries$versions, list(version_path))
+    versions <- c(entries$versions, list(pin_registry_relative(version_path, component = board$name)))
   }
 
   # reduce index size
@@ -42,7 +42,7 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
   pin_registry_update(
     name = name,
     params = c(list(
-      path = final_path,
+      path = pin_registry_relative(final_path, component = board$name),
       versions = versions
     ), metadata),
     component = board$name)
@@ -52,8 +52,9 @@ board_pin_find.local <- function(board, text, ...) {
   results <- pin_registry_find(text, board$name)
 
   if (nrow(results) == 1) {
+    path <- pin_registry_absolute(metadata$path, component = board$name)
     metadata <- jsonlite::fromJSON(results$metadata)
-    extended <- pin_manifest_get(metadata$path)
+    extended <- pin_manifest_get(path)
     merged <- pin_manifest_merge(metadata, extended)
 
     results$metadata <- as.character(jsonlite::toJSON(merged, auto_unbox = TRUE))
@@ -64,7 +65,7 @@ board_pin_find.local <- function(board, text, ...) {
 
 board_pin_get.local <- function(board, name, ...) {
   entry <- pin_registry_retrieve(name, board$name)
-  entry$path
+  pin_registry_absolute(entry$path, component = board$name)
 }
 
 board_pin_remove.local <- function(board, name) {
