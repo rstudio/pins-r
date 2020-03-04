@@ -23,18 +23,7 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
 
   file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
 
-  versions <- NULL
-  if (board_versions_enabled(board)) {
-    version_path <- pin_versions_path(component = board$name, name = name)
-    entries <- pin_registry_retrieve_maybe(name = name, component = board$name)
-
-    if (dir.exists(version_path)) unlink(version_path, recursive = TRUE)
-    dir.create(version_path, recursive = TRUE)
-
-    file.copy(dir(path, full.names = TRUE), version_path, recursive = TRUE)
-
-    versions <- c(entries$versions, list(pin_registry_relative(version_path, component = board$name)))
-  }
+  versions <- board_versions_create(board, name = name)
 
   # reduce index size
   metadata$columns <- NULL
