@@ -18,6 +18,7 @@ RoxygenNote: 6.1.1
 Depends: 
   R (>= 3.2.0)
 Imports:
+  backports,
   base64enc,
   crayon,
   digest,
