@@ -135,7 +135,7 @@ pin_registry_relative <- function(path, component) {
 }
 
 pin_registry_absolute <- function(path, component) {
-  base_path <- board_local_storage(component)
+  base_path <- tools::file_path_as_absolute(board_local_storage(component))
 
   if (startsWith(path, base_path)) {
     path
