@@ -452,6 +452,7 @@ pin_fetch <- function(path, ...) {
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.
+#' @param full Should the full versioned paths be shown? Defaults to \code{FALSE}.
 #' @param ... Additional parameters.
 #'
 #' @examples
@@ -472,6 +473,20 @@ pin_fetch <- function(path, ...) {
 #' pin_info("mtcars", version = "defgh")
 #'
 #' @export
-pin_versions <- function(name, board = NULL, ...) {
-  format_tibble(board_pin_versions(board_get(board), name))
+pin_versions <- function(name, board = NULL, full = FALSE, ...) {
+  versions <- board_pin_versions(board_get(board), name)
+
+  if (!full) {
+    paths <- gsub("[^/]+$", "", versions$versions)
+    if (length(unique(paths))) {
+      versions$versions <- gsub(".*/", "", versions$versions)
+    }
+
+    shortened <- substr(versions$versions, 1, 7)
+    if (length(unique(shortened)) == length(versions$versions)) {
+      versions$versions <- shortened
+    }
+  }
+
+  format_tibble(versions)
 }
