@@ -14,7 +14,7 @@ rsconnect_api_auth_headers <- function(board, path, verb, content = NULL) {
   if (rsconnect_api_auth(board)) {
     headers <- list("Authorization" = paste("Key", board$key))
   } else {
-    headers <- rsconnect_token_headers(rsconnect_url_from_path(board, path), verb, content, board)
+    headers <- rsconnect_token_headers(board, rsconnect_url_from_path(board, path), verb, content)
   }
 
   if (!identical(class(content), "form_file")) {
