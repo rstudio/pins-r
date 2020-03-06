@@ -54,9 +54,9 @@ board_pin_find.local <- function(board, text, ...) {
   results
 }
 
-board_pin_get.local <- function(board, name, ...) {
-  entry <- pin_registry_retrieve(name, board$name)
-  pin_registry_absolute(entry$path, component = board$name)
+board_pin_get.local <- function(board, name, version = NULL, ...) {
+  path <- pin_registry_retrieve_path(name, board$name, version = version)
+  pin_registry_absolute(path, component = board$name)
 }
 
 board_pin_remove.local <- function(board, name) {

@@ -52,3 +52,29 @@ board_versions_get <- function(board, name) {
 
   versions
 }
+
+board_versions_shorten <- function(versions) {
+  paths <- gsub("[^/]+$", "", versions)
+  if (length(unique(paths))) {
+    versions <- gsub(".*/", "", versions)
+  }
+
+  shortened <- substr(versions, 1, 7)
+  if (length(unique(shortened)) == length(versions)) {
+    versions <- shortened
+  }
+
+  versions
+}
+
+board_versions_expand <- function(versions, version) {
+  shortened <- board_versions_shorten(versions)
+
+  version_index <- which(shortened == version)
+
+  if (length(version_index) == 0) {
+    stop("Version '", version, "' is not valid, please select from pin_versions().")
+  }
+
+  versions[version_index]
+}

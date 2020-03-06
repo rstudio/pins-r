@@ -91,6 +91,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @param cache Should the pin cache be used? Defaults to \code{TRUE}.
 #' @param extract Should compressed files be extracted? Each board defines the
 #'   deefault behavior.
+#' @param version The version of the dataset to retrieve, defaults to latest one.
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -116,7 +117,12 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' # retrieve mtcars pin from packages board
 #' pin_get("easyalluvial/mtcars2", board = "packages")
 #' @export
-pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
+pin_get <- function(name,
+                    board = NULL,
+                    cache = TRUE,
+                    extract = NULL,
+                    version = NULL,
+                    ...) {
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
 
@@ -125,7 +131,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
         if (!cache) pin_reset_cache(board_name, name)
-        result <- board_pin_get_or_null(board_get(board_name), name, extract = extract)
+        result <- board_pin_get_or_null(board_get(board_name), name, extract = extract, version = version)
         if (!is.null(result)) break
       }
     }
@@ -133,7 +139,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
   }
   else {
     if (!cache) pin_reset_cache(board, name)
-    result <- board_pin_get(board_get(board), name, extract = extract, ...)
+    result <- board_pin_get(board_get(board), name, extract = extract, version = version, ...)
   }
 
   manifest <- pin_manifest_get(result)
@@ -477,15 +483,7 @@ pin_versions <- function(name, board = NULL, full = FALSE, ...) {
   versions <- board_pin_versions(board_get(board), name)
 
   if (!full) {
-    paths <- gsub("[^/]+$", "", versions$versions)
-    if (length(unique(paths))) {
-      versions$versions <- gsub(".*/", "", versions$versions)
-    }
-
-    shortened <- substr(versions$versions, 1, 7)
-    if (length(unique(shortened)) == length(versions$versions)) {
-      versions$versions <- shortened
-    }
+    versions$versions <- board_versions_shorten(versions$versions)
   }
 
   format_tibble(versions)
