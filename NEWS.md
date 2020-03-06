@@ -17,6 +17,8 @@
 
 - Improve error message for `pin_get()` with duplicate names (#171).
 
+- Fix board register error when using URL with ports (#195).
+
 ## GitHub
 
 - Support for custom GitHub hosts including GitHub Enterprise using the
