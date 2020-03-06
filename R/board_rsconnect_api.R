@@ -2,6 +2,8 @@
 rsconnect_api_auth <- function(board) !is.null(board$key)
 
 rsconnect_url_from_path <- function(board, path) {
+  deps <- rsconnect_token_dependencies()
+
   server_info <- deps$server_info(board$server_name)
   service <- rsconnect_token_parse_url(server_info$url)
 
@@ -12,7 +14,7 @@ rsconnect_api_auth_headers <- function(board, path, verb, content = NULL) {
   if (rsconnect_api_auth(board)) {
     headers <- list("Authorization" = paste("Key", board$key))
   } else {
-    headers <- rsconnect_token_headers(rsconnect_url_from_path(board, path), verb, content)
+    headers <- rsconnect_token_headers(rsconnect_url_from_path(board, path), verb, content, board)
   }
 
   if (!identical(class(content), "form_file")) {

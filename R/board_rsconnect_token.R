@@ -45,7 +45,7 @@ rsconnect_token_initialize <- function(board) {
   board
 }
 
-rsconnect_token_headers <- function(url, verb, content) {
+rsconnect_token_headers <- function(url, verb, content, board) {
   deps <- rsconnect_token_dependencies()
 
   account_info <- deps$account_info(board$account, board$server_name)
@@ -86,7 +86,7 @@ rsconnect_token_post <- function(board, path, content, encode) {
                                  parsed$port,
                                  "POST",
                                  paste0(parsed$path_sans_api, path),
-                                 rsconnect_token_headers(rsconnect_url_from_path(board, path), "POST", content),
+                                 rsconnect_token_headers(rsconnect_url_from_path(board, path), "POST", content, board),
                                  content_type,
                                  content_file)
 
