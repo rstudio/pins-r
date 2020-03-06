@@ -103,7 +103,8 @@ pin_registry_remove <- function(name, component, unlink = TRUE) {
 
   entries <- Filter(function(x) x$name != name, entries)
 
-  if (unlink) unlink(remove$path, recursive = TRUE)
+  remove_path <- pin_registry_absolute(remove$path, component)
+  if (unlink) unlink(remove_path, recursive = TRUE)
 
   pin_registry_save_entries(entries, component)
 }

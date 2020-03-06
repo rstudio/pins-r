@@ -18,12 +18,14 @@ guess_extension_from_path <- function(path) {
 board_pin_create.local <- function(board, path, name, metadata, ...) {
   final_path <- pin_storage_path(component = board$name, name = name)
 
-  unlink(final_path, recursive = TRUE)
-  dir.create(final_path)
+  delete <- dir(final_path, full.names = TRUE)
+  delete <- delete[!grepl("/_versions$", delete)]
+  unlink(delete, recursive = TRUE)
+  if (!dir.exists(final_path)) dir.create(final_path)
 
   file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
 
-  versions <- board_versions_create(board, name = name)
+  versions <- board_versions_create(board, name = name, path = path)
 
   # reduce index size
   metadata$columns <- NULL
