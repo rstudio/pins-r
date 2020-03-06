@@ -23,7 +23,7 @@ board_initialize.rsconnect <- function(board, ...) {
 
   if (!is.null(args$server)) {
     board$server <-  gsub("/$", "", args$server)
-    board$server_name <- gsub("https?://|:[0-9]+/?|/.*", "", args$server)
+    board$server_name <- gsub("https?://|(:[0-9]+)?/.*", "", args$server)
   }
   board$account <- args$account
   board$output_files <- args$output_files
