@@ -59,7 +59,8 @@ board_initialize.dospace <- function(board,
                          connect = FALSE,
                          datacenter = datacenter,
                          browse_url = paste0("https://cloud.digitalocean.com/spaces/", space),
-                         host = host)
+                         host = host,
+                         ...)
 
   board_get(board$name)
 }

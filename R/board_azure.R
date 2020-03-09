@@ -74,7 +74,8 @@ board_initialize.azure <- function(board,
                          account = account,
                          key = key,
                          connect = FALSE,
-                         borwse_url = "https://portal.azure.com")
+                         borwse_url = "https://portal.azure.com",
+                         ...)
 
   board_get(board$name)
 }

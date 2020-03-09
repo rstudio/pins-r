@@ -10,7 +10,7 @@ new_board <- function(board, name, cache, versions, ...) {
     ),
     class = board)
 
-  board <- board_initialize(board, cache = cache, ...)
+  board <- board_initialize(board, cache = cache, versions = versions, ...)
 
   board
 }
