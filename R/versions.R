@@ -51,9 +51,10 @@ board_versions_create <- function(board, name, path) {
 board_versions_get <- function(board, name) {
   versions <- data.frame(versions = character(0), stringsAsFactors = FALSE)
 
-  entries <- pin_registry_retrieve_maybe(name = name, component = board$name)
-  versions <- entries$versions
+  component_path <- pin_storage_path(component = board$name, name = name)
+  manifest <- pin_manifest_get(component_path)
 
+  versions <- manifest$versions
   if (length(versions) > 0) {
     versions <- data.frame(versions = versions, stringsAsFactors = FALSE)
   }
