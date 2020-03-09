@@ -11,6 +11,14 @@ pin_manifest_get <- function(path) {
   manifest
 }
 
+pin_manifest_update <- function(path, manifest) {
+  data_txt <- file.path(path, "data.txt")
+
+  manifest <- yaml::write_yaml(manifest, data_txt)
+
+  manifest
+}
+
 pin_manifest_create <- function(path, metadata, files) {
   entries <- c(list(
     path = files

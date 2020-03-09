@@ -16,6 +16,8 @@ guess_extension_from_path <- function(path) {
 }
 
 board_pin_create.local <- function(board, path, name, metadata, ...) {
+  board_versions_create(board, name = name, path = path)
+
   final_path <- pin_storage_path(component = board$name, name = name)
 
   delete <- dir(final_path, full.names = TRUE)
@@ -25,17 +27,15 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
 
   file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
 
-  version_path <- pin_versions_path(component = board$name, name = name)
-  versions <- board_versions_create(board, name = name, path = path, version_path = version_path)
-
   # reduce index size
   metadata$columns <- NULL
+
+  base_path <- board_local_storage(board$name)
 
   pin_registry_update(
     name = name,
     params = c(list(
-      path = pin_registry_relative(final_path, component = board$name),
-      versions = versions
+      path = pin_registry_relative(final_path, base_path = base_path)
     ), metadata),
     component = board$name)
 }

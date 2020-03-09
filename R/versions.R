@@ -1,6 +1,4 @@
-pin_versions_path <- function(component, name) {
-  storage_path <- pin_storage_path(component = component, name = name)
-
+pin_versions_path <- function(storage_path) {
   hash_files <- dir(storage_path, full.names = TRUE)
   hash_files <- hash_files[!grepl("/_versions$", hash_files)]
 
@@ -13,17 +11,22 @@ pin_versions_path <- function(component, name) {
 }
 
 board_versions_enabled <- function(board) {
-  !identical(board$versions, FALSE)
+  identical(board$versions, TRUE)
 }
 
-board_versions_create <- function(board, name, path, version_path) {
+board_versions_create <- function(board, name, path) {
   versions <- NULL
-  if (board_versions_enabled(board)) {
-    version_relative <- pin_registry_relative(version_path, component = board$name)
-    entries <- pin_registry_retrieve_maybe(name = name, component = board$name)
-    versions <- entries$versions
 
-    if (any(entries$versions == version_relative)) {
+  if (board_versions_enabled(board)) {
+    # read the versions from the non-versioned manifest
+    component_path <- pin_storage_path(component = board$name, name = name)
+    component_manifest <- pin_manifest_get(component_path)
+    versions <- component_manifest$versions
+
+    version_path <- pin_versions_path(path)
+    version_relative <- pin_registry_relative(version_path, base_path = path)
+
+    if (any(component_manifest$versions == version_relative)) {
       if (dir.exists(version_path)) unlink(version_path, recursive = TRUE)
       versions <- versions[versions != version_relative]
     }
@@ -32,10 +35,14 @@ board_versions_create <- function(board, name, path, version_path) {
     dir.create(version_path, recursive = TRUE)
 
     files <- dir(path, full.names = TRUE)
-    files <- files[files != version_path]
+    files <- files[files != file.path(path, "_versions")]
     file.copy(files, version_path, recursive = TRUE)
 
     versions <- c(versions, list(version_relative))
+
+    manifest <- pin_manifest_get(path)
+    manifest$versions <- versions
+    pin_manifest_update(path, manifest)
   }
 
   versions

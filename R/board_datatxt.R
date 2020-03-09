@@ -231,7 +231,7 @@ datatxt_upload_files <- function(board, name, files, path) {
 
 board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
 
-  board_versions_create(board, name, path, version_path = file.path(path, "_versions"))
+  board_versions_create(board, name, path)
 
   upload_files <- dir(path, recursive = TRUE)
 
@@ -245,10 +245,6 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
                        operation = "create",
                        name = name,
                        metadata = metadata)
-}
-
-datatxt_upload_file <- function() {
-
 }
 
 board_pin_remove.datatxt <- function(board, name, ...) {
