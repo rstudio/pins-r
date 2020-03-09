@@ -56,7 +56,18 @@ board_pin_find.local <- function(board, text, ...) {
 }
 
 board_pin_get.local <- function(board, name, version = NULL, ...) {
-  path <- pin_registry_retrieve_path(name, board$name, version = version)
+  path <- pin_registry_retrieve_path(name, board$name)
+
+  if (!is.null(version)) {
+    manifest <- pin_manifest_get(pin_registry_absolute(path, board$name))
+
+    if (!version %in% manifest$versions) {
+      version <- board_versions_expand(manifest$versions, version)
+    }
+
+    path <- file.path(name, version)
+  }
+
   pin_registry_absolute(path, component = board$name)
 }
 

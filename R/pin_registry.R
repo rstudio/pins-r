@@ -87,18 +87,10 @@ pin_registry_retrieve <- function(name, component) {
   entries[[which(names == name)]]
 }
 
-pin_registry_retrieve_path <- function(name, component, version = NULL) {
+pin_registry_retrieve_path <- function(name, component) {
   entry <- pin_registry_retrieve(name, component)
 
-  if (is.null(version)) {
-    entry$path
-  } else {
-    if (!version %in% entry$versions) {
-      version <- board_versions_expand(entry$versions, version)
-    }
-
-    pin_registry_absolute(version, component)
-  }
+  entry$path
 }
 
 pin_registry_retrieve_maybe <- function(name, component) {
