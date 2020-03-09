@@ -16,10 +16,9 @@ board_versions_enabled <- function(board) {
   !identical(board$versions, FALSE)
 }
 
-board_versions_create <- function(board, name, path) {
+board_versions_create <- function(board, name, path, version_path) {
   versions <- NULL
   if (board_versions_enabled(board)) {
-    version_path <- pin_versions_path(component = board$name, name = name)
     version_relative <- pin_registry_relative(version_path, component = board$name)
     entries <- pin_registry_retrieve_maybe(name = name, component = board$name)
     versions <- entries$versions
@@ -32,7 +31,9 @@ board_versions_create <- function(board, name, path) {
     if (dir.exists(version_path)) unlink(version_path, recursive = TRUE)
     dir.create(version_path, recursive = TRUE)
 
-    file.copy(dir(path, full.names = TRUE), version_path, recursive = TRUE)
+    files <- dir(path, full.names = TRUE)
+    files <- files[files != version_path]
+    file.copy(files, version_path, recursive = TRUE)
 
     versions <- c(versions, list(version_relative))
   }

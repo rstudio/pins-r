@@ -213,10 +213,8 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   }
 }
 
-board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
-  upload_files <- dir(path, recursive = TRUE)
-
-  for (file in upload_files) {
+datatxt_upload_files <- function(board, name, files, path) {
+  for (file in files) {
     subpath <- file.path(name, file)
     upload_url <- file.path(board$url, subpath)
 
@@ -229,12 +227,28 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
     if (httr::http_error(response))
       stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", datatxt_response_content(response))
   }
+}
+
+board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
+
+  board_versions_create(board, name, path, version_path = file.path(path, "_versions"))
+
+  upload_files <- dir(path, recursive = TRUE)
+
+  datatxt_upload_files(board = board,
+                       name = name,
+                       files = upload_files,
+                       path = path)
 
   datatxt_update_index(board = board,
                        path = name,
                        operation = "create",
                        name = name,
                        metadata = metadata)
+}
+
+datatxt_upload_file <- function() {
+
 }
 
 board_pin_remove.datatxt <- function(board, name, ...) {

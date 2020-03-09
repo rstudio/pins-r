@@ -25,7 +25,8 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
 
   file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
 
-  versions <- board_versions_create(board, name = name, path = path)
+  version_path <- pin_versions_path(component = board$name, name = name)
+  versions <- board_versions_create(board, name = name, path = path, version_path = version_path)
 
   # reduce index size
   metadata$columns <- NULL
