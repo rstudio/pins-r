@@ -8,7 +8,10 @@
 
 - Support in `pin_get()` to download arbitrary files from cloud boards
   like Azure, DigitalOcean, GitHub, Google Cloud, RStudio Connect, and S3.
-  
+
+- Fix issue where http HEAD requests could timeout and prevent pin from
+  downloading in very slow connections.
+
 ## RStudio
 
 - `pin()` now refreshes the connections pane.
