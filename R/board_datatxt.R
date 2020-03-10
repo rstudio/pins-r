@@ -272,3 +272,7 @@ board_pin_remove.datatxt <- function(board, name, ...) {
 board_browse.datatxt <- function(board) {
   utils::browseURL(board$borwse_url)
 }
+
+board_pin_versions.datatxt <- function(board, name) {
+  board_versions_get(board, name)
+}
