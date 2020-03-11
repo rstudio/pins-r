@@ -52,7 +52,7 @@ board_initialize.datatxt <- function(board,
   board
 }
 
-board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
+board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
@@ -68,7 +68,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
   }
   else {
     # if there is no index, fallback to downloading data.txt for the pin,
-    # this can happen with incomplete indexees.
+    # this can happen with incomplete indexes.
     index_entry <- list(path = name)
   }
 
@@ -85,6 +85,18 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, ...) {
 
   pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
   manifest <- pin_manifest_get(local_path)
+
+  if (!is.null(version)) {
+    if (!version %in% manifest$versions) {
+      version <- board_versions_expand(manifest$versions, version)
+    }
+
+    download_path <- file.path(path_guess, version, "data.txt")
+    local_path <- file.path(local_path, version)
+    pin_download(download_path, local_path, board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
+    manifest <- pin_manifest_get(local_path)
+    path_guess <- file.path(path_guess, version)
+  }
 
   if (!is.null(manifest)) {
     download_paths <- index_entry$path
