@@ -33,6 +33,7 @@ PerformanceReporter <- R6::R6Class(
      if (inherits(result, "expectation_failure") ||
          inherits(result, "expectation_error")) {
        self$n_fail <- self$n_fail + 1
+       browser()
      } else if (inherits(result, "expectation_skip")) {
        self$n_skip <- self$n_skip + 1
      } else if (inherits(result, "expectation_warning")) {
@@ -111,4 +112,4 @@ PerformanceReporter <- R6::R6Class(
   )
 )
 
-test_check("pins", reporter = "performance")
+test_check("pins")
