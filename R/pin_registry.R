@@ -137,7 +137,10 @@ pin_registry_unlock <- function(lock) {
 }
 
 pin_registry_relative <- function(path, base_path) {
-  path <- gsub(paste0("^", base_path), "", path)
+  if (startsWith(path, base_path)) {
+    path <- substr(path, nchar(base_path) + 1, nchar(path))
+  }
+
   gsub("^/", "", path)
 }
 
