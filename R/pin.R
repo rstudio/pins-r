@@ -343,7 +343,7 @@ pin_info <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) 
   entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
 
   if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
-  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, llapse = ","),  ".")
+  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
 
   board <- entry$board
   entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
