@@ -324,3 +324,14 @@ board_browse.rsconnect <- function(board) {
   utils::browseURL(board$server)
 }
 
+board_pin_versions.rsconnect <- function(board, name) {
+  details <- rsconnect_get_by_name(board, name)
+  if (nrow(details) == 0) stop("The pin '", name, "' is not available in the '", board$name, "' board.")
+
+  details$guid
+
+  bundles <- rsconnect_api_get(board, paste0("/__api__/v1/experimental/content/", details$guid, "/bundles/"))
+
+  data.frame(versions = sapply(bundles$results, function(e) e$id), stringsAsFactors = FALSE)
+}
+
