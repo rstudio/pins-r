@@ -338,6 +338,11 @@ board_pin_versions.rsconnect <- function(board, name) {
 
   bundles <- rsconnect_api_get(board, paste0("/__api__/v1/experimental/content/", details$guid, "/bundles/"))
 
-  data.frame(versions = sapply(bundles$results, function(e) e$id), stringsAsFactors = FALSE)
+  data.frame(
+    versions = sapply(bundles$results, function(e) e$id),
+    created = sapply(bundles$results, function(e) e$created_time),
+    size = sapply(bundles$results, function(e) e$size),
+    stringsAsFactors = FALSE) %>%
+    format_tibble()
 }
 
