@@ -283,7 +283,7 @@ rsconnect_remote_path_from_url <- function(board, url) {
   gsub("/$", "", url)
 }
 
-board_pin_get.rsconnect <- function(board, name, ...) {
+board_pin_get.rsconnect <- function(board, name, version = NULL, ...) {
   url <- name
 
   if (identical(board$output_files, TRUE)) {
@@ -300,12 +300,18 @@ board_pin_get.rsconnect <- function(board, name, ...) {
   }
 
   remote_path <- rsconnect_remote_path_from_url(board, url)
+  download_name <- name
 
-  local_path <- rsconnect_api_download(board, name, file.path(remote_path, "data.txt"), etag = etag)
+  if (!is.null(version)) {
+    remote_path <- paste0(remote_path, "/_rev", version)
+    download_name <- file.path(name, "_versions", version)
+  }
+
+  local_path <- rsconnect_api_download(board, download_name, file.path(remote_path, "data.txt"), etag = etag)
   manifest_paths <- pin_manifest_download(local_path)
 
   for (file in manifest_paths) {
-    rsconnect_api_download(board, name, file.path(remote_path, file), etag = etag)
+    rsconnect_api_download(board, download_name, file.path(remote_path, file), etag = etag)
   }
 
   unlink(dir(local_path, "index\\.html$|pagedtable-1\\.1$", full.names = TRUE))
