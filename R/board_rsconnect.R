@@ -102,6 +102,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
                                     description = board_metadata_to_text(metadata, metadata$description)
                                   ))
       if (!is.null(content$error)) {
+        pin_log("Failed to create pin with name '", name, "'.")
         stop("Failed to create pin: ", content$error)
       }
 
@@ -120,6 +121,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
                                     ))
 
       if (!is.null(content$error)) {
+        pin_log("Failed to update pin with GUID '", guid, "' and name '", name, "'.")
         stop("Failed to create pin: ", content$error)
       }
     }
