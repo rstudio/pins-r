@@ -4,12 +4,14 @@
 \alias{pin_versions}
 \title{Pin Versions}
 \usage{
-pin_versions(name, board = NULL, ...)
+pin_versions(name, board = NULL, full = FALSE, ...)
 }
 \arguments{
 \item{name}{The exact name of the pin to match when searching.}
 
 \item{board}{The board name used to find the pin.}
+
+\item{full}{Should the full versioned paths be shown? Defaults to \code{FALSE}.}
 
 \item{...}{Additional parameters.}
 }

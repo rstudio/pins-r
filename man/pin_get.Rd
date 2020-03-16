@@ -4,7 +4,8 @@
 \alias{pin_get}
 \title{Retrieve Pin}
 \usage{
-pin_get(name, board = NULL, cache = TRUE, extract = NULL, ...)
+pin_get(name, board = NULL, cache = TRUE, extract = NULL,
+  version = NULL, ...)
 }
 \arguments{
 \item{name}{The name of the pin.}
@@ -15,6 +16,8 @@ pin_get(name, board = NULL, cache = TRUE, extract = NULL, ...)
 
 \item{extract}{Should compressed files be extracted? Each board defines the
 deefault behavior.}
+
+\item{version}{The version of the dataset to retrieve, defaults to latest one.}
 
 \item{...}{Additional parameters.}
 }
