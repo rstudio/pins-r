@@ -494,7 +494,7 @@ board_pin_versions.github <- function(board, name, ...) {
 
   data.frame(
     version = sapply(commits, function(e) e$sha),
-    authored = sapply(commits, function(e) e$commit$author$date),
+    created = sapply(commits, function(e) e$commit$author$date),
     author = sapply(commits, function(e) e$author$login),
     message = sapply(commits, function(e) e$commit$message),
     stringsAsFactors = FALSE) %>%
