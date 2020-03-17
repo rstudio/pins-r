@@ -473,10 +473,13 @@ board_browse.github <- function(board) {
   utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
 }
 
-board_pin_versions.github <- function(board, text, ...) {
+board_pin_versions.github <- function(board, name, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  response <- httr::GET(github_url(board, "/commits", branch = NULL, sha = "?per_page=100&sha=", branch),
+  path <- file.path(paste0(board$path, name), "data.txt")
+  response <- httr::GET(github_url(board, "/commits", branch = NULL,
+                                   sha = "?per_page=100&sha=", branch,
+                                   "&path=", path),
                       github_headers(board))
 
   commits <- httr::content(response)
