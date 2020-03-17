@@ -78,5 +78,5 @@ board_empty_results <- function() {
 }
 
 board_pin_versions.default <- function(board, name, ...) {
-  data.frame(versions = character(0), stringsAsFactors = FALSE)
+  data.frame(version = character(0), stringsAsFactors = FALSE)
 }

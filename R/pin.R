@@ -483,7 +483,7 @@ pin_versions <- function(name, board = NULL, full = FALSE, ...) {
   versions <- board_pin_versions(board_get(board), name)
 
   if (!full) {
-    versions$versions <- board_versions_shorten(versions$versions)
+    versions$version <- board_versions_shorten(versions$version)
   }
 
   format_tibble(versions)

@@ -56,7 +56,7 @@ board_versions_get <- function(board, name) {
 
   versions <- manifest$versions
   if (length(versions) > 0) {
-    versions <- data.frame(versions = versions, stringsAsFactors = FALSE)
+    versions <- data.frame(version = versions, stringsAsFactors = FALSE)
   }
 
   versions

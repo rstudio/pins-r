@@ -472,3 +472,23 @@ board_pin_remove.github <- function(board, name, ...) {
 board_browse.github <- function(board) {
   utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
 }
+
+board_pin_versions.github <- function(board, text, ...) {
+  branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
+
+  response <- httr::GET(github_url(board, "/commits", branch = NULL, sha = "?per_page=100&sha=", branch),
+                      github_headers(board))
+
+  commits <- httr::content(response)
+
+  if (httr::http_error(response))
+    stop("Failed to retrieve commits from ", board$repo, ": ", httr::content(commits$message))
+
+  data.frame(
+    version = sapply(commits, function(e) e$sha),
+    authored = sapply(commits, function(e) e$commit$author$date),
+    author = sapply(commits, function(e) e$author$login),
+    message = sapply(commits, function(e) e$commit$message),
+    stringsAsFactors = FALSE) %>%
+    format_tibble()
+}
