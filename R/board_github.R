@@ -389,11 +389,16 @@ github_download_files <- function(index, temp_path, board) {
   }
 }
 
-board_pin_get.github <- function(board, name, extract = NULL, ...) {
+board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
+  if (!is.null(version)) {
+    branch <- version
+    download_name <- file.path(name, "_versions", version)
+  }
+
   base_url <- github_raw_url(board, branch = branch, board$path, name, "/data.txt")
-  local_path <- pin_download(base_url, name, board$name, headers = github_headers(board))
+  local_path <- pin_download(base_url, download_name, board$name, headers = github_headers(board))
 
   if (file.exists(file.path(local_path, "data.txt"))) {
     index_path <- pin_manifest_download(local_path)
@@ -409,7 +414,7 @@ board_pin_get.github <- function(board, name, extract = NULL, ...) {
       else {
         file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
       }
-      pin_download(file_url, name, board$name, headers = headers, extract = identical(extract, TRUE))
+      pin_download(file_url, download_name, board$name, headers = headers, extract = identical(extract, TRUE))
     }
 
     local_path
