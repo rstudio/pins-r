@@ -224,7 +224,7 @@ board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
     unique()
 }
 
-board_pin_get.kaggle <- function(board, name, extract = NULL, ...) {
+board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
   if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
@@ -233,6 +233,12 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, ...) {
 
   etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
   content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
+
+  if (!is.null(version)) {
+    url <- paste0(url, "?datasetVersionNumber=", version)
+    name <- file.path(name, "_versions", version)
+    etag <- NULL
+  }
 
   local_path <- pin_download(url,
                              name,
