@@ -259,3 +259,27 @@ board_pin_remove.kaggle <- function(board, name) {
 board_browse.kaggle <- function(board) {
   utils::browseURL("https://www.kaggle.com/datasets?tab=my")
 }
+
+board_pin_versions.kaggle <- function(board, name, ...) {
+  if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+
+  url <- paste0("https://www.kaggle.com/api/v1/datasets/view/", name)
+
+  response <- httr::GET(url, kaggle_auth(board))
+
+  if (httr::http_error(response)) stop("Failed to view dataset with status ", httr::status_code(results))
+
+  parsed <- httr::content(response)
+
+  if (httr::http_error(response))
+    stop("Failed to retrieve commits from ", board$repo, ": ", httr::content(commits$message))
+
+  data.frame(
+    version = sapply(parsed$versions, function(e) e$versionNumber),
+    created = sapply(parsed$versions, function(e) e$creationDate),
+    author = sapply(parsed$versions, function(e) e$creatorName),
+    message = sapply(parsed$versions, function(e) e$versionNotes),
+    stringsAsFactors = FALSE) %>%
+    format_tibble()
+}
+
