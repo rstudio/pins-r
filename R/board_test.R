@@ -166,4 +166,15 @@ board_test_versions <- function(board, exclude, destination) {
     deps$expect_equal(pin_get(pin_name, version = versions$version[1], board = board), version_a)
     deps$expect_equal(pin_get(pin_name, version = versions$version[2], board = board), version_b)
   })
+
+  deps$test_that(paste("can pin_remove() a pin with versions", destination), {
+    if ("remove" %in% exclude) deps$skip("This test is in the excluded list")
+
+    result <- pin_remove(pin_name, board = board)
+    deps$expect_equal(result, NULL)
+
+    results <- pin_find(name = pin_name, board = board)
+    if (nrow(results) > 0)
+      deps$fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
+  })
 }
