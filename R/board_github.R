@@ -391,6 +391,7 @@ github_download_files <- function(index, temp_path, board) {
 
 board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
+  download_name <- name
 
   if (!is.null(version)) {
     branch <- version
