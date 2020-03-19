@@ -1,0 +1,9 @@
+---
+title: "Versioning"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Versioning}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
