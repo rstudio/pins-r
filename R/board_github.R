@@ -491,7 +491,7 @@ board_pin_versions.github <- function(board, name, ...) {
   commits <- httr::content(response)
 
   if (httr::http_error(response))
-    stop("Failed to retrieve commits from ", board$repo, ": ", httr::content(commits$message))
+    stop("Failed to retrieve commits from ", board$repo, ": ", commits$message)
 
   data.frame(
     version = sapply(commits, function(e) e$sha),
