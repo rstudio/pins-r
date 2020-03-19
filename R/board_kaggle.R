@@ -286,12 +286,12 @@ board_pin_versions.kaggle <- function(board, name, ...) {
 
   response <- httr::GET(url, kaggle_auth(board))
 
-  if (httr::http_error(response)) stop("Failed to view dataset with status ", httr::status_code(results))
+  if (httr::http_error(response)) stop("Failed to view dataset with status ", httr::status_code(response))
 
   parsed <- httr::content(response)
 
   if (httr::http_error(response))
-    stop("Failed to retrieve commits from ", board$repo, ": ", httr::content(commits$message))
+    stop("Failed to retrieve commits from ", board$repo, ": ", parsed$message)
 
   data.frame(
     version = sapply(parsed$versions, function(e) e$versionNumber),
