@@ -63,22 +63,41 @@ kaggle_upload_resource <- function(path, board) {
   token
 }
 
-kaggle_create_resource <- function(name, description, token, type, metadata, board) {
-  url <- "https://www.kaggle.com/api/v1/datasets/create/new"
+kaggle_create_resource <- function(name, description, token, type, metadata, notes, board) {
+  if (kaggle_resource_exists(board, name)) {
+    owner <- kaggle_auth_info(board)$username
+    url <- paste("https://www.kaggle.com/api/v1/datasets/create/version", owner, name, sep = "/")
 
-  body <- list(
-    convertToCsv = jsonlite::unbox(FALSE),
-    files = data.frame(
-      token = token
-    ),
-    isPrivate = jsonlite::unbox(TRUE),
-    licenseName = jsonlite::unbox("CC0-1.0"),
-    ownerSlug = jsonlite::unbox(kaggle_auth_info(board)$username),
-    slug = jsonlite::unbox(name),
-    subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
-    title = jsonlite::unbox(description),
-    categories = list()
-  )
+    if (is.null(notes)) notes <- paste("Updated version")
+
+    body <- list(
+      convertToCsv = jsonlite::unbox(FALSE),
+      files = data.frame(
+        token = token
+      ),
+      versionNotes = jsonlite::unbox(notes),
+      subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
+      title = jsonlite::unbox(description),
+      deleteOldVersions = jsonlite::unbox(identical(versions$versions, FALSE))
+    )
+  }
+  else {
+    url <- "https://www.kaggle.com/api/v1/datasets/create/new"
+
+    body <- list(
+      convertToCsv = jsonlite::unbox(FALSE),
+      files = data.frame(
+        token = token
+      ),
+      isPrivate = jsonlite::unbox(TRUE),
+      licenseName = jsonlite::unbox("CC0-1.0"),
+      ownerSlug = jsonlite::unbox(kaggle_auth_info(board)$username),
+      slug = jsonlite::unbox(name),
+      subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
+      title = jsonlite::unbox(description),
+      categories = list()
+    )
+  }
 
   results <- httr::POST(url, body = body, kaggle_auth(board), encode = "json")
 
@@ -125,7 +144,7 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
-board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
+board_pin_create.kaggle <- function(board, path, name, metadata, notes = NULL, ...) {
   description <- metadata$description
   type <- metadata$type
 
@@ -155,7 +174,7 @@ board_pin_create.kaggle <- function(board, path, name, metadata, ...) {
     token <- unlist(token)
   }
 
-  kaggle_create_resource(name, description, token, type, metadata, board)
+  kaggle_create_resource(name, description, token, type, metadata, notes, board)
 
   qualified_name <- paste0(kaggle_auth_info(board)$username, "/", name)
 
@@ -281,5 +300,15 @@ board_pin_versions.kaggle <- function(board, name, ...) {
     message = sapply(parsed$versions, function(e) e$versionNotes),
     stringsAsFactors = FALSE) %>%
     format_tibble()
+}
+
+kaggle_resource_exists <- function(board, name) {
+  if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+
+  url <- paste0("https://www.kaggle.com/api/v1/datasets/view/", name)
+
+  response <- httr::GET(url, kaggle_auth(board))
+
+  !httr::http_error(response)
 }
 
