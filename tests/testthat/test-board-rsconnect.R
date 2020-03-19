@@ -6,7 +6,17 @@ test_rsconnect_boards <- function(key, server) {
                  server = server,
                  cache = tempfile())
 
-  board_test("rsconnect", destination = server)
+  board_test("rsconnect", suite = "default", destination = server)
+
+  board_deregister("rsconnect")
+
+  board_register("rsconnect",
+                 key = key,
+                 server = server,
+                 versions = TRUE,
+                 cache = tempfile())
+
+  board_test("rsconnect", suite = "versions", destination = server)
 
   board_deregister("rsconnect")
 }
