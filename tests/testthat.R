@@ -111,4 +111,4 @@ PerformanceReporter <- R6::R6Class(
   )
 )
 
-test_check("pins", reporter = "performance")
+test_check("pins")
