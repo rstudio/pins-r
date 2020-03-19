@@ -38,7 +38,7 @@ board_versions_create <- function(board, name, path) {
     files <- files[files != file.path(path, "_versions")]
     file.copy(files, version_path, recursive = TRUE)
 
-    versions <- c(versions, list(version_relative))
+    versions <- c(list(version_relative), versions)
 
     manifest <- pin_manifest_get(path)
     manifest$versions <- versions
