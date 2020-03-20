@@ -141,7 +141,7 @@ pin_registry_relative <- function(path, base_path) {
     path <- substr(path, nchar(base_path) + 1, nchar(path))
   }
 
-  gsub("^/", "", path)
+  gsub("^(/|\\\\)", "", path)
 }
 
 pin_registry_absolute <- function(path, component) {
