@@ -56,8 +56,6 @@ datatxt_refresh_manifest <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
-  local_path <- pin_storage_path(board$name, name)
-
   if (length(index) == 0 && identical(board$needs_index, TRUE)) {
     stop("Could not find '", name, "' pin in '", board$name, "' board.")
   }
@@ -98,6 +96,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, .
   index_entry <- manifest_paths$index_entry
   download_path <- manifest_paths$download_path
 
+  local_path <- pin_storage_path(board$name, name)
   manifest <- pin_manifest_get(local_path)
 
   if (!is.null(version)) {
