@@ -141,7 +141,12 @@ pin_registry_relative <- function(path, base_path) {
     path <- substr(path, nchar(base_path) + 1, nchar(path))
   }
 
-  gsub("^(/|\\\\)", "", path)
+  relative <- gsub("^(/|\\\\)", "", path)
+
+  # convert windows path to cross-platform / data.txt path
+  relative <- gsub("\\", "/", relative, fixed = TRUE)
+
+  relative
 }
 
 pin_registry_absolute <- function(path, component) {
@@ -150,6 +155,6 @@ pin_registry_absolute <- function(path, component) {
   if (startsWith(path, base_path)) {
     path
   } else {
-    file.path(base_path, path)
+    normalizePath(file.path(base_path, path), mustWork = FALSE)
   }
 }
