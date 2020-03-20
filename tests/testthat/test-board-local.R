@@ -25,3 +25,5 @@ test_that("local board is registered with versions", {
 })
 
 board_test("local", suite = "versions")
+
+board_register("local", cache = tempfile())
