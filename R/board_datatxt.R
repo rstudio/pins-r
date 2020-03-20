@@ -52,7 +52,7 @@ board_initialize.datatxt <- function(board,
   board
 }
 
-board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, ...) {
+datatxt_refresh_manifest <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
@@ -84,6 +84,20 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, .
   download_path <- file.path(path_guess, "data.txt")
 
   pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
+
+  list(
+    path_guess = path_guess,
+    index_entry = index_entry,
+    download_path = download_path
+  )
+}
+
+board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, ...) {
+  manifest_paths <- datatxt_refresh_manifest(board, name, ...)
+  path_guess <- manifest_paths$path_guess
+  index_entry <- manifest_paths$index_entry
+  download_path <- manifest_paths$download_path
+
   manifest <- pin_manifest_get(local_path)
 
   if (!is.null(version)) {
@@ -286,5 +300,6 @@ board_browse.datatxt <- function(board) {
 }
 
 board_pin_versions.datatxt <- function(board, name, ...) {
+  datatxt_refresh_manifest(board, name, ...)
   board_versions_get(board, name)
 }
