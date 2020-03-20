@@ -78,7 +78,7 @@ kaggle_create_resource <- function(name, description, token, type, metadata, not
       versionNotes = jsonlite::unbox(notes),
       subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
       title = jsonlite::unbox(description),
-      deleteOldVersions = jsonlite::unbox(identical(versions$versions, FALSE))
+      deleteOldVersions = jsonlite::unbox(identical(board$versions, FALSE))
     )
   }
   else {
