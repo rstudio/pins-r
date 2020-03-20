@@ -1,6 +1,6 @@
 pin_versions_path <- function(storage_path) {
   hash_files <- dir(storage_path, full.names = TRUE)
-  hash_files <- hash_files[!grepl("/_versions$", hash_files)]
+  hash_files <- hash_files[!grepl("(/|\\\\)_versions$", hash_files)]
 
   all_sha1 <- sapply(hash_files, function(x) digest::digest(x, algo = "sha1", file = TRUE))
   signature <- paste(paste(all_sha1, collapse = ","), paste(dir(storage_path), collapse = ","), sep = ",")
@@ -63,9 +63,9 @@ board_versions_get <- function(board, name) {
 }
 
 board_versions_shorten <- function(versions) {
-  paths <- gsub("[^/]+$", "", versions)
+  paths <- gsub("[^/\\\\]+$", "", versions)
   if (length(unique(paths))) {
-    versions <- gsub(".*/", "", versions)
+    versions <- gsub(".*(/|\\\\)", "", versions)
   }
 
   shortened <- substr(versions, 1, 7)
