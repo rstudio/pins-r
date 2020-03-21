@@ -253,9 +253,10 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
   etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
   content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
 
+  subpath <- name
   if (!is.null(version)) {
     url <- paste0(url, "?datasetVersionNumber=", version)
-    name <- file.path(name, "_versions", version)
+    subpath <- file.path(name, "_versions", version)
     etag <- NULL
   }
 
@@ -265,7 +266,8 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
                              config = kaggle_auth(board),
                              custom_etag = etag,
                              extract = !identical(extract, FALSE),
-                             content_length = content_length)
+                             content_length = content_length,
+                             subpath = subpath)
 
   local_path
 }

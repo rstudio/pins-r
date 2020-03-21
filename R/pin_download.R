@@ -9,13 +9,14 @@ pin_download <- function(path,
                          can_fail = FALSE,
                          cache = TRUE,
                          content_length = 0,
+                         subpath = name,
                          ...) {
   must_download <- !cache
 
   # clean up name in case it's a full url
   name <- gsub("^https?://", "", name)
 
-  local_path <- pin_storage_path(component, name)
+  local_path <- pin_storage_path(component, subpath)
 
   # use a temp path to rollback if something fails
   temp_path <- tempfile()

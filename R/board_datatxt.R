@@ -106,7 +106,12 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, .
 
     download_path <- file.path(path_guess, version, "data.txt")
     local_path <- file.path(local_path, version)
-    pin_download(download_path, file.path(name, version), board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
+    pin_download(download_path,
+                 name,
+                 board$name,
+                 can_fail = TRUE,
+                 headers = board_datatxt_headers(board, download_path),
+                 subpath = file.path(name, version))
     manifest <- pin_manifest_get(local_path)
     path_guess <- file.path(path_guess, version)
   }
