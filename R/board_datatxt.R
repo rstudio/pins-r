@@ -336,6 +336,8 @@ board_pin_remove.datatxt <- function(board, name, ...) {
                        path = name,
                        operation = "remove",
                        name = name)
+
+  unlink(pin_storage_path(board$name, name), recursive = TRUE)
 }
 
 board_browse.datatxt <- function(board) {
