@@ -161,9 +161,6 @@ board_test_versions <- function(board, exclude, destination) {
     pin(I(version_a), pin_name, board = board)
     pin(I(version_b), pin_name, board = board)
 
-    # troubleshoot travis tests
-    Sys.sleep(60)
-
     versions <- pin_versions(pin_name, board = board)
     deps$expect_equal(length(versions$version), 2)
 
