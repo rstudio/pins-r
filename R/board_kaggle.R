@@ -178,16 +178,7 @@ board_pin_create.kaggle <- function(board, path, name, metadata, notes = NULL, .
 
   qualified_name <- paste0(kaggle_auth_info(board)$username, "/", name)
 
-  retrieved <- NULL
-  retries <- 10
-  while (retries > 0 && is.null(retrieved)) {
-    retrieved <- suppressWarnings(tryCatch({
-      pin_get(qualified_name, board$name)
-    }, error = function(e) NULL))
-
-    Sys.sleep(1)
-    retries <- retries - 1
-  }
+  board_wait_create(board, qualified_name)
 }
 
 board_pin_search_kaggle <- function(board, text = NULL) {

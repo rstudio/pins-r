@@ -258,6 +258,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
                         name = name, metadata = metadata, branch = branch)
   }
 
+  board_wait_create(board, name)
 }
 
 board_pin_find.github <- function(board, text, ...) {
