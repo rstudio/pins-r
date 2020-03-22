@@ -21,7 +21,7 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
   final_path <- pin_storage_path(component = board$name, name = name)
 
   delete <- dir(final_path, full.names = TRUE)
-  delete <- delete[!grepl("/_versions$", delete)]
+  delete <- delete[!grepl("(/|\\\\)_versions$", delete)]
   unlink(delete, recursive = TRUE)
   if (!dir.exists(final_path)) dir.create(final_path)
 
