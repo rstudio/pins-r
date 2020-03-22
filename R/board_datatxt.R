@@ -52,7 +52,7 @@ board_initialize.datatxt <- function(board,
   board
 }
 
-datatxt_refresh_manifest <- function(board, name, ...) {
+datatxt_pin_download_info <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
@@ -79,8 +79,19 @@ datatxt_refresh_manifest <- function(board, name, ...) {
   } else {
     file.path(board$url, path_guess, fsep = "/")
   }
-  download_path <- file.path(path_guess, "data.txt")
 
+  list(
+    path_guess = path_guess,
+    index_entry = index_entry
+  )
+}
+
+datatxt_refresh_manifest <- function(board, name, ...) {
+  pin_info <- datatxt_pin_download_info(board, name, ...)
+  path_guess <- pin_info$path_guess
+  index_entry <- pin_info$index_entry
+
+  download_path <- file.path(path_guess, "data.txt")
   pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
 
   list(
@@ -277,8 +288,36 @@ board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
                        metadata = metadata)
 }
 
+# Retrieve data.txt files, including versioned files
+datatxt_pin_files <- function(board, name) {
+  entry <- pin_find(name = name, board = board$name, metadata = TRUE)
+
+  if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
+  metadata <- jsonlite::fromJSON(as.list(entry)$metadata)
+
+  files <- metadata$path
+
+  for (version in metadata$versions) {
+    path_guess <- datatxt_pin_download_info(board, name)$path_guess
+
+    download_path <- file.path(path_guess, version, "data.txt")
+    local_path <- file.path(pin_storage_path(board$name, name), version)
+    pin_download(download_path,
+                 name,
+                 board$name,
+                 can_fail = TRUE,
+                 headers = board_datatxt_headers(board, download_path),
+                 subpath = file.path(name, version))
+    manifest <- pin_manifest_get(local_path)
+
+    files <- c(files, file.path(name, version, manifest$path), file.path(name, version, "data.txt"))
+  }
+
+  files
+}
+
 board_pin_remove.datatxt <- function(board, name, ...) {
-  files <- pin_files(name, board = board$name, absolute = FALSE)
+  files <- datatxt_pin_files(board, name)
 
   # also attempt to delete data.txt
   files <- c(files, file.path(name, "data.txt"))
