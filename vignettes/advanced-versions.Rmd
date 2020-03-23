@@ -7,13 +7,14 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-In most cases, a remote resource does not change over time; for example, the resource from House Price Index example from the [Getting Started](pin-starting.html) section can be retrieved as follows and is unlikely to change:
+In most cases, a remote resource does not change over time. For example, since the House Price Index dataset from the [Getting Started](pin-starting.html) section is unlikely to change, it can be retrieved as follows:
 
 ```{r eval=FALSE}
-pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv", name = "home_price_indexes")
+pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv",
+    name = "home_price_indexes")
 ```
 
-However, to avoid breaking existing code that relies on this dataset not changing, we can retrieve a unique signature to identify this resource as follows:
+To ensure this dataset does not change, we can retrieve a unique signature to identify this resource using `pin_info()` as follows:
 
 ```{r eval=FALSE}
 pin_info("home_price_indexes", signature = TRUE)
@@ -28,14 +29,17 @@ pin_info("home_price_indexes", signature = TRUE)
 This signature can then be used to ensure the dataset does not change. For instance, you can share the following code with others to ensure they get the exact same dataset:
 
 ```{r eval=FALSE}
-pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv", signature = "264ea461b5f73a50e5935ab0ba2fb062fbef642d")
+pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv",
+    signature = "264ea461b5f73a50e5935ab0ba2fb062fbef642d")
 ```
 
-In contrast, other datasets are expected to change and require us to think which particular version we are retrieving or sharing with `pins` and particular boards.
+You can also use `signature` with `pin_get()`. Notice that the operation will fail if the signatures don't match.
+
+In contrast, other datasets are expected to change and require us to think which particular version we are retrieving or sharing in a given board.
 
 ## Versioning Boards
 
-Currently, all boards support versioning; however, not all boards support versions by default. Boards like [GitHub](boards-github.html), [Kaggle](boards-kaggle.html) and [RStudio Connect](boards-rsconnect.html), support versioning by default and you can explore previous pin versions using `pin_info()`.
+Currently, all boards support versioning; however, not all boards support versions by default. Boards like [GitHub](boards-github.html), [Kaggle](boards-kaggle.html) and [RStudio Connect](boards-rsconnect.html), support versioning by default and you can explore previous versions using `pin_versions()`.
 
 For instance, let's take a look at previous versions of a Kaggle dataset:
 
@@ -69,9 +73,9 @@ pin_get("new-york-city/nypd-motor-vehicle-collisions", version = 3, board = "kag
 [3] "nypd-motor-vehicle-collisions/_versions/3/socrata_metadata.json" 
 ```
 
-However, other boards like the default local board, [Azure](boards-azure), [Digital Ocean](boards-dospace.html), [Google Cloud](boards-gcloud.html), and [S3](boards-S3.html), do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the `versions` parameter to `TRUE`.
+Other boards, like the default local board, [Azure](boards-azure), [Digital Ocean](boards-dospace.html), [Google Cloud](boards-gcloud.html), and [S3](boards-S3.html), do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the `versions` parameter to `TRUE`.
 
-For instance, to support versions in your local computer, you can register the local board as follows:
+For instance, in your local computer you can register the local board with versioning as follows:
 
 ```{r eval=FALSE}
 board_register("local", versions = TRUE)
@@ -87,7 +91,7 @@ pin(iris, "mtcars", description = "the mtcars dataset")
 pin(mtcars, "mtcars", description = "the mtcars dataset")
 ```
 
-Which you can then list with `pin_versions()`:
+Which you can then list with `pin_versions()`, notice that the most recent version is displayed first:
 
 ```{r eval=FALSE}
 pin_versions("mtcars", board = "local")
@@ -100,7 +104,7 @@ pin_versions("mtcars", board = "local")
 2 d93d422
 ```
 
-And retrieve specific versions:
+You can then retrieve specific versions:
 
 ```{r eval=FALSE}
 pin_get("mtcars", version = "d93d422", board = "local")
@@ -123,7 +127,3 @@ pin_get("mtcars", version = "d93d422", board = "local")
 ```
 
 A similar approach can be followed with `board_register_azure()`, `board_register_dospaces()`, `board_register_gcloud()`, `board_register_s3s()`, etc.
-
-
-
-
