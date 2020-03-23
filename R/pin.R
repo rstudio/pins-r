@@ -460,7 +460,7 @@ print.pin_info <- function(x, ...) {
 
   cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
   if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
-  if (nchar(info$signature) > 0) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
+  if (!is.null(info$signature)) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
 
   info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
