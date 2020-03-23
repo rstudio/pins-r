@@ -137,14 +137,14 @@ pin_registry_unlock <- function(lock) {
 }
 
 pin_registry_relative <- function(path, base_path) {
+  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
+  base_path <- normalizePath(base_path, winslash = "/", mustWork = FALSE)
+
   if (startsWith(path, base_path)) {
     path <- substr(path, nchar(base_path) + 1, nchar(path))
   }
 
-  relative <- gsub("^(/|\\\\)", "", path)
-
-  # convert windows path to cross-platform / data.txt path
-  relative <- gsub("\\", "/", relative, fixed = TRUE)
+  relative <- gsub("^/", "", path)
 
   relative
 }
