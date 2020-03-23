@@ -10,7 +10,7 @@ pin_version_signature <- function(hash_files) {
     signature <- digest::digest(signature, algo = "sha1", file = FALSE)
   }
 
-  signature
+  as.character(signature)
 }
 
 pin_versions_path <- function(storage_path) {

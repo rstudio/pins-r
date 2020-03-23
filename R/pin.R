@@ -90,9 +90,11 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @param board The board where this pin will be retrieved from.
 #' @param cache Should the pin cache be used? Defaults to \code{TRUE}.
 #' @param extract Should compressed files be extracted? Each board defines the
-#'   deefault behavior.
+#'   default behavior.
 #' @param version The version of the dataset to retrieve, defaults to latest one.
 #' @param files Should only the file names be returned?
+#' @param signature Optional signature to validate this pin, use \code{pin_info()}
+#'   to compute signature.
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -124,6 +126,7 @@ pin_get <- function(name,
                     extract = NULL,
                     version = NULL,
                     files = FALSE,
+                    signature = NULL,
                     ...) {
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
@@ -147,11 +150,17 @@ pin_get <- function(name,
   manifest <- pin_manifest_get(result)
   if (is.null(manifest$type)) manifest$type <- "files"
 
+  result_files <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
+  result_files <- dir(result_files, full.names = TRUE)
+  if (manifest$type == "files" && length(result_files) > 1) result_files <- result_files[!grepl("/data.txt$", result_files)]
+
+  if (!is.null(signature)) {
+    pin_signature <- pin_version_signature(result_files)
+    if (!identical(signature, pin_signature)) stop("Pin signature '", pin_signature, "' does not match given signature.")
+  }
+
   if (files) {
-    result <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
-    result <- dir(result, full.names = TRUE)
-    if (manifest$type == "files" && length(result) > 1) result <- result[!grepl("/data.txt$", result)]
-    result
+    result_files
   }
   else {
     pin_load(structure(result, class = manifest$type))
