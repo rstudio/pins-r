@@ -398,7 +398,7 @@ board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ..
 
   if (!is.null(version)) {
     branch <- version
-    subpath <- file.path(name, "_versions", version)
+    subpath <- file.path(name, pin_versions_path_name(), version)
   }
 
   base_url <- github_raw_url(board, branch = branch, board$path, name, "/data.txt")

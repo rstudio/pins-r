@@ -1,3 +1,7 @@
+pin_versions_path_name <- function() {
+  getOption("pins.versions.path", "_versions")
+}
+
 pin_versions_path <- function(storage_path) {
   hash_files <- dir(storage_path, full.names = TRUE)
   hash_files <- hash_files[!grepl("(/|\\\\)_versions$", hash_files)]
@@ -7,7 +11,7 @@ pin_versions_path <- function(storage_path) {
 
   version <- digest::digest(signature, algo = "sha1", file = FALSE)
 
-  normalizePath(file.path(storage_path, getOption("pins.versions.path", "_versions"), version), mustWork = FALSE)
+  normalizePath(file.path(storage_path, pin_versions_path_name(), version), mustWork = FALSE)
 }
 
 board_versions_enabled <- function(board) {
@@ -27,7 +31,6 @@ board_versions_create <- function(board, name, path) {
     version_relative <- pin_registry_relative(version_path, base_path = path)
 
     if (any(component_manifest$versions == version_relative)) {
-      if (dir.exists(version_path)) unlink(version_path, recursive = TRUE)
       versions <- versions[versions != version_relative]
     }
 
@@ -35,7 +38,7 @@ board_versions_create <- function(board, name, path) {
     dir.create(version_path, recursive = TRUE)
 
     files <- dir(path, full.names = TRUE)
-    files <- files[files != file.path(path, "_versions")]
+    files <- files[files != file.path(path, pin_versions_path_name())]
     file.copy(files, version_path, recursive = TRUE)
 
     versions <- c(list(version_relative), versions)

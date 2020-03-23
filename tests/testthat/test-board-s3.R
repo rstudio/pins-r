@@ -27,7 +27,7 @@ test_s3_suite <- function(suite, versions = NULL) {
   }
 
   if (test_board_is_registered("s3")) {
-    board_test("s3", suite = suite, exclude = "remove")
+    board_test("s3", suite = suite)
   } else {
     test_that("can't register s3 board", {
       skip("failed to register s3 board")

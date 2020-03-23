@@ -304,7 +304,7 @@ board_pin_get.rsconnect <- function(board, name, version = NULL, ...) {
 
   if (!is.null(version)) {
     remote_path <- paste0(remote_path, "/_rev", version)
-    download_name <- file.path(name, "_versions", version)
+    download_name <- file.path(name, pin_versions_path_name(), version)
   }
 
   local_path <- rsconnect_api_download(board, download_name, file.path(remote_path, "data.txt"), etag = etag)

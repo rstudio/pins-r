@@ -247,7 +247,7 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
   subpath <- name
   if (!is.null(version)) {
     url <- paste0(url, "?datasetVersionNumber=", version)
-    subpath <- file.path(name, "_versions", version)
+    subpath <- file.path(name, pin_versions_path_name(), version)
     etag <- NULL
   }
 
