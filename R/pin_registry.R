@@ -87,6 +87,16 @@ pin_registry_retrieve <- function(name, component) {
   entries[[which(names == name)]]
 }
 
+pin_registry_retrieve_path <- function(name, component) {
+  entry <- pin_registry_retrieve(name, component)
+
+  entry$path
+}
+
+pin_registry_retrieve_maybe <- function(name, component) {
+  tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
+}
+
 pin_registry_remove <- function(name, component, unlink = TRUE) {
   entries <- pin_registry_load_entries(component)
   name <- pin_registry_qualify_name(name, entries)
@@ -99,7 +109,8 @@ pin_registry_remove <- function(name, component, unlink = TRUE) {
 
   entries <- Filter(function(x) x$name != name, entries)
 
-  if (unlink) unlink(remove$path, recursive = TRUE)
+  remove_path <- pin_registry_absolute(remove$path, component)
+  if (unlink) unlink(remove_path, recursive = TRUE)
 
   pin_registry_save_entries(entries, component)
 }
@@ -125,3 +136,25 @@ pin_registry_unlock <- function(lock) {
   filelock::unlock(lock)
 }
 
+pin_registry_relative <- function(path, base_path) {
+  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
+  base_path <- normalizePath(base_path, winslash = "/", mustWork = FALSE)
+
+  if (startsWith(path, base_path)) {
+    path <- substr(path, nchar(base_path) + 1, nchar(path))
+  }
+
+  relative <- gsub("^/", "", path)
+
+  relative
+}
+
+pin_registry_absolute <- function(path, component) {
+  base_path <- tools::file_path_as_absolute(board_local_storage(component))
+
+  if (startsWith(path, base_path)) {
+    path
+  } else {
+    normalizePath(file.path(base_path, path), mustWork = FALSE)
+  }
+}

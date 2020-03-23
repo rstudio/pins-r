@@ -56,7 +56,8 @@ board_initialize.s3 <- function(board,
                          bucket = bucket,
                          connect = FALSE,
                          browse_url = paste0("https://s3.console.aws.amazon.com/s3/buckets/", bucket, "/"),
-                         host = host)
+                         host = host,
+                         ...)
 
   board_get(board$name)
 }

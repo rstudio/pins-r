@@ -13,21 +13,27 @@ test_that("board contains proper s3 headers", {
   expect_true("Authorization" %in% headers)
 })
 
-if (nchar(test_s3_bucket) > 0) {
-  if ("s3" %in% board_list())
-    board_deregister("s3")
+test_s3_suite <- function(suite, versions = NULL) {
+  if (nchar(test_s3_bucket) > 0) {
+    if ("s3" %in% board_list())
+      board_deregister("s3")
 
-  board_register("s3",
-                 bucket = test_s3_bucket,
-                 key = test_s3_key,
-                 secret = test_s3_secret,
-                 cache = tempfile())
+    board_register("s3",
+                   bucket = test_s3_bucket,
+                   key = test_s3_key,
+                   secret = test_s3_secret,
+                   versions = versions,
+                   cache = tempfile())
+  }
+
+  if (test_board_is_registered("s3")) {
+    board_test("s3", suite = suite)
+  } else {
+    test_that("can't register s3 board", {
+      skip("failed to register s3 board")
+    })
+  }
 }
 
-if (test_board_is_registered("s3")) {
-  board_test("s3")
-} else {
-  test_that("can't register s3 board", {
-    skip("failed to register s3 board")
-  })
-}
+test_s3_suite("default")
+test_s3_suite("versions", versions = TRUE)

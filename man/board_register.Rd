@@ -4,7 +4,8 @@
 \alias{board_register}
 \title{Register Board}
 \usage{
-board_register(board, name = board, cache = board_cache_path(), ...)
+board_register(board, name = board, cache = board_cache_path(),
+  versions = NULL, ...)
 }
 \arguments{
 \item{board}{The name of the board to register.}
@@ -12,6 +13,8 @@ board_register(board, name = board, cache = board_cache_path(), ...)
 \item{name}{An optional name to identify this board, defaults to the board name.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{versions}{Should this board be registered with support for versions?}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
@@ -26,6 +29,10 @@ known \code{rappdirs}. However, you are welcome to specify any other
 location for this cache or even a temp folder with \code{tempfile()}. Notice that,
 when using a temp folder, pins will be cleared when your R session restarts. The
 cache parameter can be also set with the \code{pins.path} option.
+
+The \code{versions} parameter default to different values depending on which board
+is choosed. For instance, local boards do not use versions by default, but GitHub
+boards do.
 }
 \examples{
 # create a new local board

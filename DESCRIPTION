@@ -18,8 +18,10 @@ RoxygenNote: 6.1.1
 Depends: 
   R (>= 3.2.0)
 Imports:
+  backports,
   base64enc,
   crayon,
+  digest,
   filelock,
   httr,
   jsonlite,
@@ -32,10 +34,14 @@ Imports:
   zip
 Suggests:
   callr,
+  covr,
+  data.table,
   knitr,
   rmarkdown,
   R6,
-  testthat
+  tibble,
+  testthat,
+  xml2
 VignetteBuilder: knitr
 URL: https://github.com/rstudio/pins
 BugReports: https://github.com/rstudio/pins/issues

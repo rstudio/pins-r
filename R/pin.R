@@ -90,7 +90,11 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @param board The board where this pin will be retrieved from.
 #' @param cache Should the pin cache be used? Defaults to \code{TRUE}.
 #' @param extract Should compressed files be extracted? Each board defines the
-#'   deefault behavior.
+#'   default behavior.
+#' @param version The version of the dataset to retrieve, defaults to latest one.
+#' @param files Should only the file names be returned?
+#' @param signature Optional signature to validate this pin, use \code{pin_info()}
+#'   to compute signature.
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -116,7 +120,14 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' # retrieve mtcars pin from packages board
 #' pin_get("easyalluvial/mtcars2", board = "packages")
 #' @export
-pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
+pin_get <- function(name,
+                    board = NULL,
+                    cache = TRUE,
+                    extract = NULL,
+                    version = NULL,
+                    files = FALSE,
+                    signature = NULL,
+                    ...) {
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
 
@@ -125,7 +136,7 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
         if (!cache) pin_reset_cache(board_name, name)
-        result <- board_pin_get_or_null(board_get(board_name), name, extract = extract)
+        result <- board_pin_get_or_null(board_get(board_name), name, extract = extract, version = version)
         if (!is.null(result)) break
       }
     }
@@ -133,13 +144,27 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
   }
   else {
     if (!cache) pin_reset_cache(board, name)
-    result <- board_pin_get(board_get(board), name, extract = extract, ...)
+    result <- board_pin_get(board_get(board), name, extract = extract, version = version, ...)
   }
 
   manifest <- pin_manifest_get(result)
   if (is.null(manifest$type)) manifest$type <- "files"
 
-  pin_load(structure(result, class = manifest$type))
+  result_files <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
+  result_files <- dir(result_files, full.names = TRUE)
+  if (manifest$type == "files" && length(result_files) > 1) result_files <- result_files[!grepl("/data.txt$", result_files)]
+
+  if (!is.null(signature)) {
+    pin_signature <- pin_version_signature(result_files)
+    if (!identical(signature, pin_signature)) stop("Pin signature '", pin_signature, "' does not match given signature.")
+  }
+
+  if (files) {
+    result_files
+  }
+  else {
+    pin_load(structure(result, class = manifest$type))
+  }
 }
 
 #' Remove Pin
@@ -169,7 +194,12 @@ pin_get <- function(name, board = NULL, cache = TRUE, extract = NULL, ...) {
 #' pin_remove("mtcars", board = "local")
 #' @export
 pin_remove <- function(name, board) {
-  board_pin_remove(board_get(board), name)
+  board <- board_get(board)
+
+  board_pin_remove(board, name)
+  ui_viewer_updated(board)
+
+  invisible(NULL)
 }
 
 pin_find_empty <- function() {
@@ -315,6 +345,19 @@ pin_files <- function(name, board = NULL, ...) {
   metadata$path
 }
 
+pin_get_one <- function(name, board, extended, metadata) {
+  # first ensure there is always one pin since metadata with multiple entries can fail
+  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
+
+  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
+  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
+
+  board <- entry$board
+  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
+
+  entry
+}
+
 #' Pin Info
 #'
 #' Retrieve information for a given pin.
@@ -323,6 +366,7 @@ pin_files <- function(name, board = NULL, ...) {
 #' @param board The board name used to find the pin.
 #' @param extended Should additional board-specific information be shown?
 #' @param metadata Should additional pin-specific information be shown?
+#' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
 #'
 #' @examples
@@ -338,21 +382,24 @@ pin_files <- function(name, board = NULL, ...) {
 #' pin_info("mtcars")
 #'
 #' @export
-pin_info <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) {
-  # first ensure there is always one pin since metadata with multiple entries can fail
-  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
-
-  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
-  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
-
-  board <- entry$board
-  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
+pin_info <- function(name,
+                     board = NULL,
+                     extended = TRUE,
+                     metadata = TRUE,
+                     signature = FALSE,
+                     ...) {
+  entry <- pin_get_one(name, board, extended, metadata)
 
   board <- entry$board
 
   metadata <- list()
   if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
     metadata <- jsonlite::fromJSON(entry$metadata)
+  }
+
+  if (signature) {
+    files <- pin_get(name, board = board, files = TRUE)
+    entry[["signature"]] <- pin_version_signature(files)
   }
 
   entry_ext <- as.list(entry)
@@ -413,8 +460,9 @@ print.pin_info <- function(x, ...) {
 
   cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
   if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
+  if (!is.null(info$signature)) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
 
-  info$board <- info$name <- info$type <- info$description <- NULL
+  info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
   is_first <- TRUE
   for (name in names(info)) {
@@ -433,4 +481,41 @@ print.pin_info <- function(x, ...) {
 #' @export
 pin_fetch <- function(path, ...) {
   UseMethod("pin_fetch")
+}
+
+#' Pin Versions
+#'
+#' Retrieve versions available for a given pin.
+#'
+#' @param name The exact name of the pin to match when searching.
+#' @param board The board name used to find the pin.
+#' @param full Should the full versioned paths be shown? Defaults to \code{FALSE}.
+#' @param ... Additional parameters.
+#'
+#' @examples
+#' library(pins)
+#'
+#' # define local board with versioning enabled
+#' board_register_local(cache = tempfile(), versions = TRUE)
+#'
+#' # cache the mtcars dataset
+#' pin(mtcars, name = "mtcars")
+#' pin(mtcars * 10, name = "mtcars")
+#'
+#' # print pin versions
+#' pin_versions("mtcars")
+#'
+#' # print version information
+#' pin_info("mtcars", version = "abcdc")
+#' pin_info("mtcars", version = "defgh")
+#'
+#' @export
+pin_versions <- function(name, board = NULL, full = FALSE, ...) {
+  versions <- board_pin_versions(board_get(board), name)
+
+  if (!full) {
+    versions$version <- board_versions_shorten(versions$version)
+  }
+
+  format_tibble(versions)
 }

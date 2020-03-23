@@ -14,7 +14,8 @@ if (nchar(test_github_repo) > 0) {
 }
 
 if (test_board_is_registered("github")) {
-  board_test("github")
+  board_test("github", suite = "default")
+  board_test("github", suite = "versions")
 } else {
   test_that("can't register github board", {
     skip("failed to register github board")

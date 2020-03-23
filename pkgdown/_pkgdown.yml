@@ -62,6 +62,10 @@ navbar:
         - text: "Websites"
           href: articles/boards-websites.html
         - text: "---"
+        - text: Advanced
+        - text: "Versioning"
+          href: articles/advanced-versions.html
+        - text: "---"
         - text: Extensions
         - text: "Extending Pins"
           href: articles/pins-extending.html

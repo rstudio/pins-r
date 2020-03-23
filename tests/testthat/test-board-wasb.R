@@ -14,21 +14,28 @@ test_that("board contains proper azure headers", {
   expect_true("Authorization" %in% headers)
 })
 
-if (nchar(test_azure_container) > 0) {
-  if ("azure" %in% board_list())
-    board_deregister("azure")
+test_azure_suite <- function(suite, versions = NULL) {
+  if (nchar(test_azure_container) > 0) {
+    if ("azure" %in% board_list())
+      board_deregister("azure")
 
-  board_register("azure",
-                 container = test_azure_container,
-                 account = test_azure_account,
-                 key = test_azure_key,
-                 cache = tempfile())
+    board_register("azure",
+                   container = test_azure_container,
+                   account = test_azure_account,
+                   key = test_azure_key,
+                   versions = versions,
+                   cache = tempfile())
+  }
+
+  if (test_board_is_registered("azure")) {
+    board_test("azure", suite = suite)
+  } else {
+    test_that("can't register azure board", {
+      skip("failed to register azure board")
+    })
+  }
 }
 
-if (test_board_is_registered("azure")) {
-  board_test("azure")
-} else {
-  test_that("can't register azure board", {
-    skip("failed to register azure board")
-  })
-}
+test_azure_suite("default")
+test_azure_suite("versions", versions = TRUE)
+

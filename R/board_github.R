@@ -237,6 +237,10 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
     if (identical(file, "data.txt")) {
       datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
+
+      # workaround for pins/issues/197, need to manually change manifest to ensure new commit
+      datatxt$invalidate <- floor(runif(1, 1, 10^6))
+
       datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
       yaml::write_yaml(datatxt, file_path)
     }
@@ -257,7 +261,6 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     github_update_index(board, index_path, commit, operation = "create",
                         name = name, metadata = metadata, branch = branch)
   }
-
 }
 
 board_pin_find.github <- function(board, text, ...) {
@@ -389,11 +392,17 @@ github_download_files <- function(index, temp_path, board) {
   }
 }
 
-board_pin_get.github <- function(board, name, extract = NULL, ...) {
+board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
+  subpath <- name
+
+  if (!is.null(version)) {
+    branch <- version
+    subpath <- file.path(name, pin_versions_path_name(), version)
+  }
 
   base_url <- github_raw_url(board, branch = branch, board$path, name, "/data.txt")
-  local_path <- pin_download(base_url, name, board$name, headers = github_headers(board))
+  local_path <- pin_download(base_url, name, board$name, headers = github_headers(board), subpath = subpath)
 
   if (file.exists(file.path(local_path, "data.txt"))) {
     index_path <- pin_manifest_download(local_path)
@@ -409,7 +418,7 @@ board_pin_get.github <- function(board, name, extract = NULL, ...) {
       else {
         file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
       }
-      pin_download(file_url, name, board$name, headers = headers, extract = identical(extract, TRUE))
+      pin_download(file_url, name, board$name, headers = headers, extract = identical(extract, TRUE), subpath = subpath)
     }
 
     local_path
@@ -471,4 +480,27 @@ board_pin_remove.github <- function(board, name, ...) {
 
 board_browse.github <- function(board) {
   utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
+}
+
+board_pin_versions.github <- function(board, name, ...) {
+  branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
+
+  path <- file.path(paste0(board$path, name), "data.txt")
+  response <- httr::GET(github_url(board, "/commits", branch = NULL,
+                                   sha = "?per_page=100&sha=", branch,
+                                   "&path=", path),
+                      github_headers(board))
+
+  commits <- httr::content(response)
+
+  if (httr::http_error(response))
+    stop("Failed to retrieve commits from ", board$repo, ": ", commits$message)
+
+  data.frame(
+    version = sapply(commits, function(e) e$sha),
+    created = sapply(commits, function(e) e$commit$author$date),
+    author = sapply(commits, function(e) e$author$login),
+    message = sapply(commits, function(e) e$commit$message),
+    stringsAsFactors = FALSE) %>%
+    format_tibble()
 }

@@ -4,11 +4,14 @@
 \alias{board_test}
 \title{Test Board}
 \usage{
-board_test(board, exclude = list(), destination = paste(board,
-  "board"))
+board_test(board, exclude = list(), suite = "default",
+  destination = paste(board, "board"))
 }
 \arguments{
 \item{exclude}{Names of tests to exclude form test.}
+
+\item{suite}{The test suite to run, currently only \code{"versions"} or
+\code{default} are supported.}
 
 \item{destination}{The text to describe where the board is.}
 

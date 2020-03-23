@@ -9,20 +9,21 @@ pin_download <- function(path,
                          can_fail = FALSE,
                          cache = TRUE,
                          content_length = 0,
+                         subpath = name,
                          ...) {
   must_download <- !cache
 
   # clean up name in case it's a full url
   name <- gsub("^https?://", "", name)
 
-  local_path <- pin_storage_path(component, name)
+  local_path <- pin_storage_path(component, subpath)
 
   # use a temp path to rollback if something fails
   temp_path <- tempfile()
   dir.create(temp_path)
   on.exit(unlink(temp_path, recursive = TRUE))
 
-  old_pin <- tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
+  old_pin <- pin_registry_retrieve_maybe(name, component)
   old_cache <- old_pin$cache
   old_cache_missing <- TRUE
 
@@ -44,6 +45,7 @@ pin_download <- function(path,
   }
 
   report_error <- if (old_cache_missing) stop else warning
+  catch_log <- function(e) tryCatch(e, error = function(e) { pin_log(e$message) ; NULL })
   catch_error <- if (old_cache_missing) function(e) e else function(e) tryCatch(e, error = function(e) { report_error(e$message) ; NULL })
   if (can_fail) report_error <- function(e) NULL
 
@@ -67,7 +69,7 @@ pin_download <- function(path,
       cache$etag <- custom_etag
     }
     else {
-      head_result <- catch_error(httr::HEAD(path, httr::timeout(5), headers, config))
+      head_result <- catch_log(httr::HEAD(path, httr::timeout(5), headers, config))
       if (!is.null(head_result)) {
         cache$etag <- head_result$headers$etag
         cache$max_age <- pin_file_cache_max_age(head_result$headers$`cache-control`)
