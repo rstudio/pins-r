@@ -2,14 +2,22 @@ pin_versions_path_name <- function() {
   getOption("pins.versions.path", "_versions")
 }
 
+pin_version_signature <- function(hash_files) {
+  signature <- sapply(hash_files, function(x) digest::digest(x, algo = "sha1", file = TRUE))
+
+  if (length(signature) > 1) {
+    signature <- paste(signature, collapse = ",")
+    signature <- digest::digest(signature, algo = "sha1", file = FALSE)
+  }
+
+  signature
+}
+
 pin_versions_path <- function(storage_path) {
   hash_files <- dir(storage_path, full.names = TRUE)
   hash_files <- hash_files[!grepl("(/|\\\\)_versions$", hash_files)]
 
-  all_sha1 <- sapply(hash_files, function(x) digest::digest(x, algo = "sha1", file = TRUE))
-  signature <- paste(paste(all_sha1, collapse = ","), paste(dir(storage_path), collapse = ","), sep = ",")
-
-  version <- digest::digest(signature, algo = "sha1", file = FALSE)
+  version <- pin_version_signature(hash_files)
 
   normalizePath(file.path(storage_path, pin_versions_path_name(), version), mustWork = FALSE)
 }

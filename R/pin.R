@@ -92,6 +92,7 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #' @param extract Should compressed files be extracted? Each board defines the
 #'   deefault behavior.
 #' @param version The version of the dataset to retrieve, defaults to latest one.
+#' @param files Should only the file names be returned?
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -122,6 +123,7 @@ pin_get <- function(name,
                     cache = TRUE,
                     extract = NULL,
                     version = NULL,
+                    files = FALSE,
                     ...) {
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
@@ -145,7 +147,15 @@ pin_get <- function(name,
   manifest <- pin_manifest_get(result)
   if (is.null(manifest$type)) manifest$type <- "files"
 
-  pin_load(structure(result, class = manifest$type))
+  if (files) {
+    result <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
+    result <- dir(result, full.names = TRUE)
+    if (manifest$type == "files" && length(result) > 1) result <- result[!grepl("/data.txt$", result)]
+    result
+  }
+  else {
+    pin_load(structure(result, class = manifest$type))
+  }
 }
 
 #' Remove Pin
@@ -347,6 +357,7 @@ pin_get_one <- function(name, board, extended, metadata) {
 #' @param board The board name used to find the pin.
 #' @param extended Should additional board-specific information be shown?
 #' @param metadata Should additional pin-specific information be shown?
+#' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
 #'
 #' @examples
@@ -362,7 +373,12 @@ pin_get_one <- function(name, board, extended, metadata) {
 #' pin_info("mtcars")
 #'
 #' @export
-pin_info <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) {
+pin_info <- function(name,
+                     board = NULL,
+                     extended = TRUE,
+                     metadata = TRUE,
+                     signature = FALSE,
+                     ...) {
   entry <- pin_get_one(name, board, extended, metadata)
 
   board <- entry$board
@@ -370,6 +386,11 @@ pin_info <- function(name, board = NULL, extended = TRUE, metadata = TRUE, ...) 
   metadata <- list()
   if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
     metadata <- jsonlite::fromJSON(entry$metadata)
+  }
+
+  if (signature) {
+    files <- pin_get(name, board = board, files = TRUE)
+    entry[["signature"]] <- pin_version_signature(files)
   }
 
   entry_ext <- as.list(entry)
@@ -430,8 +451,9 @@ print.pin_info <- function(x, ...) {
 
   cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
   if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
+  if (nchar(info$signature) > 0) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
 
-  info$board <- info$name <- info$type <- info$description <- NULL
+  info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
   is_first <- TRUE
   for (name in names(info)) {
