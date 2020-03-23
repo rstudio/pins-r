@@ -126,4 +126,4 @@ pin_get("mtcars", version = "d93d422", board = "local")
 # … with 140 more rows
 ```
 
-A similar approach can be followed with `board_register_azure()`, `board_register_dospaces()`, `board_register_gcloud()`, `board_register_s3s()`, etc.
+A similar approach can be followed with `board_register_azure()`, `board_register_dospace()`, `board_register_gcloud()`, `board_register_s3()`, and `board_register_datatxt()`.
