@@ -78,7 +78,7 @@ additional boards with pin()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9005</span>
       </span>
     </div>
 
@@ -129,6 +129,11 @@ additional boards with pin()." />
     </li>
     <li>
       <a href="../articles/boards-websites.html">Websites</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Advanced</li>
+    <li>
+      <a href="../articles/advanced-versions.html">Versioning</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Extensions</li>
@@ -210,7 +215,8 @@ additional boards with <code><a href='pin.html'>pin()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>board</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='no'>board</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>board_register</span>(<span class='no'>board</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='no'>board</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(),
+  <span class='kw'>versions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -228,6 +234,10 @@ additional boards with <code><a href='pin.html'>pin()</a></code>.</p>
       <td><p>The local folder to use as a cache, defaults to <code><a href='board_cache_path.html'>board_cache_path()</a></code>.</p></td>
     </tr>
     <tr>
+      <th>versions</th>
+      <td><p>Should this board be registered with support for versions?</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional parameters required to initialize a particular board.</p></td>
     </tr>
@@ -241,6 +251,9 @@ known <code>rappdirs</code>. However, you are welcome to specify any other
 location for this cache or even a temp folder with <code><a href='https://rdrr.io/r/base/tempfile.html'>tempfile()</a></code>. Notice that,
 when using a temp folder, pins will be cleared when your R session restarts. The
 cache parameter can be also set with the <code>pins.path</code> option.</p>
+<p>The <code>versions</code> parameter default to different values depending on which board
+is choosed. For instance, local boards do not use versions by default, but GitHub
+boards do.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

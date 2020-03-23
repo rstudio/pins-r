@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Connect to Board — board_connect • pins</title>
+<title>Pin Versions — pin_versions • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -41,9 +41,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Connect to Board — board_connect" />
+<meta property="og:title" content="Pin Versions — pin_versions" />
 
-<meta property="og:description" content="Connects to a board to activate RStudio's connection pane, when available." />
+<meta property="og:description" content="Retrieve versions available for a given pin." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -202,43 +202,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Connect to Board</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board.R'><code>R/board.R</code></a></small>
-    <div class="hidden name"><code>board_connect.Rd</code></div>
+    <h1>Pin Versions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a></small>
+    <div class="hidden name"><code>pin_versions.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Connects to a board to activate RStudio's connection pane, when available.</p>
+    <p>Retrieve versions available for a given pin.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>board_connect</span>(<span class='no'>board</span>, <span class='no'>code</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pin_versions</span>(<span class='no'>name</span>, <span class='kw'>board</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>full</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>board</th>
-      <td><p>The name of the board to activate.</p></td>
+      <th>name</th>
+      <td><p>The exact name of the pin to match when searching.</p></td>
     </tr>
     <tr>
-      <th>code</th>
-      <td><p>The code being used to registere this board.</p></td>
+      <th>board</th>
+      <td><p>The board name used to find the pin.</p></td>
+    </tr>
+    <tr>
+      <th>full</th>
+      <td><p>Should the full versioned paths be shown? Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters required to initialize a particular board.</p></td>
+      <td><p>Additional parameters.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>pins</span>)
+
+<span class='co'># define local board with versioning enabled</span>
+<span class='fu'><a href='board_register_local.html'>board_register_local</a></span>(<span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(), <span class='kw'>versions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># cache the mtcars dataset</span>
+<span class='fu'><a href='pin.html'>pin</a></span>(<span class='no'>mtcars</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"mtcars"</span>)
+<span class='fu'><a href='pin.html'>pin</a></span>(<span class='no'>mtcars</span> * <span class='fl'>10</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"mtcars"</span>)
+
+<span class='co'># print pin versions</span>
+<span class='fu'>pin_versions</span>(<span class='st'>"mtcars"</span>)</div><div class='output co'>#&gt; $version
+#&gt; character(0)
+#&gt; </div><div class='input'>
+<span class='co'># print version information</span>
+<span class='fu'><a href='pin_info.html'>pin_info</a></span>(<span class='st'>"mtcars"</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"abcdc"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># Source: temp&lt;mtcars&gt; [table]
+#&gt; # Properties:
+#&gt; #   - rows: 32
+#&gt; #   - cols: 11
+#&gt; </span><span></div><div class='input'><span class='fu'><a href='pin_info.html'>pin_info</a></span>(<span class='st'>"mtcars"</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"defgh"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># Source: temp&lt;mtcars&gt; [table]
+#&gt; # Properties:
+#&gt; #   - rows: 32
+#&gt; #   - cols: 11
+#&gt; </span><span></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
