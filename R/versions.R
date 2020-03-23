@@ -19,7 +19,7 @@ pin_versions_path <- function(storage_path) {
 
   version <- pin_version_signature(hash_files)
 
-  normalizePath(file.path(storage_path, pin_versions_path_name(), version), mustWork = FALSE)
+  normalizePath(file.path(normalizePath(storage_path), pin_versions_path_name(), version), mustWork = FALSE)
 }
 
 board_versions_enabled <- function(board) {
