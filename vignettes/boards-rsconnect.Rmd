@@ -191,6 +191,14 @@ pin(world_news, "worldnews", board = "rsconnect")
 ```
 ````
 
+## Public
+
+After publishing a pin, you can configure access for "Anyone - no login required"; those pins will become public and accessible to anyone using their content URL. The remote resource stored in RStudio Connect can then be cached locally with `pin()`:
+
+```{r eval=FALSE}
+pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content") %>% print()
+```
+
 ## Customizing
 
 A pin is displayed in RStudio Connect with an auto-generated page showcasing instructions for getting the pin and a preview of the dataset, this page can be customized as follows: 
