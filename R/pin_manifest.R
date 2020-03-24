@@ -20,7 +20,7 @@ pin_manifest_update <- function(path, manifest) {
 }
 
 pin_manifest_exists <- function(path) {
-  file.exists(file.path(path, "data.txt"))
+  identical(file.exists(file.path(path, "data.txt")), TRUE)
 }
 
 pin_manifest_create <- function(path, metadata, files) {
