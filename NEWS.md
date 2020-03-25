@@ -2,6 +2,8 @@
 
 - Support for DigitalOcean board.
 
+- Support for versioning datasets across all boards.
+
 ## Pin
 
 - Support for using `pin()` across multiple concurrent processes (#182).
@@ -9,7 +11,7 @@
 - Support in `pin_get()` to download arbitrary files from cloud boards
   like Azure, DigitalOcean, GitHub, Google Cloud, RStudio Connect, and S3.
 
-- Fix issue where http HEAD requests could timeout and prevent pin from
+- Fix issue where http HEAD requests could tgimeout and prevent pin from
   downloading in very slow connections.
 
 ## RStudio
@@ -23,6 +25,8 @@
 - Improve error message for `pin_get()` with duplicate names (#171).
 
 - Fix board register error when using URL with ports (#195).
+
+- Enable retrieving public pins without authentication (#83).
 
 ## GitHub
 
