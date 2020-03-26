@@ -173,18 +173,19 @@
 
     
     
-<p>In most cases, a remote resource does not change over time. For example, since the House Price Index dataset from the <a href="pin-starting.html">Getting Started</a> section is unlikely to change, it can be retrieved as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>,</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">name =</span> <span class="st">"home_price_indexes"</span>)</a></code></pre></div>
+<p>In most cases, a remote resource does not change over time. For example, the following “retail sales example” dataset is unlikely to change and can be retrieved as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>,</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">name =</span> <span class="st">"retail_sales"</span>)</a></code></pre></div>
 <p>To ensure this dataset does not change, we can retrieve a unique signature to identify this resource using <code><a href="../reference/pin_info.html">pin_info()</a></code> as follows:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"home_price_indexes"</span>, <span class="dt">signature =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code># Source: local&lt;home_price_indexes&gt; [files]
-# Signature: 264ea461b5f73a50e5935ab0ba2fb062fbef642d
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"retail_sales"</span>, <span class="dt">signature =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code># Source: local&lt;example_retail_sales&gt; [files]
+# Signature: 5f7e575b23e3bb4a802358864be2dbc665ef1ab8
 # Properties:
+#   - path: example_retail_sales
 #   - extension: csv</code></pre>
 <p>This signature can then be used to ensure the dataset does not change. For instance, you can share the following code with others to ensure they get the exact same dataset:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>,</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">signature =</span> <span class="st">"264ea461b5f73a50e5935ab0ba2fb062fbef642d"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>,</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">signature =</span> <span class="st">"5f7e575b23e3bb4a802358864be2dbc665ef1ab8"</span>)</a></code></pre></div>
 <p>You can also use <code>signature</code> with <code><a href="../reference/pin_get.html">pin_get()</a></code>. Notice that the operation will fail if the signatures don’t match.</p>
 <p>In contrast, other datasets are expected to change and require us to think which particular version we are retrieving or sharing in a given board.</p>
 <div id="versioning-boards" class="section level2">
