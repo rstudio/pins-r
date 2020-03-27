@@ -180,13 +180,125 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
                           branch = branch
                         ),
                         github_headers(board), encode = "json",
-                        http_utils_progress("up"))
+                        http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
   upload <- httr::content(response)
 
   if (httr::http_error(response)) {
     pin_log("Failed to upload ", file, " response: ", upload)
     stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
   }
+}
+
+github_upload_blob <- function(board, file, file_path, commit) {
+  blob_url <- github_url(board, branch = NULL, "/git/blobs")
+  pin_log("uploading ", file)
+
+  base64 <- base64enc::base64encode(file_path)
+  response <- httr::PUT(blob_url,
+                        body = list(
+                          content = base64,
+                          encoding = "base64"
+                        ),
+                        github_headers(board), encode = "json",
+                        http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to upload ", file, " response: ", upload)
+    stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_create_tree <- function(board, tree_files) {
+  tree_url <- github_url(board, branch = NULL, "/git/trees")
+  pin_log("creating tree")
+
+  response <- httr::PUT(tree_url,
+                        body = tree_files,
+                        github_headers(board), encode = "json",
+                        http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to create tree, response: ", upload)
+    stop("Failed to create tree in ", board$repo, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_create_commit <- function(board, tree_sha, base_sha, commit) {
+  commit_url <- github_url(board, branch = NULL, "/git/commits")
+  pin_log("creating commit")
+
+  response <- httr::PUT(commit_url,
+                        body = list(
+                          message = commit,
+                          tree = tree_sha,
+                          parents = list(
+                            base_sha
+                          )
+                        ),
+                        github_headers(board), encode = "json",
+                        http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to create commit, response: ", upload)
+    stop("Failed to create commit in ", board$repo, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_update_head <- function(board, branch, commit_sha) {
+  ref_url <- github_url(board, branch = NULL, "/git/refs")
+  pin_log("updating head")
+
+  response <- httr::VERB("PATCH",
+                         ref_url,
+                         body = list(
+                           ref = paste0("refs/heads/", branch),
+                           sha = commit_sha
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to update branch, reponse: ", upload)
+    stop("Failed to update branch ", branch, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_files_commit <- function(upload_files, branch, base_sha, commit) {
+  tree_files <- list()
+  for (file in upload_files) {
+    named_sha <- Filter(function(e) identical(e$path, paste0(board$path, file.path(name, file))), dir_shas)
+    sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
+
+    file_path <- file.path(bundle_path, file)
+    sha <- github_upload_blob(board, file)
+
+    tree_files[[file]] <- c(
+      tree_files[[file]],
+      list(
+        path = file,
+        mode = '100644',
+        type = 'blob',
+        sha = sha
+      )
+    )
+  }
+
+  tree_result <- github_create_tree(board, tree_files)
+  commit_sha <- github_create_commit(board, tree_result$sha, base_sha, commit)
+
+  github_update_head(board, board$branch, commit_sha)
 }
 
 board_pin_create.github <- function(board, path, name, metadata, ...) {
@@ -249,14 +361,9 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     yaml::write_yaml(datatxt, file_path)
   }
 
-  for (file in upload_files) {
-    commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-    named_sha <- Filter(function(e) identical(e$path, paste0(board$path, file.path(name, file))), dir_shas)
-    sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
-
-    file_path <- file.path(bundle_path, file)
-    github_upload_content(board, name, file, file_path, commit, sha, branch)
-  }
+  # add remaining files in a single commit
+  commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
+  github_files_commit(upload_files, branch, dir_shas, commit)
 
   if (update_index) {
     index_path <- paste0(board$path, name)
