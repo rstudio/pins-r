@@ -225,8 +225,32 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   release_map <- list()
   upload_files <- dir(bundle_path, recursive = TRUE)
 
-  # data.txt must be last to fix release paths
-  upload_files <- c(Filter(function(e) e != "data.txt", upload_files), ifelse("data.txt" %in% upload_files, "data.txt", NULL))
+  # first upload large files
+  for (file in upload_files) {
+    file_path <- file.path(bundle_path, file)
+
+    if ((file.info(file_path)$size > getOption("pins.github.release", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
+      if (is.null(release)) release <- github_create_release(board, name)
+      download_url <- github_upload_release(board, release, name, file, file_path)
+      release_map[[file]] <- download_url
+    }
+  }
+
+  # remove uploaded files
+  upload_files <- Filter(function(e) !e %in% names(release_map), upload_files)
+
+  # update data.txt with large files
+  if ("data.txt" %in% upload_files) {
+    file_path <- file.path(bundle_path, "data.txt")
+
+    datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
+
+    # workaround for pins/issues/197, need to manually change manifest to ensure new commit
+    datatxt$invalidate <- floor(runif(1, 1, 10^6))
+
+    datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
+    yaml::write_yaml(datatxt, file_path)
+  }
 
   for (file in upload_files) {
     commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
@@ -234,25 +258,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
 
     file_path <- file.path(bundle_path, file)
-
-    if (identical(file, "data.txt")) {
-      datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
-
-      # workaround for pins/issues/197, need to manually change manifest to ensure new commit
-      datatxt$invalidate <- floor(runif(1, 1, 10^6))
-
-      datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
-      yaml::write_yaml(datatxt, file_path)
-    }
-
-    if ((file.info(file_path)$size > getOption("pins.github.release", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
-      if (is.null(release)) release <- github_create_release(board, name)
-      download_url <- github_upload_release(board, release, name, file, file_path)
-      release_map[[file]] <- download_url
-    }
-    else {
-      github_upload_content(board, name, file, file_path, commit, sha, branch)
-    }
+    github_upload_content(board, name, file, file_path, commit, sha, branch)
   }
 
   if (update_index) {
