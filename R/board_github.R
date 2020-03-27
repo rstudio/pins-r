@@ -245,9 +245,6 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
     datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
 
-    # workaround for pins/issues/197, need to manually change manifest to ensure new commit
-    datatxt$invalidate <- floor(runif(1, 1, 10^6))
-
     datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
     yaml::write_yaml(datatxt, file_path)
   }
