@@ -194,13 +194,13 @@ github_upload_blob <- function(board, file, file_path, commit) {
   pin_log("uploading ", file)
 
   base64 <- base64enc::base64encode(file_path)
-  response <- httr::PUT(blob_url,
-                        body = list(
-                          content = base64,
-                          encoding = "base64"
-                        ),
-                        github_headers(board), encode = "json",
-                        http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
+  response <- httr::POST(blob_url,
+                         body = list(
+                           content = base64,
+                           encoding = "base64"
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
   upload <- httr::content(response)
 
   if (httr::http_error(response)) {
@@ -289,11 +289,11 @@ github_refs_head <- function(board, branch) {
   reference
 }
 
-github_files_commit <- function(upload_files, branch, commit) {
+github_files_commit <- function(board, base_path, upload_files, branch, commit) {
   tree_files <- list()
   for (file in upload_files) {
-    file_path <- file.path(bundle_path, file)
-    sha <- github_upload_blob(board, file)
+    file_path <- file.path(base_path, file)
+    result <- github_upload_blob(board, file, file_path, commit)
 
     tree_files[[file]] <- c(
       tree_files[[file]],
@@ -301,7 +301,7 @@ github_files_commit <- function(upload_files, branch, commit) {
         path = file,
         mode = '100644',
         type = 'blob',
-        sha = sha
+        sha = result$sha
       )
     )
   }
@@ -369,7 +369,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
   # add remaining files in a single commit
   commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-  github_files_commit(upload_files, branch, commit)
+  github_files_commit(board, bundle_path, upload_files, branch, commit)
 
   if (update_index) {
     index_path <- paste0(board$path, name)
