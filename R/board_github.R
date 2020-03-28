@@ -275,12 +275,23 @@ github_update_head <- function(board, branch, commit_sha) {
   upload
 }
 
-github_files_commit <- function(upload_files, branch, base_sha, commit) {
+github_refs_head <- function(board, branch) {
+  ref_url <- github_url(board, branch = NULL, paste0("/git/ref/", branch))
+  response <- httr::GET(ref_url, github_headers(board))
+
+  reference <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to retrieve branch, reponse: ", response)
+    stop("Failed to retrieve branch ", branch, ": ", reference$message)
+  }
+
+  reference
+}
+
+github_files_commit <- function(upload_files, branch, commit) {
   tree_files <- list()
   for (file in upload_files) {
-    named_sha <- Filter(function(e) identical(e$path, paste0(board$path, file.path(name, file))), dir_shas)
-    sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
-
     file_path <- file.path(bundle_path, file)
     sha <- github_upload_blob(board, file)
 
@@ -296,7 +307,9 @@ github_files_commit <- function(upload_files, branch, base_sha, commit) {
   }
 
   tree_result <- github_create_tree(board, tree_files)
-  commit_sha <- github_create_commit(board, tree_result$sha, base_sha, commit)
+
+  head_sha <- github_refs_head(board)
+  commit_sha <- github_create_commit(board, tree_result$sha, head_sha$object$sha, commit)
 
   github_update_head(board, board$branch, commit_sha)
 }
@@ -324,13 +337,6 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   }
   else {
     file.copy(path, bundle_path)
-  }
-
-  dir_shas <- NULL
-  dir_url <- github_url(board, branch = branch, "/contents/", board$path, name)
-  dir_response <- httr::GET(dir_url, github_headers(board))
-  if (!httr::http_error(dir_response)) {
-    dir_shas <- httr::content(dir_response)
   }
 
   release <- NULL
@@ -363,7 +369,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
   # add remaining files in a single commit
   commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-  github_files_commit(upload_files, branch, dir_shas, commit)
+  github_files_commit(upload_files, branch, commit)
 
   if (update_index) {
     index_path <- paste0(board$path, name)
