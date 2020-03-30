@@ -236,16 +236,16 @@ github_create_commit <- function(board, tree_sha, base_sha, commit) {
   commit_url <- github_url(board, branch = NULL, "/git/commits")
   pin_log("creating commit")
 
-  response <- httr::PUT(commit_url,
-                        body = list(
-                          message = commit,
-                          tree = tree_sha,
-                          parents = list(
-                            base_sha
-                          )
-                        ),
-                        github_headers(board), encode = "json",
-                        http_utils_progress("up"))
+  response <- httr::POST(commit_url,
+                         body = list(
+                           message = jsonlite::unbox(commit),
+                           tree = jsonlite::unbox(tree_sha),
+                           parents = list(
+                             jsonlite::unbox(base_sha)
+                           )
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up"))
   upload <- httr::content(response)
 
   if (httr::http_error(response)) {
@@ -257,14 +257,14 @@ github_create_commit <- function(board, tree_sha, base_sha, commit) {
 }
 
 github_update_head <- function(board, branch, commit_sha) {
-  ref_url <- github_url(board, branch = NULL, "/git/refs")
+  ref_url <- github_url(board, branch = NULL, paste0("/git/refs/heads/", branch))
   pin_log("updating head")
 
   response <- httr::VERB("PATCH",
                          ref_url,
                          body = list(
-                           ref = paste0("refs/heads/", branch),
-                           sha = commit_sha
+                           sha = jsonlite::unbox(commit_sha),
+                           force = jsonlite::unbox(FALSE)
                          ),
                          github_headers(board), encode = "json",
                          http_utils_progress("up"))
@@ -279,7 +279,7 @@ github_update_head <- function(board, branch, commit_sha) {
 }
 
 github_refs_head <- function(board, branch) {
-  ref_url <- github_url(board, branch = NULL, paste0("/git/ref/", branch))
+  ref_url <- github_url(board, branch = NULL, paste0("/git/ref/heads/", branch))
   response <- httr::GET(ref_url, github_headers(board))
 
   reference <- httr::content(response)
@@ -306,11 +306,11 @@ github_files_commit <- function(board, base_path, upload_files, branch, commit) 
     )
   }
 
-  head_sha <- github_refs_head(board)
+  head_sha <- github_refs_head(board, branch)
   tree_result <- github_create_tree(board, unname(tree_files), head_sha$object$sha)
-  commit_sha <- github_create_commit(board, tree_result$sha, head_sha$object$sha, commit)
+  commit_result <- github_create_commit(board, tree_result$sha, head_sha$object$sha, commit)
 
-  github_update_head(board, board$branch, commit_sha)
+  github_update_head(board, branch, commit_result$sha)
 }
 
 board_pin_create.github <- function(board, path, name, metadata, ...) {
