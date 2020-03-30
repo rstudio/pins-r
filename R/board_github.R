@@ -211,14 +211,17 @@ github_upload_blob <- function(board, file, file_path, commit) {
   upload
 }
 
-github_create_tree <- function(board, tree_files) {
+github_create_tree <- function(board, tree_files, base_sha) {
   tree_url <- github_url(board, branch = NULL, "/git/trees")
   pin_log("creating tree")
 
-  response <- httr::PUT(tree_url,
-                        body = tree_files,
-                        github_headers(board), encode = "json",
-                        http_utils_progress("up"))
+  response <- httr::POST(tree_url,
+                         body = list(
+                           base_tree = jsonlite::unbox(base_sha),
+                           tree = tree_files
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up"))
   upload <- httr::content(response)
 
   if (httr::http_error(response)) {
@@ -295,20 +298,16 @@ github_files_commit <- function(board, base_path, upload_files, branch, commit) 
     file_path <- file.path(base_path, file)
     result <- github_upload_blob(board, file, file_path, commit)
 
-    tree_files[[file]] <- c(
-      tree_files[[file]],
-      list(
-        path = file,
-        mode = '100644',
-        type = 'blob',
-        sha = result$sha
-      )
+    tree_files[[file]] <- list(
+      path = jsonlite::unbox(file),
+      mode = jsonlite::unbox('100644'),
+      type = jsonlite::unbox('blob'),
+      sha = jsonlite::unbox(result$sha)
     )
   }
 
-  tree_result <- github_create_tree(board, tree_files)
-
   head_sha <- github_refs_head(board)
+  tree_result <- github_create_tree(board, unname(tree_files), head_sha$object$sha)
   commit_sha <- github_create_commit(board, tree_result$sha, head_sha$object$sha, commit)
 
   github_update_head(board, board$branch, commit_sha)
