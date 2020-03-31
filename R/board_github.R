@@ -109,11 +109,16 @@ github_update_temp_index <- function(board, path, commit, operation, name = NULL
   index_file <- tempfile(fileext = "yml")
   board_manifest_create(index, index_file)
 
-  index_file
+  list(
+    index_file = index_file,
+    sha = sha
+  )
 }
 
 github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
-  index_file <- github_update_temp_index(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch)
+  index <- github_update_temp_index(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch)
+  index_file <- index$index_file
+  sha <- index$sha
 
   file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
@@ -380,11 +385,11 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   if (update_index) {
     index_path <- paste0(board$path, name)
 
-    local_index <- github_update_temp_index(board, index_path, commit, operation = "create",
+    index <- github_update_temp_index(board, index_path, commit, operation = "create",
                                             name = name, metadata = metadata, branch = branch)
 
     remote_index <- paste0(board$path, "data.txt")
-    upload_defs[[remote_index]] <- local_index
+    upload_defs[[remote_index]] <- index$index_file
   }
 
   # add remaining files in a single commit
