@@ -61,7 +61,7 @@ board_initialize.github <- function(board,
   board
 }
 
-github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
+github_update_temp_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
   index_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
@@ -108,6 +108,12 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
   index_file <- tempfile(fileext = "yml")
   board_manifest_create(index, index_file)
+
+  index_file
+}
+
+github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
+  index_file <- github_update_temp_index(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch)
 
   file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
@@ -292,11 +298,11 @@ github_refs_head <- function(board, branch) {
   reference
 }
 
-github_files_commit <- function(board, base_path, upload_files, branch, commit) {
+github_files_commit <- function(board, upload_files, branch, commit) {
   tree_files <- list()
-  for (file in upload_files) {
-    file_path <- file.path(base_path, file)
-    result <- github_upload_blob(board, file, file_path, commit)
+  for (file in names(upload_files)) {
+
+    result <- github_upload_blob(board, file, upload_files[[file]], commit)
 
     tree_files[[file]] <- list(
       path = jsonlite::unbox(file),
@@ -366,16 +372,24 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     yaml::write_yaml(datatxt, file_path)
   }
 
-  # add remaining files in a single commit
-  commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-  github_files_commit(board, bundle_path, upload_files, branch, commit)
+  # create upload definition of remote-path/local-path
+  upload_defs <- file.path(bundle_path, upload_files)
+  names(upload_defs) <- paste0(board$path, name, "/", upload_files)
 
+  # update local index
   if (update_index) {
     index_path <- paste0(board$path, name)
 
-    github_update_index(board, index_path, commit, operation = "create",
-                        name = name, metadata = metadata, branch = branch)
+    local_index <- github_update_temp_index(board, index_path, commit, operation = "create",
+                                            name = name, metadata = metadata, branch = branch)
+
+    remote_index <- paste0(board$path, "data.txt")
+    upload_defs[[remote_index]] <- local_index
   }
+
+  # add remaining files in a single commit
+  commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
+  github_files_commit(board, upload_defs, branch, commit)
 }
 
 board_pin_find.github <- function(board, text, ...) {
