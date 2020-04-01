@@ -30,6 +30,8 @@
 
 ## GitHub
 
+- Support for committing all github files with a single commit (#197). 
+
 - Support for custom GitHub hosts including GitHub Enterprise using the
   `host` parameter in `board_register_github()` (#163).
 

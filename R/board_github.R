@@ -61,7 +61,7 @@ board_initialize.github <- function(board,
   board
 }
 
-github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
+github_update_temp_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
   index_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
   response <- httr::GET(index_url, github_headers(board))
 
@@ -108,6 +108,17 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
   index_file <- tempfile(fileext = "yml")
   board_manifest_create(index, index_file)
+
+  list(
+    index_file = index_file,
+    sha = sha
+  )
+}
+
+github_update_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {
+  index <- github_update_temp_index(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch)
+  index_file <- index$index_file
+  sha <- index$sha
 
   file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
@@ -180,13 +191,137 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
                           branch = branch
                         ),
                         github_headers(board), encode = "json",
-                        http_utils_progress("up"))
+                        http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
   upload <- httr::content(response)
 
   if (httr::http_error(response)) {
     pin_log("Failed to upload ", file, " response: ", upload)
     stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
   }
+}
+
+github_upload_blob <- function(board, file, file_path, commit) {
+  blob_url <- github_url(board, branch = NULL, "/git/blobs")
+  pin_log("uploading ", file)
+
+  base64 <- base64enc::base64encode(file_path)
+  response <- httr::POST(blob_url,
+                         body = list(
+                           content = base64,
+                           encoding = "base64"
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to upload ", file, " response: ", upload)
+    stop("Failed to upload ", file, " to ", board$repo, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_create_tree <- function(board, tree_files, base_sha) {
+  tree_url <- github_url(board, branch = NULL, "/git/trees")
+  pin_log("creating tree")
+
+  response <- httr::POST(tree_url,
+                         body = list(
+                           base_tree = jsonlite::unbox(base_sha),
+                           tree = tree_files
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to create tree, response: ", upload)
+    stop("Failed to create tree in ", board$repo, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_create_commit <- function(board, tree_sha, base_sha, commit) {
+  commit_url <- github_url(board, branch = NULL, "/git/commits")
+  pin_log("creating commit")
+
+  response <- httr::POST(commit_url,
+                         body = list(
+                           message = jsonlite::unbox(commit),
+                           tree = jsonlite::unbox(tree_sha),
+                           parents = list(
+                             jsonlite::unbox(base_sha)
+                           )
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to create commit, response: ", upload)
+    stop("Failed to create commit in ", board$repo, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_update_head <- function(board, branch, commit_sha) {
+  ref_url <- github_url(board, branch = NULL, paste0("/git/refs/heads/", branch))
+  pin_log("updating head")
+
+  response <- httr::VERB("PATCH",
+                         ref_url,
+                         body = list(
+                           sha = jsonlite::unbox(commit_sha),
+                           force = jsonlite::unbox(FALSE)
+                         ),
+                         github_headers(board), encode = "json",
+                         http_utils_progress("up"))
+  upload <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to update branch, reponse: ", upload)
+    stop("Failed to update branch ", branch, ": ", upload$message)
+  }
+
+  upload
+}
+
+github_refs_head <- function(board, branch) {
+  ref_url <- github_url(board, branch = NULL, paste0("/git/ref/heads/", branch))
+  response <- httr::GET(ref_url, github_headers(board))
+
+  reference <- httr::content(response)
+
+  if (httr::http_error(response)) {
+    pin_log("Failed to retrieve branch, reponse: ", response)
+    stop("Failed to retrieve branch ", branch, ": ", reference$message)
+  }
+
+  reference
+}
+
+github_files_commit <- function(board, upload_files, branch, commit) {
+  tree_files <- list()
+  for (file in names(upload_files)) {
+
+    result <- github_upload_blob(board, file, upload_files[[file]], commit)
+
+    tree_files[[file]] <- list(
+      path = jsonlite::unbox(file),
+      mode = jsonlite::unbox('100644'),
+      type = jsonlite::unbox('blob'),
+      sha = jsonlite::unbox(result$sha)
+    )
+  }
+
+  head_sha <- github_refs_head(board, branch)
+  tree_result <- github_create_tree(board, unname(tree_files), head_sha$object$sha)
+  commit_result <- github_create_commit(board, tree_result$sha, head_sha$object$sha, commit)
+
+  github_update_head(board, branch, commit_result$sha)
 }
 
 board_pin_create.github <- function(board, path, name, metadata, ...) {
@@ -214,53 +349,52 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
     file.copy(path, bundle_path)
   }
 
-  dir_shas <- NULL
-  dir_url <- github_url(board, branch = branch, "/contents/", board$path, name)
-  dir_response <- httr::GET(dir_url, github_headers(board))
-  if (!httr::http_error(dir_response)) {
-    dir_shas <- httr::content(dir_response)
-  }
-
   release <- NULL
   release_map <- list()
   upload_files <- dir(bundle_path, recursive = TRUE)
 
-  # data.txt must be last to fix release paths
-  upload_files <- c(Filter(function(e) e != "data.txt", upload_files), ifelse("data.txt" %in% upload_files, "data.txt", NULL))
-
+  # first upload large files
   for (file in upload_files) {
-    commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
-    named_sha <- Filter(function(e) identical(e$path, paste0(board$path, file.path(name, file))), dir_shas)
-    sha <- if (length(named_sha) > 0) named_sha[[1]]$sha else NULL
-
     file_path <- file.path(bundle_path, file)
-
-    if (identical(file, "data.txt")) {
-      datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
-
-      # workaround for pins/issues/197, need to manually change manifest to ensure new commit
-      datatxt$invalidate <- floor(runif(1, 1, 10^6))
-
-      datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
-      yaml::write_yaml(datatxt, file_path)
-    }
 
     if ((file.info(file_path)$size > getOption("pins.github.release", 25) * 10^6 || release_storage) && !identical(file, "data.txt")) {
       if (is.null(release)) release <- github_create_release(board, name)
       download_url <- github_upload_release(board, release, name, file, file_path)
       release_map[[file]] <- download_url
     }
-    else {
-      github_upload_content(board, name, file, file_path, commit, sha, branch)
-    }
   }
 
+  # remove uploaded files
+  upload_files <- Filter(function(e) !e %in% names(release_map), upload_files)
+
+  # update data.txt with large files
+  if ("data.txt" %in% upload_files) {
+    file_path <- file.path(bundle_path, "data.txt")
+
+    datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
+
+    datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
+    yaml::write_yaml(datatxt, file_path)
+  }
+
+  # create upload definition of remote-path/local-path
+  upload_defs <- file.path(bundle_path, upload_files)
+  names(upload_defs) <- paste0(board$path, name, "/", upload_files)
+
+  # update local index
   if (update_index) {
     index_path <- paste0(board$path, name)
 
-    github_update_index(board, index_path, commit, operation = "create",
-                        name = name, metadata = metadata, branch = branch)
+    index <- github_update_temp_index(board, index_path, commit, operation = "create",
+                                            name = name, metadata = metadata, branch = branch)
+
+    remote_index <- paste0(board$path, "data.txt")
+    upload_defs[[remote_index]] <- index$index_file
   }
+
+  # add remaining files in a single commit
+  commit <- if (is.null(list(...)$commit)) paste("update", name) else list(...)$commit
+  github_files_commit(board, upload_defs, branch, commit)
 }
 
 board_pin_find.github <- function(board, text, ...) {
@@ -485,7 +619,7 @@ board_browse.github <- function(board) {
 board_pin_versions.github <- function(board, name, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  path <- file.path(paste0(board$path, name), "data.txt")
+  path <- paste0(board$path, name)
   response <- httr::GET(github_url(board, "/commits", branch = NULL,
                                    sha = "?per_page=100&sha=", branch,
                                    "&path=", path),
