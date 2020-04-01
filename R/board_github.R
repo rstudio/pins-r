@@ -619,7 +619,7 @@ board_browse.github <- function(board) {
 board_pin_versions.github <- function(board, name, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  path <- file.path(paste0(board$path, name), "data.txt")
+  path <- paste0(board$path, name)
   response <- httr::GET(github_url(board, "/commits", branch = NULL,
                                    sha = "?per_page=100&sha=", branch,
                                    "&path=", path),
