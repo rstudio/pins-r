@@ -1,8 +1,8 @@
-# pins 0.3.2.9000
+# pins 0.4.0
+
+- Support for versioning in all boards.
 
 - Support for DigitalOcean board.
-
-- Support for versioning datasets across all boards.
 
 ## Pin
 
