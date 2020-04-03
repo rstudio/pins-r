@@ -6,6 +6,8 @@
 
 ## Pin
 
+- Finding pins with `pin_find()` sort results by default (#201).
+
 - Avoid `incomplete final line found` warning error wheen reading manifests.
 
 - Support for using `pin()` across multiple concurrent processes (#182).

@@ -318,6 +318,9 @@ pin_find <- function(text = NULL,
     if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
   }
 
+  # sort pin results by name
+  all_pins <- all_pins[order(all_pins$name), ]
+
   format_tibble(all_pins)
 }
 
