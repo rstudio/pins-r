@@ -22,6 +22,9 @@
 
 ## RStudio Connect
 
+- Support for `code` parameter in `pin()` to customize R code used in
+  the UI to retrieve the pin (#77).
+
 - Improve error message for `pin_get()` with duplicate names (#171).
 
 - Fix board register error when using URL with ports (#195).

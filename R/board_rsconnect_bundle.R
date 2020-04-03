@@ -22,7 +22,7 @@ rsconnect_bundle_files_html <- function(files) {
   html
 }
 
-rsconnect_bundle_template_common <- function(temp_dir, style, name, board, account_name) {
+rsconnect_bundle_template_common <- function(temp_dir, style, name, board, account_name, retrieve_command = NULL) {
   rsconnect_bundle_template_html(temp_dir, "data_preview_style", style)
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
   if (is.character(board$server))
@@ -30,9 +30,12 @@ rsconnect_bundle_template_common <- function(temp_dir, style, name, board, accou
   else
     rsconnect_bundle_template_html(temp_dir, "server_name", "https://rstudio-connect-server")
   rsconnect_bundle_template_html(temp_dir, "account_name", account_name)
+
+  if (is.null(retrieve_command)) retrieve_command <- paste0("pin_get(\"", account_name, "/", name, "\", board = \"rsconnect\")")
+  rsconnect_bundle_template_html(temp_dir, "retrieve_pin", retrieve_command)
 }
 
-rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account_name) {
+rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account_name, retrieve_command = NULL) {
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
@@ -74,7 +77,7 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(csv_name))
   rsconnect_bundle_template_html(temp_dir, "data_preview", jsonlite::toJSON(data_preview))
-  rsconnect_bundle_template_common(temp_dir, "", name, board, account_name)
+  rsconnect_bundle_template_common(temp_dir, "", name, board, account_name, retrieve_command)
 
   "data.rds"
 }
@@ -87,7 +90,7 @@ rsconnect_bundle_create.AsIs <- function(x, temp_dir, name, board, account_name)
                                   account_name = account_name)
 }
 
-rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_name) {
+rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_name, retrieve_command = NULL) {
   html_file <- file.path(temp_dir, "index.html")
 
   saveRDS(x, file.path(temp_dir, "data.rds"), version = 2)
@@ -103,12 +106,12 @@ rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_na
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
   rsconnect_bundle_template_html(temp_dir, "data_preview", "{\"data\": [], \"columns\": []}")
-  rsconnect_bundle_template_common(temp_dir, "display: none", name, board, account_name)
+  rsconnect_bundle_template_common(temp_dir, "display: none", name, board, account_name, retrieve_command)
 
   "data.rds"
 }
 
-rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_name) {
+rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_name, retrieve_command = NULL) {
   file.copy(dir(x, full.names = TRUE), temp_dir, recursive = TRUE)
 
   data_files <- dir(temp_dir, recursive = TRUE)
@@ -126,12 +129,12 @@ rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
   rsconnect_bundle_template_html(temp_dir, "data_preview", "{\"data\": [], \"columns\": []}")
-  rsconnect_bundle_template_common(temp_dir, "display: none", name, board, account_name)
+  rsconnect_bundle_template_common(temp_dir, "display: none", name, board, account_name, retrieve_command)
 
   data_files
 }
 
-rsconnect_bundle_create <- function(x, temp_dir, name, board, account_name) {
+rsconnect_bundle_create <- function(x, temp_dir, name, board, account_name, retrieve_command = NULL, ...) {
   UseMethod("rsconnect_bundle_create")
 }
 

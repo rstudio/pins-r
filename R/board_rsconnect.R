@@ -45,7 +45,7 @@ board_initialize.rsconnect <- function(board, ...) {
   board
 }
 
-board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
+board_pin_create.rsconnect <- function(board, path, name, metadata, pin_code = NULL, ...) {
   deps <- rsconnect_dependencies()
 
   temp_dir <- file.path(tempfile(), name)
@@ -67,7 +67,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, ...) {
 
   file.copy(dir(path, full.names = TRUE), temp_dir)
   data_files <- tryCatch({
-    rsconnect_bundle_create(x, temp_dir, name, board, account_name)
+    rsconnect_bundle_create(x, temp_dir, name, board, account_name, retrieve_command = code)
   }, error = function(e) {
     NULL
   })
