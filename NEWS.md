@@ -6,6 +6,8 @@
 
 ## Pin
 
+- Avoid `incomplete final line found` warning error wheen reading manifests.
+
 - Support for using `pin()` across multiple concurrent processes (#182).
 
 - Support in `pin_get()` to download arbitrary files from cloud boards

@@ -371,7 +371,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   if ("data.txt" %in% upload_files) {
     file_path <- file.path(bundle_path, "data.txt")
 
-    datatxt <- yaml::read_yaml(file_path, eval.expr = FALSE)
+    datatxt <- suppressWarnings(yaml::read_yaml(file_path, eval.expr = FALSE))
 
     datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
     yaml::write_yaml(datatxt, file_path)
