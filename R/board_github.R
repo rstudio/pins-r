@@ -137,6 +137,17 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
   }
 }
 
+github_delete_release <- function(board, release_tag) {
+  response <- httr::GET(github_url(board, branch = NULL, paste0("/releases/tags/", release_tag)), github_headers(board))
+  if (!httr::http_error(response)) {
+    release_id <- httr::content(response)$id
+    response <- httr::DELETE(github_url(board, branch = NULL, paste0("/releases/", release_id)), github_headers(board))
+    if (httr::http_error(response)) {
+      pin_log("Failed to delete release ", release_id)
+    }
+  }
+}
+
 github_create_release <- function(board, name) {
   index_url <- github_url(board, branch = NULL, "/commits/", board$branch)
   response <- httr::GET(index_url, github_headers(board))
@@ -145,10 +156,20 @@ github_create_release <- function(board, name) {
 
   release_url <- github_url(board, branch = NULL, "/releases")
 
+  release_tag <- release_name <- name
+  if (board_versions_enabled(board, TRUE)) {
+    release_tag <-  paste(name, version, sep = "-")
+    release_name <- paste(name, version)
+  }
+  else {
+    # attempt to delete existing release
+    github_delete_release(board, release_tag)
+  }
+
   release <- list(
-    tag_name = paste(name, version, sep = "-"),
+    tag_name = release_tag,
     target_commitish = board$branch,
-    name = paste(name, version),
+    name = release_name,
     body = paste0("Storage for resource '", name, "' which is too large to be stored as a GitHub file.")
   )
 
@@ -607,6 +628,10 @@ board_pin_remove.github <- function(board, name, ...) {
 
     if (httr::http_error(response))
       stop("Failed to delete ", name, " from ", board$repo, ": ", deletion$message)
+  }
+
+  if (!board_versions_enabled(board, TRUE)) {
+    github_delete_release(board, name)
   }
 
   if (update_index) github_update_index(board, paste0(board$path, name), commit, operation = "remove")

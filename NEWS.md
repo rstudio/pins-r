@@ -35,6 +35,12 @@
 
 ## GitHub
 
+- Support for `versions = FALSE` in `board_register()` to also delete
+  release files when pin is removed (#91).
+
+- Support for `versions = FALSE` in `board_register()` to avoid creating
+  versioned GitHub releases (#197).
+
 - Support for committing all github files with a single commit (#197). 
 
 - Support for custom GitHub hosts including GitHub Enterprise using the
