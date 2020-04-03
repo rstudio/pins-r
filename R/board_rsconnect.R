@@ -45,7 +45,7 @@ board_initialize.rsconnect <- function(board, ...) {
   board
 }
 
-board_pin_create.rsconnect <- function(board, path, name, metadata, pin_code = NULL, ...) {
+board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL, ...) {
   deps <- rsconnect_dependencies()
 
   temp_dir <- file.path(tempfile(), name)
