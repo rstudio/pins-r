@@ -35,6 +35,12 @@
 - Support for custom GitHub hosts including GitHub Enterprise using the
   `host` parameter in `board_register_github()` (#163).
 
+## Websites
+
+- Using `pin()` now searches for `data.txt` files in URLs when the URL
+  contains no file extension, behavior can be turnned off with
+  the `pins.search.datatxt` option.
+
 # pins 0.3.2
 
 ## Pins

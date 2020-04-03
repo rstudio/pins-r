@@ -26,7 +26,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   dir.create(store_path)
   on.exit(unlink(store_path, recursive = TRUE))
 
-  if (length(path) == 1 && grepl("^http", path)) {
+  if (length(path) == 1 && grepl("^http", path) && !grepl("\\.[a-z]{2,4}$", path) && getOption("pins.search.datatxt", TRUE)) {
     # attempt to download data.txt to enable public access to boards like rsconnect
     datatxt_path <- file.path(path, "data.txt")
     local_path <- pin_download(datatxt_path, name, board_default(), can_fail = TRUE)

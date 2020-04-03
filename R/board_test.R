@@ -7,7 +7,8 @@ test_dependencies <- function() {
     expect_true = get("expect_true", envir = asNamespace("testthat")),
     expect_equal = get("expect_equal", envir = asNamespace("testthat")),
     skip = get("skip", envir = asNamespace("testthat")),
-    fail = get("fail", envir = asNamespace("testthat"))
+    fail = get("fail", envir = asNamespace("testthat")),
+    expect_gte = get("expect_gte", envir = asNamespace("testthat"))
   )
 }
 
@@ -162,14 +163,14 @@ board_test_versions <- function(board, exclude, destination) {
     pin(I(version_b), pin_name, board = board)
 
     versions <- pin_versions(pin_name, board = board)
-    deps$expect_equal(length(versions$version), 2)
+    deps$expect_gte(length(versions$version), 2)
 
     deps$expect_equal(
-      as.character(pin_get(pin_name, version = versions$version[2], board = board)),
+      as.character(pin_get(pin_name, version = versions$version[length(versions$version)], board = board)),
       as.character(version_a))
 
     deps$expect_equal(
-      as.character(pin_get(pin_name, version = versions$version[1], board = board)),
+      as.character(pin_get(pin_name, version = versions$version[length(versions$version)-1], board = board)),
       as.character(version_b))
   })
 
