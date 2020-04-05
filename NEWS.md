@@ -1,4 +1,6 @@
-# pins 0.3.2.9000
+# pins 0.3.2.9008
+
+- Support `access_type` parameter for RStudio Connect.
 
 - Support for DigitalOcean board.
 
