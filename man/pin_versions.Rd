@@ -31,11 +31,11 @@ pin(mtcars, name = "mtcars")
 pin(mtcars * 10, name = "mtcars")
 
 # print the mtcars versions
-pin_versions("mtcars")
+versions <- pin_versions("mtcars") \%>\% print()
 
 # retrieve the original version
-pin_get("mtcars", version = "a515b27")
+pin_get("mtcars", version = versions$version[1])
 
 # retrieve the variation version
-pin_get("mtcars", version = "c35da04")
+pin_get("mtcars", version = versions$version[2])
 }
