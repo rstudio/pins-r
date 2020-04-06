@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2.9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -204,18 +204,20 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-0329000" class="section level1">
+    <div id="pins-040" class="section level1">
 <h1 class="page-header">
-<a href="#pins-0329000" class="anchor"></a>pins 0.3.2.9000<small> Unreleased </small>
+<a href="#pins-040" class="anchor"></a>pins 0.4.0<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>Support for versioning in all boards.</p></li>
 <li><p>Support for DigitalOcean board.</p></li>
-<li><p>Support for versioning datasets across all boards.</p></li>
 </ul>
 <div id="pin" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pin" class="anchor"></a>Pin</h2>
 <ul>
+<li><p>Finding pins with <code><a href="../reference/pin_find.html">pin_find()</a></code> sort results by default (<a href='https://github.com/rstudio/pins/issues/201'>#201</a>).</p></li>
+<li><p>Avoid <code>incomplete final line found</code> warning error wheen reading manifests.</p></li>
 <li><p>Support for using <code><a href="../reference/pin.html">pin()</a></code> across multiple concurrent processes (<a href='https://github.com/rstudio/pins/issues/182'>#182</a>).</p></li>
 <li><p>Support in <code><a href="../reference/pin_get.html">pin_get()</a></code> to download arbitrary files from cloud boards like Azure, DigitalOcean, GitHub, Google Cloud, RStudio Connect, and S3.</p></li>
 <li><p>Fix issue where http HEAD requests could tgimeout and prevent pin from downloading in very slow connections.</p></li>
@@ -225,6 +227,7 @@
 <h2 class="hasAnchor">
 <a href="#rstudio" class="anchor"></a>RStudio</h2>
 <ul>
+<li><p>Support <code>access_type</code> parameter for RStudio Connect.</p></li>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> now refreshes the connections pane.</p></li>
 <li><p><code><a href="../reference/pin_remove.html">pin_remove()</a></code> now refreshes the connections pane.</p></li>
 </ul>
@@ -233,6 +236,7 @@
 <h2 class="hasAnchor">
 <a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
 <ul>
+<li><p>Support for <code>code</code> parameter in <code><a href="../reference/pin.html">pin()</a></code> to customize R code used in the UI to retrieve the pin (<a href='https://github.com/rstudio/pins/issues/77'>#77</a>).</p></li>
 <li><p>Improve error message for <code><a href="../reference/pin_get.html">pin_get()</a></code> with duplicate names (<a href='https://github.com/rstudio/pins/issues/171'>#171</a>).</p></li>
 <li><p>Fix board register error when using URL with ports (<a href='https://github.com/rstudio/pins/issues/195'>#195</a>).</p></li>
 <li><p>Enable retrieving public pins without authentication (<a href='https://github.com/rstudio/pins/issues/83'>#83</a>).</p></li>
@@ -242,7 +246,17 @@
 <h2 class="hasAnchor">
 <a href="#github" class="anchor"></a>GitHub</h2>
 <ul>
-<li>Support for custom GitHub hosts including GitHub Enterprise using the <code>host</code> parameter in <code><a href="../reference/board_register_github.html">board_register_github()</a></code> (<a href='https://github.com/rstudio/pins/issues/163'>#163</a>).</li>
+<li><p>Support for <code>versions = FALSE</code> in <code><a href="../reference/board_register.html">board_register()</a></code> to also delete release files when pin is removed (<a href='https://github.com/rstudio/pins/issues/91'>#91</a>).</p></li>
+<li><p>Support for <code>versions = FALSE</code> in <code><a href="../reference/board_register.html">board_register()</a></code> to avoid creating versioned GitHub releases (<a href='https://github.com/rstudio/pins/issues/197'>#197</a>).</p></li>
+<li><p>Support for committing all github files with a single commit (<a href='https://github.com/rstudio/pins/issues/197'>#197</a>).</p></li>
+<li><p>Support for custom GitHub hosts including GitHub Enterprise using the <code>host</code> parameter in <code><a href="../reference/board_register_github.html">board_register_github()</a></code> (<a href='https://github.com/rstudio/pins/issues/163'>#163</a>).</p></li>
+</ul>
+</div>
+<div id="websites" class="section level2">
+<h2 class="hasAnchor">
+<a href="#websites" class="anchor"></a>Websites</h2>
+<ul>
+<li>Using <code><a href="../reference/pin.html">pin()</a></code> now searches for <code>data.txt</code> files in URLs when the URL contains no file extension, behavior can be turnned off with the <code>pins.search.datatxt</code> option.</li>
 </ul>
 </div>
 </div>
@@ -374,9 +388,9 @@
 <li>Support for Python 3.</li>
 </ul>
 </div>
-<div id="websites" class="section level2">
+<div id="websites-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#websites" class="anchor"></a>Websites</h2>
+<a href="#websites-1" class="anchor"></a>Websites</h2>
 <ul>
 <li><p>The <code>name</code> parameter in <code><a href="../reference/board_register_datatxt.html">board_register_datatxt()</a></code> is now optional.</p></li>
 <li><p>Fix in <code><a href="../reference/pin_find.html">pin_find()</a></code> to properly search desecription files.</p></li>
@@ -424,9 +438,9 @@
 <li><p>Make use of the <code>rappdirs</code> package to define the default cache path, replaces <code>~/.pins</code>. Use <code><a href="../reference/board_cache_path.html">board_cache_path()</a></code> to retrieve default cache path.</p></li>
 </ul>
 </div>
-<div id="websites-1" class="section level2">
+<div id="websites-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#websites-1" class="anchor"></a>Websites</h2>
+<a href="#websites-2" class="anchor"></a>Websites</h2>
 <ul>
 <li>Fix for data.txt boards created from GitHub boards using large files.</li>
 </ul>
@@ -469,7 +483,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pins-0329000">0.3.2.9000</a></li>
+        <li><a href="#pins-040">0.4.0</a></li>
         <li><a href="#pins-032">0.3.2</a></li>
         <li><a href="#pins-031">0.3.1</a></li>
         <li><a href="#pins-030">0.3.0</a></li>
