@@ -283,6 +283,8 @@ board_deregister <- function(name, ...) {
 #' # retrieve default board
 #' board_default()
 #'
+#' # revert default board
+#' options(pins.board = NULL)
 #' @export
 board_default <- function() {
   getOption("pins.board", "local")
