@@ -514,10 +514,10 @@ pin_fetch <- function(path, ...) {
 #' versions <- pin_versions("mtcars") %>% print()
 #'
 #' # retrieve the original version
-#' pin_get("mtcars", version = versions[1])
+#' pin_get("mtcars", version = versions$version[1])
 #'
 #' # retrieve the variation version
-#' pin_get("mtcars", version = versions[2])
+#' pin_get("mtcars", version = versions$version[2])
 #' @export
 pin_versions <- function(name, board = NULL, full = FALSE, ...) {
   versions <- board_pin_versions(board_get(board), name)
