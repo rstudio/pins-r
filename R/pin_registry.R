@@ -82,7 +82,10 @@ pin_registry_retrieve <- function(name, component) {
   name <- pin_registry_qualify_name(name, entries)
 
   names <- sapply(entries, function(e) e$name)
-  if (!name %in% names) stop("Pin '", name, "' not found in '", component, "' board.")
+  if (!name %in% names) {
+    pin_log("Pin not found, pins available in registry: ", paste0(names, collapse = ", "))
+    stop("Pin '", name, "' not found in '", component, "' board.")
+  }
 
   entries[[which(names == name)]]
 }

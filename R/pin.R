@@ -137,7 +137,10 @@ pin_get <- function(name,
       for (board_name in board_list()) {
         if (!cache) pin_reset_cache(board_name, name)
         result <- board_pin_get_or_null(board_get(board_name), name, extract = extract, version = version)
-        if (!is.null(result)) break
+        if (!is.null(result)) {
+          pin_log("Found pin ", name, " in board ", board_name)
+          break
+        }
       }
     }
     if (is.null(result)) stop("Failed to retrieve '", name, "' pin.")
