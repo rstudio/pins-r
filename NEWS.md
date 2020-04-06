@@ -20,6 +20,8 @@
 
 ## RStudio
 
+- Support `access_type` parameter for RStudio Connect.
+
 - `pin()` now refreshes the connections pane.
 
 - `pin_remove()` now refreshes the connections pane.

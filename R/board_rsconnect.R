@@ -45,7 +45,15 @@ board_initialize.rsconnect <- function(board, ...) {
   board
 }
 
-board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL, ...) {
+board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
+                                      ...) {
+  dots <- list(...)
+  access_type <- if (!is.null(access_type <- dots[["access_type"]])) {
+    match.arg(access_type, c("acl", "logged_in", "all"))
+  } else {
+    NULL
+  }
+
   deps <- rsconnect_dependencies()
 
   temp_dir <- file.path(tempfile(), name)
@@ -117,7 +125,8 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
                                       app_mode = "static",
                                       content_category = "pin",
                                       name = name,
-                                      description = board_metadata_to_text(metadata, metadata$description)
+                                      description = board_metadata_to_text(metadata, metadata$description),
+                                      access_type = access_type
                                     ))
 
       if (!is.null(content$error)) {
