@@ -161,7 +161,7 @@ pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content")
 
 To avoid having to manually change the "Access" manually, you can also set the `access_type` to `acl`, `loggend_in` or `all` when creating a pin:
 
-```{r}
+```{r eval=FALSE}
 # create a publicly visible pin
 pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content", access_type = "all")
 ```
