@@ -26,13 +26,16 @@ board_register_local(cache = tempfile(), versions = TRUE)
 
 # cache the mtcars dataset
 pin(mtcars, name = "mtcars")
+
+# cache variation of the mtcars dataset
 pin(mtcars * 10, name = "mtcars")
 
-# print pin versions
+# print the mtcars versions
 pin_versions("mtcars")
 
-# print version information
-pin_info("mtcars", version = "abcdc")
-pin_info("mtcars", version = "defgh")
+# retrieve the original version
+pin_get("mtcars", version = "a515b27")
 
+# retrieve the variation version
+pin_get("mtcars", version = "c35da04")
 }
