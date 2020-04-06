@@ -131,7 +131,7 @@ pin_get <- function(name,
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
 
-    result <- board_pin_get_or_null(board_get(NULL), name)
+    result <- board_pin_get_or_null(board_get(NULL), name, version = version)
 
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
