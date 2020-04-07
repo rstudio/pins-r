@@ -212,7 +212,7 @@
 <pre><code>[1] "nypd-motor-vehicle-collisions/_versions/3/Collision_DataDictionary.xlsx"    
 [2] "nypd-motor-vehicle-collisions/_versions/3/nypd-motor-vehicle-collisions.csv"
 [3] "nypd-motor-vehicle-collisions/_versions/3/socrata_metadata.json" </code></pre>
-<p>Other boards, like the default local board, <a href="boards-azure">Azure</a>, <a href="boards-dospace.html">Digital Ocean</a>, <a href="boards-gcloud.html">Google Cloud</a>, and <a href="boards-s3.html">S3</a>, do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the <code>versions</code> parameter to <code>TRUE</code>.</p>
+<p>Other boards, like the default local board, <a href="boards-azure.html">Azure</a>, <a href="boards-dospace.html">Digital Ocean</a>, <a href="boards-gcloud.html">Google Cloud</a>, and <a href="boards-s3.html">S3</a>, do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the <code>versions</code> parameter to <code>TRUE</code>.</p>
 <p>For instance, in your local computer you can register the local board with versioning as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"local"</span>, <span class="dt">versions =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>From now on, when <code><a href="../reference/pin.html">pin()</a></code> is used, multiple versions will be stored locally:</p>
