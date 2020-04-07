@@ -131,13 +131,16 @@ pin_get <- function(name,
   if (is.null(board)) {
     board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
 
-    result <- board_pin_get_or_null(board_get(NULL), name)
+    result <- board_pin_get_or_null(board_get(NULL), name, version = version)
 
     if (is.null(result) && is.null(board)) {
       for (board_name in board_list()) {
         if (!cache) pin_reset_cache(board_name, name)
         result <- board_pin_get_or_null(board_get(board_name), name, extract = extract, version = version)
-        if (!is.null(result)) break
+        if (!is.null(result)) {
+          pin_log("Found pin ", name, " in board ", board_name)
+          break
+        }
       }
     }
     if (is.null(result)) stop("Failed to retrieve '", name, "' pin.")
@@ -317,6 +320,9 @@ pin_find <- function(text = NULL,
     all_pins <- all_pins[grepl(paste0("(.*/)?", name, "$"), all_pins$name),]
     if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
   }
+
+  # sort pin results by name
+  all_pins <- all_pins[order(all_pins$name), ]
 
   format_tibble(all_pins)
 }
@@ -500,15 +506,18 @@ pin_fetch <- function(path, ...) {
 #'
 #' # cache the mtcars dataset
 #' pin(mtcars, name = "mtcars")
+#'
+#' # cache variation of the mtcars dataset
 #' pin(mtcars * 10, name = "mtcars")
 #'
-#' # print pin versions
-#' pin_versions("mtcars")
+#' # print the mtcars versions
+#' versions <- pin_versions("mtcars") %>% print()
 #'
-#' # print version information
-#' pin_info("mtcars", version = "abcdc")
-#' pin_info("mtcars", version = "defgh")
+#' # retrieve the original version
+#' pin_get("mtcars", version = versions$version[1])
 #'
+#' # retrieve the variation version
+#' pin_get("mtcars", version = versions$version[2])
 #' @export
 pin_versions <- function(name, board = NULL, full = FALSE, ...) {
   versions <- board_pin_versions(board_get(board), name)

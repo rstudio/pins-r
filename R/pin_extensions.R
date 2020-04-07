@@ -17,6 +17,7 @@
 board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, ...) {
   board <- board_get(board)
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
+  pin_log("Storing ", name, " into board ", board$name, " with type ", type)
 
   if (identical(list(...)$cache, FALSE)) pin_reset_cache(board$name, name)
 

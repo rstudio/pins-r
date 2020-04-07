@@ -1,12 +1,14 @@
-# pins 0.3.2.9008
+# pins 0.4.0
 
-- Support `access_type` parameter for RStudio Connect.
+- Support for versioning in all boards.
 
 - Support for DigitalOcean board.
 
-- Support for versioning datasets across all boards.
-
 ## Pin
+
+- Finding pins with `pin_find()` sort results by default (#201).
+
+- Avoid `incomplete final line found` warning error wheen reading manifests.
 
 - Support for using `pin()` across multiple concurrent processes (#182).
 
@@ -17,6 +19,8 @@
   downloading in very slow connections.
 
 ## RStudio
+
+- Support `access_type` parameter for RStudio Connect.
 
 - `pin()` now refreshes the connections pane.
 
@@ -34,6 +38,12 @@
 - Enable retrieving public pins without authentication (#83).
 
 ## GitHub
+
+- Support for `versions = FALSE` in `board_register()` to also delete
+  release files when pin is removed (#91).
+
+- Support for `versions = FALSE` in `board_register()` to avoid creating
+  versioned GitHub releases (#197).
 
 - Support for committing all github files with a single commit (#197). 
 

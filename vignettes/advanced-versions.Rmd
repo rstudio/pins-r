@@ -74,7 +74,7 @@ pin_get("new-york-city/nypd-motor-vehicle-collisions", version = 3, board = "kag
 [3] "nypd-motor-vehicle-collisions/_versions/3/socrata_metadata.json" 
 ```
 
-Other boards, like the default local board, [Azure](boards-azure), [Digital Ocean](boards-dospace.html), [Google Cloud](boards-gcloud.html), and [S3](boards-S3.html), do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the `versions` parameter to `TRUE`.
+Other boards, like the default local board, [Azure](boards-azure.html), [Digital Ocean](boards-dospace.html), [Google Cloud](boards-gcloud.html), and [S3](boards-s3.html), do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the `versions` parameter to `TRUE`.
 
 For instance, in your local computer you can register the local board with versioning as follows:
 

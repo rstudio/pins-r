@@ -156,7 +156,14 @@ You can also choose to share a pin publicly and avoid having to register the RSt
 To create a public pin, first publish a pin and navigate to RStudio Connect; then set the "Access" to "Anyone - no login required" -- The pin will become public and accessible to anyone using their content URL. The remote resource stored in RStudio Connect can then be cached locally with `pin()` as follows:
 
 ```{r eval=FALSE}
-pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content") %>% print()
+pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content")
+```
+
+To avoid having to manually change the "Access" manually, you can also set the `access_type` to `acl`, `loggend_in` or `all` when creating a pin:
+
+```{r eval=FALSE}
+# create a publicly visible pin
+pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content", access_type = "all")
 ```
 
 ## Automation

@@ -33,7 +33,7 @@ You can install this new version from CRAN as follows:
 install.packages("pins")
 ```
 
-In addition, there is a new [Use Cases](https://rstudio.github.io/pins/articles/use-cases.html) section in our docs, various improvements (see [NEWS](https://rstudio.github.io/pins/news/index.html)) and two community extensions being developed to support [databases](https://edgararuiz.github.io/connections/#pins) and [Nextcloud](https://gitlab.com/gwmngilfen/nextcloudr) as boards.
+In addition, there is a new [Use Cases](https://rstudio.github.io/pins/articles/use-cases.html) section in our docs, various improvements (see [NEWS](https://rstudio.github.io/pins/news/index.html)) and two community extensions being developed to support [databases](https://rstudio.github.io/connections/#pins) and [Nextcloud](https://gitlab.com/gwmngilfen/nextcloudr) as boards.
 
 ## Cloud Boards
 

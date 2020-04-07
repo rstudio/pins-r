@@ -23,4 +23,6 @@ options(pins.board = "temp")
 # retrieve default board
 board_default()
 
+# revert default board
+options(pins.board = NULL)
 }

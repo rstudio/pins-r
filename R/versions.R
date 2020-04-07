@@ -22,8 +22,8 @@ pin_versions_path <- function(storage_path) {
   normalizePath(file.path(normalizePath(storage_path), pin_versions_path_name(), version), mustWork = FALSE)
 }
 
-board_versions_enabled <- function(board) {
-  identical(board$versions, TRUE)
+board_versions_enabled <- function(board, default = FALSE) {
+  if (default) !identical(board$versions, FALSE) else identical(board$versions, TRUE)
 }
 
 board_versions_create <- function(board, name, path) {
