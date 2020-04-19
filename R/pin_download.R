@@ -82,8 +82,10 @@ pin_download <- function(path,
       }
     }
 
+    etag_changed <- is.null(cache$etag) || !identical(old_cache$etag, cache$etag)
+
     # skip downloading if etag has not changed
-    if (old_cache_missing || !identical(old_cache$etag, cache$etag) || must_download) {
+    if (old_cache_missing || etag_changed || must_download) {
         download_name <- basename(path)
 
         if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
