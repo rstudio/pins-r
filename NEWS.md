@@ -1,3 +1,10 @@
+# pins 0.4.0.9000
+
+## Pin
+
+- Fix `pin()` failing to update cache when server returns `NULL` etag.
+
+
 # pins 0.4.0
 
 - Support for versioning in all boards.
