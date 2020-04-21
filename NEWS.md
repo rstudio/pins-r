@@ -4,6 +4,8 @@
 
 - Fix `pin()` failing to update cache when server returns `NULL` etag.
 
+- Support for `custom_metadata` in `pin()` to allow saving custom fields
+  in `data.txt` file.
 
 # pins 0.4.0
 

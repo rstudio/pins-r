@@ -7,14 +7,14 @@
 #' @param path The path to store.
 #' @param description The text patteren to find a pin.
 #' @param type The type of pin being stored.
-#' @param metadata A list containing additional metadata desecribing the pin.
+#' @param metadata A list containing additional metadata describing the pin.
 #' @param ... Additional parameteres.
 #'
 #' @rdname custom-pins
 #'
 #' @export
 #' @rdname custom-pins
-board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, ...) {
+board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, custom_metadata = NULL, ...) {
   board <- board_get(board)
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
   pin_log("Storing ", name, " into board ", board$name, " with type ", type)
@@ -58,6 +58,8 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   if (!pin_manifest_exists(store_path)) {
     metadata$description <- description
     metadata$type <- type
+
+    metadata <- pins_merge_custom_metadata(metadata, custom_metadata)
 
     pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
   }
