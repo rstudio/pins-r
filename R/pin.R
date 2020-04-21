@@ -400,7 +400,7 @@ pin_info <- function(name,
 
   metadata <- list()
   if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
-    metadata <- jsonlite::fromJSON(entry$metadata)
+    metadata <- jsonlite::fromJSON(entry$metadata, simplifyDataFrame = FALSE)
   }
 
   if (signature) {
