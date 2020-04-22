@@ -87,8 +87,14 @@ ui_viewer_register <- function(board, board_call) {
       if (!is.null(pin_index$metadata) || nchar(pin_index$metadata) > 0) {
         metadata <- jsonlite::fromJSON(pin_index$metadata)
         if (!is.null(metadata$columns)) {
-          attr_names <- c(attr_names, names(metadata$columns))
-          attr_values <- c(attr_values, as.character(metadata$columns))
+          if (is.vector(metadata$columns)) {
+            attr_names <- c(attr_names, names(metadata$columns))
+            attr_values <- c(attr_values, as.character(metadata$columns))
+          }
+          else {
+            attr_names <- metadata$columns$name
+            attr_values <- metadata$columns$type
+          }
         }
 
         if (identical(metadata$type, "files") && length(attr_names) == 0) {

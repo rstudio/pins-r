@@ -400,7 +400,7 @@ pin_info <- function(name,
 
   metadata <- list()
   if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
-    metadata <- jsonlite::fromJSON(entry$metadata)
+    metadata <- jsonlite::fromJSON(entry$metadata, simplifyDataFrame = FALSE)
   }
 
   if (signature) {
@@ -420,45 +420,6 @@ pin_info <- function(name,
   structure(entry_ext, class = "pin_info")
 }
 
-print_pin_info <- function(name, e, ident) {
-  # avoid empty lavels that are nested
-  if (is.list(e) && is.null(names(e)) && length(e) == 1) e <- e[[1]]
-
-  # one-row data frames are better displayed as lists
-  if (is.data.frame(e) && nrow(e) == 1) e <- as.list(e)
-
-  name_prefix <- if (!is.null(name) && nchar(name) > 0) paste0(name, ": ") else ""
-
-  if (!is.list(e) && is.vector(e)) {
-    # Long strings (like paths) print better on their own line
-    if (length(e) > 1 && is.character(e) && max(nchar(e)) > 20) {
-      cat(crayon::silver(paste0("#", ident, "- ", name_prefix, "\n")))
-      for (i in e) {
-        print_pin_info("", i, paste0(ident, "  "))
-      }
-    }
-    else {
-      cat(crayon::silver(paste0("#", ident, "- ", name_prefix, paste(e, collapse = ", "), "\n")))
-    }
-  }
-  else if (is.data.frame(e)) {
-    cat(crayon::silver(paste0("#", ident, "- ", name_prefix)))
-    if (length(colnames(e)) > 0) cat(crayon::silver(paste0("(", colnames(e)[[1]], ") ")))
-    cat(crayon::silver(paste(e[,1], collapse = ", ")))
-    if (length(colnames(e)) > 1) cat(crayon::silver("..."))
-    cat(crayon::silver("\n"))
-  }
-  else if (is.list(e)) {
-    cat(crayon::silver(paste0("#", ident, "- ", name_prefix, "\n")))
-    for (i in names(e)) {
-      print_pin_info(i, e[[i]], paste0(ident, "  "))
-    }
-  }
-  else {
-    cat(crayon::silver(paste0("#", ident, "- ", name_prefix, class(e)[[1]], "\n")))
-  }
-}
-
 #' @keywords internal
 #' @export
 print.pin_info <- function(x, ...) {
@@ -470,15 +431,23 @@ print.pin_info <- function(x, ...) {
 
   info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
-  is_first <- TRUE
-  for (name in names(info)) {
-    e <- info[[name]]
-    if (identical(is.na(e), FALSE) && identical(is.null(e), FALSE) && !(is.character(e) && nchar(e) == 0)) {
-      if (is_first) cat(crayon::silver(paste0("# Properties:", "\n")))
-      is_first <- FALSE
+  if (length(names(info)) > 0) {
+    cat(crayon::silver(paste0("# Properties:", "\n")))
 
-      print_pin_info(name, e, "   ")
+    for (i in names(info)) {
+      entry <- info[[i]]
+      if ((is.list(entry) && length(entry) == 0) ||
+          (is.character(entry) && identical(nchar(entry), 0L)) ||
+          identical(i, "path")) {
+        info[[i]] <- NULL
+      }
     }
+
+    yaml_str <- yaml::as.yaml(info) %>%
+      strsplit("\n") %>%
+      sapply(function(e) paste("#  ", e)) %>%
+      paste0(collapse = "\n")
+    cat(crayon::silver(yaml_str))
   }
 }
 
