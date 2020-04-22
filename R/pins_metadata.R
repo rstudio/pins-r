@@ -13,6 +13,11 @@ pins_merge_custom_metadata <- function(metadata, custom_metadata) {
         metadata$columns <- lapply(seq_along(metadata$columns), function(e) list(name = names(metadata$columns)[[e]], type = metadata$columns[[e]]))
       }
 
+      if (is.data.frame(custom_metadata$columns)) {
+        custom_metadata$columns <- custom_metadata$columns %>%
+          jsonlite::toJSON() %>% jsonlite::fromJSON(simplifyDataFrame = FALSE)
+      }
+
       for (column in custom_metadata$columns) {
         found_idx <- Filter(function(e) identical(metadata$columns[[e]]$name, column$name), seq_along(metadata$columns))
 
