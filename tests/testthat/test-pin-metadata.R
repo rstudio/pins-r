@@ -16,7 +16,8 @@ test_that("can pin() with custom metadata", {
 
   info <- pin_info("iris-metadata", board = "local")
 
-  expect_equal(names(info$columns), c("name", "type", "description"))
+  expect_equal(length(info$columns), 5L)
+  expect_equal(names(info$columns[[1]]), c("name", "type", "description"))
   expect_equal(info$source, "The R programming language")
 })
 
