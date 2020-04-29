@@ -9,7 +9,11 @@
 #' board_cache_path()
 #' @export
 board_cache_path <- function() {
-  getOption("pins.path", rappdirs::user_cache_dir("pins"))
+  # if a configuration is present this could mean we are running in a production environment without user caches
+  if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) > 0 && nchar(Sys.getenv("PINS_USE_CACHE")) == 0)
+    tempfile()
+  else
+    getOption("pins.path", rappdirs::user_cache_dir("pins"))
 }
 
 #' Register Local Board

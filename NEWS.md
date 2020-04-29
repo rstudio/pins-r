@@ -2,10 +2,17 @@
 
 ## Pin
 
+- When running in production environments (which usually set the `R_CONFIG_ACTIVE`
+  environment variable), avoid using shared caches.
+
 - Fix `pin()` failing to update cache when server returns `NULL` etag.
 
 - Support for `custom_metadata` in `pin()` to allow saving custom fields
   in `data.txt` file.
+  
+- RStudio Connect
+
+- Avoid using shared caches when running inside RStudio Connect.
 
 # pins 0.4.0
 
