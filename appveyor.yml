@@ -17,7 +17,7 @@ platform: x64
 environment:
   global:
     R_ARCH: x64
-    WARNINGS_ARE_ERRORS: 1
+    WARNINGS_ARE_ERRORS: 0
     NOT_CRAN: true
     R_BUILD_ARGS: --resave-data
 
