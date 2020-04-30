@@ -29,7 +29,7 @@ board_pin_store(board, path, name, description, type, metadata,
 
 \item{type}{The type of pin being stored.}
 
-\item{metadata}{A list containing additional metadata desecribing the pin.}
+\item{metadata}{A list containing additional metadata describing the pin.}
 }
 \description{
 Family of functions meant to be used to implement custom pin extensions, not to be used by users.
