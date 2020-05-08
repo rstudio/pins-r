@@ -17,9 +17,8 @@ platform: x64
 environment:
   global:
     R_ARCH: x64
-    WARNINGS_ARE_ERRORS: 0
     NOT_CRAN: true
-    R_BUILD_ARGS: --resave-data
+    R_BUILD_ARGS: '--resave-data'
 
 build_script:
   - travis-tool.sh install_deps
