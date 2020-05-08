@@ -235,10 +235,9 @@ board_pin_find.rsconnect <- function(board,
     remote_path <- rsconnect_remote_path_from_url(board, entries[[1]]$url)
     etag <- as.character(entries[[1]]$last_deployed_time)
 
-    local_path <- rsconnect_api_download(board, entries[[1]]$name, file.path(remote_path, "data.txt"), etag = etag)
-
     manifest <- list()
     if (identical(metadata, TRUE)) {
+      local_path <- rsconnect_api_download(board, entries[[1]]$name, file.path(remote_path, "data.txt"), etag = etag)
       manifest <- pin_manifest_get(local_path)
     }
 
