@@ -16,6 +16,10 @@
 
 - Avoid using shared caches when running inside RStudio Connect.
 
+## Kaggle
+
+- Support to find and download competition datasets.
+
 # pins 0.4.0
 
 - Support for versioning in all boards.
