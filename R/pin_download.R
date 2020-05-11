@@ -1,17 +1,19 @@
-pin_download <- function(path,
-                         name,
-                         component,
-                         extract = FALSE,
-                         custom_etag = "",
-                         remove_query = FALSE,
-                         config = NULL,
-                         headers = NULL,
-                         can_fail = FALSE,
-                         cache = TRUE,
-                         content_length = 0,
-                         subpath = name,
-                         ...) {
+pin_download_one <- function(path,
+                             name,
+                             component,
+                             extract = FALSE,
+                             custom_etag = "",
+                             remove_query = FALSE,
+                             config = NULL,
+                             headers = NULL,
+                             can_fail = FALSE,
+                             cache = TRUE,
+                             content_length = 0,
+                             subpath = name,
+                             ...) {
   must_download <- !cache
+
+  custom_etag <- if (is.na(custom_etag)) "" else custom_etag
 
   # clean up name in case it's a full url
   name <- gsub("^https?://", "", name)
@@ -143,6 +145,15 @@ pin_download <- function(path,
       path = if (is.null(old_pin$path)) relative_path else old_pin$path,
       cache = new_cache),
     component = component)
+
+  local_path
+}
+
+pin_download <- function(path, ...) {
+  for (p in path) {
+    if (length(path) > 1) pin_log("Downloading ", p, " from ", length(path), " downloads.")
+    local_path <- pin_download_one(p, ...)
+  }
 
   local_path
 }
