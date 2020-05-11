@@ -144,6 +144,41 @@ pin_info("electric-motor-temperature", board = "kaggle")
 
 Notice that the given 'motor' search keyword is searched in the name and description fields for the pins available in this repo.
 
+### Competitions
+
+Datasets are also searched within competitions and are referenced by the `c/` prefix. For instance, when searching for `crowdflower` notice the `c/crowdflower-weather-twitter` entry:
+
+```r
+pin_find("crowdflower", board = "kaggle")
+```
+```
+# A tibble: 10 x 4
+   name                                                    description                                     type  board 
+   <chr>                                                   <chr>                                           <chr> <chr> 
+ 1 awsaf49/ecommerce-search-result-relevane-by-crowdflower eCommerce Search Result Relevane by Crowdflower files kaggle
+ 2 c/crowdflower-search-relevance                          Crowdflower Search Results Relevance            files kaggle
+ 3 c/crowdflower-weather-twitter                           Partly Sunny with a Chance of Hashtags          files kaggle
+ 4 crowdflower/first-gop-debate-twitter-sentiment          First GOP Debate Twitter Sentiment              files kaggle
+ 5 crowdflower/handwritten-names                           Handwritten Names                               files kaggle
+ 6 crowdflower/narrativity-in-scientific-publishing        Narrativity in Scientific Publishing            files kaggle
+ 7 crowdflower/political-social-media-posts                Political Social Media Posts                    files kaggle
+ 8 crowdflower/twitter-airline-sentiment                   Twitter US Airline Sentiment                    files kaggle
+ 9 crowdflower/twitter-user-gender-classification          Twitter User Gender Classification              files kaggle
+10 humancomp/worker-activity-crowdflower                   Workers Browser Activity in CrowdFlower Tasks   files kaggle
+```
+
+You can then download the data associated to the `c/crowdflower-weather-twitter` competition:
+
+```r
+pin_get("c/crowdflower-weather-twitter", board = "kaggle")
+```
+```
+[1] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/sampleSubmission.csv"
+[2] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/test.csv"            
+[3] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/train.csv"           
+[4] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/variableNames.txt"   
+```
+
 ## Sharing
 
 When working in teams, you might want to share your pins with others. For Kaggle boards, this is accomplished by adding users or making the dataset public through Kaggle's website. 
