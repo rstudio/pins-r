@@ -181,8 +181,7 @@ board_pin_create.kaggle <- function(board, path, name, metadata, notes = NULL, .
   board_wait_create(board, qualified_name)
 }
 
-board_pin_search_kaggle <- function(board, text = NULL) {
-  base_url <- "https://www.kaggle.com/api/v1/datasets/list?"
+board_pin_search_kaggle <- function(board, text = NULL, base_url = "https://www.kaggle.com/api/v1/datasets/list?") {
   if (identical(text, NULL) || length(text) == 0 || nchar(text) == 0) {
     params <- "group=my"
   }
@@ -206,11 +205,18 @@ board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
   # clear name searches
   text <- gsub("^[^/]+/", "", text)
 
-  # search private dataserts first sincee they won't search by default
+  # search private dataserts first since they won't search by default
   results <- board_pin_search_kaggle(board)
   reults <- Filter(function(e) grepl(text, e$ref), results)
 
   results <- c(results, board_pin_search_kaggle(board, text))
+
+  competitions <- board_pin_search_kaggle(board, text, base_url = "https://www.kaggle.com/api/v1/competitions/list?") %>%
+    lapply(function(e) {
+      e$ref <- paste0("c/", e$ref)
+      e
+    })
+  results <- c(results, competitions)
 
   results <- pin_entries_to_dataframe(results)
 
@@ -234,10 +240,29 @@ board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
     unique()
 }
 
-board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
-  if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+kaggle_competition_files <- function(board, name) {
+  url <- paste0("https://www.kaggle.com/api/v1/competitions/data/list/", gsub("^c/", "", name))
 
-  url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
+  results <- httr::GET(url, kaggle_auth(board))
+  if (httr::http_error(results)) stop("Finding pin failed with status ", httr::status_code(results))
+
+  httr::content(results)
+}
+
+board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
+  if (grepl("^c/", name)) {
+    competition_files <- name <- gsub("^c/", "", name)
+    if (!grepl("/", name)) {
+      files <- kaggle_competition_files(board, name)
+      competition_files <- paste0(name, "/", sapply(files, function(e) e$ref))
+    }
+    url <- paste0("https://www.kaggle.com/api/v1/competitions/data/download/", competition_files)
+    extract <- FALSE
+  }
+  else {
+    if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+    url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
+  }
 
   extended <- pin_find(name = name, board = board$name, extended = TRUE)
 
