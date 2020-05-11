@@ -211,12 +211,14 @@ board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
 
   results <- c(results, board_pin_search_kaggle(board, text))
 
-  competitions <- board_pin_search_kaggle(board, text, base_url = "https://www.kaggle.com/api/v1/competitions/list?") %>%
-    lapply(function(e) {
-      e$ref <- paste0("c/", e$ref)
-      e
-    })
-  results <- c(results, competitions)
+  if (nchar(text) > 0) {
+    competitions <- board_pin_search_kaggle(board, text, base_url = "https://www.kaggle.com/api/v1/competitions/list?") %>%
+      lapply(function(e) {
+        e$ref <- paste0("c/", e$ref)
+        e
+      })
+    results <- c(results, competitions)
+  }
 
   results <- pin_entries_to_dataframe(results)
 
