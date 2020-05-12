@@ -260,16 +260,19 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
     }
     url <- paste0("https://www.kaggle.com/api/v1/competitions/data/download/", competition_files)
     extract <- FALSE
+
+    etag <- max(sapply(files, function(e) e$creationDate))
+    content_length <- sum(sapply(files, function(e) e$totalBytes))
   }
   else {
     if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
+
+    extended <- pin_find(name = name, board = board$name, extended = TRUE)
+
+    etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
+    content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
   }
-
-  extended <- pin_find(name = name, board = board$name, extended = TRUE)
-
-  etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
-  content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
 
   subpath <- name
   if (!is.null(version)) {
