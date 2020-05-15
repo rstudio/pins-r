@@ -10,6 +10,9 @@
 - Support for `custom_metadata` in `pin()` to allow saving custom fields
   in `data.txt` file.
   
+- Improve performannce for `pin()` from URLs containing large files that are
+  already been cached prerviously by `pin()` (#225).
+  
 ## RStudio Connect
 
 - Fix when overriding pin with corrupt metadata.

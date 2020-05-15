@@ -39,35 +39,44 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
     }
   }
 
+  something_changed <- FALSE
   for (single_path in path) {
+    details <- as.environment(list(something_changed = TRUE))
     if (grepl("^http", single_path)) {
       single_path <- pin_download(single_path,
                                   name,
                                   board_default(),
                                   extract = extract,
+                                  details = details,
                                   ...)
     }
 
-    if (dir.exists(single_path)) {
-      file.copy(dir(single_path, full.names = TRUE) , store_path, recursive = TRUE)
-    }
-    else {
-      file.copy(single_path, store_path, recursive = TRUE)
+    if (details$something_changed) {
+      if (dir.exists(single_path)) {
+        file.copy(dir(single_path, full.names = TRUE) , store_path, recursive = TRUE)
+      }
+      else {
+        file.copy(single_path, store_path, recursive = TRUE)
+      }
+
+      something_changed <- TRUE
     }
   }
 
-  if (!pin_manifest_exists(store_path)) {
-    metadata$description <- description
-    metadata$type <- type
+  if (something_changed) {
+    if (!pin_manifest_exists(store_path)) {
+      metadata$description <- description
+      metadata$type <- type
 
-    metadata <- pins_merge_custom_metadata(metadata, custom_metadata)
+      metadata <- pins_merge_custom_metadata(metadata, custom_metadata)
 
-    pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
+      pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
+    }
+
+    board_pin_create(board, store_path, name = name, metadata = metadata, ...)
+
+    ui_viewer_updated(board)
   }
-
-  board_pin_create(board, store_path, name = name, metadata = metadata, ...)
-
-  ui_viewer_updated(board)
 
   pin_get(name, board$name, ...) %>%
     invisible_maybe()

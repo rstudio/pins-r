@@ -10,6 +10,7 @@ pin_download_one <- function(path,
                              cache = TRUE,
                              content_length = 0,
                              subpath = name,
+                             details = new.env(),
                              ...) {
   must_download <- !cache
 
@@ -61,6 +62,7 @@ pin_download_one <- function(path,
   extract_type <- NULL
 
   pin_log("Checking 'change_age' header (time, change age, max age): ", as.numeric(Sys.time()), ", ", cache$change_age, ", ", cache$max_age)
+  details$something_changed <- FALSE
 
   # skip downloading if max-age still valid
   if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_download) {
@@ -93,6 +95,7 @@ pin_download_one <- function(path,
         if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
         destination_path <- file.path(temp_path, download_name)
         pin_log("Downloading ", path, " to ", destination_path)
+        details$something_changed <- TRUE
 
         write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
         result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress(size = content_length)))
