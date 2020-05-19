@@ -13,6 +13,9 @@
 - Improve performannce for `pin()` from URLs containing large files that are
   already been cached prerviously by `pin()` (#225).
   
+- Avoid showing upload or download progress when creating R Markdown documents
+  and other non-interactive use cases (#227).
+  
 ## RStudio Connect
 
 - Fix when overriding pin with corrupt metadata.
