@@ -170,7 +170,7 @@ pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content", acce
 
 One significant advantage from using RStudio Connect over other boards is its ability to schedule R Markdown reports to run automatically. This allows you to automate the creation of pins and also consume pins published manually from automated reports.
 
-To support automation you need to use an [RStudio Connect API Key](https://docs.rstudio.com/connect/user/api-keys.html) as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:
+To support automation you need to use an [RStudio Connect API Key](https://docs.rstudio.com/connect/user/api-keys/) as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:
 
 ```{r eval=FALSE}
 board_register_rsconnect(key = "the-rstudio-connect-api-key",
