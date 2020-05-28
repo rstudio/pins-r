@@ -17,7 +17,10 @@
   and other non-interactive use cases (#227).
   
 - When pin(url) fails and local cache exists, produce warning and retrieve
-  cached version.
+  cached version (#231).
+  
+- Support for `pin(zip = TRUE)` to create a zip file of the given path before
+  creating the pin (#232).
   
 ## RStudio Connect
 

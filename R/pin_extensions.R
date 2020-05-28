@@ -19,6 +19,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
   pin_log("Storing ", name, " into board ", board$name, " with type ", type)
   custom_metadata <- list(...)$custom_metadata
+  zip <- list(...)$zip
 
   if (identical(list(...)$cache, FALSE)) pin_reset_cache(board$name, name)
 
@@ -39,33 +40,39 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
     }
   }
 
-  something_changed <- FALSE
-  for (single_path in path) {
-    details <- as.environment(list(something_changed = TRUE))
-    if (grepl("^http", single_path)) {
-      single_path <- pin_download(single_path,
-                                  name,
-                                  board_default(),
-                                  extract = extract,
-                                  details = details,
-                                  can_fail = TRUE,
-                                  ...)
-      if (!is.null(details$error)) {
-        cached_result <- tryCatch(pin_get(name, board = board_default()), error = function(e) NULL)
-        if (is.null(cached_result)) stop(details$error) else warning(details$error)
-        return(cached_result)
-      }
-    }
-
-    if (details$something_changed) {
-      if (dir.exists(single_path)) {
-        file.copy(dir(single_path, full.names = TRUE) , store_path, recursive = TRUE)
-      }
-      else {
-        file.copy(single_path, store_path, recursive = TRUE)
+  if (identical(zip, TRUE)) {
+    zip(file.path(store_path, "data.zip"), path)
+    something_changed <- TRUE
+  }
+  else {
+    something_changed <- FALSE
+    for (single_path in path) {
+      details <- as.environment(list(something_changed = TRUE))
+      if (grepl("^http", single_path)) {
+        single_path <- pin_download(single_path,
+                                    name,
+                                    board_default(),
+                                    extract = extract,
+                                    details = details,
+                                    can_fail = TRUE,
+                                    ...)
+        if (!is.null(details$error)) {
+          cached_result <- tryCatch(pin_get(name, board = board_default()), error = function(e) NULL)
+          if (is.null(cached_result)) stop(details$error) else warning(details$error)
+          return(cached_result)
+        }
       }
 
-      something_changed <- TRUE
+      if (details$something_changed) {
+        if (dir.exists(single_path)) {
+          file.copy(dir(single_path, full.names = TRUE) , store_path, recursive = TRUE)
+        }
+        else {
+          file.copy(single_path, store_path, recursive = TRUE)
+        }
+
+        something_changed <- TRUE
+      }
     }
   }
 
