@@ -50,7 +50,7 @@ pin_download_one <- function(path,
   report_error <- if (old_cache_missing) stop else warning
   catch_log <- function(e) tryCatch(e, error = function(e) { pin_log(e$message) ; NULL })
   catch_error <- if (old_cache_missing) function(e) e else function(e) tryCatch(e, error = function(e) { report_error(e$message) ; NULL })
-  if (can_fail) report_error <- function(e) NULL
+  if (can_fail) report_error <- function(e) { details$error <- e ; NULL }
 
   cache <- list()
   cache$etag <- old_cache$etag

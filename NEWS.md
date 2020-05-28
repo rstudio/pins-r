@@ -16,6 +16,9 @@
 - Avoid showing upload or download progress when creating R Markdown documents
   and other non-interactive use cases (#227).
   
+- When pin(url) fails and local cache exists, produce warning and retrieve
+  cached version.
+  
 ## RStudio Connect
 
 - Fix when overriding pin with corrupt metadata.

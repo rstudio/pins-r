@@ -48,7 +48,13 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
                                   board_default(),
                                   extract = extract,
                                   details = details,
+                                  can_fail = TRUE,
                                   ...)
+      if (!is.null(details$error)) {
+        cached_result <- tryCatch(pin_get(name, board = board_default()), error = function(e) NULL)
+        if (is.null(cached_result)) stop(details$error) else warning(details$error)
+        return(cached_result)
+      }
     }
 
     if (details$something_changed) {
