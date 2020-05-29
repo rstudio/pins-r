@@ -1,3 +1,9 @@
+# pins 0.4.1.9000
+
+## Website
+
+- Fix issue removing pins with custom domain names from cloud boards (#234).
+
 # pins 0.4.1
 
 ## Pin
