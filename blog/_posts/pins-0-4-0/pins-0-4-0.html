@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://rstudio.github.io/pins/blog/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -20,366 +19,39 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>pins</title>
+  <title>pins 0.4: Versioning</title>
+  
+  <meta property="description" itemprop="description" content="A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly."/>
   
   
-  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-05-29"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-05-29"/>
+  <meta name="article:author" content="Javier Luraschi"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pins"/>
+  <meta property="og:title" content="pins 0.4: Versioning"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="pins"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pins"/>
+  <meta property="twitter:title" content="pins 0.4: Versioning"/>
+  <meta property="twitter:description" content="A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["pins"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","slug","date","categories","output","preview"]}},"value":[{"type":"character","attributes":{},"value":["pins 0.4: Versioning"]},{"type":"character","attributes":{},"value":["A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Javier Luraschi"]},{"type":"character","attributes":{},"value":["RStudio"]},{"type":"character","attributes":{},"value":["https://twitter.com/javierluraschi"]}]}]},{"type":"character","attributes":{},"value":["pins-0.4"]},{"type":"character","attributes":{},"value":["05-29-2020"]},{"type":"character","attributes":{},"value":["Packages","Releases","Versioning","R"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["images/thumb.jpg"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
-  <!--radix_placeholder_navigation_in_header-->
   
-  <script type="application/javascript">
-  
-    window.headroom_prevent_pin = false;
-  
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-  
-      // initialize headroom for banner
-      var header = $('header').get(0);
-      var headerHeight = header.offsetHeight;
-      var headroom = new Headroom(header, {
-        onPin : function() {
-          if (window.headroom_prevent_pin) {
-            window.headroom_prevent_pin = false;
-            headroom.unpin();
-          }
-        }
-      });
-      headroom.init();
-      if(window.location.hash)
-        headroom.unpin();
-      $(header).addClass('headroom--transition');
-  
-      // offset scroll location for banner on hash change
-      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
-      window.addEventListener("hashchange", function(event) {
-        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
-      });
-  
-      // responsive menu
-      $('.distill-site-header').each(function(i, val) {
-        var topnav = $(this);
-        var toggle = topnav.find('.nav-toggle');
-        toggle.on('click', function() {
-          topnav.toggleClass('responsive');
-        });
-      });
-  
-      // nav dropdowns
-      $('.nav-dropbtn').click(function(e) {
-        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
-        $(this).parent().siblings('.nav-dropdown')
-           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $("body").click(function(e){
-        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
-      });
-      $(".nav-dropdown").click(function(e){
-        e.stopPropagation();
-      });
-    });
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["images/digitalocean-spaces-pins-versioned.png","images/thumb.jpg","pins-0-4-0_files/bowser-1.9.3/bowser.min.js","pins-0-4-0_files/distill-2.2.21/template.v2.js","pins-0-4-0_files/jquery-1.11.3/jquery.min.js","pins-0-4-0_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
-  
-  <style type="text/css">
-  
-  /* Theme (user-documented overrideables for nav appearance) */
-  
-  .distill-site-nav {
-    color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
-    font-size: 15px;
-    font-weight: 300;
-  }
-  
-  .distill-site-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .distill-site-nav a:hover {
-    color: white;
-  }
-  
-  @media print {
-    .distill-site-nav {
-      display: none;
-    }
-  }
-  
-  .distill-site-header {
-  
-  }
-  
-  .distill-site-footer {
-  
-  }
-  
-  
-  /* Site Header */
-  
-  .distill-site-header {
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 3;
-  }
-  
-  .distill-site-header .nav-left {
-    display: inline-block;
-    margin-left: 8px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 0;
-    }
-  }
-  
-  
-  .distill-site-header .nav-right {
-    float: right;
-    margin-right: 8px;
-  }
-  
-  .distill-site-header a,
-  .distill-site-header .title {
-    display: inline-block;
-    text-align: center;
-    padding: 14px 10px 14px 10px;
-  }
-  
-  .distill-site-header .title {
-    font-size: 18px;
-  }
-  
-  .distill-site-header .logo {
-    padding: 0;
-  }
-  
-  .distill-site-header .logo img {
-    display: none;
-    max-height: 20px;
-    width: auto;
-    margin-bottom: -4px;
-  }
-  
-  .distill-site-header .nav-image img {
-    max-height: 18px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: -3px;
-  }
-  
-  
-  
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .logo img {
-      display: inline-block;
-    }
-    .distill-site-header .nav-left {
-      margin-left: 20px;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 20px;
-    }
-    .distill-site-header .title {
-      padding-left: 12px;
-    }
-  }
-  
-  
-  .distill-site-header .nav-toggle {
-    display: none;
-  }
-  
-  .nav-dropdown {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .nav-dropdown .nav-dropbtn {
-    border: none;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 16px 10px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
-    margin-top: 1px;
-    z-index: 2;
-  }
-  
-  .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 200px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-    z-index: 1;
-    margin-top: 2px;
-    white-space: nowrap;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-  
-  .nav-dropdown-content hr {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  
-  .nav-dropdown-active {
-    display: block;
-  }
-  
-  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
-    color: black;
-    padding: 6px 24px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .nav-dropdown-content .nav-dropdown-header {
-    display: block;
-    padding: 5px 24px;
-    padding-bottom: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    color: #999999;
-    white-space: nowrap;
-  }
-  
-  .nav-dropdown:hover .nav-dropbtn {
-    color: white;
-  }
-  
-  .nav-dropdown-content a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .nav-right .nav-dropdown-content {
-    margin-left: -45%;
-    right: 0;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
-    .distill-site-header a.nav-toggle {
-      float: right;
-      display: block;
-    }
-    .distill-site-header .title {
-      margin-left: 0;
-    }
-    .distill-site-header .nav-right {
-      margin-right: 0;
-    }
-    .distill-site-header {
-      overflow: hidden;
-    }
-    .nav-right .nav-dropdown-content {
-      margin-left: 0;
-    }
-  }
-  
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
-    .distill-site-header.responsive a.nav-toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .distill-site-header.responsive a,
-    .distill-site-header.responsive .nav-dropdown {
-      display: block;
-      text-align: left;
-    }
-    .distill-site-header.responsive .nav-left,
-    .distill-site-header.responsive .nav-right {
-      width: 100%;
-    }
-    .distill-site-header.responsive .nav-dropdown {float: none;}
-    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
-    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
-  }
-  
-  /* Site Footer */
-  
-  .distill-site-footer {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    z-index: 3;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  
-  /* Headroom */
-  
-  d-title {
-    padding-top: 6rem;
-  }
-  
-  @media print {
-    d-title {
-      padding-top: 4rem;
-    }
-  }
-  
-  .headroom {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .headroom--transition {
-    transition: all .4s ease-in-out;
-  }
-  
-  .headroom--unpinned {
-    top: -100px;
-  }
-  
-  .headroom--pinned {
-    top: 0;
-  }
-  
-  </style>
-  
-  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
-  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -1255,530 +927,144 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="pins-0-4-0_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="pins-0-4-0_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="pins-0-4-0_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="pins-0-4-0_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
-  <style type="text/css">
-  .distill-site-nav {
-    background: #ffffff;
-    box-shadow: 0 10px 10px -5px rgba(0,0,0,.1);
-  }
-  
-  .distill-site-header {
-    color: #555;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
-    height: 58px;
-  }
-  
-  .distill-site-header .title {
-    color: #000000;
-    font-size: 18px;
-    font-weight: 400;
-  }
-  
-  .distill-site-header a:hover {
-    color: #555;
-  }
-  
-  .nav-left {
-    margin-left: 15px;
-    background-image: url("../reference/figures/logo.png"), url("../../../reference/figures/logo.png");
-    background-size: 32px auto;
-    background-repeat: no-repeat;
-    background-position: 15px center;
-    padding-left: 60px;
-    margin-top: 2px;
-  }
-  
-  .nav-left .a {
-    padding-left: 0px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .title {
-      padding-left: 0px;
-    }
-  }
-  
-  @media screen and (min-width: 1000px) {
-    .distill-site-header .title {
-      padding-left: 0px;
-    }
-  }
-  
-  @media screen and (max-width: 768px) {
-    .distill-site-header .nav-left {
-      margin-left: 15px;
-    }
-    
-    .distill-site-header .nav-right {
-      margin-right: 15px;
-    }
-  }
-  
-  @media only screen and (min-width: 1000px) {
-    .distill-site-header .nav-left {
-      margin-left: 135px;
-    }
-    
-    .distill-site-header .nav-right {
-      margin-right: 135px;
-    }
-  }
-  
-  d-article > p > img {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-  </style>
   <!--/radix_placeholder_site_in_header-->
 
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"pins","authors":[]}
+{"title":"pins 0.4: Versioning","description":"A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly.","authors":[{"author":"Javier Luraschi","authorURL":"#","affiliation":"RStudio","affiliationURL":"https://twitter.com/javierluraschi"}],"publishedDate":"2020-05-29T00:00:00.000-07:00","citationText":"Luraschi, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
 <!--radix_placeholder_navigation_before_body-->
-<header class="header header--fixed" role="banner">
-<nav class="distill-site-nav distill-site-header">
-<div class="nav-left">
-<a href="index.html" class="title">pins</a>
-</div>
-<div class="nav-right">
-<a href="../index.html">Home</a>
-<a href="index.xml">
-<i class="fa fa-rss" aria-hidden="true"></i>
-</a>
-<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
-</div>
-</nav>
-</header>
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-<style type="text/css">
-
-/* Styles for listing layout (hide title) */
-.layout-listing d-title, .layout-listing .d-title {
-  display: none;
-}
-
-/* Styles for posts lists (not auto-injected) */
-
-
-.posts-with-sidebar {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-
-.posts-list .description h2,
-.posts-list .description p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
-.posts-list .description h2 {
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.posts-list h2.post-tag {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 12px;
-}
-.posts-list {
-  margin-top: 60px;
-  margin-bottom: 24px;
-}
-
-.posts-list .post-preview {
-  text-decoration: none;
-  overflow: hidden;
-  display: block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 24px 0;
-}
-
-.post-preview-last {
-  border-bottom: none !important;
-}
-
-.posts-list .posts-list-caption {
-  grid-column: screen;
-  font-weight: 400;
-}
-
-.posts-list .post-preview h2 {
-  margin: 0 0 6px 0;
-  line-height: 1.2em;
-  font-style: normal;
-  font-size: 24px;
-}
-
-.posts-list .post-preview p {
-  margin: 0 0 12px 0;
-  line-height: 1.4em;
-  font-size: 16px;
-}
-
-.posts-list .post-preview .thumbnail {
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  position: relative;
-  max-width: 500px;
-}
-.posts-list .post-preview img {
-  width: 100%;
-  display: block;
-}
-
-.posts-list .metadata {
-  font-size: 12px;
-  line-height: 1.4em;
-  margin-bottom: 18px;
-}
-
-.posts-list .metadata > * {
-  display: inline-block;
-}
-
-.posts-list .metadata .publishedDate {
-  margin-right: 1em;
-}
-
-.posts-list .metadata .tags {
-  margin-top: 1em;
-}
-
-.posts-list .tags .tag {
-  color: rgba(0,0,0,0.67);
-  padding: 0.3em 0.5em;
-  margin: 0;
-  font-size: 80%;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.posts-list img {
-  opacity: 1;
-}
-
-.posts-list img[data-src] {
-  opacity: 0;
-}
-
-.posts-more {
-  clear: both;
-}
-
-
-.posts-sidebar {
-  font-size: 16px;
-}
-
-.posts-sidebar h3 {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.sidebar-section {
-  margin-bottom: 30px;
-}
-
-.categories ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories li {
-  color: rgba(0, 0, 0, 0.8);
-  margin-bottom: 0;
-}
-
-.categories li>a {
-  border-bottom: none;
-}
-
-.categories li>a:hover {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.categories .active {
-  font-weight: 600;
-}
-
-.categories .category-count {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-@media(min-width: 768px) {
-  .posts-list .post-preview h2 {
-    font-size: 26px;
-  }
-  .posts-list .post-preview .thumbnail {
-    float: right;
-    width: 35%;
-    margin-bottom: 0;
-  }
-  .posts-list .post-preview .description {
-    float: left;
-    width: 45%;
-  }
-  .posts-list .post-preview .metadata {
-    float: left;
-    width: 15%;
-    margin-top: 8px;
-  }
-  .posts-list .post-preview p {
-    margin: 0 0 12px 0;
-    line-height: 1.5em;
-    font-size: 16px;
-  }
-  .posts-with-sidebar .posts-list {
-    float: left;
-    width: 72%;
-  }
-  .posts-with-sidebar .posts-sidebar {
-    float: right;
-    width: 20%;
-    margin-top: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-.downlevel .posts-list .post-preview {
-  color: inherit;
-}
-
-</style>
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace("#", "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if (category == page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
-<div class="posts-list">
-<h1 class="posts-list-caption">pins</h1>
-<a href="posts/pins-0-4-0/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Packages","Releases","Versioning","R"]}</script>
-<div class="metadata">
-<div class="publishedDate">May 29, 2020</div>
-</div>
-<div class="thumbnail">
-<img data-src="posts/pins-0-4-0/images/thumb.jpg"/>
-</div>
-<div class="description">
-<h2>pins 0.4: Versioning</h2>
-<p>A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly.</p>
-</div>
-</a>
-<a href="posts/pins-0-3-0/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Packages","Releases","Cloud","R"]}</script>
-<div class="metadata">
-<div class="publishedDate">Nov. 28, 2019</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>pins 0.3: Azure, GCloud and S3</h2>
-<p>New CRAN release for pins adds support for cloud boards (Azure, Google Cloud and S3), new functions, use cases and many other improvements.</p>
-</div>
-</a>
-<a href="posts/pins-0-2-0/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Packages","Introductions","Releases","R"]}</script>
-<div class="metadata">
-<div class="publishedDate">Sept. 9, 2019</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>pins: Pin, Discover and Share Resources</h2>
-<p>The new pins package allows you to pin, discover and share remote resources,
-locally or in remote storage using services like GitHub, Kaggle
-or RStudio Connect.</p>
-</div>
-</a>
-</div>
-<div class="posts-sidebar">
-<div class="sidebar-section subscribe">
-<h3>Subscribe</h3>
-Subscribe to <a href="https://www.r-bloggers.com">r-bloggers</a> for updates on this blog and many other sources.
-</div>
-<div class="sidebar-section categories">
-<h3>Categories</h3>
-<ul>
-<li>
-<a href="#Cloud">Cloud</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Introductions">Introductions</a>
-<span class="category-count">(1)</span>
-</li>
-<li>
-<a href="#Packages">Packages</a>
-<span class="category-count">(3)</span>
-</li>
-<li>
-<a href="#R">R</a>
-<span class="category-count">(3)</span>
-</li>
-<li>
-<a href="#Releases">Releases</a>
-<span class="category-count">(3)</span>
-</li>
-<li>
-<a href="#Versioning">Versioning</a>
-<span class="category-count">(1)</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>pins</h1>
-
+<h1>pins 0.4: Versioning</h1>
+<p>A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly.</p>
 </div>
 
+<div class="d-byline">
+  Javier Luraschi  (RStudio)<a href="https://twitter.com/javierluraschi" class="uri">https://twitter.com/javierluraschi</a>
+  
+<br/>05-29-2020
+</div>
 
 <div class="d-article">
+<p>A new version of <code>pins</code> is available on CRAN today, which adds support for <a href="http://pins.rstudio.com/articles/advanced-versions.html">versioning</a> your datasets and <a href="http://pins.rstudio.com/articles/boards-dospace.html">DigitalOcean Spaces</a> boards!</p>
+<p>As a quick recap, the pins package allows you to cache, discover and share resources. You can use <code>pins</code> in a wide range of situations, from downloading a dataset from a URL to creating complex automation workflows (learn more at <a href="https://pins.rstudio.com">pins.rstudio.com</a>). You can also use <code>pins</code> in combination with TensorFlow and Keras; for instance, use <a href="https://tensorflow.rstudio.com/tools/cloudml">cloudml</a> to train models in cloud GPUs, but rather than manually copying files into the GPU instance, you can store them as pins directly from R.</p>
+<p>To install this new version of <code>pins</code> from CRAN, simply run:</p>
+<pre class="r"><code>
+install.packages(&quot;pins&quot;)</code></pre>
+<p>You can find a detailed list of improvements in the pins <a href="https://github.com/rstudio/pins/blob/master/NEWS.md">NEWS</a> file.</p>
+<h1 id="versioning">Versioning</h1>
+<p>To illustrate the new versioning functionality, let’s start by downloading and caching a remote dataset with pins. For this example, we will download the weather in London, this happens to be in JSON format and requires <code>jsonlite</code> to be parsed:</p>
+<pre class="r"><code>
+library(pins)
 
+weather_url &lt;- &quot;https://samples.openweathermap.org/data/2.5/weather?q=London,uk&amp;appid=b6907d289e10d714a6e88b30761fae22&quot;
+
+pin(weather_url, &quot;weather&quot;) %&gt;%
+  jsonlite::read_json() %&gt;%
+  as.data.frame()</code></pre>
+<pre><code>
+  coord.lon coord.lat weather.id weather.main     weather.description weather.icon
+1     -0.13     51.51        300      Drizzle light intensity drizzle          09d</code></pre>
+<p>One advantage of using <code>pins</code> is that, even if the URL or your internet connection becomes unavailable, the above code will still work.</p>
+<p>But back to <code>pins 0.4</code>! The new <code>signature</code> parameter in <code>pin_info()</code> allows you to retrieve the “version” of this dataset:</p>
+<pre class="r"><code>
+pin_info(&quot;weather&quot;, signature = TRUE)</code></pre>
+<pre><code>
+# Source: local&lt;weather&gt; [files]
+# Signature: 624cca260666c6f090b93c37fd76878e3a12a79b
+# Properties:
+#   - path: weather</code></pre>
+<p>You can then validate the remote dataset has not changed by specifying its signature:</p>
+<pre class="r"><code>
+pin(weather_url, &quot;weather&quot;, signature = &quot;624cca260666c6f090b93c37fd76878e3a12a79b&quot;) %&gt;%
+  jsonlite::read_json()</code></pre>
+<p>If the remote dataset changes, <code>pin()</code> will fail and you can take the appropriate steps to accept the changes by updating the signature or properly updating your code. The previous example is useful as a way of detecting version changes, but we might also want to retrieve specific versions even when the dataset changes.</p>
+<p><code>pins 0.4</code> allows you to display and retrieve versions from services like GitHub, Kaggle and RStudio Connect. Even in boards that don’t support versioning natively, you can opt-in by registering a board with <code>versions = TRUE</code>.</p>
+<p>To keep this simple, let’s focus on GitHub first. We will register a GitHub board and pin a dataset to it. Notice that you can also specify the <code>commit</code> parameter in GitHub boards as the commit message for this change.</p>
+<pre class="r"><code>
+board_register_github(repo = &quot;javierluraschi/datasets&quot;, branch = &quot;datasets&quot;)
+
+pin(iris, name = &quot;versioned&quot;, board = &quot;github&quot;, commit = &quot;use iris as the main dataset&quot;)</code></pre>
+<p>Now suppose that a colleague comes along and updates this dataset as well:</p>
+<pre class="r"><code>
+pin(mtcars, name = &quot;versioned&quot;, board = &quot;github&quot;, commit = &quot;slight preference to mtcars&quot;)</code></pre>
+<p>From now on, your code could be broken or, even worse, produce incorrect results!</p>
+<p>However, since GitHub was designed as a version control system and <code>pins 0.4</code> adds support for <code>pin_versions()</code>, we can now explore particular versions of this dataset:</p>
+<pre class="r"><code>
+pin_versions(&quot;versioned&quot;, board = &quot;github&quot;)</code></pre>
+<pre><code>
+# A tibble: 2 x 4
+  version created              author         message                     
+  &lt;chr&gt;   &lt;chr&gt;                &lt;chr&gt;          &lt;chr&gt;                       
+1 6e6c320 2020-04-02T21:28:07Z javierluraschi slight preference to mtcars 
+2 01f8ddf 2020-04-02T21:27:59Z javierluraschi use iris as the main dataset</code></pre>
+<p>You can then retrieve the version you are interested in as follows:</p>
+<pre class="r"><code>
+pin_get(&quot;versioned&quot;, version = &quot;01f8ddf&quot;, board = &quot;github&quot;)</code></pre>
+<pre><code>
+# A tibble: 150 x 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# … with 140 more rows</code></pre>
+<p>You can follow similar steps for <a href="http://pins.rstudio.com/articles/boards-rsconnect.html">RStudio Connect</a> and <a href="http://pins.rstudio.com/articles/boards-kaggle.html">Kaggle</a> boards, even for existing pins! Other boards like <a href="http://pins.rstudio.com/articles/boards-s3.html">Amazon S3</a>, <a href="http://pins.rstudio.com/articles/boards-gcloud.html">Google Cloud</a>, <a href="http://pins.rstudio.com/articles/boards-dospace.html">Digital Ocean</a> and <a href="http://pins.rstudio.com/articles/boards-azure.html">Microsoft Azure</a> require you explicitly enable versioning when registering your boards.</p>
+<h1 id="digitalocean">DigitalOcean</h1>
+<p>To try out the new <a href="http://pins.rstudio.com/articles/boards-dospace.html">DigitalOcean Spaces board</a>, first you will have to register this board and enable versioning by setting <code>versions</code> to <code>TRUE</code>:</p>
+<pre class="r"><code>
+library(pins)
+board_register_dospace(space = &quot;pinstest&quot;,
+                       key = &quot;AAAAAAAAAAAAAAAAAAAA&quot;,
+                       secret = &quot;ABCABCABCABCABCABCABCABCABCABCABCABCABCA==&quot;,
+                       datacenter = &quot;sfo2&quot;,
+                       versions = TRUE)</code></pre>
+<p>You can then use all the functionality pins provides, including versioning:</p>
+<pre class="r"><code>
+# create pin and replace content in digitalocean
+pin(iris, name = &quot;versioned&quot;, board = &quot;pinstest&quot;)
+pin(mtcars, name = &quot;versioned&quot;, board = &quot;pinstest&quot;)
+
+# retrieve versions from digitalocean
+pin_versions(name = &quot;versioned&quot;, board = &quot;pinstest&quot;)</code></pre>
+<pre><code>
+# A tibble: 2 x 1
+  version
+  &lt;chr&gt;  
+1 c35da04
+2 d9034cd</code></pre>
+<p>Notice that enabling versions in cloud services requires additional storage space for each version of the dataset being stored:</p>
+<p><img src="images/digitalocean-spaces-pins-versioned.png" style="width:100.0%" /></p>
+<p>To learn more visit the <a href="http://pins.rstudio.com/articles/advanced-versions.html">Versioning</a> and <a href="http://pins.rstudio.com/articles/boards-dospace.html">DigitalOcean</a> articles. To catch up with previous releases:</p>
+<ul>
+<li><a href="http://pins.rstudio.com/blog/posts/pins-0-3-0/">pins 0.3</a>: Azure, GCloud and S3</li>
+<li><a href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/">pins 0.2</a>: Pin, Discover and Share Resources</li>
+</ul>
+<p>Thanks for reading along!</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

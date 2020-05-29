@@ -1,5 +1,26 @@
 [
   {
+    "path": "posts/pins-0-4-0/",
+    "title": "pins 0.4: Versioning",
+    "description": "A new release of pins is available on CRAN today. This release adds support to time travel across dataset versions, which improves collaboration and protects your code from breaking when remote resources change unexpectedly.",
+    "author": [
+      {
+        "name": "Javier Luraschi",
+        "url": {}
+      }
+    ],
+    "date": "2020-05-29",
+    "categories": [
+      "Packages",
+      "Releases",
+      "Versioning",
+      "R"
+    ],
+    "preview": "posts/pins-0-4-0/images/thumb.jpg",
+    "last_modified": "2020-05-29T09:14:37-07:00",
+    "input_file": "pins-0-4-0.utf8.md"
+  },
+  {
     "path": "posts/pins-0-3-0/",
     "title": "pins 0.3: Azure, GCloud and S3",
     "description": "New CRAN release for pins adds support for cloud boards (Azure, Google Cloud and S3), new functions, use cases and many other improvements.",

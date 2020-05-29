@@ -7,7 +7,174 @@
     <description>pins
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 28 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2020 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>pins 0.4: Versioning</title>
+      <dc:creator>Javier Luraschi</dc:creator>
+      <link>https://rstudio.github.io/pins/blog/posts/pins-0-4-0</link>
+      <description>
+
+
+&lt;div class="container-fluid main-container"&gt;
+
+
+
+
+&lt;div class="fluid-row" id="header"&gt;
+
+
+
+
+&lt;/div&gt;
+
+
+&lt;p&gt;A new version of &lt;code&gt;pins&lt;/code&gt; is available on CRAN today, which adds support for &lt;a href="http://pins.rstudio.com/articles/advanced-versions.html"&gt;versioning&lt;/a&gt; your datasets and &lt;a href="http://pins.rstudio.com/articles/boards-dospace.html"&gt;DigitalOcean Spaces&lt;/a&gt; boards!&lt;/p&gt;
+&lt;p&gt;As a quick recap, the pins package allows you to cache, discover and share resources. You can use &lt;code&gt;pins&lt;/code&gt; in a wide range of situations, from downloading a dataset from a URL to creating complex automation workflows (learn more at &lt;a href="https://pins.rstudio.com"&gt;pins.rstudio.com&lt;/a&gt;). You can also use &lt;code&gt;pins&lt;/code&gt; in combination with TensorFlow and Keras; for instance, use &lt;a href="https://tensorflow.rstudio.com/tools/cloudml"&gt;cloudml&lt;/a&gt; to train models in cloud GPUs, but rather than manually copying files into the GPU instance, you can store them as pins directly from R.&lt;/p&gt;
+&lt;p&gt;To install this new version of &lt;code&gt;pins&lt;/code&gt; from CRAN, simply run:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;install.packages(&amp;quot;pins&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can find a detailed list of improvements in the pins &lt;a href="https://github.com/rstudio/pins/blob/master/NEWS.md"&gt;NEWS&lt;/a&gt; file.&lt;/p&gt;
+&lt;div id="versioning" class="section level1"&gt;
+&lt;h1&gt;Versioning&lt;/h1&gt;
+&lt;p&gt;To illustrate the new versioning functionality, let’s start by downloading and caching a remote dataset with pins. For this example, we will download the weather in London, this happens to be in JSON format and requires &lt;code&gt;jsonlite&lt;/code&gt; to be parsed:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(pins)
+
+weather_url &amp;lt;- &amp;quot;https://samples.openweathermap.org/data/2.5/weather?q=London,uk&amp;amp;appid=b6907d289e10d714a6e88b30761fae22&amp;quot;
+
+pin(weather_url, &amp;quot;weather&amp;quot;) %&amp;gt;%
+  jsonlite::read_json() %&amp;gt;%
+  as.data.frame()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;  coord.lon coord.lat weather.id weather.main     weather.description weather.icon
+1     -0.13     51.51        300      Drizzle light intensity drizzle          09d&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;One advantage of using &lt;code&gt;pins&lt;/code&gt; is that, even if the URL or your internet connection becomes unavailable, the above code will still work.&lt;/p&gt;
+&lt;p&gt;But back to &lt;code&gt;pins 0.4&lt;/code&gt;! The new &lt;code&gt;signature&lt;/code&gt; parameter in &lt;code&gt;pin_info()&lt;/code&gt; allows you to retrieve the “version” of this dataset:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin_info(&amp;quot;weather&amp;quot;, signature = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# Source: local&amp;lt;weather&amp;gt; [files]
+# Signature: 624cca260666c6f090b93c37fd76878e3a12a79b
+# Properties:
+#   - path: weather&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can then validate the remote dataset has not changed by specifying its signature:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin(weather_url, &amp;quot;weather&amp;quot;, signature = &amp;quot;624cca260666c6f090b93c37fd76878e3a12a79b&amp;quot;) %&amp;gt;%
+  jsonlite::read_json()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If the remote dataset changes, &lt;code&gt;pin()&lt;/code&gt; will fail and you can take the appropriate steps to accept the changes by updating the signature or properly updating your code. The previous example is useful as a way of detecting version changes, but we might also want to retrieve specific versions even when the dataset changes.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pins 0.4&lt;/code&gt; allows you to display and retrieve versions from services like GitHub, Kaggle and RStudio Connect. Even in boards that don’t support versioning natively, you can opt-in by registering a board with &lt;code&gt;versions = TRUE&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To keep this simple, let’s focus on GitHub first. We will register a GitHub board and pin a dataset to it. Notice that you can also specify the &lt;code&gt;commit&lt;/code&gt; parameter in GitHub boards as the commit message for this change.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;board_register_github(repo = &amp;quot;javierluraschi/datasets&amp;quot;, branch = &amp;quot;datasets&amp;quot;)
+
+pin(iris, name = &amp;quot;versioned&amp;quot;, board = &amp;quot;github&amp;quot;, commit = &amp;quot;use iris as the main dataset&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now suppose that a colleague comes along and updates this dataset as well:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin(mtcars, name = &amp;quot;versioned&amp;quot;, board = &amp;quot;github&amp;quot;, commit = &amp;quot;slight preference to mtcars&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From now on, your code could be broken or, even worse, produce incorrect results!&lt;/p&gt;
+&lt;p&gt;However, since GitHub was designed as a version control system and &lt;code&gt;pins 0.4&lt;/code&gt; adds support for &lt;code&gt;pin_versions()&lt;/code&gt;, we can now explore particular versions of this dataset:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin_versions(&amp;quot;versioned&amp;quot;, board = &amp;quot;github&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 2 x 4
+  version created              author         message                     
+  &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;                &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;                       
+1 6e6c320 2020-04-02T21:28:07Z javierluraschi slight preference to mtcars 
+2 01f8ddf 2020-04-02T21:27:59Z javierluraschi use iris as the main dataset&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can then retrieve the version you are interested in as follows:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;pin_get(&amp;quot;versioned&amp;quot;, version = &amp;quot;01f8ddf&amp;quot;, board = &amp;quot;github&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 150 x 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt; &amp;lt;fct&amp;gt;  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# … with 140 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can follow similar steps for &lt;a href="http://pins.rstudio.com/articles/boards-rsconnect.html"&gt;RStudio Connect&lt;/a&gt; and &lt;a href="http://pins.rstudio.com/articles/boards-kaggle.html"&gt;Kaggle&lt;/a&gt; boards, even for existing pins! Other boards like &lt;a href="http://pins.rstudio.com/articles/boards-s3.html"&gt;Amazon S3&lt;/a&gt;, &lt;a href="http://pins.rstudio.com/articles/boards-gcloud.html"&gt;Google Cloud&lt;/a&gt;, &lt;a href="http://pins.rstudio.com/articles/boards-dospace.html"&gt;Digital Ocean&lt;/a&gt; and &lt;a href="http://pins.rstudio.com/articles/boards-azure.html"&gt;Microsoft Azure&lt;/a&gt; require you explicitly enable versioning when registering your boards.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="digitalocean" class="section level1"&gt;
+&lt;h1&gt;DigitalOcean&lt;/h1&gt;
+&lt;p&gt;To try out the new &lt;a href="http://pins.rstudio.com/articles/boards-dospace.html"&gt;DigitalOcean Spaces board&lt;/a&gt;, first you will have to register this board and enable versioning by setting &lt;code&gt;versions&lt;/code&gt; to &lt;code&gt;TRUE&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(pins)
+board_register_dospace(space = &amp;quot;pinstest&amp;quot;,
+                       key = &amp;quot;AAAAAAAAAAAAAAAAAAAA&amp;quot;,
+                       secret = &amp;quot;ABCABCABCABCABCABCABCABCABCABCABCABCABCA==&amp;quot;,
+                       datacenter = &amp;quot;sfo2&amp;quot;,
+                       versions = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can then use all the functionality pins provides, including versioning:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# create pin and replace content in digitalocean
+pin(iris, name = &amp;quot;versioned&amp;quot;, board = &amp;quot;pinstest&amp;quot;)
+pin(mtcars, name = &amp;quot;versioned&amp;quot;, board = &amp;quot;pinstest&amp;quot;)
+
+# retrieve versions from digitalocean
+pin_versions(name = &amp;quot;versioned&amp;quot;, board = &amp;quot;pinstest&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# A tibble: 2 x 1
+  version
+  &amp;lt;chr&amp;gt;  
+1 c35da04
+2 d9034cd&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that enabling versions in cloud services requires additional storage space for each version of the dataset being stored:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://rstudio.github.io/pins/blog//posts/pins-0-4-0/images/digitalocean-spaces-pins-versioned.png" style="width:100.0%" /&gt;&lt;/p&gt;
+&lt;p&gt;To learn more visit the &lt;a href="http://pins.rstudio.com/articles/advanced-versions.html"&gt;Versioning&lt;/a&gt; and &lt;a href="http://pins.rstudio.com/articles/boards-dospace.html"&gt;DigitalOcean&lt;/a&gt; articles. To catch up with previous releases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://pins.rstudio.com/blog/posts/pins-0-3-0/"&gt;pins 0.3&lt;/a&gt;: Azure, GCloud and S3&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/"&gt;pins 0.2&lt;/a&gt;: Pin, Discover and Share Resources&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Thanks for reading along!&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;/div&gt;
+
+&lt;script&gt;
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+&lt;/script&gt;
+
+&lt;!-- tabsets --&gt;
+
+&lt;script&gt;
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown &gt; .nav-tabs &gt; li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+&lt;/script&gt;
+
+&lt;!-- code folding --&gt;
+
+
+&lt;!-- dynamically load mathjax for compatibility with self-contained --&gt;
+&lt;script&gt;
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+&lt;/script&gt;
+
+</description>
+      <distill:md5>f5c4df622861a9699a3936007fe154ec</distill:md5>
+      <category>Packages</category>
+      <category>Releases</category>
+      <category>Versioning</category>
+      <category>R</category>
+      <guid>https://rstudio.github.io/pins/blog/posts/pins-0-4-0</guid>
+      <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://rstudio.github.io/pins/blog/posts/pins-0-4-0/images/thumb.jpg" medium="image" type="image/jpeg"/>
+    </item>
     <item>
       <title>pins 0.3: Azure, GCloud and S3</title>
       <dc:creator>Javier Luraschi</dc:creator>
@@ -35,7 +202,7 @@
 &lt;/ul&gt;
 &lt;p&gt;You can install this new version from CRAN as follows:&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;install.packages(&amp;quot;pins&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In addition, there is a new &lt;a href="https://rstudio.github.io/pins/articles/use-cases.html"&gt;Use Cases&lt;/a&gt; section in our docs, various improvements (see &lt;a href="https://rstudio.github.io/pins/news/index.html"&gt;NEWS&lt;/a&gt;) and two community extensions being developed to support &lt;a href="https://edgararuiz.github.io/connections/#pins"&gt;databases&lt;/a&gt; and &lt;a href="https://gitlab.com/gwmngilfen/nextcloudr"&gt;Nextcloud&lt;/a&gt; as boards.&lt;/p&gt;
+&lt;p&gt;In addition, there is a new &lt;a href="https://rstudio.github.io/pins/articles/use-cases.html"&gt;Use Cases&lt;/a&gt; section in our docs, various improvements (see &lt;a href="https://rstudio.github.io/pins/news/index.html"&gt;NEWS&lt;/a&gt;) and two community extensions being developed to support &lt;a href="https://rstudio.github.io/connections/#pins"&gt;databases&lt;/a&gt; and &lt;a href="https://gitlab.com/gwmngilfen/nextcloudr"&gt;Nextcloud&lt;/a&gt; as boards.&lt;/p&gt;
 &lt;div id="cloud-boards" class="section level2"&gt;
 &lt;h2&gt;Cloud Boards&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;pins 0.3&lt;/code&gt; adds support to find, retrieve and store resources in various cloud providers like: &lt;a href="https://azure.microsoft.com/"&gt;Microsoft Azure&lt;/a&gt;, &lt;a href="https://cloud.google.com/"&gt;Google Cloud&lt;/a&gt; and &lt;a href="https://aws.amazon.com/"&gt;Amazon Web Services&lt;/a&gt;.&lt;/p&gt;
