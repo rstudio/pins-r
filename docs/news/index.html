@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -204,17 +204,50 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pins-041" class="section level1">
+<h1 class="page-header">
+<a href="#pins-041" class="anchor"></a>pins 0.4.1<small> 2020-05-28 </small>
+</h1>
+<div id="pin" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pin" class="anchor"></a>Pin</h2>
+<ul>
+<li><p>When running in production environments (which usually set the <code>R_CONFIG_ACTIVE</code> environment variable), avoid using shared caches.</p></li>
+<li><p>Fix <code><a href="../reference/pin.html">pin()</a></code> failing to update cache when server returns <code>NULL</code> etag.</p></li>
+<li><p>Support for <code>custom_metadata</code> in <code><a href="../reference/pin.html">pin()</a></code> to allow saving custom fields in <code>data.txt</code> file.</p></li>
+<li><p>Improve performannce for <code><a href="../reference/pin.html">pin()</a></code> from URLs containing large files that are already been cached prerviously by <code><a href="../reference/pin.html">pin()</a></code> (<a href='https://github.com/rstudio/pins/issues/225'>#225</a>).</p></li>
+<li><p>Avoid showing upload or download progress when creating R Markdown documents and other non-interactive use cases (<a href='https://github.com/rstudio/pins/issues/227'>#227</a>).</p></li>
+<li><p>When pin(url) fails and local cache exists, produce warning and retrieve cached version (<a href='https://github.com/rstudio/pins/issues/231'>#231</a>).</p></li>
+<li><p>Support for <code><a href="../reference/pin.html">pin(zip = TRUE)</a></code> to create a zip file of the given path before creating the pin (<a href='https://github.com/rstudio/pins/issues/232'>#232</a>).</p></li>
+</ul>
+</div>
+<div id="rstudio-connect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<ul>
+<li><p>Fix when overriding pin with corrupt metadata.</p></li>
+<li><p>Avoid using shared caches when running inside RStudio Connect.</p></li>
+</ul>
+</div>
+<div id="kaggle" class="section level2">
+<h2 class="hasAnchor">
+<a href="#kaggle" class="anchor"></a>Kaggle</h2>
+<ul>
+<li>Support to find and download competition datasets.</li>
+</ul>
+</div>
+</div>
     <div id="pins-040" class="section level1">
 <h1 class="page-header">
-<a href="#pins-040" class="anchor"></a>pins 0.4.0<small> Unreleased </small>
+<a href="#pins-040" class="anchor"></a>pins 0.4.0<small> 2020-04-07 </small>
 </h1>
 <ul>
 <li><p>Support for versioning in all boards.</p></li>
 <li><p>Support for DigitalOcean board.</p></li>
 </ul>
-<div id="pin" class="section level2">
+<div id="pin-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pin" class="anchor"></a>Pin</h2>
+<a href="#pin-1" class="anchor"></a>Pin</h2>
 <ul>
 <li><p>Finding pins with <code><a href="../reference/pin_find.html">pin_find()</a></code> sort results by default (<a href='https://github.com/rstudio/pins/issues/201'>#201</a>).</p></li>
 <li><p>Avoid <code>incomplete final line found</code> warning error wheen reading manifests.</p></li>
@@ -232,9 +265,9 @@
 <li><p><code><a href="../reference/pin_remove.html">pin_remove()</a></code> now refreshes the connections pane.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect" class="section level2">
+<div id="rstudio-connect-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for <code>code</code> parameter in <code><a href="../reference/pin.html">pin()</a></code> to customize R code used in the UI to retrieve the pin (<a href='https://github.com/rstudio/pins/issues/77'>#77</a>).</p></li>
 <li><p>Improve error message for <code><a href="../reference/pin_get.html">pin_get()</a></code> with duplicate names (<a href='https://github.com/rstudio/pins/issues/171'>#171</a>).</p></li>
@@ -315,9 +348,9 @@
 <li><p>Fixed connection launcher for Azure connections.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-1" class="section level2">
+<div id="rstudio-connect-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue uploading large pins causing <code>is.character(type) is not TRUE</code> error.</p></li>
 <li><p>Fix issue affecting boards registered with trailing slash (<a href='https://github.com/rstudio/pins/issues/151'>#151</a>).</p></li>
@@ -368,9 +401,9 @@
 <li><p>Fix connection code when a board is registered automatically.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-2" class="section level2">
+<div id="rstudio-connect-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue where <code><a href="../reference/pin_find.html">pin_find()</a></code> would not show all available pins.</p></li>
 <li><p>Fix issue where RStudio Connections pane would not show all pins.</p></li>
@@ -408,9 +441,9 @@
 <h1 class="page-header">
 <a href="#pins-020" class="anchor"></a>pins 0.2.0<small> 2019-10-01 </small>
 </h1>
-<div id="rstudio-connect-3" class="section level2">
+<div id="rstudio-connect-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-4" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for retrieving pins shared by others in RStudio Connect boards.</p></li>
 <li><p>Support for RStudio Connect servers running under a subpath in the server.</p></li>
@@ -483,6 +516,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#pins-041">0.4.1</a></li>
         <li><a href="#pins-040">0.4.0</a></li>
         <li><a href="#pins-032">0.3.2</a></li>
         <li><a href="#pins-031">0.3.1</a></li>

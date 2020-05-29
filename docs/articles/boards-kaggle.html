@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -271,6 +271,31 @@
 #   - usabilityRating: 1
 #   - extension: zip</code></pre>
 <p>Notice that the given ‘motor’ search keyword is searched in the name and description fields for the pins available in this repo.</p>
+<div id="competitions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#competitions" class="anchor"></a>Competitions</h3>
+<p>Datasets are also searched within competitions and are referenced by the <code>c/</code> prefix. For instance, when searching for <code>crowdflower</code> notice the <code>c/crowdflower-weather-twitter</code> entry:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"crowdflower"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<pre><code># A tibble: 10 x 4
+   name                                                    description                                     type  board 
+   &lt;chr&gt;                                                   &lt;chr&gt;                                           &lt;chr&gt; &lt;chr&gt; 
+ 1 awsaf49/ecommerce-search-result-relevane-by-crowdflower eCommerce Search Result Relevane by Crowdflower files kaggle
+ 2 c/crowdflower-search-relevance                          Crowdflower Search Results Relevance            files kaggle
+ 3 c/crowdflower-weather-twitter                           Partly Sunny with a Chance of Hashtags          files kaggle
+ 4 crowdflower/first-gop-debate-twitter-sentiment          First GOP Debate Twitter Sentiment              files kaggle
+ 5 crowdflower/handwritten-names                           Handwritten Names                               files kaggle
+ 6 crowdflower/narrativity-in-scientific-publishing        Narrativity in Scientific Publishing            files kaggle
+ 7 crowdflower/political-social-media-posts                Political Social Media Posts                    files kaggle
+ 8 crowdflower/twitter-airline-sentiment                   Twitter US Airline Sentiment                    files kaggle
+ 9 crowdflower/twitter-user-gender-classification          Twitter User Gender Classification              files kaggle
+10 humancomp/worker-activity-crowdflower                   Workers Browser Activity in CrowdFlower Tasks   files kaggle</code></pre>
+<p>You can then download the data associated to the <code>c/crowdflower-weather-twitter</code> competition:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"c/crowdflower-weather-twitter"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<pre><code>[1] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/sampleSubmission.csv"
+[2] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/test.csv"            
+[3] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/train.csv"           
+[4] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/variableNames.txt"   </code></pre>
+</div>
 </div>
 <div id="sharing" class="section level2">
 <h2 class="hasAnchor">

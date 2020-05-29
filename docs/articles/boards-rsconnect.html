@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -285,7 +285,7 @@
 <h2 class="hasAnchor">
 <a href="#automation" class="anchor"></a>Automation</h2>
 <p>One significant advantage from using RStudio Connect over other boards is its ability to schedule R Markdown reports to run automatically. This allows you to automate the creation of pins and also consume pins published manually from automated reports.</p>
-<p>To support automation you need to use an <a href="https://docs.rstudio.com/connect/user/api-keys.html">RStudio Connect API Key</a> as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:</p>
+<p>To support automation you need to use an <a href="https://docs.rstudio.com/connect/user/api-keys/">RStudio Connect API Key</a> as your authentication method. Therefore, the first step is to create an API Key, once created, you will need to register the board as follows:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="../reference/board_register_rsconnect.html">board_register_rsconnect</a></span>(<span class="dt">key =</span> <span class="st">"the-rstudio-connect-api-key"</span>,</a>
 <a class="sourceLine" id="cb15-2" title="2">                         <span class="dt">server =</span> <span class="st">"https://rstudio-connect-server"</span>)</a></code></pre></div>
 <p>However, since it’s a best practice to not store secrets in plain text, <code>pins</code> will also read the key from the <code>CONNECT_API_KEY</code> environment variable, or you can retrieve explicitly as <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("CONNECT_API_KEY")</a></code> before assigning it to the key parameter.</p>
