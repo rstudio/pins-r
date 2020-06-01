@@ -4,6 +4,8 @@
 
 - Fix issue removing pins with custom domain names from cloud boards (#234).
 
+- Fix warning when using `pin()` against storage locations with custom domain name (#237).
+
 # pins 0.4.1
 
 ## Pin
