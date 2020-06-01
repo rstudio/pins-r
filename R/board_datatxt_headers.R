@@ -1,4 +1,9 @@
 board_datatxt_headers <- function(board, path, verb = "GET", file = NULL) {
+  if (!is.null(board$url)) {
+    # remove base url form path since S3 and others require relative paths when using custom domains
+    path <- gsub(paste0("^", board$url, "/?"), "", path)
+  }
+
   if (is.list(board$headers)) {
     httr::add_headers(.headers = unlist(board$headers))
   }
