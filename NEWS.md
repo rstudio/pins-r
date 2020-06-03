@@ -6,6 +6,8 @@
 
 - Fix warning when using `pin()` against storage locations with custom domain name (#237).
 
+- Fix issue where datatxt was not refreshing deleted entries (#239).
+
 # pins 0.4.1
 
 ## Pin

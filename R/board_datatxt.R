@@ -17,13 +17,7 @@ datatxt_refresh_index <- function(board) {
     }
   }
   else {
-    new_index <- board_manifest_get(temp_index)
-    current_names <- sapply(current_index, function(e) e$name)
-    for (new_entry in new_index) {
-      if (!new_entry$name %in% current_names) {
-        current_index[[length(current_index) + 1]] <- new_entry
-      }
-    }
+    current_index <- board_manifest_get(temp_index)
   }
 
   yaml::write_yaml(current_index, local_index)
