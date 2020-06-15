@@ -8,6 +8,11 @@
 
 - Fix issue where datatxt was not refreshing deleted entries (#239).
 
+## RStudio Connect
+
+- Support for `versions = FALSE` in `board_register()` to avoid using too much space when
+  creating pins (#245).
+
 # pins 0.4.1
 
 ## Pin
