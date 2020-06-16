@@ -99,10 +99,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
     deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
   }
   else {
-    # when versioning is turned off we also need to clean up previous bundles so we store the current versions
-    if (!board_versions_enabled(board)) {
-      previous_versions <- board_pin_versions(board, name)
-    }
+    previous_versions <- NULL
 
     existing <- rsconnect_get_by_name(board, name)
     if (nrow(existing) == 0) {
@@ -123,6 +120,11 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
     }
     else {
       guid <- existing$guid
+
+      # when versioning is turned off we also need to clean up previous bundles so we store the current versions
+      if (!board_versions_enabled(board)) {
+        previous_versions <- board_pin_versions(board, name)
+      }
 
       content <- rsconnect_api_post(board,
                                     paste0("/__api__/v1/experimental/content/", guid),
@@ -191,7 +193,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
     result <- rsconnect_wait_by_name(board, name)
 
     # when versioning is turned off we also need to clean up previous bundles
-    if (!board_versions_enabled(board)) {
+    if (!board_versions_enabled(board) && !is.null(previous_versions)) {
       for (idx in 1:nrow(previous_versions)) {
         delete_version <- previous_versions[idx,]
 
