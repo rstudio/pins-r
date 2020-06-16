@@ -1,5 +1,10 @@
 ---
 title: "Use Cases"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using Website Boards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
