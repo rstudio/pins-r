@@ -40,9 +40,14 @@ rsconnect_api_get <- function(board, path) {
 }
 
 rsconnect_api_delete <- function(board, path) {
-  httr::DELETE(paste0(board$server, path),
-               rsconnect_api_auth_headers(board, path, "DELETE")) %>%
-    httr::content()
+  result <- httr::DELETE(paste0(board$server, path),
+               rsconnect_api_auth_headers(board, path, "DELETE"))
+
+  if (httr::http_error(result)) {
+    stop("Failed to delete ", path, " ", as.character(httr::content(result)))
+  }
+
+  result %>% httr::content()
 }
 
 rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
