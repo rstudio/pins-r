@@ -20,6 +20,7 @@ matrix:
   include:
     - name: "R"
       r: 3.2.3
+      r_check_args: "--no-build-vignettes --ignore-vignettes"
       warnings_are_errors: true
       r_github_packages:
         - RcppCore/Rcpp
