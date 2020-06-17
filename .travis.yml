@@ -20,10 +20,7 @@ matrix:
   include:
     - name: "R"
       r: 3.2.3
-      r_check_args: "--no-build-vignettes --no-vignettes"
       warnings_are_errors: true
-      r_github_packages:
-        - RcppCore/Rcpp
       script:
         - gcloud version || true
         - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
@@ -33,8 +30,8 @@ matrix:
         - base64 --decode gcloud.b64 > gcloud.json
         - gcloud auth activate-service-account --key-file gcloud.json
         - |
-          R CMD build --resave-data .
-          R CMD check --no-build-vignettes --no-manual --no-tests pins*tar.gz
+          R CMD build --resave-data --no-build-vignettes --no-vignettes .
+          R CMD check --no-manual --ignore-vignettes --no-vignettes --no-tests pins*tar.gz
           Rscript ci/travis.R
       env:
         -TEST_GITHUB_BRANCH="travis"
