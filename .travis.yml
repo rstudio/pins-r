@@ -30,8 +30,8 @@ matrix:
         - base64 --decode gcloud.b64 > gcloud.json
         - gcloud auth activate-service-account --key-file gcloud.json
         - |
-          R CMD build --resave-data --no-build-vignettes --no-vignettes .
-          R CMD check --no-manual --ignore-vignettes --no-vignettes --no-tests pins*tar.gz
+          R CMD build --resave-data --no-build-vignettes .
+          R CMD check --no-manual --ignore-vignettes --no-tests pins*tar.gz
           Rscript ci/travis.R
       env:
         -TEST_GITHUB_BRANCH="travis"
