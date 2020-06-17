@@ -68,8 +68,13 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
   x <- if (identical(dir(path, "data\\.rds"), "data.rds"))
     readRDS(dir(path, "data\\.rds", full.names = TRUE)) else path
 
-  if (grepl("/", name)) stop("You can only pin() to your own '", board$account, "' account.")
-  name_qualified <- paste0(board$account, "/", name)
+  if (grepl("/", name)) {
+    name_qualified <- name
+    name <- gsub(".*/", "", name_qualified)
+  }
+  else {
+    name_qualified <- paste0(board$account, "/", name)
+  }
 
   account_name <- board$account
   if (identical(board$output_files, TRUE)) {

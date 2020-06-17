@@ -13,7 +13,8 @@
 - Support for `versions = FALSE` in `board_register()` to avoid using too much space when
   creating pins (#245).
   
-- Prevent administrators from overriding pins they don't own (#253).
+- Prevent administrators from overriding pins they don't own, unless the pin is specified 
+  as `user/name` (#253).
 
 # pins 0.4.1
 
