@@ -8,7 +8,8 @@ test_dependencies <- function() {
     expect_equal = get("expect_equal", envir = asNamespace("testthat")),
     skip = get("skip", envir = asNamespace("testthat")),
     fail = get("fail", envir = asNamespace("testthat")),
-    expect_gte = get("expect_gte", envir = asNamespace("testthat"))
+    expect_gte = get("expect_gte", envir = asNamespace("testthat")),
+    try_again = get("try_again", envir = asNamespace("testthat"))
   )
 }
 
@@ -75,9 +76,7 @@ board_test_default <- function(board, exclude, destination) {
   })
 
   deps$test_that("can pin_find() the pin in any board", {
-    results <- pin_find(pin_name)
-
-    deps$expect_true(any(grepl(pin_name, results$name)))
+    deps$expect_true(deps$try_again(3, any(grepl(pin_name, pin_find(pin_name)$name))))
   })
 
   deps$test_that(paste("can pin_find() in", destination), {
