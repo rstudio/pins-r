@@ -15,6 +15,9 @@
   
 - Prevent administrators from overriding pins they don't own, unless the pin is specified 
   as `user/name` (#253).
+  
+- Support to connect to servers that have a redirect configured when the full server URL
+  is not specified in `board_register()` (#256).
 
 # pins 0.4.1
 
