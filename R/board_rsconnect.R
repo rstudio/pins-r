@@ -130,8 +130,8 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
       guid <- existing$guid
 
       # when versioning is turned off we also need to clean up previous bundles so we store the current versions
-      if (!board_versions_enabled(board)) {
-        previous_versions <- board_pin_versions(board, name)
+      if (!board_versions_enabled(board, TRUE)) {
+        previous_versions <- board_pin_versions(board, name_qualified)
       }
 
       content <- rsconnect_api_post(board,
@@ -201,7 +201,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
     result <- rsconnect_wait_by_name(board, name_qualified)
 
     # when versioning is turned off we also need to clean up previous bundles
-    if (!board_versions_enabled(board) && !is.null(previous_versions)) {
+    if (!board_versions_enabled(board, TRUE) && !is.null(previous_versions)) {
       for (idx in 1:nrow(previous_versions)) {
         delete_version <- previous_versions[idx,]
 
