@@ -18,6 +18,8 @@
   
 - Support to connect to servers that have a redirect configured when the full server URL
   is not specified in `board_register()` (#256).
+  
+- Throw error when multiple accounts are associated to the same server (#261).
 
 # pins 0.4.1
 
