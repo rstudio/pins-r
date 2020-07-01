@@ -17,7 +17,18 @@ datatxt_refresh_index <- function(board) {
     }
   }
   else {
-    current_index <- board_manifest_get(temp_index)
+    new_index <- board_manifest_get(temp_index)
+
+    # retain cache when refreshing board to avoid redownloads after board_register
+    new_index <- lapply(new_index, function(new_entry) {
+      current_entry <- Filter(function(e) identical(e$path, new_entry$path), current_index)
+      if (length(current_entry) == 1) {
+        new_entry$cache <- current_entry[[1]]$cache
+      }
+      new_entry
+    })
+
+    current_index <- new_index
   }
 
   yaml::write_yaml(current_index, local_index)
