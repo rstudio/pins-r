@@ -51,6 +51,8 @@
 
 - Avoid using shared caches when running inside RStudio Connect.
 
+- Fixed 'invalid uid' warning when creaating pin undner some Linux servers (#263).
+
 ## Kaggle
 
 - Support to find and download competition datasets.
