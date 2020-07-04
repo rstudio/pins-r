@@ -78,7 +78,7 @@ additional boards with pin()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -251,9 +251,9 @@ known <code>rappdirs</code>. However, you are welcome to specify any other
 location for this cache or even a temp folder with <code><a href='https://rdrr.io/r/base/tempfile.html'>tempfile()</a></code>. Notice that,
 when using a temp folder, pins will be cleared when your R session restarts. The
 cache parameter can be also set with the <code>pins.path</code> option.</p>
-<p>The <code>versions</code> parameter default to different values depending on which board
-is choosed. For instance, local boards do not use versions by default, but GitHub
-boards do.</p>
+<p>If <code>versions</code> is set to <code>NULL</code> (the default), it will fall back on the
+board-type-specific default. For instance, local boards do not use versions by default,
+but GitHub boards do.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
