@@ -4,8 +4,13 @@
 \alias{board_register}
 \title{Register Board}
 \usage{
-board_register(board, name = board, cache = board_cache_path(),
-  versions = NULL, ...)
+board_register(
+  board,
+  name = board,
+  cache = board_cache_path(),
+  versions = NULL,
+  ...
+)
 }
 \arguments{
 \item{board}{The name of the board to register.}

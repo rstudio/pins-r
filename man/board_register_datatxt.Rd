@@ -4,8 +4,13 @@
 \alias{board_register_datatxt}
 \title{Register Data TXT Board}
 \usage{
-board_register_datatxt(url, name = NULL, headers = NULL,
-  cache = board_cache_path(), ...)
+board_register_datatxt(
+  url,
+  name = NULL,
+  headers = NULL,
+  cache = board_cache_path(),
+  ...
+)
 }
 \arguments{
 \item{url}{Path to the \code{data.txt} file or path containing it.}

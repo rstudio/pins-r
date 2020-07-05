@@ -4,8 +4,16 @@
 \alias{pin_get}
 \title{Retrieve Pin}
 \usage{
-pin_get(name, board = NULL, cache = TRUE, extract = NULL,
-  version = NULL, files = FALSE, signature = NULL, ...)
+pin_get(
+  name,
+  board = NULL,
+  cache = TRUE,
+  extract = NULL,
+  version = NULL,
+  files = FALSE,
+  signature = NULL,
+  ...
+)
 }
 \arguments{
 \item{name}{The name of the pin.}

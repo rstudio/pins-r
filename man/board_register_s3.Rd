@@ -4,10 +4,15 @@
 \alias{board_register_s3}
 \title{Register S3 Board}
 \usage{
-board_register_s3(name = "s3", bucket = Sys.getenv("AWS_BUCKET"),
+board_register_s3(
+  name = "s3",
+  bucket = Sys.getenv("AWS_BUCKET"),
   key = Sys.getenv("AWS_ACCESS_KEY_ID"),
   secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  cache = board_cache_path(), host = "s3.amazonaws.com", ...)
+  cache = board_cache_path(),
+  host = "s3.amazonaws.com",
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 's3'.}

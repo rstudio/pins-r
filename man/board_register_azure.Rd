@@ -4,11 +4,14 @@
 \alias{board_register_azure}
 \title{Register Azure Board}
 \usage{
-board_register_azure(name = "azure",
+board_register_azure(
+  name = "azure",
   container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
   account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
-  key = Sys.getenv("AZURE_STORAGE_KEY"), cache = board_cache_path(),
-  ...)
+  key = Sys.getenv("AZURE_STORAGE_KEY"),
+  cache = board_cache_path(),
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'azure'.}

@@ -4,8 +4,14 @@
 \alias{pin_info}
 \title{Pin Info}
 \usage{
-pin_info(name, board = NULL, extended = TRUE, metadata = TRUE,
-  signature = FALSE, ...)
+pin_info(
+  name,
+  board = NULL,
+  extended = TRUE,
+  metadata = TRUE,
+  signature = FALSE,
+  ...
+)
 }
 \arguments{
 \item{name}{The exact name of the pin to match when searching.}

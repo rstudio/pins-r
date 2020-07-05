@@ -4,7 +4,12 @@
 \name{cranfiles}
 \alias{cranfiles}
 \title{Index of tabular files found in CRAN packages}
-\format{An object of class \code{"data.frame"}.}
+\format{
+An object of class \code{"data.frame"}.
+
+A data frame with three variables: \code{package}, \code{dataset},
+  and \code{description}.
+}
 \source{
 \href{https://cran.r-project.org}{CRAN}
 }

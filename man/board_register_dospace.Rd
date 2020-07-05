@@ -4,11 +4,16 @@
 \alias{board_register_dospace}
 \title{Register DigitalOcean Board}
 \usage{
-board_register_dospace(name = "dospace",
-  space = Sys.getenv("DO_SPACE"), key = Sys.getenv("DO_ACCESS_KEY_ID"),
+board_register_dospace(
+  name = "dospace",
+  space = Sys.getenv("DO_SPACE"),
+  key = Sys.getenv("DO_ACCESS_KEY_ID"),
   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
-  datacenter = Sys.getenv("DO_DATACENTER"), cache = board_cache_path(),
-  host = "digitaloceanspaces.com", ...)
+  datacenter = Sys.getenv("DO_DATACENTER"),
+  cache = board_cache_path(),
+  host = "digitaloceanspaces.com",
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 's3'.}

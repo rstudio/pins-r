@@ -4,9 +4,13 @@
 \alias{board_register_gcloud}
 \title{Register Google Cloud Board}
 \usage{
-board_register_gcloud(name = "gcloud",
-  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"), token = NULL,
-  cache = board_cache_path(), ...)
+board_register_gcloud(
+  name = "gcloud",
+  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+  token = NULL,
+  cache = board_cache_path(),
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'gcloud'.}

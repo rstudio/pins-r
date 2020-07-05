@@ -13,8 +13,16 @@ pin_load(path, ...)
 
 pin_fetch(path, ...)
 
-board_pin_store(board, path, name, description, type, metadata,
-  extract = TRUE, ...)
+board_pin_store(
+  board,
+  path,
+  name,
+  description,
+  type,
+  metadata,
+  extract = TRUE,
+  ...
+)
 }
 \arguments{
 \item{board}{The board to extended, retrieved with \code{board_get()}.}
