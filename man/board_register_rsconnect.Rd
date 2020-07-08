@@ -4,9 +4,15 @@
 \alias{board_register_rsconnect}
 \title{Register RStudio Connect Board}
 \usage{
-board_register_rsconnect(name = "rsconnect", server = NULL,
-  account = NULL, key = NULL, output_files = FALSE,
-  cache = board_cache_path(), ...)
+board_register_rsconnect(
+  name = "rsconnect",
+  server = NULL,
+  account = NULL,
+  key = NULL,
+  output_files = FALSE,
+  cache = board_cache_path(),
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'rsconnect'.}

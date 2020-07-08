@@ -4,8 +4,13 @@
 \alias{board_register}
 \title{Register Board}
 \usage{
-board_register(board, name = board, cache = board_cache_path(),
-  versions = NULL, ...)
+board_register(
+  board,
+  name = board,
+  cache = board_cache_path(),
+  versions = NULL,
+  ...
+)
 }
 \arguments{
 \item{board}{The name of the board to register.}
@@ -30,9 +35,9 @@ location for this cache or even a temp folder with \code{tempfile()}. Notice tha
 when using a temp folder, pins will be cleared when your R session restarts. The
 cache parameter can be also set with the \code{pins.path} option.
 
-The \code{versions} parameter default to different values depending on which board
-is choosed. For instance, local boards do not use versions by default, but GitHub
-boards do.
+If \code{versions} is set to \code{NULL} (the default), it will fall back on the
+board-type-specific default. For instance, local boards do not use versions by default,
+but GitHub boards do.
 }
 \examples{
 # create a new local board

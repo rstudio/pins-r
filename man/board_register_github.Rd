@@ -4,9 +4,16 @@
 \alias{board_register_github}
 \title{Register GitHub Board}
 \usage{
-board_register_github(name = "github", repo = NULL,
-  branch = "master", token = NULL, path = "",
-  host = "https://api.github.com", cache = board_cache_path(), ...)
+board_register_github(
+  name = "github",
+  repo = NULL,
+  branch = "master",
+  token = NULL,
+  path = "",
+  host = "https://api.github.com",
+  cache = board_cache_path(),
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'github'.}

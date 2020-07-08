@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -204,6 +204,30 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pins-042" class="section level1">
+<h1 class="page-header">
+<a href="#pins-042" class="anchor"></a>pins 0.4.2<small> Unreleased </small>
+</h1>
+<div id="website" class="section level2">
+<h2 class="hasAnchor">
+<a href="#website" class="anchor"></a>Website</h2>
+<ul>
+<li><p>Fix issue removing pins with custom domain names from cloud boards (<a href='https://github.com/rstudio/pins/issues/234'>#234</a>).</p></li>
+<li><p>Fix warning when using <code><a href="../reference/pin.html">pin()</a></code> against storage locations with custom domain name (<a href='https://github.com/rstudio/pins/issues/237'>#237</a>).</p></li>
+<li><p>Fix issue where datatxt was not refreshing deleted entries (<a href='https://github.com/rstudio/pins/issues/239'>#239</a>).</p></li>
+</ul>
+</div>
+<div id="rstudio-connect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<ul>
+<li><p>Support for <code>versions = FALSE</code> in <code><a href="../reference/board_register.html">board_register()</a></code> to avoid using too much space when creating pins (<a href='https://github.com/rstudio/pins/issues/245'>#245</a>).</p></li>
+<li><p>Prevent administrators from overriding pins they don’t own, unless the pin is specified as <code>user/name</code> (<a href='https://github.com/rstudio/pins/issues/253'>#253</a>).</p></li>
+<li><p>Support to connect to servers that have a redirect configured when the full server URL is not specified in <code><a href="../reference/board_register.html">board_register()</a></code> (<a href='https://github.com/rstudio/pins/issues/256'>#256</a>).</p></li>
+<li><p>Throw error when multiple accounts are associated to the same server (<a href='https://github.com/rstudio/pins/issues/261'>#261</a>).</p></li>
+</ul>
+</div>
+</div>
     <div id="pins-041" class="section level1">
 <h1 class="page-header">
 <a href="#pins-041" class="anchor"></a>pins 0.4.1<small> 2020-05-28 </small>
@@ -221,12 +245,13 @@
 <li><p>Support for <code><a href="../reference/pin.html">pin(zip = TRUE)</a></code> to create a zip file of the given path before creating the pin (<a href='https://github.com/rstudio/pins/issues/232'>#232</a>).</p></li>
 </ul>
 </div>
-<div id="rstudio-connect" class="section level2">
+<div id="rstudio-connect-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix when overriding pin with corrupt metadata.</p></li>
 <li><p>Avoid using shared caches when running inside RStudio Connect.</p></li>
+<li><p>Fixed ‘invalid uid’ warning when creaating pin undner some Linux servers (<a href='https://github.com/rstudio/pins/issues/263'>#263</a>).</p></li>
 </ul>
 </div>
 <div id="kaggle" class="section level2">
@@ -265,9 +290,9 @@
 <li><p><code><a href="../reference/pin_remove.html">pin_remove()</a></code> now refreshes the connections pane.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-1" class="section level2">
+<div id="rstudio-connect-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for <code>code</code> parameter in <code><a href="../reference/pin.html">pin()</a></code> to customize R code used in the UI to retrieve the pin (<a href='https://github.com/rstudio/pins/issues/77'>#77</a>).</p></li>
 <li><p>Improve error message for <code><a href="../reference/pin_get.html">pin_get()</a></code> with duplicate names (<a href='https://github.com/rstudio/pins/issues/171'>#171</a>).</p></li>
@@ -348,9 +373,9 @@
 <li><p>Fixed connection launcher for Azure connections.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-2" class="section level2">
+<div id="rstudio-connect-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue uploading large pins causing <code>is.character(type) is not TRUE</code> error.</p></li>
 <li><p>Fix issue affecting boards registered with trailing slash (<a href='https://github.com/rstudio/pins/issues/151'>#151</a>).</p></li>
@@ -401,9 +426,9 @@
 <li><p>Fix connection code when a board is registered automatically.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-3" class="section level2">
+<div id="rstudio-connect-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-4" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue where <code><a href="../reference/pin_find.html">pin_find()</a></code> would not show all available pins.</p></li>
 <li><p>Fix issue where RStudio Connections pane would not show all pins.</p></li>
@@ -441,9 +466,9 @@
 <h1 class="page-header">
 <a href="#pins-020" class="anchor"></a>pins 0.2.0<small> 2019-10-01 </small>
 </h1>
-<div id="rstudio-connect-4" class="section level2">
+<div id="rstudio-connect-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-4" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-5" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for retrieving pins shared by others in RStudio Connect boards.</p></li>
 <li><p>Support for RStudio Connect servers running under a subpath in the server.</p></li>
@@ -516,6 +541,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#pins-042">0.4.2</a></li>
         <li><a href="#pins-041">0.4.1</a></li>
         <li><a href="#pins-040">0.4.0</a></li>
         <li><a href="#pins-032">0.3.2</a></li>

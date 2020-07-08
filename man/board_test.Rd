@@ -4,8 +4,12 @@
 \alias{board_test}
 \title{Test Board}
 \usage{
-board_test(board, exclude = list(), suite = "default",
-  destination = paste(board, "board"))
+board_test(
+  board,
+  exclude = list(),
+  suite = "default",
+  destination = paste(board, "board")
+)
 }
 \arguments{
 \item{exclude}{Names of tests to exclude form test.}

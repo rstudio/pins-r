@@ -4,8 +4,13 @@
 \alias{board_register_kaggle}
 \title{Register Kaggle Board}
 \usage{
-board_register_kaggle(name = "kaggle", token = NULL,
-  overwrite = FALSE, cache = board_cache_path(), ...)
+board_register_kaggle(
+  name = "kaggle",
+  token = NULL,
+  overwrite = FALSE,
+  cache = board_cache_path(),
+  ...
+)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'kaggle'.}
