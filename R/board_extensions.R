@@ -42,6 +42,8 @@ board_pin_find <- function(board, text, ...) {
   UseMethod("board_pin_find")
 }
 
+#' @export
+#' @rdname custom-boards
 board_pin_versions <- function(board, name, ...) {
   UseMethod("board_pin_versions")
 }

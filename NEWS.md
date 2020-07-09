@@ -1,3 +1,9 @@
+# pins 0.4.2.9000
+
+## Boards
+
+- Properly export `board_pin_versions` to allow custom boards extending versions (#265).
+
 # pins 0.4.2
 
 ## Website
