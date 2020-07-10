@@ -222,7 +222,9 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
 
   index <- list()
   if (httr::http_error(response)) {
-    stop("Failed to retrieve latest data.txt file, the pin was partially removed.")
+    if (identical(operation, "remove")) {
+      stop("Failed to retrieve latest data.txt file, the pin was partially removed.")
+    }
   }
   else {
     content <- datatxt_response_content(response)
