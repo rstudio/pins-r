@@ -8,13 +8,14 @@
 #' @param description The text patteren to find a pin.
 #' @param type The type of pin being stored.
 #' @param metadata A list containing additional metadata describing the pin.
+#' @param retrieve Should the pin be retrieved after being created? Defaults to \code{TRUE}.
 #' @param ... Additional parameteres.
 #'
 #' @rdname custom-pins
 #'
 #' @export
 #' @rdname custom-pins
-board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, ...) {
+board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, retrieve = TRUE, ...) {
   board <- board_get(board)
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
   pin_log("Storing ", name, " into board ", board$name, " with type ", type)
@@ -91,8 +92,13 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
     ui_viewer_updated(board)
   }
 
-  pin_get(name, board$name, ...) %>%
-    invisible_maybe()
+  if (retrieve) {
+    pin_get(name, board$name, ...) %>%
+      invisible_maybe()
+  }
+  else {
+    invisible(NULL)
+  }
 }
 
 invisible_maybe <- function(e) {
