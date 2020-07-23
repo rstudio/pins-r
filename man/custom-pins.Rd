@@ -21,6 +21,7 @@ board_pin_store(
   type,
   metadata,
   extract = TRUE,
+  retrieve = TRUE,
   ...
 )
 }
@@ -38,6 +39,8 @@ board_pin_store(
 \item{type}{The type of pin being stored.}
 
 \item{metadata}{A list containing additional metadata describing the pin.}
+
+\item{retrieve}{Should the pin be retrieved after being created? Defaults to \code{TRUE}.}
 }
 \description{
 Family of functions meant to be used to implement custom pin extensions, not to be used by users.

@@ -1,3 +1,10 @@
+# pins 0.4.3.9000
+
+## Pins
+
+- For files bigger than 100MB `pin()` creates symlinks to speed up uploads, can be configured
+  using the `pins.link.size` option (#273).
+
 # pins 0.4.3
 
 ## Boards
