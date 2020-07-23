@@ -11,8 +11,6 @@
 #' @param retrieve Should the pin be retrieved after being created? Defaults to \code{TRUE}.
 #' @param ... Additional parameteres.
 #'
-#' @rdname custom-pins
-#'
 #' @export
 #' @rdname custom-pins
 board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, retrieve = TRUE, ...) {
@@ -65,11 +63,20 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
       }
 
       if (details$something_changed) {
+        copy_or_link <- function(from, to) {
+          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8))
+            fs::link_create(from, file.path(to, basename(from)))
+          else
+            file.copy(from, to, recursive = TRUE)
+        }
+
         if (dir.exists(single_path)) {
-          file.copy(dir(single_path, full.names = TRUE) , store_path, recursive = TRUE)
+          for (entry in dir(single_path, full.names = TRUE)) {
+            copy_or_link(entry, store_path)
+          }
         }
         else {
-          file.copy(single_path, store_path, recursive = TRUE)
+          copy_or_link(single_path, store_path)
         }
 
         something_changed <- TRUE
