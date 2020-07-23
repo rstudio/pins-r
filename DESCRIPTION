@@ -23,6 +23,7 @@ Imports:
   crayon,
   digest,
   filelock,
+  fs,
   httr,
   jsonlite,
   magrittr,
