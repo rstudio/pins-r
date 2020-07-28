@@ -40,7 +40,17 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   }
 
   if (identical(zip, TRUE)) {
-    zip(file.path(store_path, "data.zip"), path)
+    find_common_path <- function(path) {
+      common <- path[1]
+      if (all(startsWith(path, common)) || identical(common, dirname(common))) return(common)
+      return(force(find_common_path(dirname(common[1]))))
+    }
+
+    common_path <- find_common_path(path)
+    withr::with_dir(common_path, {
+      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path))
+    })
+
     something_changed <- TRUE
   }
   else {
