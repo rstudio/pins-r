@@ -40,6 +40,8 @@ board_initialize.datatxt <- function(board,
                                      url = NULL,
                                      needs_index = TRUE,
                                      browse_url = url,
+                                     bucket = NULL,
+                                     index_updated = NULL,
                                      ...) {
   if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
 
@@ -47,6 +49,8 @@ board_initialize.datatxt <- function(board,
   board$headers <- headers
   board$needs_index <- needs_index
   board$borwse_url <- browse_url
+  board$index_updated <- index_updated
+  board$bucket <- bucket
 
   for (key in names(list(...))) {
     board[[key]] <- list(...)[[key]]
@@ -261,6 +265,10 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
 
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", datatxt_response_content(response))
+  }
+
+  if (!identical(board$index_updated, NULL) && identical(operation, "create")) {
+    board$index_updated(board)
   }
 }
 
