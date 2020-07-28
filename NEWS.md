@@ -4,6 +4,8 @@
 
 - For files bigger than 100MB `pin()` creates symlinks to speed up uploads, can be configured
   using the `pins.link.size` option (#273).
+  
+- When using `pin(zip = TRUE)` the zip no longer contains local patahs (#277)
 
 ## Google Cloud
 
