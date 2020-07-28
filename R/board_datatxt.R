@@ -1,7 +1,12 @@
 datatxt_refresh_index <- function(board) {
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
-  index_url <- file.path(board$url, "data.txt")
+  index_file <- "data.txt"
+  if (identical(board$index_randomize, TRUE)) {
+    index_file <- paste0(index_file, "?rand=", runif(1) * 10^8)
+  }
+
+  index_url <- file.path(board$url, index_file)
 
   temp_index <- tempfile()
   response <- httr::GET(index_url,
