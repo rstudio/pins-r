@@ -13,6 +13,20 @@ gcloud_headers <- function(board, verb, path, file) {
   headers
 }
 
+gcloud_index_updated <- function(board) {
+  metadata <- list(cacheControl = "private, max-age=0, no-transform", name = "data.txt")
+
+  response <- httr::VERB("PATCH",
+                         paste0("https://storage.googleapis.com/storage/v1/b/", board$bucket, "/o/", "data.txt"),
+                         body = metadata,
+                         board_datatxt_headers(board, "o/data.txt", verb = "PATCH"),
+                         encode = "json")
+
+  if (httr::http_error(response)) {
+    warning("Failed to update data.txt metadata: ", datatxt_response_content(response))
+  }
+}
+
 gcloud_candidates <- function(binary) {
   if (.Platform$OS.type == "windows") {
     appdata <- normalizePath(Sys.getenv("localappdata"), winslash = "/")
@@ -83,6 +97,8 @@ board_initialize.gcloud <- function(board,
                          token = token,
                          connect = FALSE,
                          browse_url = paste0("https://console.cloud.google.com/storage/browser/", bucket),
+                         index_randomize = TRUE,
+                         index_updated = gcloud_index_updated,
                          ...)
 
   board_get(board$name)
