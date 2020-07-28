@@ -5,6 +5,10 @@
 - For files bigger than 100MB `pin()` creates symlinks to speed up uploads, can be configured
   using the `pins.link.size` option (#273).
 
+## Google Cloud
+
+- Disable caching on `data.txt` to support creating multiple pins at once (#275).
+
 # pins 0.4.3
 
 ## Boards
