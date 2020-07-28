@@ -48,7 +48,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
 
     common_path <- find_common_path(path)
     withr::with_dir(common_path, {
-      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path))
+      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path), flags="-q")
     })
 
     something_changed <- TRUE
