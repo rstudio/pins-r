@@ -97,6 +97,7 @@ board_initialize.gcloud <- function(board,
                          token = token,
                          connect = FALSE,
                          browse_url = paste0("https://console.cloud.google.com/storage/browser/", bucket),
+                         index_randomize = TRUE,
                          index_updated = gcloud_index_updated,
                          ...)
 

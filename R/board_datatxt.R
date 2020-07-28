@@ -42,6 +42,7 @@ board_initialize.datatxt <- function(board,
                                      browse_url = url,
                                      bucket = NULL,
                                      index_updated = NULL,
+                                     index_randomize = FALSE,
                                      ...) {
   if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
 
@@ -51,6 +52,7 @@ board_initialize.datatxt <- function(board,
   board$borwse_url <- browse_url
   board$index_updated <- index_updated
   board$bucket <- bucket
+  board$index_randomize <- index_randomize
 
   for (key in names(list(...))) {
     board[[key]] <- list(...)[[key]]
@@ -221,8 +223,18 @@ datatxt_response_content <- function(response) {
 }
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
-  index_url <- file.path(board$url, "data.txt")
-  response <- httr::GET(index_url, board_datatxt_headers(board, "data.txt"))
+  index_file <- "data.txt"
+  index_url <- file.path(board$url, index_file)
+
+  index_file_get <- "data.txt"
+  if (identical(board$index_randomize, TRUE)) {
+    # some boards cache bucket files by default which can be avoided by changing the url
+    index_file_get <- paste0(index_file, "?rand=", runif(1) * 10^8)
+  }
+
+  response <- httr::GET(
+    file.path(board$url, index_file_get),
+    board_datatxt_headers(board, index_file_get))
 
   index <- list()
   if (httr::http_error(response)) {
