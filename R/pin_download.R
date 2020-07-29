@@ -11,6 +11,7 @@ pin_download_one <- function(path,
                              content_length = 0,
                              subpath = name,
                              details = new.env(),
+                             download = TRUE,
                              ...) {
   must_download <- !cache
 
@@ -20,6 +21,7 @@ pin_download_one <- function(path,
   name <- gsub("^https?://", "", name)
 
   local_path <- pin_storage_path(component, subpath)
+  if (identical(download, FALSE)) return(local_path)
 
   # use a temp path to rollback if something fails
   temp_path <- tempfile()
