@@ -5,11 +5,15 @@
 - For files bigger than 100MB `pin()` creates symlinks to speed up uploads, can be configured
   using the `pins.link.size` option (#273).
   
-- When using `pin(zip = TRUE)` the zip no longer contains local patahs (#277)
+- When using `pin(zip = TRUE)` the zip no longer contains local patahs (#277).
 
 ## Google Cloud
 
 - Disable caching on `data.txt` to support creating multiple pins at once (#275).
+
+## RStudio
+
+- Prevent connections pane from hanging when multiple pins are updated at once (#280).
 
 # pins 0.4.3
 
