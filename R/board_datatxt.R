@@ -240,7 +240,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   index_file_get <- "data.txt"
   if (identical(board$index_randomize, TRUE)) {
     # some boards cache bucket files by default which can be avoided by changing the url
-    index_file_get <- paste0(index_file, "?rand=", runif(1) * 10^8)
+    index_file_get <- paste0(index_file, "?rand=", stats::runif(1) * 10^8)
   }
 
   response <- httr::GET(
