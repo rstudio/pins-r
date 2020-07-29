@@ -117,7 +117,7 @@ datatxt_refresh_manifest <- function(board, name, ...) {
   )
 }
 
-board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, ...) {
+board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, download = TRUE, ...) {
   manifest_paths <- datatxt_refresh_manifest(board, name, ...)
   path_guess <- manifest_paths$path_guess
   index_entry <- manifest_paths$index_entry
@@ -176,7 +176,8 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, .
                                name,
                                board$name,
                                extract = identical(extract, TRUE),
-                               headers = board_datatxt_headers(board, path))
+                               headers = board_datatxt_headers(board, path),
+                               download = download)
   }
 
   local_path

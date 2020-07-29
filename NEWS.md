@@ -15,6 +15,10 @@
 
 - Prevent connections pane from hanging when multiple pins are updated at once (#280).
 
+## Website
+
+- Support for `pin_get(download = FALSE)` to avoid checking for updates.
+
 # pins 0.4.3
 
 ## Boards
