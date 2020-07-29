@@ -1,5 +1,7 @@
 # nocov start
 
+.globals$ui_updating_connection <- 0
+
 ui_viewer_register <- function(board, board_call) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
 
@@ -66,6 +68,7 @@ ui_viewer_register <- function(board, board_call) {
     # table enumeration code
     listObjects = function(type = "table") {
       objects <- pin_find(board = board$name)
+      .globals$ui_updating_connection <- 0
 
       names <- objects$name
 
@@ -130,8 +133,11 @@ ui_viewer_register <- function(board, board_call) {
 
 ui_viewer_updated <- function(board) {
   viewer <- getOption("connectionObserver")
-  if (!is.null(viewer))
+  if (!is.null(viewer) && .globals$ui_updating_connection < as.integer(Sys.time())) {
+    pin_log("Updating connections pane")
+    .globals$ui_updating_connection <- as.integer(Sys.time()) + 10
     viewer$connectionUpdated(type = "Pins", host = board$name, hint = "")
+  }
 }
 
 ui_viewer_closed <- function(board) {
