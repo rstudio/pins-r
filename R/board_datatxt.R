@@ -123,7 +123,7 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
 }
 
 board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, download = TRUE, ...) {
-  manifest_paths <- datatxt_refresh_manifest(board, name, ...)
+  manifest_paths <- datatxt_refresh_manifest(board, name, download = download, ...)
   path_guess <- manifest_paths$path_guess
   index_entry <- manifest_paths$index_entry
   download_path <- manifest_paths$download_path
