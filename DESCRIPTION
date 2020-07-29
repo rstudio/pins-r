@@ -30,6 +30,7 @@ Imports:
   mime,
   openssl,
   rappdirs,
+  stats,
   withr,
   yaml,
   zip
