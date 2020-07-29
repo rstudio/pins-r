@@ -19,6 +19,10 @@
 
 - Support for `pin_get(download = FALSE)` to avoid checking for updates.
 
+## RStudio Connect
+
+- Support for servers with mismatched `http` vs `https` protocols.
+
 # pins 0.4.3
 
 ## Boards

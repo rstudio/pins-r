@@ -315,7 +315,10 @@ rsconnect_wait_by_name <- function(board, name) {
 }
 
 rsconnect_remote_path_from_url <- function(board, url) {
-  url <- gsub(paste0("^.*", board$server), "", url)
+  url <- gsub("^https?://", "", url)
+  server <- gsub("^https?://", "", board$server)
+
+  url <- gsub(paste0("^.*", server), "", url)
   gsub("/$", "", url)
 }
 
