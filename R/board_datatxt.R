@@ -102,13 +102,18 @@ datatxt_pin_download_info <- function(board, name, ...) {
   )
 }
 
-datatxt_refresh_manifest <- function(board, name, ...) {
+datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
   pin_info <- datatxt_pin_download_info(board, name, ...)
   path_guess <- pin_info$path_guess
   index_entry <- pin_info$index_entry
 
   download_path <- file.path(path_guess, "data.txt")
-  pin_download(download_path, name, board$name, can_fail = TRUE, headers = board_datatxt_headers(board, download_path))
+  pin_download(download_path,
+               name,
+               board$name,
+               can_fail = TRUE,
+               headers = board_datatxt_headers(board, download_path),
+               download = download)
 
   list(
     path_guess = path_guess,
