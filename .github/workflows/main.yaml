@@ -22,6 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
+      - name: Install dependencies
+        run: Rscript -e 'install.packages("remotes")' -e 'remotes::install_deps(dependencies = TRUE)'
       - name: Build and Test
         run: |
           R CMD build --resave-data --no-build-vignettes .
