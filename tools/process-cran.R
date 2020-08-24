@@ -22,7 +22,7 @@ cran_process_file <- function(package_path, file_path) {
   dataset_title <- NULL
   file_name <- basename(file_path)
   dataset_name <- tools::file_path_sans_ext(file_name)
-  if (tools::file_ext(file_name) %in% c("rda", "RData")) {
+  if (tolower(tools::file_ext(file_name)) %in% c("rda", "rdata")) {
     doc_file <- file.path(package_path, "man", paste0(dataset_name, ".Rd"))
     if (file.exists(doc_file)) {
       dataset_doc <- tools::parse_Rd(doc_file)
