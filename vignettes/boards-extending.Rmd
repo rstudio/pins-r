@@ -62,7 +62,7 @@ board_pin_remove.folder <- function(board, name, ...) {
 }
 ```
 
-If we want to provide the above methods in a separate package, this new package also needs to export the s3 generics from `pins`. For example:
+To extend `pins` in a separate package, make sure to export the s3 generics from `pins`. For example:
 
 ```{r eval=FALSE}
 #' @importFrom pins board_initialize
@@ -85,4 +85,3 @@ pins::board_pin_find
 #' @export
 pins::board_pin_remove
 ```
-
