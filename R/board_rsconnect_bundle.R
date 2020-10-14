@@ -151,7 +151,7 @@ rsconnect_bundle_compress <- function(path, manifest) {
   on.exit(setwd(prev_path), add = TRUE)
 
   bundle_path <- tempfile("rsconnect-bundle", fileext = ".tar.gz")
-  suppressWarnings(utils::tar(bundle_path, files = ".", compression = "gzip", tar = "internal"))
+  suppressWarnings(utils::tar(bundle_path, files = NULL, compression = "gzip", tar = Sys.getenv("RSCONNECT_TAR", "internal")))
 
   bundle_path
 }
