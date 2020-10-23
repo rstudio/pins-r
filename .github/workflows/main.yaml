@@ -19,6 +19,8 @@ jobs:
     timeout-minutes: 20
     env:
       CRAN: ${{ matrix.cran }}
+      TEST_RSCONNECT_APIS: ${{ secrets.TEST_RSCONNECT_APIS }}
+      TEST_RSCONNECT_SERVERS: ${{ secrets.TEST_RSCONNECT_SERVERS }}
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
