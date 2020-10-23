@@ -2,7 +2,7 @@ pins: Pin, Discover and Share Resources
 ================
 
 [![Build
-Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
+Status](https://github.com/rstudio/pins/workflows/Test/badge.svg)](https://github.com/rstudio/pins/actions)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/rstudio/pins?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/pins)
 [![CRAN
