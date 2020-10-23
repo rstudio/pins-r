@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_light())
 ```
 
-[![Build Status](https://travis-ci.org/rstudio/pins.svg?branch=master)](https://travis-ci.org/rstudio/pins)
+[![Build Status](https://github.com/rstudio/pins/workflows/Test/badge.svg)](https://github.com/rstudio/pins/actions)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rstudio/pins?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/pins)
 [![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Code Coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins)
