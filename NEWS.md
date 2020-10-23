@@ -1,4 +1,4 @@
-# pins 0.4.3.9000
+# pins 0.4.4
 
 ## Pins
 
@@ -22,6 +22,8 @@
 ## RStudio Connect
 
 - Support for servers with mismatched `http` vs `https` protocols.
+
+- Make use of `RSCONNECT_TAR` when running a report inside RStudio Connect (#293).
 
 # pins 0.4.3
 
