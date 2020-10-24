@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -174,18 +174,18 @@
     
     
 <p>In most cases, a remote resource does not change over time. For example, the following “retail sales example” dataset is unlikely to change and can be retrieved as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>,</a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="dt">name =</span> <span class="st">"retail_sales"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="dt">name =</span> <span class="st">"retail_sales"</span>)</span></code></pre></div>
 <p>To ensure this dataset does not change, we can retrieve a unique signature to identify this resource using <code><a href="../reference/pin_info.html">pin_info()</a></code> as follows:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"retail_sales"</span>, <span class="dt">signature =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"retail_sales"</span>, <span class="dt">signature =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code># Source: local&lt;example_retail_sales&gt; [files]
 # Signature: 5f7e575b23e3bb4a802358864be2dbc665ef1ab8
 # Properties:
 #   - path: example_retail_sales
 #   - extension: csv</code></pre>
 <p>This signature can then be used to ensure the dataset does not change. For instance, you can share the following code with others to ensure they get the exact same dataset:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>,</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">signature =</span> <span class="st">"5f7e575b23e3bb4a802358864be2dbc665ef1ab8"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">signature =</span> <span class="st">"5f7e575b23e3bb4a802358864be2dbc665ef1ab8"</span>)</span></code></pre></div>
 <p>You can also use <code>signature</code> with <code><a href="../reference/pin_get.html">pin_get()</a></code>. Notice that the operation will fail if the signatures don’t match.</p>
 <p>In contrast, other datasets are expected to change and require us to think which particular version we are retrieving or sharing in a given board.</p>
 <div id="versioning-boards" class="section level2">
@@ -193,7 +193,7 @@
 <a href="#versioning-boards" class="anchor"></a>Versioning Boards</h2>
 <p>Currently, all boards support versioning; however, not all boards support versions by default. Boards like <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a> and <a href="boards-rsconnect.html">RStudio Connect</a>, support versioning by default and you can explore previous versions using <code><a href="../reference/pin_versions.html">pin_versions()</a></code>.</p>
 <p>For instance, let’s take a look at previous versions of a Kaggle dataset:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin_versions.html">pin_versions</a></span>(<span class="st">"new-york-city/nypd-motor-vehicle-collisions"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/pin_versions.html">pin_versions</a></span>(<span class="st">"new-york-city/nypd-motor-vehicle-collisions"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code># A tibble: 10 x 4
    version created                  author      message                       
    &lt;chr&gt;   &lt;chr&gt;                    &lt;chr&gt;       &lt;chr&gt;                         
@@ -208,28 +208,28 @@
  9 4       2019-10-12T06:37:25.1Z   Kaggle Team Automated data update 20191012
 10 3       2019-10-07T13:46:46.657Z Kaggle Team Automated data update 20191007</code></pre>
 <p>You can then retrieve specific versions with the <code>version</code> parameter in <code><a href="../reference/pin_get.html">pin_get()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"new-york-city/nypd-motor-vehicle-collisions"</span>, <span class="dt">version =</span> <span class="dv">3</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"new-york-city/nypd-motor-vehicle-collisions"</span>, <span class="dt">version =</span> <span class="dv">3</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code>[1] "nypd-motor-vehicle-collisions/_versions/3/Collision_DataDictionary.xlsx"    
 [2] "nypd-motor-vehicle-collisions/_versions/3/nypd-motor-vehicle-collisions.csv"
 [3] "nypd-motor-vehicle-collisions/_versions/3/socrata_metadata.json" </code></pre>
 <p>Other boards, like the default local board, <a href="boards-azure.html">Azure</a>, <a href="boards-dospace.html">Digital Ocean</a>, <a href="boards-gcloud.html">Google Cloud</a>, and <a href="boards-s3.html">S3</a>, do not support versions by default since additional storage cost is incurred. In such cases, one needs to opt-in to use versions when registering a board by setting the <code>versions</code> parameter to <code>TRUE</code>.</p>
 <p>For instance, in your local computer you can register the local board with versioning as follows:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"local"</span>, <span class="dt">versions =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"local"</span>, <span class="dt">versions =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>From now on, when <code><a href="../reference/pin.html">pin()</a></code> is used, multiple versions will be stored locally:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># store iris as mtcars dataset</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="st">"mtcars"</span>, <span class="dt">description =</span> <span class="st">"the mtcars dataset"</span>)</a>
-<a class="sourceLine" id="cb10-3" title="3"></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="co"># oops! we meant mtcars as mtcars</span></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="st">"mtcars"</span>, <span class="dt">description =</span> <span class="st">"the mtcars dataset"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># store iris as mtcars dataset</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="st">"mtcars"</span>, <span class="dt">description =</span> <span class="st">"the mtcars dataset"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co"># oops! we meant mtcars as mtcars</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="st">"mtcars"</span>, <span class="dt">description =</span> <span class="st">"the mtcars dataset"</span>)</span></code></pre></div>
 <p>Which you can then list with <code><a href="../reference/pin_versions.html">pin_versions()</a></code>, notice that the most recent version is displayed first:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/pin_versions.html">pin_versions</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="../reference/pin_versions.html">pin_versions</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</span></code></pre></div>
 <pre><code># A tibble: 2 x 1
   version
   &lt;chr&gt;  
 1 a5c5cb2
 2 d93d422</code></pre>
 <p>You can then retrieve specific versions:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">version =</span> <span class="st">"d93d422"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">version =</span> <span class="st">"d93d422"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</span></code></pre></div>
 <pre><code># A tibble: 150 x 5
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  

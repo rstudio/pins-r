@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -175,30 +175,30 @@
     
 <p>After datasets are shared (as showcased in the <a href="reuse-tidy-datasets.htm">Reuse Tidy Datasets</a> use case), it is often useful to also consider automating this process. This is especially interesting for datasets that tend to get out-of-date constantly.</p>
 <p>For example, if we were interested in updating a pin to track daily news from the <a href="http://feeds.bbci.co.uk/news/world/rss.xml">BBC World News RSS</a>, we could create the following <a href="https://rmarkdown.rstudio.com/">R Markdown</a> report to download the RSS feed, tidy the news, and publish a pin with the up-to-date news:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb1-1" title="1">---</a>
-<a class="sourceLine" id="cb1-2" title="2">title: "RStudio Connect -- World News"</a>
-<a class="sourceLine" id="cb1-3" title="3">---</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="bn">```{r, setup, include = FALSE}</span></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="bn">library(pins)</span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="bn">board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),</span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="bn">                         server = Sys.getenv("CONNECT_SERVER"))</span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="bn">```</span></a>
-<a class="sourceLine" id="cb1-10" title="10"></a>
-<a class="sourceLine" id="cb1-11" title="11">Create the <span class="bn">`world_news`</span> data frame,</a>
-<a class="sourceLine" id="cb1-12" title="12"></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="bn">```{r  fig.align='center', warning=FALSE}</span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="bn">library(xml2)</span></a>
-<a class="sourceLine" id="cb1-15" title="15"></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="bn">world_news &lt;- data.frame(title = xml_text(xml_find_all(</span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="bn">  read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()")))</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="bn">```</span></a>
-<a class="sourceLine" id="cb1-19" title="19"></a>
-<a class="sourceLine" id="cb1-20" title="20">Which you can then share as a pin,</a>
-<a class="sourceLine" id="cb1-21" title="21"></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="bn">```{r}</span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="bn">pin(world_news, "worldnews", board = "rsconnect")</span></a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="bn">```</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "RStudio Connect -- World News"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">---</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="in">```{r, setup, include = FALSE}</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="in">library(pins)</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="in">board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="in">                         server = Sys.getenv("CONNECT_SERVER"))</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="in">```</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>Create the <span class="in">`world_news`</span> data frame,</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="in">```{r  fig.align='center', warning=FALSE}</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="in">library(xml2)</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="in">world_news &lt;- data.frame(title = xml_text(xml_find_all(</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="in">  read_xml("http://feeds.bbci.co.uk/news/rss.xml"), "///item/title/node()")))</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="in">```</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a>Which you can then share as a pin,</span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="in">```{r}</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="in">pin(world_news, "worldnews", board = "rsconnect")</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="in">```</span></span></code></pre></div>
 <p>While you can run manually this report each time you need the <code>worldnews</code> pin updated, using automated techniques makes so much sense.</p>
 <p>The <code>pins</code> package does not provide support to automate execution of R code; however, many tools and services can be used in combination with <code>pins</code> to update datasets with ease. For instance, when using GitHub, Travis can be used in combination with a <code>GITHUB_PAT</code> environment variable to knit this daily news report and update pins in GitHub. Similarly, using RStudio Connect, we can easily publish this report and configure RStudio Connect to run this report daily – the pin will then be kept up-to-date, every-day, automatically!</p>
 <p>You can preview the <code>worldnews</code> dataset at <a href="https://beta.rstudioconnect.com/connect/#/apps/7532/access">beta.rstudioconnect.com/connect/#/apps/7532/access</a>:</p>

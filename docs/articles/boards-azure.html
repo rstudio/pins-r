@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -179,25 +179,25 @@
 <p>In order to use Microsoft Azure Storage as a <a href="boards-understanding.html">board</a>, you need an Azure Storage account, an Azure Storage container, and an Azure Storage key. You can sign-up and create those from <a href="https://portal.azure.com">portal.azure.com</a>:</p>
 <p><img src="images/boards-azure-create-storage.png"></p>
 <p>You can then use the Azure Storage conatiner, account, and key to authenticate:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/board_register_azure.html">board_register_azure</a></span>(<span class="dt">container =</span> <span class="st">"pinscontainer"</span>,</a>
-<a class="sourceLine" id="cb1-2" title="2">                     <span class="dt">account =</span> <span class="st">"pinsstorage"</span>,</a>
-<a class="sourceLine" id="cb1-3" title="3">                     <span class="dt">key =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCAB=="</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="../reference/board_register_azure.html">board_register_azure</a></span>(<span class="dt">container =</span> <span class="st">"pinscontainer"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>                     <span class="dt">account =</span> <span class="st">"pinsstorage"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>                     <span class="dt">key =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCAB=="</span>)</span></code></pre></div>
 <p>Notice that <code><a href="../reference/board_register_azure.html">board_register_azure()</a></code> is just an alias with named parameters to <code><a href="../reference/board_register.html">board_register()</a></code>; the previous code is equivalent to:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"azure"</span>, <span class="dt">container =</span> <span class="st">"pinscontainer"</span>,</a>
-<a class="sourceLine" id="cb2-2" title="2">                        <span class="dt">account =</span> <span class="st">"pinsstorage"</span>,</a>
-<a class="sourceLine" id="cb2-3" title="3">                        <span class="dt">key =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCAB=="</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"azure"</span>, <span class="dt">container =</span> <span class="st">"pinscontainer"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2"></a>                        <span class="dt">account =</span> <span class="st">"pinsstorage"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>                        <span class="dt">key =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCAB=="</span>)</span></code></pre></div>
 <p>Once the board is registered, you can pin and search using <code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
 </div>
 <div id="pinning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pinning" class="anchor"></a>Pinning</h2>
 <p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Azure’s board name,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</span></code></pre></div>
 <p>After a pin is created, the pin also becomes available in the Azure’s dataset website; by default, they are created as private datasets.</p>
 <p><img src="images/boards-azure-storage-pin.png" width="480"></p>
 <p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</span></code></pre></div>
 <pre><code># A tibble: 150 x 5
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -213,13 +213,13 @@
 10          4.9         3.1          1.5         0.1 setosa 
 # … with 140 more rows</code></pre>
 <p>Notice you can also retrieve an arbitrary file using the path to the file or its URL as well:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris/data.csv"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris/data.csv"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</span></code></pre></div>
 </div>
 <div id="discovering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#discovering" class="anchor"></a>Discovering</h2>
 <p>You can then search pins in your Azure board using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular board:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"azure"</span>)</span></code></pre></div>
 <pre><code># A tibble: 2 x 4
   name   description                   type  board
   &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt;

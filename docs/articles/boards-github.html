@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -177,29 +177,29 @@
 <h2 class="hasAnchor">
 <a href="#registering" class="anchor"></a>Registering</h2>
 <p>In order to use GitHub as a <a href="boards-understanding.html">board</a>, you should first authenticate. If you are familiar with GitHub and is already part of your workflow, is likely that you’ll have a <code>GITHUB_PAT</code> environment variable already configured. You can check if GitHub is already configured by running:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></span></code></pre></div>
 <p>If the above statement is <code>TRUE</code>, this means GitHub is already configured, which means you can register an existing GitHub board as follows. However, when using a new repo, first manually create an empty repo from <a href="https://github.com/new">github.com/new</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/board_register_github.html">board_register_github</a></span>(<span class="dt">repo =</span> <span class="st">"owner/repo"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/board_register_github.html">board_register_github</a></span>(<span class="dt">repo =</span> <span class="st">"owner/repo"</span>)</span></code></pre></div>
 <p>Usually, you will want to set <code>owner</code> to be your GitHub username or an organization name you belong to, learn more <a href="https://help.github.com/en/articles/about-repositories">About Repositories</a> in the GitHub docs.</p>
 <p>Notice that <code><a href="../reference/board_register_github.html">board_register_github()</a></code> is just an alias with named parameters to <code><a href="../reference/board_register.html">board_register()</a></code>; the previous code is equivalent to:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"github"</span>, <span class="dt">repo =</span> <span class="st">"owner/repo"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"github"</span>, <span class="dt">repo =</span> <span class="st">"owner/repo"</span>)</span></code></pre></div>
 <p>Alternatively, you can create a GitHub token at <a href="https://github.com/settings/tokens/new">github.com/settings/tokens/new</a> with the required permissions to access your repo. For public repos, you only need the <code>public_repo</code> scope:</p>
 <p><img src="images/boards-github-token.png" width="480"></p>
 <p>Once the token is created, you can register your GitHub board through:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/board_register_github.html">board_register_github</a></span>(<span class="dt">repo =</span> <span class="st">"owner/repo"</span>, <span class="dt">token =</span> <span class="st">"&lt;new-token&gt;"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/board_register_github.html">board_register_github</a></span>(<span class="dt">repo =</span> <span class="st">"owner/repo"</span>, <span class="dt">token =</span> <span class="st">"&lt;new-token&gt;"</span>)</span></code></pre></div>
 <p>This completes the board registration process, you can now focus on using and sharing pins in GitHub.</p>
 </div>
 <div id="pinning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pinning" class="anchor"></a>Pinning</h2>
 <p>Let’s start by creating to pins for <code>iris</code> and <code>mtcars</code> under the GitHub board,</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</span></code></pre></div>
 <p>Notice then the structure in the GitHub repo. Similar to the folder structure in the local board, a folder is created for each pin and a <code>data.txt</code> index added to the repo.</p>
 <p><img src="images/boards-github-repo.png" width="480"></p>
 <p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function,</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</span></code></pre></div>
 <pre><code># A tibble: 150 x 5
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -219,20 +219,20 @@
 <h2 class="hasAnchor">
 <a href="#discovering" class="anchor"></a>Discovering</h2>
 <p>You can then search pins in your repo using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular GitHub board:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</span></code></pre></div>
 <pre><code># A tibble: 1 x 4
   name   description                   type  board 
   &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt; 
 1 mtcars The motor trend cars data set table github</code></pre>
 <p>GitHub boards contain extended fields that go beyond the fields <code>pins</code> requires, to retrieve all the additional fields use <code>extended = TRUE</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"github"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"github"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code># A tibble: 2 x 7
   name   description                   type  path    rows  cols board 
   &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;chr&gt; 
 1 iris   The iris data set             table iris     150     5 github
 2 mtcars The motor trend cars data set table mtcars    32    11 github</code></pre>
 <p>Or <code><a href="../reference/pin_info.html">pin_info()</a></code> to retrieve all the information associated with a particular pin,</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"github"</span>)</span></code></pre></div>
 <pre><code># Source: github&lt;mtcars&gt; [table]
 # Description: The motor trend cars data set
 # Extended:

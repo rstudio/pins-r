@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -190,14 +190,14 @@
 </dd>
 </dl>
 <p>Before we present code examples on how to discover datasets, install the <code>pins</code> package as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"pins"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"pins"</span>)</span></code></pre></div>
 <div id="discovering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#discovering" class="anchor"></a>Discovering</h2>
 <p>You can discover datasets with <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default will search for data inside CRAN packages. The places where <code>pins</code> can find or store resources are referred to as ‘boards’. There are multiple boards available but they require you to configure them so we will leave those for later on.</p>
 <p>As a quick example, let’s search for resources that may contain ‘boston housing’:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"boston housing"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"boston housing"</span>)</span></code></pre></div>
 <pre><code># A tibble: 8 x 4
   name                  description                                            type  board  
   &lt;chr&gt;                 &lt;chr&gt;                                                  &lt;chr&gt; &lt;chr&gt;  
@@ -210,7 +210,7 @@
 7 spData/boston         Corrected Boston Housing Data from spData package.     table packag…
 8 spikeslab/housingI    Boston Housing Interaction Data from spikeslab packag… table packag…</code></pre>
 <p>We’ve found out that the <code>BSDA</code> package contains a <code>Housing</code> dataset, you can then retrieve this dataset using <code><a href="../reference/pin_get.html">pin_get()</a></code> as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"BSDA/Housing"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"BSDA/Housing"</span>)</span></code></pre></div>
 <pre><code># A tibble: 74 x 3
    city       year   price
    &lt;chr&gt;      &lt;fct&gt;  &lt;int&gt;
@@ -231,12 +231,12 @@
 <h2 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h2>
 <p>Let’s suppose that the ‘home prices’ dataset is not exactly what we are looking for, we can try to search online for ‘home prices’ and find out that <a href="https://catalog.data.gov/">catalog.data.gov</a> contains a more suitable <a href="https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis">FHFA House Price Indexes</a> dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use <code><a href="../reference/pin.html">pin()</a></code> to cache this dataset locally:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>)</span></code></pre></div>
 <pre><code>[1] "/Users/username/Library/Caches/pins/local/HPI_master/HPI_master.csv"</code></pre>
 <p>Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(readr)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(readr)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</span></code></pre></div>
 <pre><code># A tibble: 108,826 x 10
    hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
@@ -253,11 +253,11 @@
 # … with 108,816 more rows, and 1 more variable: index_sa &lt;dbl&gt;</code></pre>
 <p>The <code>pins</code> package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set <code>download = TRUE</code> to force <code>pins</code> to download the file again even if we think it has not changed. The specific mechanisms <code>pins</code> uses are based on HTTP headers like <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag</a> to avoid downloading files when they have not changed or when the cache has not expired.</p>
 <p>Notice that <code><a href="../reference/pin.html">pin()</a></code> assigned a name automatically, <code>HPI_master</code> for the previous example; however, you can choose your own name and be explicit about retrieving a pin with <code><a href="../reference/pin_get.html">pin_get()</a></code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>,</a>
-<a class="sourceLine" id="cb10-2" title="2">    <span class="dt">name =</span> <span class="st">"home_price_indexes"</span>)</a>
-<a class="sourceLine" id="cb10-3" title="3"></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    <span class="dt">name =</span> <span class="st">"home_price_indexes"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>())</span></code></pre></div>
 <pre><code># A tibble: 108,826 x 10
    hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
@@ -284,15 +284,15 @@ options(pins.verbose = TRUE)</a></code></pre>
 <a href="#sharing" class="anchor"></a>Sharing</h2>
 <p>After performing a data analysis, you might want to share your dataset with others, which you can achieve using <code><a href="../reference/pin.html">pin(data, board = "&lt;board-name&gt;")</a></code>.</p>
 <p>There are multiple boards available, one of them is the “local” board which <code>pins</code> uses by default. A “local” board can help you share pins with other R sessions and tools using a well-known cache folder in your local computer defined in the <code>rappdirs</code> package. Notice that this board is available by default:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/board_list.html">board_list</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="../reference/board_list.html">board_list</a></span>()</span></code></pre></div>
 <pre><code>[1] "local"    "packages"</code></pre>
 <p>You can also name your boards using the ‘name’ parameter, when a name is not specified, the <code>pins</code> package will simply name your board with the kind of board you are using, ‘local’ in the previous example.</p>
 <p>The following example stores a simple data analysis over home prices as ‘home_price_analysis’ in the ‘local’ board.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-3" title="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-4" title="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"home_price_indexes"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="dt">col_types =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span>()) <span class="op">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(yr) <span class="op">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span><span class="kw"><a href="../reference/pin.html">pin</a></span>(<span class="st">"home_price_analysis"</span>)</span></code></pre></div>
 <pre><code># A tibble: 45 x 2
       yr     n
    &lt;dbl&gt; &lt;int&gt;

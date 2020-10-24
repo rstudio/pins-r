@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -177,40 +177,40 @@
 <p>When using Plumber, you can simply use <code><a href="../../reference/pin_get.html">pin_get()</a></code> since this function is smart-enough to first check for updates before the resource is retrieved When using Shiny, you can use <code><a href="../../reference/pin_reactive.html">pin_reactive()</a></code> which automatically transforms the pin’s resource into a reactive to use from your application.</p>
 <p>We can improve the pipeline from the <a href="create-data-pipelines.htm">Create Data Pipelines</a> use-case by properly generating a web application to display the auto-generated news.</p>
 <p>A Shiny application that reuses the <code>news-generated</code> pin looks as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="../../reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>, <span class="dt">server =</span> <span class="st">"https://beta.rstudioconnect.com"</span>)</a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7">ui &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(</a>
-<a class="sourceLine" id="cb1-8" title="8">    tags<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tags<span class="op">$</span><span class="kw">style</span>(<span class="kw"><a href="https://rdrr.io/pkg/shiny/man/HTML.html">HTML</a></span>(<span class="st">"pre { white-space: pre-wrap; }"</span>))),</a>
-<a class="sourceLine" id="cb1-9" title="9">    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/titlePanel.html">titlePanel</a></span>(<span class="st">"News from Headlines"</span>),</a>
-<a class="sourceLine" id="cb1-10" title="10">    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(</a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidRow</a></span>(</a>
-<a class="sourceLine" id="cb1-12" title="12">            <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html">selectInput</a></span>(<span class="st">"newsHeadline"</span>, <span class="st">"Headline"</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"loading..."</span>), <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">selectize =</span> <span class="ot">FALSE</span>, <span class="dt">width =</span> <span class="st">"100%"</span>)</a>
-<a class="sourceLine" id="cb1-13" title="13">        ),</a>
-<a class="sourceLine" id="cb1-14" title="14">        <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidRow</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/shiny/man/verbatimTextOutput.html">verbatimTextOutput</a></span>(<span class="st">"newsContent"</span>))</a>
-<a class="sourceLine" id="cb1-15" title="15">    )</a>
-<a class="sourceLine" id="cb1-16" title="16">)</a>
-<a class="sourceLine" id="cb1-17" title="17"></a>
-<a class="sourceLine" id="cb1-18" title="18">server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</a>
-<a class="sourceLine" id="cb1-19" title="19">    news &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/pin_reactive.html">pin_reactive</a></span>(<span class="st">"news-generated"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</a>
-<a class="sourceLine" id="cb1-20" title="20"></a>
-<a class="sourceLine" id="cb1-21" title="21">    <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/observe.html">observe</a></span>({</a>
-<a class="sourceLine" id="cb1-22" title="22">        choices &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/news.html">news</a></span>(), title)</a>
-<a class="sourceLine" id="cb1-23" title="23">        <span class="kw"><a href="https://rdrr.io/pkg/shiny/man/updateSelectInput.html">updateSelectInput</a></span>(<span class="dt">session =</span> session, <span class="dt">inputId =</span> <span class="st">"newsHeadline"</span>, <span class="dt">choices =</span> choices, <span class="dt">selected =</span> choices[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb1-24" title="24">    })</a>
-<a class="sourceLine" id="cb1-25" title="25"></a>
-<a class="sourceLine" id="cb1-26" title="26">    output<span class="op">$</span>newsContent &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/renderText.html">renderText</a></span> ({</a>
-<a class="sourceLine" id="cb1-27" title="27">        <span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/news.html">news</a></span>(), title <span class="op">==</span><span class="st"> </span>input<span class="op">$</span>newsHeadline) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-28" title="28"><span class="st">            </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(generated) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-29" title="29"><span class="st">            </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(input<span class="op">$</span>newsHeadline, .) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-30" title="30"><span class="st">            </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&lt;</span><span class="ch">\\</span><span class="st">|endoftext</span><span class="ch">\\</span><span class="st">|&gt;.*"</span>, <span class="st">""</span>, .)</a>
-<a class="sourceLine" id="cb1-31" title="31">    })</a>
-<a class="sourceLine" id="cb1-32" title="32">}</a>
-<a class="sourceLine" id="cb1-33" title="33"></a>
-<a class="sourceLine" id="cb1-34" title="34"><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shiny)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw"><a href="../../reference/board_register.html">board_register</a></span>(<span class="st">"rsconnect"</span>, <span class="dt">server =</span> <span class="st">"https://beta.rstudioconnect.com"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>ui &lt;-<span class="st"> </span><span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    tags<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tags<span class="op">$</span><span class="kw">style</span>(<span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/HTML.html">HTML</a></span>(<span class="st">"pre { white-space: pre-wrap; }"</span>))),</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/titlePanel.html">titlePanel</a></span>(<span class="st">"News from Headlines"</span>),</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(</span>
+<span id="cb1-11"><a href="#cb1-11"></a>        <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidRow</a></span>(</span>
+<span id="cb1-12"><a href="#cb1-12"></a>            <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput</a></span>(<span class="st">"newsHeadline"</span>, <span class="st">"Headline"</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"loading..."</span>), <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">selectize =</span> <span class="ot">FALSE</span>, <span class="dt">width =</span> <span class="st">"100%"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a>        ),</span>
+<span id="cb1-14"><a href="#cb1-14"></a>        <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidRow</a></span>(<span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/verbatimTextOutput.html">verbatimTextOutput</a></span>(<span class="st">"newsContent"</span>))</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    )</span>
+<span id="cb1-16"><a href="#cb1-16"></a>)</span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a>server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session) {</span>
+<span id="cb1-19"><a href="#cb1-19"></a>    news &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/pin_reactive.html">pin_reactive</a></span>(<span class="st">"news-generated"</span>, <span class="dt">board =</span> <span class="st">"rsconnect"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20"></a></span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/observe.html">observe</a></span>({</span>
+<span id="cb1-22"><a href="#cb1-22"></a>        choices &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/news.html">news</a></span>(), title)</span>
+<span id="cb1-23"><a href="#cb1-23"></a>        <span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateSelectInput.html">updateSelectInput</a></span>(<span class="dt">session =</span> session, <span class="dt">inputId =</span> <span class="st">"newsHeadline"</span>, <span class="dt">choices =</span> choices, <span class="dt">selected =</span> choices[<span class="dv">1</span>])</span>
+<span id="cb1-24"><a href="#cb1-24"></a>    })</span>
+<span id="cb1-25"><a href="#cb1-25"></a></span>
+<span id="cb1-26"><a href="#cb1-26"></a>    output<span class="op">$</span>newsContent &lt;-<span class="st"> </span><span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderText.html">renderText</a></span> ({</span>
+<span id="cb1-27"><a href="#cb1-27"></a>        <span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/news.html">news</a></span>(), title <span class="op">==</span><span class="st"> </span>input<span class="op">$</span>newsHeadline) <span class="op">%&gt;%</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="st">            </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(generated) <span class="op">%&gt;%</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="st">            </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(input<span class="op">$</span>newsHeadline, .) <span class="op">%&gt;%</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="st">            </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"&lt;</span><span class="ch">\\</span><span class="st">|endoftext</span><span class="ch">\\</span><span class="st">|&gt;.*"</span>, <span class="st">""</span>, .)</span>
+<span id="cb1-31"><a href="#cb1-31"></a>    })</span>
+<span id="cb1-32"><a href="#cb1-32"></a>}</span>
+<span id="cb1-33"><a href="#cb1-33"></a></span>
+<span id="cb1-34"><a href="#cb1-34"></a><span class="kw"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)</span></code></pre></div>
 <p>You can then run this application locally, and even publish it to <a href="https://rstudio.com/products/shiny/shiny-server/">Shiny Server</a> or <a href="https://rstudio.com/products/connect/">RStudio Connect</a>. Notice that the news will update as soon as the <code>new-generated</code> pin is updated by the data pipeline previously defined. You can take a look at this application by visiting <a href="https://beta.rstudioconnect.com/connect/#/apps/6578/access">beta.rstudioconnect.com/connect/#/apps/6578/access</a>:</p>
 <p><a href="https://beta.rstudioconnect.com/connect/#/apps/6578/access"><img src="images/update-shiny-rsconnect.png"></a></p>
   </div>

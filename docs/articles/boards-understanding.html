@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -174,17 +174,17 @@
     
     
 <p>Whenever you run <code><a href="../reference/pin.html">pin(resource)</a></code>, the resource is stored; by default, this means storing it locally on your computer for the purposes of caching it to avoid re-downloads, recomputing, etc. We can explore this local storage by creating a pin and then enumerating the board’s storage folder:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars)</a>
-<a class="sourceLine" id="cb1-3" title="3">tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">paths =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="kw"><a href="../reference/custom-boards-utils.html">board_local_storage</a></span>(), <span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pins)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">paths =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="kw"><a href="../reference/custom-boards-utils.html">board_local_storage</a></span>(), <span class="dt">full.names =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
 <pre><code># A tibble: 2 x 1
    paths                                                
    &lt;chr&gt;                                                
  1 /Users/username/Library/Caches/pins/local/data.txt   
  2 /Users/username/Library/Caches/pins/local/mtcars          </code></pre>
 <p>As you can see, each pin is stored inside the <code><a href="https://rdrr.io/pkg/rappdirs/man/user_cache_dir.html">rappdirs::user_cache_dir()</a></code> folder and a list of resources is tracked on a <code>data.txt</code> file. The function <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> store and retrieve data from this well-known location, while <code><a href="../reference/pin_find.html">pin_find()</a></code> makes use of the index file to search for resources and track other properties like cache expiration information. We can make explicit use of the default “local” board as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">name =</span> <span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">name =</span> <span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"mtcars"</span>, <span class="dt">board =</span> <span class="st">"local"</span>)</span></code></pre></div>
 <p>A local board is quite useful for all the reasons mentioned in the <a href="pins-rstudio.html">Getting Started</a> article; however, to take full advantage of pins, you can also consider storing pins in shared locations that others can access, for instance:</p>
 <dl>
 <dt>Azure</dt>

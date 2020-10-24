@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -177,21 +177,21 @@
 <h2 class="hasAnchor">
 <a href="#registering" class="anchor"></a>Registering</h2>
 <p>In order to use Kaggle as a <a href="boards-understanding.html">board</a>, you need to authenticate first by creating a token file from <a href="https://www.kaggle.com/me/account">kaggle.com/me/account</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="../reference/board_register_kaggle.html">board_register_kaggle</a></span>(<span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</span></code></pre></div>
 <p>Notice that <code><a href="../reference/board_register_kaggle.html">board_register_kaggle()</a></code> is just an alias with named parameters to <code><a href="../reference/board_register.html">board_register()</a></code>; the previous code is equivalent to:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"kaggle"</span>, <span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"kaggle"</span>, <span class="dt">token =</span> <span class="st">"path/to/kaggle.json"</span>)</span></code></pre></div>
 <p>Once the board is registered, you can pin and search using <code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
 </div>
 <div id="pinning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pinning" class="anchor"></a>Pinning</h2>
 <p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Kaggle’s board name,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <p>After a pin is created, the pin also becomes available in the Kaggle’s dataset website; by default, they are created as private datasets.</p>
 <p><img src="images/boards-kaggle-datasets.png" width="480"></p>
 <p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function. However, since Kaggle names require at least six characters, <code>pins</code> appends <code>-pin</code> to names that are shorter than Kaggle’s required size.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris-pin"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris-pin"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code># A tibble: 150 x 5
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -211,7 +211,7 @@
 <h2 class="hasAnchor">
 <a href="#discovering" class="anchor"></a>Discovering</h2>
 <p>You can then search pins in Kaggle using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular Kaggle board:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code># A tibble: 11 x 4
    name                                         description                          type  board
    &lt;chr&gt;                                        &lt;chr&gt;                                &lt;chr&gt; &lt;chr&gt;
@@ -227,7 +227,7 @@
 10 shreedevi/motor-insurance                    Motor Insurance                      files kagg…
 11 cdc/cdc-motor-vehicle-occupant-death-rate    CDC Motor Vehicle Occupant Death Ra… files kagg…</code></pre>
 <p>Kaggle boards contain extended fields that go beyond the fields <code>pins</code> requires, to retrieve all the additional fields use <code>extended = TRUE</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"motor"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>, <span class="dt">extended =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code># A tibble: 8 x 27
       id subtitle tags  creatorName creatorUrl totalBytes url   lastUpdated downloadCount
    &lt;int&gt; &lt;chr&gt;    &lt;lis&gt; &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;               &lt;int&gt;
@@ -244,7 +244,7 @@
 #   topicCount &lt;int&gt;, viewCount &lt;int&gt;, voteCount &lt;int&gt;, currentVersionNumber &lt;int&gt;,
 #   files &lt;list&gt;, versions &lt;list&gt;, usabilityRating &lt;dbl&gt;, name &lt;chr&gt;, board &lt;chr&gt;, type &lt;chr&gt;</code></pre>
 <p>Or <code><a href="../reference/pin_info.html">pin_info()</a></code> to retrieve all the information associated with a particular pin,</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"electric-motor-temperature"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="../reference/pin_info.html">pin_info</a></span>(<span class="st">"electric-motor-temperature"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code># Source: kaggle&lt;wkirgsn/electric-motor-temperature&gt; [files]
 # Description: Electric Motor Temperature
 # Extended:
@@ -275,7 +275,7 @@
 <h3 class="hasAnchor">
 <a href="#competitions" class="anchor"></a>Competitions</h3>
 <p>Datasets are also searched within competitions and are referenced by the <code>c/</code> prefix. For instance, when searching for <code>crowdflower</code> notice the <code>c/crowdflower-weather-twitter</code> entry:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"crowdflower"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"crowdflower"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code># A tibble: 10 x 4
    name                                                    description                                     type  board 
    &lt;chr&gt;                                                   &lt;chr&gt;                                           &lt;chr&gt; &lt;chr&gt; 
@@ -290,7 +290,7 @@
  9 crowdflower/twitter-user-gender-classification          Twitter User Gender Classification              files kaggle
 10 humancomp/worker-activity-crowdflower                   Workers Browser Activity in CrowdFlower Tasks   files kaggle</code></pre>
 <p>You can then download the data associated to the <code>c/crowdflower-weather-twitter</code> competition:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"c/crowdflower-weather-twitter"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"c/crowdflower-weather-twitter"</span>, <span class="dt">board =</span> <span class="st">"kaggle"</span>)</span></code></pre></div>
 <pre><code>[1] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/sampleSubmission.csv"
 [2] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/test.csv"            
 [3] "/Users/javierluraschi/Library/Caches/pins/kaggle/crowdflower-weather-twitter/train.csv"           
