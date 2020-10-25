@@ -55,8 +55,7 @@ library(pins)
 There are two main ways to pin a resource:
 
   - Pin a remote file with `pin(url)`. This will download the file and
-    make it available in a local
-    cache:
+    make it available in a local cache:
     
     ``` r
     url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
@@ -150,25 +149,23 @@ pin_info("hpiR/seattle_sales")
 #> # Source: packages<hpiR/seattle_sales> [table]
 #> # Description: Seattle Home Sales from hpiR package.
 #> # Properties:
-#> #   - rows: 43313
-#> #   - cols: 16
+#> #   rows: 43313
+#> #   cols: 16
 ```
 
 ### Share
 
 Finally, you can share resources with other users by publishing to
-[Kaggle](https://rstudio.github.io/pins/articles/boards-kaggle.html),
-[GitHub](https://rstudio.github.io/pins/articles/boards-github.html),
-[RStudio
-Connect](https://rstudio.github.io/pins/articles/boards-rsconnect.html),
-[Azure](https://rstudio.github.io/pins/articles/boards-azure.html),
-[Google
-Cloud](https://rstudio.github.io/pins/articles/boards-gcloud.html),
-[S3](https://rstudio.github.io/pins/articles/boards-s3.html),
-[DigitalOcean](https://rstudio.github.io/pins/articles/boards-dospace.html)
-or integrate them to your
-[website](https://rstudio.github.io/pins/articles/boards-websites.html)
-as well.
+[Kaggle](https://pins.rstudio.com/articles/boards-kaggle.html),
+[GitHub](https://pins.rstudio.com/articles/boards-github.html), [RStudio
+Connect](https://pins.rstudio.com/articles/boards-rsconnect.html),
+[Azure](https://pins.rstudio.com/articles/boards-azure.html), [Google
+Cloud](https://pins.rstudio.com/articles/boards-gcloud.html),
+[S3](https://pins.rstudio.com/articles/boards-s3.html),
+[DigitalOcean](https://pins.rstudio.com/articles/boards-dospace.html) or
+integrate them into your
+[website](https://pins.rstudio.com/articles/boards-websites.html) as
+well.
 
 To publish to Kaggle, you would first need to register the Kaggle board
 by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
@@ -284,8 +281,7 @@ a dataset\!
 Experimental support for pins is also available in Python. However,
 since the Python interface currently makes use of the R package, the R
 runtime needs to be installed when using pins from Python. To get
-started, first install the pins
-module:
+started, first install the pins module:
 
 ``` bash
 pip install git+https://github.com/rstudio/pins.git@v0.3.1#subdirectory=python
@@ -299,5 +295,5 @@ pins.pin_get("hpiR/seattle_sales")
 ```
 
 Please make sure to ~~pin~~ visit,
-[rstudio.github.io/pins](https://rstudio.github.io/pins/index.html),
-where you will find detailed documentation and additional resources.
+[pins.rstudio.com](https://pins.rstudio.com/), where you will find
+detailed documentation and additional resources.

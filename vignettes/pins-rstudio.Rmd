@@ -11,7 +11,7 @@ After installing the `pins` package, two features become available in RStudio: t
 
 ## Addin
 
-You can use the Find Pins [Addin](https://rstudio.github.io/rstudioaddins) to visually discover resources, this functionality is equivalent to using `pin_find()`.
+You can use the Find Pins [Addin](https://rstudio.github.io/rstudioaddins/) to visually discover resources, this functionality is equivalent to using `pin_find()`.
 
 ![](images/rstudio-discover-pins.png){width=100%}
 

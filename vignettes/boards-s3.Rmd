@@ -13,7 +13,7 @@ library(pins)
 
 ## Registering
 
-In order to use Amazon S3 Storage as a [board](boards-understanding.html), you need an Amazon S3 bucket and a user key enabled for programmatic access container created with enough permissions to access the S3 bucket. You can sign-up and create those from [amazonaws.com](http://amazonaws.com). Please notice that after crating a bucket, it can take several minutes for this bucket to be usable.
+In order to use Amazon S3 Storage as a [board](boards-understanding.html), you need an Amazon S3 bucket and a user key enabled for programmatic access container created with enough permissions to access the S3 bucket. You can sign-up and create those from [amazonaws.com](https://aws.amazon.com/). Please notice that after crating a bucket, it can take several minutes for this bucket to be usable.
 
 ![](images/boards-s3-create-storage.png)
 
