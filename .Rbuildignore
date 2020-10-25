@@ -20,3 +20,4 @@
 ^vignettes/use-cases.Rmd
 ^examples$
 ^blog$
+^\.github$
