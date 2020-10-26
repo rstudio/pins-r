@@ -192,7 +192,7 @@ Learn more in `vignette("boards-understanding")`
 
 Experimental support for `pins` was introduced in RStudio Connect 1.7.8
 so that you can use [RStudio](https://www.rstudio.com/products/rstudio/)
-and [RStudio Connect](https://www.rstudio.com/products/connect/) to
+and [RStudio Connect](https://rstudio.com/products/connect/) to
 discover and share resources within your organization with ease. To
 enable new boards, use [RStudio’s Data
 Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
