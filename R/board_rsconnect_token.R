@@ -39,10 +39,18 @@ rsconnect_token_initialize <- function(board) {
     board$server_name <- accounts$server[1]
   }
 
+  if (!any(accounts$server == board$server_name)) {
+    stop("The server ", board$server_name, " is not registered, available servers: ", paste0(accounts$server, collapse = ", "))
+  }
+
   if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name,]$name
 
   if (length(board$account) != 1) {
     stop("Multiple accounts (", paste(board$account, collapse = ", "), ") are associated to this server, please specify the correct account parameter in board_register().")
+  }
+
+  if (!any(accounts$name == board$account)) {
+    stop("The account ", board$account, " is not registered, available accounts: ", paste0(accounts$name, collapse = ", "))
   }
 
   # always use the url from rstudio to ensure redirects work properly even when the full path is not specified

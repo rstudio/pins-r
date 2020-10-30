@@ -43,7 +43,7 @@ board_initialize.rsconnect <- function(board, ...) {
 
   board$pins_supported <- tryCatch(rsconnect_pins_supported(board), error = function(e) FALSE)
 
-  if (is.null(board$account )) {
+  if (is.null(board$account)) {
     board$account  <- rsconnect_api_get(board, "/__api__/users/current/")$username
   }
 
