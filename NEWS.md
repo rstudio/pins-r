@@ -4,6 +4,9 @@
 
 - Invalid 'account' or 'server' parameters show proper errors (#296).
 
+- Increase total entries retrieved with `pin_find()`, configurable with
+  `pins.search.count` (#296).
+
 # pins 0.4.4
 
 ## Pins
