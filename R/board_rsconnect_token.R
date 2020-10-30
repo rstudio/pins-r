@@ -40,7 +40,8 @@ rsconnect_token_initialize <- function(board) {
   }
 
   if (!any(accounts$server == board$server_name)) {
-    stop("The server ", board$server_name, " is not registered, available servers: ", paste0(accounts$server, collapse = ", "))
+    registered <- accounts$server[!grepl("^shinyapps.io", accounts$server)]
+    stop("The server ", board$server_name, " is not registered, available servers: ", paste0(registered, collapse = ", "))
   }
 
   if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name,]$name
