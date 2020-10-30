@@ -230,7 +230,7 @@ board_pin_find.rsconnect <- function(board,
 
   if (identical(board$pins_supported, TRUE)) content_filter <- "filter=content_type:pin&"
 
-  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?", content_filter, utils::URLencode(filter)))$applications
+  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?count=", getOption("pins.search.count", 10000) ,"&", content_filter, utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
 
   entries <- lapply(entries, function(e) { e$name <- paste(e$owner_username, e$name, sep = "/") ; e })
