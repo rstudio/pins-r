@@ -1,3 +1,9 @@
+# pins 0.4.4.9000
+
+## RStudio Connect
+
+- Invalid 'account' or 'server' parameters show proper errors (#296).
+
 # pins 0.4.4
 
 ## Pins
