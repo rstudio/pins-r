@@ -19,7 +19,7 @@ cache:
 matrix:
   include:
     - name: "R"
-      r: 3.2.3
+      r: 3.3.0
       warnings_are_errors: true
       script:
         - gcloud version || true
