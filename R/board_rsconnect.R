@@ -71,12 +71,16 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
   if (grepl("/", name)) {
     name_qualified <- name
     name <- gsub(".*/", "", name_qualified)
+    account_name <- gsub("/.*", "", name_qualified)
+
+    if (grepl("/", name) || grepl("/", account_name))
+      stop("Pin names must follow the user/name convention.")
   }
   else {
     name_qualified <- paste0(board$account, "/", name)
+    account_name <- board$account
   }
 
-  account_name <- board$account
   if (identical(board$output_files, TRUE)) {
     account_name <- "https://rstudio-connect-server/content/app-id"
   }

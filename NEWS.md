@@ -6,6 +6,9 @@
 
 - Increase total entries retrieved with `pin_find()`, configurable with
   `pins.search.count` (#296).
+  
+- Fix regression introduced in pins 0.4.2 (#253) preventing users from
+  collaborating on existing pins they have access to (#302).
 
 # pins 0.4.4
 
