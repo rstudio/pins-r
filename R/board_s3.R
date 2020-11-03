@@ -44,7 +44,7 @@ board_initialize.s3 <- function(board,
   if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
 
-  s3_url <- paste0("http://", board$bucket, ".", host)
+  s3_url <- paste0("https://", board$bucket, ".", host)
 
   board_register_datatxt(name = board$name,
                          url = s3_url,

@@ -1,5 +1,9 @@
 # pins 0.4.4.9000
 
+## S3
+
+- Default to using HTTPS in S3 boards (#304).
+
 ## RStudio Connect
 
 - Invalid 'account' or 'server' parameters show proper errors (#296).
