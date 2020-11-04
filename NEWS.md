@@ -13,6 +13,10 @@
   
 - Fix regression introduced in pins 0.4.2 (#253) preventing users from
   collaborating on existing pins they have access to (#302).
+  
+- Avoid deleting pin when upload fails to avoid deleting versions (#306).
+
+- Support re-creating pins from pins not previously properly updated (#308).
 
 # pins 0.4.4
 

@@ -51,6 +51,7 @@ board_initialize.rsconnect <- function(board, ...) {
 }
 
 board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
+                                       search_all = FALSE,
                                       ...) {
   dots <- list(...)
   access_type <- if (!is.null(access_type <- dots[["access_type"]])) {
@@ -113,7 +114,8 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
   else {
     previous_versions <- NULL
 
-    existing <- rsconnect_get_by_name(board, name_qualified)
+    # use all_content to ensure broken pins can be overwritten
+    existing <- rsconnect_get_by_name(board, name_qualified, all_content = search_all)
     if (nrow(existing) == 0) {
       content <- rsconnect_api_post(board,
                                   paste0("/__api__/v1/experimental/content"),
@@ -124,6 +126,10 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
                                     description = board_metadata_to_text(metadata, metadata$description)
                                   ))
       if (!is.null(content$error)) {
+        # we might fail to create pins that exists (code 26) but are not shown as pins since they fail while being created
+        if (identical(content$code, 26L))
+          return(board_pin_create.rsconnect(board = board, path = path, name = name, metadata = metadata, code = code, search_all = TRUE, ...))
+
         pin_log("Failed to create pin with name '", name, "'.")
         stop("Failed to create pin: ", content$error)
       }
@@ -132,6 +138,10 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
     }
     else {
       guid <- existing$guid
+
+      if (!existing$content_category %in% c("pin", "")) {
+        stop("Failed to create pin: Content named '", name, "' of type '", existing$content_category, "' already exists.")
+      }
 
       # when versioning is turned off we also need to clean up previous bundles so we store the current versions
       if (!board_versions_enabled(board, TRUE)) {
@@ -229,7 +239,7 @@ board_pin_find.rsconnect <- function(board,
   filter <- paste0("search=", text)
   content_filter <- ""
 
-  if (identical(board$pins_supported, TRUE)) content_filter <- "filter=content_type:pin&"
+  if (identical(board$pins_supported, TRUE) && !identical(all_content, TRUE)) content_filter <- "filter=content_type:pin&"
 
   entries <- rsconnect_api_get(board, paste0("/__api__/applications/?count=", getOption("pins.search.count", 10000) ,"&", content_filter, utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
@@ -284,10 +294,10 @@ board_pin_find.rsconnect <- function(board,
   results
 }
 
-rsconnect_get_by_name <- function(board, name) {
+rsconnect_get_by_name <- function(board, name, all_content = FALSE) {
   only_name <- pin_content_name(name)
 
-  details <- board_pin_find(board, text = only_name, name = name)
+  details <- board_pin_find(board, text = only_name, name = name, all_content = all_content)
   details <- pin_results_extract_column(details, "content_category")
   details <- pin_results_extract_column(details, "url")
   details <- pin_results_extract_column(details, "guid")
