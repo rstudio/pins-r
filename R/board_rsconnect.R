@@ -185,9 +185,6 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
                                  progress = http_utils_progress("up", size = file.info(normalizePath(bundle))$size))
 
     if (!is.null(upload$error)) {
-      # before we fail, clean up rsconnect content
-      rsconnect_api_delete(board, paste0("/__api__/v1/experimental/content/", guid))
-
       stop("Failed to upload pin: ", upload$error)
     }
 
