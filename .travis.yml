@@ -38,6 +38,7 @@ matrix:
       after_success:
         - rm -rf ~/.pins
         - Rscript -e 'covr::codecov()'
+  allow_failures:
     - name: "Python"
       r_packages:
         - feather
