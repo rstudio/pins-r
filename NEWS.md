@@ -1,5 +1,10 @@
 # pins 0.4.4.9000
 
+## Pins
+
+- Support downloading remote files when service returns incompatible
+  `data.txt` file (#310).
+
 ## S3
 
 - Default to using HTTPS in S3 boards (#304).

@@ -33,9 +33,11 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
     datatxt_path <- file.path(path, "data.txt")
     local_path <- pin_download(datatxt_path, name, board_default(), can_fail = TRUE)
     if (!is.null(local_path)) {
-      manifest <- pin_manifest_get(local_path)
-      path <- paste(path, manifest$path, sep = "/")
-      extract <- FALSE
+      manifest <- tryCatch(pin_manifest_get(local_path), error = function(e) { unlink(file.path(local_path, "data.txt")) ; NULL })
+      if (!is.null(manifest) && !is.null(manifest$path)) {
+        path <- paste(path, manifest$path, sep = "/")
+        extract <- FALSE
+      }
     }
   }
 
