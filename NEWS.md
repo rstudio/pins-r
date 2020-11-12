@@ -4,6 +4,8 @@
 
 - Support downloading remote files when service returns incompatible
   `data.txt` file (#310).
+  
+- Support for pins over 100MB in Windows systems (#313).
 
 ## S3
 

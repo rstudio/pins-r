@@ -76,7 +76,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
 
       if (details$something_changed) {
         copy_or_link <- function(from, to) {
-          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8))
+          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8) && .Platform$OS.type != "windows")
             fs::link_create(from, file.path(to, basename(from)))
           else
             file.copy(from, to, recursive = TRUE)
