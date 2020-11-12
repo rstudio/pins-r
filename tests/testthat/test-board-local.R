@@ -17,6 +17,10 @@ test_that(paste("can pin() file with auto-generated name in local board"), {
 
 board_test("local", suite = "default")
 
+options(pins.link.size = 1)
+board_test("local", suite = "default", destination = "local board with links")
+options(pins.link.size = NULL)
+
 test_that("local board is registered with versions", {
   board_register("local", cache = tempfile(), versions = TRUE)
   expect_true("local" %in% board_list())
