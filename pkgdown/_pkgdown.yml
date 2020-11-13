@@ -65,6 +65,8 @@ navbar:
         - text: Advanced
         - text: "Versioning"
           href: articles/advanced-versions.html
+        - text: "Too Big To Pin"
+          href: articles/advanced-too-big.html
         - text: "---"
         - text: Extensions
         - text: "Extending Pins"
