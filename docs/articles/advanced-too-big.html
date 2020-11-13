@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Using S3 Boards • pins</title>
+<title>Too Big To Pin • pins</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Using S3 Boards">
+<meta property="og:title" content="Too Big To Pin">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -166,69 +166,30 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Using S3 Boards</h1>
+      <h1>Too Big To Pin</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/boards-s3.Rmd"><code>vignettes/boards-s3.Rmd</code></a></small>
-      <div class="hidden name"><code>boards-s3.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/advanced-too-big.Rmd"><code>vignettes/advanced-too-big.Rmd</code></a></small>
+      <div class="hidden name"><code>advanced-too-big.Rmd</code></div>
 
     </div>
 
     
     
-<div id="registering" class="section level2">
+<p>An important factor in determining whether or not to use a pin is the size of the data or object in use. Pins, in their simplest form, are objects transmitted through web requests. One way to determine if an object is too big to be a pin is by considering how long a web request to retrieve the pin will take. For example, if an object is 100 MB and the internet connection speed is 25 MB/s, the <em>fastest</em> the <code>pin_get</code> code could return would be 4 seconds. In many cases, it may take longer to return this data. Creating the pin will also take substantially longer because most networks have a slower upload speed than download speed.</p>
+<p>You can see an object’s size in R using code like:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(data_frame), <span class="dt">units =</span> <span class="st">"MB"</span>)</span></code></pre></div>
+<p><em>As a general rule of thumb, you should not use pins for objects that are larger than 500 MB</em>.</p>
+<div id="alternatives-to-pins-for-large-objects" class="section level2">
 <h2 class="hasAnchor">
-<a href="#registering" class="anchor"></a>Registering</h2>
-<p>In order to use Amazon S3 Storage as a <a href="boards-understanding.html">board</a>, you need an Amazon S3 bucket and a user key enabled for programmatic access container created with enough permissions to access the S3 bucket. You can sign-up and create those from <a href="https://aws.amazon.com/">amazonaws.com</a>. Please notice that after crating a bucket, it can take several minutes for this bucket to be usable.</p>
-<p><img src="images/boards-s3-create-storage.png"></p>
-<p>You can then use the S3 Storage bucket, key, and secret to authenticate:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="../reference/board_register_s3.html">board_register_s3</a></span>(<span class="dt">bucket =</span> <span class="st">"pinsbucket"</span>,</span>
-<span id="cb1-2"><a href="#cb1-2"></a>                  <span class="dt">key =</span> <span class="st">"AAAAAAAAAAAAAAAAAAAA"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3"></a>                  <span class="dt">secret =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCABCABCABCABCA=="</span>)</span></code></pre></div>
-<p>Notice that <code><a href="../reference/board_register_s3.html">board_register_s3()</a></code> is just an alias with named parameters to <code><a href="../reference/board_register.html">board_register()</a></code>; the previous code is equivalent to:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"s3"</span>, <span class="dt">bucket =</span> <span class="st">"pinsbucket"</span>,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>                     <span class="dt">key =</span> <span class="st">"AAAAAAAAAAAAAAAAAAAA"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>                     <span class="dt">secret =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCABCABCABCABCA=="</span>)</span></code></pre></div>
-<p>Once the board is registered, you can pin and search using <code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
-</div>
-<div id="pinning" class="section level2">
-<h2 class="hasAnchor">
-<a href="#pinning" class="anchor"></a>Pinning</h2>
-<p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Amazon S3 Bucket’s name,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
-<p>After a pin is created, the pin also becomes available in the Amazon S3 Bucket; by default, they are created as private datasets.</p>
-<p><img src="images/boards-s3-storage-pin.png" width="480"></p>
-<p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
-<pre><code># A tibble: 150 x 5
-   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
- 1          5.1         3.5          1.4         0.2 setosa 
- 2          4.9         3            1.4         0.2 setosa 
- 3          4.7         3.2          1.3         0.2 setosa 
- 4          4.6         3.1          1.5         0.2 setosa 
- 5          5           3.6          1.4         0.2 setosa 
- 6          5.4         3.9          1.7         0.4 setosa 
- 7          4.6         3.4          1.4         0.3 setosa 
- 8          5           3.4          1.5         0.2 setosa 
- 9          4.4         2.9          1.4         0.2 setosa 
-10          4.9         3.1          1.5         0.1 setosa 
-# … with 140 more rows</code></pre>
-<p>Notice you can also retrieve an arbitrary file using the path to the file or its URL as well:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris/data.csv"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
-</div>
-<div id="discovering" class="section level2">
-<h2 class="hasAnchor">
-<a href="#discovering" class="anchor"></a>Discovering</h2>
-<p>You can then search pins in your S3 board using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular board:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
-<pre><code># A tibble: 2 x 4
-  name   description                   type  board
-  &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt;
-1 iris   The iris data set             table s3   
-2 mtcars The motor trend cars data set table s3 </code></pre>
-<p>Notice that the given ‘data’ search keyword is searched in the name and description fields for the pins available in this repo.</p>
+<a href="#alternatives-to-pins-for-large-objects" class="anchor"></a>Alternatives to pins for large objects</h2>
+<p>If your object is too big to pin there are a few options:</p>
+<ol style="list-style-type: decimal">
+<li><p>You could write your data back to a database. It is quite common for data science teams to create intermediate “feature stores” which are simply tables in a database containing processed data. The odbc package includes a <code>dbWriteTable</code> function to help in these cases.</p></li>
+<li><p>If you are using Spark as a processing engine, you can write your processed data using the <a href="https://spark.rstudio.com/reference/">sparklyr package</a> which has numerous <code>spark_write_</code> functions. These functions can write to a file system (<code>file://</code>), Hadoop (<code>hdfs://</code>), or Amazon S3 (<code>s3a://</code>). A benefit of using the <code>spark_write_</code> functions is that the write operation will typically happen in parallel. Some formats, such as parquet, support writing data by partition which can speed up subsequent analysis that begin by reading in the partitioned data.</p></li>
+<li><p>If you are working with larger data but are not using Spark, an efficient and flexible read/write option is provided in the <a href="https://arrow.apache.org/docs/r/index.html">arrow</a> package. This <a href="https://arrow.apache.org/docs/r/articles/dataset.html">vignette</a> contains relevant details. The package supports parquet, csv, and other common data formats and enables portioned writing and dplyr-based querying.</p></li>
+</ol>
+<p>Pins are incredibly flexible and convenient. They are easy to consume, often through a single URL, and pins typically have straightforward access controls. However, pins are not a substitute for a data engineering pipeline. It is a good idea to check your object size before using a pin.</p>
 </div>
   </div>
 
@@ -237,9 +198,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#registering">Registering</a></li>
-      <li><a href="#pinning">Pinning</a></li>
-      <li><a href="#discovering">Discovering</a></li>
+<li><a href="#alternatives-to-pins-for-large-objects">Alternatives to pins for large objects</a></li>
       </ul>
 </div>
       </div>

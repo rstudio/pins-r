@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4.9007</span>
       </span>
     </div>
 
@@ -131,6 +131,9 @@
     <li class="dropdown-header">Advanced</li>
     <li>
       <a href="../articles/advanced-versions.html">Versioning</a>
+    </li>
+    <li>
+      <a href="../articles/advanced-too-big.html">Too Big To Pin</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Extensions</li>
@@ -204,13 +207,44 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-044" class="section level1">
+    <div id="pins-0449000" class="section level1">
 <h1 class="page-header">
-<a href="#pins-044" class="anchor"></a>pins 0.4.4<small> 2020-10-30 </small>
+<a href="#pins-0449000" class="anchor"></a>pins 0.4.4.9000<small> Unreleased </small>
 </h1>
 <div id="pins" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pins" class="anchor"></a>Pins</h2>
+<ul>
+<li><p>Support downloading remote files when service returns incompatible <code>data.txt</code> file (<a href='https://github.com/rstudio/pins/issues/310'>#310</a>).</p></li>
+<li><p>Support for pins over 100MB in Windows systems (<a href='https://github.com/rstudio/pins/issues/313'>#313</a>).</p></li>
+</ul>
+</div>
+<div id="s3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#s3" class="anchor"></a>S3</h2>
+<ul>
+<li>Default to using HTTPS in S3 boards (<a href='https://github.com/rstudio/pins/issues/304'>#304</a>).</li>
+</ul>
+</div>
+<div id="rstudio-connect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<ul>
+<li><p>Invalid ‘account’ or ‘server’ parameters show proper errors (<a href='https://github.com/rstudio/pins/issues/296'>#296</a>).</p></li>
+<li><p>Increase total entries retrieved with <code><a href="../reference/pin_find.html">pin_find()</a></code>, configurable with <code>pins.search.count</code> (<a href='https://github.com/rstudio/pins/issues/296'>#296</a>).</p></li>
+<li><p>Fix regression introduced in pins 0.4.2 (<a href='https://github.com/rstudio/pins/issues/253'>#253</a>) preventing users from collaborating on existing pins they have access to (<a href='https://github.com/rstudio/pins/issues/302'>#302</a>).</p></li>
+<li><p>Avoid deleting pin when upload fails to avoid deleting versions (<a href='https://github.com/rstudio/pins/issues/306'>#306</a>).</p></li>
+<li><p>Support re-creating pins from pins not previously properly updated (<a href='https://github.com/rstudio/pins/issues/308'>#308</a>).</p></li>
+</ul>
+</div>
+</div>
+    <div id="pins-044" class="section level1">
+<h1 class="page-header">
+<a href="#pins-044" class="anchor"></a>pins 0.4.4<small> 2020-10-30 </small>
+</h1>
+<div id="pins-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#pins-1" class="anchor"></a>Pins</h2>
 <ul>
 <li><p>For files bigger than 100MB <code><a href="../reference/pin.html">pin()</a></code> creates symlinks to speed up uploads, can be configured using the <code>pins.link.size</code> option (<a href='https://github.com/rstudio/pins/issues/273'>#273</a>).</p></li>
 <li><p>When using <code><a href="../reference/pin.html">pin(zip = TRUE)</a></code> the zip no longer contains local patahs (<a href='https://github.com/rstudio/pins/issues/277'>#277</a>).</p></li>
@@ -237,9 +271,9 @@
 <li>Support for <code><a href="../reference/pin_get.html">pin_get(download = FALSE)</a></code> to avoid checking for updates.</li>
 </ul>
 </div>
-<div id="rstudio-connect" class="section level2">
+<div id="rstudio-connect-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for servers with mismatched <code>http</code> vs <code>https</code> protocols.</p></li>
 <li><p>Make use of <code>RSCONNECT_TAR</code> when running a report inside RStudio Connect (<a href='https://github.com/rstudio/pins/issues/293'>#293</a>).</p></li>
@@ -278,9 +312,9 @@
 <li><p>Fix issue where datatxt was not refreshing deleted entries (<a href='https://github.com/rstudio/pins/issues/239'>#239</a>).</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-1" class="section level2">
+<div id="rstudio-connect-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-1" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for <code>versions = FALSE</code> in <code><a href="../reference/board_register.html">board_register()</a></code> to avoid using too much space when creating pins (<a href='https://github.com/rstudio/pins/issues/245'>#245</a>).</p></li>
 <li><p>Prevent administrators from overriding pins they don’t own, unless the pin is specified as <code>user/name</code> (<a href='https://github.com/rstudio/pins/issues/253'>#253</a>).</p></li>
@@ -306,9 +340,9 @@
 <li><p>Support for <code><a href="../reference/pin.html">pin(zip = TRUE)</a></code> to create a zip file of the given path before creating the pin (<a href='https://github.com/rstudio/pins/issues/232'>#232</a>).</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-2" class="section level2">
+<div id="rstudio-connect-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-2" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix when overriding pin with corrupt metadata.</p></li>
 <li><p>Avoid using shared caches when running inside RStudio Connect.</p></li>
@@ -351,9 +385,9 @@
 <li><p><code><a href="../reference/pin_remove.html">pin_remove()</a></code> now refreshes the connections pane.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-3" class="section level2">
+<div id="rstudio-connect-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-3" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-4" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for <code>code</code> parameter in <code><a href="../reference/pin.html">pin()</a></code> to customize R code used in the UI to retrieve the pin (<a href='https://github.com/rstudio/pins/issues/77'>#77</a>).</p></li>
 <li><p>Improve error message for <code><a href="../reference/pin_get.html">pin_get()</a></code> with duplicate names (<a href='https://github.com/rstudio/pins/issues/171'>#171</a>).</p></li>
@@ -383,17 +417,17 @@
 <h1 class="page-header">
 <a href="#pins-032" class="anchor"></a>pins 0.3.2<small> 2020-02-06 </small>
 </h1>
-<div id="pins-1" class="section level2">
+<div id="pins-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pins-1" class="anchor"></a>Pins</h2>
+<a href="#pins-2" class="anchor"></a>Pins</h2>
 <ul>
 <li>
 <code><a href="../reference/pin_info.html">pin_info()</a></code> adds support for <code>metadata</code> parameter to avoid retrieving pin contents.</li>
 </ul>
 </div>
-<div id="s3" class="section level2">
+<div id="s3-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#s3" class="anchor"></a>S3</h2>
+<a href="#s3-1" class="anchor"></a>S3</h2>
 <ul>
 <li>Added support for <code>host</code> parameter to configure “s3.amazonaws.com” to custom locations.</li>
 </ul>
@@ -410,9 +444,9 @@
 <h1 class="page-header">
 <a href="#pins-031" class="anchor"></a>pins 0.3.1<small> 2020-01-10 </small>
 </h1>
-<div id="pins-2" class="section level2">
+<div id="pins-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pins-2" class="anchor"></a>Pins</h2>
+<a href="#pins-3" class="anchor"></a>Pins</h2>
 <ul>
 <li><p><code><a href="../reference/pin_info.html">pin_info()</a></code> prints long character strings in their own line.</p></li>
 <li><p>Fixed issue in <code><a href="../reference/pin_remove.html">pin_remove()</a></code> for S3, Azure, GCloud, Google and website boards (<a href='https://github.com/rstudio/pins/issues/138'>#138</a>).</p></li>
@@ -434,9 +468,9 @@
 <li><p>Fixed connection launcher for Azure connections.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-4" class="section level2">
+<div id="rstudio-connect-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-4" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-5" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue uploading large pins causing <code>is.character(type) is not TRUE</code> error.</p></li>
 <li><p>Fix issue affecting boards registered with trailing slash (<a href='https://github.com/rstudio/pins/issues/151'>#151</a>).</p></li>
@@ -454,9 +488,9 @@
 <li><p>Support for Google Cloud board.</p></li>
 <li><p>Support for S3 board.</p></li>
 </ul>
-<div id="pins-3" class="section level2">
+<div id="pins-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pins-3" class="anchor"></a>Pins</h2>
+<a href="#pins-4" class="anchor"></a>Pins</h2>
 <ul>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> extracts URLs that end in <code>.gz</code> and <code>zip</code>, which can be disabled with <code><a href="../reference/pin.html">pin("&lt;url&gt;", extract = FALSE)</a></code>.</p></li>
 <li><p><code><a href="../reference/pin.html">pin()</a></code> no longer prints the pin, you can revert this behavior with <code><a href="https://rdrr.io/r/base/options.html">options(pins.invisible = FALSE)</a></code> (<a href='https://github.com/rstudio/pins/issues/122'>#122</a>).</p></li>
@@ -487,9 +521,9 @@
 <li><p>Fix connection code when a board is registered automatically.</p></li>
 </ul>
 </div>
-<div id="rstudio-connect-5" class="section level2">
+<div id="rstudio-connect-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-5" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-6" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Fix issue where <code><a href="../reference/pin_find.html">pin_find()</a></code> would not show all available pins.</p></li>
 <li><p>Fix issue where RStudio Connections pane would not show all pins.</p></li>
@@ -527,9 +561,9 @@
 <h1 class="page-header">
 <a href="#pins-020" class="anchor"></a>pins 0.2.0<small> 2019-10-01 </small>
 </h1>
-<div id="rstudio-connect-6" class="section level2">
+<div id="rstudio-connect-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rstudio-connect-6" class="anchor"></a>RStudio Connect</h2>
+<a href="#rstudio-connect-7" class="anchor"></a>RStudio Connect</h2>
 <ul>
 <li><p>Support for retrieving pins shared by others in RStudio Connect boards.</p></li>
 <li><p>Support for RStudio Connect servers running under a subpath in the server.</p></li>
@@ -602,6 +636,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#pins-0449000">0.4.4.9000</a></li>
         <li><a href="#pins-044">0.4.4</a></li>
         <li><a href="#pins-043">0.4.3</a></li>
         <li><a href="#pins-042">0.4.2</a></li>

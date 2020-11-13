@@ -2,6 +2,7 @@ pandoc: 2.9.2.1
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  advanced-too-big: advanced-too-big.html
   advanced-versions: advanced-versions.html
   boards-azure: boards-azure.html
   boards-dospace: boards-dospace.html
