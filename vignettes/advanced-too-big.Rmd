@@ -25,7 +25,7 @@ If your object is too big to pin there are a few options:
 
 2. If you are using Spark as a processing engine, you can write your processed data using the [sparklyr package](https://spark.rstudio.com/reference/) which has numerous `spark_write_` functions. These functions can write to a file system (`file://`), Hadoop (`hdfs://`), or Amazon S3 (`s3a://`). A benefit of using the `spark_write_` functions is that the write operation will typically happen in parallel. Some formats, such as parquet, support writing data by partition which can speed up subsequent analysis that begin by reading in the partitioned data.
 
-3. If you are working with larger data but are not using Spark, an efficient and flexible read/write option is provided in the [arrow](https://arrow.apache.org/docs/r/index.html) package. This [vignette](https://arrow.apache.org/docs/r/articles/dataset.html) contains relevant details. The package supports parquet, csv, and other common data formats and enables portioned writing and dplyr-based querying.
+3. If you are working with larger data but are not using Spark, an efficient and flexible read/write option is provided in the [arrow](https://arrow.apache.org/docs/r/index.html) package. This [vignette](https://arrow.apache.org/docs/r/articles/dataset.html) contains relevant details. The package supports parquet, csv, and other common data formats and enables partitioned writing and dplyr-based querying.
 
 Pins are incredibly flexible and convenient. They are easy to consume, often through a single URL, and pins typically have straightforward access controls. However, pins are not a substitute for a data engineering pipeline. It is a good idea to check your object size before using a pin.
 
