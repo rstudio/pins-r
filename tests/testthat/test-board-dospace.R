@@ -28,5 +28,5 @@ test_do_suite <- function(suite, versions = NULL) {
   }
 }
 
-test_do_suite("default")
-test_do_suite("versions", versions = TRUE)
+# test_do_suite("default")
+# test_do_suite("versions", versions = TRUE)
