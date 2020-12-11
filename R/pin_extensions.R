@@ -104,6 +104,13 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
       metadata <- pins_merge_custom_metadata(metadata, custom_metadata)
 
       pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
+
+      for (metaname in names(metadata)) {
+        # see issues/127 which requires encoding to prevent windows crashes
+        if (is.character(metadata[metaname])) {
+          metadata[metaname] <- enc2utf8(metadata[metaname])
+        }
+      }
     }
 
     board_pin_create(board, store_path, name = name, metadata = metadata, ...)

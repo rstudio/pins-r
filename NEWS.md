@@ -7,6 +7,8 @@
   
 - Support for pins over 100MB in Windows systems (#313).
 
+- Avoid Windows crashing in `pin()` under some locales (#127).
+
 ## S3
 
 - Default to using HTTPS in S3 boards (#304).
