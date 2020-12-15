@@ -321,8 +321,15 @@ datatxt_upload_files <- function(board, name, files, path) {
   }
 }
 
-board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
+datatxt_invalid_name <- function(name) {
+  # see https://stackoverflow.com/questions/7116450/what-are-valid-s3-key-names-that-can-be-accessed-via-the-s3-rest-api
+  if (grepl("[&@:,$=+?; \\^`><{}\\[#%~|]", name)) {
+    stop("The 'name' should not contain the following characters: '&@:,$=+?; \\^`><{}[]#%~|'")
+  }
+}
 
+board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
+  datatxt_invalid_name(name)
   board_versions_create(board, name, path)
 
   upload_files <- dir(path, recursive = TRUE)
