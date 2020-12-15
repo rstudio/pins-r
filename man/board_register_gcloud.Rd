@@ -9,6 +9,7 @@ board_register_gcloud(
   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
   token = NULL,
   cache = board_cache_path(),
+  path = NULL,
   ...
 )
 }
@@ -21,6 +22,8 @@ variable.}
 \item{token}{The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{path}{The subdirectory in the repo where the pins will be stored.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

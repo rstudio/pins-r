@@ -10,6 +10,7 @@ board_register_azure(
   account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
   key = Sys.getenv("AZURE_STORAGE_KEY"),
   cache = board_cache_path(),
+  path = NULL,
   ...
 )
 }
@@ -26,6 +27,8 @@ variable.}
 variable.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+
+\item{path}{The subdirectory in the repo where the pins will be stored.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
