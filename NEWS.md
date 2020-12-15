@@ -13,6 +13,11 @@
 
 - Silenced 'no encoding supplied' warning (#330).
 
+## Local
+
+- `pin_find()` no longer searches text with an undocumented
+  regular expression syntax (#270).
+
 ## S3
 
 - Default to using HTTPS in S3 boards (#304).
