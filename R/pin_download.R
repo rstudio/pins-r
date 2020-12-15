@@ -110,7 +110,7 @@ pin_download_one <- function(path,
 
         if (httr::http_error(result)) {
           error <- paste0(httr::http_status(result)$message, ". Failed to download remote file: ", path)
-          pin_log(as.character(httr::content(result)))
+          pin_log(as.character(httr::content(result, encoding = "UTF-8")))
 
           report_error(error)
         }

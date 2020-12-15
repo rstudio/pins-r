@@ -9,6 +9,10 @@
 
 - Avoid Windows crashing in `pin()` under some locales (#127).
 
+## Boards
+
+- Silenced 'no encoding supplied' warning (#330).
+
 ## S3
 
 - Default to using HTTPS in S3 boards (#304).

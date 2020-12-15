@@ -44,7 +44,7 @@ kaggle_upload_resource <- function(path, board) {
 
   if (httr::http_error(results)) stop("Upload registration failed with status ", httr::status_code(results))
 
-  parsed <- httr::content(results)
+  parsed <- httr::content(results, encoding = "UTF-8")
 
   if (!identical(parsed$error, NULL)) stop("Upload registration failed: ", parsed$error)
 
@@ -56,7 +56,7 @@ kaggle_upload_resource <- function(path, board) {
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
 
-  parsed <- httr::content(results)
+  parsed <- httr::content(results, encoding = "UTF-8")
 
   if (!identical(parsed$error, NULL)) stop("Upload failed: ", parsed$error)
 
@@ -103,7 +103,7 @@ kaggle_create_resource <- function(name, description, token, type, metadata, not
 
   if (httr::http_error(results)) stop("Resource creation failed with status ", httr::status_code(results))
 
-  parsed <- httr::content(results)
+  parsed <- httr::content(results, encoding = "UTF-8")
 
   if (!identical(parsed$error, NULL)) stop("Resource creation failed: ", parsed$error)
 
@@ -194,7 +194,7 @@ board_pin_search_kaggle <- function(board, text = NULL, base_url = "https://www.
   results <- httr::GET(url, kaggle_auth(board))
   if (httr::http_error(results)) stop("Finding pin failed with status ", httr::status_code(results))
 
-  httr::content(results)
+  httr::content(results, encoding = "UTF-8")
 }
 
 board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
@@ -248,7 +248,7 @@ kaggle_competition_files <- function(board, name) {
   results <- httr::GET(url, kaggle_auth(board))
   if (httr::http_error(results)) stop("Finding pin failed with status ", httr::status_code(results))
 
-  httr::content(results)
+  httr::content(results, encoding = "UTF-8")
 }
 
 board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
@@ -311,7 +311,7 @@ board_pin_versions.kaggle <- function(board, name, ...) {
 
   if (httr::http_error(response)) stop("Failed to view dataset with status ", httr::status_code(response))
 
-  parsed <- httr::content(response)
+  parsed <- httr::content(response, encoding = "UTF-8")
 
   if (httr::http_error(response))
     stop("Failed to retrieve commits from ", board$repo, ": ", parsed$message)
