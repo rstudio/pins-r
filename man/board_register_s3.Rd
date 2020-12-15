@@ -12,6 +12,7 @@ board_register_s3(
   cache = board_cache_path(),
   host = "s3.amazonaws.com",
   region = NULL,
+  path = NULL,
   ...
 )
 }
@@ -32,6 +33,8 @@ variable.}
 \item{host}{The host to use for storage, defaults to \code{"s3.amazonaws.com"}.}
 
 \item{region}{The region to use, required in some AWS regions and to enable V4 signatures.}
+
+\item{path}{The subdirectory in the repo where the pins will be stored.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

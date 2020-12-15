@@ -227,6 +227,7 @@ board_register_datatxt <- function(url,
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param host The host to use for storage, defaults to \code{"s3.amazonaws.com"}.
 #' @param region The region to use, required in some AWS regions and to enable V4 signatures.
+#' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -251,6 +252,7 @@ board_register_s3 <- function(name = "s3",
                               cache = board_cache_path(),
                               host = "s3.amazonaws.com",
                               region = NULL,
+                              path = NULL,
                               ...) {
   board_register("s3",
                  name = name,
@@ -259,6 +261,7 @@ board_register_s3 <- function(name = "s3",
                  secret = secret,
                  cache = cache,
                  region = region,
+                 path = path,
                  ...)
 }
 
@@ -275,6 +278,7 @@ board_register_s3 <- function(name = "s3",
 #' @param key The key of the Azure Storage container Defaults to the \code{AZURE_STORAGE_KEY} environment
 #'   variable.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -297,6 +301,7 @@ board_register_azure <- function(name = "azure",
                                  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
                                  key = Sys.getenv("AZURE_STORAGE_KEY"),
                                  cache = board_cache_path(),
+                                 path = NULL,
                                  ...) {
   board_register("azure",
                  name = name,
@@ -304,6 +309,7 @@ board_register_azure <- function(name = "azure",
                  container = container,
                  key = key,
                  cache = cache,
+                 path = path,
                  ...)
 }
 
@@ -317,6 +323,7 @@ board_register_azure <- function(name = "azure",
 #'   variable.
 #' @param token The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -336,12 +343,14 @@ board_register_gcloud <- function(name = "gcloud",
                                   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                                   token = NULL,
                                   cache = board_cache_path(),
+                                  path = NULL,
                                   ...) {
   board_register("gcloud",
                  name = name,
                  bucket = bucket,
                  token = token,
                  cache = cache,
+                 path = path,
                  ...)
 }
 
@@ -361,6 +370,7 @@ board_register_gcloud <- function(name = "gcloud",
 #'   variable.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param host The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.
+#' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -383,6 +393,7 @@ board_register_dospace <- function(name = "dospace",
                                    datacenter = Sys.getenv("DO_DATACENTER"),
                                    cache = board_cache_path(),
                                    host = "digitaloceanspaces.com",
+                                   path = NULL,
                                    ...) {
   board_register("dospace",
                  name = name,
@@ -392,5 +403,6 @@ board_register_dospace <- function(name = "dospace",
                  datacenter = datacenter,
                  cache = cache,
                  host = host,
+                 path = path,
                  ...)
 }

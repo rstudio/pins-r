@@ -12,6 +12,7 @@ board_register_dospace(
   datacenter = Sys.getenv("DO_DATACENTER"),
   cache = board_cache_path(),
   host = "digitaloceanspaces.com",
+  path = NULL,
   ...
 )
 }
@@ -33,6 +34,8 @@ variable.}
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
 \item{host}{The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.}
+
+\item{path}{The subdirectory in the repo where the pins will be stored.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
