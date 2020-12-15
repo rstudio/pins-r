@@ -17,8 +17,22 @@
 
 - Default to using HTTPS in S3 boards (#304).
 
-- Add support for AWS V4 signatures when registering S3 boards with
+- Support for AWS V4 signatures when registering S3 boards with
   `region` parameter (#304)
+  
+- Support for `path` to register a board under a subpath (#200).
+
+## Azure
+
+- Support for `path` to register a board under a subpath (#200).
+
+## DigitalOcean
+
+- Support for `path` to register a board under a subpath (#200).
+
+## Google Cloud
+
+- Support for `path` to register a board under a subpath (#200).
 
 ## RStudio Connect
 
