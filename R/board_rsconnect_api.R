@@ -33,10 +33,10 @@ rsconnect_api_get <- function(board, path) {
   result <- httr::GET(url, rsconnect_api_auth_headers(board, path, "GET"))
 
   if (httr::http_error(result)) {
-    stop("Failed to retrieve ", url, " ", as.character(httr::content(result)))
+    stop("Failed to retrieve ", url, " ", as.character(httr::content(result, encoding = "UTF-8")))
   }
 
-  result %>% httr::content()
+  result %>% httr::content(encoding = "UTF-8")
 }
 
 rsconnect_api_delete <- function(board, path) {
@@ -44,10 +44,10 @@ rsconnect_api_delete <- function(board, path) {
                rsconnect_api_auth_headers(board, path, "DELETE"))
 
   if (httr::http_error(result)) {
-    stop("Failed to delete ", path, " ", as.character(httr::content(result)))
+    stop("Failed to delete ", path, " ", as.character(httr::content(result, encoding = "UTF-8")))
   }
 
-  result %>% httr::content()
+  result %>% httr::content(encoding = "UTF-8")
 }
 
 rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
@@ -72,7 +72,7 @@ rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
                          body = content,
                          rsconnect_api_auth_headers(board, url, "POST", content),
                          progress)
-    content <- httr::content(result)
+    content <- httr::content(result, encoding = "UTF-8")
 
     if (httr::http_error(result)) {
       list(

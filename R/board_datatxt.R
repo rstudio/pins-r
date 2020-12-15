@@ -225,7 +225,7 @@ board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
 }
 
 datatxt_response_content <- function(response) {
-  content <- httr::content(response)
+  content <- httr::content(response, encoding = "UTF-8")
   if (is.raw(content)) {
     content <- rawToChar(content)
   }
