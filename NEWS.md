@@ -44,6 +44,8 @@
 
 - Adjust pin preview to only display 1K rows instead of 10K (#315).
 
+- Avoid changing columns names on data frame preview (#190).
+
 # pins 0.4.4
 
 ## Pins
