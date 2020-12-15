@@ -57,7 +57,7 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
         rep("...", nrow(x_preview))
     } else
       e
-  }), stringsAsFactors = FALSE)
+  }), stringsAsFactors = FALSE, check.names = FALSE)
 
   data_preview <- list(
     columns = lapply(colnames(x_preview), function(e) {
