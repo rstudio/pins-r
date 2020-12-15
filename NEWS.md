@@ -13,6 +13,9 @@
 
 - Default to using HTTPS in S3 boards (#304).
 
+- Add support for AWS V4 signatures when registering S3 boards with
+  `region` parameter (#304)
+
 ## RStudio Connect
 
 - Invalid 'account' or 'server' parameters show proper errors (#296).
