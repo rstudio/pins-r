@@ -404,7 +404,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
   # update local index
   if (update_index) {
-    index_path <- paste0(board$path, name)
+    index_path <- name
 
     index <- github_update_temp_index(board, index_path, commit, operation = "create",
                                             name = name, metadata = metadata, branch = branch)

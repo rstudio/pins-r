@@ -28,6 +28,11 @@
 - Avoid creating pins named with unsupported characters for
   Azure, DigitalOcean, Google Cloud and S3 boards (#193).
 
+## GitHub
+
+- Properly store relative paths when `path` parameter is
+  specified in GitHub boards (#199).
+
 ## RStudio Connect
 
 - Invalid 'account' or 'server' parameters show proper errors (#296).
