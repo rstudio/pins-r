@@ -19,20 +19,14 @@
 
 - Support for AWS V4 signatures when registering S3 boards with
   `region` parameter (#304)
-  
-- Support for `path` to register a board under a subpath (#200).
 
-## Azure
+## Cloud
 
-- Support for `path` to register a board under a subpath (#200).
+- Support for `path` to register a board under a subpath for
+  Azure, DigitalOcean, Google Cloud and S3 boards (#200).
 
-## DigitalOcean
-
-- Support for `path` to register a board under a subpath (#200).
-
-## Google Cloud
-
-- Support for `path` to register a board under a subpath (#200).
+- Avoid creating pins named with unsupported characters for
+  Azure, DigitalOcean, Google Cloud and S3 boards (#193).
 
 ## RStudio Connect
 
