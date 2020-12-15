@@ -226,6 +226,7 @@ board_register_datatxt <- function(url,
 #'   variable.
 #' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
 #' @param host The host to use for storage, defaults to \code{"s3.amazonaws.com"}.
+#' @param region The region to use, required in some AWS regions and to enable V4 signatures.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -233,6 +234,8 @@ board_register_datatxt <- function(url,
 #' This function requires an Amazon S3 bucket to be manually created; otherwise,
 #' registering an S3 board will fail.
 #'
+#' When the \code{region} parameter is not specified, \code{pins} defaults to using AWS V2 signatures;
+#' therefore, it is recommended to specify the region to ensure \code{pins} makes use of AWS V4 signatures.
 #' @seealso board_register
 #'
 #' @examples
@@ -247,6 +250,7 @@ board_register_s3 <- function(name = "s3",
                               secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                               cache = board_cache_path(),
                               host = "s3.amazonaws.com",
+                              region = NULL,
                               ...) {
   board_register("s3",
                  name = name,
@@ -254,6 +258,7 @@ board_register_s3 <- function(name = "s3",
                  key = key,
                  secret = secret,
                  cache = cache,
+                 region = region,
                  ...)
 }
 
