@@ -1,11 +1,19 @@
 # See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
 # httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) %>% httr::text_content()
-s3_headers_v4 <- function(method = "GET",
-                          service = "ec2",
-                          host = "ec2.amazonaws.com",
-                          region = "us-east-1",
-                          endpoint = "https://ec2.amazonaws.com",
-                          request_parameters = "Action=DescribeRegions&Version=2013-10-15") {
+s3_headers_v4 <- function(board, verb, path, filepath) {
+  service <- "s3"
+  method <- verb
+  bucket <- board$bucket
+  host <- paste0(bucket, ".", board$host)
+  region <- board$region
+  request_parameters <- ""
+  amz_storage_class <- "REDUCED_REDUNDANCY"
+  if (!is.null(filepath))
+    amz_content_sha256 <- digest::digest(filepath, file = TRUE, algo = "sha256")
+  else
+    amz_content_sha256 <- digest::digest(enc2utf8(""), serialize = FALSE, algo = "sha256")
+  content_type <- "application/octet-stream"
+
   # Key derivation functions. See:
   # http://docs.aws.amazon.com/general/latest/gr/signature-v4-examples.html#signature-v4-examples-python
   sign <- function(key, msg) {
@@ -22,8 +30,8 @@ s3_headers_v4 <- function(method = "GET",
 
   # Read AWS access key from env. variables or configuration file. Best practice is NOT
   # to embed credentials in code.
-  access_key <- Sys.getenv("AWS_ACCESS_KEY_ID")
-  secret_key <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
+  access_key <- board$key
+  secret_key <- board$secret
 
   # Create a date for headers and the credential string
   amzdate <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "GMT")
@@ -36,7 +44,7 @@ s3_headers_v4 <- function(method = "GET",
 
   # Step 2: Create canonical URI--the part of the URI from domain to query
   # string (use "/" if no path)
-  canonical_uri <- "/"
+  canonical_uri <- file.path("", path)
 
   # Step 3: Create the canonical query string. In this example (a GET request),
   # request parameters are in the query string. Query string values must
@@ -48,16 +56,20 @@ s3_headers_v4 <- function(method = "GET",
   # and lowercase, and sorted in code point order from low to high.
   # Note that there is a trailing \n.
   canonical_headers <- paste0(
+    # "content-type:", content_type, "\n",
     "host:", host, "\n",
+    "x-amz-content-sha256:", amz_content_sha256, "\n",
     "x-amz-date:", amzdate, "\n",
+    # "x-amz-storage-class:", amz_storage_class, "\n",
     "")
 
   # Step 5: Create the list of signed headers. This lists the headers
-  signed_headers <- "host;x-amz-date"
+  # signed_headers <- "content-type;host;x-amz-content-sha256;x-amz-date;x-amz-storage-class"
+  signed_headers <- "host;x-amz-content-sha256;x-amz-date"
 
   # Step 6: Create payload hash. In this example, the payload (body of
   # the request) contains the request parameters.
-  payload_hash <- digest::digest(enc2utf8(""), serialize = FALSE, algo = "sha256")
+  payload_hash <- amz_content_sha256
 
   # Step 7: Combine elements to create canonical request
   canonical_request <- paste0(method, "\n", canonical_uri, "\n", canonical_querystring, "\n", canonical_headers, "\n", signed_headers, "\n", payload_hash)
@@ -87,8 +99,9 @@ s3_headers_v4 <- function(method = "GET",
   headers <- httr::add_headers(
     # "Host" = host,
     # "Content-Type" = content_type,
+    "x-amz-content-sha256" = amz_content_sha256,
     "x-amz-date" = amzdate,
-    # "x-amz-content-sha256" = amz_content_sha256,
+    # "x-amz-storage-class" = amz_storage_class,
     "Authorization" = authorization_header
   )
 
@@ -107,7 +120,7 @@ s3_headers <- function(board, verb, path, file) {
   }
 
   if (!identical(board$region, NULL)) {
-
+    headers <- s3_headers_v4(board, verb, path, file)
   }
   else {
     content <- paste(
