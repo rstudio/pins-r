@@ -3,6 +3,8 @@ context("board s3")
 test_s3_bucket <- Sys.getenv("TEST_AWS_BUCKET", "")
 test_s3_key <- Sys.getenv("TEST_AWS_KEY", "")
 test_s3_secret <- Sys.getenv("TEST_AWS_SECRET", "")
+test_s3_region <- Sys.getenv("TEST_AWS_REGION", "")
+if (identical(test_s3_region, "")) test_s3_region <- NULL
 
 test_that("board contains proper s3 headers", {
   headers <- names(s3_headers(list(), "PUT", "x")$headers)
@@ -23,7 +25,8 @@ test_s3_suite <- function(suite, versions = NULL) {
                    key = test_s3_key,
                    secret = test_s3_secret,
                    versions = versions,
-                   cache = tempfile())
+                   cache = tempfile(),
+                   region = test_s3_region)
   }
 
   if (test_board_is_registered("s3")) {

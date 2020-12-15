@@ -33,6 +33,15 @@ board_register("s3", bucket = "pinsbucket",
                      secret = "ABCABCABCABCABCABCABCABCABCABCABCABCABCA==")
 ```
 
+It is highly recommended to specify the region when registering a board. Since this enables `pins` to use the V4 signature which is now required in some AWS regions:
+
+```{r eval=FALSE}
+board_register("s3", bucket = "pinsbucket",
+                     key = "AAAAAAAAAAAAAAAAAAAA",
+                     secret = "ABCABCABCABCABCABCABCABCABCABCABCABCABCA==",
+                     region = "us-west-2")
+```
+
 Once the board is registered, you can pin and search using `pin()`, `pin_get()` and `pin_find()`.
 
 ## Pinning
