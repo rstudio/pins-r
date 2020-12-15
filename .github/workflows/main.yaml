@@ -21,6 +21,10 @@ jobs:
       CRAN: ${{ matrix.cran }}
       TEST_RSCONNECT_APIS: ${{ secrets.TEST_RSCONNECT_APIS }}
       TEST_RSCONNECT_SERVERS: ${{ secrets.TEST_RSCONNECT_SERVERS }}
+      TEST_AWS_BUCKET: "pins-github-tests"
+      TEST_AWS_KEY: "AKIAWDFKE5M2ZHDUORMW"
+      TEST_AWS_REGION: "us-east-2"
+      TEST_AWS_SECRET: ${{ secrets.TEST_AWS_SECRET }}
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
