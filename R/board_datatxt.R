@@ -1,3 +1,10 @@
+file_path_null <- function(...) {
+  paths <- list(...)
+  paths <- Filter(Negate(is.null), paths)
+  paths[["fsep"]] <- "/"
+  do.call("file.path", paths)
+}
+
 datatxt_refresh_index <- function(board) {
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
@@ -6,7 +13,7 @@ datatxt_refresh_index <- function(board) {
     index_file <- paste0(index_file, "?rand=", stats::runif(1) * 10^8)
   }
 
-  index_url <- file.path(board$url, index_file)
+  index_url <- file_path_null(board$url, board$subpath, index_file)
 
   temp_index <- tempfile()
   response <- httr::GET(index_url,
@@ -48,6 +55,7 @@ board_initialize.datatxt <- function(board,
                                      bucket = NULL,
                                      index_updated = NULL,
                                      index_randomize = FALSE,
+                                     path = NULL,
                                      ...) {
   if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
 
@@ -58,6 +66,7 @@ board_initialize.datatxt <- function(board,
   board$index_updated <- index_updated
   board$bucket <- bucket
   board$index_randomize <- index_randomize
+  board$subpath <- path
 
   for (key in names(list(...))) {
     board[[key]] <- list(...)[[key]]
@@ -93,7 +102,7 @@ datatxt_pin_download_info <- function(board, name, ...) {
   path_guess <- if (grepl("^https?://", path_guess)) {
     path_guess
   } else {
-    file.path(board$url, path_guess, fsep = "/")
+    file_path_null(board$url, board$subpath, path_guess, fsep = "/")
   }
 
   list(
@@ -169,12 +178,12 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
   }
   else {
     # attempt to download from path when index not available
-    download_paths <- file.path(board$url, name)
+    download_paths <- file_path_null(board$url, board$subpath, name)
   }
 
   for (path in download_paths) {
     if (!grepl("https?://", path)) {
-      path <- file.path(board$url, path)
+      path <- file_path_null(board$url, board$subpath, path)
     }
 
     local_path <- pin_download(path,
@@ -209,7 +218,7 @@ board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
     path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
-    datatxt_path <- file.path(board$url, path_guess[[1]], "data.txt")
+    datatxt_path <- file_path_null(board$url, board$subpath, path_guess[[1]], "data.txt")
 
     response <- httr::GET(datatxt_path, board_datatxt_headers(board, datatxt_path))
     if (!httr::http_error(response)) {
@@ -235,9 +244,9 @@ datatxt_response_content <- function(response) {
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
   index_file <- "data.txt"
-  index_url <- file.path(board$url, index_file)
+  index_url <- file_path_null(board$url, board$subpath, index_file)
 
-  index_file_get <- "data.txt"
+  index_file_get <- file_path_null(board$subpath, "data.txt")
   if (identical(board$index_randomize, TRUE)) {
     # some boards cache bucket files by default which can be avoided by changing the url
     index_file_get <- paste0(index_file, "?rand=", stats::runif(1) * 10^8)
@@ -280,11 +289,12 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   }
 
   index_file <- file.path(board_local_storage(board$name, board = board), "data.txt")
+  index_file_put <- file_path_null(board$subpath, "data.txt")
   board_manifest_create(index, index_file)
 
   response <- httr::PUT(index_url,
                         body = httr::upload_file(normalizePath(index_file)),
-                        board_datatxt_headers(board, "data.txt", verb = "PUT", file = normalizePath(index_file)))
+                        board_datatxt_headers(board, index_file_put, verb = "PUT", file = normalizePath(index_file)))
 
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", datatxt_response_content(response))
@@ -297,7 +307,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
 
 datatxt_upload_files <- function(board, name, files, path) {
   for (file in files) {
-    subpath <- file.path(name, file)
+    subpath <- file_path_null(board$subpath, name, file)
     upload_url <- file.path(board$url, subpath)
 
     file_path <- normalizePath(file.path(path, file))
@@ -364,13 +374,14 @@ board_pin_remove.datatxt <- function(board, name, ...) {
   files <- c(files, file.path(name, "data.txt"))
 
   for (file in files) {
-    delete_url <- file.path(board$url, file)
+    delete_path <- file_path_null(board$subpath, file)
+    delete_url <- file.path(board$url, delete_path)
 
     response <- httr::DELETE(delete_url,
-                             board_datatxt_headers(board, file, verb = "DELETE"))
+                             board_datatxt_headers(board, delete_path, verb = "DELETE"))
 
     if (httr::http_error(response))
-      warning("Failed to remove '", file, "' from '", board$name, "' board. Error: ", datatxt_response_content(response))
+      warning("Failed to remove '", delete_path, "' from '", board$name, "' board. Error: ", datatxt_response_content(response))
   }
 
   datatxt_update_index(board = board,
