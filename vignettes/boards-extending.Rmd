@@ -62,6 +62,47 @@ board_pin_remove.folder <- function(board, name, ...) {
 }
 ```
 
+You can optionally support data versions in your board to enable `pin_versions()` and `pin_get("name", version = "version")` by extending `board_pin_versions`:
+
+```{r}
+board_pin_versions.folder <- function(board, name, ...) {
+  data.frame( 
+     version = 1
+  )
+}
+
+board_pin_get.folder <- function(board, name, version = NULL, ...) {
+  if (!is.null(version)) message("Version ", version, " requested!")
+  file.path("pins", name)
+}
+```
+
+You can then use this `folder` board like any other board:
+
+```{r}
+library(pins)
+board_register("folder")
+
+pin(iris, board = "folder")
+pin_get("iris", board = "folder")
+```
+```
+# A tibble: 150 x 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          <dbl>       <dbl>        <dbl>       <dbl> <fct>  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# … with 140 more rows
+```
+
 To extend `pins` in a separate package, make sure to export the s3 generics from `pins`. For example:
 
 ```{r eval=FALSE}
@@ -84,4 +125,8 @@ pins::board_pin_find
 #' @importFrom pins board_pin_remove
 #' @export
 pins::board_pin_remove
+
+#' @importFrom pins board_pin_versions
+#' @export
+pins::board_pin_versions
 ```
