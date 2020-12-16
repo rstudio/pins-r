@@ -42,6 +42,9 @@
 
 - Add support for large file in private repo releases (#292).
 
+- When a board is registered with `versions = FALSE`, GitHub
+  tags are also delete when large files are present (#285).
+
 ## RStudio Connect
 
 - Invalid 'account' or 'server' parameters show proper errors (#296).
