@@ -201,7 +201,7 @@ github_upload_release <- function(board, release, name, file, file_path) {
 
   if (httr::http_error(response)) stop("Failed to upload asset '", file, "': ", httr::content(response, encoding = "UTF-8")$message)
 
-  httr::content(response, encoding = "UTF-8")$browser_download_url
+  httr::content(response, encoding = "UTF-8")$url
 }
 
 github_upload_content <- function(board, name, file, file_path, commit, sha, branch) {
@@ -572,8 +572,7 @@ board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ..
       headers <- github_headers(board)
 
       if (grepl("^http://|^https://", file)) {
-        # retrieving releases fails if auth headers are specified
-        headers <- NULL
+        # user release url
       }
       else {
         file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
