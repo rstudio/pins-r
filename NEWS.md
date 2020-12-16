@@ -63,6 +63,8 @@
 
 - Avoid changing columns names on data frame preview (#190).
 
+- Improve error message when token authentication fails (#327).
+
 # pins 0.4.4
 
 ## Pins

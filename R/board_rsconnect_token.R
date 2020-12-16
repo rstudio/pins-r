@@ -105,7 +105,11 @@ rsconnect_token_post <- function(board, path, content, encode) {
                                  content_type,
                                  content_file)
 
-  jsonlite::fromJSON(result$content)
+  tryCatch({
+    jsonlite::fromJSON(result$content)
+  }, error = function(e) {
+    stop("Failed to parse result: ", result$content)
+  })
 }
 
 # nocov end
