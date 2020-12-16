@@ -201,7 +201,7 @@ github_upload_release <- function(board, release, name, file, file_path) {
 
   if (httr::http_error(response)) stop("Failed to upload asset '", file, "': ", httr::content(response, encoding = "UTF-8")$message)
 
-  httr::content(response, encoding = "UTF-8")$browser_download_url
+  httr::content(response, encoding = "UTF-8")$url
 }
 
 github_upload_content <- function(board, name, file, file_path, commit, sha, branch) {
@@ -399,7 +399,12 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
     datatxt <- suppressWarnings(yaml::read_yaml(file_path, eval.expr = FALSE))
 
+    datatxt$filenames <- as.list(datatxt$path)
+
     datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
+
+    names(datatxt$filenames) <- datatxt$path
+
     yaml::write_yaml(datatxt, file_path)
   }
 
@@ -565,20 +570,30 @@ board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ..
   local_path <- pin_download(base_url, name, board$name, headers = github_headers(board), subpath = subpath)
 
   if (file.exists(file.path(local_path, "data.txt"))) {
-    index_path <- pin_manifest_download(local_path)
+    index_path <- pin_manifest_download(local_path, namemap = TRUE)
 
-    for (file in index_path) {
+    for (file_idx in seq_along(index_path)) {
+      file <- index_path[file_idx]
       file_url <- file
       headers <- github_headers(board)
+      file_name <- if (!identical(names(index_path), NULL) && nchar(names(index_path)[file_idx]) > 0) names(index_path)[file_idx] else NULL
 
       if (grepl("^http://|^https://", file)) {
-        # retrieving releases fails if auth headers are specified
-        headers <- NULL
+        # manually move authorization to url due to https://github.com/octokit/rest.js/issues/967
+        file_url <- paste0(file_url, "?access_token=", github_auth(board))
+        headers <- httr::add_headers(Accept = "application/octet-stream")
       }
       else {
         file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
       }
-      pin_download(file_url, name, board$name, headers = headers, extract = identical(extract, TRUE), subpath = subpath)
+
+      pin_download(file_url,
+                   name,
+                   board$name,
+                   headers = headers,
+                   extract = identical(extract, TRUE),
+                   subpath = subpath,
+                   download_name = file_name)
     }
 
     local_path

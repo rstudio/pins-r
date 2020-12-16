@@ -40,6 +40,8 @@
   
 - Add support for repos with a 'main' branch as default (#336).
 
+- Add support for large file in private repo releases (#292).
+
 ## RStudio Connect
 
 - Invalid 'account' or 'server' parameters show proper errors (#296).

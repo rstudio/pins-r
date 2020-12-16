@@ -34,11 +34,27 @@ pin_manifest_create <- function(path, metadata, files) {
 }
 
 # retrieve a list of files to download
-pin_manifest_download <- function(path) {
+pin_manifest_download <- function(path, namemap = FALSE) {
   manifest <- pin_manifest_get(path)
 
   if (is.null(manifest$path)) return(NULL)
-  pin_fetch(structure(manifest$path, class = manifest$type))
+
+  downloads <- pin_fetch(structure(manifest$path, class = manifest$type))
+
+  if (identical(namemap, TRUE)) {
+    mapped <- as.list(downloads)
+
+    if (!is.null(manifest$filenames)) {
+      names(mapped) <- sapply(mapped, function(e) {
+        if (e %in% names(manifest$filenames)) manifest$filenames[e] else ""
+      })
+    }
+
+    mapped
+  }
+  else {
+    downloads
+  }
 }
 
 pin_manifest_merge <- function(base_manifest, resource_manifest) {
