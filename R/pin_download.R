@@ -12,6 +12,7 @@ pin_download_one <- function(path,
                              subpath = name,
                              details = new.env(),
                              download = TRUE,
+                             download_name = NULL,
                              ...) {
   must_download <- !cache
 
@@ -92,7 +93,7 @@ pin_download_one <- function(path,
 
     # skip downloading if etag has not changed
     if (old_cache_missing || etag_changed || must_download) {
-        download_name <- basename(path)
+        if (identical(download_name, NULL)) download_name <- basename(path)
 
         if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
         destination_path <- file.path(temp_path, download_name)
