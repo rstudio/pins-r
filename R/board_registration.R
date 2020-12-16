@@ -47,7 +47,7 @@ board_register_local <- function(name = "local",
 #' @param name Optional name for this board, defaults to 'github'.
 #' @param repo The GitHub repository formatted as 'owner/repo', can be
 #'   \code{NULL} if the \code{GITHUB_PAT} environment variable is set.
-#' @param branch The branch to use when commiting pins.
+#' @param branch The branch to use to commit pins.
 #' @param token Token to use when \code{GITHUB_PAT} is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL hosting the GitHub API, defaults to \code{"https://api.github.com"}.
@@ -77,7 +77,7 @@ board_register_local <- function(name = "local",
 #' @export
 board_register_github <- function(name = "github",
                                   repo = NULL,
-                                  branch = "master",
+                                  branch = NULL,
                                   token = NULL,
                                   path = "",
                                   host = "https://api.github.com",

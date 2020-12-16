@@ -37,6 +37,8 @@
 
 - Properly store relative paths when `path` parameter is
   specified in GitHub boards (#199).
+  
+- Add support for repos with a 'main' branch as default (#336).
 
 ## RStudio Connect
 
