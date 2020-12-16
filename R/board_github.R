@@ -151,7 +151,7 @@ github_delete_release <- function(board, release_tag) {
       pin_log("Failed to delete release ", release_id)
     }
 
-    response <- httr::DELETE(github_url(board, branch = NULL, paste0("/git/refs/", release_tag)), github_headers(board))
+    response <- httr::DELETE(github_url(board, branch = NULL, paste0("/git/refs/tags/", release_tag)), github_headers(board))
     if (httr::http_error(response)) {
       pin_log("Failed to delete tag ", release_tag)
     }
