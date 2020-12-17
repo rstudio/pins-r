@@ -28,6 +28,7 @@ jobs:
       TEST_GITHUB_REPO: "testme42/datasets"
       TEST_GITHUB_BRANCH: "ghtests"
       GITHUB_PAT: ${{ secrets.TEST_GITHUB_PAT }}
+      TEST_KAGGLE_API: ${{ secrets.TEST_KAGGLE_API }}
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
