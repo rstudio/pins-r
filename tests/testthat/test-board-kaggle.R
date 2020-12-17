@@ -1,17 +1,15 @@
 context("board kaggle")
 
-test_github_repo <- Sys.getenv("TEST_KAGGLE_API", "")
-if (nchar(test_github_repo) > 0) {
+test_kaggle_json <- Sys.getenv("TEST_KAGGLE_API", "")
+if (nchar(test_kaggle_json) > 0) {
   if ("kaggle" %in% board_list()) board_deregister("kaggle")
 }
 
 if (test_board_is_registered("kaggle")) {
   board_test("kaggle", exclude = "remove")
-} else if (nchar(test_github_repo) > 0) {
+} else if (nchar(test_kaggle_json) > 0) {
   test_that("can board_register() kaggle board", {
-    base64enc::base64decode(test_github_repo) %>%
-      rawToChar() %>%
-      writeLines("kaggle.json")
+    writeLines(test_kaggle_json, "kaggle.json")
 
     board_register("kaggle", token = "kaggle.json", cache = tempfile())
 

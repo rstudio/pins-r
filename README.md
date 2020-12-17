@@ -3,8 +3,6 @@ pins: Pin, Discover and Share Resources
 
 [![Build
 Status](https://github.com/rstudio/pins/workflows/Test/badge.svg)](https://github.com/rstudio/pins/actions)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/rstudio/pins?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/pins)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Code
