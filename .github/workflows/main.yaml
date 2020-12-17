@@ -25,7 +25,7 @@ jobs:
       TEST_AWS_KEY: "AKIAWDFKE5M2ZHDUORMW"
       TEST_AWS_REGION: "us-east-2"
       TEST_AWS_SECRET: ${{ secrets.TEST_AWS_SECRET }}
-      TEST_GITHUB_REPO: "testme42"
+      TEST_GITHUB_REPO: "testme42/datasets"
       TEST_GITHUB_BRANCH: "ghtests"
       GITHUB_PAT: ${{ secrets.TEST_GITHUB_PAT }}
     steps:
