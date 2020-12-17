@@ -31,6 +31,11 @@ download resources before running your R script.
 In addition, \code{pin()} still works when working offline or when the remote resource
 becomes unavailable; when this happens, a warning will be triggered but your code will
 continue to work.
+
+\code{pin()} will stores data frames in two files, an R native file and a 'CSV' file. To
+force saving a pin only using R's native (RDS) format, you can use \code{pin(I(data))}.
+This can improve performance and size at the cost of making the pin unreadable from other
+tools and programming languages.
 }
 \examples{
 library(pins)

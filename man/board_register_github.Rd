@@ -7,7 +7,7 @@
 board_register_github(
   name = "github",
   repo = NULL,
-  branch = "master",
+  branch = NULL,
   token = NULL,
   path = "",
   host = "https://api.github.com",
@@ -21,7 +21,7 @@ board_register_github(
 \item{repo}{The GitHub repository formatted as 'owner/repo', can be
 \code{NULL} if the \code{GITHUB_PAT} environment variable is set.}
 
-\item{branch}{The branch to use when commiting pins.}
+\item{branch}{The branch to use to commit pins.}
 
 \item{token}{Token to use when \code{GITHUB_PAT} is not specified.}
 
