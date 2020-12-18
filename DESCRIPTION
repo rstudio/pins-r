@@ -3,7 +3,8 @@ Type: Package
 Title: Pin, Discover and Share Resources
 Version: 0.4.4.9019
 Authors@R: c(
-    person("Javier", "Luraschi", email = "javier@rstudio.com", role = c("aut", "cre")),
+    person("Hadley", "Wickham", role = c("aut", "cre"), email = "hadley@rstudio.com", comment = c(ORCID = "0000-0003-4757-117X")),
+    person("Javier", "Luraschi", email = "javier@rstudio.com", role = "aut"),
     person(family = "RStudio", role = c("cph"))
     )
 Maintainer: Javier Luraschi <javier@rstudio.com>
