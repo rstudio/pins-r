@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -187,7 +187,8 @@
 <ol style="list-style-type: decimal">
 <li><p>You could write your data back to a database. It is quite common for data science teams to create intermediate “feature stores” which are simply tables in a database containing processed data. The odbc package includes a <code>dbWriteTable</code> function to help in these cases.</p></li>
 <li><p>If you are using Spark as a processing engine, you can write your processed data using the <a href="https://spark.rstudio.com/reference/">sparklyr package</a> which has numerous <code>spark_write_</code> functions. These functions can write to a file system (<code>file://</code>), Hadoop (<code>hdfs://</code>), or Amazon S3 (<code>s3a://</code>). A benefit of using the <code>spark_write_</code> functions is that the write operation will typically happen in parallel. Some formats, such as parquet, support writing data by partition which can speed up subsequent analysis that begin by reading in the partitioned data.</p></li>
-<li><p>If you are working with larger data but are not using Spark, an efficient and flexible read/write option is provided in the <a href="https://arrow.apache.org/docs/r/index.html">arrow</a> package. This <a href="https://arrow.apache.org/docs/r/articles/dataset.html">vignette</a> contains relevant details. The package supports parquet, csv, and other common data formats and enables portioned writing and dplyr-based querying.</p></li>
+<li><p>If you are working with larger data but are not using Spark, an efficient and flexible read/write option is provided in the <a href="https://arrow.apache.org/docs/r/index.html">arrow</a> package. This <a href="https://arrow.apache.org/docs/r/articles/dataset.html">vignette</a> contains relevant details. The package supports parquet, csv, and other common data formats and enables partitioned writing and dplyr-based querying.</p></li>
+<li><p>If your pin is a data frame, you can reduce storage and improve performance by wrapping your data frame with <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code>; as in, <code><a href="../reference/pin.html">pin(I(dataframe))</a></code>. This will cause the pin to be saved in R’s native binary format, making your pin hard to access from other tools and programming languages.</p></li>
 </ol>
 <p>Pins are incredibly flexible and convenient. They are easy to consume, often through a single URL, and pins typically have straightforward access controls. However, pins are not a substitute for a data engineering pipeline. It is a good idea to check your object size before using a pin.</p>
 </div>
@@ -208,7 +209,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Javier Luraschi.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">

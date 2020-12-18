@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -189,18 +189,23 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"s3"</span>, <span class="dt">bucket =</span> <span class="st">"pinsbucket"</span>,</span>
 <span id="cb2-2"><a href="#cb2-2"></a>                     <span class="dt">key =</span> <span class="st">"AAAAAAAAAAAAAAAAAAAA"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3"></a>                     <span class="dt">secret =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCABCABCABCABCA=="</span>)</span></code></pre></div>
+<p>It is highly recommended to specify the region when registering a board. Since this enables <code>pins</code> to use the V4 signature which is now required in some AWS regions:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/board_register.html">board_register</a></span>(<span class="st">"s3"</span>, <span class="dt">bucket =</span> <span class="st">"pinsbucket"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2"></a>                     <span class="dt">key =</span> <span class="st">"AAAAAAAAAAAAAAAAAAAA"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>                     <span class="dt">secret =</span> <span class="st">"ABCABCABCABCABCABCABCABCABCABCABCABCABCA=="</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>                     <span class="dt">region =</span> <span class="st">"us-west-2"</span>)</span></code></pre></div>
 <p>Once the board is registered, you can pin and search using <code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin_find.html">pin_find()</a></code>.</p>
 </div>
 <div id="pinning" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pinning" class="anchor"></a>Pinning</h2>
 <p>Like in other boards, you can create pins for <code>iris</code> and <code>mtcars</code> by setting <code>board</code> to Amazon S3 Bucket’s name,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(iris, <span class="dt">description =</span> <span class="st">"The iris data set"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="../reference/pin.html">pin</a></span>(mtcars, <span class="dt">description =</span> <span class="st">"The motor trend cars data set"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
 <p>After a pin is created, the pin also becomes available in the Amazon S3 Bucket; by default, they are created as private datasets.</p>
 <p><img src="images/boards-s3-storage-pin.png" width="480"></p>
 <p>You can also retrieve pins back from this repo using the now familiar <code><a href="../reference/pin_get.html">pin_get()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
 <pre><code># A tibble: 150 x 5
    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -216,13 +221,13 @@
 10          4.9         3.1          1.5         0.1 setosa 
 # … with 140 more rows</code></pre>
 <p>Notice you can also retrieve an arbitrary file using the path to the file or its URL as well:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris/data.csv"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/pin_get.html">pin_get</a></span>(<span class="st">"iris/data.csv"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
 </div>
 <div id="discovering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#discovering" class="anchor"></a>Discovering</h2>
 <p>You can then search pins in your S3 board using <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default search all boards but you can also explicitly request to use this particular board:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/pin_find.html">pin_find</a></span>(<span class="st">"data"</span>, <span class="dt">board =</span> <span class="st">"s3"</span>)</span></code></pre></div>
 <pre><code># A tibble: 2 x 4
   name   description                   type  board
   &lt;chr&gt;  &lt;chr&gt;                         &lt;chr&gt; &lt;chr&gt;
@@ -249,7 +254,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Javier Luraschi.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">

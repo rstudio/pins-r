@@ -78,7 +78,7 @@ register a Microsoft Azure Storage Blob as a board." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -224,6 +224,7 @@ register a Microsoft Azure Storage Blob as a board.</p>
   <span class='kw'>account</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"AZURE_STORAGE_ACCOUNT"</span>),
   <span class='kw'>key</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"AZURE_STORAGE_KEY"</span>),
   <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span>(),
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>...</span>
 )</pre>
     
@@ -252,6 +253,10 @@ variable.</p></td>
     <tr>
       <th>cache</th>
       <td><p>The local folder to use as a cache, defaults to <code><a href='board_cache_path.html'>board_cache_path()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>The subdirectory in the repo where the pins will be stored.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -295,7 +300,7 @@ registering an Azire board will fail.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Javier Luraschi.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">

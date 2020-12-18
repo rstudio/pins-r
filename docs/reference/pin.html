@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -253,6 +253,10 @@ download resources before running your R script.</p>
 <p>In addition, <code>pin()</code> still works when working offline or when the remote resource
 becomes unavailable; when this happens, a warning will be triggered but your code will
 continue to work.</p>
+<p><code>pin()</code> will stores data frames in two files, an R native file and a 'CSV' file. To
+force saving a pin only using R's native (RDS) format, you can use <code>pin(I(data))</code>.
+This can improve performance and size at the cost of making the pin unreadable from other
+tools and programming languages.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -891,7 +895,7 @@ continue to work.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Javier Luraschi.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">
