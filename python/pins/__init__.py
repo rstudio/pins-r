@@ -169,7 +169,7 @@ def _init_pins():
     feather_installed = r_eval("as.character(length(find.package('feather', quiet = TRUE)) > 0)")
     
     if pins_installed != "TRUE":
-      r_eval("install.packages('pins', version = '0.4.4', repos = pins:::packages_repo_default())")
+      r_eval("install.packages('pins', version = '0.4.5', repos = pins:::packages_repo_default())")
     
     if feather_installed != "TRUE":
       r_eval("install.packages('feather', repos = pins:::packages_repo_default())")
