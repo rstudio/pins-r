@@ -257,16 +257,13 @@ datatxt_response_content <- function(response) {
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
   index_file <- "data.txt"
-
   index_url <- file_path_null(board$url, board$subpath, index_file)
-
   index_file_get <- file_path_null(board$subpath, "data.txt")
   
   if (identical(board$index_randomize, TRUE)) {
     # some boards cache bucket files by default which can be avoided by changing the url
     index_file_get <- paste0(index_file, "?rand=", stats::runif(1) * 10^8)
   }
-  
   response <- httr::GET(
     file.path(board$url, index_file_get),
     board_datatxt_headers(board, index_file_get))
@@ -293,17 +290,14 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
     }
   }
   else {
-    
     index <- index_loaded
   }
   
   index_matches <- sapply(index, function(e) identical(e$path, path))
   index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index) + 1
   if (length(index_pos) == 0) index_pos <- length(index) + 1
-  
   if (identical(operation, "create")) {
     metadata$columns <- NULL
-    
     index[[index_pos]] <- c(
       list(path = path),
       if (!is.null(name)) list(name = name) else NULL,
@@ -316,11 +310,9 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   else {
     stop("Operation ", operation, " is unsupported")
   }
-  
   index_file <- file.path(board_local_storage(board$name, board = board), "data.txt")
   index_file_put <- file_path_null(board$subpath, "data.txt")
   board_manifest_create(index, index_file)
-  
   response <- httr::PUT(index_url,
                         body = httr::upload_file(normalizePath(index_file)),
                         board_datatxt_headers(board, index_file_put, verb = "PUT", file = normalizePath(index_file)))
@@ -328,7 +320,6 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", datatxt_response_content(response))
   }
-  
   if (!identical(board$index_updated, NULL) && identical(operation, "create")) {
     board$index_updated(board)
   }
