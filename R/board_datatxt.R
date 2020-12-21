@@ -22,14 +22,27 @@ datatxt_refresh_index <- function(board) {
 
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
   current_index <- board_manifest_get(local_index, default_empty = TRUE)
+  
+  # validate downloaded new_index
+  new_index_is_valid <- FALSE
+  error_in_response <- httr::http_error(response)
+  if(!error_in_response){
+    new_index <- board_manifest_get(temp_index)
+    
+    if(all(sapply(new_index,class) =="list")){
+      if(all(sapply(new_index,function(x) "path" %in% names(x)))){
+        new_index_is_valid <- TRUE
+      }
+    }
+  }
+  
 
-  if (httr::http_error(response)) {
+  if (!new_index_is_valid) {
     if (!identical(board$needs_index, FALSE)) {
       stop("Failed to retrieve data.txt file from ", board$url)
     }
   }
   else {
-    new_index <- board_manifest_get(temp_index)
 
     # retain cache when refreshing board to avoid redownloads after board_register
     new_index <- lapply(new_index, function(new_entry) {
@@ -244,37 +257,53 @@ datatxt_response_content <- function(response) {
 
 datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
   index_file <- "data.txt"
+
   index_url <- file_path_null(board$url, board$subpath, index_file)
 
   index_file_get <- file_path_null(board$subpath, "data.txt")
+  
   if (identical(board$index_randomize, TRUE)) {
     # some boards cache bucket files by default which can be avoided by changing the url
     index_file_get <- paste0(index_file, "?rand=", stats::runif(1) * 10^8)
   }
-
+  
   response <- httr::GET(
     file.path(board$url, index_file_get),
     board_datatxt_headers(board, index_file_get))
-
+  
+  # validate downloaded index
+  index_loaded_is_valid <- FALSE
   index <- list()
-  if (httr::http_error(response)) {
+  error_in_response <- httr::http_error(response)
+  if(!error_in_response){
+    content <- datatxt_response_content(response)
+    index_loaded <- board_manifest_load(content)
+    
+    if(all(sapply(index_loaded,class) =="list")){
+      if(all(sapply(index_loaded,function(x) "path" %in% names(x)))){
+        index_loaded_is_valid <- TRUE
+      }
+    }
+  }
+  
+  
+  if (!index_loaded_is_valid) {
     if (identical(operation, "remove")) {
       stop("Failed to retrieve latest data.txt file, the pin was partially removed.")
     }
   }
   else {
-    content <- datatxt_response_content(response)
-
-    index <- board_manifest_load(content)
+    
+    index <- index_loaded
   }
-
+  
   index_matches <- sapply(index, function(e) identical(e$path, path))
   index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index) + 1
   if (length(index_pos) == 0) index_pos <- length(index) + 1
-
+  
   if (identical(operation, "create")) {
     metadata$columns <- NULL
-
+    
     index[[index_pos]] <- c(
       list(path = path),
       if (!is.null(name)) list(name = name) else NULL,
@@ -287,11 +316,11 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   else {
     stop("Operation ", operation, " is unsupported")
   }
-
+  
   index_file <- file.path(board_local_storage(board$name, board = board), "data.txt")
   index_file_put <- file_path_null(board$subpath, "data.txt")
   board_manifest_create(index, index_file)
-
+  
   response <- httr::PUT(index_url,
                         body = httr::upload_file(normalizePath(index_file)),
                         board_datatxt_headers(board, index_file_put, verb = "PUT", file = normalizePath(index_file)))
@@ -299,7 +328,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", datatxt_response_content(response))
   }
-
+  
   if (!identical(board$index_updated, NULL) && identical(operation, "create")) {
     board$index_updated(board)
   }
