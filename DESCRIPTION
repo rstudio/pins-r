@@ -7,7 +7,6 @@ Authors@R: c(
     person("Javier", "Luraschi", email = "javier@rstudio.com", role = "aut"),
     person(family = "RStudio", role = c("cph"))
     )
-Maintainer: Javier Luraschi <javier@rstudio.com>
 Description: Pin remote resources into a local cache to work offline,
   improve speed and avoid recomputing; discover and share resources
   in local folders, 'GitHub', 'Kaggle' or 'RStudio Connect'. Resources can 
