@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -207,9 +207,9 @@
       <small>Source: <a href='https://github.com/rstudio/pins/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pins-0449000" class="section level1">
+    <div id="pins-045" class="section level1">
 <h1 class="page-header">
-<a href="#pins-0449000" class="anchor"></a>pins 0.4.4.9000<small> Unreleased </small>
+<a href="#pins-045" class="anchor"></a>pins 0.4.5<small> Unreleased </small>
 </h1>
 <div id="pins" class="section level2">
 <h2 class="hasAnchor">
@@ -217,13 +217,48 @@
 <ul>
 <li><p>Support downloading remote files when service returns incompatible <code>data.txt</code> file (<a href='https://github.com/rstudio/pins/issues/310'>#310</a>).</p></li>
 <li><p>Support for pins over 100MB in Windows systems (<a href='https://github.com/rstudio/pins/issues/313'>#313</a>).</p></li>
+<li><p>Avoid Windows crashing in <code><a href="../reference/pin.html">pin()</a></code> under some locales (<a href='https://github.com/rstudio/pins/issues/127'>#127</a>).</p></li>
+</ul>
+</div>
+<div id="boards" class="section level2">
+<h2 class="hasAnchor">
+<a href="#boards" class="anchor"></a>Boards</h2>
+<ul>
+<li>Silenced ‘no encoding supplied’ warning (<a href='https://github.com/rstudio/pins/issues/330'>#330</a>).</li>
+</ul>
+</div>
+<div id="local" class="section level2">
+<h2 class="hasAnchor">
+<a href="#local" class="anchor"></a>Local</h2>
+<ul>
+<li>
+<code><a href="../reference/pin_find.html">pin_find()</a></code> no longer searches text with an undocumented regular expression syntax (<a href='https://github.com/rstudio/pins/issues/270'>#270</a>).</li>
 </ul>
 </div>
 <div id="s3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#s3" class="anchor"></a>S3</h2>
 <ul>
-<li>Default to using HTTPS in S3 boards (<a href='https://github.com/rstudio/pins/issues/304'>#304</a>).</li>
+<li><p>Default to using HTTPS in S3 boards (<a href='https://github.com/rstudio/pins/issues/304'>#304</a>).</p></li>
+<li><p>Support for AWS V4 signatures when registering S3 boards with <code>region</code> parameter (<a href='https://github.com/rstudio/pins/issues/304'>#304</a>)</p></li>
+</ul>
+</div>
+<div id="cloud" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cloud" class="anchor"></a>Cloud</h2>
+<ul>
+<li><p>Support for <code>path</code> to register a board under a subpath for Azure, DigitalOcean, Google Cloud and S3 boards (<a href='https://github.com/rstudio/pins/issues/200'>#200</a>).</p></li>
+<li><p>Avoid creating pins named with unsupported characters for Azure, DigitalOcean, Google Cloud and S3 boards (<a href='https://github.com/rstudio/pins/issues/193'>#193</a>).</p></li>
+</ul>
+</div>
+<div id="github" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github" class="anchor"></a>GitHub</h2>
+<ul>
+<li><p>Properly store relative paths when <code>path</code> parameter is specified in GitHub boards (<a href='https://github.com/rstudio/pins/issues/199'>#199</a>).</p></li>
+<li><p>Add support for repos with a ‘main’ branch as default (<a href='https://github.com/rstudio/pins/issues/336'>#336</a>).</p></li>
+<li><p>Add support for large file in private repo releases (<a href='https://github.com/rstudio/pins/issues/292'>#292</a>).</p></li>
+<li><p>When a board is registered with <code>versions = FALSE</code>, GitHub tags are also delete when large files are present (<a href='https://github.com/rstudio/pins/issues/285'>#285</a>).</p></li>
 </ul>
 </div>
 <div id="rstudio-connect" class="section level2">
@@ -235,6 +270,9 @@
 <li><p>Fix regression introduced in pins 0.4.2 (<a href='https://github.com/rstudio/pins/issues/253'>#253</a>) preventing users from collaborating on existing pins they have access to (<a href='https://github.com/rstudio/pins/issues/302'>#302</a>).</p></li>
 <li><p>Avoid deleting pin when upload fails to avoid deleting versions (<a href='https://github.com/rstudio/pins/issues/306'>#306</a>).</p></li>
 <li><p>Support re-creating pins from pins not previously properly updated (<a href='https://github.com/rstudio/pins/issues/308'>#308</a>).</p></li>
+<li><p>Adjust pin preview to only display 1K rows instead of 10K (<a href='https://github.com/rstudio/pins/issues/315'>#315</a>).</p></li>
+<li><p>Avoid changing columns names on data frame preview (<a href='https://github.com/rstudio/pins/issues/190'>#190</a>).</p></li>
+<li><p>Improve error message when token authentication fails (<a href='https://github.com/rstudio/pins/issues/327'>#327</a>).</p></li>
 </ul>
 </div>
 </div>
@@ -284,9 +322,9 @@
 <h1 class="page-header">
 <a href="#pins-043" class="anchor"></a>pins 0.4.3<small> 2020-07-10 </small>
 </h1>
-<div id="boards" class="section level2">
+<div id="boards-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#boards" class="anchor"></a>Boards</h2>
+<a href="#boards-1" class="anchor"></a>Boards</h2>
 <ul>
 <li>Properly export <code>board_pin_versions</code> to allow custom boards extending versions (<a href='https://github.com/rstudio/pins/issues/265'>#265</a>).</li>
 </ul>
@@ -395,9 +433,9 @@
 <li><p>Enable retrieving public pins without authentication (<a href='https://github.com/rstudio/pins/issues/83'>#83</a>).</p></li>
 </ul>
 </div>
-<div id="github" class="section level2">
+<div id="github-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github" class="anchor"></a>GitHub</h2>
+<a href="#github-1" class="anchor"></a>GitHub</h2>
 <ul>
 <li><p>Support for <code>versions = FALSE</code> in <code><a href="../reference/board_register.html">board_register()</a></code> to also delete release files when pin is removed (<a href='https://github.com/rstudio/pins/issues/91'>#91</a>).</p></li>
 <li><p>Support for <code>versions = FALSE</code> in <code><a href="../reference/board_register.html">board_register()</a></code> to avoid creating versioned GitHub releases (<a href='https://github.com/rstudio/pins/issues/197'>#197</a>).</p></li>
@@ -432,9 +470,9 @@
 <li>Added support for <code>host</code> parameter to configure “s3.amazonaws.com” to custom locations.</li>
 </ul>
 </div>
-<div id="github-1" class="section level2">
+<div id="github-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-1" class="anchor"></a>GitHub</h2>
+<a href="#github-2" class="anchor"></a>GitHub</h2>
 <ul>
 <li>Fix regression uploading large datasets as release files.</li>
 </ul>
@@ -504,9 +542,9 @@
 <li><p>Support creating automatic <code>name</code> when using <code><a href="../reference/pin.html">pin()</a></code> and multiple URL.</p></li>
 </ul>
 </div>
-<div id="boards-1" class="section level2">
+<div id="boards-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#boards-1" class="anchor"></a>Boards</h2>
+<a href="#boards-2" class="anchor"></a>Boards</h2>
 <ul>
 <li>Avoid “cannot create dir” warning in systems with an empty cache folder.</li>
 </ul>
@@ -549,9 +587,9 @@
 <li><p>Fix in <code><a href="../reference/pin_find.html">pin_find()</a></code> to properly search desecription files.</p></li>
 </ul>
 </div>
-<div id="github-2" class="section level2">
+<div id="github-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-2" class="anchor"></a>GitHub</h2>
+<a href="#github-3" class="anchor"></a>GitHub</h2>
 <ul>
 <li>Various fixes for GitHub boards using the <code>path</code> parameter when registering the board (<a href='https://github.com/rstudio/pins/issues/121'>#121</a>).</li>
 </ul>
@@ -573,18 +611,18 @@
 <li><p>Fix for data frames with nested data frames in rsconnect boards (<a href='https://github.com/rstudio/pins/issues/36'>#36</a>).</p></li>
 </ul>
 </div>
-<div id="github-3" class="section level2">
+<div id="github-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-3" class="anchor"></a>GitHub</h2>
+<a href="#github-4" class="anchor"></a>GitHub</h2>
 <ul>
 <li><p><code><a href="../reference/board_register_github.html">board_register_github()</a></code> now checks for the repo to exist (<a href='https://github.com/rstudio/pins/issues/63'>#63</a>).</p></li>
 <li><p>Adjusted max upload file to 25mb to avoid “server error” in the API, larger files than 25mb uploaded as release files. This can be configured using the <code>pins.github.release</code> option, which deefaults to 25.</p></li>
 <li><p>Allow overriding GitHub pin over a pin that partially failed to be created.</p></li>
 </ul>
 </div>
-<div id="boards-2" class="section level2">
+<div id="boards-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#boards-2" class="anchor"></a>Boards</h2>
+<a href="#boards-3" class="anchor"></a>Boards</h2>
 <ul>
 <li><p>Using a board will attempt to automatically register, such that <code><a href="../reference/pin.html">pin(iris, board = "rsconnect")</a></code> would work for the default configuration even when the board is not explicitly registered (<a href='https://github.com/rstudio/pins/issues/50'>#50</a>).</p></li>
 <li><p>Registers “local” board by default, you no longer need to explicitly run <code><a href="../reference/board_register_local.html">board_register_local()</a></code> (<a href='https://github.com/rstudio/pins/issues/56'>#56</a>).</p></li>
@@ -636,7 +674,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pins-0449000">0.4.4.9000</a></li>
+        <li><a href="#pins-045">0.4.5</a></li>
         <li><a href="#pins-044">0.4.4</a></li>
         <li><a href="#pins-043">0.4.3</a></li>
         <li><a href="#pins-042">0.4.2</a></li>
@@ -658,7 +696,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Javier Luraschi.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pins',
-      version='0.3.1',
+      version='0.4.5',
       description='Pin, Discover and Share Resources',
       url='https://github.com/rstudio/pins',
       author='Javier Luraschi',
