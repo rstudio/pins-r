@@ -123,7 +123,8 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
                                     app_mode = "static",
                                     content_category = "pin",
                                     name = name,
-                                    description = board_metadata_to_text(metadata, metadata$description)
+                                    description = board_metadata_to_text(metadata, metadata$description),
+                                    access_type = access_type
                                   ))
       if (!is.null(content$error)) {
         # we might fail to create pins that exists (code 26) but are not shown as pins since they fail while being created

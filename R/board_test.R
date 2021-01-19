@@ -144,6 +144,16 @@ board_test_default <- function(board, exclude, destination) {
 
     deps$expect_equal(readLines(cached_path), "hello world")
   })
+
+  deps$test_that(paste("can pin a new piece of content with access_type not acl"), {
+    pin_name <- "access_type_test"
+    access_type <- "logged_in"
+    # Ensure it doesn't exist already
+    try(pin_remove(pin_name, board), silent = T)
+
+    pin(text_file, pin_name, board = board, access_type = access_type)
+    deps$expect_equal(pin_info(pin_name, board)$access_type, access_type)
+  })
 }
 
 board_test_versions <- function(board, exclude, destination) {
