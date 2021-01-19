@@ -109,7 +109,16 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
 }
 
 s3_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z")
+  get_date <-
+    function() {
+      loc <- Sys.getlocale(category = "LC_TIME")
+      on.exit(Sys.setlocale(category = "LC_TIME", locale = loc))
+      Sys.setlocale(category = "LC_TIME", locale = "C")
+
+      strftime(Sys.time(), "%a, %d %b %Y %H:%M:%S %z", tz = "UTC")
+    }
+
+  date <- get_date()
 
   # allow full urls to allow arbitrary file downloads
   bucket <- board$bucket
