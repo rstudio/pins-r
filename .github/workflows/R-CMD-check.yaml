@@ -38,8 +38,6 @@ jobs:
       TEST_AWS_KEY: "AKIAWDFKE5M2ZHDUORMW"
       TEST_AWS_REGION: "us-east-2"
       TEST_AWS_SECRET: ${{ secrets.TEST_AWS_SECRET }}
-      TEST_GITHUB_REPO: "testme42/datasets"
-      TEST_GITHUB_BRANCH: "ghtests"
       TEST_KAGGLE_API: ${{ secrets.TEST_KAGGLE_API }}
 
     steps:
