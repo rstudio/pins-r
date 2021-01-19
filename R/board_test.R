@@ -153,6 +153,9 @@ board_test_default <- function(board, exclude, destination) {
 
     pin(text_file, pin_name, board = board, access_type = access_type)
     deps$expect_equal(pin_info(pin_name, board)$access_type, access_type)
+
+    # Clean up
+    try(pin_remove(pin_name, board), silent = T)
   })
 }
 
