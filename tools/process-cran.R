@@ -194,7 +194,7 @@ cran_save_dataset <- function(cran_index) {
     class = class
   )
 
-  save(cranfiles, file = "data/cranfiles.rda")
+  save(cranfiles, file = "data/cranfiles.rda", complex = "xz")
 }
 
 cran_clean_dataset <- function() {
