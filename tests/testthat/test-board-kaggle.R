@@ -15,11 +15,11 @@ board_register_kaggle(
 withr::defer(board_deregister("test-kaggle"))
 
 test_that("can pin_find() 'seattle' in kaggle board", {
-  searches <- pin_find("game of thrones", board = "kaggle")
+  searches <- pin_find("game of thrones", board = "test-kaggle")
   expect_gt(nrow(searches), 0)
 })
 
 test_that("can pin_get() 'got' in kaggle board", {
-  dataset <- pin_get("gunnvant/game-of-thrones-srt", board = "kaggle")
+  dataset <- pin_get("gunnvant/game-of-thrones-srt", board = "test-kaggle")
   expect_gt(length(dataset), 0)
 })
