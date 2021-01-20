@@ -41,3 +41,7 @@ pins_safe_csv <- function(x, name) {
     warning("Failed to save data frame as CSV file")
   })
 }
+
+has_envvars <- function(x) {
+  all(Sys.getenv(x) != "")
+}
