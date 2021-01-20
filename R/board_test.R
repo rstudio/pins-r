@@ -95,14 +95,6 @@ board_test_default <- function(board, exclude, destination) {
     if (nrow(results) > 0)
       testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
   })
-
-  testthat::test_that(paste("can pin() with version", destination), {
-    cached_path <- pin(text_file, pin_name, board = board)
-
-    testthat::expect_true(is.character(cached_path))
-
-    testthat::expect_equal(readLines(cached_path), "hello world")
-  })
 }
 
 board_test_versions <- function(board, exclude, destination) {
