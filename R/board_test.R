@@ -96,30 +96,6 @@ board_test_default <- function(board, exclude, destination) {
       testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
   })
 
-  testthat::test_that(paste("can pin() medium files", destination), {
-    testthat::skip("This test is too slow")
-
-    if ("remove" %in% exclude) testthat::skip("This test is in the excluded list")
-
-    flights_file <- tempfile(fileext = ".csv")
-    on.exit(unlink(flights_file))
-
-    pin_get("nycflights13/flights") %>% utils::write.csv(flights_file)
-
-    flights_name <- paste0("flights", round(stats::runif(1, 1, 1000)))
-    result <- pin(flights_file, name = flights_name, board = board)
-    testthat::expect_true(!is.null(result))
-
-    Sys.sleep(3)
-
-    result <- pin_remove(flights_name, board = board)
-    testthat::expect_equal(result, NULL)
-
-    results <- pin_find(name = flights_name, board = board)
-    if (nrow(results) > 0)
-      testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
-  })
-
   testthat::test_that(paste("can pin() with version", destination), {
     cached_path <- pin(text_file, pin_name, board = board)
 
