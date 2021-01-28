@@ -97,6 +97,7 @@ pin_download_one <- function(path,
 
         if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
         destination_path <- file.path(temp_path, download_name)
+        dir.create(dirname(destination_path), recursive = T, showWarnings = F)
         pin_log("Downloading ", path, " to ", destination_path)
         details$something_changed <- TRUE
 
