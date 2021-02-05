@@ -9,16 +9,17 @@ datatxt_refresh_index <- function(board) {
   if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
 
   index_file <- "data.txt"
-  if (identical(board$index_randomize, TRUE)) {
-    index_file <- paste0(index_file, "?rand=", stats::runif(1) * 10^8)
-  }
-
   index_url <- file_path_null(board$url, board$subpath, index_file)
+
+  index_file_get <- file_path_null(board$subpath, "data.txt")
+  if (identical(board$index_randomize, TRUE)) {
+    index_file_get <- paste0(index_file_get, "?rand=", stats::runif(1) * 10^8)
+  }
 
   temp_index <- tempfile()
   response <- httr::GET(index_url,
                         httr::write_disk(temp_index, overwrite = TRUE),
-                        board_datatxt_headers(board, "data.txt"))
+                        board_datatxt_headers(board, index_file_get))
 
   local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
   current_index <- board_manifest_get(local_index, default_empty = TRUE)
