@@ -325,9 +325,15 @@ rsconnect_wait_by_name <- function(board, name) {
   }
 }
 
+strip_default_ports <- function(url) {
+  url_components <- urltools::url_parse(url)
+  url_components$port[url_components$port %in% c("80", "443")] <- NA
+  urltools::url_compose(url_components)
+}
+
 rsconnect_remote_path_from_url <- function(board, url) {
-  url <- gsub("^https?://", "", url)
-  server <- gsub("^https?://", "", board$server)
+  url <- gsub("^https?://", "", strip_default_ports(url))
+  server <- gsub("^https?://", "", strip_default_ports(board$server))
 
   url <- gsub(paste0("^.*", server), "", url)
   gsub("/$", "", url)
