@@ -16,12 +16,27 @@ test_that("User-supplied html files can overwrite the default", {
   expect_equal(readLines(file.path(dir, "index.html")), "new_file")
 })
 
-test_that("Mismatched protocols generate correct URL", {
+test_that("Mismatched protocols and ports generate correct URL", {
   path <- rsconnect_remote_path_from_url(list(server = "https://foo.com/rsc"), "http://foo.com/rsc/foo/bar")
   expect_equal(path, "/foo/bar")
 
   path <- rsconnect_remote_path_from_url(list(server = "http://foo.com/rsc"), "https://foo.com/rsc/foo/bar")
   expect_equal(path, "/foo/bar")
+
+  path <- rsconnect_remote_path_from_url(list(server = "https://foo.com:443/rsc"), "https://foo.com/rsc/foo/bar")
+  expect_equal(path, "/foo/bar")
+
+  path <- rsconnect_remote_path_from_url(list(server = "https://foo.com/rsc"), "https://foo.com:443/rsc/foo/bar")
+  expect_equal(path, "/foo/bar")
+
+
+  path <- rsconnect_remote_path_from_url(list(server = "https://foo.com:8443/rsc"), "https://foo.com:8443/rsc/foo/bar")
+  expect_equal(path, "/foo/bar")
+
+
+  path <- rsconnect_remote_path_from_url(list(server = "https://foo.com:8443/rsc"), "http://foo.com:8443/rsc/foo/bar")
+  expect_equal(path, "/foo/bar")
+})
 })
 
 # Live API ---------------------------------------------------------------------
