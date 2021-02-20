@@ -37,7 +37,6 @@ test_that("Mismatched protocols and ports generate correct URL", {
   path <- rsconnect_remote_path_from_url(list(server = "https://foo.com:8443/rsc"), "http://foo.com:8443/rsc/foo/bar")
   expect_equal(path, "/foo/bar")
 })
-})
 
 # Live API ---------------------------------------------------------------------
 
