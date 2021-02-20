@@ -40,7 +40,8 @@ Imports:
     stats,
     withr,
     yaml,
-    zip
+    zip,
+    urltools
 Suggests:
     callr,
     covr,
