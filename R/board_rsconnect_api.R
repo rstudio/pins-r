@@ -2,9 +2,7 @@
 rsconnect_api_auth <- function(board) !is.null(board$key)
 
 rsconnect_url_from_path <- function(board, path) {
-  deps <- rsconnect_token_dependencies()
-
-  server_info <- deps$server_info(board$server_name)
+  server_info <- rsconnect::serverInfo(board$server_name)
   service <- rsconnect_token_parse_url(server_info$url)
 
   paste0(service$path_sans_api, path)
