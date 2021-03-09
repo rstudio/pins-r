@@ -56,8 +56,7 @@ board_disconnect <- function(name, ...) {
 #'
 #' @export
 board_list <- function() {
-  defaults <- c("local", "packages", board_default())
-  unique(c(board_registry_list(), defaults))
+  board_registry_list()
 }
 
 board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, connect = NULL, url = NULL) {

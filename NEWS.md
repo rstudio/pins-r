@@ -1,5 +1,8 @@
 # pins (development version)
 
+* The "packages" board is no longer registered by default; if you want to use
+  this you'll need to register with `board_register("packages")`.
+
 # pins 0.4.5
 
 ## Pins
