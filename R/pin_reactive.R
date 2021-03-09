@@ -1,9 +1,3 @@
-shiny_dependencies <- function() {
-  list(
-    reactive_poll = get("reactivePoll", envir = asNamespace("shiny"))
-  )
-}
-
 pin_changed_time <- function(name, board, extract) {
   pin_path <- board_pin_get(board_get(board), name, extract = extract)
   pin_files <- file.path(pin_path, dir(pin_path))
@@ -29,11 +23,9 @@ pin_changed_time <- function(name, board, extract) {
 #'
 #' @export
 pin_reactive <- function(name, board, interval = 5000, session = NULL, extract = NULL) {
-  deps <- shiny_dependencies()
-
   board_object <- board_get(board)
 
-  deps$reactive_poll(
+  shiny::reactivePoll(
     intervalMillis = interval,
     session = session,
     checkFunc = function() {
