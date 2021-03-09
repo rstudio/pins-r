@@ -1,3 +1,56 @@
+#' Register GitHub Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a GitHub repo as a board.
+#'
+#' @param name Optional name for this board, defaults to 'github'.
+#' @param repo The GitHub repository formatted as 'owner/repo', can be
+#'   \code{NULL} if the \code{GITHUB_PAT} environment variable is set.
+#' @param branch The branch to use to commit pins.
+#' @param token Token to use when \code{GITHUB_PAT} is not specified.
+#' @param path The subdirectory in the repo where the pins will be stored.
+#' @param host The URL hosting the GitHub API, defaults to \code{"https://api.github.com"}.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @details
+#'
+#' This function requires a GitHub repo to be manually created; otherwise,
+#' registering a GitHub board will fail.
+#'
+#' When a file upload exceeds 25MB, a GitHub release file will be used since
+#' they support up to 2GB file uploads. This threshold can be configured through
+#' the \code{pins.github.release} option which is specified in megabytes and
+#' defaults to \code{25}.
+#'
+#' When using GitHub Enterprise, consider customizing the \code{host} parameter to
+#' \code{"https://yourhostname/api/v3"}.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following example requires a GitHub API key
+#' board_register_github(repo = "owner/repo")
+#' }
+#' @export
+board_register_github <- function(name = "github",
+                                  repo = NULL,
+                                  branch = NULL,
+                                  token = NULL,
+                                  path = "",
+                                  host = "https://api.github.com",
+                                  cache = board_cache_path(),
+                                  ...) {
+  board_register("github", name = name,
+                           repo = repo,
+                           branch = branch,
+                           token = token,
+                           path = path,
+                           cache = cache,
+                           host = host,
+                           ...)
+}
 
 github_authenticated <- function(board) {
   if (!is.null(board$token))

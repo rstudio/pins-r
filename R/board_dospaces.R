@@ -1,3 +1,56 @@
+#' Register DigitalOcean Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a DigitalOcean Spaces board.
+#'
+#' @param name Optional name for this board, defaults to 's3'.
+#' @param space The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
+#'   variable.
+#' @param key The key of the DigitalOcean space. Defaults to the \code{DO_ACCESS_KEY_ID} environment
+#'   variable.
+#' @param secret The secret of the DigitalOcean space. Defaults to the \code{DO_SECRET_ACCESS_KEY} environment
+#'   variable.
+#' @param datacenter The datacenter of the DigitalOcean space. Defaults to the \code{DO_DATACENTER} environment
+#'   variable.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param host The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.
+#' @param path The subdirectory in the repo where the pins will be stored.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @details
+#'
+#' This function requires a DigitalOcean space to be manually created; otherwise,
+#' registering a DigitalOcean space will fail.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following example requires a DigitalOcean Spaces API key
+#' board_register_s3(bucket = "s3bucket")
+#' }
+#' @export
+board_register_dospace <- function(name = "dospace",
+                                   space = Sys.getenv("DO_SPACE"),
+                                   key = Sys.getenv("DO_ACCESS_KEY_ID"),
+                                   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+                                   datacenter = Sys.getenv("DO_DATACENTER"),
+                                   cache = board_cache_path(),
+                                   host = "digitaloceanspaces.com",
+                                   path = NULL,
+                                   ...) {
+  board_register("dospace",
+                 name = name,
+                 space = space,
+                 key = key,
+                 secret = secret,
+                 datacenter = datacenter,
+                 cache = cache,
+                 host = host,
+                 path = path,
+                 ...)
+}
+
 dospace_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z", tz = "UTC")
 

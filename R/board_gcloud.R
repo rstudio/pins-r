@@ -1,3 +1,44 @@
+#' Register Google Cloud Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a Google Cloud Storage container as a board.
+#'
+#' @param name Optional name for this board, defaults to 'gcloud'.
+#' @param bucket The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
+#'   variable.
+#' @param token The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param path The subdirectory in the repo where the pins will be stored.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @details
+#'
+#' This function requires a Google Cloud Storage container to be manually created; otherwise,
+#' registering a Google Cloud board will fail.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following example requires the Google Cloud SDK to be configured
+#' board_register_gcloud(container = "gcloudcontainer")
+#' }
+#' @export
+board_register_gcloud <- function(name = "gcloud",
+                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+                                  token = NULL,
+                                  cache = board_cache_path(),
+                                  path = NULL,
+                                  ...) {
+  board_register("gcloud",
+                 name = name,
+                 bucket = bucket,
+                 token = token,
+                 cache = cache,
+                 path = path,
+                 ...)
+}
+
 gcloud_headers <- function(board, verb, path, file) {
 
   content_type <- NULL

@@ -1,3 +1,26 @@
+#' Register Local Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register a local folder as a board.
+#'
+#' @param name Optional name for this board, defaults to 'local'.
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' # register local board using a temp folder
+#' board_register_local(cache = tempfile())
+#' @export
+board_register_local <- function(name = "local",
+                                 cache = board_cache_path(),
+                                 ...) {
+  board_register("local", name = name,
+                          cache = cache,
+                          ...)
+}
+
 board_initialize.local <- function(board, cache, ...) {
   if (!dir.exists(board$cache)) dir.create(board$cache, recursive = TRUE)
 

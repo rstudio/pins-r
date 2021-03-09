@@ -1,3 +1,53 @@
+#' Register RStudio Connect Board
+#'
+#' Wrapper with explicit parameters over \code{board_register()} to
+#' register RStudio Connecet as a board.
+#'
+#' @param name Optional name for this board, defaults to 'rsconnect'.
+#' @param server Optional address to RStudio Connect server.
+#' @param account Optional account name to use with RStudio Connect.
+#' @param key The RStudio Connect API key.
+#' @param output_files Should the output in an automated report create output files?
+#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @seealso board_register
+#'
+#' @examples
+#' \dontrun{
+#' # the following examples require an RStudio Connect API key
+#'
+#' # register from rstudio
+#' board_register_rsconnect()
+#'
+#' # register from rstudio with multiple servers
+#' board_register_rsconnect(server = "https://rstudio-connect-server")
+#'
+#' # register from rstudio with multiple account
+#' board_register_rsconnect(account = "account-name")
+#'
+#' # register automated report for rstudio connect
+#' board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),
+#'                          server = Sys.getenv("CONNECT_SERVER"))
+#' }
+#'
+#' @export
+board_register_rsconnect <- function(name = "rsconnect",
+                                     server = NULL,
+                                     account = NULL,
+                                     key = NULL,
+                                     output_files = FALSE,
+                                     cache = board_cache_path(),
+                                     ...) {
+  board_register("rsconnect", name = name,
+                              server = server,
+                              account = account,
+                              key = key,
+                              output_files = output_files,
+                              cache = cache,
+                              ...)
+}
+
 rsconnect_pins_supported <- function(board) {
   package_version(rsconnect_api_version(board)) > package_version("1.7.7")
 }
