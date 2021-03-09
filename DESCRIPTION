@@ -49,6 +49,7 @@ Suggests:
     R6,
     rmarkdown,
     rsconnect,
+    R.utils,
     shiny,
     stringi,
     testthat,

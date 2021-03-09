@@ -1,12 +1,3 @@
-get_function <- function(name, package) {
-  if (length(find.package(package, quiet = TRUE)) == 0) {
-    NULL
-  }
-  else {
-    get0(name, envir = asNamespace(package))
-  }
-}
-
 pins_show_progress <- function(size = 0) {
   if (is.character(size)) size <- as.integer(size)
 
