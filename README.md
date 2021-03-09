@@ -119,18 +119,18 @@ You can then retrieve a pin through `pin_get()`:
 ``` r
 seattle_sales <- pin_get("hpiR/seattle_sales") %>% print()
 #> # A tibble: 43,313 x 16
-#>    pinx  sale_id sale_price sale_date  use_type  area lot_sf  wfnt bldg_grade
-#>    <chr> <chr>        <int> <date>     <chr>    <int>  <int> <dbl>      <int>
-#>  1 ..00… 2013..…     289000 2013-02-06 sfr         79   9295     0          7
-#>  2 ..00… 2013..…     356000 2013-07-11 sfr         18   6000     0          6
-#>  3 ..00… 2010..…     333500 2010-12-29 sfr         79   7200     0          8
-#>  4 ..00… 2016..…     577200 2016-03-17 sfr         79   7200     0          8
-#>  5 ..00… 2012..…     237000 2012-05-02 sfr         79   5662     0          7
-#>  6 ..00… 2014..…     347500 2014-03-11 sfr         79   5830     0          7
-#>  7 ..00… 2012..…     429000 2012-09-20 sfr         18  12700     0          7
-#>  8 ..00… 2015..…     653295 2015-07-21 sfr         79   7000     0          7
-#>  9 ..00… 2014..…     427650 2014-02-19 townhou…    79   3072     0          7
-#> 10 ..00… 2015..…     488737 2015-03-19 townhou…    79   3072     0          7
+#>    pinx    sale_id  sale_price sale_date  use_type  area lot_sf  wfnt bldg_grade
+#>    <chr>   <chr>         <int> <date>     <chr>    <int>  <int> <dbl>      <int>
+#>  1 ..0001… 2013..2…     289000 2013-02-06 sfr         79   9295     0          7
+#>  2 ..0001… 2013..2…     356000 2013-07-11 sfr         18   6000     0          6
+#>  3 ..0001… 2010..2…     333500 2010-12-29 sfr         79   7200     0          8
+#>  4 ..0001… 2016..6…     577200 2016-03-17 sfr         79   7200     0          8
+#>  5 ..0001… 2012..9…     237000 2012-05-02 sfr         79   5662     0          7
+#>  6 ..0001… 2014..5…     347500 2014-03-11 sfr         79   5830     0          7
+#>  7 ..0001… 2012..2…     429000 2012-09-20 sfr         18  12700     0          7
+#>  8 ..0003… 2015..2…     653295 2015-07-21 sfr         79   7000     0          7
+#>  9 ..0003… 2014..4…     427650 2014-02-19 townhou…    79   3072     0          7
+#> 10 ..0003… 2015..6…     488737 2015-03-19 townhou…    79   3072     0          7
 #> # … with 43,303 more rows, and 7 more variables: tot_sf <int>, beds <int>,
 #> #   baths <dbl>, age <int>, eff_age <int>, longitude <dbl>, latitude <dbl>
 ```
@@ -223,7 +223,6 @@ seattle_sales %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
   pin("sales-by-baths", board = "myrsc")
-#> `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 After a pin is published, you can then browse to the pin’s content from
@@ -259,25 +258,3 @@ updates or to share prepared resources across multiple pieces of
 content. You no longer have to fuss with file paths on RStudio Connect,
 mysterious resource URLs, or redeploying application code just to update
 a dataset!
-
-### Python
-
-Experimental support for pins is also available in Python. However,
-since the Python interface currently makes use of the R package, the R
-runtime needs to be installed when using pins from Python. To get
-started, first install the pins module:
-
-``` bash
-pip install git+https://github.com/rstudio/pins.git@v0.4.4#subdirectory=python
-```
-
-Followed by using `pins` from Python:
-
-``` python
-import pins
-pins.pin_get("hpiR/seattle_sales")
-```
-
-Please make sure to ~~pin~~ visit,
-[pins.rstudio.com](https://pins.rstudio.com/), where you will find
-detailed documentation and additional resources.

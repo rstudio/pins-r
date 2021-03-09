@@ -185,24 +185,3 @@ pin_get("sales-by-baths", board = "myrsc") %>%
 ```
 
 Pins can also be automated using scheduled R Markdown. This makes it much easier to create Shiny applications that rely on scheduled data updates or to share prepared resources across multiple pieces of content. You no longer have to fuss with file paths on RStudio Connect, mysterious resource URLs, or redeploying application code just to update a dataset!
-
-### Python
-
-Experimental support for pins is also available in Python. However, since the Python interface currently makes use of the R package, the R runtime needs to be installed when using pins from Python. To get started, first install the pins module:
-
-```{bash eval=FALSE}
-pip install git+https://github.com/rstudio/pins.git@v0.4.4#subdirectory=python
-```
-
-Followed by using `pins` from Python:
-
-```{python echo=FALSE, eval = FALSE}
-import pandas as pd
-pd.set_option('display.max_rows', 10)
-```
-```{python, eval = FALSE}
-import pins
-pins.pin_get("hpiR/seattle_sales")
-```
-
-Please make sure to ~~pin~~ visit, [pins.rstudio.com](https://pins.rstudio.com/), where you will find detailed documentation and additional resources.
