@@ -11,7 +11,7 @@ datatxt_refresh_index <- function(board) {
   index_file <- "data.txt"
   index_url <- file_path_null(board$url, board$subpath, index_file)
 
-  index_file_get <- file_path_null(board$subpath, "data.txt")
+  index_file_get <- file_path_null(board$subpath, index_file)
   if (identical(board$index_randomize, TRUE)) {
     index_file_get <- paste0(index_file_get, "?rand=", stats::runif(1) * 10^8)
   }
