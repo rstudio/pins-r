@@ -48,6 +48,7 @@ Suggests:
     knitr,
     R6,
     rmarkdown,
+    shiny,
     stringi,
     testthat,
     tibble,
