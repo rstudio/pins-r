@@ -96,6 +96,7 @@ azure_headers <- function(board, verb, path, file) {
   headers
 }
 
+#' @export
 board_initialize.azure <- function(board,
                                   container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                                   account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),

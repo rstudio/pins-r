@@ -199,6 +199,7 @@ s3_headers <- function(board, verb, path, file) {
   headers
 }
 
+#' @export
 board_initialize.s3 <- function(board,
                                 bucket = Sys.getenv("AWS_BUCKET"),
                                 key = Sys.getenv("AWS_ACCESS_KEY_ID"),

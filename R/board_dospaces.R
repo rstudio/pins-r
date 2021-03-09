@@ -84,6 +84,7 @@ dospace_headers <- function(board, verb, path, file) {
   headers
 }
 
+#' @export
 board_initialize.dospace <- function(board,
                                      space = Sys.getenv("DO_SPACE"),
                                      key = Sys.getenv("DO_ACCESS_KEY_ID"),

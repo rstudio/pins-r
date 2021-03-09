@@ -163,6 +163,7 @@ kaggle_create_bundle <- function(path, type, description) {
   bundle_file
 }
 
+#' @export
 board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...) {
   board$token <- if (is.null(token)) "~/.kaggle/kaggle.json" else token
   if (!file.exists(board$token)) {
@@ -176,6 +177,7 @@ board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...)
   board
 }
 
+#' @export
 board_pin_create.kaggle <- function(board, path, name, metadata, notes = NULL, ...) {
   description <- metadata$description
   type <- metadata$type
@@ -283,6 +285,7 @@ kaggle_competition_files <- function(board, name) {
   httr::content(results, encoding = "UTF-8")
 }
 
+#' @export
 board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
   if (grepl("^c/", name)) {
     competition_files <- name <- gsub("^c/", "", name)
@@ -325,15 +328,18 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
   local_path
 }
 
-board_pin_remove.kaggle <- function(board, name) {
+#' @export
+board_pin_remove.kaggle <- function(board, name, ...) {
   qualified <- kaggle_qualify_name(name, board)
   stop("Please remove dataset from: https://www.kaggle.com/", qualified, "/settings")
 }
 
-board_browse.kaggle <- function(board) {
+#' @export
+board_browse.kaggle <- function(board, ...) {
   utils::browseURL("https://www.kaggle.com/datasets?tab=my")
 }
 
+#' @export
 board_pin_versions.kaggle <- function(board, name, ...) {
   if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
 

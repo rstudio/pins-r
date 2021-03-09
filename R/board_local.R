@@ -21,6 +21,7 @@ board_register_local <- function(name = "local",
                           ...)
 }
 
+#' @export
 board_initialize.local <- function(board, cache, ...) {
   if (!dir.exists(board$cache)) dir.create(board$cache, recursive = TRUE)
 
@@ -38,6 +39,7 @@ guess_extension_from_path <- function(path) {
   tools::file_ext(path)
 }
 
+#' @export
 board_pin_create.local <- function(board, path, name, metadata, ...) {
   board_versions_create(board, name = name, path = path)
 
@@ -63,6 +65,7 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
     component = board$name)
 }
 
+#' @export
 board_pin_find.local <- function(board, text, ...) {
   results <- pin_registry_find(text, board$name)
 
@@ -78,6 +81,7 @@ board_pin_find.local <- function(board, text, ...) {
   results
 }
 
+#' @export
 board_pin_get.local <- function(board, name, version = NULL, ...) {
   path <- pin_registry_retrieve_path(name, board$name)
 
@@ -94,10 +98,12 @@ board_pin_get.local <- function(board, name, version = NULL, ...) {
   pin_registry_absolute(path, component = board$name)
 }
 
-board_pin_remove.local <- function(board, name) {
+#' @export
+board_pin_remove.local <- function(board, name, ...) {
   pin_registry_remove(name, board$name)
 }
 
+#' @export
 board_pin_versions.local <- function(board, name, ...) {
   board_versions_get(board, name)
 }

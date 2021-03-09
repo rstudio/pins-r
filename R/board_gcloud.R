@@ -103,6 +103,7 @@ gcloud_binary <- function() {
   NULL
 }
 
+#' @export
 board_initialize.gcloud <- function(board,
                                     bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                                     token = NULL,

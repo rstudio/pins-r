@@ -73,12 +73,14 @@ board_browse <- function(board, ...) {
   UseMethod("board_browse")
 }
 
-board_browse.default <- function(board) { invisible(NULL) }
+#' @export
+board_browse.default <- function(board, ...) { invisible(NULL) }
 
 board_empty_results <- function() {
   data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
 }
 
+#' @export
 board_pin_versions.default <- function(board, name, ...) {
   data.frame(version = character(0), stringsAsFactors = FALSE)
 }

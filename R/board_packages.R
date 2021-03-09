@@ -1,3 +1,4 @@
+#' @export
 board_initialize.packages <- function(board, ...) {
   # use local board cache to avoid 'board_register("packages", cache = tempfile())' examples
   if (identical(board$cache, board_cache_path())) board$cache <- dirname(board_local_storage("local"))
@@ -5,6 +6,7 @@ board_initialize.packages <- function(board, ...) {
   board
 }
 
+#' @export
 board_pin_find.packages <- function(board, text, ...) {
   if (is.null(text)) text <- ""
   cranfiles <- get_cranfiles()
@@ -82,6 +84,7 @@ packages_download <- function(resource_path, package_pin, name) {
   pin_manifest_create(resource_path, metadata, "")
 }
 
+#' @export
 board_pin_get.packages <- function(board, name, ...) {
   parts <- strsplit(name, "/")[[1]]
 

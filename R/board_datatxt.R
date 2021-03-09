@@ -81,6 +81,7 @@ datatxt_refresh_index <- function(board) {
   yaml::write_yaml(current_index, local_index)
 }
 
+#' @export
 board_initialize.datatxt <- function(board,
                                      headers = NULL,
                                      cache = board_cache_path(),
@@ -166,6 +167,7 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
   )
 }
 
+#' @export
 board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, download = TRUE, ...) {
   manifest_paths <- datatxt_refresh_manifest(board, name, download = download, ...)
   path_guess <- manifest_paths$path_guess
@@ -232,6 +234,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
   local_path
 }
 
+#' @export
 board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   datatxt_refresh_index(board)
 
@@ -363,6 +366,7 @@ datatxt_invalid_name <- function(name) {
   }
 }
 
+#' @export
 board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
   datatxt_invalid_name(name)
   board_versions_create(board, name, path)
@@ -409,6 +413,7 @@ datatxt_pin_files <- function(board, name) {
   files
 }
 
+#' @export
 board_pin_remove.datatxt <- function(board, name, ...) {
   files <- datatxt_pin_files(board, name)
 
@@ -434,10 +439,12 @@ board_pin_remove.datatxt <- function(board, name, ...) {
   unlink(pin_storage_path(board$name, name), recursive = TRUE)
 }
 
-board_browse.datatxt <- function(board) {
+#' @export
+board_browse.datatxt <- function(board, ...) {
   utils::browseURL(board$borwse_url)
 }
 
+#' @export
 board_pin_versions.datatxt <- function(board, name, ...) {
   datatxt_refresh_manifest(board, name, ...)
   board_versions_get(board, name)
