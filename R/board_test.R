@@ -43,9 +43,7 @@ board_test_default <- function(board, exclude, destination) {
   })
 
   testthat::test_that(paste("can pin() data frame to", destination), {
-    iris <- get("iris", envir = asNamespace("datasets"))
-
-    dataset <- pin(iris, dataset_name, board = board)
+    dataset <- pin(datasets::iris, dataset_name, board = board)
 
     testthat::expect_true(is.data.frame(dataset))
   })
