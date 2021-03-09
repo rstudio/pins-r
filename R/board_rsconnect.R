@@ -1,9 +1,3 @@
-rsconnect_dependencies <- function() {
-  list(
-    output_metadata = get_function("output_metadata", "rmarkdown")
-  )
-}
-
 rsconnect_pins_supported <- function(board) {
   package_version(rsconnect_api_version(board)) > package_version("1.7.7")
 }
@@ -60,8 +54,6 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
     NULL
   }
 
-  deps <- rsconnect_dependencies()
-
   temp_dir <- file.path(tempfile(), name)
   dir.create(temp_dir, recursive = TRUE)
   on.exit(unlink(temp_dir, recursive = TRUE))
@@ -109,7 +101,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
   if (identical(board$output_files, TRUE)) {
     knit_pin_dir <- file.path(name)
     file.copy(temp_dir, getwd(), recursive = TRUE)
-    deps$output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
+    rmarkdown::output_metadata$set(rsc_output_files = file.path(knit_pin_dir, dir(knit_pin_dir, recursive = TRUE)))
   }
   else {
     previous_versions <- NULL
