@@ -16,9 +16,9 @@ board_register_kaggle(
 \item{name}{Optional name for this board, defaults to 'kaggle'.}
 
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can
-be \code{NULL} if the \code{~/.kaggle/kaggle.json} file already exists.}
+be \code{NULL} if the \verb{~/.kaggle/kaggle.json} file already exists.}
 
-\item{overwrite}{Should \code{~/.kaggle/kaggle.json} be overriden?}
+\item{overwrite}{Should \verb{~/.kaggle/kaggle.json} be overriden?}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 

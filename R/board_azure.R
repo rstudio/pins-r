@@ -1,17 +1,17 @@
 
 #' Register Azure Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register a Microsoft Azure Storage Blob as a board.
 #'
 #' @param name Optional name for this board, defaults to 'azure'.
-#' @param container The name of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_CONTAINER} environment
+#' @param container The name of the Azure Storage container. Defaults to the `AZURE_STORAGE_CONTAINER` environment
 #'   variable.
-#' @param account The account of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_ACCOUNT} environment
+#' @param account The account of the Azure Storage container. Defaults to the `AZURE_STORAGE_ACCOUNT` environment
 #'   variable.
-#' @param key The key of the Azure Storage container Defaults to the \code{AZURE_STORAGE_KEY} environment
+#' @param key The key of the Azure Storage container Defaults to the `AZURE_STORAGE_KEY` environment
 #'   variable.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'

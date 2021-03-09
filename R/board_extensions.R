@@ -3,7 +3,7 @@
 #' Family of functions meant to be used to implement custom boards extensions,
 #' not to be used by users.
 #'
-#' @param board The board to extend, retrieved with \code{board_get()}.
+#' @param board The board to extend, retrieved with `board_get()`.
 #' @param path The path to store as a pin.
 #' @param name The name of the pin.
 #' @param metadata A list of metadata associated with this pin.

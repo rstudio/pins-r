@@ -8,7 +8,7 @@ pin_changed_time <- function(name, board, extract) {
 #' Reactive Pin
 #'
 #' Creates a pin that reacts to changes in the given board by
-#' polling \code{pin_get()}, useful when used from the \code{shiny}
+#' polling `pin_get()`, useful when used from the `shiny`
 #' package.
 #'
 #' @param name The name of the pin.

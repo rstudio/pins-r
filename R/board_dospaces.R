@@ -1,19 +1,19 @@
 #' Register DigitalOcean Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register a DigitalOcean Spaces board.
 #'
 #' @param name Optional name for this board, defaults to 's3'.
-#' @param space The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
+#' @param space The name of the DigitalOcean space. Defaults to the `DO_SPACE` environment
 #'   variable.
-#' @param key The key of the DigitalOcean space. Defaults to the \code{DO_ACCESS_KEY_ID} environment
+#' @param key The key of the DigitalOcean space. Defaults to the `DO_ACCESS_KEY_ID` environment
 #'   variable.
-#' @param secret The secret of the DigitalOcean space. Defaults to the \code{DO_SECRET_ACCESS_KEY} environment
+#' @param secret The secret of the DigitalOcean space. Defaults to the `DO_SECRET_ACCESS_KEY` environment
 #'   variable.
-#' @param datacenter The datacenter of the DigitalOcean space. Defaults to the \code{DO_DATACENTER} environment
+#' @param datacenter The datacenter of the DigitalOcean space. Defaults to the `DO_DATACENTER` environment
 #'   variable.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
-#' @param host The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
+#' @param host The host to use for storage, defaults to `"digitaloceanspaces.com"`.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'

@@ -1,6 +1,6 @@
 #' Create Pin Name
 #'
-#' Creates a pin name from an character expression generated with \code{deparse(substitute(x))}.
+#' Creates a pin name from an character expression generated with `deparse(substitute(x))`.
 #'
 #' @param x The expression to generate  the pin name from.
 #' @param board The board to which this name is generating for.
@@ -37,19 +37,19 @@ pin_default_name <- function(x, board) {
 #'
 #' @details
 #'
-#' \code{pin()} allows you to cache remote resources and intermediate results with ease. When
+#' `pin()` allows you to cache remote resources and intermediate results with ease. When
 #' caching remote resources, usually URLs, it will check for HTTP caching headers to avoid
 #' re-downloading when the remote result has not changed.
 #'
 #' This makes it ideal to support reproducible research by requiring manual instruction to
 #' download resources before running your R script.
 #'
-#' In addition, \code{pin()} still works when working offline or when the remote resource
+#' In addition, `pin()` still works when working offline or when the remote resource
 #' becomes unavailable; when this happens, a warning will be triggered but your code will
 #' continue to work.
 #'
-#' \code{pin()} will stores data frames in two files, an R native file and a 'CSV' file. To
-#' force saving a pin only using R's native (RDS) format, you can use \code{pin(I(data))}.
+#' `pin()` will stores data frames in two files, an R native file and a 'CSV' file. To
+#' force saving a pin only using R's native (RDS) format, you can use `pin(I(data))`.
 #' This can improve performance and size at the cost of making the pin unreadable from other
 #' tools and programming languages.
 #'
@@ -93,20 +93,20 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 #'
 #' @param name The name of the pin.
 #' @param board The board where this pin will be retrieved from.
-#' @param cache Should the pin cache be used? Defaults to \code{TRUE}.
+#' @param cache Should the pin cache be used? Defaults to `TRUE`.
 #' @param extract Should compressed files be extracted? Each board defines the
 #'   default behavior.
 #' @param version The version of the dataset to retrieve, defaults to latest one.
 #' @param files Should only the file names be returned?
-#' @param signature Optional signature to validate this pin, use \code{pin_info()}
+#' @param signature Optional signature to validate this pin, use `pin_info()`
 #'   to compute signature.
 #' @param ... Additional parameters.
 #'
 #' @details
 #'
-#' \code{pin_get()} retrieves a pin by name and, by default, from the local board.
-#' You can use the \code{board} parameter to specify which board to retrieve a pin from.
-#' If a board is not specified, it will use \code{pin_find()} to find the pin across
+#' `pin_get()` retrieves a pin by name and, by default, from the local board.
+#' You can use the `board` parameter to specify which board to retrieve a pin from.
+#' If a board is not specified, it will use `pin_find()` to find the pin across
 #' all boards and retrieve the one that matches by name.
 #'
 #' @examples
@@ -222,7 +222,7 @@ pin_find_empty <- function() {
 
 #' Find Pin
 #'
-#' Find a pin in any board registered using \code{board_register()}.
+#' Find a pin in any board registered using `board_register()`.
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
@@ -232,10 +232,10 @@ pin_find_empty <- function() {
 #'
 #' @details
 #'
-#' \code{pin_find()} allows you to discover new resources or retrieve
-#' pins you've previously created with \code{pin()}.
+#' `pin_find()` allows you to discover new resources or retrieve
+#' pins you've previously created with `pin()`.
 #'
-#' The \code{pins} package comes with a CRAN packages board which
+#' The `pins` package comes with a CRAN packages board which
 #' allows searching all CRAN packages; however, you can add additional
 #' boards to search from like Kaggle, Github and RStudio Connect.
 #'
@@ -245,7 +245,7 @@ pin_find_empty <- function() {
 #' please refer to their documentation to understand how other
 #' boards search for pins.
 #'
-#' Once you find a pin, you can retrieve with \code{pin_get("pin-name")}.
+#' Once you find a pin, you can retrieve with `pin_get("pin-name")`.
 #'
 #' @examples
 #' library(pins)
@@ -469,7 +469,7 @@ pin_fetch <- function(path, ...) {
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.
-#' @param full Should the full versioned paths be shown? Defaults to \code{FALSE}.
+#' @param full Should the full versioned paths be shown? Defaults to `FALSE`.
 #' @param ... Additional parameters.
 #'
 #' @examples

@@ -4,8 +4,8 @@
 #'
 #' @param name The name of the board to test.
 #' @param exclude Names of tests to exclude form test.
-#' @param suite The test suite to run, currently only \code{"versions"} or
-#'   \code{default} are supported.
+#' @param suite The test suite to run, currently only `"versions"` or
+#'   `default` are supported.
 #' @param destination The text to describe where the board is.
 #'
 #' @keywords internal

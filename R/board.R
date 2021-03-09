@@ -131,25 +131,25 @@ board_get <- function(name) {
 
 #' Register Board
 #'
-#' Registers a board, useful to find resources with \code{pin_find()} or pin to
-#' additional boards with \code{pin()}.
+#' Registers a board, useful to find resources with `pin_find()` or pin to
+#' additional boards with `pin()`.
 #'
 #' @param board The name of the board to register.
 #' @param name An optional name to identify this board, defaults to the board name.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param versions Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
 #'
 #' A board requires a local cache to avoid downloading files multiple times. It is
-#' recommended to not specify the \code{cache} parameter since it defaults to a well
-#' known \code{rappdirs}. However, you are welcome to specify any other
-#' location for this cache or even a temp folder with \code{tempfile()}. Notice that,
+#' recommended to not specify the `cache` parameter since it defaults to a well
+#' known `rappdirs`. However, you are welcome to specify any other
+#' location for this cache or even a temp folder with `tempfile()`. Notice that,
 #' when using a temp folder, pins will be cleared when your R session restarts. The
-#' cache parameter can be also set with the \code{pins.path} option.
+#' cache parameter can be also set with the `pins.path` option.
 #'
-#' If \code{versions} is set to \code{NULL} (the default), it will fall back on the
+#' If `versions` is set to `NULL` (the default), it will fall back on the
 #' board-type-specific default. For instance, local boards do not use versions by default,
 #' but GitHub boards do.
 #'
@@ -163,9 +163,9 @@ board_get <- function(name) {
 #'                url = "https://datatxt.org/data.txt",
 #'                cache = tempfile())
 #'
-#' @seealso \code{\link{board_register_local}}, \code{\link{board_register_github}},
-#'   \code{\link{board_register_kaggle}}, \code{\link{board_register_rsconnect}} and
-#'   \code{\link{board_register_datatxt}}.
+#' @seealso [board_register_local()], [board_register_github()],
+#'   [board_register_kaggle()], [board_register_rsconnect()] and
+#'   [board_register_datatxt()].
 #'
 #' @export
 board_register <- function(board,
@@ -267,8 +267,8 @@ board_deregister <- function(name, ...) {
 
 #' Default Board
 #'
-#' Retrieves the default board, which defaults to \code{"local"} but can also be
-#' configured with the \code{pins.board} option.
+#' Retrieves the default board, which defaults to `"local"` but can also be
+#' configured with the `pins.board` option.
 #'
 #' @examples
 #'

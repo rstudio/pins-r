@@ -1,7 +1,7 @@
 #' Retrieve Default Cache Path
 #'
 #' Retrieves the default path used to cache boards and pins. Makes
-#' use of the \code{rappdirs} package to use cache folders
+#' use of the `rappdirs` package to use cache folders
 #' defined by each OS.
 #'
 #' @examples

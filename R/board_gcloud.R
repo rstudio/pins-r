@@ -1,13 +1,13 @@
 #' Register Google Cloud Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register a Google Cloud Storage container as a board.
 #'
 #' @param name Optional name for this board, defaults to 'gcloud'.
-#' @param bucket The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
+#' @param bucket The name of the Google Cloud Storage bucket. Defaults to the `GCLOUD_STORAGE_BUCKET` environment
 #'   variable.
 #' @param token The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
 #'

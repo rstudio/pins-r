@@ -8,7 +8,7 @@
 An object of class \code{"data.frame"}.
 
 A data frame with three variables: \code{package}, \code{dataset},
-  and \code{description}.
+and \code{description}.
 }
 \source{
 \href{https://cran.r-project.org}{CRAN}

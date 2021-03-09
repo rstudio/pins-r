@@ -1,13 +1,13 @@
 #' Register Kaggle Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register Kaggle as a board.
 #'
 #' @param name Optional name for this board, defaults to 'kaggle'.
-#' @param token The Kaggle token as a path to the \code{kaggle.json} file, can
-#'   be \code{NULL} if the \code{~/.kaggle/kaggle.json} file already exists.
-#' @param overwrite Should \code{~/.kaggle/kaggle.json} be overriden?
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param token The Kaggle token as a path to the `kaggle.json` file, can
+#'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
+#' @param overwrite Should `~/.kaggle/kaggle.json` be overriden?
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @seealso board_register

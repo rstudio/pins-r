@@ -2,13 +2,13 @@
 #'
 #' Family of functions meant to be used to implement custom pin extensions, not to be used by users.
 #'
-#' @param board The board to extended, retrieved with \code{board_get()}.
+#' @param board The board to extended, retrieved with `board_get()`.
 #' @param name The name of the pin.
 #' @param path The path to store.
 #' @param description The text patteren to find a pin.
 #' @param type The type of pin being stored.
 #' @param metadata A list containing additional metadata describing the pin.
-#' @param retrieve Should the pin be retrieved after being created? Defaults to \code{TRUE}.
+#' @param retrieve Should the pin be retrieved after being created? Defaults to `TRUE`.
 #' @param ... Additional parameteres.
 #'
 #' @export

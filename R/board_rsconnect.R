@@ -1,6 +1,6 @@
 #' Register RStudio Connect Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register RStudio Connecet as a board.
 #'
 #' @param name Optional name for this board, defaults to 'rsconnect'.
@@ -8,7 +8,7 @@
 #' @param account Optional account name to use with RStudio Connect.
 #' @param key The RStudio Connect API key.
 #' @param output_files Should the output in an automated report create output files?
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @seealso board_register

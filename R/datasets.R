@@ -7,13 +7,13 @@
 #'
 #' @usage data(cranfiles)
 #'
-#' @format An object of class \code{"data.frame"}.
-#' @format A data frame with three variables: \code{package}, \code{dataset},
-#'   and \code{description}.
+#' @format An object of class `"data.frame"`.
+#' @format A data frame with three variables: `package`, `dataset`,
+#'   and `description`.
 #'
 #' @keywords datasets
 #'
-#' @source \href{https://cran.r-project.org}{CRAN}
+#' @source [CRAN](https://cran.r-project.org)
 #'
 #' @keywords internal
 #' @examples

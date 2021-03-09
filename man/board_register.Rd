@@ -51,7 +51,7 @@ board_register("datatxt",
 
 }
 \seealso{
-\code{\link{board_register_local}}, \code{\link{board_register_github}},
-  \code{\link{board_register_kaggle}}, \code{\link{board_register_rsconnect}} and
-  \code{\link{board_register_datatxt}}.
+\code{\link[=board_register_local]{board_register_local()}}, \code{\link[=board_register_github]{board_register_github()}},
+\code{\link[=board_register_kaggle]{board_register_kaggle()}}, \code{\link[=board_register_rsconnect]{board_register_rsconnect()}} and
+\code{\link[=board_register_datatxt]{board_register_datatxt()}}.
 }

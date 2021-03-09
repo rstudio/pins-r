@@ -1,16 +1,16 @@
 #' Register GitHub Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register a GitHub repo as a board.
 #'
 #' @param name Optional name for this board, defaults to 'github'.
 #' @param repo The GitHub repository formatted as 'owner/repo', can be
-#'   \code{NULL} if the \code{GITHUB_PAT} environment variable is set.
+#'   `NULL` if the `GITHUB_PAT` environment variable is set.
 #' @param branch The branch to use to commit pins.
-#' @param token Token to use when \code{GITHUB_PAT} is not specified.
+#' @param token Token to use when `GITHUB_PAT` is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
-#' @param host The URL hosting the GitHub API, defaults to \code{"https://api.github.com"}.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
+#' @param host The URL hosting the GitHub API, defaults to `"https://api.github.com"`.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
@@ -20,11 +20,11 @@
 #'
 #' When a file upload exceeds 25MB, a GitHub release file will be used since
 #' they support up to 2GB file uploads. This threshold can be configured through
-#' the \code{pins.github.release} option which is specified in megabytes and
-#' defaults to \code{25}.
+#' the `pins.github.release` option which is specified in megabytes and
+#' defaults to `25`.
 #'
-#' When using GitHub Enterprise, consider customizing the \code{host} parameter to
-#' \code{"https://yourhostname/api/v3"}.
+#' When using GitHub Enterprise, consider customizing the `host` parameter to
+#' `"https://yourhostname/api/v3"`.
 #'
 #' @seealso board_register
 #'

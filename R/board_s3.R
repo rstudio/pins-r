@@ -1,17 +1,17 @@
 #' Register S3 Board
 #'
-#' Wrapper with explicit parameters over \code{board_register()} to
+#' Wrapper with explicit parameters over `board_register()` to
 #' register an Amazon S3 bucket as a board.
 #'
 #' @param name Optional name for this board, defaults to 's3'.
-#' @param bucket The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
+#' @param bucket The name of the Amazon S3 bucket. Defaults to the `AWS_BUCKET` environment
 #'   variable.
-#' @param key The key of the Amazon S3 bucket. Defaults to the \code{AWS_ACCESS_KEY_ID} environment
+#' @param key The key of the Amazon S3 bucket. Defaults to the `AWS_ACCESS_KEY_ID` environment
 #'   variable.
-#' @param secret The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
+#' @param secret The secret of the Amazon S3 bucket. Defaults to the `AWS_SECRET_ACCESS_KEY` environment
 #'   variable.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
-#' @param host The host to use for storage, defaults to \code{"s3.amazonaws.com"}.
+#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
+#' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
 #' @param region The region to use, required in some AWS regions and to enable V4 signatures.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param ... Additional parameters required to initialize a particular board.
@@ -21,8 +21,8 @@
 #' This function requires an Amazon S3 bucket to be manually created; otherwise,
 #' registering an S3 board will fail.
 #'
-#' When the \code{region} parameter is not specified, \code{pins} defaults to using AWS V2 signatures;
-#' therefore, it is recommended to specify the region to ensure \code{pins} makes use of AWS V4 signatures.
+#' When the `region` parameter is not specified, `pins` defaults to using AWS V2 signatures;
+#' therefore, it is recommended to specify the region to ensure `pins` makes use of AWS V4 signatures.
 #' @seealso board_register
 #'
 #' @examples
