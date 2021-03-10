@@ -1,30 +1,3 @@
-#' Create Pin Name
-#'
-#' Creates a pin name from an character expression generated with `deparse(substitute(x))`.
-#'
-#' @param x The expression to generate  the pin name from.
-#' @param board The board to which this name is generating for.
-#'
-#' @export
-#' @keywords internal
-pin_default_name <- function(x, board) {
-  name <- basename(x)
-
-  error <- "Can't auto-generate pin name from object, please specify the 'name' parameter."
-  if (length(name) != 1) stop(error)
-
-  sanitized <- gsub("[^a-zA-Z0-9-]", "-", name)
-  sanitized <- gsub("^-*|-*$", "", sanitized)
-  sanitized <- gsub("-+", "-", sanitized)
-
-  if (nchar(sanitized) == 0) stop(error)
-
-  # kaggle boards require five or more character names
-  if (identical(board, "kaggle") && nchar(sanitized) < 5) sanitized <- paste(sanitized, "pin", sep = "-")
-
-  sanitized
-}
-
 #' Pin Resource
 #'
 #' Pins the given resource locally or to the given board.
@@ -502,3 +475,31 @@ pin_versions <- function(name, board = NULL, full = FALSE, ...) {
 
   format_tibble(versions)
 }
+
+#' Create Pin Name
+#'
+#' Creates a pin name from an character expression generated with `deparse(substitute(x))`.
+#'
+#' @param x The expression to generate  the pin name from.
+#' @param board The board to which this name is generating for.
+#'
+#' @export
+#' @keywords internal
+pin_default_name <- function(x, board) {
+  name <- basename(x)
+
+  error <- "Can't auto-generate pin name from object, please specify the 'name' parameter."
+  if (length(name) != 1) stop(error)
+
+  sanitized <- gsub("[^a-zA-Z0-9-]", "-", name)
+  sanitized <- gsub("^-*|-*$", "", sanitized)
+  sanitized <- gsub("-+", "-", sanitized)
+
+  if (nchar(sanitized) == 0) stop(error)
+
+  # kaggle boards require five or more character names
+  if (identical(board, "kaggle") && nchar(sanitized) < 5) sanitized <- paste(sanitized, "pin", sep = "-")
+
+  sanitized
+}
+

@@ -5,9 +5,9 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 
   path <- tempfile()
   dir.create(path)
+  on.exit(unlink(path))
 
   saveRDS(x, file.path(path, "data.rds"), version = 2)
-  on.exit(unlink(path))
 
   board_pin_store(board, path, name, description, "default", list(), ...)
 }
@@ -23,6 +23,7 @@ pin_preview.default <- function(x, board = NULL, ...) {
 pin_load.default <- function(path, ...) {
   result <- readRDS(file.path(path, "data.rds"))
 
+  # TODO: figure out why this is needed; can probably remove
   if ("AsIs" %in% class(result)) {
     class(result) <- class(result)[class(result) != "AsIs"]
   }

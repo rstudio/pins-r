@@ -163,3 +163,49 @@ pin_download <- function(path, ...) {
 
   local_path
 }
+
+# TODO: use simpler implementation.
+# TODO: reconsider function choices
+pin_extract <- function(file, destination) {
+  UseMethod("pin_extract")
+}
+
+pin_extract.zip <- function(file, destination) {
+  pin_log("Extracting zip file '", file, "'")
+  zip::unzip(file, exdir = destination)
+  unlink(file)
+}
+
+pin_extract.gzip <- function(file, destination) {
+  if (length(find.package("R.utils", quiet = TRUE)) == 0)
+    warning("To extract gzip pins install the 'R.utils' package")
+  else {
+    R.utils::gunzip(file, destname = file.path(destination, gsub(".gz", "", basename(file), fixed = TRUE)))
+  }
+}
+
+`pin_extract.compressed-tar` <- function(file, destination) {
+  pin_log("Extracting tgz file '", file, "'")
+  utils::untar(file, exdir = destination)
+  unlink(file)
+}
+
+pin_extract.default <- function(file, destination) {
+  ext_map <- list(
+    "\\.tar\\.gz$" = `pin_extract.compressed-tar`,
+    "\\.zip$" = pin_extract.zip,
+    "\\.gz$" = pin_extract.gzip
+  )
+
+  matches <- sapply(names(ext_map), function(e) grepl(e, file))
+  if (any(matches)) ext_map[[names(which(matches)[1])]](file, destination)
+}
+
+pin_file_cache_max_age <- function(cache_control) {
+  if (is.null(cache_control)) return(NULL)
+  max_age <- grep("max-age", cache_control)
+  if (length(max_age) != 1) return(NULL)
+
+  max_age <- gsub(".*max-age=", "", cache_control)
+  as.numeric(gsub(",.*$", "", max_age))
+}
