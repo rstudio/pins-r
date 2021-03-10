@@ -1,7 +1,5 @@
 # nocov start
 
-.globals$ui_updating_connection <- 0
-
 ui_viewer_register <- function(board, board_call) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
 
