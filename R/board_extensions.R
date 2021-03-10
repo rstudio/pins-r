@@ -22,7 +22,10 @@ board_initialize <- function(board, ...) {
   UseMethod("board_initialize")
 }
 
-board_initialize.default <- function(board, ...) stop("Board '", board$name, "' is not a valid board.")
+#' @export
+board_initialize.default <- function(board, ...) {
+  board
+}
 
 #' @export
 #' @rdname custom-boards

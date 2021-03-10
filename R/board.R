@@ -199,6 +199,14 @@ board_register <- function(board,
   invisible(inferred$name)
 }
 
+board_register2 <- function(board, connect = TRUE) {
+  board_registry_set(board$name, board)
+  if (connect) {
+    ui_viewer_register(board, "")
+  }
+  board
+}
+
 # need to find the correct wrapper to support board_register_()
 board_register_code <- function(board, name) {
   parent_idx <- 1

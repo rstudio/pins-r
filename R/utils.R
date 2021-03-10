@@ -15,3 +15,5 @@ pins_show_progress <- function(size = 0) {
 has_envvars <- function(x) {
   all(Sys.getenv(x) != "")
 }
+
+`%||%` <- function(x, y) if (is.null(x)) y else x
