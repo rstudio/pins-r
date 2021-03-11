@@ -106,27 +106,12 @@ pin_get <- function(name,
                     files = FALSE,
                     signature = NULL,
                     ...) {
-  if (is.null(board)) {
-    board_pin_get_or_null <- function(...) tryCatch(board_pin_get(...), error = function(e) NULL)
 
-    result <- board_pin_get_or_null(board_get(NULL), name, version = version)
-
-    if (is.null(result) && is.null(board)) {
-      for (board_name in board_list()) {
-        if (!cache) pin_reset_cache(board_name, name)
-        result <- board_pin_get_or_null(board_get(board_name), name, extract = extract, version = version)
-        if (!is.null(result)) {
-          pin_log("Found pin ", name, " in board ", board_name)
-          break
-        }
-      }
-    }
-    if (is.null(result)) stop("Failed to retrieve '", name, "' pin.")
+  board <- board_get(board)
+  if (!cache) {
+    pin_reset_cache(board, name)
   }
-  else {
-    if (!cache) pin_reset_cache(board, name)
-    result <- board_pin_get(board_get(board), name, extract = extract, version = version, ...)
-  }
+  result <- board_pin_get(board, name, extract = extract, version = version, ...)
 
   manifest <- pin_manifest_get(result)
   if (is.null(manifest$type)) manifest$type <- "files"
