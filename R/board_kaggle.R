@@ -36,7 +36,7 @@ board_register_kaggle <- function(name = "kaggle",
 board_kaggle <- function(name, token = NULL, ...) {
   token <- token %||% "~/.kaggle/kaggle.json"
   if (!file.exists(token)) {
-    stop("Kaggle token file '", token, "' does not exist.")
+    stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)
   }
 
   board <- new_board(
@@ -45,29 +45,13 @@ board_kaggle <- function(name, token = NULL, ...) {
     token = token,
     ...
   )
-  if (!kaggle_authenticated(board)) {
-    stop("Authentication to Kaggle failed. Is the Kaggle token file valid?")
-  }
 
   board
 }
 
-
-kaggle_auth_paths <- function(board) {
-  normalizePath(
-    board$token,
-    mustWork = FALSE
-  )
-}
-
-kaggle_authenticated <- function(board) {
-  any(file.exists(kaggle_auth_paths(board)))
-}
-
 kaggle_auth_info <- function(board) {
-  jsonlite::read_json(kaggle_auth_paths(board))
+  jsonlite::read_json(board$token)
 }
-
 
 kaggle_auth <- function(board) {
   kaggle_keys <- kaggle_auth_info(board)
@@ -239,9 +223,8 @@ board_pin_search_kaggle <- function(board, text = NULL, base_url = "https://www.
   httr::content(results, encoding = "UTF-8")
 }
 
+#' @export
 board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
-  if (!kaggle_authenticated(board)) return(board_empty_results())
-
   if (is.null(text)) text <- ""
 
   # clear name searches
