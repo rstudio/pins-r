@@ -42,60 +42,51 @@ board_register_github <- function(name = "github",
                                   host = "https://api.github.com",
                                   cache = board_cache_path(),
                                   ...) {
-  board_register("github", name = name,
-                           repo = repo,
-                           branch = branch,
-                           token = token,
-                           path = path,
-                           cache = cache,
-                           host = host,
-                           ...)
+  board <- board_github(
+    name = name,
+    repo = repo,
+    branch = branch,
+    token = token,
+    path = path,
+    host = host,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
 }
 
-github_authenticated <- function(board) {
-  if (!is.null(board$token))
-    TRUE
-  else
-    nchar(Sys.getenv("GITHUB_PAT")) > 0
-}
 
-github_auth <- function(board) {
-  if (!is.null(board$token))
-    board$token
-  else
-    Sys.getenv("GITHUB_PAT")
-}
-
-github_headers <- function(board) {
-  httr::add_headers(Authorization = paste("token", github_auth(board)))
-}
-
+#' @rdname board_register_github
 #' @export
-board_initialize.github <- function(board,
-                                    token = NULL,
-                                    repo = NULL,
-                                    path = "",
-                                    branch = NULL,
-                                    overwrite = FALSE,
-                                    host = "https://api.github.com",
-                                    ...) {
+board_github <- function(name,
+                         repo = NULL,
+                         branch = NULL,
+                         token = NULL,
+                         path = "",
+                         host = "https://api.github.com",
+                         ...
+                         ) {
+
+  if (is.null(repo)) {
+    stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")
+  }
+
+  board <- new_board("github",
+    name = name,
+    token = token,
+    repo = repo,
+    path = if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else "",
+    branch = branch,
+    host = host,
+    main = "master"
+  )
+
   if (!github_authenticated(board)) {
     if (is.null(token)) {
       stop("GitHub Personal Access Token must be specified with the 'token' parameter or with the 'GITHUB_PAT' ",
            "environment variable. You can create a token at https://github.com/settings/tokens.")
     }
   }
-
-  if (is.null(repo)) {
-    stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")
-  }
-
-  board$token <- token
-  board$repo <- repo
-  board$path <- if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else ""
-  board$branch <- branch
-  board$host <- host
-  board$main <- "master"
 
   # check repo exists
   check_exists <- httr::GET(github_url(board, branch = NULL), github_headers(board))
@@ -118,6 +109,25 @@ board_initialize.github <- function(board,
   }
 
   board
+}
+
+
+github_authenticated <- function(board) {
+  if (!is.null(board$token))
+    TRUE
+  else
+    nchar(Sys.getenv("GITHUB_PAT")) > 0
+}
+
+github_auth <- function(board) {
+  if (!is.null(board$token))
+    board$token
+  else
+    Sys.getenv("GITHUB_PAT")
+}
+
+github_headers <- function(board) {
+  httr::add_headers(Authorization = paste("token", github_auth(board)))
 }
 
 github_update_temp_index <- function(board, path, commit, operation, name = NULL, metadata = NULL, branch = board$branch) {

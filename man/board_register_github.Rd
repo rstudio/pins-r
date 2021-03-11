@@ -2,6 +2,7 @@
 % Please edit documentation in R/board_github.R
 \name{board_register_github}
 \alias{board_register_github}
+\alias{board_github}
 \title{Register GitHub Board}
 \usage{
 board_register_github(
@@ -12,6 +13,16 @@ board_register_github(
   path = "",
   host = "https://api.github.com",
   cache = board_cache_path(),
+  ...
+)
+
+board_github(
+  name,
+  repo = NULL,
+  branch = NULL,
+  token = NULL,
+  path = "",
+  host = "https://api.github.com",
   ...
 )
 }
