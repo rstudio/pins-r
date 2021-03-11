@@ -2,16 +2,21 @@
 % Please edit documentation in R/board_local.R
 \name{board_register_local}
 \alias{board_register_local}
+\alias{board_local}
 \title{Register Local Board}
 \usage{
 board_register_local(name = "local", cache = board_cache_path(), ...)
+
+board_local(cache = board_cache_path(), name = "local", versions = FALSE)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 'local'.}
+\item{name}{An optional name to identify this board, defaults to the board name.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{The folder where pins will be read/written.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{versions}{Should this board be registered with support for versions?}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

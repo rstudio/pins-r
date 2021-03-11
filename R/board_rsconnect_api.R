@@ -22,10 +22,6 @@ rsconnect_api_auth_headers <- function(board, path, verb, content = NULL) {
   httr::add_headers(.headers = unlist(headers))
 }
 
-rsconnect_api_version <- function(board) {
-  rsconnect_api_get(board, "/__api__/server_settings")$version
-}
-
 rsconnect_api_get <- function(board, path) {
   url <- paste0(board$server, path)
   result <- httr::GET(url, rsconnect_api_auth_headers(board, path, "GET"))

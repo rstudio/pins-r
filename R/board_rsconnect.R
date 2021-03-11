@@ -39,60 +39,75 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      output_files = FALSE,
                                      cache = board_cache_path(),
                                      ...) {
-  board_register("rsconnect", name = name,
-                              server = server,
-                              account = account,
-                              key = key,
-                              output_files = output_files,
-                              cache = cache,
-                              ...)
+
+  board <- board_rsconnect(
+    name = name,
+    server = server,
+    account = account,
+    key = key,
+    output_files = output_files,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
 }
 
-rsconnect_pins_supported <- function(board) {
-  package_version(rsconnect_api_version(board)) > package_version("1.7.7")
-}
-
+#' @rdname board_register_rsconnect
 #' @export
-board_initialize.rsconnect <- function(board, ...) {
-  args <- list(...)
+board_rsconnect <- function(name = "rsconnect",
+                            server = NULL,
+                            account = NULL,
+                            key = NULL,
+                            output_files = FALSE,
+                            cache = board_cache_path(),
+                            ...) {
 
-  envvar_key <- Sys.getenv("CONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))
-  if (is.null(args$key) && nchar(envvar_key) > 0) {
-    args$key <- envvar_key
+  # key <- key %||% Sys.getenv("CONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))
+  if (identical(key, "")) {
+    stop("Invalid API key, the API key is empty.")
   }
 
-  envvar_server <- Sys.getenv("CONNECT_SERVER", Sys.getenv("RSCONNECT_SERVER"))
-  if (is.null(args$server) && nchar(envvar_server) > 0) {
-    args$server <- envvar_server
-  }
-
-  if (!is.null(args$server)) {
-    board$server <-  gsub("/$", "", args$server)
-    board$server_name <- gsub("https?://|(:[0-9]+)?/.*", "", args$server)
-  }
-
-  board$account <- args$account
-  board$output_files <- args$output_files
-
-  if (identical(args$key, "")) stop("Invalid API key, the API key is empty.")
-
-  board$key <- args$key
-
+  # server <- server %||% Sys.getenv("CONNECT_SERVER", Sys.getenv("RSCONNECT_SERVER"))
   if (!is.null(board$key) && is.null(board$server)) {
     stop("Please specify the 'server' parameter when using API keys.")
   }
+  if (!is.null(server)) {
+    server <-  gsub("/$", "", server)
+  }
+
+  board <- new_board("rsconnect",
+    name = name,
+    cache = cache,
+    server = server,
+    account = account,
+    key = key,
+    output_files = output_files,
+    pins_supported = TRUE,
+    ...
+  )
 
   if (!rsconnect_api_auth(board) && !identical(board$output_files, TRUE)) {
     board <- rsconnect_token_initialize(board)
   }
-
-  board$pins_supported <- tryCatch(rsconnect_pins_supported(board), error = function(e) FALSE)
+  if (!rsconnect_pins_supported(board)) {
+    stop("pins not supported by this rsconnect", call. = FALSE)
+  }
 
   if (is.null(board$account)) {
     board$account  <- rsconnect_api_get(board, "/__api__/users/current/")$username
   }
 
   board
+}
+
+rsconnect_pins_supported <- function(board) {
+  tryCatch(
+    {
+      version <- rsconnect_api_get(board, "/__api__/server_settings")$version
+      package_version(version) > "1.7.7"
+    },
+    error = function(e) FALSE
+  )
 }
 
 #' @export

@@ -2,6 +2,7 @@
 % Please edit documentation in R/board_azure.R
 \name{board_register_azure}
 \alias{board_register_azure}
+\alias{board_azure}
 \title{Register Azure Board}
 \usage{
 board_register_azure(
@@ -13,9 +14,19 @@ board_register_azure(
   path = NULL,
   ...
 )
+
+board_azure(
+  name = "azure",
+  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+  key = Sys.getenv("AZURE_STORAGE_KEY"),
+  cache = NULL,
+  ...
+)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 'azure'.}
+\item{name}{Board name, used to identify board in actions that affect
+multiple boards.}
 
 \item{container}{The name of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_CONTAINER} environment
 variable.}
@@ -28,9 +39,9 @@ variable.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
-\item{path}{The subdirectory in the repo where the pins will be stored.}
+\item{path}{Subdirectory within \code{url}}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{...}{Additional parameters stored in the board object.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

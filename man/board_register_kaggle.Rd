@@ -2,23 +2,23 @@
 % Please edit documentation in R/board_kaggle.R
 \name{board_register_kaggle}
 \alias{board_register_kaggle}
+\alias{board_kaggle}
 \title{Register Kaggle Board}
 \usage{
 board_register_kaggle(
   name = "kaggle",
   token = NULL,
-  overwrite = FALSE,
   cache = board_cache_path(),
   ...
 )
+
+board_kaggle(name, token = NULL, ...)
 }
 \arguments{
 \item{name}{Optional name for this board, defaults to 'kaggle'.}
 
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can
 be \code{NULL} if the \verb{~/.kaggle/kaggle.json} file already exists.}
-
-\item{overwrite}{Should \verb{~/.kaggle/kaggle.json} be overriden?}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 

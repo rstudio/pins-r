@@ -3,18 +3,15 @@
 #' Wrapper with explicit parameters over `board_register()` to
 #' register an Amazon S3 bucket as a board.
 #'
-#' @param name Optional name for this board, defaults to 's3'.
+#' @inheritParams board_register_datatxt
 #' @param bucket The name of the Amazon S3 bucket. Defaults to the `AWS_BUCKET` environment
 #'   variable.
 #' @param key The key of the Amazon S3 bucket. Defaults to the `AWS_ACCESS_KEY_ID` environment
 #'   variable.
 #' @param secret The secret of the Amazon S3 bucket. Defaults to the `AWS_SECRET_ACCESS_KEY` environment
 #'   variable.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
 #' @param region The region to use, required in some AWS regions and to enable V4 signatures.
-#' @param path The subdirectory in the repo where the pins will be stored.
-#' @param ... Additional parameters required to initialize a particular board.
 #'
 #' @details
 #'
@@ -40,15 +37,46 @@ board_register_s3 <- function(name = "s3",
                               region = NULL,
                               path = NULL,
                               ...) {
-  board_register("s3",
-                 name = name,
-                 bucket = bucket,
-                 key = key,
-                 secret = secret,
-                 cache = cache,
-                 region = region,
-                 path = path,
-                 ...)
+  board_s3(
+    name = name,
+    bucket = bucket,
+    key = key,
+    secret = secret,
+    cache = cache,
+    region = region,
+    path = path,
+    ...
+  )
+}
+
+#' @export
+#' @rdname board_register_s3
+board_s3 <- function(name = "s3",
+                     bucket = Sys.getenv("AWS_BUCKET"),
+                     key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                     secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                     cache = NULL,
+                     host = "s3.amazonaws.com",
+                     ...) {
+
+  if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
+  if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
+  if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
+
+  board_datatxt(
+    name = name,
+    url = paste0("https://", bucket, ".", host),
+    cache = cache,
+    headers = s3_headers,
+    needs_index = FALSE,
+    key = key,
+    secret = secret,
+    bucket = bucket,
+    connect = FALSE,
+    browse_url = paste0("https://s3.console.aws.amazon.com/s3/buckets/", bucket, "/"),
+    host = host,
+    ...
+  )
 }
 
 # See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
@@ -198,36 +226,3 @@ s3_headers <- function(board, verb, path, file) {
 
   headers
 }
-
-#' @export
-board_initialize.s3 <- function(board,
-                                bucket = Sys.getenv("AWS_BUCKET"),
-                                key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-                                secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                                cache = NULL,
-                                host = "s3.amazonaws.com",
-                                ...) {
-  board$bucket <- bucket
-  if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
-
-  if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
-  if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
-
-  s3_url <- paste0("https://", board$bucket, ".", host)
-
-  board_register_datatxt(name = board$name,
-                         url = s3_url,
-                         cache = cache,
-                         headers = s3_headers,
-                         needs_index = FALSE,
-                         key = key,
-                         secret = secret,
-                         bucket = bucket,
-                         connect = FALSE,
-                         browse_url = paste0("https://s3.console.aws.amazon.com/s3/buckets/", bucket, "/"),
-                         host = host,
-                         ...)
-
-  board_get(board$name)
-}
-

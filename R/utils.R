@@ -15,3 +15,13 @@ pins_show_progress <- function(size = 0) {
 has_envvars <- function(x) {
   all(Sys.getenv(x) != "")
 }
+
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
+is_url <- function(x) {
+  grepl("^http://|^https://", x)
+}
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}

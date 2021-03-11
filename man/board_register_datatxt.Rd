@@ -2,7 +2,8 @@
 % Please edit documentation in R/board_datatxt.R
 \name{board_register_datatxt}
 \alias{board_register_datatxt}
-\title{Register Data TXT Board}
+\alias{board_datatxt}
+\title{Register \code{data.txt} Board}
 \usage{
 board_register_datatxt(
   url,
@@ -11,28 +12,58 @@ board_register_datatxt(
   cache = board_cache_path(),
   ...
 )
+
+board_datatxt(
+  url,
+  name = NULL,
+  headers = NULL,
+  cache = board_cache_path(),
+  needs_index = TRUE,
+  browse_url = url,
+  index_updated = NULL,
+  index_randomize = FALSE,
+  path = NULL,
+  versions = FALSE,
+  ...
+)
 }
 \arguments{
-\item{url}{Path to the \code{data.txt} file or path containing it.}
+\item{url}{Path to the \code{data.txt} file or directory containing it.}
 
-\item{name}{The name for this board, usually the domain name of the website.}
+\item{name}{Board name, used to identify board in actions that affect
+multiple boards.}
 
 \item{headers}{Optional list of headers to include or a function to generate them.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{...}{Additional parameters stored in the board object.}
+
+\item{needs_index}{Does this board have an index file?}
+
+\item{browse_url}{Not currently used}
+
+\item{index_updated}{Callback function used to update index}
+
+\item{index_randomize}{When retrieving \code{data.txt} at a parameter with random
+query string to defeat caching?}
+
+\item{path}{Subdirectory within \code{url}}
+
+\item{versions}{Should this board be registered with support for versions?}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register as a board a website describing resources with a \code{data.txt} file.
+Register a board that for a website that uses the \href{https://datatxt.org}{data.txt}
+specification. This is mainly for internal use.
 }
 \examples{
 
 # register website board using datatxt file
-board_register_datatxt(url = "https://datatxt.org/data.txt",
-                       name = "txtexample",
-                       cache = tempfile())
+board_register_datatxt(
+  url = "https://datatxt.org/data.txt",
+  name = "txtexample",
+  cache = tempfile()
+)
 
 # find pins
 pin_find(board = "txtexample")

@@ -19,10 +19,8 @@ board_pin_create <- function(board, path, name, metadata, ...) {
 #' @export
 #' @rdname custom-boards
 board_initialize <- function(board, ...) {
-  UseMethod("board_initialize")
+  stop("`board_initialize()` is no longer used", call. = FALSE)
 }
-
-board_initialize.default <- function(board, ...) stop("Board '", board$name, "' is not a valid board.")
 
 #' @export
 #' @rdname custom-boards

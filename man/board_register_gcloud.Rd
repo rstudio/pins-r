@@ -2,6 +2,7 @@
 % Please edit documentation in R/board_gcloud.R
 \name{board_register_gcloud}
 \alias{board_register_gcloud}
+\alias{board_gcloud}
 \title{Register Google Cloud Board}
 \usage{
 board_register_gcloud(
@@ -12,9 +13,18 @@ board_register_gcloud(
   path = NULL,
   ...
 )
+
+board_gcloud(
+  name,
+  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+  token = NULL,
+  cache = NULL,
+  ...
+)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 'gcloud'.}
+\item{name}{Board name, used to identify board in actions that affect
+multiple boards.}
 
 \item{bucket}{The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
 variable.}
@@ -23,9 +33,9 @@ variable.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
-\item{path}{The subdirectory in the repo where the pins will be stored.}
+\item{path}{Subdirectory within \code{url}}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{...}{Additional parameters stored in the board object.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

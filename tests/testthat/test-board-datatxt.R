@@ -3,10 +3,11 @@ context("board datatxt")
 test_that("can board_register() a data.txt board", {
   skip_on_cran()
 
-  board_register("datatxt",
-                 name = "simpletxt",
-                 url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
-                 cache = tempfile())
+  board_register_datatxt(
+    name = "simpletxt",
+    url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    cache = tempfile()
+  )
 
   expect_true("simpletxt" %in% board_list())
 })
@@ -40,9 +41,11 @@ test_that("can board_deregister() a data.txt board", {
 test_that("can board_register() with URL and name", {
   skip_on_cran()
 
-  board_name <- board_register("https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
-                               name = "simpletxt",
-                               cache = tempfile())
+  board_name <- board_register(
+    "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    name = "simpletxt",
+    cache = tempfile()
+  )
 
   expect_equal(board_name, "simpletxt")
 
@@ -63,12 +66,12 @@ test_that("can board_register() with URL and no name", {
 test_that("can board_register() with URL and no name", {
   skip_on_cran()
 
-  pins_path <- getOption("pins.path")
-  on.exit(options(pins.path = pins_path))
-  options(pins.path = tempfile())
+  withr::local_options(pins.path = tempfile())
 
-  iris_pin <- pin_get("iris",
-                      board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt")
+  iris_pin <- pin_get(
+    "iris",
+    board = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt"
+  )
 
   expect_equal(nrow(iris_pin), 150)
 })

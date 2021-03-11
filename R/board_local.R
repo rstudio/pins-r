@@ -3,9 +3,8 @@
 #' Wrapper with explicit parameters over `board_register()` to
 #' register a local folder as a board.
 #'
-#' @param name Optional name for this board, defaults to 'local'.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
+#' @inheritParams board_register
+#' @param cache The folder where pins will be read/written.
 #'
 #' @seealso board_register
 #'
@@ -16,27 +15,19 @@
 board_register_local <- function(name = "local",
                                  cache = board_cache_path(),
                                  ...) {
-  board_register("local", name = name,
-                          cache = cache,
-                          ...)
+
+  board <- board_local(name = name, cache = cache, ...)
+  board_register2(board)
 }
 
+#' @rdname board_register_local
 #' @export
-board_initialize.local <- function(board, cache, ...) {
-  if (!dir.exists(board$cache)) dir.create(board$cache, recursive = TRUE)
+board_local <- function(cache = board_cache_path(),
+                        name = "local",
+                        versions = FALSE) {
 
-  board
-}
-
-guess_extension_from_path <- function(path) {
-  if (dir.exists(path)) {
-    all_files <- dir(path, recursive = TRUE)
-    all_files <- Filter(function(x) !grepl("data\\.txt", x), all_files)
-
-    path <- all_files[[1]]
-  }
-
-  tools::file_ext(path)
+  dir.create(cache, recursive = TRUE, showWarnings = FALSE)
+  new_board("local", name = name, cache = cache, versions = versions)
 }
 
 #' @export

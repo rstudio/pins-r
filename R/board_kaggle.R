@@ -6,7 +6,6 @@
 #' @param name Optional name for this board, defaults to 'kaggle'.
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
-#' @param overwrite Should `~/.kaggle/kaggle.json` be overriden?
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
 #'
@@ -21,31 +20,38 @@
 #' @export
 board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
-                                  overwrite = FALSE,
                                   cache = board_cache_path(),
                                   ...) {
-  board_register("kaggle", name = name,
-                           token = token,
-                           overwrite = overwrite,
-                           cache = cache,
-                           ...)
-}
-
-kaggle_auth_paths <- function(board) {
-  normalizePath(
-    board$token,
-    mustWork = FALSE
+  board <- board_kaggle("kaggle",
+    name = name,
+    token = token,
+    cache = cache,
+    ...
   )
+  board_register2(board)
 }
 
-kaggle_authenticated <- function(board) {
-  any(file.exists(kaggle_auth_paths(board)))
+#' @rdname board_register_kaggle
+#' @export
+board_kaggle <- function(name, token = NULL, ...) {
+  token <- token %||% "~/.kaggle/kaggle.json"
+  if (!file.exists(token)) {
+    stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)
+  }
+
+  board <- new_board(
+    "kaggle",
+    name = name,
+    token = token,
+    ...
+  )
+
+  board
 }
 
 kaggle_auth_info <- function(board) {
-  jsonlite::read_json(kaggle_auth_paths(board))
+  jsonlite::read_json(board$token)
 }
-
 
 kaggle_auth <- function(board) {
   kaggle_keys <- kaggle_auth_info(board)
@@ -164,20 +170,6 @@ kaggle_create_bundle <- function(path, type, description) {
 }
 
 #' @export
-board_initialize.kaggle <- function(board, token = NULL, overwrite = FALSE, ...) {
-  board$token <- if (is.null(token)) "~/.kaggle/kaggle.json" else token
-  if (!file.exists(board$token)) {
-    stop("Kaggle token file '", board$token, "' does not exist.")
-  }
-
-  if (!kaggle_authenticated(board)) {
-    stop("Authentication to Kaggle failed. Is the Kaggle token file valid?")
-  }
-
-  board
-}
-
-#' @export
 board_pin_create.kaggle <- function(board, path, name, metadata, notes = NULL, ...) {
   description <- metadata$description
   type <- metadata$type
@@ -231,9 +223,8 @@ board_pin_search_kaggle <- function(board, text = NULL, base_url = "https://www.
   httr::content(results, encoding = "UTF-8")
 }
 
+#' @export
 board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
-  if (!kaggle_authenticated(board)) return(board_empty_results())
-
   if (is.null(text)) text <- ""
 
   # clear name searches

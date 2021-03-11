@@ -6,7 +6,7 @@
 \usage{
 board_register(
   board,
-  name = board,
+  name = NULL,
   cache = board_cache_path(),
   versions = NULL,
   ...
