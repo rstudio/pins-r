@@ -108,29 +108,6 @@ board_get <- function(name) {
   } else {
     stop("Invalid board specification", call. = FALSE)
   }
-#
-#   if (!name %in% board_registry_list()) {
-#     board_inferred <- board_infer(name)
-#
-#     if (!is.null(board_inferred$register_call)) {
-#       register_call <- board_inferred$register_call
-#     }
-#
-#     # attempt to automatically register board
-#     name <- board_inferred$name
-#     tryCatch(board_register(board_inferred$board,
-#                             name = board_inferred$name,
-#                             connect = board_inferred$connect,
-#                             register_call = register_call,
-#                             url = board_inferred$url),
-#              error = function(e) NULL)
-#
-#     if (!name %in% board_registry_list()) {
-#
-#     }
-#   }
-
-
 }
 
 #' Register Board
