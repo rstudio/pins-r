@@ -13,8 +13,6 @@ new_board <- function(board, name, cache, versions = FALSE, ...) {
     class = c(board, "pins_board")
   )
 
-  board <- board_initialize(board, cache = cache, versions = versions, ...)
-
   board
 }
 
@@ -63,22 +61,6 @@ board_disconnect <- function(name, ...) {
 board_list <- function() {
   board_registry_list()
 }
-
-board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, connect = NULL, url = NULL) {
-  inferred <- list(
-    name = name,
-    board = if (is.null(board)) name else board,
-    connect = if (is.null(connect)) !identical(name, "packages") else connect,
-    url = url,
-    register_call = register_call
-  )
-
-  if (is.null(inferred$name)) inferred$name <- x
-  if (is.null(inferred$board)) inferred$board <- x
-
-  inferred
-}
-
 
 #' Get Board
 #'
@@ -164,30 +146,15 @@ board_register <- function(board,
       ...
     )
   } else {
-    params <- list(...)
-
-    inferred <- board_infer(board,
-                            board = board,
-                            name = name %||% board,
-                            register_call = params$register_call,
-                            connect = params$connect,
-                            url = params$url)
-    params$url <- NULL
-
-    new_params <- c(
-      list(inferred$board, inferred$name, cache = cache, versions = versions),
-      params,
-      url = inferred$url
-    )
-
-    board <- do.call("new_board", new_params)
+    fun <- paste0("board_register_", board)
+    if (!exists(fun, mode = "function")) {
+      stop("Don't know how to create board of type '", board, "'", call. = FALSE)
+    }
+    fun <- match.fun(fun)
+    board <- fun(name = name %||% board, cache = cache, versions = versions, ...)
   }
 
-  board_registry_set(board$name, board)
-
-  if (is.null(board$register_call)) board$register_call <- board_register_code(board$name, board$name)
-
-  if (!identical(board$connect, FALSE)) board_connect(board$name, board$register_call)
+  board_register2(board)
 
   invisible(board$name)
 }

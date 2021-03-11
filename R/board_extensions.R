@@ -19,12 +19,7 @@ board_pin_create <- function(board, path, name, metadata, ...) {
 #' @export
 #' @rdname custom-boards
 board_initialize <- function(board, ...) {
-  UseMethod("board_initialize")
-}
-
-#' @export
-board_initialize.default <- function(board, ...) {
-  board
+  stop("`board_initialize()` is no longer used", call. = FALSE)
 }
 
 #' @export

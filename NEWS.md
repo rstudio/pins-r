@@ -1,5 +1,14 @@
 # pins (development version)
 
+* Pins no longer register the code needed to recreate them as this tends to
+  either be dangerous (it's easy to accidentally leak credentails) or useless
+  (it relies on variables that the connection pane doesn't capture).
+
+* The board extension interface has changed. More info to follow.
+
+* All boards now have a `board_` function that allows you create a board
+  without registering it.
+
 * The "packages" board is no longer registered by default; if you want to use
   this you'll need to register with `board_register("packages")`.
 

@@ -7,6 +7,16 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+---
+
+**The board extension API is changing at this time**
+
+---
+
 The GitHub, Kaggle, RStudio Connect and Website boards provide access to popular Data Science storage services; however, there can be many other interesting services to store resources through pins. For instance, Amazon S3, Amazon Glacier, Azure Blobs, Google File System and Hadoop, just to name a few. While those are not natively implemented in the `pins` package, you can create packages that extend `pins` to support many other services through custom boards.
 
 For the purpose of creating custom boards, it helps to understand a board as a collection of files stored with a given name. It closely resembles a simple file systems, but it only requires the following operations to be implemented: create, get, find and remove. For read-only storage locations, you can also decide to implement only the 'get' and 'find' operations.
