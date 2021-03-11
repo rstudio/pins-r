@@ -68,7 +68,7 @@ board_rsconnect <- function(name = "rsconnect",
   }
 
   # server <- server %||% Sys.getenv("CONNECT_SERVER", Sys.getenv("RSCONNECT_SERVER"))
-  if (!is.null(board$key) && is.null(board$server)) {
+  if (!is.null(key) && is.null(server)) {
     stop("Please specify the 'server' parameter when using API keys.")
   }
   if (!is.null(server)) {
