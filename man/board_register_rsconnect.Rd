@@ -2,9 +2,20 @@
 % Please edit documentation in R/board_rsconnect.R
 \name{board_register_rsconnect}
 \alias{board_register_rsconnect}
+\alias{board_rsconnect}
 \title{Register RStudio Connect Board}
 \usage{
 board_register_rsconnect(
+  name = "rsconnect",
+  server = NULL,
+  account = NULL,
+  key = NULL,
+  output_files = FALSE,
+  cache = board_cache_path(),
+  ...
+)
+
+board_rsconnect(
   name = "rsconnect",
   server = NULL,
   account = NULL,

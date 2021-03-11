@@ -1,4 +1,4 @@
-new_board <- function(board, name, cache, versions, ...) {
+new_board <- function(board, name, cache, versions = FALSE, ...) {
 
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
