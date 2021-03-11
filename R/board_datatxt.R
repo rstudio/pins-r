@@ -1,22 +1,32 @@
-#' Register Data TXT Board
+#' Register `data.txt` Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register as a board a website describing resources with a `data.txt` file.
+#' Register a board that for a website that uses the [data.txt](https://datatxt.org)
+#' specification. This is mainly for internal use.
 #'
-#' @param url Path to the `data.txt` file or path containing it.
-#' @param name The name for this board, usually the domain name of the website.
+#' @param url Path to the `data.txt` file or directory containing it.
+#' @param name Board name, used to identify board in actions that affect
+#'   multiple boards.
 #' @param headers Optional list of headers to include or a function to generate them.
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
+#' @param ... Additional parameters stored in the board object.
+#' @param needs_index Does this board have an index file?
+#' @param browse_url Not currently used
+#' @param index_updated Callback function used to update index
+#' @param index_randomize When retrieving `data.txt` at a parameter with random
+#'   query string to defeat caching?
+#' @param path Subdirectory within `url`
+#' @param versions Should this board be registered with support for versions?
 #'
 #' @seealso board_register
 #'
 #' @examples
 #'
 #' # register website board using datatxt file
-#' board_register_datatxt(url = "https://datatxt.org/data.txt",
-#'                        name = "txtexample",
-#'                        cache = tempfile())
+#' board_register_datatxt(
+#'   url = "https://datatxt.org/data.txt",
+#'   name = "txtexample",
+#'   cache = tempfile()
+#' )
 #'
 #' # find pins
 #' pin_find(board = "txtexample")
@@ -27,12 +37,51 @@ board_register_datatxt <- function(url,
                                    headers = NULL,
                                    cache = board_cache_path(),
                                    ...) {
-  board_register("datatxt", name = name,
-                            url = url,
-                            headers = headers,
-                            cache = cache,
-                            ...)
+  board <- board_datatxt(
+    name = name,
+    url = url,
+    headers = headers,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
 }
+
+#' @export
+#' @rdname board_register_datatxt
+board_datatxt <- function(url,
+                          name = NULL,
+                          headers = NULL,
+                          cache = board_cache_path(),
+                          needs_index = TRUE,
+                          browse_url = url,
+                          index_updated = NULL,
+                          index_randomize = FALSE,
+                          path = NULL,
+                          versions = FALSE,
+                          ...) {
+
+  # use only subdomain as friendly name which is also used as cache folder
+  name <- name %||% gsub("https?://|\\..*", "", url)
+
+  board <- new_board("datatxt",
+    name = name,
+    cache = cache,
+    versions = versions,
+    url = gsub("/?data\\.txt$|/$", "", url),
+    headers = headers,
+    needs_index = needs_index,
+    browse_url = browse_url,
+    index_updated = index_updated,
+    index_randomize = index_randomize,
+    subpath = path,
+    ...
+  )
+  datatxt_refresh_index(board)
+  board
+}
+
+
 file_path_null <- function(...) {
   paths <- list(...)
   paths <- Filter(Negate(is.null), paths)
@@ -81,37 +130,6 @@ datatxt_refresh_index <- function(board) {
   yaml::write_yaml(current_index, local_index)
 }
 
-#' @export
-board_initialize.datatxt <- function(board,
-                                     headers = NULL,
-                                     cache = board_cache_path(),
-                                     url = NULL,
-                                     needs_index = TRUE,
-                                     browse_url = url,
-                                     bucket = NULL,
-                                     index_updated = NULL,
-                                     index_randomize = FALSE,
-                                     path = NULL,
-                                     ...) {
-  if (identical(url, NULL)) stop("The 'datatxt' board requires a 'url' parameter.")
-
-  board$url <- gsub("/?data\\.txt$|/$", "", url)
-  board$headers <- headers
-  board$needs_index <- needs_index
-  board$borwse_url <- browse_url
-  board$index_updated <- index_updated
-  board$bucket <- bucket
-  board$index_randomize <- index_randomize
-  board$subpath <- path
-
-  for (key in names(list(...))) {
-    board[[key]] <- list(...)[[key]]
-  }
-
-  datatxt_refresh_index(board)
-
-  board
-}
 
 datatxt_pin_download_info <- function(board, name, ...) {
   index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))

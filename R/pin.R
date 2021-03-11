@@ -234,15 +234,6 @@ pin_find_empty <- function() {
 #'
 #' # search pins related to 'london' in the 'packages' board
 #' pin_find("london", board = "packages")
-#'
-#' \donttest{
-#' # retrieve 'hpiR/seattle_sales' pin
-#' pin_get("hpiR/seattle_sales")
-#'
-#' # retrieve 'bsamGP/London.Mortality' pin
-#' pin_get("bsamGP/London.Mortality")
-#' }
-#'
 #' @export
 pin_find <- function(text = NULL,
                      board = NULL,

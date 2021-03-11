@@ -1,9 +1,10 @@
-#' @export
-board_initialize.packages <- function(board, ...) {
+board_packages <- function() {
   # use local board cache to avoid 'board_register("packages", cache = tempfile())' examples
-  if (identical(board$cache, board_cache_path())) board$cache <- dirname(board_local_storage("local"))
-
-  board
+  new_board("packages",
+    name = "packges",
+    cache = dirname(board_local_storage("local")),
+    versions = FALSE
+  )
 }
 
 #' @export

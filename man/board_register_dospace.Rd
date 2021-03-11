@@ -2,6 +2,7 @@
 % Please edit documentation in R/board_dospaces.R
 \name{board_register_dospace}
 \alias{board_register_dospace}
+\alias{board_dospace}
 \title{Register DigitalOcean Board}
 \usage{
 board_register_dospace(
@@ -15,9 +16,21 @@ board_register_dospace(
   path = NULL,
   ...
 )
+
+board_dospace(
+  name = "dospace",
+  space = Sys.getenv("DO_SPACE"),
+  key = Sys.getenv("DO_ACCESS_KEY_ID"),
+  secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+  datacenter = Sys.getenv("DO_DATACENTER"),
+  cache = NULL,
+  host = "digitaloceanspaces.com",
+  ...
+)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 's3'.}
+\item{name}{Board name, used to identify board in actions that affect
+multiple boards.}
 
 \item{space}{The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
 variable.}
@@ -35,9 +48,9 @@ variable.}
 
 \item{host}{The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.}
 
-\item{path}{The subdirectory in the repo where the pins will be stored.}
+\item{path}{Subdirectory within \code{url}}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{...}{Additional parameters stored in the board object.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

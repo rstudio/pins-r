@@ -2,6 +2,7 @@
 % Please edit documentation in R/board_s3.R
 \name{board_register_s3}
 \alias{board_register_s3}
+\alias{board_s3}
 \title{Register S3 Board}
 \usage{
 board_register_s3(
@@ -15,9 +16,20 @@ board_register_s3(
   path = NULL,
   ...
 )
+
+board_s3(
+  name = "s3",
+  bucket = Sys.getenv("AWS_BUCKET"),
+  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  cache = NULL,
+  host = "s3.amazonaws.com",
+  ...
+)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 's3'.}
+\item{name}{Board name, used to identify board in actions that affect
+multiple boards.}
 
 \item{bucket}{The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
 variable.}
@@ -34,9 +46,9 @@ variable.}
 
 \item{region}{The region to use, required in some AWS regions and to enable V4 signatures.}
 
-\item{path}{The subdirectory in the repo where the pins will be stored.}
+\item{path}{Subdirectory within \code{url}}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{...}{Additional parameters stored in the board object.}
 }
 \description{
 Wrapper with explicit parameters over \code{board_register()} to

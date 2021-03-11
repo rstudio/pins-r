@@ -2,18 +2,23 @@ new_board <- function(board, name, cache, versions, ...) {
 
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
-  board <- structure(list(
+  board <- structure(
+    list(
       board = board,
       name = name,
       cache = cache,
-      versions = versions
+      versions = versions,
+      ...
     ),
-    class = board)
+    class = c(board, "pins_board")
+  )
 
   board <- board_initialize(board, cache = cache, versions = versions, ...)
 
   board
 }
+
+is.board <- function(x) inherits(x, "pins_board")
 
 #' Connect to Board
 #'
@@ -68,23 +73,6 @@ board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, conn
     register_call = register_call
   )
 
-  # if boards starts with http:// or https:// assume this is a website board
-  if (grepl("^http://|^https://", x)) {
-    inferred$url <- x
-    inferred$board <- "datatxt"
-
-    # use only subdomain as friendly name which is also used as cache folder
-    if (is.null(name) || identical(x, name)) {
-      inferred$name <- gsub("https?://|\\..*", "", inferred$url)
-    }
-
-    inferred$register_call <- paste0("pins::board_register(board = \"datatxt\", name = \"",
-                                     inferred$name,
-                                     "\", url = \"",
-                                     inferred$url,
-                                     "\")")
-  }
-
   if (is.null(inferred$name)) inferred$name <- x
   if (is.null(inferred$board)) inferred$board <- x
 
@@ -100,32 +88,49 @@ board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, conn
 #'
 #' @export
 board_get <- function(name) {
-  if (is.null(name)) name <- board_default()
-
-  register_call <- paste0("pins::board_register(board = \"", name, "\")")
-
-  if (!name %in% board_registry_list()) {
-    board_inferred <- board_infer(name)
-
-    if (!is.null(board_inferred$register_call)) {
-      register_call <- board_inferred$register_call
-    }
-
-    # attempt to automatically register board
-    name <- board_inferred$name
-    tryCatch(board_register(board_inferred$board,
-                            name = board_inferred$name,
-                            connect = board_inferred$connect,
-                            register_call = register_call,
-                            url = board_inferred$url),
-             error = function(e) NULL)
-
-    if (!name %in% board_registry_list()) {
+  if (is.null(name)) {
+    board_registry_get(board_default())
+  } else if (is.board(name)) {
+    name
+  } else if (is.character(name) && length(name) == 1) {
+    if (is_url(name)) {
+      # TODO: remove magic registration
+      board <- board_datatxt(url = name)
+      board_register2(board)
+      board
+    } else if (name == "packages") {
+      board_packages()
+    } else if (name %in% board_list()) {
+      board_registry_get(name)
+    } else {
       stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
     }
+  } else {
+    stop("Invalid board specification", call. = FALSE)
   }
+#
+#   if (!name %in% board_registry_list()) {
+#     board_inferred <- board_infer(name)
+#
+#     if (!is.null(board_inferred$register_call)) {
+#       register_call <- board_inferred$register_call
+#     }
+#
+#     # attempt to automatically register board
+#     name <- board_inferred$name
+#     tryCatch(board_register(board_inferred$board,
+#                             name = board_inferred$name,
+#                             connect = board_inferred$connect,
+#                             register_call = register_call,
+#                             url = board_inferred$url),
+#              error = function(e) NULL)
+#
+#     if (!name %in% board_registry_list()) {
+#
+#     }
+#   }
 
-  board_registry_get(name)
+
 }
 
 #' Register Board
@@ -168,43 +173,54 @@ board_get <- function(name) {
 #'
 #' @export
 board_register <- function(board,
-                           name = board,
+                           name = NULL,
                            cache = board_cache_path(),
                            versions = NULL,
                            ...) {
-  params <- list(...)
 
-  inferred <- board_infer(board,
-                          board = board,
-                          name = name,
-                          register_call = params$register_call,
-                          connect = params$connect,
-                          url = params$url)
-  params$url <- NULL
+  if (is_url(board)) {
+    board <- board_datatxt(
+      name = name,
+      url = board,
+      cache = cache,
+      versions = versions,
+      ...
+    )
+  } else {
+    params <- list(...)
 
-  new_params <- c(
-    list(inferred$board, inferred$name, cache = cache, versions = versions),
-    params,
-    url = inferred$url
-  )
+    inferred <- board_infer(board,
+                            board = board,
+                            name = name %||% board,
+                            register_call = params$register_call,
+                            connect = params$connect,
+                            url = params$url)
+    params$url <- NULL
 
-  board <- do.call("new_board", new_params)
+    new_params <- c(
+      list(inferred$board, inferred$name, cache = cache, versions = versions),
+      params,
+      url = inferred$url
+    )
 
-  board_registry_set(inferred$name, board)
+    board <- do.call("new_board", new_params)
+  }
 
-  if (is.null(inferred$register_call)) inferred$register_call <- board_register_code(board$name, inferred$name)
+  board_registry_set(board$name, board)
 
-  if (!identical(inferred$connect, FALSE)) board_connect(board$name, inferred$register_call)
+  if (is.null(board$register_call)) board$register_call <- board_register_code(board$name, board$name)
 
-  invisible(inferred$name)
+  if (!identical(board$connect, FALSE)) board_connect(board$name, board$register_call)
+
+  invisible(board$name)
 }
 
 board_register2 <- function(board, connect = TRUE) {
   board_registry_set(board$name, board)
-  if (connect) {
+  if (connect && !is_testing()) {
     ui_viewer_register(board, "")
   }
-  board
+  invisible(board)
 }
 
 # need to find the correct wrapper to support board_register_()
