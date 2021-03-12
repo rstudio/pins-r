@@ -1,5 +1,3 @@
-context("pin metadata")
-
 test_that("can pin() with custom metadata", {
   skip_on_cran()
 

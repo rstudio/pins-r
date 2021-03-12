@@ -1,5 +1,3 @@
-context("board local")
-
 text_file <- dir(getwd(), recursive = TRUE, pattern = "hello.txt", full.names = TRUE)
 
 test_that("local board is registered", {

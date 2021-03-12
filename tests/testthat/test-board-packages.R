@@ -1,5 +1,3 @@
-context("board packages")
-
 test_that("can pin_find() packages with empty search", {
   results <- pin_find(board = "packages")
 

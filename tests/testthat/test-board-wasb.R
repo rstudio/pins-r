@@ -1,6 +1,3 @@
-context("board azure")
-
-
 test_that("board contains proper azure headers", {
   mock_board <- list(key = base64enc::base64encode(as.raw(1:3)), url = "https://foo.com")
   headers <- names(azure_headers(mock_board, "PUT", "x", "files/hello.txt")$headers)

@@ -1,5 +1,3 @@
-context("pin local")
-
 test_that("can pin() remote URL", {
   skip_on_cran()
 

@@ -1,5 +1,3 @@
-context("pin dataframe")
-
 test_that("can pin() data frame", {
   roundtrip <- pin(iris, "iris")
 

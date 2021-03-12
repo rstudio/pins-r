@@ -1,5 +1,3 @@
-context("board kaggle")
-
 if (!has_envvars("TEST_KAGGLE_API")) {
   skip("requires env var TEST_KAGGLE_API")
 }

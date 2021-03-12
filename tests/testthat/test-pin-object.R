@@ -1,5 +1,3 @@
-context("pin object")
-
 test_that("can pin() object", {
   an_object <- data.frame(numbers = c(1, 2, 3),
                           text = c("a", "b", "c"),
