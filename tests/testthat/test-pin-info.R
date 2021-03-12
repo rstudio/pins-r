@@ -1,5 +1,3 @@
-context("pin info")
-
 test_that("can retrieve pin_info() across all boards", {
   pin(iris, "iris")
 

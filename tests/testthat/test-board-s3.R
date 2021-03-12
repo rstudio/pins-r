@@ -1,5 +1,3 @@
-context("board s3")
-
 test_that("board contains proper s3 headers", {
   headers <- names(s3_headers(list(), "PUT", "x")$headers)
 

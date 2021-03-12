@@ -1,5 +1,3 @@
-context("board rsc")
-
 test_that("User-supplied html files can overwrite the default", {
   dir <- tempdir()
   file.copy(system.file("views/data", package = "pins"), dir, recursive = TRUE)

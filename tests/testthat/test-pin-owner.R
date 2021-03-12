@@ -1,5 +1,3 @@
-context("pin owner")
-
 test_that("can retrieve name with pin_content_name()", {
   expect_equal(
     pin_content_name("named-pin"),

@@ -1,5 +1,3 @@
-context("board github")
-
 if (!has_envvars(c("TEST_GITHUB_REPO", "TEST_GITHUB_BRANCH"))) {
   skip("github tests require env vars TEST_GITHUB_REPO & TEST_GITHUB_BRANCH")
 }

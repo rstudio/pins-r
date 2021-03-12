@@ -1,5 +1,3 @@
-context("pin data table")
-
 test_that("can maintain class when using pin(I())", {
   skip_if_not_installed("data.table")
 

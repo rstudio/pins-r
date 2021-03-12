@@ -1,5 +1,3 @@
-context("board metadata")
-
 test_that("can roundtrip table metadata with no description", {
   metadata <- list(type = "table", rows = 10, cols = 5)
 

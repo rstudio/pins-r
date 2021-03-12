@@ -1,5 +1,3 @@
-context("board datatxt")
-
 test_that("can board_register() a data.txt board", {
   skip_on_cran()
 
