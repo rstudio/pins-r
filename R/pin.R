@@ -109,7 +109,7 @@ pin_get <- function(name,
 
   board <- board_get(board)
   if (!cache) {
-    pin_reset_cache(board, name)
+    pin_register_reset_cache(board, name)
   }
   result <- board_pin_get(board, name, extract = extract, version = version, ...)
 

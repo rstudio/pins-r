@@ -20,7 +20,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   custom_metadata <- list(...)$custom_metadata
   zip <- list(...)$zip
 
-  if (identical(list(...)$cache, FALSE)) pin_reset_cache(board$name, name)
+  if (identical(list(...)$cache, FALSE)) pin_register_reset_cache(board, name)
 
   path <- path[!grepl("data\\.txt", path)]
 

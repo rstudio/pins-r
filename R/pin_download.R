@@ -29,7 +29,8 @@ pin_download_one <- function(path,
   dir.create(temp_path)
   on.exit(unlink(temp_path, recursive = TRUE))
 
-  old_pin <- pin_registry_retrieve_maybe(name, component)
+  old_pin <- tryCatch(pin_registry_retrieve(board, name), error = function(e) NULL)
+
   old_cache <- old_pin$cache
   old_cache_missing <- TRUE
 
@@ -145,12 +146,16 @@ pin_download_one <- function(path,
   # use relative paths to match remote service downloads and allow moving pins foldeer, potentially
   relative_path <- gsub(pin_storage_path(component, ""), "", local_path, fixed = TRUE)
 
+  metadata <- list(
+    path = if (is.null(old_pin$path)) relative_path else old_pin$path,
+    cache = new_cache
+  )
+
   pin_registry_update(
     name = name,
-    params = list(
-      path = if (is.null(old_pin$path)) relative_path else old_pin$path,
-      cache = new_cache),
-    component = component)
+    params = metadata,
+    component = component
+  )
 
   local_path
 }

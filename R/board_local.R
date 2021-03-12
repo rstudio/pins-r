@@ -43,22 +43,21 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
 
   file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
 
+  base_path <- board_local_storage(board$name)
+  metadata$path <- pin_registry_relative(final_path, base_path = base_path)
   # reduce index size
   metadata$columns <- NULL
 
-  base_path <- board_local_storage(board$name)
-
   pin_registry_update(
     name = name,
-    params = c(list(
-      path = pin_registry_relative(final_path, base_path = base_path)
-    ), metadata),
-    component = board$name)
+    params = metadata,
+    component = board$name
+  )
 }
 
 #' @export
 board_pin_find.local <- function(board, text, ...) {
-  results <- pin_registry_find(text, board$name)
+  results <- pin_registry_retrieve(board, text)
 
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
@@ -74,7 +73,7 @@ board_pin_find.local <- function(board, text, ...) {
 
 #' @export
 board_pin_get.local <- function(board, name, version = NULL, ...) {
-  path <- pin_registry_retrieve_path(name, board$name)
+  path <- pin_registry_retrieve(name, board$name)$path
 
   if (!is.null(version)) {
     manifest <- pin_manifest_get(pin_registry_absolute(path, board$name))

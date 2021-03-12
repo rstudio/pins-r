@@ -1,127 +1,107 @@
-pin_registry_config <- function(component) {
-  file.path(board_local_storage(component), "data.txt")
+pin_registry_read <- function(board) {
+  stopifnot(is.board(board))
+
+  path <- pin_registry_path(board)
+  if (file.exists(path)) {
+    yaml <- yaml::read_yaml(path, eval.expr = FALSE)
+    names(yaml) <- vapply(yaml, function(e) e$name, character(1))
+    yaml
+  } else {
+    list()
+  }
 }
 
-pin_registry_load_entries <- function(component) {
-  lock <- pin_registry_lock(component)
-  on.exit(pin_registry_unlock(lock))
+pin_registry_write <- function(board, entries) {
+  stopifnot(is.board(board))
 
-  entries_path <- pin_registry_config(component)
-
-  if (file.exists(entries_path)) suppressWarnings(yaml::read_yaml(entries_path, eval.expr = FALSE)) else list()
+  yaml::write_yaml(unname(entries), pin_registry_path(board))
 }
 
-pin_registry_save_entries <- function(entries, component) {
-  lock <- pin_registry_lock(component)
-  on.exit(pin_registry_unlock(lock))
+pin_registry_update <- function(board, name, metadata = list()) {
+  stopifnot(is.board(board))
+  local_registry_lock(board)
 
-  yaml::write_yaml(entries, pin_registry_config(component))
-}
-
-pin_storage_path <- function(component, name) {
-  path <- file.path(board_local_storage(component), name)
-  if (!dir.exists(path)) dir.create(path, recursive = TRUE)
-
-  path
-}
-
-pin_registry_update <- function(name, component, params = list()) {
-  lock <- pin_registry_lock(component)
-  on.exit(pin_registry_unlock(lock))
-
-  entries <- pin_registry_load_entries(component)
+  entries <- pin_registry_read(board)
   name <- pin_registry_qualify_name(name, entries)
 
-  path <- pin_storage_path(component, name)
-
-  if (identical(entries, NULL)) entries <- list()
-
-  names <- sapply(entries, function(e) e$name)
-  if (name %in% names) {
-    index <- which(name == names)
-  }
-  else {
-    index <- length(entries) + 1
-    entries[[index]] <- list()
+  if (name %in% names(entries)) {
+    entries[[name]] <- utils::modifyList(entries[[name]], metadata)
+  } else {
+    metadata$name <- name
+    entries[[length(entries) + 1]] <- metadata
   }
 
-  entries[[index]]$name <- name
-
-  for (param in names(params)) {
-    if (identical(params[[param]], list()))
-      entries[[index]][[param]] <- NULL
-    else
-      entries[[index]][[param]] <- params[[param]]
-  }
-
-  pin_registry_save_entries(entries, component)
-
-  path
+  pin_registry_write(board, entries)
 }
 
-pin_registry_find <- function(text, component) {
-  lock <- pin_registry_lock(component)
-  on.exit(pin_registry_unlock(lock))
+pin_registry_retrieve <- function(board, name) {
+  stopifnot(is.board(board))
 
-  entries <- pin_registry_load_entries(component)
-
-  results <- pin_results_from_rows(entries)
-
-  if (is.character(text)) {
-    results <- results[grepl(text, results$name, fixed = TRUE),]
-  }
-
-  results
-}
-
-pin_registry_retrieve <- function(name, component) {
-  lock <- pin_registry_lock(component)
-  on.exit(pin_registry_unlock(lock))
-
-  entries <- pin_registry_load_entries(component)
+  entries <- pin_registry_read(board)
   name <- pin_registry_qualify_name(name, entries)
 
-  names <- sapply(entries, function(e) e$name)
-  if (!name %in% names) {
-    pin_log("Pin not found, pins available in registry: ", paste0(names, collapse = ", "))
-    stop("Pin '", name, "' not found in '", component, "' board.")
+  if (!name %in% names(entries)) {
+    stop("Pin '", name, "' not found in board '", board$name, "'.")
   }
-
-  entries[[which(names == name)]]
+  entries[[name]]
 }
 
-pin_registry_retrieve_path <- function(name, component) {
-  entry <- pin_registry_retrieve(name, component)
+pin_registry_remove <- function(board, name, component, unlink = TRUE) {
+  stopifnot(is.board(board))
+  local_registry_lock(board)
 
-  entry$path
-}
-
-pin_registry_retrieve_maybe <- function(name, component) {
-  tryCatch(pin_registry_retrieve(name, component), error = function(e) NULL)
-}
-
-pin_registry_remove <- function(name, component, unlink = TRUE) {
-  entries <- pin_registry_load_entries(component)
+  entries <- pin_registry_read(board)
   name <- pin_registry_qualify_name(name, entries)
 
-  remove <- Filter(function(x) x$name == name, entries)
-  if (length(remove) > 0)
-    remove <- remove[[1]]
-  else
+  # Delete corresponding file
+  path <- fs::path_abs(remove$path, fs::path(board$cache, board$name))
+  if (unlink) {
+    unlink(remove_path, recursive = TRUE)
+  }
+
+  entries[[name]] <- NULL
+  pin_registry_write(board, entries)
+}
+
+pin_register_reset_cache <- function(board, name) {
+  stopifnot(is.board(board))
+  local_registry_lock(board)
+
+  entries <- pin_registry_read(board)
+  name <- pin_registry_qualify_name(name, entries)
+
+  if (!name %in% names(entries)) {
     return()
+  }
 
-  entries <- Filter(function(x) x$name != name, entries)
-
-  remove_path <- pin_registry_absolute(remove$path, component)
-  if (unlink) unlink(remove_path, recursive = TRUE)
-
-  pin_registry_save_entries(entries, component)
+  entries[[name]]$cache <- list()
+  pin_registry_write(board, entries)
 }
 
+
+# helpers -----------------------------------------------------------------
+
+
+
+# Lock registry file in case being written by two packages simultaneously
+local_registry_lock <- function(board, .env = parent.frame()) {
+  path <- paste0(pin_registry_path(board), ".lock")
+
+  lock <- filelock::lock(path, timeout = getOption("pins.lock.timeout", Inf))
+  withr::defer(filelock::unlock(lock), .env)
+}
+
+pin_registry_path <- function(board) {
+  path <- file.path(board$cache, board$name)
+  fs::dir_create(path)
+
+  fs::path(path, "data.txt")
+}
+
+# I think this is used so that the rsconnect board can match x to any user
 pin_registry_qualify_name <- function(name, entries) {
-  names <- sapply(entries, function(e) e$name)
   name_pattern <- if (grepl("/", name)) paste0("^", name, "$") else paste0(".*/", name, "$")
-  name_candidate <- names[grepl(name_pattern, names)]
+  name_candidate <- names(entries)[grepl(name_pattern, names(entries))]
 
   if (length(name_candidate) == 1) {
     name <- name_candidate
@@ -130,14 +110,15 @@ pin_registry_qualify_name <- function(name, entries) {
   name
 }
 
-pin_registry_lock <- function(component) {
-  lock_file <- paste0(pin_registry_config(component), ".lock")
-  filelock::lock(lock_file, timeout = getOption("pins.lock.timeout", Inf))
+# other stuff that doesn't really belong here -----------------------------
+
+pin_storage_path <- function(board, name) {
+  path <- fs::path(pin_registry_path(board), name)
+  fs::dir_create(path)
+
+  path
 }
 
-pin_registry_unlock <- function(lock) {
-  filelock::unlock(lock)
-}
 
 pin_registry_relative <- function(path, base_path) {
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
@@ -160,4 +141,11 @@ pin_registry_absolute <- function(path, component) {
   } else {
     normalizePath(file.path(base_path, path), mustWork = FALSE)
   }
+}
+
+# testing -----------------------------------------------------------------
+
+local_registry_board <- function(name = "test", env = parent.frame()) {
+  path <- withr::local_tempdir(.local_envir = env)
+  new_board("test", name, cache = path)
 }
