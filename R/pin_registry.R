@@ -4,7 +4,9 @@ pin_registry_read <- function(board) {
   path <- pin_registry_path(board)
   if (file.exists(path)) {
     yaml <- yaml::read_yaml(path, eval.expr = FALSE)
-    names(yaml) <- vapply(yaml, function(e) e$name, character(1))
+    if (length(yaml) > 0) {
+      names(yaml) <- vapply(yaml, function(e) e$name, character(1))
+    }
     yaml
   } else {
     list()
@@ -46,17 +48,21 @@ pin_registry_retrieve <- function(board, name) {
   entries[[name]]
 }
 
-pin_registry_remove <- function(board, name, component, unlink = TRUE) {
+pin_registry_remove <- function(board, name, unlink = TRUE) {
   stopifnot(is.board(board))
   local_registry_lock(board)
 
   entries <- pin_registry_read(board)
   name <- pin_registry_qualify_name(name, entries)
 
+  if (!name %in% names(entries)) {
+    return()
+  }
+
   # Delete corresponding file
-  path <- fs::path_abs(remove$path, fs::path(board$cache, board$name))
+  path <- fs::path_abs(entries[[name]]$path, fs::path(board$cache, board$name))
   if (unlink) {
-    unlink(remove_path, recursive = TRUE)
+    unlink(path, recursive = TRUE)
   }
 
   entries[[name]] <- NULL
