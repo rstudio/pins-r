@@ -93,7 +93,8 @@ board_pin_get.packages <- function(board, name, ...) {
   package <- parts[[1]]
   name <- paste(parts[2:length(parts)], collapse = "/")
 
-  package_pin <- pins::cranfiles[which(cranfiles$package == package & cranfiles$dataset == name),]
+  cranfiles <- pins::cranfiles
+  package_pin <- cranfiles[which(cranfiles$package == package & cranfiles$dataset == name),]
   if (nrow(package_pin) == 0) stop("Pin '", name, "' does not exist in packages board.")
 
   resource_path <- pin_registry_path(board, package, name)
