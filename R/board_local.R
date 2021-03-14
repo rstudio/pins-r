@@ -34,7 +34,8 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
   board_versions_create(board, name, path)
 
   # TODO: figure out how to handle names that are not valid paths
-  cache_path <- fs::path(board$cache, board$name, name)
+  cache_path <- pin_registry_path(board, name)
+
   if (fs::dir_exists(cache_path)) {
     delete <- fs::dir_ls(cache_path)
     delete <- delete[!grepl("(/|\\\\)_versions$", delete)]

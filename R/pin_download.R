@@ -141,18 +141,18 @@ pin_download_one <- function(path,
     )
   }
 
+  fs::dir_create(local_path)
   for (file in dir(temp_path, full.names = TRUE)) {
     file.copy(file, local_path, overwrite = TRUE, recursive = TRUE)
   }
 
-  # use relative paths to match remote service downloads and allow moving pins foldeer, potentially
-  relative_path <- gsub(pin_registry_path(board), "", local_path, fixed = TRUE)
+  # use relative paths to match remote service downloads and allow moving pins folder, potentially
+  relative_path <- fs::path_rel(local_path, pin_registry_path(board))
 
   metadata <- list(
     path = if (is.null(old_pin$path)) relative_path else old_pin$path,
     cache = new_cache
   )
-
   pin_registry_update(board, name, metadata)
 
   local_path
