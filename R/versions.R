@@ -31,7 +31,7 @@ board_versions_create <- function(board, name, path) {
 
   if (board_versions_enabled(board)) {
     # read the versions from the non-versioned manifest
-    component_path <- pin_storage_path(component = board$name, name = name)
+    component_path <- pin_registry_path(board, name)
     component_manifest <- pin_manifest_get(component_path)
     versions <- component_manifest$versions
 
@@ -75,7 +75,7 @@ pin_registry_relative <- function(path, base_path) {
 board_versions_get <- function(board, name) {
   versions <- data.frame(versions = character(0), stringsAsFactors = FALSE)
 
-  component_path <- pin_storage_path(component = board$name, name = name)
+  component_path <- pin_registry_path(board, name)
   manifest <- pin_manifest_get(component_path)
 
   versions <- manifest$versions

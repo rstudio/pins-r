@@ -26,7 +26,6 @@ board_local <- function(cache = board_cache_path(),
                         name = "local",
                         versions = FALSE) {
 
-  fs::dir_create(fs::path(cache, name))
   new_board("local", name = name, cache = cache, versions = versions)
 }
 

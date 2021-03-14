@@ -2,7 +2,7 @@ board_packages <- function() {
   # use local board cache to avoid 'board_register("packages", cache = tempfile())' examples
   new_board("packages",
     name = "packges",
-    cache = dirname(board_local_storage("local")),
+    cache = board_cache_path(),
     versions = FALSE
   )
 }
@@ -99,9 +99,7 @@ board_pin_get.packages <- function(board, name, ...) {
   package_pin <- cranfiles[which(cranfiles$package == package & cranfiles$dataset == name),]
   if (nrow(package_pin) == 0) stop("Pin '", name, "' does not exist in packages board.")
 
-  packages_path <- board_local_storage("packages")
-
-  resource_path <- file.path(packages_path, package, name)
+  resource_path <- pin_registry(board, package, name)
 
   if (!dir.exists(resource_path) || length(dir(resource_path)) == 0) {
     packages_download(resource_path, package_pin, name)

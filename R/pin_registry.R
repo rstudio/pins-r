@@ -1,3 +1,5 @@
+# Read/write whole registry -----------------------------------------------
+
 pin_registry_read <- function(board) {
   stopifnot(is.board(board))
 
@@ -18,6 +20,17 @@ pin_registry_write <- function(board, entries) {
 
   yaml::write_yaml(unname(entries), pin_registry_path(board, "data.txt"))
 }
+
+# Lock registry file in case being written by two packages simultaneously
+local_registry_lock <- function(board, .env = parent.frame()) {
+  path <- paste0(pin_registry_path(board, "data.txt"), ".lock")
+
+  lock <- filelock::lock(path, timeout = getOption("pins.lock.timeout", Inf))
+  withr::defer(filelock::unlock(lock), .env)
+}
+
+
+# Get/set individual components -------------------------------------------
 
 # TODO: declare standard parameters that every pin needs to use
 pin_registry_update <- function(board, name, metadata = list()) {
@@ -61,7 +74,6 @@ pin_registry_find <- function(board, text) {
   results
 }
 
-
 pin_registry_remove <- function(board, name, unlink = TRUE) {
   stopifnot(is.board(board))
   local_registry_lock(board)
@@ -101,26 +113,8 @@ pin_register_reset_cache <- function(board, name) {
 
 # helpers -----------------------------------------------------------------
 
-
-
-# Lock registry file in case being written by two packages simultaneously
-local_registry_lock <- function(board, .env = parent.frame()) {
-  path <- paste0(pin_registry_data_path(board), ".lock")
-
-  lock <- filelock::lock(path, timeout = getOption("pins.lock.timeout", Inf))
-  withr::defer(filelock::unlock(lock), .env)
-}
-
-
 pin_registry_path <- function(board, ...) {
   fs::path(board$cache, board$name, ...)
-}
-
-pin_registry_data_path <- function(board) {
-  path <- pin_registry_path(board, "data.txt")
-  fs::dir_create(fs::path_dir(path))
-
-  path
 }
 
 # I think this is used so that the rsconnect board can match x to any user

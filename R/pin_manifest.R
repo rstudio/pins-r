@@ -32,6 +32,7 @@ pin_manifest_create <- function(path, metadata, files) {
 
   entries[sapply(entries, is.null)] <- NULL
 
+  fs::dir_create(path)
   yaml::write_yaml(entries, file.path(path, "data.txt"))
 }
 
