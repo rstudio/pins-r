@@ -468,3 +468,17 @@ board_pin_versions.datatxt <- function(board, name, ...) {
   datatxt_refresh_manifest(board, name, ...)
   board_versions_get(board, name)
 }
+
+
+# Testing -----------------------------------------------------------------
+
+local_board_datatxt <- function(..., env = parent.frame()) {
+  path <- withr::local_tempdir(.local_envir = env)
+
+  board_register_datatxt(
+    ...,
+    url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    cache = path
+  )
+}
+
