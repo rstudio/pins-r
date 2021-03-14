@@ -31,3 +31,26 @@ test_that("can access entries", {
   expect_equal(pin_registry_retrieve(board, "x"), list(test = "x", name = "x"))
 })
 
+test_that("can pin() concurrently", {
+  temp_path <- withr::local_tempdir()
+  board <- board_local(temp_path)
+
+  pin10 <- function(path, proc) {
+    board <- pins::board_local(path)
+    data <- list(message = "concurrent test")
+    for (i in 1:10) {
+      pins::pin(data, name = as.character(proc * 100 + i), board = board)
+    }
+  }
+
+  processes <- list()
+  for (i in 1:10) {
+    processes[[i]] <- callr::r_bg(pin10, list(path = temp_path, proc = i))
+  }
+  for (i in 1:10) {
+    processes[[i]]$wait()
+  }
+
+  index <- pin_registry_read(board)
+  expect_equal(length(index), 100)
+})

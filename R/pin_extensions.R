@@ -119,14 +119,9 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   }
 
   if (retrieve) {
-    pin_get(name, board$name, ...) %>%
-      invisible_maybe()
-  }
-  else {
+    invisible(pin_get(name, board, ...))
+  } else {
     invisible(NULL)
   }
 }
 
-invisible_maybe <- function(e) {
-  if (getOption("pins.invisible", TRUE)) invisible(e) else I(e)
-}
