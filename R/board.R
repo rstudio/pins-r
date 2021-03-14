@@ -162,7 +162,7 @@ board_register <- function(board,
 board_register2 <- function(board, connect = TRUE) {
   board_registry_set(board$name, board)
   if (connect && !is_testing()) {
-    ui_viewer_register(board, "")
+    # ui_viewer_register(board, "")
   }
   invisible(board)
 }
