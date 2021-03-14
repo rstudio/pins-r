@@ -1,3 +1,5 @@
+# Variation on pin_registry use for versioning
+
 pin_manifest_get <- function(path) {
   manifest <- list()
 

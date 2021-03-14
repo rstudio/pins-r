@@ -65,6 +65,13 @@ board_local_storage <- function(component = board_default(), board = NULL) {
   normalizePath(component_path, mustWork = FALSE)
 }
 
+pin_storage_path <- function(component, name) {
+  path <- file.path(board_local_storage(component), name)
+  if (!dir.exists(path)) dir.create(path, recursive = TRUE)
+
+  path
+}
+
 #' @export
 #' @rdname custom-boards
 board_browse <- function(board, ...) {

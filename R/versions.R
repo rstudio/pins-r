@@ -59,6 +59,19 @@ board_versions_create <- function(board, name, path) {
   versions
 }
 
+pin_registry_relative <- function(path, base_path) {
+  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
+  base_path <- normalizePath(base_path, winslash = "/", mustWork = FALSE)
+
+  if (startsWith(path, base_path)) {
+    path <- substr(path, nchar(base_path) + 1, nchar(path))
+  }
+
+  relative <- gsub("^/", "", path)
+
+  relative
+}
+
 board_versions_get <- function(board, name) {
   versions <- data.frame(versions = character(0), stringsAsFactors = FALSE)
 

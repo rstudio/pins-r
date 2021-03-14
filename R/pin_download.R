@@ -151,11 +151,7 @@ pin_download_one <- function(path,
     cache = new_cache
   )
 
-  pin_registry_update(
-    name = name,
-    params = metadata,
-    component = component
-  )
+  pin_registry_update(board_get(component), name, metadata)
 
   local_path
 }

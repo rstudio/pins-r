@@ -225,22 +225,25 @@ pin_find <- function(text = NULL,
                      name = NULL,
                      extended = FALSE,
                      ...) {
-  if (is.null(board) || nchar(board) == 0) board <- board_list()
+
+  if (is.null(board)) {
+    boards <- lapply(board_list(), board_get)
+  } else if (is.character(board)) {
+    boards <- lapply(board, board_get)
+  } else if (is.board(board)) {
+    boards <- list(board)
+  } else {
+    stop("Unsupported input for `board`", call. = FALSE)
+  }
+
   metadata <- identical(list(...)$metadata, TRUE)
   text <- pin_content_name(text)
   if (is.null(text) && !is.null(name)) text <- name
 
   all_pins <- pin_find_empty()
 
-  for (board_name in board) {
-    board_object <- board_get(board_name)
-
-    board_pins <- tryCatch(
-      board_pin_find(board = board_object, text, name = name, extended = extended, ...),
-      error = function(e) {
-        warning("Error searching '", board_name, "' board: ", e$message)
-        board_empty_results()
-      })
+  for (board in boards) {
+    board_pins <- board_pin_find(board = board, text, name = name, extended = extended, ...)
 
     if (identical(extended, TRUE)) {
       ext_df <- tryCatch(
@@ -254,7 +257,7 @@ pin_find <- function(text = NULL,
     }
 
     if (nrow(board_pins) > 0) {
-      board_pins$board <- rep(board_name, nrow(board_pins))
+      board_pins$board <- rep(board$name, nrow(board_pins))
 
       all_pins <- pin_results_merge(all_pins, board_pins, identical(extended, TRUE))
     }
