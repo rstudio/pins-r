@@ -15,7 +15,7 @@
 #'  in your script. The easiest alternative is to store it in the
 #'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
 #'  use by default.
-#'
+#' @family boards
 #' @seealso board_register
 #'
 #' @examples

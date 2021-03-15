@@ -75,6 +75,7 @@
 #' @param output_files Should the output in an automated report create output files?
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
+#' @family boards
 #'
 #' @seealso board_register
 #'

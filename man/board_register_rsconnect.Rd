@@ -123,4 +123,11 @@ board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),
 }
 \seealso{
 board_register
+
+Other boards: 
+\code{\link{board_register_azure}()},
+\code{\link{board_register_github}()},
+\code{\link{board_register_local}()},
+\code{\link{board_register_s3}()}
 }
+\concept{boards}

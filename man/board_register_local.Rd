@@ -28,4 +28,11 @@ board_register_local(cache = tempfile())
 }
 \seealso{
 board_register
+
+Other boards: 
+\code{\link{board_register_azure}()},
+\code{\link{board_register_github}()},
+\code{\link{board_register_rsconnect}()},
+\code{\link{board_register_s3}()}
 }
+\concept{boards}

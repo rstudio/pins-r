@@ -18,6 +18,7 @@
 #' @param region The region to use, required in some AWS regions and to
 #'   enable V4 signatures.
 #' @seealso board_register
+#' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key

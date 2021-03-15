@@ -66,4 +66,11 @@ board_register_s3(bucket = "s3bucket")
 }
 \seealso{
 board_register
+
+Other boards: 
+\code{\link{board_register_azure}()},
+\code{\link{board_register_github}()},
+\code{\link{board_register_local}()},
+\code{\link{board_register_rsconnect}()}
 }
+\concept{boards}
