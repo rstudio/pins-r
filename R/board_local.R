@@ -96,7 +96,7 @@ board_pin_versions.local <- function(board, name, ...) {
 
 # Testing -----------------------------------------------------------------
 
-local_board_local <- function(env = parent.frame()) {
+local_board_local <- function(..., env = parent.frame()) {
   path <- withr::local_tempdir(.local_envir = env)
-  board_local(cache = path, name = "test")
+  board_local(cache = path, name = "test", ...)
 }

@@ -79,9 +79,7 @@ board_versions_get <- function(board, name) {
   manifest <- pin_manifest_get(component_path)
 
   versions <- manifest$versions
-  if (length(versions) > 0) {
-    versions <- data.frame(version = versions, stringsAsFactors = FALSE)
-  }
+  versions <- data.frame(version = versions, stringsAsFactors = FALSE)
 
   versions
 }

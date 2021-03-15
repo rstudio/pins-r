@@ -25,3 +25,22 @@ test_that("can remove a local pin", {
   pin_remove("mtcars", board = b)
   expect_false(file.exists(pin_registry_path(b, "mtcars")))
 })
+
+test_that("can version a local pin", {
+  b <- local_board_local(versions = TRUE)
+
+  versions <- pin_versions("df", board = b)
+  expect_equal(versions, tibble::tibble(version = character()))
+
+  pin(data.frame(x = 1), "df", board = b)
+  pin(data.frame(x = 2), "df", board = b)
+  pin(data.frame(x = 3), "df", board = b)
+
+  versions <- pin_versions("df", board = b)
+  expect_equal(nrow(versions), 3)
+
+  newest <- pin_get("df", version = versions$version[[1]], board = b)
+  oldest <- pin_get("df", version = versions$version[[3]], board = b)
+  expect_equal(newest$x, 3)
+  expect_equal(oldest$x, 1)
+})

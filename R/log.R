@@ -7,7 +7,7 @@
 #' @export
 #' @keywords internal
 pin_log <- function(...) {
-  if (getOption("pins.verbose", FALSE)) {
+  if (getOption("pins.verbose", FALSE) && !is_testing()) {
     message(...)
   }
 }
