@@ -87,7 +87,7 @@ rsconnect_api_download <- function(board, name, path, etag) {
 
   pin_download(url,
                name,
-               board$name,
+               board,
                headers = rsconnect_api_auth_headers(board, path, "GET"),
                custom_etag = etag)
 }

@@ -2,6 +2,8 @@ new_board <- function(board, name, cache, versions = FALSE, ...) {
 
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
+  fs::dir_create(fs::path(cache, name))
+
   board <- structure(
     list(
       board = board,
@@ -71,7 +73,7 @@ board_list <- function() {
 #' @export
 board_get <- function(name) {
   if (is.null(name)) {
-    board_registry_get(board_default())
+    board_default()
   } else if (is.board(name)) {
     name
   } else if (is.character(name) && length(name) == 1) {
@@ -162,7 +164,7 @@ board_register <- function(board,
 board_register2 <- function(board, connect = TRUE) {
   board_registry_set(board$name, board)
   if (connect && !is_testing()) {
-    ui_viewer_register(board, "")
+    # ui_viewer_register(board, "")
   }
   invisible(board)
 }
@@ -254,5 +256,5 @@ board_deregister <- function(name, ...) {
 #' options(pins.board = NULL)
 #' @export
 board_default <- function() {
-  getOption("pins.board", "local")
+  board_registry_get(getOption("pins.board", "local"))
 }

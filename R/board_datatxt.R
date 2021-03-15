@@ -104,7 +104,7 @@ datatxt_refresh_index <- function(board) {
                         httr::write_disk(temp_index, overwrite = TRUE),
                         board_datatxt_headers(board, "data.txt"))
 
-  local_index <- file.path(board_local_storage(board$name, board = board), "data.txt")
+  local_index <- pin_registry_path(board, "data.txt")
   current_index <- board_manifest_get(local_index, default_empty = TRUE)
 
   if (httr::http_error(response)) {
@@ -127,12 +127,13 @@ datatxt_refresh_index <- function(board) {
     current_index <- new_index
   }
 
+  fs::dir_create(fs::path_dir(local_index))
   yaml::write_yaml(current_index, local_index)
 }
 
 
 datatxt_pin_download_info <- function(board, name, ...) {
-  index <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
+  index <- board_manifest_get(pin_registry_path(board, "data.txt"))
   index <- Filter(function(e) identical(e$name, name), index)
 
   if (length(index) == 0 && identical(board$needs_index, TRUE)) {
@@ -173,7 +174,7 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
   download_path <- file.path(path_guess, "data.txt")
   pin_download(download_path,
                name,
-               board$name,
+               board,
                can_fail = TRUE,
                headers = board_datatxt_headers(board, download_path),
                download = download)
@@ -192,7 +193,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
   index_entry <- manifest_paths$index_entry
   download_path <- manifest_paths$download_path
 
-  local_path <- pin_storage_path(board$name, name)
+  local_path <- pin_registry_path(board, name)
   manifest <- pin_manifest_get(local_path)
 
   if (!is.null(version)) {
@@ -204,7 +205,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
     local_path <- file.path(local_path, version)
     pin_download(download_path,
                  name,
-                 board$name,
+                 board,
                  can_fail = TRUE,
                  headers = board_datatxt_headers(board, download_path),
                  subpath = file.path(name, version))
@@ -243,7 +244,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
 
     local_path <- pin_download(path,
                                name,
-                               board$name,
+                               board,
                                extract = identical(extract, TRUE),
                                headers = board_datatxt_headers(board, path),
                                download = download)
@@ -256,7 +257,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
 board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
   datatxt_refresh_index(board)
 
-  entries <- board_manifest_get(file.path(board_local_storage(board$name), "data.txt"))
+  entries <- board_manifest_get(pin_registry_path(board, "data.txt"))
 
   if (identical(extended, TRUE)) return(pin_entries_to_dataframe(entries))
 
@@ -344,7 +345,7 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
     stop("Operation ", operation, " is unsupported")
   }
 
-  index_file <- file.path(board_local_storage(board$name, board = board), "data.txt")
+  index_file <- pin_registry_path(board, "data.txt")
   index_file_put <- file_path_null(board$subpath, "data.txt")
   board_manifest_create(index, index_file)
 
@@ -416,10 +417,10 @@ datatxt_pin_files <- function(board, name) {
     path_guess <- datatxt_pin_download_info(board, name)$path_guess
 
     download_path <- file.path(path_guess, version, "data.txt")
-    local_path <- file.path(pin_storage_path(board$name, name), version)
+    local_path <- pin_registry_path(board, name, version)
     pin_download(download_path,
                  name,
-                 board$name,
+                 board,
                  can_fail = TRUE,
                  headers = board_datatxt_headers(board, download_path),
                  subpath = file.path(name, version))
@@ -454,7 +455,7 @@ board_pin_remove.datatxt <- function(board, name, ...) {
                        operation = "remove",
                        name = name)
 
-  unlink(pin_storage_path(board$name, name), recursive = TRUE)
+  unlink(pin_registry_path(board, name), recursive = TRUE)
 }
 
 #' @export
@@ -467,3 +468,17 @@ board_pin_versions.datatxt <- function(board, name, ...) {
   datatxt_refresh_manifest(board, name, ...)
   board_versions_get(board, name)
 }
+
+
+# Testing -----------------------------------------------------------------
+
+local_board_datatxt <- function(..., env = parent.frame()) {
+  path <- withr::local_tempdir(.local_envir = env)
+
+  board_register_datatxt(
+    ...,
+    url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    cache = path
+  )
+}
+

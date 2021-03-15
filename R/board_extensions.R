@@ -53,16 +53,8 @@ board_pin_versions <- function(board, name, ...) {
 #' @export
 #' @rdname custom-boards-utils
 #' @keywords internal
-board_local_storage <- function(component = board_default(), board = NULL) {
-  if (is.null(board)) board <- board_get(component)
-
-  path <- board$cache
-
-  component_path <- file.path(path, component)
-
-  if (!dir.exists(component_path)) dir.create(component_path, recursive = TRUE)
-
-  normalizePath(component_path, mustWork = FALSE)
+board_local_storage <- function(...) {
+  stop("board_local_storage() is deprecated", call. = FALSE)
 }
 
 #' @export

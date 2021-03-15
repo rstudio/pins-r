@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `option(pins.invisible)` is now defunct and ignored. 
+
 * Pins no longer register the code needed to recreate them as this tends to
   either be dangerous (it's easy to accidentally leak credentails) or useless
   (it relies on variables that the connection pane doesn't capture).

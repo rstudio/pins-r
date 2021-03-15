@@ -1,6 +1,15 @@
+pin_download <- function(path, ...) {
+  for (p in path) {
+    if (length(path) > 1) pin_log("Downloading ", p, " from ", length(path), " downloads.")
+    local_path <- pin_download_one(p, ...)
+  }
+
+  local_path
+}
+
 pin_download_one <- function(path,
                              name,
-                             component,
+                             board,
                              extract = FALSE,
                              custom_etag = "",
                              remove_query = FALSE,
@@ -14,6 +23,8 @@ pin_download_one <- function(path,
                              download = TRUE,
                              download_name = NULL,
                              ...) {
+
+  stopifnot(is.board(board))
   must_download <- !cache
 
   custom_etag <- if (is.na(custom_etag)) "" else custom_etag
@@ -21,7 +32,7 @@ pin_download_one <- function(path,
   # clean up name in case it's a full url
   name <- gsub("^https?://", "", name)
 
-  local_path <- pin_storage_path(component, subpath)
+  local_path <- pin_registry_path(board, subpath)
   if (identical(download, FALSE)) return(local_path)
 
   # use a temp path to rollback if something fails
@@ -29,7 +40,8 @@ pin_download_one <- function(path,
   dir.create(temp_path)
   on.exit(unlink(temp_path, recursive = TRUE))
 
-  old_pin <- pin_registry_retrieve_maybe(name, component)
+  old_pin <- tryCatch(pin_registry_retrieve(board, name), error = function(e) NULL)
+
   old_cache <- old_pin$cache
   old_cache_missing <- TRUE
 
@@ -138,28 +150,19 @@ pin_download_one <- function(path,
     )
   }
 
+  fs::dir_create(local_path)
   for (file in dir(temp_path, full.names = TRUE)) {
     file.copy(file, local_path, overwrite = TRUE, recursive = TRUE)
   }
 
-  # use relative paths to match remote service downloads and allow moving pins foldeer, potentially
-  relative_path <- gsub(pin_storage_path(component, ""), "", local_path, fixed = TRUE)
+  # use relative paths to match remote service downloads and allow moving pins folder, potentially
+  relative_path <- fs::path_rel(local_path, pin_registry_path(board))
 
-  pin_registry_update(
-    name = name,
-    params = list(
-      path = if (is.null(old_pin$path)) relative_path else old_pin$path,
-      cache = new_cache),
-    component = component)
-
-  local_path
-}
-
-pin_download <- function(path, ...) {
-  for (p in path) {
-    if (length(path) > 1) pin_log("Downloading ", p, " from ", length(path), " downloads.")
-    local_path <- pin_download_one(p, ...)
-  }
+  metadata <- list(
+    path = if (is.null(old_pin$path)) relative_path else old_pin$path,
+    cache = new_cache
+  )
+  pin_registry_update(board, name, metadata)
 
   local_path
 }

@@ -1,8 +1,7 @@
 board_packages <- function() {
-  # use local board cache to avoid 'board_register("packages", cache = tempfile())' examples
   new_board("packages",
     name = "packges",
-    cache = dirname(board_local_storage("local")),
+    cache = board_cache_path(),
     versions = FALSE
   )
 }
@@ -10,7 +9,7 @@ board_packages <- function() {
 #' @export
 board_pin_find.packages <- function(board, text, ...) {
   if (is.null(text)) text <- ""
-  cranfiles <- get_cranfiles()
+  cranfiles <- pins::cranfiles
 
   parts <- strsplit(text, "/")[[1]]
   if (length(parts) > 1) {
@@ -87,41 +86,21 @@ packages_download <- function(resource_path, package_pin, name) {
 
 #' @export
 board_pin_get.packages <- function(board, name, ...) {
+
   parts <- strsplit(name, "/")[[1]]
-
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
-
-  cranfiles <- get_cranfiles()
-
-  package <- parts[1]
+  package <- parts[[1]]
   name <- paste(parts[2:length(parts)], collapse = "/")
 
+  cranfiles <- pins::cranfiles
   package_pin <- cranfiles[which(cranfiles$package == package & cranfiles$dataset == name),]
   if (nrow(package_pin) == 0) stop("Pin '", name, "' does not exist in packages board.")
 
-  packages_path <- board_local_storage("packages")
-
-  resource_path <- file.path(packages_path, package, name)
+  resource_path <- pin_registry_path(board, package, name)
 
   if (!dir.exists(resource_path) || length(dir(resource_path)) == 0) {
     packages_download(resource_path, package_pin, name)
   }
 
   resource_path
-}
-
-get_cranfiles <- function() {
-  if (is.null(.globals$datasets)) {
-    .globals$datasets <- new.env()
-  }
-
-  if (is.null(.globals$datasets$cranfiles)) {
-    utils::data("cranfiles", envir = .globals$datasets, package = "pins")
-  }
-
-  if (is.null(.globals$datasets$cranfiles)) {
-    stop("Failed to load 'cranfiles' dataset")
-  }
-
-  .globals$datasets$cranfiles
 }
