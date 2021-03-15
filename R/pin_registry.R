@@ -21,14 +21,13 @@ pin_registry_write <- function(board, entries) {
   yaml::write_yaml(unname(entries), pin_registry_path(board, "data.txt"))
 }
 
-# Lock registry file in case being written by two packages simultaneously
-local_registry_lock <- function(board, .env = parent.frame()) {
+# Lock registry file to prevent multi-process race conditions
+local_registry_lock <- function(board, env = parent.frame()) {
   path <- paste0(pin_registry_path(board, "data.txt"), ".lock")
 
   lock <- filelock::lock(path, timeout = getOption("pins.lock.timeout", Inf))
-  withr::defer(filelock::unlock(lock), .env)
+  withr::defer(filelock::unlock(lock), env)
 }
-
 
 # Get/set individual components -------------------------------------------
 
