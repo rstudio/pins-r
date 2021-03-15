@@ -1,3 +1,21 @@
+#' @rdname custom-pins
+#' @export
+pin_preview <- function(x, board = NULL, ...) {
+  UseMethod("pin_preview")
+}
+
+#' @rdname custom-pins
+#' @export
+pin_load <- function(path, ...) {
+  UseMethod("pin_load")
+}
+
+#' @rdname custom-pins
+#' @export
+pin_fetch <- function(path, ...) {
+  UseMethod("pin_fetch")
+}
+
 #' Custom Pins
 #'
 #' Family of functions meant to be used to implement custom pin extensions, not to be used by users.
@@ -10,6 +28,7 @@
 #' @param metadata A list containing additional metadata describing the pin.
 #' @param retrieve Should the pin be retrieved after being created? Defaults to `TRUE`.
 #' @param ... Additional parameteres.
+#' @keywords internal
 #'
 #' @export
 #' @rdname custom-pins
