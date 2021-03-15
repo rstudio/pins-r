@@ -1,18 +1,21 @@
 #' Register Google Cloud Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register a Google Cloud Storage container as a board.
+#' To use a Google Cloud Storage board, you first need a Google Cloud Storage
+#' account, a Google Storage bucket, and an access token or the
+#' [Google Cloud SDK](https://cloud.google.com/sdk/) properly installed and
+#' configured. You can sign-up and create these from
+#' <https://console.cloud.google.com>
 #'
 #' @inheritParams board_register_datatxt
 #' @param bucket The name of the Google Cloud Storage bucket. Defaults to the `GCLOUD_STORAGE_BUCKET` environment
 #'   variable.
-#' @param token The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.
+#' @param token The access token of the Google Cloud Storage container.
+#'   Generally, it's best to leave this as `NULL`, and rely on the installed
+#'   Google Cloud SDK to handle authentication.
 #'
-#' @details
-#'
-#' This function requires a Google Cloud Storage container to be manually created; otherwise,
-#' registering a Google Cloud board will fail.
-#'
+#'   If you do want to use an access token, you can retrieve it from
+#'   <https://developers.google.com/oauthplayground>. You will need to
+#'   authorize the "Google Storage API v1" scope.
 #' @seealso board_register
 #'
 #' @examples
