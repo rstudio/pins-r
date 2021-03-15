@@ -1,27 +1,23 @@
 #' Register S3 Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register an Amazon S3 bucket as a board.
+#' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
+#' with enough permissions to access the S3 bucket. You can sign-up and create
+#' those at <https://aws.amazon.com/>. Note that it can take a few minutes
+#' after you've created it before a bucket is usable.
 #'
 #' @inheritParams board_register_datatxt
-#' @param bucket The name of the Amazon S3 bucket. Defaults to the `AWS_BUCKET` environment
-#'   variable.
-#' @param key The key of the Amazon S3 bucket. Defaults to the `AWS_ACCESS_KEY_ID` environment
-#'   variable.
-#' @param secret The secret of the Amazon S3 bucket. Defaults to the `AWS_SECRET_ACCESS_KEY` environment
-#'   variable.
+#' @param bucket The name of the Amazon S3 bucket.
+#' @param key,secret The key and secret for your space. You can create
+#'   a key and secret in the "Spaces access keys" in your API settings.
+#'
+#'  The `secret` is equivalent to a password, so generally should not be stored
+#'  in your script. The easiest alternative is to store it in the
+#'  `AWS_SECRET_ACCESS_KEY` environment variable, which `board_s3()` will
+#'  use by default.
 #' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
-#' @param region The region to use, required in some AWS regions and to enable V4 signatures.
-#'
-#' @details
-#'
-#' This function requires an Amazon S3 bucket to be manually created; otherwise,
-#' registering an S3 board will fail.
-#'
-#' When the `region` parameter is not specified, `pins` defaults to using AWS V2 signatures;
-#' therefore, it is recommended to specify the region to ensure `pins` makes use of AWS V4 signatures.
+#' @param region The region to use, required in some AWS regions and to
+#'   enable V4 signatures.
 #' @seealso board_register
-#'
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key
