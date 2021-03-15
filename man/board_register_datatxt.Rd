@@ -54,7 +54,8 @@ query string to defeat caching?}
 }
 \description{
 Register a board that for a website that uses the \href{https://datatxt.org}{data.txt}
-specification. This is mainly for internal use.
+specification. A \code{data.txt} file is a YAML that provides some basic metadata
+about a directory of files.
 }
 \examples{
 

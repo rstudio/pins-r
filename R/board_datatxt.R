@@ -1,7 +1,9 @@
 #' Register `data.txt` Board
 #'
 #' Register a board that for a website that uses the [data.txt](https://datatxt.org)
-#' specification. This is mainly for internal use.
+#' specification. A `data.txt` file is a YAML that provides some basic metadata
+#' about a directory of files.
+#'
 #'
 #' @param url Path to the `data.txt` file or directory containing it.
 #' @param name Board name, used to identify board in actions that affect
