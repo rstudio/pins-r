@@ -35,7 +35,6 @@ articles:
   navbar: ~
   contents:
   - pins-rstudio
-  - boards-understanding
   - advanced-versions
   - advanced-too-big
 

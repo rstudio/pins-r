@@ -171,20 +171,11 @@ options(pins.progress = TRUE)
 options(pins.verbose = TRUE)
 ```
 
-## Sharing
+## Boards
 
-After performing a data analysis, you might want to share your dataset with others, which you can achieve using `pin(data, board = "<board-name>")`.
+By default, pin uses a "local" board which is stored on your computer.  
 
-There are multiple boards available, one of them is the "local" board which `pins` uses by default. A "local" board can help you share pins with other R sessions and tools using a well-known cache folder in your local computer defined in the `rappdirs` package. Notice that this board is available by default:
-
-```{r eval=FALSE}
-board_list()
-```
-```
-[1] "local"    "packages"
-```
-
-You can also name your boards using the 'name' parameter, when a name is not specified, the `pins` package will simply name your board with the kind of board you are using, 'local' in the previous example.
+Where does it live?
 
 The following example stores a simple data analysis over home prices as 'home_price_analysis' in the 'local' board.
 
@@ -195,23 +186,15 @@ pin_get("home_price_indexes") %>%
   dplyr::count() %>%
   pin("home_price_analysis")
 ```
-```
-# A tibble: 45 x 2
-      yr     n
-   <dbl> <int>
- 1  1975   274
- 2  1976   383
- 3  1977   524
- 4  1978   689
- 5  1979   812
- 6  1980   894
- 7  1981   886
- 8  1982   898
- 9  1983  1005
-10  1984  1088
-# … with 35 more rows
-```
 
-The local board allows you to share pins with other R sessions. To share with other people or across different computers, you can consider using the  `github`, `rsconnect` or `kaggle` boards; these boards will be introduced in the [Understanding Boards](boards-github.html) article.
+The local board allows you to share pins with other R sessions. 
 
-Before we get to that, the [Using Pins with RStudio](pins-rstudio.html) article presents a few enhancements available when using `pins` in RStudio.
+## Sharing
+
+This is useful because it saves time downloading or processing data, but it doesn't help get your data into the hands of other people. To take full advantage of pins, you probably want to also storing pins in shared locations that others can access:
+
+* Shared folders, `board_local()`.
+* GitHub, `board_github()`.
+* RStudio Connect, `board_rsconnect()`
+* Azure, `board_azure()`
+* S3, `board_s3()`
