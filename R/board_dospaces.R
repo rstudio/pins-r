@@ -1,23 +1,20 @@
 #' Register DigitalOcean Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register a DigitalOcean Spaces board.
+#' To use DigitalOcean Spaces as a [board](boards-understanding.html), you first
+#' need an DigitalOcean space and a storage key. You can sign-up and create
+#' those at [digitalocean.com](https://www.digitalocean.com/).
 #'
 #' @inheritParams board_register_datatxt
-#' @param space The name of the DigitalOcean space. Defaults to the `DO_SPACE` environment
-#'   variable.
-#' @param key The key of the DigitalOcean space. Defaults to the `DO_ACCESS_KEY_ID` environment
-#'   variable.
-#' @param secret The secret of the DigitalOcean space. Defaults to the `DO_SECRET_ACCESS_KEY` environment
-#'   variable.
-#' @param datacenter The datacenter of the DigitalOcean space. Defaults to the `DO_DATACENTER` environment
-#'   variable.
+#' @param space The name of the DigitalOcean space.
+#' @param key,secret The key and secret for your space. You can create
+#'   a key and secret in the "Spaces access keys" in your API settings.
+#'
+#'  The `secret` is equivalent to a password, so generally should not be stored
+#'  in your script. The easiest alternative is to store it in the
+#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
+#'  use by default.
+#' @param datacenter The datacenter name.
 #' @param host The host to use for storage, defaults to `"digitaloceanspaces.com"`.
-#'
-#' @details
-#'
-#' This function requires a DigitalOcean space to be manually created; otherwise,
-#' registering a DigitalOcean space will fail.
 #'
 #' @seealso board_register
 #'

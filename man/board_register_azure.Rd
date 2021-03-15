@@ -33,7 +33,12 @@ multiple boards.}
 \item{account}{The name of the Azure Storage account.}
 
 \item{key}{The access key for the Azure Storage container. You can find
-this under "Access keys" in your storage account settings.}
+this under "Access keys" in your storage account settings.
+
+The \code{key} is equivalent to a password, so generally should not be stored
+in your script. The easiest alternative is to store it in the
+\code{AZURE_STORAGE_KEY} environment variable, which \code{board_azure()} will
+use by default.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 

@@ -10,6 +10,12 @@
 #' @param account The name of the Azure Storage account.
 #' @param key The access key for the Azure Storage container. You can find
 #'  this under "Access keys" in your storage account settings.
+#'
+#'  The `key` is equivalent to a password, so generally should not be stored
+#'  in your script. The easiest alternative is to store it in the
+#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
+#'  use by default.
+#'
 #' @seealso board_register
 #'
 #' @examples

@@ -32,17 +32,17 @@ board_dospace(
 \item{name}{Board name, used to identify board in actions that affect
 multiple boards.}
 
-\item{space}{The name of the DigitalOcean space. Defaults to the \code{DO_SPACE} environment
-variable.}
+\item{space}{The name of the DigitalOcean space.}
 
-\item{key}{The key of the DigitalOcean space. Defaults to the \code{DO_ACCESS_KEY_ID} environment
-variable.}
+\item{key, secret}{The key and secret for your space. You can create
+a key and secret in the "Spaces access keys" in your API settings.
 
-\item{secret}{The secret of the DigitalOcean space. Defaults to the \code{DO_SECRET_ACCESS_KEY} environment
-variable.}
+The \code{secret} is equivalent to a password, so generally should not be stored
+in your script. The easiest alternative is to store it in the
+\code{AZURE_STORAGE_KEY} environment variable, which \code{board_azure()} will
+use by default.}
 
-\item{datacenter}{The datacenter of the DigitalOcean space. Defaults to the \code{DO_DATACENTER} environment
-variable.}
+\item{datacenter}{The datacenter name.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
@@ -53,12 +53,9 @@ variable.}
 \item{...}{Additional parameters stored in the board object.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register a DigitalOcean Spaces board.
-}
-\details{
-This function requires a DigitalOcean space to be manually created; otherwise,
-registering a DigitalOcean space will fail.
+To use DigitalOcean Spaces as a \href{boards-understanding.html}{board}, you first
+need an DigitalOcean space and a storage key. You can sign-up and create
+those at \href{https://www.digitalocean.com/}{digitalocean.com}.
 }
 \examples{
 \dontrun{
