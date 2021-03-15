@@ -526,3 +526,8 @@ board_pin_versions.rsconnect <- function(board, name, ...) {
     format_tibble()
 }
 
+
+pin_results_extract_column <- function(df, column) {
+  df[[column]] <- sapply(df$metadata, function(e) jsonlite::fromJSON(e)[[column]])
+  df
+}

@@ -60,400 +60,334 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   UseMethod("pin")
 }
 
-#' Retrieve Pin
-#'
-#' Retrieves a pin by name from the local or given board.
-#'
-#' @param name The name of the pin.
-#' @param board The board where this pin will be retrieved from.
-#' @param cache Should the pin cache be used? Defaults to `TRUE`.
-#' @param extract Should compressed files be extracted? Each board defines the
-#'   default behavior.
-#' @param version The version of the dataset to retrieve, defaults to latest one.
-#' @param files Should only the file names be returned?
-#' @param signature Optional signature to validate this pin, use `pin_info()`
-#'   to compute signature.
-#' @param ... Additional parameters.
-#'
-#' @details
-#'
-#' `pin_get()` retrieves a pin by name and, by default, from the local board.
-#' You can use the `board` parameter to specify which board to retrieve a pin from.
-#' If a board is not specified, it will use `pin_find()` to find the pin across
-#' all boards and retrieve the one that matches by name.
-#'
-#' @examples
-#'
-#' library(pins)
-#'
-#' # define local board
-#' board_register_local(cache = tempfile())
-#'
-#' # cache the mtcars dataset
-#' pin(mtcars)
-#'
-#' # retrieve the mtcars pin
-#' pin_get("mtcars")
-#'
-#' # retrieve mtcars pin from packages board
-#' pin_get("easyalluvial/mtcars2", board = "packages")
-#' @export
-pin_get <- function(name,
-                    board = NULL,
-                    cache = TRUE,
-                    extract = NULL,
-                    version = NULL,
-                    files = FALSE,
-                    signature = NULL,
-                    ...) {
-
-  board <- board_get(board)
-  if (!cache) {
-    pin_register_reset_cache(board, name)
-  }
-  result <- board_pin_get(board, name, extract = extract, version = version, ...)
-
-  manifest <- pin_manifest_get(result)
-  if (is.null(manifest$type)) manifest$type <- "files"
-
-  result_files <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
-  result_files <- dir(result_files, full.names = TRUE)
-  if (manifest$type == "files" && length(result_files) > 1) result_files <- result_files[!grepl("/data.txt$", result_files)]
-
-  if (!is.null(signature)) {
-    pin_signature <- pin_version_signature(result_files)
-    if (!identical(signature, pin_signature)) stop("Pin signature '", pin_signature, "' does not match given signature.")
-  }
-
-  if (files) {
-    result_files
-  }
-  else {
-    pin_load(structure(result, class = manifest$type))
-  }
-}
-
-#' Remove Pin
-#'
-#' Unpins the given named pin from the given board.
-#'
-#' @param name The name for the pin.
-#' @param board The board from where this pin will be removed.
-#'
-#' @details
-#'
-#' Notice that some boards do not support deleting pins, this is the case
-#' for the Kaggle board. For these boards, you would manually have to
-#' remote resources using the tools the board provides.
-#'
-#' @examples
-#'
-#' library(pins)
-#'
-#' # define local board
-#' board_register_local(cache = tempfile())
-#'
-#' # create mtcars pin
-#' pin(mtcars)
-#'
-#' # remove mtcars pin
-#' pin_remove("mtcars", board = "local")
-#' @export
-pin_remove <- function(name, board) {
-  board <- board_get(board)
-
-  board_pin_remove(board, name)
-  ui_viewer_updated(board)
-
-  invisible(NULL)
-}
-
-pin_find_empty <- function() {
-  data.frame(
-    name = character(),
-    description = character(),
-    type = character(),
-    metadata = character(),
-    board = character(),
-    stringsAsFactors = FALSE)
-}
-
-#' Find Pin
-#'
-#' Find a pin in any board registered using `board_register()`.
-#'
-#' @param text The text to find in the pin description or name.
-#' @param board The board name used to find the pin.
-#' @param name The exact name of the pin to match when searching.
-#' @param extended Should additional board-specific columns be shown?
-#' @param ... Additional parameters.
-#'
-#' @details
-#'
-#' `pin_find()` allows you to discover new resources or retrieve
-#' pins you've previously created with `pin()`.
-#'
-#' The `pins` package comes with a CRAN packages board which
-#' allows searching all CRAN packages; however, you can add additional
-#' boards to search from like Kaggle, Github and RStudio Connect.
-#'
-#' For 'local' and 'packages' boards, the 'text' parameter searches
-#' the title and description of a pin using a regular expression. Other
-#' boards search in different ways, most of them are just partial matches,
-#' please refer to their documentation to understand how other
-#' boards search for pins.
-#'
-#' Once you find a pin, you can retrieve with `pin_get("pin-name")`.
-#'
-#' @examples
-#' library(pins)
-#'
-#' # retrieve pins
-#' pin_find()
-#'
-#' # search pins related to 'cars'
-#' pin_find("cars")
-#'
-#' # search pins related to 'seattle' in the 'packages' board
-#' pin_find("seattle", board = "packages")
-#'
-#' # search pins related to 'london' in the 'packages' board
-#' pin_find("london", board = "packages")
-#' @export
-pin_find <- function(text = NULL,
-                     board = NULL,
-                     name = NULL,
-                     extended = FALSE,
-                     ...) {
-
-  if (is.null(board)) {
-    boards <- lapply(board_list(), board_get)
-  } else if (is.character(board)) {
-    boards <- lapply(board, board_get)
-  } else if (is.board(board)) {
-    boards <- list(board)
-  } else {
-    stop("Unsupported input for `board`", call. = FALSE)
-  }
-
-  metadata <- identical(list(...)$metadata, TRUE)
-  text <- pin_content_name(text)
-  if (is.null(text) && !is.null(name)) text <- name
-
-  all_pins <- pin_find_empty()
-
-  for (board in boards) {
-    board_pins <- board_pin_find(board = board, text, name = name, extended = extended, ...)
-
-    if (identical(extended, TRUE)) {
-      ext_df <- tryCatch(
-        paste("[", paste(board_pins$metadata, collapse = ","), "]") %>% jsonlite::fromJSON(),
-        error = function(e) NULL)
-
-      if (is.data.frame(ext_df) && nrow(board_pins) == nrow(ext_df)) {
-        ext_df <- ext_df[, !names(ext_df) %in% colnames(board_pins)]
-        board_pins <- cbind(board_pins, ext_df)
-      }
-    }
-
-    if (nrow(board_pins) > 0) {
-      board_pins$board <- rep(board$name, nrow(board_pins))
-
-      all_pins <- pin_results_merge(all_pins, board_pins, identical(extended, TRUE))
-    }
-  }
-
-  if (!is.null(text)) {
-    find_names <- grepl(text, all_pins$name, ignore.case = TRUE)
-    find_description <- if (is.null(all_pins$description)) FALSE else grepl(text, all_pins$description, ignore.case = TRUE)
-    all_pins <- all_pins[find_names | find_description,]
-  }
-
-  if (!metadata) {
-    all_pins <- all_pins[, names(all_pins) != "metadata"]
-  }
-
-  if (!is.null(name)) {
-    all_pins <- all_pins[grepl(paste0("(.*/)?", name, "$"), all_pins$name),]
-    if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
-  }
-
-  # sort pin results by name
-  all_pins <- all_pins[order(all_pins$name), ]
-
-  format_tibble(all_pins)
-}
-
-
 #' @rdname custom-pins
-#' @keywords internal
 #' @export
 pin_preview <- function(x, board = NULL, ...) {
   UseMethod("pin_preview")
 }
 
 #' @rdname custom-pins
-#' @keywords internal
 #' @export
 pin_load <- function(path, ...) {
   UseMethod("pin_load")
 }
 
-pin_files <- function(name, board = NULL, ...) {
-  entry <- pin_find(name = name, board = board, metadata = TRUE)
-
-  if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
-  metadata <- jsonlite::fromJSON(as.list(entry)$metadata)
-
-  metadata$path
-}
-
-pin_get_one <- function(name, board, extended, metadata) {
-  # first ensure there is always one pin since metadata with multiple entries can fail
-  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
-
-  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
-  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
-
-  board <- entry$board
-  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
-
-  entry
-}
-
-#' Pin Info
-#'
-#' Retrieve information for a given pin.
-#'
-#' @param name The exact name of the pin to match when searching.
-#' @param board The board name used to find the pin.
-#' @param extended Should additional board-specific information be shown?
-#' @param metadata Should additional pin-specific information be shown?
-#' @param signature Should a signature to identify this pin be shown?
-#' @param ... Additional parameters.
-#'
-#' @examples
-#' library(pins)
-#'
-#' # define local board
-#' board_register_local(cache = tempfile())
-#'
-#' # cache the mtcars dataset
-#' pin(mtcars)
-#'
-#' # print pin information
-#' pin_info("mtcars")
-#'
-#' @export
-pin_info <- function(name,
-                     board = NULL,
-                     extended = TRUE,
-                     metadata = TRUE,
-                     signature = FALSE,
-                     ...) {
-  entry <- pin_get_one(name, board, extended, metadata)
-
-  board <- entry$board
-
-  metadata <- list()
-  if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
-    metadata <- jsonlite::fromJSON(entry$metadata, simplifyDataFrame = FALSE)
-  }
-
-  if (signature) {
-    files <- pin_get(name, board = board, files = TRUE)
-    entry[["signature"]] <- pin_version_signature(files)
-  }
-
-  entry_ext <- as.list(entry)
-  entry_ext$metadata <- NULL
-
-  entry_ext <- Filter(function(e) !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0, entry_ext)
-
-  for (name in names(metadata)) {
-    entry_ext[[name]] <- metadata[[name]]
-  }
-
-  structure(entry_ext, class = "pin_info")
-}
-
-#' @keywords internal
-#' @export
-print.pin_info <- function(x, ...) {
-  info <- x
-
-  cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
-  if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
-  if (!is.null(info$signature)) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
-
-  info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
-
-  if (length(names(info)) > 0) {
-    cat(crayon::silver(paste0("# Properties:", "\n")))
-
-    for (i in names(info)) {
-      entry <- info[[i]]
-      if ((is.list(entry) && length(entry) == 0) ||
-          (is.character(entry) && identical(nchar(entry), 0L)) ||
-          identical(i, "path")) {
-        info[[i]] <- NULL
-      }
-    }
-
-    yaml_str <- yaml::as.yaml(info) %>%
-      strsplit("\n") %>%
-      sapply(function(e) paste("#  ", e)) %>%
-      paste0(collapse = "\n")
-    cat(crayon::silver(yaml_str))
-  }
-}
-
 #' @rdname custom-pins
-#' @keywords internal
 #' @export
 pin_fetch <- function(path, ...) {
   UseMethod("pin_fetch")
 }
 
-#' Pin Versions
+#' Custom Pins
 #'
-#' Retrieve versions available for a given pin.
+#' Family of functions meant to be used to implement custom pin extensions, not to be used by users.
 #'
-#' @param name The exact name of the pin to match when searching.
-#' @param board The board name used to find the pin.
-#' @param full Should the full versioned paths be shown? Defaults to `FALSE`.
-#' @param ... Additional parameters.
+#' @param board The board to extended, retrieved with `board_get()`.
+#' @param name The name of the pin.
+#' @param path The path to store.
+#' @param description The text patteren to find a pin.
+#' @param type The type of pin being stored.
+#' @param metadata A list containing additional metadata describing the pin.
+#' @param retrieve Should the pin be retrieved after being created? Defaults to `TRUE`.
+#' @param ... Additional parameteres.
+#' @keywords internal
 #'
-#' @examples
-#' library(pins)
-#'
-#' # define local board with versioning enabled
-#' board_register_local(cache = tempfile(), versions = TRUE)
-#'
-#' # cache the mtcars dataset
-#' pin(mtcars, name = "mtcars")
-#'
-#' # cache variation of the mtcars dataset
-#' pin(mtcars * 10, name = "mtcars")
-#'
-#' # print the mtcars versions
-#' versions <- pin_versions("mtcars") %>% print()
-#'
-#' # retrieve the original version
-#' pin_get("mtcars", version = versions$version[1])
-#'
-#' # retrieve the variation version
-#' pin_get("mtcars", version = versions$version[2])
 #' @export
-pin_versions <- function(name, board = NULL, full = FALSE, ...) {
-  versions <- board_pin_versions(board_get(board), name)
+#' @rdname custom-pins
+board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, retrieve = TRUE, ...) {
+  board <- board_get(board)
+  if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
+  pin_log("Storing ", name, " into board ", board$name, " with type ", type)
+  custom_metadata <- list(...)$custom_metadata
+  zip <- list(...)$zip
 
-  if (!full) {
-    versions$version <- board_versions_shorten(versions$version)
+  if (identical(list(...)$cache, FALSE)) pin_register_reset_cache(board, name)
+
+  path <- path[!grepl("data\\.txt", path)]
+
+  store_path <- tempfile()
+  dir.create(store_path)
+  on.exit(unlink(store_path, recursive = TRUE))
+
+  if (length(path) == 1 && grepl("^http", path) && !grepl("\\.[a-z]{2,4}$", path) && getOption("pins.search.datatxt", TRUE)) {
+    # attempt to download data.txt to enable public access to boards like rsconnect
+    datatxt_path <- file.path(path, "data.txt")
+    local_path <- pin_download(datatxt_path, name, board_default(), can_fail = TRUE)
+    if (!is.null(local_path)) {
+      manifest <- tryCatch(pin_manifest_get(local_path), error = function(e) { unlink(file.path(local_path, "data.txt")) ; NULL })
+      if (!is.null(manifest) && !is.null(manifest$path)) {
+        path <- paste(path, manifest$path, sep = "/")
+        extract <- FALSE
+      }
+    }
   }
 
-  format_tibble(versions)
+  if (identical(zip, TRUE)) {
+    find_common_path <- function(path) {
+      common <- path[1]
+      if (all(startsWith(path, common)) || identical(common, dirname(common))) return(common)
+      return(force(find_common_path(dirname(common[1]))))
+    }
+
+    common_path <- find_common_path(path)
+    withr::with_dir(common_path, {
+      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path), flags="-q")
+    })
+
+    something_changed <- TRUE
+  }
+  else {
+    something_changed <- FALSE
+    for (single_path in path) {
+      details <- as.environment(list(something_changed = TRUE))
+      if (grepl("^http", single_path)) {
+        single_path <- pin_download(single_path,
+                                    name,
+                                    board_default(),
+                                    extract = extract,
+                                    details = details,
+                                    can_fail = TRUE,
+                                    ...)
+        if (!is.null(details$error)) {
+          cached_result <- tryCatch(pin_get(name, board = board_default()), error = function(e) NULL)
+          if (is.null(cached_result)) stop(details$error) else warning(details$error)
+          return(cached_result)
+        }
+      }
+
+      if (details$something_changed) {
+        copy_or_link <- function(from, to) {
+          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8) && .Platform$OS.type != "windows")
+            fs::link_create(from, file.path(to, basename(from)))
+          else
+            file.copy(from, to, recursive = TRUE)
+        }
+
+        if (dir.exists(single_path)) {
+          for (entry in dir(single_path, full.names = TRUE)) {
+            copy_or_link(entry, store_path)
+          }
+        }
+        else {
+          copy_or_link(single_path, store_path)
+        }
+
+        something_changed <- TRUE
+      }
+    }
+  }
+
+  if (something_changed) {
+    if (!pin_manifest_exists(store_path)) {
+      metadata$description <- description
+      metadata$type <- type
+
+      metadata <- pins_merge_custom_metadata(metadata, custom_metadata)
+
+      pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
+
+      for (metaname in names(metadata)) {
+        # see issues/127 which requires encoding to prevent windows crashes
+        if (is.character(metadata[metaname])) {
+          metadata[metaname] <- enc2utf8(metadata[metaname])
+        }
+      }
+    }
+
+    board_pin_create(board, store_path, name = name, metadata = metadata, ...)
+
+    ui_viewer_updated(board)
+  }
+
+  if (retrieve) {
+    invisible(pin_get(name, board, ...))
+  } else {
+    invisible(NULL)
+  }
 }
+
+
+# default -----------------------------------------------------------------
+
+#' @keywords internal
+#' @export
+pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  if (is.null(name)) name <- pin_default_name(deparse(substitute(x)), board)
+
+  path <- tempfile()
+  dir.create(path)
+  on.exit(unlink(path))
+
+  saveRDS(x, file.path(path, "data.rds"), version = 2)
+
+  board_pin_store(board, path, name, description, "default", list(), ...)
+}
+
+#' @keywords internal
+#' @export
+pin_load.default <- function(path, ...) {
+  result <- readRDS(file.path(path, "data.rds"))
+
+  # TODO: figure out why this is needed; can probably remove
+  if ("AsIs" %in% class(result)) {
+    class(result) <- class(result)[class(result) != "AsIs"]
+  }
+
+  result
+}
+
+#' @keywords internal
+#' @export
+pin_preview.default <- function(x, board = NULL, ...) {
+  x
+}
+
+#' @keywords internal
+#' @export
+pin_fetch.default <- function(path, ...) {
+  path
+}
+
+
+# data.frame --------------------------------------------------------------
+
+#' @keywords internal
+#' @export
+pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+
+  # Used to avoid mutation in pins_save_csv
+  if ("data.table" %in% class(x)) {
+    return(
+      pin.default(x, name = name, description = description, board = board, ...)
+    )
+  }
+
+  if (is.null(name)) name <- pin_default_name(deparse(substitute(x)), board)
+
+  path <- tempfile()
+  dir.create(path)
+  on.exit(unlink(path))
+
+  saveRDS(x, file.path(path, "data.rds"), version = 2)
+  pins_safe_csv(x, file.path(path, "data.csv"))
+
+  metadata <- list(
+    rows = nrow(x),
+    cols = ncol(x),
+    columns = lapply(x, function(e) class(e)[[1]])
+  )
+  board_pin_store(board, path, name, description, "table", metadata,...)
+}
+
+pins_safe_csv <- function(x, name) {
+  tryCatch({
+    pins_save_csv(x, name)
+  }, error = function(e) {
+    warning("Failed to save data frame as CSV file")
+  })
+}
+
+pins_save_csv <- function(x, name) {
+  supported_columns <- c(
+    "character",
+    "numeric",
+    "integer",
+    "Date",
+    "POSIXlt",
+    "logical",
+    "raw"
+  )
+
+  x_class <- unname(sapply(x, function(e) class(e)[[1]]))
+  unsupported_columns <- which(!x_class %in% supported_columns)
+  for (col_idx in unsupported_columns) {
+    x[[col_idx]] <- as.character(x[[col_idx]])
+  }
+
+  utils::write.csv(x, name, row.names = FALSE)
+}
+
+#' @keywords internal
+#' @export
+pin_load.table <- function(path, ...) {
+  rds <- file.path(path, "data.rds")
+  csv <- file.path(path, "data.csv")
+
+  if (file.exists(rds)) result <- readRDS(rds)
+  else if (file.exists(csv)) result <- utils::read.csv(csv, stringsAsFactors = FALSE)
+  else stop("A 'table' pin requires CSV or RDS files.")
+
+  format_tibble(result)
+}
+
+#' @keywords internal
+#' @export
+pin_fetch.table <- function(path, ...) {
+  rds_match <- grepl(".*.rds", path)
+  fetch_all <- identical(getOption("pins.fetch", "auto"), "all")
+  if (any(rds_match) && !fetch_all) path[rds_match] else path
+}
+
+#' @keywords internal
+#' @export
+pin_preview.data.frame <- function(x, board = NULL, ...) {
+  utils::head(x, n = getOption("pins.preview", 10^3))
+}
+
+# files -------------------------------------------------------------------
+
+#' @keywords internal
+#' @export
+pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  extension <- if (length(x) > 1) "zip" else tools::file_ext(x)
+  board_pin_store(board, x, name, description, "files", list(extension = extension), ...)
+}
+
+#' @export
+pin_load.files <- function(path, ...) {
+  files <- dir(path, recursive = TRUE, full.names = TRUE)
+
+  result <- files[!grepl("data\\.txt$", files)]
+
+  format_tibble(result)
+}
+
+#' @keywords internal
+#' @export
+pin_preview.files <- function(x, board = NULL, ...) {
+  data.frame(
+    files = x,
+    stringsAsFactors = FALSE
+  )
+}
+
+
+# asis --------------------------------------------------------------------
+
+
+#' @keywords internal
+#' @export
+pin.AsIs <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  pin.default(x = x, name = name, description = description, board = board, ...)
+}
+
+
+# package -----------------------------------------------------------------
+
+#' @keywords internal
+#' @export
+pin_load.package <- function(path, ...) {
+  files <- dir(path, full.names = TRUE)
+  files <- files[!grepl("data\\.txt$", files)]
+
+  result <- get(load(files))
+
+  format_tibble(result)
+}
+
+
+# helpers -----------------------------------------------------------------
+
 
 #' Create Pin Name
 #'
@@ -482,3 +416,43 @@ pin_default_name <- function(x, board) {
   sanitized
 }
 
+
+pins_merge_custom_metadata <- function(metadata, custom_metadata) {
+  fixed_fields <- c("rows",
+                    "cols",
+                    "name",
+                    "description")
+
+  for (entry in names(custom_metadata)) {
+    if (identical(entry, "columns")) {
+      fixed_columnn_fields <- c("name", "type")
+
+      # convert to list of columns
+      if (is.vector(metadata$columns)) {
+        metadata$columns <- lapply(seq_along(metadata$columns), function(e) list(name = names(metadata$columns)[[e]], type = metadata$columns[[e]]))
+      }
+
+      if (is.data.frame(custom_metadata$columns)) {
+        custom_metadata$columns <- custom_metadata$columns %>%
+          jsonlite::toJSON() %>% jsonlite::fromJSON(simplifyDataFrame = FALSE)
+      }
+
+      for (column in custom_metadata$columns) {
+        found_idx <- Filter(function(e) identical(metadata$columns[[e]]$name, column$name), seq_along(metadata$columns))
+
+        if (identical(length(found_idx), 1L)) {
+          for (field_name in names(column)) {
+            if (!field_name %in% fixed_columnn_fields) {
+              metadata$columns[[found_idx]][[field_name]] <- column[[field_name]]
+            }
+          }
+        }
+      }
+    }
+    else if (!entry %in% fixed_fields) {
+      metadata[[entry]] <- custom_metadata[[entry]]
+    }
+  }
+
+  metadata
+}
