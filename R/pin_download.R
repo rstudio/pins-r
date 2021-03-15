@@ -1,3 +1,12 @@
+pin_download <- function(path, ...) {
+  for (p in path) {
+    if (length(path) > 1) pin_log("Downloading ", p, " from ", length(path), " downloads.")
+    local_path <- pin_download_one(p, ...)
+  }
+
+  local_path
+}
+
 pin_download_one <- function(path,
                              name,
                              board,
@@ -154,15 +163,6 @@ pin_download_one <- function(path,
     cache = new_cache
   )
   pin_registry_update(board, name, metadata)
-
-  local_path
-}
-
-pin_download <- function(path, ...) {
-  for (p in path) {
-    if (length(path) > 1) pin_log("Downloading ", p, " from ", length(path), " downloads.")
-    local_path <- pin_download_one(p, ...)
-  }
 
   local_path
 }
