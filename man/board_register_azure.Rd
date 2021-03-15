@@ -28,14 +28,12 @@ board_azure(
 \item{name}{Board name, used to identify board in actions that affect
 multiple boards.}
 
-\item{container}{The name of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_CONTAINER} environment
-variable.}
+\item{container}{The name of the Azure Storage container.}
 
-\item{account}{The account of the Azure Storage container. Defaults to the \code{AZURE_STORAGE_ACCOUNT} environment
-variable.}
+\item{account}{The name of the Azure Storage account.}
 
-\item{key}{The key of the Azure Storage container Defaults to the \code{AZURE_STORAGE_KEY} environment
-variable.}
+\item{key}{The access key for the Azure Storage container. You can find
+this under "Access keys" in your storage account settings.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
@@ -44,12 +42,9 @@ variable.}
 \item{...}{Additional parameters stored in the board object.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register a Microsoft Azure Storage Blob as a board.
-}
-\details{
-This function requires an Azure Storage container to be manually created; otherwise,
-registering an Azire board will fail.
+To use Microsoft Azure Storage as a board, you'll need an Azure Storage
+account, an Azure Storage container, and an Azure Storage key.
+You can sign-up and create those at \href{https://portal.azure.com}{portal.azure.com}.
 }
 \examples{
 \dontrun{
