@@ -29,7 +29,13 @@ multiple boards.}
 \item{bucket}{The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
 variable.}
 
-\item{token}{The access token of the Google Cloud Storage container. Defaults to use the Google Cloud SDK if configured.}
+\item{token}{The access token of the Google Cloud Storage container.
+Generally, it's best to leave this as \code{NULL}, and rely on the installed
+Google Cloud SDK to handle authentication.
+
+If you do want to use an access token, you can retrieve it from
+\url{https://developers.google.com/oauthplayground}. You will need to
+authorize the "Google Storage API v1" scope.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
@@ -38,12 +44,11 @@ variable.}
 \item{...}{Additional parameters stored in the board object.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register a Google Cloud Storage container as a board.
-}
-\details{
-This function requires a Google Cloud Storage container to be manually created; otherwise,
-registering a Google Cloud board will fail.
+To use a Google Cloud Storage board, you first need a Google Cloud Storage
+account, a Google Storage bucket, and an access token or the
+\href{https://cloud.google.com/sdk/}{Google Cloud SDK} properly installed and
+configured. You can sign-up and create these from
+\url{https://console.cloud.google.com}
 }
 \examples{
 \dontrun{
@@ -54,3 +59,4 @@ board_register_gcloud(container = "gcloudcontainer")
 \seealso{
 board_register
 }
+\keyword{internal}

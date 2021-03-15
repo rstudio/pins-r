@@ -1,21 +1,21 @@
 #' Register Azure Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register a Microsoft Azure Storage Blob as a board.
+#' @description
+#' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
+#' account, an Azure Storage container, and an Azure Storage key.
+#' You can sign-up and create those at [portal.azure.com](https://portal.azure.com).
 #'
 #' @inheritParams board_register_datatxt
-#' @param container The name of the Azure Storage container. Defaults to the `AZURE_STORAGE_CONTAINER` environment
-#'   variable.
-#' @param account The account of the Azure Storage container. Defaults to the `AZURE_STORAGE_ACCOUNT` environment
-#'   variable.
-#' @param key The key of the Azure Storage container Defaults to the `AZURE_STORAGE_KEY` environment
-#'   variable.
+#' @param container The name of the Azure Storage container.
+#' @param account The name of the Azure Storage account.
+#' @param key The access key for the Azure Storage container. You can find
+#'  this under "Access keys" in your storage account settings.
 #'
-#' @details
-#'
-#' This function requires an Azure Storage container to be manually created; otherwise,
-#' registering an Azire board will fail.
-#'
+#'  The `key` is equivalent to a password, so generally should not be stored
+#'  in your script. The easiest alternative is to store it in the
+#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
+#'  use by default.
+#' @family boards
 #' @seealso board_register
 #'
 #' @examples

@@ -1,22 +1,34 @@
 #' Register Kaggle Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register Kaggle as a board.
+#' To use a Kaggle board, you need to first download a token file from
+#' <https://www.kaggle.com/me/account>.
+#'
+#' # Sharing
+#'
+#' When working in teams, you might want to share your pins with others. For
+#' You can do by adding users or making the dataset public on Kaggle's website.
+#'
+#' Once you share with specific users, they can follow the same steps to
+#' register a Kaggle board which allows them to download and upload pins
 #'
 #' @param name Optional name for this board, defaults to 'kaggle'.
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
+#' @keywords internal
 #'
 #' @seealso board_register
-#'
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token
 #' board_register_kaggle(token = "path/to/kaggle.json")
-#' }
 #'
+#' pin_find("crowdflower", board = "kaggle")
+#'
+#' # names starting with c/ are competitions
+#' pin_get("c/crowdflower-weather-twitter", board = "kaggle")
+#' }
 #' @export
 board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,

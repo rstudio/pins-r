@@ -41,9 +41,67 @@ board_rsconnect(
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register RStudio Connecet as a board.
+To use a RStudio Connect board, you need to first authenticate. The easiest
+way to do so is by launching \strong{Tools} - \strong{Global Options} - \strong{Publishing}
+\itemize{
+\item \strong{Connect}, and follow the instructions.
 }
+
+If you use multiple RStudio connect servers or multiple user accounts,
+you'll need to specify the \code{server} or \code{account} parameters when connecting
+to the board.
+}
+\section{Sharing}{
+You can share pins with others in RStudio Connect by changing the viewers
+of the document to specific users or groups. This is accomplished by opening
+the new published pin and then changing access under the settings tab.
+After you've shared the pin, it will be automatically available to others.
+}
+
+\section{Public}{
+You can also choose to share a pin publicly and avoid having to register
+the RStudio Connect board to retrieve this pin.
+
+To create a public pin, first publish a pin and navigate to RStudio Connect;
+then set the "Access" to "Anyone - no login required" -- The pin will become
+public and accessible to anyone using their content URL. The remote resource
+stored in RStudio Connect can then be cached locally with \code{pin()} as follows:\if{html}{\out{<div class="r">}}\preformatted{pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content")
+}\if{html}{\out{</div>}}
+
+To avoid having to change the "Access" manually, you can also set the
+\code{access_type} to \code{acl}, \code{loggend_in} or \code{all} when creating a pin:\if{html}{\out{<div class="r">}}\preformatted{ pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content",
+   access_type = "all"
+ )
+}\if{html}{\out{</div>}}
+}
+
+\section{Automation}{
+One significant advantage of RStudio Connect over other boards is its
+ability to schedule R Markdown reports to automate the creation of pins.
+
+To support automation you need to use an \href{https://docs.rstudio.com/connect/user/api-keys/}{RStudio Connect API Key} as your authentication method. Once you've got an
+API key, you can connect to the board with:\if{html}{\out{<div class="r">}}\preformatted{board_register_rsconnect(
+  server = "https://rstudio-connect-server",
+  key = Sys.getenv("CONNECT_API_KEY"),
+)
+}\if{html}{\out{</div>}}
+
+Note the use of an environment variable to ensure that the API key is
+not stored in plain text in the document.
+}
+
+\section{Customizing}{
+A pin is displayed in RStudio Connect with an auto-generated page showcasing
+instructions for getting the pin and a preview of the dataset, this page can
+be customized as follows:
+\enumerate{
+\item Locate the file with \code{system.file("views/data/index.html", package = "pins")}
+\item Copy the file to a new location and make any changes to it.
+\item Set the file path as an option using \verb{Sys.setenv(RSCONNECT_HTML_PATH = <your index>)}.
+\item Pin a dataset normally.
+}
+}
+
 \examples{
 \dontrun{
 # the following examples require an RStudio Connect API key
@@ -65,4 +123,11 @@ board_register_rsconnect(key = Sys.getenv("CONNECT_API_KEY"),
 }
 \seealso{
 board_register
+
+Other boards: 
+\code{\link{board_register_azure}()},
+\code{\link{board_register_github}()},
+\code{\link{board_register_local}()},
+\code{\link{board_register_s3}()}
 }
+\concept{boards}

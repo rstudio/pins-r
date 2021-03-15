@@ -31,35 +31,32 @@ board_s3(
 \item{name}{Board name, used to identify board in actions that affect
 multiple boards.}
 
-\item{bucket}{The name of the Amazon S3 bucket. Defaults to the \code{AWS_BUCKET} environment
-variable.}
+\item{bucket}{The name of the Amazon S3 bucket.}
 
-\item{key}{The key of the Amazon S3 bucket. Defaults to the \code{AWS_ACCESS_KEY_ID} environment
-variable.}
+\item{key, secret}{The key and secret for your space. You can create
+a key and secret in the "Spaces access keys" in your API settings.
 
-\item{secret}{The secret of the Amazon S3 bucket. Defaults to the \code{AWS_SECRET_ACCESS_KEY} environment
-variable.}
+The \code{secret} is equivalent to a password, so generally should not be stored
+in your script. The easiest alternative is to store it in the
+\code{AWS_SECRET_ACCESS_KEY} environment variable, which \code{board_s3()} will
+use by default.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
 \item{host}{The host to use for storage, defaults to \code{"s3.amazonaws.com"}.}
 
-\item{region}{The region to use, required in some AWS regions and to enable V4 signatures.}
+\item{region}{The region to use, required in some AWS regions and to
+enable V4 signatures.}
 
 \item{path}{Subdirectory within \code{url}}
 
 \item{...}{Additional parameters stored in the board object.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register an Amazon S3 bucket as a board.
-}
-\details{
-This function requires an Amazon S3 bucket to be manually created; otherwise,
-registering an S3 board will fail.
-
-When the \code{region} parameter is not specified, \code{pins} defaults to using AWS V2 signatures;
-therefore, it is recommended to specify the region to ensure \code{pins} makes use of AWS V4 signatures.
+To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
+with enough permissions to access the S3 bucket. You can sign-up and create
+those at \url{https://aws.amazon.com/}. Note that it can take a few minutes
+after you've created it before a bucket is usable.
 }
 \examples{
 \dontrun{
@@ -69,4 +66,11 @@ board_register_s3(bucket = "s3bucket")
 }
 \seealso{
 board_register
+
+Other boards: 
+\code{\link{board_register_azure}()},
+\code{\link{board_register_github}()},
+\code{\link{board_register_local}()},
+\code{\link{board_register_rsconnect}()}
 }
+\concept{boards}

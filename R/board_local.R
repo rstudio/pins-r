@@ -7,6 +7,7 @@
 #' @param cache The folder where pins will be read/written.
 #'
 #' @seealso board_register
+#' @family boards
 #'
 #' @examples
 #' # register local board using a temp folder

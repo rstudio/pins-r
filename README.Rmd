@@ -33,8 +33,7 @@ You can use the `pins` package to:
 
 - **Pin** remote resources locally with `pin()`, work offline and cache results.
 - **Discover** new resources across different boards using `pin_find()`.
-- **Share** resources in local folders, GitHub, Kaggle, and RStudio Connect by 
-  registering new boards with `board_register()`.
+- **Share** resources in local folders, with RStudio Connect, on S3, and more.
 
 ## Installation 
 
@@ -90,7 +89,7 @@ There are two main ways to pin a resource:
 
 ### Discover
 
-You can also discover remote resources using `pin_find()`. It can search for resources in CRAN packages, Kaggle, and RStudio Connect. For instance, we can search datasets mentioning "seattle" in CRAN packages with:
+You can also discover remote resources using `pin_find()` which searches any registered boards. For instance, we can search datasets mentioning "seattle" in CRAN packages with:
 
 ```{r}
 pin_find("seattle", board = "packages")
@@ -100,19 +99,26 @@ Notice that the full name of a pin is `<owner>/<name>`. This namespacing allows 
 
 You can then retrieve a pin through `pin_get()`:
 
-```{r}
-seattle_sales <- pin_get("hpiR/seattle_sales") %>% print()
+```{r, eval = FALSE}
+seattle_sales <- pin_get("hpiR/seattle_sales")
+seattle_sales
 ```
 
 Or explore additional properties in this pin with `pin_info()`:
 
-```{r}
+```{r, eval = FALSE}
 pin_info("hpiR/seattle_sales")
 ```
 
 ### Share
 
-Finally, you can share resources with other users by publishing to [Kaggle](https://pins.rstudio.com/articles/boards-kaggle.html), [GitHub](https://pins.rstudio.com/articles/boards-github.html), [RStudio Connect](https://pins.rstudio.com/articles/boards-rsconnect.html), [Azure](https://pins.rstudio.com/articles/boards-azure.html), [Google Cloud](https://pins.rstudio.com/articles/boards-gcloud.html), [S3](https://pins.rstudio.com/articles/boards-s3.html), [DigitalOcean](https://pins.rstudio.com/articles/boards-dospace.html) or integrate them into your [website](https://pins.rstudio.com/articles/boards-websites.html) as well.
+You can share resources with others by publishing to:
+
+* Shared folders, `board_local()`.
+* GitHub, `board_github()`.
+* RStudio Connect, `board_rsconnect()`
+* Azure, `board_azure()`
+* S3, `board_s3()`
 
 To publish to Kaggle, you would first need to register the Kaggle board by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
 
@@ -154,10 +160,9 @@ To **discover** remote resources, simply expand the "Addins" menu and select "Fi
 
 You can then **share** local resources using the RStudio Connect board. Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this further and then pin our results in RStudio Connect.
 
-```{r}
+```{r, eval = FALSE}
 board_register_rsconnect(name = "myrsc")
-```
-```{r}
+
 seattle_sales %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%

@@ -38,28 +38,31 @@ board_github(
 
 \item{path}{The subdirectory in the repo where the pins will be stored.}
 
-\item{host}{The URL hosting the GitHub API, defaults to \code{"https://api.github.com"}.}
+\item{host}{The URL of the GitHub API. You'll need to customise
+this to use GitHub enterprise, e.g. \code{"https://yourhostname/api/v3"}.}
 
 \item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register a GitHub repo as a board.
+To use a GitHub board, you'll need to set up authentication. This is likely
+to just work if you already use GitHub for other purposes since pins will
+inspect your  \code{GITHUB_PAT} environment variable. Otherwise, you can follow
+the instructions at \url{https://happygitwithr.com/credential-caching.html} to
+get set up.
 }
-\details{
-This function requires a GitHub repo to be manually created; otherwise,
-registering a GitHub board will fail.
-
-When a file upload exceeds 25MB, a GitHub release file will be used since
-they support up to 2GB file uploads. This threshold can be configured through
-the \code{pins.github.release} option which is specified in megabytes and
-defaults to \code{25}.
-
-When using GitHub Enterprise, consider customizing the \code{host} parameter to
-\code{"https://yourhostname/api/v3"}.
+\section{Large Files}{
+A GitHub repo only supports files under 25MB in size (100MB in theory but
+there is additional overhead when using the GitHub API). To store large
+files, GitHub
+\href{https://help.github.com/en/articles/distributing-large-binaries}{recommends}
+storing them using GitHub Releases which support up to 2GB files, which
+is what pins uses. You don't need to do anything extra as this will happen
+behind the scenes, but don't be surprised if pins creates releases in your
+repo.
 }
+
 \examples{
 \dontrun{
 # the following example requires a GitHub API key
@@ -68,4 +71,11 @@ board_register_github(repo = "owner/repo")
 }
 \seealso{
 board_register
+
+Other boards: 
+\code{\link{board_register_azure}()},
+\code{\link{board_register_local}()},
+\code{\link{board_register_rsconnect}()},
+\code{\link{board_register_s3}()}
 }
+\concept{boards}

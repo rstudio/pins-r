@@ -6,7 +6,8 @@ pins: Pin, Discover and Share Resources
 [![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
-[![Codecov test coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+[![Codecov test
+coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
 <!-- badges: end -->
 
 ## Overview
@@ -19,8 +20,8 @@ You can use the `pins` package to:
     cache results.
 -   **Discover** new resources across different boards using
     `pin_find()`.
--   **Share** resources in local folders, GitHub, Kaggle, and RStudio
-    Connect by registering new boards with `board_register()`.
+-   **Share** resources in local folders, with RStudio Connect, on S3,
+    and more.
 
 ## Installation
 
@@ -92,10 +93,9 @@ There are two main ways to pin a resource:
 
 ### Discover
 
-You can also discover remote resources using `pin_find()`. It can search
-for resources in CRAN packages, Kaggle, and RStudio Connect. For
-instance, we can search datasets mentioning “seattle” in CRAN packages
-with:
+You can also discover remote resources using `pin_find()` which searches
+any registered boards. For instance, we can search datasets mentioning
+“seattle” in CRAN packages with:
 
 ``` r
 pin_find("seattle", board = "packages")
@@ -116,48 +116,25 @@ allows multiple people (or packages) to create pins with the same name.
 You can then retrieve a pin through `pin_get()`:
 
 ``` r
-seattle_sales <- pin_get("hpiR/seattle_sales") %>% print()
-#> # A tibble: 43,313 x 16
-#>    pinx    sale_id  sale_price sale_date  use_type  area lot_sf  wfnt bldg_grade
-#>    <chr>   <chr>         <int> <date>     <chr>    <int>  <int> <dbl>      <int>
-#>  1 ..0001… 2013..2…     289000 2013-02-06 sfr         79   9295     0          7
-#>  2 ..0001… 2013..2…     356000 2013-07-11 sfr         18   6000     0          6
-#>  3 ..0001… 2010..2…     333500 2010-12-29 sfr         79   7200     0          8
-#>  4 ..0001… 2016..6…     577200 2016-03-17 sfr         79   7200     0          8
-#>  5 ..0001… 2012..9…     237000 2012-05-02 sfr         79   5662     0          7
-#>  6 ..0001… 2014..5…     347500 2014-03-11 sfr         79   5830     0          7
-#>  7 ..0001… 2012..2…     429000 2012-09-20 sfr         18  12700     0          7
-#>  8 ..0003… 2015..2…     653295 2015-07-21 sfr         79   7000     0          7
-#>  9 ..0003… 2014..4…     427650 2014-02-19 townhou…    79   3072     0          7
-#> 10 ..0003… 2015..6…     488737 2015-03-19 townhou…    79   3072     0          7
-#> # … with 43,303 more rows, and 7 more variables: tot_sf <int>, beds <int>,
-#> #   baths <dbl>, age <int>, eff_age <int>, longitude <dbl>, latitude <dbl>
+seattle_sales <- pin_get("hpiR/seattle_sales")
+seattle_sales
 ```
 
 Or explore additional properties in this pin with `pin_info()`:
 
 ``` r
 pin_info("hpiR/seattle_sales")
-#> # Source: packages<hpiR/seattle_sales> [table]
-#> # Description: Seattle Home Sales from hpiR package.
-#> # Properties:
-#> #   rows: 43313
-#> #   cols: 16
 ```
 
 ### Share
 
-Finally, you can share resources with other users by publishing to
-[Kaggle](https://pins.rstudio.com/articles/boards-kaggle.html),
-[GitHub](https://pins.rstudio.com/articles/boards-github.html), [RStudio
-Connect](https://pins.rstudio.com/articles/boards-rsconnect.html),
-[Azure](https://pins.rstudio.com/articles/boards-azure.html), [Google
-Cloud](https://pins.rstudio.com/articles/boards-gcloud.html),
-[S3](https://pins.rstudio.com/articles/boards-s3.html),
-[DigitalOcean](https://pins.rstudio.com/articles/boards-dospace.html) or
-integrate them into your
-[website](https://pins.rstudio.com/articles/boards-websites.html) as
-well.
+You can share resources with others by publishing to:
+
+-   Shared folders, `board_local()`.
+-   GitHub, `board_github()`.
+-   RStudio Connect, `board_rsconnect()`
+-   Azure, `board_azure()`
+-   S3, `board_s3()`
 
 To publish to Kaggle, you would first need to register the Kaggle board
 by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
@@ -215,9 +192,7 @@ further and then pin our results in RStudio Connect.
 
 ``` r
 board_register_rsconnect(name = "myrsc")
-```
 
-``` r
 seattle_sales %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
