@@ -73,3 +73,4 @@ pin_find(board = "txtexample")
 \seealso{
 board_register
 }
+\keyword{internal}

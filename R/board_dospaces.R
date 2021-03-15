@@ -17,6 +17,7 @@
 #' @param host The host to use for storage, defaults to `"digitaloceanspaces.com"`.
 #'
 #' @seealso board_register
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{

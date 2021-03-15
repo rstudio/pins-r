@@ -66,3 +66,4 @@ board_register_s3(bucket = "s3bucket")
 \seealso{
 board_register
 }
+\keyword{internal}

@@ -17,6 +17,7 @@
 #'   <https://developers.google.com/oauthplayground>. You will need to
 #'   authorize the "Google Storage API v1" scope.
 #' @seealso board_register
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{

@@ -59,3 +59,4 @@ board_register_gcloud(container = "gcloudcontainer")
 \seealso{
 board_register
 }
+\keyword{internal}

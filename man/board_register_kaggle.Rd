@@ -50,3 +50,4 @@ pin_get("c/crowdflower-weather-twitter", board = "kaggle")
 \seealso{
 board_register
 }
+\keyword{internal}

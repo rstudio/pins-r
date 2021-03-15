@@ -16,6 +16,7 @@
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
+#' @keywords internal
 #'
 #' @seealso board_register
 #' @examples

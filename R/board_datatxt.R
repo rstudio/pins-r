@@ -18,7 +18,7 @@
 #'   query string to defeat caching?
 #' @param path Subdirectory within `url`
 #' @param versions Should this board be registered with support for versions?
-#'
+#' @keywords internal
 #' @seealso board_register
 #'
 #' @examples
