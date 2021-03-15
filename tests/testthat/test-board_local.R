@@ -3,7 +3,7 @@ test_that("local board registered by default", {
 })
 
 test_that(paste("can pin() file with auto-generated name in local board"), {
-  b <- board_local(cache = tempfile())
+  b <- local_board_local()
 
   expect_equal(nrow(pin_find(, board = b)), 0)
 
@@ -17,7 +17,7 @@ test_that(paste("can pin() file with auto-generated name in local board"), {
 })
 
 test_that("can remove a local pin", {
-  b <- board_local(cache = tempfile())
+  b <- local_board_local()
 
   pin(mtcars, board = b)
   expect_true(file.exists(pin_registry_path(b, "mtcars")))

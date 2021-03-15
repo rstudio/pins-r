@@ -128,11 +128,3 @@ pin_registry_qualify_name <- function(name, entries) {
 
   name
 }
-
-# testing -----------------------------------------------------------------
-
-local_registry_board <- function(name = "test", env = parent.frame()) {
-  path <- withr::local_tempdir(.local_envir = env)
-  fs::dir_create(path, "test")
-  new_board("test", name, cache = path)
-}
