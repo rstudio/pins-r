@@ -59,11 +59,6 @@ articles:
   - pins-extending
   - boards-extending
 
-- title: Misc
-  contents:
-  - starts_with("board")
-  - pins
-
 navbar:
   components:
     home: ~
