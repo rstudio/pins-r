@@ -25,15 +25,27 @@ be \code{NULL} if the \verb{~/.kaggle/kaggle.json} file already exists.}
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Wrapper with explicit parameters over \code{board_register()} to
-register Kaggle as a board.
+To use a Kaggle board, you need to first download a token file from
+\url{https://www.kaggle.com/me/account}.
 }
+\section{Sharing}{
+When working in teams, you might want to share your pins with others. For
+You can do by adding users or making the dataset public on Kaggle's website.
+
+Once you share with specific users, they can follow the same steps to
+register a Kaggle board which allows them to download and upload pins
+}
+
 \examples{
 \dontrun{
 # the following example requires a Kaggle API token
 board_register_kaggle(token = "path/to/kaggle.json")
-}
 
+pin_find("crowdflower", board = "kaggle")
+
+# names starting with c/ are competitions
+pin_get("c/crowdflower-weather-twitter", board = "kaggle")
+}
 }
 \seealso{
 board_register
