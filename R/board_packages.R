@@ -1,5 +1,4 @@
 board_packages <- function() {
-  # use local board cache to avoid 'board_register("packages", cache = tempfile())' examples
   new_board("packages",
     name = "packges",
     cache = board_cache_path(),
