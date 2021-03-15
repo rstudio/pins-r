@@ -114,3 +114,35 @@ pin_find_empty <- function() {
     stringsAsFactors = FALSE)
 }
 
+pin_split_owner <- function(name) {
+  parts <- strsplit(name, "/")[[1]]
+  list(
+    owner = if (length(parts) > 1) paste(parts[1:length(parts) - 1], collapse = "/") else NULL,
+    name = if (length(parts) > 0) parts[length(parts)] else NULL
+  )
+}
+
+pin_content_name <- function(name) {
+  if (is.character(name)) pin_split_owner(name)$name else name
+}
+
+pin_content_owner <- function(name) {
+  if (is.character(name)) pin_split_owner(name)$owner else NULL
+}
+
+pin_results_merge <- function(r1, r2, merge) {
+  if (nrow(r1) > 0) {
+    col_diff <- setdiff(names(r2), names(r1))
+    if (length(col_diff) > 0) r1[, col_diff] <- ""
+  }
+
+  if (nrow(r2) > 0) {
+    col_diff <- setdiff(names(r1), names(r2))
+    if (length(col_diff) > 0) {
+      r2[, col_diff] <- ""
+      rownames(r2) <- c()
+    }
+  }
+
+  rbind(r1, r2)
+}

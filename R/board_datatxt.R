@@ -482,3 +482,11 @@ local_board_datatxt <- function(..., env = parent.frame()) {
   )
 }
 
+
+# Helpers -----------------------------------------------------------------
+
+
+
+pin_entries_to_dataframe <- function(entries) {
+  jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE))
+}
