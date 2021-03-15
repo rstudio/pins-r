@@ -1,7 +1,21 @@
 #' Register GitHub Board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register a GitHub repo as a board.
+#' To use a GitHub board, you'll need to set up authentication. This is likely
+#' to just work if you already use GitHub for other purposes since pins will
+#' inspect your  `GITHUB_PAT` environment variable. Otherwise, you can follow
+#' the instructions at <https://happygitwithr.com/credential-caching.html> to
+#' get set up.
+#'
+#' # Large Files
+#'
+#' A GitHub repo only supports files under 25MB in size (100MB in theory but
+#' there is additional overhead when using the GitHub API). To store large
+#' files, GitHub
+#' [recommends](https://help.github.com/en/articles/distributing-large-binaries)
+#' storing them using GitHub Releases which support up to 2GB files, which
+#' is what pins uses. You don't need to do anything extra as this will happen
+#' behind the scenes, but don't be surprised if pins creates releases in your
+#' repo.
 #'
 #' @param name Optional name for this board, defaults to 'github'.
 #' @param repo The GitHub repository formatted as 'owner/repo', can be
@@ -9,25 +23,11 @@
 #' @param branch The branch to use to commit pins.
 #' @param token Token to use when `GITHUB_PAT` is not specified.
 #' @param path The subdirectory in the repo where the pins will be stored.
-#' @param host The URL hosting the GitHub API, defaults to `"https://api.github.com"`.
+#' @param host The URL of the GitHub API. You'll need to customise
+#'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
-#'
-#' @details
-#'
-#' This function requires a GitHub repo to be manually created; otherwise,
-#' registering a GitHub board will fail.
-#'
-#' When a file upload exceeds 25MB, a GitHub release file will be used since
-#' they support up to 2GB file uploads. This threshold can be configured through
-#' the `pins.github.release` option which is specified in megabytes and
-#' defaults to `25`.
-#'
-#' When using GitHub Enterprise, consider customizing the `host` parameter to
-#' `"https://yourhostname/api/v3"`.
-#'
 #' @seealso board_register
-#'
 #' @examples
 #' \dontrun{
 #' # the following example requires a GitHub API key
