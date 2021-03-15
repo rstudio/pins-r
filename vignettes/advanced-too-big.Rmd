@@ -2,7 +2,7 @@
 title: "Too Big To Pin"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{TooBig}
+  %\VignetteIndexEntry{Too Big To Pin}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
