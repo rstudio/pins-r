@@ -25,3 +25,28 @@ is_url <- function(x) {
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }
+
+#' Pin Logging
+#'
+#' Log message for diagnosing the `pins` package.
+#'
+#' @param ... Entries to be logged.
+#'
+#' @export
+#' @keywords internal
+pin_log <- function(...) {
+  if (getOption("pins.verbose", FALSE) && !is_testing()) {
+    message(...)
+  }
+}
+
+format_tibble <- function(data) {
+  if (!is.data.frame(data)) return(data)
+
+  if (length(find.package("tibble", quiet = TRUE)) > 0 && !identical(getOption("pins.tibble"), FALSE)) {
+    tibble::as_tibble(data)
+  }
+  else {
+    data
+  }
+}
