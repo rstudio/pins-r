@@ -22,7 +22,7 @@ ggplot2::theme_set(ggplot2::theme_light())
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions)
 [![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
-[![Code Coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins)
+[![Codecov test coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
 <!-- badges: end -->
 
 ## Overview
