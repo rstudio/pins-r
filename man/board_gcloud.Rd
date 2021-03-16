@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_gcloud.R
 \name{board_gcloud}
 \alias{board_gcloud}
-\title{Register Google Cloud Board}
+\title{Use a Google Cloud board}
 \usage{
 board_gcloud(
   name,
@@ -13,8 +13,9 @@ board_gcloud(
 )
 }
 \arguments{
-\item{name}{Board name, used to identify board in actions that affect
-multiple boards.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{bucket}{The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
 variable.}
@@ -27,9 +28,11 @@ If you do want to use an access token, you can retrieve it from
 \url{https://developers.google.com/oauthplayground}. You will need to
 authorize the "Google Storage API v1" scope.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
-\item{...}{Additional parameters stored in the board object.}
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 To use a Google Cloud Storage board, you first need a Google Cloud Storage

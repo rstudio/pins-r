@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_rsconnect.R
 \name{board_rsconnect}
 \alias{board_rsconnect}
-\title{Register RStudio Connect Board}
+\title{Use an RStudio Connect board}
 \usage{
 board_rsconnect(
   name = "rsconnect",
@@ -15,7 +15,9 @@ board_rsconnect(
 )
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 'rsconnect'.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{server}{Optional address to RStudio Connect server.}
 
@@ -23,9 +25,12 @@ board_rsconnect(
 
 \item{key}{The RStudio Connect API key.}
 
-\item{output_files}{Should the output in an automated report create output files?}
+\item{output_files}{Should the output in an automated report create output
+files}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

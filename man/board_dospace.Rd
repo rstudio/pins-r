@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_dospaces.R
 \name{board_dospace}
 \alias{board_dospace}
-\title{Register DigitalOcean Board}
+\title{Use a DigitalOcean board}
 \usage{
 board_dospace(
   name = "dospace",
@@ -16,8 +16,9 @@ board_dospace(
 )
 }
 \arguments{
-\item{name}{Board name, used to identify board in actions that affect
-multiple boards.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{space}{The name of the DigitalOcean space.}
 
@@ -31,11 +32,13 @@ use by default.}
 
 \item{datacenter}{The datacenter name.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
 \item{host}{The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.}
 
-\item{...}{Additional parameters stored in the board object.}
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 To use DigitalOcean Spaces as a \href{boards-understanding.html}{board}, you first

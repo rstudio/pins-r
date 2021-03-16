@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_github.R
 \name{board_github}
 \alias{board_github}
-\title{Register GitHub Board}
+\title{Use a GitHub board}
 \usage{
 board_github(
   name = "github",
@@ -15,7 +15,9 @@ board_github(
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{repo}{The GitHub repository formatted as 'owner/repo', can be
 \code{NULL} if the \code{GITHUB_PAT} environment variable is set.}

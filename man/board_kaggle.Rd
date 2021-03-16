@@ -2,19 +2,13 @@
 % Please edit documentation in R/board_kaggle.R
 \name{board_kaggle}
 \alias{board_kaggle}
-\title{Register Kaggle Board}
+\title{Use a Kaggle board}
 \usage{
 board_kaggle(name, token = NULL, ...)
 }
 \arguments{
-\item{name}{Optional name for this board, defaults to 'kaggle'.}
-
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can
 be \code{NULL} if the \verb{~/.kaggle/kaggle.json} file already exists.}
-
-\item{...}{Additional parameters required to initialize a particular board.}
-
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
 }
 \description{
 To use a Kaggle board, you need to first download a token file from

@@ -1,4 +1,4 @@
-#' Register S3 Board
+#' Use an S3 board
 #'
 #' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 #' with enough permissions to access the S3 bucket. You can sign-up and create

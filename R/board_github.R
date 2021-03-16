@@ -1,4 +1,4 @@
-#' Register GitHub Board
+#' Use a GitHub board
 #'
 #' To use a GitHub board, you'll need to set up authentication. This is likely
 #' to just work if you already use GitHub for other purposes since pins will
@@ -25,7 +25,6 @@
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
-#' @param ... Additional parameters required to initialize a particular board.
 #' @family boards
 #' @examples
 #' \dontrun{

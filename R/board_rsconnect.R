@@ -1,4 +1,4 @@
-#' Register RStudio Connect Board
+#' Use an RStudio Connect board
 #'
 #' @description
 #' To use a RStudio Connect board, you need to first authenticate. The easiest
@@ -68,13 +68,12 @@
 #' 1. Set the file path as an option using `Sys.setenv(RSCONNECT_HTML_PATH = <your index>)`.
 #' 1. Pin a dataset normally.
 #'
-#' @param name Optional name for this board, defaults to 'rsconnect'.
+#' @inheritParams new_board
 #' @param server Optional address to RStudio Connect server.
 #' @param account Optional account name to use with RStudio Connect.
 #' @param key The RStudio Connect API key.
-#' @param output_files Should the output in an automated report create output files?
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
+#' @param output_files Should the output in an automated report create output
+#'   files
 #' @family boards
 #' @examples
 #' \dontrun{

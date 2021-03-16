@@ -2,14 +2,18 @@
 % Please edit documentation in R/board_local.R
 \name{board_local}
 \alias{board_local}
-\title{Register Local Board}
+\title{Use a Local board}
 \usage{
 board_local(cache = board_cache_path(), name = "local", versions = FALSE)
 }
 \arguments{
-\item{cache}{The folder where pins will be read/written.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
-\item{name}{An optional name used identify the board.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{versions}{Should this board be registered with support for versions?}
 }

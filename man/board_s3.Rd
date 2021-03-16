@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_s3.R
 \name{board_s3}
 \alias{board_s3}
-\title{Register S3 Board}
+\title{Use an S3 board}
 \usage{
 board_s3(
   name = "s3",
@@ -16,8 +16,9 @@ board_s3(
 )
 }
 \arguments{
-\item{name}{Board name, used to identify board in actions that affect
-multiple boards.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{bucket}{The name of the Amazon S3 bucket.}
 
@@ -29,14 +30,16 @@ in your script. The easiest alternative is to store it in the
 \code{AWS_SECRET_ACCESS_KEY} environment variable, which \code{board_s3()} will
 use by default.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
 \item{region}{The region to use, required in some AWS regions and to
 enable V4 signatures.}
 
 \item{host}{The host to use for storage, defaults to \code{"s3.amazonaws.com"}.}
 
-\item{...}{Additional parameters stored in the board object.}
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user

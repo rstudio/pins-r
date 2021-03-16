@@ -1,4 +1,4 @@
-#' Register Kaggle Board
+#' Use a Kaggle board
 #'
 #' To use a Kaggle board, you need to first download a token file from
 #' <https://www.kaggle.com/me/account>.
@@ -11,11 +11,8 @@
 #' Once you share with specific users, they can follow the same steps to
 #' register a Kaggle board which allows them to download and upload pins
 #'
-#' @param name Optional name for this board, defaults to 'kaggle'.
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
 #' @examples
 #' \dontrun{

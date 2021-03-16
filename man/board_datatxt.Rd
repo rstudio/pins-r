@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_datatxt.R
 \name{board_datatxt}
 \alias{board_datatxt}
-\title{Register \code{data.txt} Board}
+\title{Use a remote "data.txt" board}
 \usage{
 board_datatxt(
   url,
@@ -21,12 +21,15 @@ board_datatxt(
 \arguments{
 \item{url}{Path to the \code{data.txt} file or directory containing it.}
 
-\item{name}{Board name, used to identify board in actions that affect
-multiple boards.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{headers}{Optional list of headers to include or a function to generate them.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
 \item{needs_index}{Does this board have an index file?}
 
@@ -41,10 +44,10 @@ query string to defeat caching?}
 
 \item{versions}{Should this board be registered with support for versions?}
 
-\item{...}{Additional parameters stored in the board object.}
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Register a board that for a website that uses the \href{https://datatxt.org}{data.txt}
+Use board that for a website that uses the \href{https://datatxt.org}{data.txt}
 specification. A \code{data.txt} file is a YAML that provides some basic metadata
 about a directory of files.
 }

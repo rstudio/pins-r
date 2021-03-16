@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_azure.R
 \name{board_azure}
 \alias{board_azure}
-\title{Register Azure Board}
+\title{Use an Azure board}
 \usage{
 board_azure(
   name = "azure",
@@ -14,8 +14,9 @@ board_azure(
 )
 }
 \arguments{
-\item{name}{Board name, used to identify board in actions that affect
-multiple boards.}
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{container}{The name of the Azure Storage container.}
 
@@ -29,9 +30,11 @@ in your script. The easiest alternative is to store it in the
 \code{AZURE_STORAGE_KEY} environment variable, which \code{board_azure()} will
 use by default.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
-\item{...}{Additional parameters stored in the board object.}
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 To use Microsoft Azure Storage as a board, you'll need an Azure Storage

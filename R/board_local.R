@@ -1,11 +1,9 @@
-#' Register Local Board
+#' Use a Local board
 #'
 #' Use a local folder as a board.
 #'
 #' @inheritParams new_board
-#' @param cache The folder where pins will be read/written.
 #' @family boards
-#'
 #' @examples
 #' # session-specific local board
 #' board <- board_local(cache = tempfile())

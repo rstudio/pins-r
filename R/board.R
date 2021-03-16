@@ -1,7 +1,9 @@
 #' Create a new board
 #'
 #' @param board The name of the board to register.
-#' @param name An optional name used identify the board.
+#' @param name An optional name used identify the board. This is no longer
+#'   generally needed since you should be passing around an explicit
+#'   board object.
 #' @param cache Cache path. Every board requires a local cache to avoid
 #'   downloading files multiple times. The default stores in a standard
 #'   cache location for your operating system, but you can override if needed.

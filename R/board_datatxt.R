@@ -1,16 +1,12 @@
-#' Register `data.txt` Board
+#' Use a remote "data.txt" board
 #'
-#' Register a board that for a website that uses the [data.txt](https://datatxt.org)
+#' Use board that for a website that uses the [data.txt](https://datatxt.org)
 #' specification. A `data.txt` file is a YAML that provides some basic metadata
 #' about a directory of files.
 #'
-#'
+#' @inheritParams new_board
 #' @param url Path to the `data.txt` file or directory containing it.
-#' @param name Board name, used to identify board in actions that affect
-#'   multiple boards.
 #' @param headers Optional list of headers to include or a function to generate them.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters stored in the board object.
 #' @param needs_index Does this board have an index file?
 #' @param browse_url Not currently used
 #' @param index_updated Callback function used to update index
