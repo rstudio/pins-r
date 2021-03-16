@@ -1,4 +1,3 @@
-
 #' Pin Info
 #'
 #' Retrieve information for a given pin.
@@ -12,7 +11,7 @@
 #'
 #' @examples
 #' # define board and cache a dataset
-#' board <- board_local(cache = tempfile())
+#' board <- board_local(tempfile())
 #' pin(mtcars, board = board)
 #'
 #' # Get info
@@ -24,9 +23,23 @@ pin_info <- function(name,
                      metadata = TRUE,
                      signature = FALSE,
                      ...) {
-  entry <- pin_get_one(name, board, extended, metadata)
 
-  board <- entry$board
+  entry <- pin_find(
+    name = name,
+    board = board,
+    extended = extended,
+    metadata = metadata
+  )
+  if (nrow(entry) == 0) {
+    abort(paste0("Pin '", name, "' was not found."))
+  }
+  if (nrow(entry) > 1) {
+    boards <- paste0(entry$board, collapse = ",")
+    abort(paste0("Pin '", name, "' was found in multiple boards: ", boards))
+  }
+  if (is.null(board)) {
+    board <- board_get(entry$board)
+  }
 
   metadata <- list()
   if ("metadata" %in% colnames(entry) && nchar(entry$metadata) > 0) {
@@ -40,27 +53,12 @@ pin_info <- function(name,
 
   entry_ext <- as.list(entry)
   entry_ext$metadata <- NULL
-
   entry_ext <- Filter(function(e) !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0, entry_ext)
-
   for (name in names(metadata)) {
     entry_ext[[name]] <- metadata[[name]]
   }
 
   structure(entry_ext, class = "pin_info")
-}
-
-pin_get_one <- function(name, board, extended, metadata) {
-  # first ensure there is always one pin since metadata with multiple entries can fail
-  entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
-
-  if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
-  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","), ".")
-
-  board <- entry$board
-  entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
-
-  entry
 }
 
 #' @keywords internal

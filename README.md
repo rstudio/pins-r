@@ -1,5 +1,5 @@
-pins: Pin, Discover and Share Resources
-================
+
+# pins <img src="man/figures/logo.png" align="right" width="130px"/>
 
 <!-- badges: start -->
 
@@ -12,14 +12,10 @@ coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](htt
 
 ## Overview
 
-<img src="man/figures/logo.png" align="right" width="130px"/>
-
 You can use the `pins` package to:
 
--   **Pin** remote resources locally with `pin()`, work offline and
-    cache results.
--   **Discover** new resources across different boards using
-    `pin_find()`.
+-   **Pin** remote resources locally.
+-   **Discover** new resources across different boards.
 -   **Share** resources in local folders, with RStudio Connect, on S3,
     and more.
 
@@ -30,194 +26,80 @@ You can use the `pins` package to:
 install.packages("pins")
 ```
 
-To get a bug fix, or use a feature from the development version, you can
-install pins from GitHub.
-
-``` r
-# install.packages("remotes")
-remotes::install_github("rstudio/pins")
-```
-
 ## Usage
+
+To begin using the pins package, you must create a board. A good place
+to start is the local board, which stores pins in a local directory.
+Here I use a temporary board, so that you can run these examples without
+messing up the other data you might have pinned:
 
 ``` r
 library(pins)
+
+b <- board_local(tempfile())
+b
+#> Pin board <pins_board_local>
+#> Path: '/tmp/RtmpWmLV3B/file1027444e25e55/local'
+#> With 0 pins: ''
 ```
 
-### Pin
-
-There are two main ways to pin a resource:
-
--   Pin a remote file with `pin(url)`. This will download the file and
-    make it available in a local cache:
-
-    ``` r
-    url <- "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv"
-    retail_sales <- read.csv(pin(url))
-    ```
-
-    This makes subsequent uses much faster and allows you to work
-    offline. If the resource changes, `pin()` will automatically
-    re-download it; if goes away, `pin()` will keep the local cache.
-
--   Pin an expensive local computation with `pin(object, name)`:
-
-    ``` r
-    library(dplyr)
-    retail_sales %>%
-      group_by(month = lubridate::month(ds, T)) %>%
-      summarise(total = sum(y)) %>%
-      pin("sales_by_month")
-    ```
-
-    Then later retrieve it with `pin_get(name)`.
-
-    ``` r
-    pin_get("sales_by_month")
-    #> # A tibble: 12 x 2
-    #>    month   total
-    #>    <ord>   <int>
-    #>  1 Jan   6896303
-    #>  2 Feb   6890866
-    #>  3 Mar   7800074
-    #>  4 Apr   7680417
-    #>  5 May   8109219
-    #>  6 Jun   7451431
-    #>  7 Jul   7470947
-    #>  8 Aug   7639700
-    #>  9 Sep   7130241
-    #> 10 Oct   7363820
-    #> 11 Nov   7438702
-    #> 12 Dec   8656874
-    ```
-
-### Discover
-
-You can also discover remote resources using `pin_find()` which searches
-any registered boards. For instance, we can search datasets mentioning
-“air” in installed packages with:
+Next you need to store some data in that board with `pin_write()`:
 
 ``` r
-pin_find("air", board = "packages")
-#> # A tibble: 4 x 6
-#>   name             description                           cols  rows class board 
-#>   <chr>            <chr>                                <int> <int> <chr> <chr> 
-#> 1 datasets/airmil… Passenger Miles on Commercial US Ai…    NA    NA <NA>  packa…
-#> 2 datasets/AirPas… Monthly Airline Passenger Numbers 1…    NA    NA <NA>  packa…
-#> 3 datasets/airqua… New York Air Quality Measurements       NA    NA <NA>  packa…
-#> 4 datasets/HairEy… Hair and Eye Color of Statistics St…    NA    NA <NA>  packa…
+b %>% pin_write(mtcars)
+#> Creating pin named 'mtcars'
+b
+#> Pin board <pins_board_local>
+#> Path: '/tmp/RtmpWmLV3B/file1027444e25e55/local'
+#> With 1 pins: 'mtcars'
 ```
 
-Notice that the full name of a pin is `<owner>/<name>`. This namespacing
-allows multiple people (or packages) to create pins with the same name.
-
-You can then retrieve a pin through `pin_get()`:
+Later, you can retrieve that data with `pin_read()`:
 
 ``` r
-airmiles <- pin_get("datasets/airmiles", board = "packages")
+b %>% pin_read("mtcars")
+#> # A tibble: 32 x 11
+#>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#>  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#>  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#>  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#>  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#>  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#>  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#>  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#>  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#>  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#> 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#> # … with 22 more rows
 ```
 
-### Share
+This can be convenient when working locally, but the real power of pins
+comes when you use a shared board, because because the writer and reader
+can be different people (or automated processes).
 
-You can share resources with others by publishing to:
-
--   Shared folders, `board_local()`.
--   GitHub, `board_github()`.
--   RStudio Connect, `board_rsconnect()`
--   Azure, `board_azure()`
--   S3, `board_s3()`
-
-To publish to Kaggle, you would first need to register the Kaggle board
-by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
+For example, if you use RStudio Connect, you can pin data to shared
+board:
 
 ``` r
-board_register_kaggle(token = "<path-to-kaggle.json>")
+b <- board_rsconnect()
+b %>% pin_write(tidy_sales_data, "sales-summary")
+#> Saving to hadley/sales-summary
 ```
 
-You can then easily publish to Kaggle:
+And then someone else (or an automated Rmd report) can read it:
 
 ``` r
-pin(seattle_sales, board = "kaggle")
+b <- board_rsconnect()
+b %>% pin_read("hadley/sales-summary")
 ```
 
-<center>
-<img src="tools/readme/kaggle-uploaded-dataset.png" width="70%">
-</center>
+You can easily control who gets to see it using the RStudio Connection
+permissions pane.
 
-Learn more in `vignette("boards-understanding")`
+As well as RStudio connect, you can share your pins:
 
-### RStudio
-
-Experimental support for `pins` was introduced in RStudio Connect 1.7.8
-so that you can use [RStudio](https://rstudio.com/products/rstudio/) and
-[RStudio Connect](https://rstudio.com/products/connect/) to discover and
-share resources within your organization with ease. To enable new
-boards, use [RStudio’s Data
-Connections](https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/)
-to start a new ‘pins’ connection and then select which board to connect
-to:
-
-<center>
-<img src="tools/readme/rstudio-connect-board.png" width="70%">
-</center>
-
-Once connected, you can use the connections pane to track the pins you
-own and preview them with ease. Notice that one connection is created
-for each board.
-
-<center>
-<img src="tools/readme/rstudio-explore-pins.png" width="50%">
-</center>
-
-To **discover** remote resources, simply expand the “Addins” menu and
-select “Find Pin” from the dropdown. This addin allows you to search for
-pins across all boards, or scope your search to particular ones as well:
-
-<center>
-<img src="tools/readme/rstudio-discover-pins.png" width="60%">
-</center>
-
-You can then **share** local resources using the RStudio Connect board.
-Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
-further and then pin our results in RStudio Connect.
-
-``` r
-board_register_rsconnect(name = "myrsc")
-
-seattle_sales %>%
-  group_by(baths = ceiling(baths)) %>%
-  summarise(sale = floor(mean(sale_price))) %>%
-  pin("sales-by-baths", board = "myrsc")
-```
-
-After a pin is published, you can then browse to the pin’s content from
-the RStudio Connect web interface.
-
-<center>
-<img src="tools/readme/rstudio-share-resources.png" width="90%">
-</center>
-
-You can now set the appropriate permissions in RStudio Connect, and
-voila! From now on, those with access can make use of this remote file
-locally!
-
-For instance, a colleague can reuse the `sales-by-baths` pin by
-retrieving it from RStudio Connect and visualize its contents using
-ggplot2:
-
-``` r
-library(ggplot2)
-board_register_rsconnect(name = "myrsc")
-
-pin_get("sales-by-baths", board = "myrsc") %>%
-  ggplot(aes(x = baths, y = sale)) +
-  geom_point() + 
-  geom_smooth(method = 'lm', formula = y ~ exp(x))
-```
-
-Pins can also be automated using scheduled R Markdown. This makes it
-much easier to create Shiny applications that rely on scheduled data
-updates or to share prepared resources across multiple pieces of
-content. You no longer have to fuss with file paths on RStudio Connect,
-mysterious resource URLs, or redeploying application code just to update
-a dataset!
+-   In shared folders: `board_local()`.
+-   On GitHub: `board_github()`.
+-   In Microsoft Azure’s storage: `board_azure()`.
+-   On Amazon’s S3: `board_s3()`.

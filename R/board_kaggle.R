@@ -1,4 +1,4 @@
-#' Register Kaggle Board
+#' Use a Kaggle board
 #'
 #' To use a Kaggle board, you need to first download a token file from
 #' <https://www.kaggle.com/me/account>.
@@ -11,41 +11,21 @@
 #' Once you share with specific users, they can follow the same steps to
 #' register a Kaggle board which allows them to download and upload pins
 #'
-#' @param name Optional name for this board, defaults to 'kaggle'.
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
-#'
-#' @seealso board_register
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token
-#' board_register_kaggle(token = "path/to/kaggle.json")
+#' board <- board_kaggle(token = "path/to/kaggle.json")
 #'
-#' pin_find("crowdflower", board = "kaggle")
+#' pin_find("crowdflower", board = board)
 #'
 #' # names starting with c/ are competitions
-#' pin_get("c/crowdflower-weather-twitter", board = "kaggle")
+#' pin_get("c/crowdflower-weather-twitter", board = board)
 #' }
 #' @export
-board_register_kaggle <- function(name = "kaggle",
-                                  token = NULL,
-                                  cache = board_cache_path(),
-                                  ...) {
-  board <- board_kaggle("kaggle",
-    name = name,
-    token = token,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @rdname board_register_kaggle
-#' @export
-board_kaggle <- function(name, token = NULL, ...) {
+board_kaggle <- function(token = NULL, name = "kaggle", ...) {
   token <- token %||% "~/.kaggle/kaggle.json"
   if (!file.exists(token)) {
     stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)
@@ -310,7 +290,7 @@ board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version
     if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
 
-    extended <- pin_find(name = name, board = board$name, extended = TRUE)
+    extended <- pin_find(name = name, board = board, extended = TRUE)
 
     etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
     content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
@@ -390,7 +370,7 @@ board_wait_create <- function(board, name) {
   while (retries > 0 && is.null(retrieved)) {
     retrieved <- suppressWarnings(tryCatch(
       {
-        pin_get(name, board$name)
+        pin_get(name, board)
       },
       error = function(e) NULL
     ))

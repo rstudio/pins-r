@@ -1,6 +1,6 @@
 #' Find Pin
 #'
-#' Find a pin in any board registered using `board_register()`.
+#' Search a board (or boards) for a pin.
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.

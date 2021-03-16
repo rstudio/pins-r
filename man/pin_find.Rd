@@ -27,7 +27,7 @@ pin_find(
 \item{...}{Additional parameters.}
 }
 \description{
-Find a pin in any board registered using \code{board_register()}.
+Search a board (or boards) for a pin.
 }
 \details{
 \code{pin_find()} allows you to discover new resources or retrieve

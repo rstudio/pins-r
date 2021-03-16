@@ -1,3 +1,15 @@
+#' Create a new board
+#'
+#' @param board The name of the board to register.
+#' @param name An optional name used identify the board. This is no longer
+#'   generally needed since you should be passing around an explicit
+#'   board object.
+#' @param cache Cache path. Every board requires a local cache to avoid
+#'   downloading files multiple times. The default stores in a standard
+#'   cache location for your operating system, but you can override if needed.
+#' @param versions Should this board be registered with support for versions?
+#' @param ... Additional parameters required to initialize a particular board.
+#' @keywords internal
 new_board <- function(board, name, cache, versions = FALSE, ...) {
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
@@ -15,6 +27,26 @@ new_board <- function(board, name, cache, versions = FALSE, ...) {
   )
 
   board
+}
+
+#' @export
+print.pins_board <- function(x, ...) {
+  cat(paste0(crayon::bold("Pin board"), " <", class(x)[[1]], ">\n"))
+  cat(paste0(board_desc(x), "\n", collapse = ""))
+  pins <- pin_find(board = x)$name
+
+  n <- length(pins)
+  if (n > 20) {
+    pins <- c(pins[1:19], "...")
+  }
+  contents <- paste0(
+    "With ", n, " pins: ",
+    paste0("'", pins, "'", collapse = ", ")
+  )
+
+  cat(strwrap(contents, exdent = 2), sep = "\n")
+
+  invisible()
 }
 
 is.board <- function(x) inherits(x, "pins_board")
@@ -47,6 +79,16 @@ board_initialize <- function(board, ...) {
 #' @rdname custom-boards
 board_browse <- function(board, ...) {
   UseMethod("board_browse")
+}
+
+#' @export
+#' @rdname custom-boards
+board_desc <- function(board, ...) {
+  UseMethod("board_desc")
+}
+#' @export
+board_desc.default <- function(board, ...) {
+  character()
 }
 
 #' @export
@@ -88,36 +130,6 @@ board_local_storage <- function(...) {
   stop("board_local_storage() is deprecated", call. = FALSE)
 }
 
-#' Get Board
-#'
-#' Retrieves information about a particular board.
-#'
-#' @param name The name of the board to use
-#'
-#' @export
-board_get <- function(name) {
-  if (is.null(name)) {
-    board_default()
-  } else if (is.board(name)) {
-    name
-  } else if (is.character(name) && length(name) == 1) {
-    if (is_url(name)) {
-      # TODO: remove magic registration
-      board <- board_datatxt(url = name)
-      board_register2(board)
-      board
-    } else if (name == "packages") {
-      board_packages()
-    } else if (name %in% board_list()) {
-      board_registry_get(name)
-    } else {
-      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
-    }
-  } else {
-    stop("Invalid board specification", call. = FALSE)
-  }
-}
-
 #' Retrieve Default Cache Path
 #'
 #' Retrieves the default path used to cache boards and pins. Makes
@@ -140,6 +152,12 @@ board_cache_path <- function() {
 # helpers -----------------------------------------------------------------
 
 board_empty_results <- function() {
-  data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
+  data.frame(
+    name = character(),
+    description = character(),
+    rows = character(),
+    cols = character(),
+    class = character()
+  )
 }
 

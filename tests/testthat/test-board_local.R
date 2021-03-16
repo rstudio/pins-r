@@ -2,6 +2,10 @@ test_that("local board registered by default", {
   expect_true("local" %in% board_list())
 })
 
+test_that("has useful print method", {
+  expect_snapshot(board_local(cache = "/tmp", name = "test"))
+})
+
 test_that(paste("can pin() file with auto-generated name in local board"), {
   b <- local_board_local()
 

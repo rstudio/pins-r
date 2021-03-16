@@ -1,16 +1,12 @@
-#' Register `data.txt` Board
+#' Use a remote "data.txt" board
 #'
-#' Register a board that for a website that uses the [data.txt](https://datatxt.org)
+#' Use board that for a website that uses the [data.txt](https://datatxt.org)
 #' specification. A `data.txt` file is a YAML that provides some basic metadata
 #' about a directory of files.
 #'
-#'
+#' @inheritParams new_board
 #' @param url Path to the `data.txt` file or directory containing it.
-#' @param name Board name, used to identify board in actions that affect
-#'   multiple boards.
 #' @param headers Optional list of headers to include or a function to generate them.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters stored in the board object.
 #' @param needs_index Does this board have an index file?
 #' @param browse_url Not currently used
 #' @param index_updated Callback function used to update index
@@ -19,8 +15,6 @@
 #' @param path Subdirectory within `url`
 #' @param versions Should this board be registered with support for versions?
 #' @keywords internal
-#' @seealso board_register
-#'
 #' @examples
 #'
 #' # register website board using datatxt file
@@ -33,25 +27,7 @@
 #' # find pins
 #' pin_find(board = "txtexample")
 #' @export
-board_register_datatxt <- function(url,
-                                   name = NULL,
-                                   headers = NULL,
-                                   cache = board_cache_path(),
-                                   ...) {
-  board <- board_datatxt(
-    name = name,
-    url = url,
-    headers = headers,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @export
-#' @rdname board_register_datatxt
 board_datatxt <- function(url,
-                          name = NULL,
                           headers = NULL,
                           cache = board_cache_path(),
                           needs_index = TRUE,
@@ -60,6 +36,7 @@ board_datatxt <- function(url,
                           index_randomize = FALSE,
                           path = NULL,
                           versions = FALSE,
+                          name = NULL,
                           ...) {
 
   # use only subdomain as friendly name which is also used as cache folder
@@ -430,7 +407,7 @@ board_pin_create.pins_board_datatxt <- function(board, path, name, metadata, ...
 
 # Retrieve data.txt files, including versioned files
 datatxt_pin_files <- function(board, name) {
-  entry <- pin_find(name = name, board = board$name, metadata = TRUE)
+  entry <- pin_find(name = name, board = board, metadata = TRUE)
 
   if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
   metadata <- jsonlite::fromJSON(as.list(entry)$metadata)

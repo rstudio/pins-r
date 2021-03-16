@@ -1,4 +1,4 @@
-#' Register GitHub Board
+#' Use a GitHub board
 #'
 #' To use a GitHub board, you'll need to set up authentication. This is likely
 #' to just work if you already use GitHub for other purposes since pins will
@@ -17,7 +17,7 @@
 #' behind the scenes, but don't be surprised if pins creates releases in your
 #' repo.
 #'
-#' @param name Optional name for this board, defaults to 'github'.
+#' @inheritParams new_board
 #' @param repo The GitHub repository formatted as 'owner/repo', can be
 #'   `NULL` if the `GITHUB_PAT` environment variable is set.
 #' @param branch The branch to use to commit pins.
@@ -25,46 +25,20 @@
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
-#' @seealso board_register
 #' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires a GitHub API key
-#' board_register_github(repo = "owner/repo")
+#' board <- board_github(repo = "owner/repo")
 #' }
 #' @export
-board_register_github <- function(name = "github",
-                                  repo = NULL,
-                                  branch = NULL,
-                                  token = NULL,
-                                  path = "",
-                                  host = "https://api.github.com",
-                                  cache = board_cache_path(),
-                                  ...) {
-  board <- board_github(
-    name = name,
-    repo = repo,
-    branch = branch,
-    token = token,
-    path = path,
-    host = host,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-
-#' @rdname board_register_github
-#' @export
-board_github <- function(name,
+board_github <- function(
                          repo = NULL,
                          branch = NULL,
                          token = NULL,
                          path = "",
                          host = "https://api.github.com",
+                         name = "github",
                          ...) {
   if (is.null(repo)) {
     stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")
@@ -77,7 +51,8 @@ board_github <- function(name,
     path = if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else "",
     branch = branch,
     host = host,
-    main = "master"
+    main = "master",
+    ...
   )
 
   if (!github_authenticated(board)) {

@@ -13,17 +13,14 @@
 #' remote resources using the tools the board provides.
 #'
 #' @examples
-#'
-#' library(pins)
-#'
-#' # define local board
-#' board_register_local(cache = tempfile())
+#' # define temporary board
+#' board <- board_local(tempfile())
 #'
 #' # create mtcars pin
-#' pin(mtcars)
+#' pin(mtcars, board = board)
 #'
 #' # remove mtcars pin
-#' pin_remove("mtcars", board = "local")
+#' pin_remove("mtcars", board = board)
 #' @export
 pin_remove <- function(name, board) {
   board <- board_get(board)

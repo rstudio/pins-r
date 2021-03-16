@@ -1,4 +1,4 @@
-#' Register RStudio Connect Board
+#' Use an RStudio Connect board
 #'
 #' @description
 #' To use a RStudio Connect board, you need to first authenticate. The easiest
@@ -48,7 +48,7 @@
 #' API key, you can connect to the board with:
 #'
 #' ```r
-#' board_register_rsconnect(
+#' board <- board_rsconnect(
 #'   server = "https://rstudio-connect-server",
 #'   key = Sys.getenv("CONNECT_API_KEY"),
 #' )
@@ -68,65 +68,41 @@
 #' 1. Set the file path as an option using `Sys.setenv(RSCONNECT_HTML_PATH = <your index>)`.
 #' 1. Pin a dataset normally.
 #'
-#' @param name Optional name for this board, defaults to 'rsconnect'.
+#' @inheritParams new_board
 #' @param server Optional address to RStudio Connect server.
 #' @param account Optional account name to use with RStudio Connect.
 #' @param key The RStudio Connect API key.
-#' @param output_files Should the output in an automated report create output files?
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param ... Additional parameters required to initialize a particular board.
+#' @param output_files Should the output in an automated report create output
+#'   files
 #' @family boards
-#'
-#' @seealso board_register
-#'
 #' @examples
 #' \dontrun{
 #' # the following examples require an RStudio Connect API key
 #'
 #' # register from rstudio
-#' board_register_rsconnect()
+#' board <- board_rsconnect()
 #'
 #' # register from rstudio with multiple servers
-#' board_register_rsconnect(server = "https://rstudio-connect-server")
+#' board <- board_rsconnect(server = "https://rstudio-connect-server")
 #'
 #' # register from rstudio with multiple account
-#' board_register_rsconnect(account = "account-name")
+#' board <- board_rsconnect(account = "account-name")
 #'
 #' # register automated report for rstudio connect
-#' board_register_rsconnect(
+#' board <- board_rsconnect(
 #'   key = Sys.getenv("CONNECT_API_KEY"),
 #'   server = Sys.getenv("CONNECT_SERVER")
 #' )
 #' }
 #'
 #' @export
-board_register_rsconnect <- function(name = "rsconnect",
-                                     server = NULL,
-                                     account = NULL,
-                                     key = NULL,
-                                     output_files = FALSE,
-                                     cache = board_cache_path(),
-                                     ...) {
-  board <- board_rsconnect(
-    name = name,
-    server = server,
-    account = account,
-    key = key,
-    output_files = output_files,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @rdname board_register_rsconnect
-#' @export
-board_rsconnect <- function(name = "rsconnect",
+board_rsconnect <- function(
                             server = NULL,
                             account = NULL,
                             key = NULL,
                             output_files = FALSE,
                             cache = board_cache_path(),
+                            name = "rsconnect",
                             ...) {
 
   # key <- key %||% Sys.getenv("CONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))
@@ -399,9 +375,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
   results <- pin_results_from_rows(entries)
 
   if (nrow(results) == 0) {
-    return(
-      board_empty_results()
-    )
+    return(board_empty_results())
   }
 
   null_or_value <- function(e, value) if (is.null(e)) value else e

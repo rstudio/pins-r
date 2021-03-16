@@ -1,10 +1,10 @@
-#' Register DigitalOcean Board
+#' Use a DigitalOcean board
 #'
 #' To use DigitalOcean Spaces as a [board](boards-understanding.html), you first
 #' need an DigitalOcean space and a storage key. You can sign-up and create
 #' those at [digitalocean.com](https://www.digitalocean.com/).
 #'
-#' @inheritParams board_register_datatxt
+#' @inheritParams board_datatxt
 #' @param space The name of the DigitalOcean space.
 #' @param key,secret The key and secret for your space. You can create
 #'   a key and secret in the "Spaces access keys" in your API settings.
@@ -15,49 +15,21 @@
 #'  use by default.
 #' @param datacenter The datacenter name.
 #' @param host The host to use for storage, defaults to `"digitaloceanspaces.com"`.
-#'
-#' @seealso board_register
 #' @keywords internal
-#'
 #' @examples
 #' \dontrun{
 #' # the following example requires a DigitalOcean Spaces API key
-#' board_register_s3(bucket = "s3bucket")
+#' board <- board_dospace(bucket = "s3bucket")
 #' }
 #' @export
-board_register_dospace <- function(name = "dospace",
-                                   space = Sys.getenv("DO_SPACE"),
-                                   key = Sys.getenv("DO_ACCESS_KEY_ID"),
-                                   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
-                                   datacenter = Sys.getenv("DO_DATACENTER"),
-                                   cache = board_cache_path(),
-                                   host = "digitaloceanspaces.com",
-                                   path = NULL,
-                                   ...) {
-  board <- board_dospace(
-    name = name,
-    space = space,
-    key = key,
-    secret = secret,
-    datacenter = datacenter,
-    cache = cache,
-    host = host,
-    path = path,
-    ...
-  )
-  board_register2(board)
-}
-
-
-#' @rdname board_register_dospace
-#' @export
-board_dospace <- function(name = "dospace",
+board_dospace <- function(
                           space = Sys.getenv("DO_SPACE"),
                           key = Sys.getenv("DO_ACCESS_KEY_ID"),
                           secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
                           datacenter = Sys.getenv("DO_DATACENTER"),
                           cache = NULL,
                           host = "digitaloceanspaces.com",
+                          name = "dospace",
                           ...) {
   if (nchar(space) == 0) stop("The 'dospace' board requires a 'space' parameter.")
   if (nchar(key) == 0) stop("The 'dospace' board requires a 'key' parameter.")

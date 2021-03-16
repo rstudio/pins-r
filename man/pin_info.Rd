@@ -31,7 +31,7 @@ Retrieve information for a given pin.
 }
 \examples{
 # define board and cache a dataset
-board <- board_local(cache = tempfile())
+board <- board_local(tempfile())
 pin(mtcars, board = board)
 
 # Get info

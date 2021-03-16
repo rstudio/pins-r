@@ -1,31 +1,22 @@
-#' Register Local Board
+#' Use a Local board
 #'
-#' Wrapper with explicit parameters over `board_register()` to
-#' register a local folder as a board.
+#' Use a local folder as a board.
 #'
-#' @inheritParams board_register
-#' @param cache The folder where pins will be read/written.
-#'
-#' @seealso board_register
+#' @inheritParams new_board
 #' @family boards
-#'
 #' @examples
-#' # register local board using a temp folder
-#' board_register_local(cache = tempfile())
+#' # session-specific local board
+#' board <- board_local(tempfile())
 #' @export
-board_register_local <- function(name = "local",
-                                 cache = board_cache_path(),
-                                 ...) {
-  board <- board_local(name = name, cache = cache, ...)
-  board_register2(board)
-}
-
-#' @rdname board_register_local
-#' @export
-board_local <- function(cache = board_cache_path(),
+board_local <- function(cache,
                         name = "local",
                         versions = FALSE) {
   new_board("pins_board_local", name = name, cache = cache, versions = versions)
+}
+
+#' @export
+board_desc.pins_board_local <- function(board, ...) {
+  paste0("Path: '", pin_registry_path(board), "'")
 }
 
 #' @export

@@ -1,4 +1,4 @@
-#' Register Google Cloud Board
+#' Use a Google Cloud board
 #'
 #' To use a Google Cloud Storage board, you first need a Google Cloud Storage
 #' account, a Google Storage bucket, and an access token or the
@@ -6,7 +6,7 @@
 #' configured. You can sign-up and create these from
 #' <https://console.cloud.google.com>
 #'
-#' @inheritParams board_register_datatxt
+#' @inheritParams board_datatxt
 #' @param bucket The name of the Google Cloud Storage bucket. Defaults to the `GCLOUD_STORAGE_BUCKET` environment
 #'   variable.
 #' @param token The access token of the Google Cloud Storage container.
@@ -16,38 +16,18 @@
 #'   If you do want to use an access token, you can retrieve it from
 #'   <https://developers.google.com/oauthplayground>. You will need to
 #'   authorize the "Google Storage API v1" scope.
-#' @seealso board_register
 #' @keywords internal
-#'
 #' @examples
 #' \dontrun{
 #' # the following example requires the Google Cloud SDK to be configured
-#' board_register_gcloud(container = "gcloudcontainer")
+#' board <- board_gcloud(container = "gcloudcontainer")
 #' }
 #' @export
-board_register_gcloud <- function(name = "gcloud",
-                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
-                                  token = NULL,
-                                  cache = board_cache_path(),
-                                  path = NULL,
-                                  ...) {
-  board <- board_gcloud(
-    name = name,
-    bucket = bucket,
-    token = token,
-    cache = cache,
-    path = path,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @export
-#' @rdname board_register_gcloud
-board_gcloud <- function(name,
+board_gcloud <- function(
                          bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                          token = NULL,
                          cache = NULL,
+                         name = "gcloud",
                          ...) {
   if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
 

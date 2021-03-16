@@ -31,21 +31,17 @@ if (!has_envvars(c("RSCONNECT_SERVER", "RSCONNECT_API_KEY"))) {
   skip("requires env vars RSCONNECT_SERVER, RSCONNECT_API_KEY")
 }
 
-board_register_rsconnect(
-  name = "test-rsconnect-1",
+board <- board_rsconnect(
   server = Sys.getenv("RSCONNECT_SERVER"),
   key = Sys.getenv("RSCONNECT_API_KEY"),
   cache = tempfile()
 )
-withr::defer(board_deregister("test-rsconnect-1"))
-board_register_rsconnect(
-  name = "test-rsconnect-2",
+board_test(board, suite = "default")
+
+board <- board_rsconnect(
   server = Sys.getenv("RSCONNECT_SERVER"),
   key = Sys.getenv("RSCONNECT_API_KEY"),
   versions = TRUE,
   cache = tempfile()
 )
-withr::defer(board_deregister("test-rsconnect-2"))
-
-board_test("test-rsconnect-1", suite = "default")
-board_test("test-rsconnect-2", suite = "versions")
+board_test(board, suite = "versions")

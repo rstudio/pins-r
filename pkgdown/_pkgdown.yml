@@ -12,7 +12,7 @@ reference:
 - title: Boards
   desc: "Alias functions to help register boards."
   contents:
-  - starts_with("board_register")
+  - starts_with("board_")
 
 - title: "Extensions"
   desc: "Functions for creating custom boards."
@@ -21,14 +21,6 @@ reference:
     - board_pin_store
     - pin_preview
     - pin_load
-
-- title: "Board management"
-  desc: "Functions for configuring remote storage lcoations, known as 'boards'."
-  contents:
-    - board_deregister
-    - board_get
-    - board_list
-    - board_register
 
 articles:
 - title: Getting started

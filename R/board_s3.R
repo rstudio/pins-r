@@ -1,11 +1,11 @@
-#' Register S3 Board
+#' Use an S3 board
 #'
 #' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 #' with enough permissions to access the S3 bucket. You can sign-up and create
 #' those at <https://aws.amazon.com/>. Note that it can take a few minutes
 #' after you've created it before a bucket is usable.
 #'
-#' @inheritParams board_register_datatxt
+#' @inheritParams board_datatxt
 #' @param bucket The name of the Amazon S3 bucket.
 #' @param key,secret The key and secret for your space. You can create
 #'   a key and secret in the "Spaces access keys" in your API settings.
@@ -17,43 +17,21 @@
 #' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
 #' @param region The region to use, required in some AWS regions and to
 #'   enable V4 signatures.
-#' @seealso board_register
 #' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key
-#' board_register_s3(bucket = "s3bucket")
+#' board <- board_s3(bucket = "s3bucket")
 #' }
 #' @export
-board_register_s3 <- function(name = "s3",
-                              bucket = Sys.getenv("AWS_BUCKET"),
-                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                              cache = board_cache_path(),
-                              host = "s3.amazonaws.com",
-                              region = NULL,
-                              path = NULL,
-                              ...) {
-  board_s3(
-    name = name,
-    bucket = bucket,
-    key = key,
-    secret = secret,
-    cache = cache,
-    region = region,
-    path = path,
-    ...
-  )
-}
-
-#' @export
-#' @rdname board_register_s3
-board_s3 <- function(name = "s3",
+board_s3 <- function(
                      bucket = Sys.getenv("AWS_BUCKET"),
                      key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                      secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                      cache = NULL,
+                     region = NULL,
                      host = "s3.amazonaws.com",
+                     name = "s3",
                      ...) {
   if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
   if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
@@ -68,6 +46,7 @@ board_s3 <- function(name = "s3",
     key = key,
     secret = secret,
     bucket = bucket,
+    region = region,
     connect = FALSE,
     browse_url = paste0("https://s3.console.aws.amazon.com/s3/buckets/", bucket, "/"),
     host = host,

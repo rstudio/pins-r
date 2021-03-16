@@ -1,51 +1,26 @@
-#' List Boards
+#' Board registry
 #'
-#' Retrieves all available boards.
+#' @description
+#' `r lifecycle::badge("deprecated")`
 #'
-#' @export
-board_list <- function() {
-  board_registry_list()
-}
-
-
-#' Register Board
+#' Prior to pins 1.0.0, boards were managed using a named registry, with
+#' [pin()] and [pin_get()] defaulting to a local board. Now, you must
+#' explicitly supply a `board` that you've created using [board_local()],
+#' [board_rsconnect()] etc.
 #'
-#' Registers a board, useful to find resources with `pin_find()` or pin to
-#' additional boards with `pin()`.
 #'
-#' @param board The name of the board to register.
-#' @param name An optional name to identify this board, defaults to the board name.
-#' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
-#' @param versions Should this board be registered with support for versions?
-#' @param ... Additional parameters required to initialize a particular board.
 #'
-#' @details
-#'
-#' A board requires a local cache to avoid downloading files multiple times. It is
-#' recommended to not specify the `cache` parameter since it defaults to a well
-#' known `rappdirs`. However, you are welcome to specify any other
-#' location for this cache or even a temp folder with `tempfile()`. Notice that,
-#' when using a temp folder, pins will be cleared when your R session restarts. The
-#' cache parameter can be also set with the `pins.path` option.
-#'
-#' If `versions` is set to `NULL` (the default), it will fall back on the
-#' board-type-specific default. For instance, local boards do not use versions by default,
-#' but GitHub boards do.
-#'
+#' @keywords internal
 #' @examples
-#' # create a new local board
-#' board_register("local", "other_board", cache = tempfile())
+#' # previously
+#' board_register_local("myboard", cache = tempfile())
+#' pin(mtcars, board = "myboard")
+#' pin_get("mtcars", board = "myboard")
 #'
-#' # create a Website board
-#' board_register("datatxt",
-#'   name = "txtexample",
-#'   url = "https://datatxt.org/data.txt",
-#'   cache = tempfile()
-#' )
-#' @seealso [board_register_local()], [board_register_github()],
-#'   [board_register_kaggle()], [board_register_rsconnect()] and
-#'   [board_register_datatxt()].
-#'
+#' # now
+#' board <- board_local(tempfile())
+#' pin(mtcars, board = board)
+#' pin_get("mtcars", board = board)
 #' @export
 board_register <- function(board,
                            name = NULL,
@@ -73,6 +48,181 @@ board_register <- function(board,
 
   invisible(board$name)
 }
+
+#' @rdname board_register
+#' @export
+board_register_azure <- function(name = "azure",
+                                 container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+                                 account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+                                 key = Sys.getenv("AZURE_STORAGE_KEY"),
+                                 cache = board_cache_path(),
+                                 path = NULL,
+                                 ...) {
+  board <- board_azure(
+    name = name,
+    container = container,
+    account = account,
+    key = key,
+    cache = cache,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_datatxt <- function(url,
+                                   name = NULL,
+                                   headers = NULL,
+                                   cache = board_cache_path(),
+                                   ...) {
+  board <- board_datatxt(
+    name = name,
+    url = url,
+    headers = headers,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_dospace <- function(name = "dospace",
+                                   space = Sys.getenv("DO_SPACE"),
+                                   key = Sys.getenv("DO_ACCESS_KEY_ID"),
+                                   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+                                   datacenter = Sys.getenv("DO_DATACENTER"),
+                                   cache = board_cache_path(),
+                                   host = "digitaloceanspaces.com",
+                                   path = NULL,
+                                   ...) {
+  board <- board_dospace(
+    name = name,
+    space = space,
+    key = key,
+    secret = secret,
+    datacenter = datacenter,
+    cache = cache,
+    host = host,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+
+#' @rdname board_register
+#' @export
+board_register_gcloud <- function(name = "gcloud",
+                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+                                  token = NULL,
+                                  cache = board_cache_path(),
+                                  path = NULL,
+                                  ...) {
+  board <- board_gcloud(
+    name = name,
+    bucket = bucket,
+    token = token,
+    cache = cache,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_github <- function(name = "github",
+                                  repo = NULL,
+                                  branch = NULL,
+                                  token = NULL,
+                                  path = "",
+                                  host = "https://api.github.com",
+                                  cache = board_cache_path(),
+                                  ...) {
+  board <- board_github(
+    name = name,
+    repo = repo,
+    branch = branch,
+    token = token,
+    path = path,
+    host = host,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_local <- function(name = "local",
+                                 cache = board_cache_path(),
+                                 ...) {
+  board <- board_local(name = name, cache = cache, ...)
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_kaggle <- function(name = "kaggle",
+                                  token = NULL,
+                                  cache = board_cache_path(),
+                                  ...) {
+  board <- board_kaggle("kaggle",
+    name = name,
+    token = token,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_rsconnect <- function(name = "rsconnect",
+                                     server = NULL,
+                                     account = NULL,
+                                     key = NULL,
+                                     output_files = FALSE,
+                                     cache = board_cache_path(),
+                                     ...) {
+  board <- board_rsconnect(
+    name = name,
+    server = server,
+    account = account,
+    key = key,
+    output_files = output_files,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_s3 <- function(name = "s3",
+                              bucket = Sys.getenv("AWS_BUCKET"),
+                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                              cache = board_cache_path(),
+                              host = "s3.amazonaws.com",
+                              region = NULL,
+                              path = NULL,
+                              ...) {
+  board_s3(
+    name = name,
+    bucket = bucket,
+    key = key,
+    secret = secret,
+    cache = cache,
+    region = region,
+    path = path,
+    ...
+  )
+}
+
 
 board_register2 <- function(board, connect = TRUE) {
   board_registry_set(board$name, board)
@@ -117,23 +267,7 @@ board_register_code <- function(board, name) {
   }
 }
 
-#' Deregister Board
-#'
-#' Deregisters a board, useful to disable boards no longer in use.
-#'
-#' @param name An optional name to identify this board, defaults to the board name.
-#' @param ... Additional parameters required to deregister a particular board.
-#'
-#' @examples
-#'
-#' # create a new local board
-#' board_register("local", "other_board", cache = tempfile())
-#'
-#' # pin iris to new board
-#' pin(iris, board = "other_board")
-#'
-#' # deregister new board
-#' board_deregister("other_board")
+#' @rdname board_register
 #' @export
 board_deregister <- function(name, ...) {
   if (!name %in% board_registry_list()) stop("Board '", name, "' is not registered.")
@@ -146,52 +280,59 @@ board_deregister <- function(name, ...) {
   invisible(NULL)
 }
 
-#' Default Board
-#'
-#' Retrieves the default board, which defaults to `"local"` but can also be
-#' configured with the `pins.board` option.
-#'
-#' @examples
-#'
-#' library(pins)
-#'
-#' # create temp board
-#' board_register_local("temp", cache = tempfile())
-#'
-#' # configure default board
-#' options(pins.board = "temp")
-#'
-#' # retrieve default board
-#' board_default()
-#'
-#' # revert default board
-#' options(pins.board = NULL)
+#' @rdname board_register
 #' @export
 board_default <- function() {
   board_registry_get(getOption("pins.board", "local"))
 }
 
+#' @rdname board_register
+#' @export
+board_list <- function() {
+  board_registry_list()
+}
 
-board_registry_ensure <- function(register = TRUE) {
-  if (identical(.globals$boards_registered, NULL)) {
-    .globals$boards_registered <- list()
+#' @rdname board_register
+#' @export
+board_get <- function(name) {
+  if (is.null(name)) {
+    board_registry_get("local")
+  } else if (is.board(name)) {
+    name
+  } else if (is.character(name) && length(name) == 1) {
+    if (is_url(name)) {
+      # TODO: remove magic registration
+      board <- board_datatxt(url = name)
+      board_register2(board)
+      board
+    } else if (name == "packages") {
+      board_packages()
+    } else if (name %in% board_list()) {
+      board_registry_get(name)
+    } else {
+      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
+    }
+  } else {
+    stop("Invalid board specification", call. = FALSE)
   }
 }
 
-board_registry_list <- function() {
-  board_registry_ensure()
 
+board_registry_list <- function() {
   names(.globals$boards_registered)
 }
 
 board_registry_get <- function(name) {
-  board_registry_ensure()
-
   .globals$boards_registered[[name]]
 }
 
 board_registry_set <- function(name, board) {
-  board_registry_ensure(FALSE)
-
   .globals$boards_registered[[name]] <- board
+}
+
+local_register <- function(board, env = parent.frame()) {
+  name <- board$name
+
+  board_registry_set(name, board)
+  withr::defer(board_registry_set(name, NULL), envir = env)
 }
