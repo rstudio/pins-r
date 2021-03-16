@@ -139,7 +139,7 @@ board_local_storage <- function(...) {
 #' @export
 board_get <- function(name) {
   if (is.null(name)) {
-    board_default()
+    board_registry_get("local")
   } else if (is.board(name)) {
     name
   } else if (is.character(name) && length(name) == 1) {
