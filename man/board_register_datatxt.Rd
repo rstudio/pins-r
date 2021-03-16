@@ -68,7 +68,6 @@ board_register_datatxt(
 
 # find pins
 pin_find(board = "txtexample")
-
 }
 \seealso{
 board_register

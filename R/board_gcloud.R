@@ -49,7 +49,6 @@ board_gcloud <- function(name,
                          token = NULL,
                          cache = NULL,
                          ...) {
-
   if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
 
   if (is.null(token)) {
@@ -82,7 +81,6 @@ board_gcloud <- function(name,
 }
 
 gcloud_headers <- function(board, verb, path, file) {
-
   content_type <- NULL
   if (!is.null(file)) {
     content_type <- mime::guess_type(file)
@@ -100,10 +98,11 @@ gcloud_index_updated <- function(board) {
   metadata <- list(cacheControl = "private, max-age=0, no-transform", name = "data.txt")
 
   response <- httr::VERB("PATCH",
-                         paste0("https://storage.googleapis.com/storage/v1/b/", board$bucket, "/o/", "data.txt"),
-                         body = metadata,
-                         board_datatxt_headers(board, "o/data.txt", verb = "PATCH"),
-                         encode = "json")
+    paste0("https://storage.googleapis.com/storage/v1/b/", board$bucket, "/o/", "data.txt"),
+    body = metadata,
+    board_datatxt_headers(board, "o/data.txt", verb = "PATCH"),
+    encode = "json"
+  )
 
   if (httr::http_error(response)) {
     warning("Failed to update data.txt metadata: ", datatxt_response_content(response))
@@ -112,14 +111,17 @@ gcloud_index_updated <- function(board) {
 
 gcloud_binary <- function() {
   user_path <- Sys.getenv("gcloud.binary.path", getOption("gcloud.binary.path", ""))
-  if (nchar(user_path) > 0)
+  if (nchar(user_path) > 0) {
     return(normalizePath(user_path))
+  }
 
   candidates <- gcloud_candidates("gcloud")
 
-  for (candidate in candidates)
-    if (file.exists(candidate()))
+  for (candidate in candidates) {
+    if (file.exists(candidate())) {
       return(normalizePath(candidate()))
+    }
+  }
 
   NULL
 }

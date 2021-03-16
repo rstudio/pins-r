@@ -19,7 +19,7 @@ board_pin_find.packages <- function(board, text, ...) {
 
   find_names <- grepl(text, cranfiles$dataset, ignore.case = TRUE)
   find_description <- grepl(text, cranfiles$description, ignore.case = TRUE)
-  package_pins <- cranfiles[find_names | find_description,]
+  package_pins <- cranfiles[find_names | find_description, ]
 
   if (length(package_pins$dataset) > 0) {
     data.frame(
@@ -52,15 +52,17 @@ packages_download <- function(resource_path, package_pin, name) {
   repos <- packages_repo_default()
 
   progress <- function(e) e
-  if (pins_show_progress())
+  if (pins_show_progress()) {
     progress <- function(e) utils::capture.output(e, type = "message")
+  }
 
   progress(result <- utils::download.packages(package_pin$package, temp_path, repos = repos))
 
   tar <- dir(
     temp_path,
     pattern = paste0(package_pin$package, ".*.tar.gz"),
-    full.names = TRUE)[1]
+    full.names = TRUE
+  )[1]
 
   utils::untar(tar, exdir = temp_path)
   unlink(tar)
@@ -68,12 +70,14 @@ packages_download <- function(resource_path, package_pin, name) {
   temp_package <- dir(
     temp_path,
     pattern = package_pin$package,
-    full.names = TRUE)[1]
+    full.names = TRUE
+  )[1]
 
   temp_file <- dir(
     file.path(temp_package, "data"),
     pattern = name,
-    full.names = TRUE)[1]
+    full.names = TRUE
+  )[1]
 
   file.copy(temp_file, resource_path)
 
@@ -86,14 +90,13 @@ packages_download <- function(resource_path, package_pin, name) {
 
 #' @export
 board_pin_get.packages <- function(board, name, ...) {
-
   parts <- strsplit(name, "/")[[1]]
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
   package <- parts[[1]]
   name <- paste(parts[2:length(parts)], collapse = "/")
 
   cranfiles <- pins::cranfiles
-  package_pin <- cranfiles[which(cranfiles$package == package & cranfiles$dataset == name),]
+  package_pin <- cranfiles[which(cranfiles$package == package & cranfiles$dataset == name), ]
   if (nrow(package_pin) == 0) stop("Pin '", name, "' does not exist in packages board.")
 
   resource_path <- pin_registry_path(board, package, name)

@@ -24,5 +24,4 @@ pin(iris, board = "other_board")
 
 # deregister new board
 board_deregister("other_board")
-
 }

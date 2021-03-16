@@ -59,10 +59,9 @@ board_dospace <- function(name = "dospace",
                           cache = NULL,
                           host = "digitaloceanspaces.com",
                           ...) {
-
   if (nchar(space) == 0) stop("The 'dospace' board requires a 'space' parameter.")
-  if (nchar(key) == 0)  stop("The 'dospace' board requires a 'key' parameter.")
-  if (nchar(secret) == 0)  stop("The 'dospace' board requires a 'secret' parameter.")
+  if (nchar(key) == 0) stop("The 'dospace' board requires a 'key' parameter.")
+  if (nchar(secret) == 0) stop("The 'dospace' board requires a 'secret' parameter.")
   if (nchar(datacenter) == 0) stop("The 'dospace' board requires a 'datacenter' parameter.")
 
   board_datatxt(
@@ -88,7 +87,7 @@ dospace_headers <- function(board, verb, path, file) {
   # allow full urls to allow arbitrary file downloads
   space <- board$space
   if (grepl("^https?://", path)) {
-    path_nohttp <-  gsub("^https?://", "", path)
+    path_nohttp <- gsub("^https?://", "", path)
     path <- gsub("^[^/]+/", "", path_nohttp)
     space <- gsub("\\..*", "", path_nohttp)
   }

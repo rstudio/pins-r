@@ -54,9 +54,11 @@ You can sign-up and create those at \href{https://portal.azure.com}{portal.azure
 \examples{
 \dontrun{
 # the following example requires an Azure Storage key
-board_register_azure(container = "pinscontainer",
-                     account = "pinsstorage",
-                     key = "abcabcabcabcabcabcabcabcabcab==")
+board_register_azure(
+  container = "pinscontainer",
+  account = "pinsstorage",
+  key = "abcabcabcabcabcabcabcabcabcab=="
+)
 }
 }
 \seealso{

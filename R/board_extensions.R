@@ -64,7 +64,9 @@ board_browse <- function(board, ...) {
 }
 
 #' @export
-board_browse.default <- function(board, ...) { invisible(NULL) }
+board_browse.default <- function(board, ...) {
+  invisible(NULL)
+}
 
 board_empty_results <- function() {
   data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())

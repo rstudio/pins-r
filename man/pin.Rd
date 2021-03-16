@@ -47,15 +47,17 @@ board_register_local(cache = tempfile())
 pin(mtcars)
 
 # cache computation over mtcars
-mtcars[mtcars$mpg > 30,] \%>\%
+mtcars[mtcars$mpg > 30, ] \%>\%
   pin(name = "mtefficient")
 
 # retrieve cached pin
 pin_get("mtefficient")
 
 # url to remote resource
-resource <- file.path("https://raw.githubusercontent.com/facebook/prophet",
-                      "master/examples/example_retail_sales.csv")
+resource <- file.path(
+  "https://raw.githubusercontent.com/facebook/prophet",
+  "master/examples/example_retail_sales.csv"
+)
 
 # cache remote resource
 pin(resource, name = "example_retail_sales")
@@ -65,5 +67,4 @@ pin_get("example_retail_sales") \%>\% read.csv()
 
 # cache and read csv
 read.csv(pin(resource))
-
 }

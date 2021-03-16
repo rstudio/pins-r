@@ -23,7 +23,6 @@ pin_download_one <- function(path,
                              download = TRUE,
                              download_name = NULL,
                              ...) {
-
   stopifnot(is.board(board))
   must_download <- !cache
 
@@ -33,7 +32,9 @@ pin_download_one <- function(path,
   name <- gsub("^https?://", "", name)
 
   local_path <- pin_registry_path(board, subpath)
-  if (identical(download, FALSE)) return(local_path)
+  if (identical(download, FALSE)) {
+    return(local_path)
+  }
 
   # use a temp path to rollback if something fails
   temp_path <- tempfile()
@@ -63,9 +64,28 @@ pin_download_one <- function(path,
   }
 
   report_error <- if (old_cache_missing) stop else warning
-  catch_log <- function(e) tryCatch(e, error = function(e) { pin_log(e$message) ; NULL })
-  catch_error <- if (old_cache_missing) function(e) e else function(e) tryCatch(e, error = function(e) { report_error(e$message) ; NULL })
-  if (can_fail) report_error <- function(e) { details$error <- e ; NULL }
+  catch_log <- function(e) {
+    tryCatch(e, error = function(e) {
+      pin_log(e$message)
+      NULL
+    })
+  }
+  catch_error <- if (old_cache_missing) {
+    function(e) e
+  } else {
+    function(e) {
+      tryCatch(e, error = function(e) {
+        report_error(e$message)
+        NULL
+      })
+    }
+  }
+  if (can_fail) {
+    report_error <- function(e) {
+      details$error <- e
+      NULL
+    }
+  }
 
   cache <- list()
   cache$etag <- old_cache$etag
@@ -81,7 +101,6 @@ pin_download_one <- function(path,
 
   # skip downloading if max-age still valid
   if (as.numeric(Sys.time()) >= cache$change_age + cache$max_age || must_download) {
-
     skip_download <- FALSE
     if (is.character(custom_etag) && nchar(custom_etag) > 0) {
       pin_log("Using custom 'etag' (old, new): ", old_cache$etag, ", ", custom_etag)
@@ -105,28 +124,29 @@ pin_download_one <- function(path,
 
     # skip downloading if etag has not changed
     if (old_cache_missing || etag_changed || must_download) {
-        if (identical(download_name, NULL)) download_name <- basename(path)
+      if (identical(download_name, NULL)) download_name <- basename(path)
 
-        if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
-        destination_path <- file.path(temp_path, download_name)
-        pin_log("Downloading ", path, " to ", destination_path)
-        details$something_changed <- TRUE
+      if (remove_query) download_name <- strsplit(download_name, "\\?")[[1]][1]
+      destination_path <- file.path(temp_path, download_name)
+      pin_log("Downloading ", path, " to ", destination_path)
+      details$something_changed <- TRUE
 
-        write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
-        result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress(size = content_length)))
-        extract_type <- gsub("application/(x-)?", "", result$headers$`content-type`)
-        if (!is.null(result$headers$`content-type`) && result$headers$`content-type` %in% c("application/octet-stream", "application/zip")) {
-          if (file.size(destination_path) > 4 &&
-              identical(readBin(destination_path, raw(), 4), as.raw(c(0x50, 0x4b, 0x03, 0x04))))
-            extract_type <- "zip"
+      write_spec <- httr::write_disk(destination_path, overwrite = TRUE)
+      result <- catch_error(httr::GET(path, write_spec, headers, config, http_utils_progress(size = content_length)))
+      extract_type <- gsub("application/(x-)?", "", result$headers$`content-type`)
+      if (!is.null(result$headers$`content-type`) && result$headers$`content-type` %in% c("application/octet-stream", "application/zip")) {
+        if (file.size(destination_path) > 4 &&
+          identical(readBin(destination_path, raw(), 4), as.raw(c(0x50, 0x4b, 0x03, 0x04)))) {
+          extract_type <- "zip"
         }
+      }
 
-        if (httr::http_error(result)) {
-          error <- paste0(httr::http_status(result)$message, ". Failed to download remote file: ", path)
-          pin_log(as.character(httr::content(result, encoding = "UTF-8")))
+      if (httr::http_error(result)) {
+        error <- paste0(httr::http_status(result)$message, ". Failed to download remote file: ", path)
+        pin_log(as.character(httr::content(result, encoding = "UTF-8")))
 
-          report_error(error)
-        }
+        report_error(error)
+      }
     }
   }
 
@@ -180,9 +200,9 @@ pin_extract.zip <- function(file, destination) {
 }
 
 pin_extract.gzip <- function(file, destination) {
-  if (length(find.package("R.utils", quiet = TRUE)) == 0)
+  if (length(find.package("R.utils", quiet = TRUE)) == 0) {
     warning("To extract gzip pins install the 'R.utils' package")
-  else {
+  } else {
     R.utils::gunzip(file, destname = file.path(destination, gsub(".gz", "", basename(file), fixed = TRUE)))
   }
 }
@@ -205,9 +225,13 @@ pin_extract.default <- function(file, destination) {
 }
 
 pin_file_cache_max_age <- function(cache_control) {
-  if (is.null(cache_control)) return(NULL)
+  if (is.null(cache_control)) {
+    return(NULL)
+  }
   max_age <- grep("max-age", cache_control)
-  if (length(max_age) != 1) return(NULL)
+  if (length(max_age) != 1) {
+    return(NULL)
+  }
 
   max_age <- gsub(".*max-age=", "", cache_control)
   as.numeric(gsub(",.*$", "", max_age))

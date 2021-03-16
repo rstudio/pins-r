@@ -2,7 +2,7 @@ pin_changed_time <- function(name, board, extract) {
   pin_path <- board_pin_get(board_get(board), name, extract = extract)
   pin_files <- file.path(pin_path, dir(pin_path))
 
-  max(file.info(pin_files)[,"mtime"])
+  max(file.info(pin_files)[, "mtime"])
 }
 
 #' Reactive Pin
@@ -36,5 +36,6 @@ pin_reactive <- function(name, board, interval = 5000, session = NULL, extract =
     },
     valueFunc = function() {
       pin_get(name, board = board, extract = extract)
-    })
+    }
+  )
 }

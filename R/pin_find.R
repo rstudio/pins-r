@@ -45,7 +45,6 @@ pin_find <- function(text = NULL,
                      name = NULL,
                      extended = FALSE,
                      ...) {
-
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)
   } else if (is.character(board)) {
@@ -68,7 +67,8 @@ pin_find <- function(text = NULL,
     if (identical(extended, TRUE)) {
       ext_df <- tryCatch(
         paste("[", paste(board_pins$metadata, collapse = ","), "]") %>% jsonlite::fromJSON(),
-        error = function(e) NULL)
+        error = function(e) NULL
+      )
 
       if (is.data.frame(ext_df) && nrow(board_pins) == nrow(ext_df)) {
         ext_df <- ext_df[, !names(ext_df) %in% colnames(board_pins)]
@@ -86,7 +86,7 @@ pin_find <- function(text = NULL,
   if (!is.null(text)) {
     find_names <- grepl(text, all_pins$name, ignore.case = TRUE)
     find_description <- if (is.null(all_pins$description)) FALSE else grepl(text, all_pins$description, ignore.case = TRUE)
-    all_pins <- all_pins[find_names | find_description,]
+    all_pins <- all_pins[find_names | find_description, ]
   }
 
   if (!metadata) {
@@ -94,8 +94,8 @@ pin_find <- function(text = NULL,
   }
 
   if (!is.null(name)) {
-    all_pins <- all_pins[grepl(paste0("(.*/)?", name, "$"), all_pins$name),]
-    if (nrow(all_pins) > 0) all_pins <- all_pins[1,]
+    all_pins <- all_pins[grepl(paste0("(.*/)?", name, "$"), all_pins$name), ]
+    if (nrow(all_pins) > 0) all_pins <- all_pins[1, ]
   }
 
   # sort pin results by name
@@ -111,7 +111,8 @@ pin_find_empty <- function() {
     type = character(),
     metadata = character(),
     board = character(),
-    stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE
+  )
 }
 
 pin_split_owner <- function(name) {

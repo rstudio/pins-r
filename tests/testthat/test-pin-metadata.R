@@ -8,9 +8,9 @@ test_that("can pin() with custom metadata", {
       list(name = "Sepal.Length", description = "Sepal Length"),
       list(name = "Sepal.Width", description = "Sepal Width"),
       list(name = "Petal.Length", description = "Petal Length"),
-      list(name = "Petal.Width", description = "Petal Width"))
+      list(name = "Petal.Width", description = "Petal Width")
     )
-  )
+  ))
 
   info <- pin_info("iris-metadata", board = "local")
 
@@ -18,4 +18,3 @@ test_that("can pin() with custom metadata", {
   expect_equal(names(info$columns[[1]]), c("name", "type", "description"))
   expect_equal(info$source, "The R programming language")
 })
-

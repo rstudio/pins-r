@@ -14,12 +14,14 @@ test_that("can sanitize data frame names", {
 })
 
 test_that("can save data frame with different types", {
-  test_df <- data.frame(raw =  charToRaw("asdas"),
-                        posix = as.POSIXlt(Sys.time(), "EST"),
-                        date = as.Date(35981, origin = "1899-12-30"),
-                        integer = 1L,
-                        numeric = 1,
-                        booleaen = TRUE)
+  test_df <- data.frame(
+    raw = charToRaw("asdas"),
+    posix = as.POSIXlt(Sys.time(), "EST"),
+    date = as.Date(35981, origin = "1899-12-30"),
+    integer = 1L,
+    numeric = 1,
+    booleaen = TRUE
+  )
 
   pins_safe_csv(test_df, "test_df.csv")
 

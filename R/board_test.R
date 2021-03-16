@@ -79,8 +79,9 @@ board_test_default <- function(board, exclude, destination) {
     testthat::expect_equal(result, NULL)
 
     results <- pin_find(name = pin_name, board = board)
-    if (nrow(results) > 0)
+    if (nrow(results) > 0) {
       testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
+    }
   })
 
   testthat::test_that(paste("can pin_remove() dataset from", destination), {
@@ -90,8 +91,9 @@ board_test_default <- function(board, exclude, destination) {
     testthat::expect_equal(result, NULL)
 
     results <- pin_find(name = dataset_name, board = board)
-    if (nrow(results) > 0)
+    if (nrow(results) > 0) {
       testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
+    }
   })
 }
 
@@ -113,11 +115,13 @@ board_test_versions <- function(board, exclude, destination) {
 
     testthat::expect_equal(
       as.character(pin_get(pin_name, version = versions$version[length(versions$version)], board = board)),
-      as.character(version_a))
+      as.character(version_a)
+    )
 
     testthat::expect_equal(
-      as.character(pin_get(pin_name, version = versions$version[length(versions$version)-1], board = board)),
-      as.character(version_b))
+      as.character(pin_get(pin_name, version = versions$version[length(versions$version) - 1], board = board)),
+      as.character(version_b)
+    )
   })
 
   testthat::test_that(paste("can pin_remove() a pin with versions", destination), {
@@ -127,7 +131,8 @@ board_test_versions <- function(board, exclude, destination) {
     testthat::expect_equal(result, NULL)
 
     results <- pin_find(name = pin_name, board = board)
-    if (nrow(results) > 0)
+    if (nrow(results) > 0) {
       testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
+    }
   })
 }

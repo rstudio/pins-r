@@ -16,7 +16,6 @@
 board_register_local <- function(name = "local",
                                  cache = board_cache_path(),
                                  ...) {
-
   board <- board_local(name = name, cache = cache, ...)
   board_register2(board)
 }
@@ -26,7 +25,6 @@ board_register_local <- function(name = "local",
 board_local <- function(cache = board_cache_path(),
                         name = "local",
                         versions = FALSE) {
-
   new_board("local", name = name, cache = cache, versions = versions)
 }
 

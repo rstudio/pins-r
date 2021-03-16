@@ -65,9 +65,7 @@ board_github <- function(name,
                          token = NULL,
                          path = "",
                          host = "https://api.github.com",
-                         ...
-                         ) {
-
+                         ...) {
   if (is.null(repo)) {
     stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")
   }
@@ -84,8 +82,10 @@ board_github <- function(name,
 
   if (!github_authenticated(board)) {
     if (is.null(token)) {
-      stop("GitHub Personal Access Token must be specified with the 'token' parameter or with the 'GITHUB_PAT' ",
-           "environment variable. You can create a token at https://github.com/settings/tokens.")
+      stop(
+        "GitHub Personal Access Token must be specified with the 'token' parameter or with the 'GITHUB_PAT' ",
+        "environment variable. You can create a token at https://github.com/settings/tokens."
+      )
     }
   }
 
@@ -114,17 +114,19 @@ board_github <- function(name,
 
 
 github_authenticated <- function(board) {
-  if (!is.null(board$token))
+  if (!is.null(board$token)) {
     TRUE
-  else
+  } else {
     nchar(Sys.getenv("GITHUB_PAT")) > 0
+  }
 }
 
 github_auth <- function(board) {
-  if (!is.null(board$token))
+  if (!is.null(board$token)) {
     board$token
-  else
+  } else {
     Sys.getenv("GITHUB_PAT")
+  }
 }
 
 github_headers <- function(board) {
@@ -194,13 +196,14 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
   base64 <- base64enc::base64encode(index_file)
   response <- httr::PUT(file_url,
-                        body = list(
-                          message = commit,
-                          content = base64,
-                          sha = sha,
-                          branch = branch
-                        ),
-                        github_headers(board), encode = "json")
+    body = list(
+      message = commit,
+      content = base64,
+      sha = sha,
+      branch = branch
+    ),
+    github_headers(board), encode = "json"
+  )
 
   if (httr::http_error(response)) {
     stop("Failed to update data.txt file: ", httr::content(response, encoding = "UTF-8"))
@@ -233,7 +236,7 @@ github_create_release <- function(board, name) {
 
   release_tag <- release_name <- name
   if (board_versions_enabled(board, TRUE)) {
-    release_tag <-  paste(name, version, sep = "-")
+    release_tag <- paste(name, version, sep = "-")
     release_name <- paste(name, version)
   }
   else {
@@ -251,7 +254,8 @@ github_create_release <- function(board, name) {
   response <- httr::POST(
     release_url,
     body = release,
-    github_headers(board), encode = "json")
+    github_headers(board), encode = "json"
+  )
 
   if (httr::http_error(response)) stop("Failed to create release '", release$tag_name, "' for '", name, "': ", httr::content(response, encoding = "UTF-8")$message)
 
@@ -280,14 +284,15 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
 
   base64 <- base64enc::base64encode(file_path)
   response <- httr::PUT(file_url,
-                        body = list(
-                          message = commit,
-                          content = base64,
-                          sha = sha,
-                          branch = branch
-                        ),
-                        github_headers(board), encode = "json",
-                        http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
+    body = list(
+      message = commit,
+      content = base64,
+      sha = sha,
+      branch = branch
+    ),
+    github_headers(board), encode = "json",
+    http_utils_progress("up", size = file.info(normalizePath(file_path))$size)
+  )
   upload <- httr::content(response, encoding = "UTF-8")
 
   if (httr::http_error(response)) {
@@ -302,12 +307,13 @@ github_upload_blob <- function(board, file, file_path, commit) {
 
   base64 <- base64enc::base64encode(file_path)
   response <- httr::POST(blob_url,
-                         body = list(
-                           content = base64,
-                           encoding = "base64"
-                         ),
-                         github_headers(board), encode = "json",
-                         http_utils_progress("up", size = file.info(normalizePath(file_path))$size))
+    body = list(
+      content = base64,
+      encoding = "base64"
+    ),
+    github_headers(board), encode = "json",
+    http_utils_progress("up", size = file.info(normalizePath(file_path))$size)
+  )
   upload <- httr::content(response, encoding = "UTF-8")
 
   if (httr::http_error(response)) {
@@ -323,12 +329,13 @@ github_create_tree <- function(board, tree_files, base_sha) {
   pin_log("creating tree")
 
   response <- httr::POST(tree_url,
-                         body = list(
-                           base_tree = jsonlite::unbox(base_sha),
-                           tree = tree_files
-                         ),
-                         github_headers(board), encode = "json",
-                         http_utils_progress("up"))
+    body = list(
+      base_tree = jsonlite::unbox(base_sha),
+      tree = tree_files
+    ),
+    github_headers(board), encode = "json",
+    http_utils_progress("up")
+  )
   upload <- httr::content(response, encoding = "UTF-8")
 
   if (httr::http_error(response)) {
@@ -344,15 +351,16 @@ github_create_commit <- function(board, tree_sha, base_sha, commit) {
   pin_log("creating commit")
 
   response <- httr::POST(commit_url,
-                         body = list(
-                           message = jsonlite::unbox(commit),
-                           tree = jsonlite::unbox(tree_sha),
-                           parents = list(
-                             jsonlite::unbox(base_sha)
-                           )
-                         ),
-                         github_headers(board), encode = "json",
-                         http_utils_progress("up"))
+    body = list(
+      message = jsonlite::unbox(commit),
+      tree = jsonlite::unbox(tree_sha),
+      parents = list(
+        jsonlite::unbox(base_sha)
+      )
+    ),
+    github_headers(board), encode = "json",
+    http_utils_progress("up")
+  )
   upload <- httr::content(response, encoding = "UTF-8")
 
   if (httr::http_error(response)) {
@@ -368,13 +376,14 @@ github_update_head <- function(board, branch, commit_sha) {
   pin_log("updating head")
 
   response <- httr::VERB("PATCH",
-                         ref_url,
-                         body = list(
-                           sha = jsonlite::unbox(commit_sha),
-                           force = jsonlite::unbox(FALSE)
-                         ),
-                         github_headers(board), encode = "json",
-                         http_utils_progress("up"))
+    ref_url,
+    body = list(
+      sha = jsonlite::unbox(commit_sha),
+      force = jsonlite::unbox(FALSE)
+    ),
+    github_headers(board), encode = "json",
+    http_utils_progress("up")
+  )
   upload <- httr::content(response, encoding = "UTF-8")
 
   if (httr::http_error(response)) {
@@ -402,13 +411,12 @@ github_refs_head <- function(board, branch) {
 github_files_commit <- function(board, upload_files, branch, commit) {
   tree_files <- list()
   for (file in names(upload_files)) {
-
     result <- github_upload_blob(board, file, upload_files[[file]], commit)
 
     tree_files[[file]] <- list(
       path = jsonlite::unbox(file),
-      mode = jsonlite::unbox('100644'),
-      type = jsonlite::unbox('blob'),
+      mode = jsonlite::unbox("100644"),
+      type = jsonlite::unbox("blob"),
       sha = jsonlite::unbox(result$sha)
     )
   }
@@ -472,7 +480,9 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 
     datatxt$filenames <- as.list(datatxt$path)
 
-    datatxt$path <- sapply(datatxt$path, function(e) { if(e %in% names(release_map)) release_map[[e]] else e })
+    datatxt$path <- sapply(datatxt$path, function(e) {
+      if (e %in% names(release_map)) release_map[[e]] else e
+    })
 
     names(datatxt$filenames) <- datatxt$path
 
@@ -487,8 +497,10 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
   if (update_index) {
     index_path <- name
 
-    index <- github_update_temp_index(board, index_path, commit, operation = "create",
-                                            name = name, metadata = metadata, branch = branch)
+    index <- github_update_temp_index(board, index_path, commit,
+      operation = "create",
+      name = name, metadata = metadata, branch = branch
+    )
 
     remote_index <- paste0(board$path, "data.txt")
     upload_defs[[remote_index]] <- index$index_file
@@ -503,8 +515,10 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 board_pin_find.github <- function(board, text, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
-  result <- httr::GET(github_url(board, "/contents/", board$path, "data.txt", branch = branch),
-                      github_headers(board))
+  result <- httr::GET(
+    github_url(board, "/contents/", board$path, "data.txt", branch = branch),
+    github_headers(board)
+  )
 
   if (!httr::http_error(result)) {
     content <- httr::content(result, encoding = "UTF-8")
@@ -525,20 +539,23 @@ board_pin_find.github <- function(board, text, ...) {
   }
 
   if (is.character(text)) {
-    result <- result[grepl(text, result$name) | grepl(text, result$description),]
+    result <- result[grepl(text, result$name) | grepl(text, result$description), ]
   }
 
   if (nrow(result) == 1) {
     # retrieve additional details if searching for only one item
-    result_single <- httr::GET(github_url(board, branch = branch, "/contents/", board$path, result$name, "/", "data.txt"),
-                               github_headers(board))
+    result_single <- httr::GET(
+      github_url(board, branch = branch, "/contents/", board$path, result$name, "/", "data.txt"),
+      github_headers(board)
+    )
 
     if (!httr::http_error(result_single)) {
       local_path <- pin_download(httr::content(result_single, encoding = "UTF-8")$download_url,
-                                 result$name,
-                                 board,
-                                 headers = github_headers(board),
-                                 remove_query = TRUE)
+        result$name,
+        board,
+        headers = github_headers(board),
+        remove_query = TRUE
+      )
       manifest <- pin_manifest_get(local_path)
 
       result$metadata <- as.character(jsonlite::toJSON(manifest, auto_unbox = TRUE))
@@ -552,8 +569,9 @@ github_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
   url <- paste0(board$host, "/repos/", board$repo, paste0(args, collapse = ""))
-  if (!is.null(branch))
+  if (!is.null(branch)) {
     url <- paste0(url, "?ref=", branch)
+  }
 
   url
 }
@@ -592,7 +610,8 @@ github_branches_create <- function(board, new_branch, base_branch) {
       ref = reference,
       sha = sha
     ),
-    github_headers(board), encode = "json")
+    github_headers(board), encode = "json"
+  )
 
   if (httr::http_error(response)) {
     stop("Failed to create branch ", new_branch, " ", as.character(httr::content(response, encoding = "UTF-8")))
@@ -603,8 +622,9 @@ github_content_url <- function(board, branch = board$branch, ...) {
   args <- list(...)
 
   url <- paste0(board$host, "/repos/", board$repo, "/contents/", paste0(board$path, paste0(args, collapse = "")))
-  if (!is.null(branch))
+  if (!is.null(branch)) {
     url <- paste0(url, "?ref=", branch)
+  }
 
   url
 }
@@ -623,8 +643,10 @@ github_download_files <- function(index, temp_path, board) {
     }
     else {
       if (!dir.exists(temp_path)) dir.create(temp_path, recursive = TRUE)
-      httr::GET(file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
-                http_utils_progress(), github_headers(board))
+      httr::GET(
+        file$download_url, httr::write_disk(file.path(temp_path, basename(file$download_url))),
+        http_utils_progress(), github_headers(board)
+      )
     }
   }
 }
@@ -661,12 +683,13 @@ board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ..
       }
 
       pin_download(file_url,
-                   name,
-                   board,
-                   headers = headers,
-                   extract = identical(extract, TRUE),
-                   subpath = subpath,
-                   download_name = file_name)
+        name,
+        board,
+        headers = headers,
+        extract = identical(extract, TRUE),
+        subpath = subpath,
+        download_name = file_name
+      )
     }
 
     local_path
@@ -677,8 +700,9 @@ board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ..
 
     index <- httr::content(result, encoding = "UTF-8")
 
-    if (httr::http_error(result))
+    if (httr::http_error(result)) {
       stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
+    }
 
     # need to handle case where users passes a full URL to the specific file to download
     if (!is.null(names(index))) {
@@ -704,8 +728,9 @@ board_pin_remove.github <- function(board, name, ...) {
 
   index <- httr::content(result, encoding = "UTF-8")
 
-  if (httr::http_error(result))
+  if (httr::http_error(result)) {
     stop("Failed to retrieve ", name, " from ", board$repo, ": ", index$message)
+  }
 
   for (file in index) {
     pin_log("deleting ", file$name)
@@ -720,8 +745,9 @@ board_pin_remove.github <- function(board, name, ...) {
 
     deletion <- httr::content(response, encoding = "UTF-8")
 
-    if (httr::http_error(response))
+    if (httr::http_error(response)) {
       stop("Failed to delete ", name, " from ", board$repo, ": ", deletion$message)
+    }
   }
 
   if (!board_versions_enabled(board, TRUE)) {
@@ -733,7 +759,7 @@ board_pin_remove.github <- function(board, name, ...) {
 
 #' @export
 board_browse.github <- function(board, ...) {
-  utils::browseURL(paste0("https://github.com/", board$repo, "/tree/",board$branch, "/", board$path))
+  utils::browseURL(paste0("https://github.com/", board$repo, "/tree/", board$branch, "/", board$path))
 }
 
 #' @export
@@ -741,21 +767,27 @@ board_pin_versions.github <- function(board, name, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
   path <- paste0(board$path, name)
-  response <- httr::GET(github_url(board, "/commits", branch = NULL,
-                                   sha = "?per_page=100&sha=", branch,
-                                   "&path=", path),
-                      github_headers(board))
+  response <- httr::GET(
+    github_url(board, "/commits",
+      branch = NULL,
+      sha = "?per_page=100&sha=", branch,
+      "&path=", path
+    ),
+    github_headers(board)
+  )
 
   commits <- httr::content(response, encoding = "UTF-8")
 
-  if (httr::http_error(response))
+  if (httr::http_error(response)) {
     stop("Failed to retrieve commits from ", board$repo, ": ", commits$message)
+  }
 
   data.frame(
     version = sapply(commits, function(e) e$sha),
     created = sapply(commits, function(e) e$commit$author$date),
     author = sapply(commits, function(e) e$author$login),
     message = sapply(commits, function(e) e$commit$message),
-    stringsAsFactors = FALSE) %>%
+    stringsAsFactors = FALSE
+  ) %>%
     format_tibble()
 }

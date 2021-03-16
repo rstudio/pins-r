@@ -44,7 +44,6 @@ pin_get <- function(name,
                     files = FALSE,
                     signature = NULL,
                     ...) {
-
   board <- board_get(board)
   if (!cache) {
     pin_register_reset_cache(board, name)

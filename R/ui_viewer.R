@@ -11,7 +11,9 @@ ui_viewer_register <- function(board, board_call) {
   .globals$ui_connections[[board$name]] <- TRUE
 
   observer <- getOption("connectionObserver")
-  if (identical(observer, NULL)) return()
+  if (identical(observer, NULL)) {
+    return()
+  }
 
   icons <- system.file(file.path("icons"), package = "pins")
 
@@ -57,7 +59,7 @@ ui_viewer_register <- function(board, board_call) {
       .globals$ui_connections[[board$name]] <- FALSE
     },
 
-    listObjectTypes = function () {
+    listObjectTypes = function() {
       list(
         table = list(contains = "data")
       )
@@ -83,7 +85,7 @@ ui_viewer_register <- function(board, board_call) {
       attr_values <- c()
 
       pin_index <- pin_find(table, board = board$name, name = table, metadata = TRUE)
-      pin_index <- pin_index[table == pin_index$name,]
+      pin_index <- pin_index[table == pin_index$name, ]
 
       if (!is.null(pin_index$metadata) || nchar(pin_index$metadata) > 0) {
         metadata <- jsonlite::fromJSON(pin_index$metadata)
@@ -147,4 +149,3 @@ ui_viewer_closed <- function(board) {
 }
 
 # nocov end
-

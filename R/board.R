@@ -1,5 +1,4 @@
 new_board <- function(board, name, cache, versions = FALSE, ...) {
-
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
   fs::dir_create(fs::path(cache, name))
@@ -124,10 +123,10 @@ board_get <- function(name) {
 #'
 #' # create a Website board
 #' board_register("datatxt",
-#'                name = "txtexample",
-#'                url = "https://datatxt.org/data.txt",
-#'                cache = tempfile())
-#'
+#'   name = "txtexample",
+#'   url = "https://datatxt.org/data.txt",
+#'   cache = tempfile()
+#' )
 #' @seealso [board_register_local()], [board_register_github()],
 #'   [board_register_kaggle()], [board_register_rsconnect()] and
 #'   [board_register_datatxt()].
@@ -138,7 +137,6 @@ board_register <- function(board,
                            cache = board_cache_path(),
                            versions = NULL,
                            ...) {
-
   if (is_url(board)) {
     board <- board_datatxt(
       name = name,
@@ -178,16 +176,16 @@ board_register_code <- function(board, name) {
   while (parent_idx < length(sys.parents())) {
     parent_func <- sys.function(sys.parent(parent_idx))
     parent_call <- sys.call(sys.parent(parent_idx))
-    if (!is.function(parent_func) || !is.call(parent_call)) break;
+    if (!is.function(parent_func) || !is.call(parent_call)) break
 
     this_parent_call <- tryCatch(match.call(definition = parent_func, call = parent_call), error = function(e) NULL)
 
-    if (is.null(this_parent_call)) break;
-    if (length(this_parent_call) < 1) break;
+    if (is.null(this_parent_call)) break
+    if (length(this_parent_call) < 1) break
 
     this_function_name <- deparse(this_parent_call[[1]])
 
-    if (!grepl("(^|::)board_register", this_function_name)) break;
+    if (!grepl("(^|::)board_register", this_function_name)) break
 
     parent_call <- this_parent_call
     function_name <- this_function_name
@@ -221,7 +219,6 @@ board_register_code <- function(board, name) {
 #'
 #' # deregister new board
 #' board_deregister("other_board")
-#'
 #' @export
 board_deregister <- function(name, ...) {
   if (!name %in% board_registry_list()) stop("Board '", name, "' is not registered.")

@@ -4,5 +4,3 @@
 
 .globals <- new.env(parent = emptyenv())
 .globals$ui_updating_connection <- 0
-
-

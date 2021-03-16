@@ -75,15 +75,20 @@ pin_registry_find <- function(board, text) {
 
 pin_results_from_rows <- function(entries) {
   results_field <- function(entries, field, default) {
-    sapply(entries,
-           function(e) if (is.null(e[[field]])) default else e[[field]])
+    sapply(
+      entries,
+      function(e) if (is.null(e[[field]])) default else e[[field]]
+    )
   }
 
   names <- sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name)
   descriptions <- results_field(entries, "description", "")
   types <- results_field(entries, "type", "files")
-  metadata <- sapply(entries, function(e) as.character(
-    jsonlite::toJSON(e[setdiff(names(e), c("name", "description", "type"))], auto_unbox = TRUE)))
+  metadata <- sapply(entries, function(e) {
+    as.character(
+      jsonlite::toJSON(e[setdiff(names(e), c("name", "description", "type"))], auto_unbox = TRUE)
+    )
+  })
 
   data.frame(
     name = names,

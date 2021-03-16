@@ -21,7 +21,6 @@
 #'
 #' # print pin information
 #' pin_info("mtcars")
-#'
 #' @export
 pin_info <- function(name,
                      board = NULL,
@@ -60,7 +59,7 @@ pin_get_one <- function(name, board, extended, metadata) {
   entry <- pin_find(name = name, board = board, metadata = FALSE, extended = FALSE)
 
   if (nrow(entry) == 0) stop("Pin '", name, "' was not found.")
-  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","),  ".")
+  if (nrow(entry) > 1) stop("Pin '", name, "' was found in multiple boards: ", paste(entry$board, collapse = ","), ".")
 
   board <- entry$board
   entry <- pin_find(name = name, board = board, metadata = metadata, extended = extended)
@@ -85,8 +84,8 @@ print.pin_info <- function(x, ...) {
     for (i in names(info)) {
       entry <- info[[i]]
       if ((is.list(entry) && length(entry) == 0) ||
-          (is.character(entry) && identical(nchar(entry), 0L)) ||
-          identical(i, "path")) {
+        (is.character(entry) && identical(nchar(entry), 0L)) ||
+        identical(i, "path")) {
         info[[i]] <- NULL
       }
     }

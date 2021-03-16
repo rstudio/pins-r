@@ -3,7 +3,7 @@ test_that("can maintain class when using pin(I())", {
 
   smalldat <- data.table::data.table(
     group1 = rep(1:2, each = 5),
-    group2 = rep(c('a','b'), times = 5),
+    group2 = rep(c("a", "b"), times = 5),
     x = rnorm(10)
   )
 

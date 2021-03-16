@@ -37,4 +37,3 @@ test_that("fail to pin() remote CSV with bad signature", {
     pin("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_retail_sales.csv", signature = "aaaaa461b5f73a50e5935ab0ba2fb062fbef642d")
   })
 })
-

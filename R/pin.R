@@ -36,15 +36,17 @@
 #' pin(mtcars)
 #'
 #' # cache computation over mtcars
-#' mtcars[mtcars$mpg > 30,] %>%
+#' mtcars[mtcars$mpg > 30, ] %>%
 #'   pin(name = "mtefficient")
 #'
 #' # retrieve cached pin
 #' pin_get("mtefficient")
 #'
 #' # url to remote resource
-#' resource <- file.path("https://raw.githubusercontent.com/facebook/prophet",
-#'                       "master/examples/example_retail_sales.csv")
+#' resource <- file.path(
+#'   "https://raw.githubusercontent.com/facebook/prophet",
+#'   "master/examples/example_retail_sales.csv"
+#' )
 #'
 #' # cache remote resource
 #' pin(resource, name = "example_retail_sales")
@@ -54,7 +56,6 @@
 #'
 #' # cache and read csv
 #' read.csv(pin(resource))
-#'
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   UseMethod("pin")
@@ -89,7 +90,6 @@ pin_load <- function(path, ...) {
 #' @export
 #' @rdname custom-pins
 board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, retrieve = TRUE, ...) {
-
   type <- match.arg(type, c("default", "files", "table"))
 
   board <- board_get(board)
@@ -111,7 +111,10 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
     datatxt_path <- file.path(path, "data.txt")
     local_path <- pin_download(datatxt_path, name, board_default(), can_fail = TRUE)
     if (!is.null(local_path)) {
-      manifest <- tryCatch(pin_manifest_get(local_path), error = function(e) { unlink(file.path(local_path, "data.txt")) ; NULL })
+      manifest <- tryCatch(pin_manifest_get(local_path), error = function(e) {
+        unlink(file.path(local_path, "data.txt"))
+        NULL
+      })
       if (!is.null(manifest) && !is.null(manifest$path)) {
         path <- paste(path, manifest$path, sep = "/")
         extract <- FALSE
@@ -122,13 +125,15 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   if (identical(zip, TRUE)) {
     find_common_path <- function(path) {
       common <- path[1]
-      if (all(startsWith(path, common)) || identical(common, dirname(common))) return(common)
+      if (all(startsWith(path, common)) || identical(common, dirname(common))) {
+        return(common)
+      }
       return(force(find_common_path(dirname(common[1]))))
     }
 
     common_path <- find_common_path(path)
     withr::with_dir(common_path, {
-      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path), flags="-q")
+      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path), flags = "-q")
     })
 
     something_changed <- TRUE
@@ -139,12 +144,13 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
       details <- as.environment(list(something_changed = TRUE))
       if (grepl("^http", single_path)) {
         single_path <- pin_download(single_path,
-                                    name,
-                                    board_default(),
-                                    extract = extract,
-                                    details = details,
-                                    can_fail = TRUE,
-                                    ...)
+          name,
+          board_default(),
+          extract = extract,
+          details = details,
+          can_fail = TRUE,
+          ...
+        )
         if (!is.null(details$error)) {
           cached_result <- tryCatch(pin_get(name, board = board_default()), error = function(e) NULL)
           if (is.null(cached_result)) stop(details$error) else warning(details$error)
@@ -154,10 +160,11 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
 
       if (details$something_changed) {
         copy_or_link <- function(from, to) {
-          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8) && .Platform$OS.type != "windows")
+          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8) && .Platform$OS.type != "windows") {
             fs::link_create(from, file.path(to, basename(from)))
-          else
+          } else {
             file.copy(from, to, recursive = TRUE)
+          }
         }
 
         if (dir.exists(single_path)) {
@@ -266,15 +273,18 @@ pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...
     cols = ncol(x),
     columns = lapply(x, function(e) class(e)[[1]])
   )
-  board_pin_store(board, path, name, description, "table", metadata,...)
+  board_pin_store(board, path, name, description, "table", metadata, ...)
 }
 
 pins_safe_csv <- function(x, name) {
-  tryCatch({
-    pins_save_csv(x, name)
-  }, error = function(e) {
-    warning("Failed to save data frame as CSV file")
-  })
+  tryCatch(
+    {
+      pins_save_csv(x, name)
+    },
+    error = function(e) {
+      warning("Failed to save data frame as CSV file")
+    }
+  )
 }
 
 pins_save_csv <- function(x, name) {
@@ -303,9 +313,13 @@ pin_load.table <- function(path, ...) {
   rds <- file.path(path, "data.rds")
   csv <- file.path(path, "data.csv")
 
-  if (file.exists(rds)) result <- readRDS(rds)
-  else if (file.exists(csv)) result <- utils::read.csv(csv, stringsAsFactors = FALSE)
-  else stop("A 'table' pin requires CSV or RDS files.")
+  if (file.exists(rds)) {
+    result <- readRDS(rds)
+  } else if (file.exists(csv)) {
+    result <- utils::read.csv(csv, stringsAsFactors = FALSE)
+  } else {
+    stop("A 'table' pin requires CSV or RDS files.")
+  }
 
   format_tibble(result)
 }
@@ -400,10 +414,12 @@ pin_default_name <- function(x, board) {
 
 
 pins_merge_custom_metadata <- function(metadata, custom_metadata) {
-  fixed_fields <- c("rows",
-                    "cols",
-                    "name",
-                    "description")
+  fixed_fields <- c(
+    "rows",
+    "cols",
+    "name",
+    "description"
+  )
 
   for (entry in names(custom_metadata)) {
     if (identical(entry, "columns")) {
@@ -416,7 +432,8 @@ pins_merge_custom_metadata <- function(metadata, custom_metadata) {
 
       if (is.data.frame(custom_metadata$columns)) {
         custom_metadata$columns <- custom_metadata$columns %>%
-          jsonlite::toJSON() %>% jsonlite::fromJSON(simplifyDataFrame = FALSE)
+          jsonlite::toJSON() %>%
+          jsonlite::fromJSON(simplifyDataFrame = FALSE)
       }
 
       for (column in custom_metadata$columns) {

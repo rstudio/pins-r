@@ -21,9 +21,11 @@
 #' @examples
 #' \dontrun{
 #' # the following example requires an Azure Storage key
-#' board_register_azure(container = "pinscontainer",
-#'                      account = "pinsstorage",
-#'                      key = "abcabcabcabcabcabcabcabcabcab==")
+#' board_register_azure(
+#'   container = "pinscontainer",
+#'   account = "pinsstorage",
+#'   key = "abcabcabcabcabcabcabcabcabcab=="
+#' )
 #' }
 #' @export
 board_register_azure <- function(name = "azure",
@@ -33,8 +35,6 @@ board_register_azure <- function(name = "azure",
                                  cache = board_cache_path(),
                                  path = NULL,
                                  ...) {
-
-
   board <- board_azure(
     name = name,
     container = container,
@@ -56,9 +56,9 @@ board_azure <- function(name = "azure",
                         key = Sys.getenv("AZURE_STORAGE_KEY"),
                         cache = NULL,
                         ...) {
-  if (nchar(container) == 0)  stop("The 'azure' board requires a 'container' parameter.")
-  if (nchar(account) == 0)  stop("The 'azure' board requires an 'account' parameter.")
-  if (nchar(key) == 0)  stop("The 'azure' board requires a 'key' parameter.")
+  if (nchar(container) == 0) stop("The 'azure' board requires a 'container' parameter.")
+  if (nchar(account) == 0) stop("The 'azure' board requires an 'account' parameter.")
+  if (nchar(key) == 0) stop("The 'azure' board requires a 'key' parameter.")
 
   azure_url <- paste0("https://", account, ".blob.core.windows.net/", container)
 
@@ -85,7 +85,7 @@ azure_headers <- function(board, verb, path, file) {
   container <- board$container
   account <- board$account
   if (grepl("^https?://", path)) {
-    path_nohttp <-  gsub("^https?://", "", path)
+    path_nohttp <- gsub("^https?://", "", path)
     sub_path <- gsub("^[^/]+/", "", path_nohttp)
     account <- gsub("\\..*", "", path_nohttp)
     path <- gsub("^[^/]+/", "", sub_path)
@@ -111,7 +111,8 @@ azure_headers <- function(board, verb, path, file) {
     paste("x-ms-date", date, sep = ":"),
     paste("x-ms-version", azure_version, sep = ":"),
     paste0("/", account, "/", container, "/", path),
-    sep = "\n")
+    sep = "\n"
+  )
 
   signature <- openssl::sha256(charToRaw(content), key = base64enc::base64decode(board$key)) %>%
     base64enc::base64encode()

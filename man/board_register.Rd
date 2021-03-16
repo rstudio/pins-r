@@ -45,10 +45,10 @@ board_register("local", "other_board", cache = tempfile())
 
 # create a Website board
 board_register("datatxt",
-               name = "txtexample",
-               url = "https://datatxt.org/data.txt",
-               cache = tempfile())
-
+  name = "txtexample",
+  url = "https://datatxt.org/data.txt",
+  cache = tempfile()
+)
 }
 \seealso{
 \code{\link[=board_register_local]{board_register_local()}}, \code{\link[=board_register_github]{board_register_github()}},

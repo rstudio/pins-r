@@ -1,5 +1,7 @@
 board_manifest_get <- function(path, default_empty = FALSE) {
-  if (!file.exists(path) && default_empty) return(list())
+  if (!file.exists(path) && default_empty) {
+    return(list())
+  }
   suppressWarnings(yaml::read_yaml(path, eval.expr = FALSE))
 }
 

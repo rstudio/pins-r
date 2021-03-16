@@ -1,8 +1,9 @@
 http_utils_progress <- function(type = "down", size = 0) {
-  if (pins_show_progress(size = size))
+  if (pins_show_progress(size = size)) {
     httr::progress(type = type)
-  else
+  } else {
     NULL
+  }
 }
 
 pins_show_progress <- function(size = 0) {
@@ -41,7 +42,9 @@ pin_log <- function(...) {
 }
 
 format_tibble <- function(data) {
-  if (!is.data.frame(data)) return(data)
+  if (!is.data.frame(data)) {
+    return(data)
+  }
 
   if (length(find.package("tibble", quiet = TRUE)) > 0 && !identical(getOption("pins.tibble"), FALSE)) {
     tibble::as_tibble(data)

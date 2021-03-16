@@ -5,8 +5,9 @@ rsconnect_token_parse_url <- function(urlText) {
 
   matches <- regexec("(http|https)://([^:/#?]+)(?::(\\d+))?(.*)", urlText)
   components <- regmatches(urlText, matches)[[1]]
-  if (length(components) == 0)
+  if (length(components) == 0) {
     stop("Invalid url: ", urlText)
+  }
 
   url <- list()
   url$protocol <- components[[2]]
@@ -34,7 +35,7 @@ rsconnect_token_initialize <- function(board) {
     stop("The server ", board$server_name, " is not registered, available servers: ", paste0(registered, collapse = ", "))
   }
 
-  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name,]$name
+  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name, ]$name
 
   if (length(board$account) != 1) {
     stop("Multiple accounts (", paste(board$account, collapse = ", "), ") are associated to this server, please specify the correct account parameter in board_register().")
@@ -57,11 +58,11 @@ rsconnect_token_headers <- function(board, url, verb, content) {
   if (identical(class(content), "form_file")) {
     content_file <- content$path
   }
-  else if (!identical(content, NULL)){
+  else if (!identical(content, NULL)) {
     if (!is.character(content)) stop("Unsupported object of class", class(content)[[1]])
     content_file <- tempfile()
     on.exit(unlink(content_file))
-    writeChar(content, content_file,  eos = NULL, useBytes = TRUE)
+    writeChar(content, content_file, eos = NULL, useBytes = TRUE)
   }
 
   signatureHeaders <- utils::getFromNamespace("signatureHeaders", "rsconnect")
@@ -84,20 +85,25 @@ rsconnect_token_post <- function(board, path, content, encode) {
   }
 
   http <- utils::getFromNamespace("httpFunction", "rsconnect")()
-  result <- http(parsed$protocol,
-                                 parsed$host,
-                                 parsed$port,
-                                 "POST",
-                                 paste0(parsed$path_sans_api, path),
-                                 rsconnect_token_headers(board, rsconnect_url_from_path(board, path), "POST", content),
-                                 content_type,
-                                 content_file)
+  result <- http(
+    parsed$protocol,
+    parsed$host,
+    parsed$port,
+    "POST",
+    paste0(parsed$path_sans_api, path),
+    rsconnect_token_headers(board, rsconnect_url_from_path(board, path), "POST", content),
+    content_type,
+    content_file
+  )
 
-  tryCatch({
-    jsonlite::fromJSON(result$content)
-  }, error = function(e) {
-    stop("Failed to parse result: ", result$content)
-  })
+  tryCatch(
+    {
+      jsonlite::fromJSON(result$content)
+    },
+    error = function(e) {
+      stop("Failed to parse result: ", result$content)
+    }
+  )
 }
 
 # nocov end

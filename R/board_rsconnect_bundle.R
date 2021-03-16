@@ -25,10 +25,11 @@ rsconnect_bundle_files_html <- function(files) {
 rsconnect_bundle_template_common <- function(temp_dir, style, name, board, account_name, retrieve_command = NULL) {
   rsconnect_bundle_template_html(temp_dir, "data_preview_style", style)
   rsconnect_bundle_template_html(temp_dir, "pin_name", name)
-  if (is.character(board$server))
+  if (is.character(board$server)) {
     rsconnect_bundle_template_html(temp_dir, "server_name", board$server)
-  else
+  } else {
     rsconnect_bundle_template_html(temp_dir, "server_name", "https://rstudio-connect-server")
+  }
   rsconnect_bundle_template_html(temp_dir, "account_name", account_name)
 
   if (is.null(retrieve_command)) retrieve_command <- paste0("pin_get(\"", account_name, "/", name, "\", board = \"rsconnect\")")
@@ -39,7 +40,8 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
-    recursive = TRUE)
+    recursive = TRUE
+  )
 
   add_user_html(temp_dir)
 
@@ -51,12 +53,14 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
   x_preview <- data.frame(lapply(x_preview, function(e) {
     if (!is.numeric(e) || !is.integer(e) || !is.logical(e) || !is.double(e)) {
       char_column <- as.character(e)
-      if (length(char_column) == nrow(x_preview))
+      if (length(char_column) == nrow(x_preview)) {
         char_column
-      else
+      } else {
         rep("...", nrow(x_preview))
-    } else
+      }
+    } else {
       e
+    }
   }), stringsAsFactors = FALSE, check.names = FALSE)
 
   data_preview <- list(
@@ -70,8 +74,8 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
     }),
     data = x_preview,
     options = list(
-      columns = list( max = 10 ),
-      rows = list (min = 1, total = nrow(x_preview))
+      columns = list(max = 10),
+      rows = list(min = 1, total = nrow(x_preview))
     )
   )
 
@@ -83,11 +87,13 @@ rsconnect_bundle_create.data.frame <- function(x, temp_dir, name, board, account
 }
 
 rsconnect_bundle_create.AsIs <- function(x, temp_dir, name, board, account_name) {
-  rsconnect_bundle_create.default(x = x,
-                                  temp_dir = temp_dir,
-                                  name = name,
-                                  board = board,
-                                  account_name = account_name)
+  rsconnect_bundle_create.default(
+    x = x,
+    temp_dir = temp_dir,
+    name = name,
+    board = board,
+    account_name = account_name
+  )
 }
 
 rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_name, retrieve_command = NULL) {
@@ -101,7 +107,8 @@ rsconnect_bundle_create.default <- function(x, temp_dir, name, board, account_na
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
-    recursive = TRUE)
+    recursive = TRUE
+  )
   add_user_html(temp_dir)
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
@@ -124,7 +131,8 @@ rsconnect_bundle_create.character <- function(x, temp_dir, name, board, account_
   file.copy(
     dir(system.file("views/data", package = "pins"), full.names = TRUE),
     temp_dir,
-    recursive = TRUE)
+    recursive = TRUE
+  )
   add_user_html(temp_dir)
 
   rsconnect_bundle_template_html(temp_dir, "files_html", rsconnect_bundle_files_html(files))
@@ -140,11 +148,12 @@ rsconnect_bundle_create <- function(x, temp_dir, name, board, account_name, retr
 
 rsconnect_bundle_compress <- function(path, manifest) {
   manifest_json <- jsonlite::toJSON(manifest,
-                                    dataframe = "columns",
-                                    null = "null",
-                                    na = "null",
-                                    auto_unbox = TRUE,
-                                    pretty = TRUE)
+    dataframe = "columns",
+    null = "null",
+    na = "null",
+    auto_unbox = TRUE,
+    pretty = TRUE
+  )
   writeLines(manifest_json, file.path(path, "manifest.json"), useBytes = TRUE)
 
   prev_path <- setwd(path)

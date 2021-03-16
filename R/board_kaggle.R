@@ -101,8 +101,10 @@ kaggle_upload_resource <- function(path, board) {
   upload_url <- parsed$createUrl
   token <- parsed$token
 
-  results <- httr::PUT(upload_url, body = httr::upload_file(normalizePath(path)), kaggle_auth(board),
-                       http_utils_progress("up", size = file.info(normalizePath(path))$size))
+  results <- httr::PUT(upload_url,
+    body = httr::upload_file(normalizePath(path)), kaggle_auth(board),
+    http_utils_progress("up", size = file.info(normalizePath(path))$size)
+  )
 
   if (httr::http_error(results)) stop("Upload failed with status ", httr::status_code(results))
 
@@ -267,7 +269,9 @@ board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
     return(results)
   }
 
-  if (length(results) == 0) return(board_empty_results())
+  if (length(results) == 0) {
+    return(board_empty_results())
+  }
 
   data.frame(
     name = as.character(results$ref),
@@ -320,13 +324,14 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
   }
 
   local_path <- pin_download(url,
-                             name,
-                             board,
-                             config = kaggle_auth(board),
-                             custom_etag = etag,
-                             extract = !identical(extract, FALSE),
-                             content_length = content_length,
-                             subpath = subpath)
+    name,
+    board,
+    config = kaggle_auth(board),
+    custom_etag = etag,
+    extract = !identical(extract, FALSE),
+    content_length = content_length,
+    subpath = subpath
+  )
 
   local_path
 }
@@ -354,15 +359,17 @@ board_pin_versions.kaggle <- function(board, name, ...) {
 
   parsed <- httr::content(response, encoding = "UTF-8")
 
-  if (httr::http_error(response))
+  if (httr::http_error(response)) {
     stop("Failed to retrieve commits from ", board$repo, ": ", parsed$message)
+  }
 
   data.frame(
     version = sapply(parsed$versions, function(e) e$versionNumber),
     created = sapply(parsed$versions, function(e) e$creationDate),
     author = sapply(parsed$versions, function(e) e$creatorName),
     message = sapply(parsed$versions, function(e) e$versionNotes),
-    stringsAsFactors = FALSE) %>%
+    stringsAsFactors = FALSE
+  ) %>%
     format_tibble()
 }
 
@@ -381,9 +388,12 @@ board_wait_create <- function(board, name) {
   retrieved <- NULL
   retries <- 10
   while (retries > 0 && is.null(retrieved)) {
-    retrieved <- suppressWarnings(tryCatch({
-      pin_get(name, board$name)
-    }, error = function(e) NULL))
+    retrieved <- suppressWarnings(tryCatch(
+      {
+        pin_get(name, board$name)
+      },
+      error = function(e) NULL
+    ))
 
     Sys.sleep(1)
     retries <- retries - 1

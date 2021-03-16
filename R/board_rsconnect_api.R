@@ -34,8 +34,10 @@ rsconnect_api_get <- function(board, path) {
 }
 
 rsconnect_api_delete <- function(board, path) {
-  result <- httr::DELETE(paste0(board$server, path),
-               rsconnect_api_auth_headers(board, path, "DELETE"))
+  result <- httr::DELETE(
+    paste0(board$server, path),
+    rsconnect_api_auth_headers(board, path, "DELETE")
+  )
 
   if (httr::http_error(result)) {
     stop("Failed to delete ", path, " ", as.character(httr::content(result, encoding = "UTF-8")))
@@ -52,20 +54,22 @@ rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
   }
   else {
     content <- as.character(jsonlite::toJSON(content,
-                                             dataframe = "columns",
-                                             null = "null",
-                                             na = "null",
-                                             auto_unbox = TRUE,
-                                             pretty = TRUE))
+      dataframe = "columns",
+      null = "null",
+      na = "null",
+      auto_unbox = TRUE,
+      pretty = TRUE
+    ))
     encode <- "raw"
   }
 
   if (rsconnect_api_auth(board)) {
     result <- httr::POST(url,
-                         encode = encode,
-                         body = content,
-                         rsconnect_api_auth_headers(board, url, "POST", content),
-                         progress)
+      encode = encode,
+      body = content,
+      rsconnect_api_auth_headers(board, url, "POST", content),
+      progress
+    )
     content <- httr::content(result, encoding = "UTF-8")
 
     if (httr::http_error(result)) {
@@ -86,8 +90,9 @@ rsconnect_api_download <- function(board, name, path, etag) {
   url <- paste0(board$server, path)
 
   pin_download(url,
-               name,
-               board,
-               headers = rsconnect_api_auth_headers(board, path, "GET"),
-               custom_etag = etag)
+    name,
+    board,
+    headers = rsconnect_api_auth_headers(board, path, "GET"),
+    custom_etag = etag
+  )
 }

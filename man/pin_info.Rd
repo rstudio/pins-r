@@ -40,5 +40,4 @@ pin(mtcars)
 
 # print pin information
 pin_info("mtcars")
-
 }

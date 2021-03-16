@@ -55,10 +55,9 @@ board_s3 <- function(name = "s3",
                      cache = NULL,
                      host = "s3.amazonaws.com",
                      ...) {
-
   if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
-  if (nchar(key) == 0)  stop("The 's3' board requires a 'key' parameter.")
-  if (nchar(secret) == 0)  stop("The 's3' board requires a 'secret' parameter.")
+  if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
+  if (nchar(secret) == 0) stop("The 's3' board requires a 'secret' parameter.")
 
   board_datatxt(
     name = name,
@@ -86,10 +85,11 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
   region <- board$region
   request_parameters <- ""
   amz_storage_class <- "REDUCED_REDUNDANCY"
-  if (!is.null(filepath))
+  if (!is.null(filepath)) {
     amz_content_sha256 <- digest::digest(filepath, file = TRUE, algo = "sha256")
-  else
+  } else {
     amz_content_sha256 <- digest::digest(enc2utf8(""), serialize = FALSE, algo = "sha256")
+  }
   content_type <- "application/octet-stream"
 
   # Key derivation functions. See:
@@ -139,7 +139,8 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
     "x-amz-content-sha256:", amz_content_sha256, "\n",
     "x-amz-date:", amzdate, "\n",
     # "x-amz-storage-class:", amz_storage_class, "\n",
-    "")
+    ""
+  )
 
   # Step 5: Create the list of signed headers. This lists the headers
   # signed_headers <- "content-type;host;x-amz-content-sha256;x-amz-date;x-amz-storage-class"
@@ -157,7 +158,7 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
   # SHA-256 (recommended)
   algorithm <- "AWS4-HMAC-SHA256"
   credential_scope <- paste0(datestamp, "/", board$region, "/", service, "/", "aws4_request")
-  string_to_sign <- paste0(algorithm, "\n",  amzdate, "\n", credential_scope, "\n",  digest::digest(enc2utf8(canonical_request), serialize = FALSE, algo = "sha256"))
+  string_to_sign <- paste0(algorithm, "\n", amzdate, "\n", credential_scope, "\n", digest::digest(enc2utf8(canonical_request), serialize = FALSE, algo = "sha256"))
 
   # ************* TASK 3: CALCULATE THE SIGNATURE *************
   # Create the signing key using the function defined above.
@@ -172,7 +173,8 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
     algorithm, " ",
     "Credential=", board$key, "/", credential_scope, ", ",
     "SignedHeaders=", signed_headers, ", ",
-    "Signature=", signature)
+    "Signature=", signature
+  )
 
   headers <- httr::add_headers(
     # "Host" = host,
@@ -192,7 +194,7 @@ s3_headers <- function(board, verb, path, file) {
   # allow full urls to allow arbitrary file downloads
   bucket <- board$bucket
   if (grepl("^https?://", path)) {
-    path_nohttp <-  gsub("^https?://", "", path)
+    path_nohttp <- gsub("^https?://", "", path)
     path <- gsub("^[^/]+/", "", path_nohttp)
     bucket <- gsub("\\..*", "", path_nohttp)
   }
