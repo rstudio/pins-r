@@ -130,36 +130,6 @@ board_local_storage <- function(...) {
   stop("board_local_storage() is deprecated", call. = FALSE)
 }
 
-#' Get Board
-#'
-#' Retrieves information about a particular board.
-#'
-#' @param name The name of the board to use
-#'
-#' @export
-board_get <- function(name) {
-  if (is.null(name)) {
-    board_registry_get("local")
-  } else if (is.board(name)) {
-    name
-  } else if (is.character(name) && length(name) == 1) {
-    if (is_url(name)) {
-      # TODO: remove magic registration
-      board <- board_datatxt(url = name)
-      board_register2(board)
-      board
-    } else if (name == "packages") {
-      board_packages()
-    } else if (name %in% board_list()) {
-      board_registry_get(name)
-    } else {
-      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
-    }
-  } else {
-    stop("Invalid board specification", call. = FALSE)
-  }
-}
-
 #' Retrieve Default Cache Path
 #'
 #' Retrieves the default path used to cache boards and pins. Makes

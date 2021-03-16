@@ -292,6 +292,32 @@ board_list <- function() {
   board_registry_list()
 }
 
+#' @rdname board_register
+#' @export
+board_get <- function(name) {
+  if (is.null(name)) {
+    board_registry_get("local")
+  } else if (is.board(name)) {
+    name
+  } else if (is.character(name) && length(name) == 1) {
+    if (is_url(name)) {
+      # TODO: remove magic registration
+      board <- board_datatxt(url = name)
+      board_register2(board)
+      board
+    } else if (name == "packages") {
+      board_packages()
+    } else if (name %in% board_list()) {
+      board_registry_get(name)
+    } else {
+      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
+    }
+  } else {
+    stop("Invalid board specification", call. = FALSE)
+  }
+}
+
+
 
 board_registry_ensure <- function(register = TRUE) {
   if (identical(.globals$boards_registered, NULL)) {

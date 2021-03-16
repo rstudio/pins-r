@@ -14,6 +14,7 @@
 \alias{board_deregister}
 \alias{board_default}
 \alias{board_list}
+\alias{board_get}
 \title{Board registry}
 \usage{
 board_register(
@@ -110,6 +111,8 @@ board_deregister(name, ...)
 board_default()
 
 board_list()
+
+board_get(name)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
