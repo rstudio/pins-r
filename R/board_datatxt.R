@@ -407,7 +407,7 @@ board_pin_create.pins_board_datatxt <- function(board, path, name, metadata, ...
 
 # Retrieve data.txt files, including versioned files
 datatxt_pin_files <- function(board, name) {
-  entry <- pin_find(name = name, board = board$name, metadata = TRUE)
+  entry <- pin_find(name = name, board = board, metadata = TRUE)
 
   if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
   metadata <- jsonlite::fromJSON(as.list(entry)$metadata)

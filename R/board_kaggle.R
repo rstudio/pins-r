@@ -290,7 +290,7 @@ board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version
     if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
 
-    extended <- pin_find(name = name, board = board$name, extended = TRUE)
+    extended <- pin_find(name = name, board = board, extended = TRUE)
 
     etag <- if (is.null(extended$lastUpdated)) "" else as.character(extended$lastUpdated)
     content_length <- if (is.null(extended$totalBytes)) 0 else as.integer(extended$totalBytes)
@@ -370,7 +370,7 @@ board_wait_create <- function(board, name) {
   while (retries > 0 && is.null(retrieved)) {
     retrieved <- suppressWarnings(tryCatch(
       {
-        pin_get(name, board$name)
+        pin_get(name, board)
       },
       error = function(e) NULL
     ))
