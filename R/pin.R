@@ -85,16 +85,27 @@ pin_load <- function(path, ...) {
 #'
 #' @export
 #' @rdname custom-pins
-board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, retrieve = TRUE, ...) {
+board_pin_store <- function(board,
+                            path,
+                            name,
+                            description,
+                            type,
+                            metadata,
+                            extract = TRUE,
+                            retrieve = TRUE,
+                            zip = FALSE,
+                            cache = TRUE,
+                            custom_metadata = NULL,
+                            ...) {
   type <- match.arg(type, c("default", "files", "table"))
 
   board <- board_get(board)
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
   pin_log("Storing ", name, " into board ", board$name, " with type ", type)
-  custom_metadata <- list(...)$custom_metadata
-  zip <- list(...)$zip
 
-  if (identical(list(...)$cache, FALSE)) pin_register_reset_cache(board, name)
+  if (!isTRUE(cache)) {
+    pin_register_reset_cache(board, name)
+  }
 
   path <- path[!grepl("data\\.txt", path)]
 

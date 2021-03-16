@@ -19,6 +19,9 @@ board_pin_store(
   metadata,
   extract = TRUE,
   retrieve = TRUE,
+  zip = FALSE,
+  cache = TRUE,
+  custom_metadata = NULL,
   ...
 )
 }
