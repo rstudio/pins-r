@@ -44,6 +44,7 @@ jobs:
       - name: Install dependencies
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
+          pak::pak("ggplot2")
           pak::pkg_install("pkgdown")
         shell: Rscript {0}
 
