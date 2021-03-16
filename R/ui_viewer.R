@@ -1,5 +1,42 @@
 # nocov start
 
+#' Connect to Board
+#'
+#' Connects to a board to activate RStudio's connection pane, when available.
+#'
+#' @param board The name of the board to activate.
+#' @param code The code being used to registere this board.
+#' @param ... Additional parameters required to initialize a particular board.
+#'
+#' @keywords internal
+#' @export
+board_connect <- function(board, code, ...) {
+  board <- board_get(board)
+
+  ui_viewer_register(board, code)
+
+  invisible(board)
+}
+
+#' Disconnect to Board
+#'
+#' Disconnects board from RStudio's connection pane, when available.
+#'
+#' @param name The name of the board to deactivate.
+#' @param ... Additional parameters required to disconnect from a particular board.
+#'
+#' @keywords internal
+#' @export
+board_disconnect <- function(name, ...) {
+  board <- board_get(name)
+
+  ui_viewer_closed(board)
+
+  invisible(board)
+}
+
+
+
 ui_viewer_register <- function(board, board_call) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
 
