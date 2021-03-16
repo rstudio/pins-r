@@ -6,9 +6,9 @@
 #' @family boards
 #' @examples
 #' # session-specific local board
-#' board <- board_local(cache = tempfile())
+#' board <- board_local(tempfile())
 #' @export
-board_local <- function(cache = board_cache_path(),
+board_local <- function(cache,
                         name = "local",
                         versions = FALSE) {
   new_board("pins_board_local", name = name, cache = cache, versions = versions)

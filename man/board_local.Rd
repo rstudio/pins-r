@@ -4,7 +4,7 @@
 \alias{board_local}
 \title{Use a Local board}
 \usage{
-board_local(cache = board_cache_path(), name = "local", versions = FALSE)
+board_local(cache, name = "local", versions = FALSE)
 }
 \arguments{
 \item{cache}{Cache path. Every board requires a local cache to avoid
@@ -22,7 +22,7 @@ Use a local folder as a board.
 }
 \examples{
 # session-specific local board
-board <- board_local(cache = tempfile())
+board <- board_local(tempfile())
 }
 \seealso{
 Other boards: 

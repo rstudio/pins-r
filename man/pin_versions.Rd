@@ -20,7 +20,7 @@ Retrieve versions available for a given pin.
 }
 \examples{
 # define temporary board with versioning enabled
-board <- board_local(cache = tempfile(), versions = TRUE)
+board <- board_local(tempfile(), versions = TRUE)
 
 # cache the mtcars dataset
 pin(mtcars, name = "mtcars", board = board)

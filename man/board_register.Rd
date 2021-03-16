@@ -126,7 +126,7 @@ pin(mtcars, board = "myboard")
 pin_get("mtcars", board = "myboard")
 
 # now
-board <- board_local(cache = tempfile())
+board <- board_local(tempfile())
 pin(mtcars, board = board)
 pin_get("mtcars", board = board)
 }
