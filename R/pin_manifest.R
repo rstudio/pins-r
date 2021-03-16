@@ -42,7 +42,12 @@ pin_manifest_download <- function(path, namemap = FALSE) {
 
   if (is.null(manifest$path)) return(NULL)
 
-  downloads <- pin_fetch(structure(manifest$path, class = manifest$type))
+  if (manifest$type == "table") {
+    rds_match <- grepl(".*.rds", manifest$path)
+    downloads <- manifest$path[rds_match]
+  } else {
+    downloads <- manifest$path
+  }
 
   if (identical(namemap, TRUE)) {
     mapped <- as.list(downloads)

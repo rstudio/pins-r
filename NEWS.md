@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `pin_fetch()` has been removed
+
 * `option(pins.invisible)` is now defunct and ignored. 
 
 * Pins no longer register the code needed to recreate them as this tends to

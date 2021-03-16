@@ -72,12 +72,6 @@ pin_load <- function(path, ...) {
   UseMethod("pin_load")
 }
 
-#' @rdname custom-pins
-#' @export
-pin_fetch <- function(path, ...) {
-  UseMethod("pin_fetch")
-}
-
 #' Custom Pins
 #'
 #' Family of functions meant to be used to implement custom pin extensions, not to be used by users.
@@ -95,6 +89,9 @@ pin_fetch <- function(path, ...) {
 #' @export
 #' @rdname custom-pins
 board_pin_store <- function(board, path, name, description, type, metadata, extract = TRUE, retrieve = TRUE, ...) {
+
+  type <- match.arg(type, c("default", "files", "table"))
+
   board <- board_get(board)
   if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
   pin_log("Storing ", name, " into board ", board$name, " with type ", type)
@@ -242,13 +239,6 @@ pin_preview.default <- function(x, board = NULL, ...) {
   x
 }
 
-#' @keywords internal
-#' @export
-pin_fetch.default <- function(path, ...) {
-  path
-}
-
-
 # data.frame --------------------------------------------------------------
 
 #' @keywords internal
@@ -318,14 +308,6 @@ pin_load.table <- function(path, ...) {
   else stop("A 'table' pin requires CSV or RDS files.")
 
   format_tibble(result)
-}
-
-#' @keywords internal
-#' @export
-pin_fetch.table <- function(path, ...) {
-  rds_match <- grepl(".*.rds", path)
-  fetch_all <- identical(getOption("pins.fetch", "auto"), "all")
-  if (any(rds_match) && !fetch_all) path[rds_match] else path
 }
 
 #' @keywords internal
