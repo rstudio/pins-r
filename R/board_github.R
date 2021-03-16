@@ -70,7 +70,7 @@ board_github <- function(name,
     stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")
   }
 
-  board <- new_board("github",
+  board <- new_board("pins_board_github",
     name = name,
     token = token,
     repo = repo,
@@ -429,7 +429,7 @@ github_files_commit <- function(board, upload_files, branch, commit) {
 }
 
 #' @export
-board_pin_create.github <- function(board, path, name, metadata, ...) {
+board_pin_create.pins_board_github <- function(board, path, name, metadata, ...) {
   update_index <- !identical(list(...)$index, FALSE)
   description <- list(...)$description
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
@@ -512,7 +512,7 @@ board_pin_create.github <- function(board, path, name, metadata, ...) {
 }
 
 #' @export
-board_pin_find.github <- function(board, text, ...) {
+board_pin_find.pins_board_github <- function(board, text, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
   result <- httr::GET(
@@ -652,7 +652,7 @@ github_download_files <- function(index, temp_path, board) {
 }
 
 #' @export
-board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ...) {
+board_pin_get.pins_board_github <- function(board, name, extract = NULL, version = NULL, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
   subpath <- name
 
@@ -720,7 +720,7 @@ board_pin_get.github <- function(board, name, extract = NULL, version = NULL, ..
 }
 
 #' @export
-board_pin_remove.github <- function(board, name, ...) {
+board_pin_remove.pins_board_github <- function(board, name, ...) {
   update_index <- !identical(list(...)$index, FALSE)
 
   base_url <- github_content_url(board, name, branch = NULL)
@@ -758,12 +758,12 @@ board_pin_remove.github <- function(board, name, ...) {
 }
 
 #' @export
-board_browse.github <- function(board, ...) {
+board_browse.pins_board_github <- function(board, ...) {
   utils::browseURL(paste0("https://github.com/", board$repo, "/tree/", board$branch, "/", board$path))
 }
 
 #' @export
-board_pin_versions.github <- function(board, name, ...) {
+board_pin_versions.pins_board_github <- function(board, name, ...) {
   branch <- if (is.null(list(...)$branch)) board$branch else list(...)$branch
 
   path <- paste0(board$path, name)

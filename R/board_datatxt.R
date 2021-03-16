@@ -65,7 +65,7 @@ board_datatxt <- function(url,
   # use only subdomain as friendly name which is also used as cache folder
   name <- name %||% gsub("https?://|\\..*", "", url)
 
-  board <- new_board("datatxt",
+  board <- new_board("pins_board_datatxt",
     name = name,
     cache = cache,
     versions = versions,
@@ -191,7 +191,7 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
 }
 
 #' @export
-board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, download = TRUE, ...) {
+board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, version = NULL, download = TRUE, ...) {
   manifest_paths <- datatxt_refresh_manifest(board, name, download = download, ...)
   path_guess <- manifest_paths$path_guess
   index_entry <- manifest_paths$index_entry
@@ -261,7 +261,7 @@ board_pin_get.datatxt <- function(board, name, extract = NULL, version = NULL, d
 }
 
 #' @export
-board_pin_find.datatxt <- function(board, text, name, extended = FALSE, ...) {
+board_pin_find.pins_board_datatxt <- function(board, text, name, extended = FALSE, ...) {
   datatxt_refresh_index(board)
 
   entries <- board_manifest_get(pin_registry_path(board, "data.txt"))
@@ -400,7 +400,7 @@ datatxt_invalid_name <- function(name) {
 }
 
 #' @export
-board_pin_create.datatxt <- function(board, path, name, metadata, ...) {
+board_pin_create.pins_board_datatxt <- function(board, path, name, metadata, ...) {
   datatxt_invalid_name(name)
   board_versions_create(board, name, path)
 
@@ -452,7 +452,7 @@ datatxt_pin_files <- function(board, name) {
 }
 
 #' @export
-board_pin_remove.datatxt <- function(board, name, ...) {
+board_pin_remove.pins_board_datatxt <- function(board, name, ...) {
   files <- datatxt_pin_files(board, name)
 
   # also attempt to delete data.txt
@@ -483,12 +483,12 @@ board_pin_remove.datatxt <- function(board, name, ...) {
 }
 
 #' @export
-board_browse.datatxt <- function(board, ...) {
+board_browse.pins_board_datatxt <- function(board, ...) {
   utils::browseURL(board$borwse_url)
 }
 
 #' @export
-board_pin_versions.datatxt <- function(board, name, ...) {
+board_pin_versions.pins_board_datatxt <- function(board, name, ...) {
   datatxt_refresh_manifest(board, name, ...)
   board_versions_get(board, name)
 }

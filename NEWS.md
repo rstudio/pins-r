@@ -1,5 +1,8 @@
 # pins (development version)
 
+* All board objects now have class beginning with `pins_board_` and also
+  inherit from common superclass `pins_board`.
+
 * `pin_fetch()` has been removed
 
 * `option(pins.invisible)` is now defunct and ignored. 

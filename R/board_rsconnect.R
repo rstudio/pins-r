@@ -142,7 +142,7 @@ board_rsconnect <- function(name = "rsconnect",
     server <- gsub("/$", "", server)
   }
 
-  board <- new_board("rsconnect",
+  board <- new_board("pins_board_rsconnect",
     name = name,
     cache = cache,
     server = server,
@@ -178,7 +178,7 @@ rsconnect_pins_supported <- function(board) {
 }
 
 #' @export
-board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
+board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, code = NULL,
                                        search_all = FALSE,
                                        ...) {
   dots <- list(...)
@@ -263,7 +263,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
       if (!is.null(content$error)) {
         # we might fail to create pins that exists (code 26) but are not shown as pins since they fail while being created
         if (identical(content$code, 26L)) {
-          return(board_pin_create.rsconnect(board = board, path = path, name = name, metadata = metadata, code = code, search_all = TRUE, ...))
+          return(board_pin_create(board = board, path = path, name = name, metadata = metadata, code = code, search_all = TRUE, ...))
         }
 
         pin_log("Failed to create pin with name '", name, "'.")
@@ -368,7 +368,7 @@ board_pin_create.rsconnect <- function(board, path, name, metadata, code = NULL,
 }
 
 #' @export
-board_pin_find.rsconnect <- function(board,
+board_pin_find.pins_board_rsconnect <- function(board,
                                      text = NULL,
                                      name = NULL,
                                      all_content = FALSE,
@@ -481,7 +481,7 @@ rsconnect_remote_path_from_url <- function(board, url) {
 }
 
 #' @export
-board_pin_get.rsconnect <- function(board, name, version = NULL, ...) {
+board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   url <- name
 
   if (identical(board$output_files, TRUE)) {
@@ -518,7 +518,7 @@ board_pin_get.rsconnect <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-board_pin_remove.rsconnect <- function(board, name, ...) {
+board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
   details <- rsconnect_get_by_name(board, name)
   details <- pin_results_extract_column(details, "guid")
 
@@ -526,12 +526,12 @@ board_pin_remove.rsconnect <- function(board, name, ...) {
 }
 
 #' @export
-board_browse.rsconnect <- function(board, ...) {
+board_browse.pins_board_rsconnect <- function(board, ...) {
   utils::browseURL(board$server)
 }
 
 #' @export
-board_pin_versions.rsconnect <- function(board, name, ...) {
+board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
   details <- rsconnect_get_by_name(board, name)
   if (nrow(details) == 0) stop("The pin '", name, "' is not available in the '", board$name, "' board.")
 

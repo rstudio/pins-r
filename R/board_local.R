@@ -25,11 +25,11 @@ board_register_local <- function(name = "local",
 board_local <- function(cache = board_cache_path(),
                         name = "local",
                         versions = FALSE) {
-  new_board("local", name = name, cache = cache, versions = versions)
+  new_board("pins_board_local", name = name, cache = cache, versions = versions)
 }
 
 #' @export
-board_pin_create.local <- function(board, path, name, metadata, ...) {
+board_pin_create.pins_board_local <- function(board, path, name, metadata, ...) {
   board_versions_create(board, name, path)
 
   # TODO: figure out how to handle names that are not valid paths
@@ -50,7 +50,7 @@ board_pin_create.local <- function(board, path, name, metadata, ...) {
 }
 
 #' @export
-board_pin_find.local <- function(board, text, ...) {
+board_pin_find.pins_board_local <- function(board, text, ...) {
   results <- pin_registry_find(board, text)
 
   # if (nrow(results) == 1) {
@@ -66,7 +66,7 @@ board_pin_find.local <- function(board, text, ...) {
 }
 
 #' @export
-board_pin_get.local <- function(board, name, version = NULL, ...) {
+board_pin_get.pins_board_local <- function(board, name, version = NULL, ...) {
   rel_path <- pin_registry_retrieve(board, name)$path
   path <- pin_registry_path(board, rel_path)
 
@@ -83,12 +83,12 @@ board_pin_get.local <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-board_pin_remove.local <- function(board, name, ...) {
+board_pin_remove.pins_board_local <- function(board, name, ...) {
   pin_registry_remove(board, name)
 }
 
 #' @export
-board_pin_versions.local <- function(board, name, ...) {
+board_pin_versions.pins_board_local <- function(board, name, ...) {
   board_versions_get(board, name)
 }
 

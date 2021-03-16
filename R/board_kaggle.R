@@ -52,7 +52,7 @@ board_kaggle <- function(name, token = NULL, ...) {
   }
 
   board <- new_board(
-    "kaggle",
+    "pins_board_kaggle",
     name = name,
     token = token,
     ...
@@ -184,7 +184,7 @@ kaggle_create_bundle <- function(path, type, description) {
 }
 
 #' @export
-board_pin_create.kaggle <- function(board, path, name, metadata, notes = NULL, ...) {
+board_pin_create.pins_board_kaggle <- function(board, path, name, metadata, notes = NULL, ...) {
   description <- metadata$description
   type <- metadata$type
 
@@ -238,7 +238,7 @@ board_pin_search_kaggle <- function(board, text = NULL, base_url = "https://www.
 }
 
 #' @export
-board_pin_find.kaggle <- function(board, text, extended = FALSE, ...) {
+board_pin_find.pins_board_kaggle <- function(board, text, extended = FALSE, ...) {
   if (is.null(text)) text <- ""
 
   # clear name searches
@@ -293,7 +293,7 @@ kaggle_competition_files <- function(board, name) {
 }
 
 #' @export
-board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
+board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
   if (grepl("^c/", name)) {
     competition_files <- name <- gsub("^c/", "", name)
     if (!grepl("/", name)) {
@@ -337,18 +337,18 @@ board_pin_get.kaggle <- function(board, name, extract = NULL, version = NULL, ..
 }
 
 #' @export
-board_pin_remove.kaggle <- function(board, name, ...) {
+board_pin_remove.pins_board_kaggle <- function(board, name, ...) {
   qualified <- kaggle_qualify_name(name, board)
   stop("Please remove dataset from: https://www.kaggle.com/", qualified, "/settings")
 }
 
 #' @export
-board_browse.kaggle <- function(board, ...) {
+board_browse.pins_board_kaggle <- function(board, ...) {
   utils::browseURL("https://www.kaggle.com/datasets?tab=my")
 }
 
 #' @export
-board_pin_versions.kaggle <- function(board, name, ...) {
+board_pin_versions.pins_board_kaggle <- function(board, name, ...) {
   if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/view/", name)

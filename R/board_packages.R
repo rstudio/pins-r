@@ -1,13 +1,13 @@
 board_packages <- function() {
-  new_board("packages",
-    name = "packges",
+  new_board("pins_board_packages",
+    name = "packages",
     cache = board_cache_path(),
     versions = FALSE
   )
 }
 
 #' @export
-board_pin_find.packages <- function(board, text, ...) {
+board_pin_find.pins_board_packages <- function(board, text, ...) {
   if (is.null(text)) text <- ""
   cranfiles <- pins::cranfiles
 
@@ -89,7 +89,7 @@ packages_download <- function(resource_path, package_pin, name) {
 }
 
 #' @export
-board_pin_get.packages <- function(board, name, ...) {
+board_pin_get.pins_board_packages <- function(board, name, ...) {
   parts <- strsplit(name, "/")[[1]]
   if (length(parts) == 1) stop("Invalid '", name, "' pin name.")
   package <- parts[[1]]
