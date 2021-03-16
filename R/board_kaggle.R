@@ -17,8 +17,6 @@
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
-#'
-#' @seealso board_register
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token
@@ -29,21 +27,6 @@
 #' # names starting with c/ are competitions
 #' pin_get("c/crowdflower-weather-twitter", board = board)
 #' }
-#' @export
-board_register_kaggle <- function(name = "kaggle",
-                                  token = NULL,
-                                  cache = board_cache_path(),
-                                  ...) {
-  board <- board_kaggle("kaggle",
-    name = name,
-    token = token,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @rdname board_register_kaggle
 #' @export
 board_kaggle <- function(name, token = NULL, ...) {
   token <- token %||% "~/.kaggle/kaggle.json"

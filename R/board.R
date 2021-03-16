@@ -1,3 +1,13 @@
+#' Create a new board
+#'
+#' @param board The name of the board to register.
+#' @param name An optional name used identify the board.
+#' @param cache Cache path. Every board requires a local cache to avoid
+#'   downloading files multiple times. The default stores in a standard
+#'   cache location for your operating system, but you can override if needed.
+#' @param versions Should this board be registered with support for versions?
+#' @param ... Additional parameters required to initialize a particular board.
+#' @keywords internal
 new_board <- function(board, name, cache, versions = FALSE, ...) {
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 

@@ -2,6 +2,15 @@
 % Please edit documentation in R/board_registry.R
 \name{board_register}
 \alias{board_register}
+\alias{board_register_azure}
+\alias{board_register_datatxt}
+\alias{board_register_dospace}
+\alias{board_register_gcloud}
+\alias{board_register_github}
+\alias{board_register_local}
+\alias{board_register_kaggle}
+\alias{board_register_rsconnect}
+\alias{board_register_s3}
 \alias{board_deregister}
 \alias{board_default}
 \alias{board_list}
@@ -15,24 +24,92 @@ board_register(
   ...
 )
 
+board_register_azure(
+  name = "azure",
+  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+  key = Sys.getenv("AZURE_STORAGE_KEY"),
+  cache = board_cache_path(),
+  path = NULL,
+  ...
+)
+
+board_register_datatxt(
+  url,
+  name = NULL,
+  headers = NULL,
+  cache = board_cache_path(),
+  ...
+)
+
+board_register_dospace(
+  name = "dospace",
+  space = Sys.getenv("DO_SPACE"),
+  key = Sys.getenv("DO_ACCESS_KEY_ID"),
+  secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+  datacenter = Sys.getenv("DO_DATACENTER"),
+  cache = board_cache_path(),
+  host = "digitaloceanspaces.com",
+  path = NULL,
+  ...
+)
+
+board_register_gcloud(
+  name = "gcloud",
+  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+  token = NULL,
+  cache = board_cache_path(),
+  path = NULL,
+  ...
+)
+
+board_register_github(
+  name = "github",
+  repo = NULL,
+  branch = NULL,
+  token = NULL,
+  path = "",
+  host = "https://api.github.com",
+  cache = board_cache_path(),
+  ...
+)
+
+board_register_local(name = "local", cache = board_cache_path(), ...)
+
+board_register_kaggle(
+  name = "kaggle",
+  token = NULL,
+  cache = board_cache_path(),
+  ...
+)
+
+board_register_rsconnect(
+  name = "rsconnect",
+  server = NULL,
+  account = NULL,
+  key = NULL,
+  output_files = FALSE,
+  cache = board_cache_path(),
+  ...
+)
+
+board_register_s3(
+  name = "s3",
+  bucket = Sys.getenv("AWS_BUCKET"),
+  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  cache = board_cache_path(),
+  host = "s3.amazonaws.com",
+  region = NULL,
+  path = NULL,
+  ...
+)
+
 board_deregister(name, ...)
 
 board_default()
 
 board_list()
-}
-\arguments{
-\item{board}{The name of the board to register.}
-
-\item{name}{An optional name to identify this board, defaults to the board name.}
-
-\item{cache}{Cache path. Every board requires a local cache to avoid
-downloading files multiple times. The default stores in a standard
-cache location for your operating system, but you can override if needed.}
-
-\item{versions}{Should this board be registered with support for versions?}
-
-\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

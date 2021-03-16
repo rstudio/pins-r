@@ -19,8 +19,6 @@
 #' @param path Subdirectory within `url`
 #' @param versions Should this board be registered with support for versions?
 #' @keywords internal
-#' @seealso board_register
-#'
 #' @examples
 #'
 #' # register website board using datatxt file
@@ -33,23 +31,6 @@
 #' # find pins
 #' pin_find(board = "txtexample")
 #' @export
-board_register_datatxt <- function(url,
-                                   name = NULL,
-                                   headers = NULL,
-                                   cache = board_cache_path(),
-                                   ...) {
-  board <- board_datatxt(
-    name = name,
-    url = url,
-    headers = headers,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @export
-#' @rdname board_register_datatxt
 board_datatxt <- function(url,
                           name = NULL,
                           headers = NULL,

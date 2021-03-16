@@ -8,13 +8,7 @@
 #' explicitly supply a `board` that you've created using [board_local()],
 #' [board_rsconnect()] etc.
 #'
-#' @param board The name of the board to register.
-#' @param name An optional name to identify this board, defaults to the board name.
-#' @param cache Cache path. Every board requires a local cache to avoid
-#'   downloading files multiple times. The default stores in a standard
-#'   cache location for your operating system, but you can override if needed.
-#' @param versions Should this board be registered with support for versions?
-#' @param ... Additional parameters required to initialize a particular board.
+#'
 #'
 #' @keywords internal
 #' @examples
@@ -54,6 +48,181 @@ board_register <- function(board,
 
   invisible(board$name)
 }
+
+#' @rdname board_register
+#' @export
+board_register_azure <- function(name = "azure",
+                                 container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+                                 account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+                                 key = Sys.getenv("AZURE_STORAGE_KEY"),
+                                 cache = board_cache_path(),
+                                 path = NULL,
+                                 ...) {
+  board <- board_azure(
+    name = name,
+    container = container,
+    account = account,
+    key = key,
+    cache = cache,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_datatxt <- function(url,
+                                   name = NULL,
+                                   headers = NULL,
+                                   cache = board_cache_path(),
+                                   ...) {
+  board <- board_datatxt(
+    name = name,
+    url = url,
+    headers = headers,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_dospace <- function(name = "dospace",
+                                   space = Sys.getenv("DO_SPACE"),
+                                   key = Sys.getenv("DO_ACCESS_KEY_ID"),
+                                   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+                                   datacenter = Sys.getenv("DO_DATACENTER"),
+                                   cache = board_cache_path(),
+                                   host = "digitaloceanspaces.com",
+                                   path = NULL,
+                                   ...) {
+  board <- board_dospace(
+    name = name,
+    space = space,
+    key = key,
+    secret = secret,
+    datacenter = datacenter,
+    cache = cache,
+    host = host,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+
+#' @rdname board_register
+#' @export
+board_register_gcloud <- function(name = "gcloud",
+                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+                                  token = NULL,
+                                  cache = board_cache_path(),
+                                  path = NULL,
+                                  ...) {
+  board <- board_gcloud(
+    name = name,
+    bucket = bucket,
+    token = token,
+    cache = cache,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_github <- function(name = "github",
+                                  repo = NULL,
+                                  branch = NULL,
+                                  token = NULL,
+                                  path = "",
+                                  host = "https://api.github.com",
+                                  cache = board_cache_path(),
+                                  ...) {
+  board <- board_github(
+    name = name,
+    repo = repo,
+    branch = branch,
+    token = token,
+    path = path,
+    host = host,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_local <- function(name = "local",
+                                 cache = board_cache_path(),
+                                 ...) {
+  board <- board_local(name = name, cache = cache, ...)
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_kaggle <- function(name = "kaggle",
+                                  token = NULL,
+                                  cache = board_cache_path(),
+                                  ...) {
+  board <- board_kaggle("kaggle",
+    name = name,
+    token = token,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_rsconnect <- function(name = "rsconnect",
+                                     server = NULL,
+                                     account = NULL,
+                                     key = NULL,
+                                     output_files = FALSE,
+                                     cache = board_cache_path(),
+                                     ...) {
+  board <- board_rsconnect(
+    name = name,
+    server = server,
+    account = account,
+    key = key,
+    output_files = output_files,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+#' @rdname board_register
+#' @export
+board_register_s3 <- function(name = "s3",
+                              bucket = Sys.getenv("AWS_BUCKET"),
+                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                              cache = board_cache_path(),
+                              host = "s3.amazonaws.com",
+                              region = NULL,
+                              path = NULL,
+                              ...) {
+  board_s3(
+    name = name,
+    bucket = bucket,
+    key = key,
+    secret = secret,
+    cache = cache,
+    region = region,
+    path = path,
+    ...
+  )
+}
+
 
 board_register2 <- function(board, connect = TRUE) {
   board_registry_set(board$name, board)

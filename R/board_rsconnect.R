@@ -48,7 +48,7 @@
 #' API key, you can connect to the board with:
 #'
 #' ```r
-#' board_register_rsconnect(
+#' board <- board_rsconnect(
 #'   server = "https://rstudio-connect-server",
 #'   key = Sys.getenv("CONNECT_API_KEY"),
 #' )
@@ -76,9 +76,6 @@
 #' @param cache The local folder to use as a cache, defaults to `board_cache_path()`.
 #' @param ... Additional parameters required to initialize a particular board.
 #' @family boards
-#'
-#' @seealso board_register
-#'
 #' @examples
 #' \dontrun{
 #' # the following examples require an RStudio Connect API key
@@ -99,27 +96,6 @@
 #' )
 #' }
 #'
-#' @export
-board_register_rsconnect <- function(name = "rsconnect",
-                                     server = NULL,
-                                     account = NULL,
-                                     key = NULL,
-                                     output_files = FALSE,
-                                     cache = board_cache_path(),
-                                     ...) {
-  board <- board_rsconnect(
-    name = name,
-    server = server,
-    account = account,
-    key = key,
-    output_files = output_files,
-    cache = cache,
-    ...
-  )
-  board_register2(board)
-}
-
-#' @rdname board_register_rsconnect
 #' @export
 board_rsconnect <- function(name = "rsconnect",
                             server = NULL,
