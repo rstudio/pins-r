@@ -19,7 +19,11 @@
   without registering it.
 
 * The "packages" board is no longer registered by default; if you want to use
-  this you'll need to register with `board_register("packages")`.
+  this you'll need to register with `board_register("packages")`. It has been
+  radically simplified so that it will no longer download packages, and it
+  `pin_find()` now searches all packages that you have installed, rather than
+  a stale snapshot of data in CRAN packages. The CRAN files dataset has
+  been removed from the package.
 
 # pins 0.4.5
 

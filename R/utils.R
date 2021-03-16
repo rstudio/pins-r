@@ -50,3 +50,7 @@ format_tibble <- function(data) {
     data
   }
 }
+
+map_chr <- function(x, f, ...) {
+  vapply(x, as_function(f), ..., FUN.VALUE = character(1))
+}

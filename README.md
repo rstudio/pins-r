@@ -95,19 +95,17 @@ There are two main ways to pin a resource:
 
 You can also discover remote resources using `pin_find()` which searches
 any registered boards. For instance, we can search datasets mentioning
-“seattle” in CRAN packages with:
+“air” in installed packages with:
 
 ``` r
-pin_find("seattle", board = "packages")
-#> # A tibble: 6 x 4
-#>   name               description                                    type  board 
-#>   <chr>              <chr>                                          <chr> <chr> 
-#> 1 hpiR/ex_sales      Subset of Seattle Home Sales from hpiR packag… table packa…
-#> 2 hpiR/seattle_sales Seattle Home Sales from hpiR package.          table packa…
-#> 3 latticeExtra/Seat… Daily Rainfall and Temperature at the Seattle… table packa…
-#> 4 microsynth/seattl… Data for a crime intervention in Seattle, Was… table packa…
-#> 5 vegawidget/data_s… Example dataset: Seattle daily weather from v… table packa…
-#> 6 vegawidget/data_s… Example dataset: Seattle hourly temperatures … table packa…
+pin_find("air", board = "packages")
+#> # A tibble: 4 x 6
+#>   name             description                           cols  rows class board 
+#>   <chr>            <chr>                                <int> <int> <chr> <chr> 
+#> 1 datasets/airmil… Passenger Miles on Commercial US Ai…    NA    NA <NA>  packa…
+#> 2 datasets/AirPas… Monthly Airline Passenger Numbers 1…    NA    NA <NA>  packa…
+#> 3 datasets/airqua… New York Air Quality Measurements       NA    NA <NA>  packa…
+#> 4 datasets/HairEy… Hair and Eye Color of Statistics St…    NA    NA <NA>  packa…
 ```
 
 Notice that the full name of a pin is `<owner>/<name>`. This namespacing
@@ -116,14 +114,7 @@ allows multiple people (or packages) to create pins with the same name.
 You can then retrieve a pin through `pin_get()`:
 
 ``` r
-seattle_sales <- pin_get("hpiR/seattle_sales")
-seattle_sales
-```
-
-Or explore additional properties in this pin with `pin_info()`:
-
-``` r
-pin_info("hpiR/seattle_sales")
+airmiles <- pin_get("datasets/airmiles", board = "packages")
 ```
 
 ### Share
@@ -223,8 +214,6 @@ pin_get("sales-by-baths", board = "myrsc") %>%
   geom_point() + 
   geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```
-
-<img src="tools/readme/rstudio-plot-pin-1.png" style="display: block; margin: auto;" />
 
 Pins can also be automated using scheduled R Markdown. This makes it
 much easier to create Shiny applications that rely on scheduled data

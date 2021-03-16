@@ -43,6 +43,7 @@ Imports:
 Suggests:
     callr,
     covr,
+    datasets,
     data.table,
     knitr,
     R6,

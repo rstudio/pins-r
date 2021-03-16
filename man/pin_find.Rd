@@ -4,7 +4,14 @@
 \alias{pin_find}
 \title{Find Pin}
 \usage{
-pin_find(text = NULL, board = NULL, name = NULL, extended = FALSE, ...)
+pin_find(
+  text = NULL,
+  board = NULL,
+  name = NULL,
+  extended = FALSE,
+  metadata = FALSE,
+  ...
+)
 }
 \arguments{
 \item{text}{The text to find in the pin description or name.}
@@ -14,6 +21,8 @@ pin_find(text = NULL, board = NULL, name = NULL, extended = FALSE, ...)
 \item{name}{The exact name of the pin to match when searching.}
 
 \item{extended}{Should additional board-specific columns be shown?}
+
+\item{metadata}{Include pin metadata in results?}
 
 \item{...}{Additional parameters.}
 }
@@ -44,10 +53,4 @@ pin_find()
 
 # search pins related to 'cars'
 pin_find("cars")
-
-# search pins related to 'seattle' in the 'packages' board
-pin_find("seattle", board = "packages")
-
-# search pins related to 'london' in the 'packages' board
-pin_find("london", board = "packages")
 }

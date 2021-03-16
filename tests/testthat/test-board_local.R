@@ -5,7 +5,7 @@ test_that("local board registered by default", {
 test_that(paste("can pin() file with auto-generated name in local board"), {
   b <- local_board_local()
 
-  expect_equal(nrow(pin_find(, board = b)), 0)
+  expect_equal(nrow(pin_find(board = b)), 0)
 
   hello <- test_path("files/hello.txt")
   path <- pin(hello, board = b)

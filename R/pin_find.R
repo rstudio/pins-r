@@ -6,6 +6,7 @@
 #' @param board The board name used to find the pin.
 #' @param name The exact name of the pin to match when searching.
 #' @param extended Should additional board-specific columns be shown?
+#' @param metadata Include pin metadata in results?
 #' @param ... Additional parameters.
 #'
 #' @details
@@ -33,17 +34,12 @@
 #'
 #' # search pins related to 'cars'
 #' pin_find("cars")
-#'
-#' # search pins related to 'seattle' in the 'packages' board
-#' pin_find("seattle", board = "packages")
-#'
-#' # search pins related to 'london' in the 'packages' board
-#' pin_find("london", board = "packages")
 #' @export
 pin_find <- function(text = NULL,
                      board = NULL,
                      name = NULL,
                      extended = FALSE,
+                     metadata = FALSE,
                      ...) {
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)
@@ -55,53 +51,26 @@ pin_find <- function(text = NULL,
     stop("Unsupported input for `board`", call. = FALSE)
   }
 
-  metadata <- identical(list(...)$metadata, TRUE)
-  text <- pin_content_name(text)
-  if (is.null(text) && !is.null(name)) text <- name
+  text <- text %||% name
 
-  all_pins <- pin_find_empty()
+  results <- lapply(boards, function(board) {
+    board_pins <- board_pin_find(board, text, name = name, extended = extended, ...)
+    board_pins$board <- rep(board$name, nrow(board_pins))
+    board_pins
+  })
+  results <- do.call("rbind", results)
 
-  for (board in boards) {
-    board_pins <- board_pin_find(board = board, text, name = name, extended = extended, ...)
-
-    if (identical(extended, TRUE)) {
-      ext_df <- tryCatch(
-        paste("[", paste(board_pins$metadata, collapse = ","), "]") %>% jsonlite::fromJSON(),
-        error = function(e) NULL
-      )
-
-      if (is.data.frame(ext_df) && nrow(board_pins) == nrow(ext_df)) {
-        ext_df <- ext_df[, !names(ext_df) %in% colnames(board_pins)]
-        board_pins <- cbind(board_pins, ext_df)
-      }
-    }
-
-    if (nrow(board_pins) > 0) {
-      board_pins$board <- rep(board$name, nrow(board_pins))
-
-      all_pins <- pin_results_merge(all_pins, board_pins, identical(extended, TRUE))
-    }
-  }
-
-  if (!is.null(text)) {
-    find_names <- grepl(text, all_pins$name, ignore.case = TRUE)
-    find_description <- if (is.null(all_pins$description)) FALSE else grepl(text, all_pins$description, ignore.case = TRUE)
-    all_pins <- all_pins[find_names | find_description, ]
+  if (!is.null(name)) {
+    results <- results[grepl(paste0("(.*/)?", name, "$"), results$name), ]
   }
 
   if (!metadata) {
-    all_pins <- all_pins[, names(all_pins) != "metadata"]
+    results$metadata <- NULL
   }
 
-  if (!is.null(name)) {
-    all_pins <- all_pins[grepl(paste0("(.*/)?", name, "$"), all_pins$name), ]
-    if (nrow(all_pins) > 0) all_pins <- all_pins[1, ]
-  }
+  results <- results[order(results$name), ]
 
-  # sort pin results by name
-  all_pins <- all_pins[order(all_pins$name), ]
-
-  format_tibble(all_pins)
+  format_tibble(results)
 }
 
 pin_find_empty <- function() {

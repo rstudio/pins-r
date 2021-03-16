@@ -89,25 +89,18 @@ There are two main ways to pin a resource:
 
 ### Discover
 
-You can also discover remote resources using `pin_find()` which searches any registered boards. For instance, we can search datasets mentioning "seattle" in CRAN packages with:
+You can also discover remote resources using `pin_find()` which searches any registered boards. For instance, we can search datasets mentioning "air" in installed packages with:
 
 ```{r}
-pin_find("seattle", board = "packages")
+pin_find("air", board = "packages")
 ```
 
 Notice that the full name of a pin is `<owner>/<name>`. This namespacing allows multiple people (or packages) to create pins with the same name.
 
 You can then retrieve a pin through `pin_get()`:
 
-```{r, eval = FALSE}
-seattle_sales <- pin_get("hpiR/seattle_sales")
-seattle_sales
-```
-
-Or explore additional properties in this pin with `pin_info()`:
-
-```{r, eval = FALSE}
-pin_info("hpiR/seattle_sales")
+```{r}
+airmiles <- pin_get("datasets/airmiles", board = "packages")
 ```
 
 ### Share
@@ -179,7 +172,7 @@ You can now set the appropriate permissions in RStudio Connect, and voila! From 
 
 For instance, a colleague can reuse the `sales-by-baths` pin by retrieving it from RStudio Connect and visualize its contents using ggplot2:
 
-```{r rstudio-plot-pin, fig.align='center'}
+```{r rstudio-plot-pin, fig.align='center', eval = FALSE}
 library(ggplot2)
 board_register_rsconnect(name = "myrsc")
 

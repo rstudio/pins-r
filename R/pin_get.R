@@ -32,9 +32,6 @@
 #'
 #' # retrieve the mtcars pin
 #' pin_get("mtcars")
-#'
-#' # retrieve mtcars pin from packages board
-#' pin_get("easyalluvial/mtcars2", board = "packages")
 #' @export
 pin_get <- function(name,
                     board = NULL,

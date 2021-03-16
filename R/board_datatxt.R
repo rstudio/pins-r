@@ -278,6 +278,12 @@ board_pin_find.pins_board_datatxt <- function(board, text, name, extended = FALS
     stringsAsFactors = FALSE
   )
 
+  if (!is.null(text)) {
+    find_names <- grepl(text, results$name, ignore.case = TRUE)
+    find_description <- grepl(text, results$description, ignore.case = TRUE)
+    results <- results[find_names | find_description, , drop = FALSE]
+  }
+
   if (is.character(name)) {
     results <- results[results$name == name, ]
   }

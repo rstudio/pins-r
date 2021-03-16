@@ -30,14 +30,10 @@ pin_info(
 Retrieve information for a given pin.
 }
 \examples{
-library(pins)
+# define board and cache a dataset
+board <- board_local(cache = tempfile())
+pin(mtcars, board = board)
 
-# define local board
-board_register_local(cache = tempfile())
-
-# cache the mtcars dataset
-pin(mtcars)
-
-# print pin information
-pin_info("mtcars")
+# Get info
+pin_info("mtcars", board = board)
 }
