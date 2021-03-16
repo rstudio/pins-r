@@ -4,6 +4,7 @@
 \alias{board_pin_create}
 \alias{board_initialize}
 \alias{board_browse}
+\alias{board_desc}
 \alias{board_pin_get}
 \alias{board_pin_remove}
 \alias{board_pin_find}
@@ -15,6 +16,8 @@ board_pin_create(board, path, name, metadata, ...)
 board_initialize(board, ...)
 
 board_browse(board, ...)
+
+board_desc(board, ...)
 
 board_pin_get(board, name, ...)
 

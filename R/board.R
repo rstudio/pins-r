@@ -17,6 +17,26 @@ new_board <- function(board, name, cache, versions = FALSE, ...) {
   board
 }
 
+#' @export
+print.pins_board <- function(x, ...) {
+  cat(paste0(crayon::bold("Pin board"), " <", class(board)[[1]], ">\n"))
+  cat(paste0(board_desc(x), "\n", collapse = ""))
+  pins <- pin_find(board = x)$name
+
+  n <- length(pins)
+  if (n > 20) {
+    pins <- c(pins[1:19], "...")
+  }
+  contents <- paste0(
+    "With ", n, " pins: ",
+    paste0("'", pins, "'", collapse = ", ")
+  )
+
+  cat(strwrap(contents, exdent = 2), sep = "\n")
+
+  invisible()
+}
+
 is.board <- function(x) inherits(x, "pins_board")
 
 #' Custom Boards
@@ -47,6 +67,16 @@ board_initialize <- function(board, ...) {
 #' @rdname custom-boards
 board_browse <- function(board, ...) {
   UseMethod("board_browse")
+}
+
+#' @export
+#' @rdname custom-boards
+board_desc <- function(board, ...) {
+  UseMethod("board_desc")
+}
+#' @export
+board_desc.default <- function(board, ...) {
+  character()
 }
 
 #' @export
