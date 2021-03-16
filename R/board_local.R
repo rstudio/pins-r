@@ -29,7 +29,7 @@ board_local <- function(cache = board_cache_path(),
 }
 
 #' @export
-board_desc.pins_board_local <- function(board) {
+board_desc.pins_board_local <- function(board, ...) {
   paste0("Path: '", pin_registry_path(board), "'")
 }
 
