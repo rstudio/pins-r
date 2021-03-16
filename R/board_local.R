@@ -10,8 +10,8 @@
 #' @family boards
 #'
 #' @examples
-#' # register local board using a temp folder
-#' board_register_local(cache = tempfile())
+#' # session-specific local board
+#' board <- board_local(cache = tempfile())
 #' @export
 board_register_local <- function(name = "local",
                                  cache = board_cache_path(),

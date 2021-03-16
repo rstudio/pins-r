@@ -21,17 +21,12 @@
 #' all boards and retrieve the one that matches by name.
 #'
 #' @examples
-#'
-#' library(pins)
-#'
-#' # define local board
-#' board_register_local(cache = tempfile())
-#'
-#' # cache the mtcars dataset
-#' pin(mtcars)
+#' # define temporary board
+#' board <- board_local(cache = tempfile())
+#' pin(mtcars, board = board)
 #'
 #' # retrieve the mtcars pin
-#' pin_get("mtcars")
+#' pin_get("mtcars", board = board)
 #' @export
 pin_get <- function(name,
                     board = NULL,

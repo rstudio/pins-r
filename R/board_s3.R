@@ -22,7 +22,7 @@
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key
-#' board_register_s3(bucket = "s3bucket")
+#' board <- board_s3(bucket = "s3bucket")
 #' }
 #' @export
 board_register_s3 <- function(name = "s3",

@@ -27,20 +27,17 @@
 #' tools and programming languages.
 #'
 #' @examples
-#' library(pins)
-#'
-#' # define local board
-#' board_register_local(cache = tempfile())
+#' # define temporary local board
+#' board <- board_local(cache = tempfile())
 #'
 #' # cache the mtcars dataset
-#' pin(mtcars)
+#' pin(mtcars, board = board)
 #'
 #' # cache computation over mtcars
-#' mtcars[mtcars$mpg > 30, ] %>%
-#'   pin(name = "mtefficient")
+#' pin(mtcars[mtcars$mpg > 30, ], name = "mtefficient", board = board)
 #'
 #' # retrieve cached pin
-#' pin_get("mtefficient")
+#' pin_get("mtefficient", board = board)
 #'
 #' # url to remote resource
 #' resource <- file.path(
@@ -49,13 +46,12 @@
 #' )
 #'
 #' # cache remote resource
-#' pin(resource, name = "example_retail_sales")
-#'
-#' # load cached csv
-#' pin_get("example_retail_sales") %>% read.csv()
+#' pin(resource, name = "example_retail_sales", board = board)
 #'
 #' # cache and read csv
-#' read.csv(pin(resource))
+#' path <- pin(resource, board = board)
+#' path
+#' head(read.csv(path))
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   UseMethod("pin")
@@ -109,7 +105,7 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
   if (length(path) == 1 && grepl("^http", path) && !grepl("\\.[a-z]{2,4}$", path) && getOption("pins.search.datatxt", TRUE)) {
     # attempt to download data.txt to enable public access to boards like rsconnect
     datatxt_path <- file.path(path, "data.txt")
-    local_path <- pin_download(datatxt_path, name, board_default(), can_fail = TRUE)
+    local_path <- pin_download(datatxt_path, name, board, can_fail = TRUE)
     if (!is.null(local_path)) {
       manifest <- tryCatch(pin_manifest_get(local_path), error = function(e) {
         unlink(file.path(local_path, "data.txt"))
@@ -145,14 +141,14 @@ board_pin_store <- function(board, path, name, description, type, metadata, extr
       if (grepl("^http", single_path)) {
         single_path <- pin_download(single_path,
           name,
-          board_default(),
+          board,
           extract = extract,
           details = details,
           can_fail = TRUE,
           ...
         )
         if (!is.null(details$error)) {
-          cached_result <- tryCatch(pin_get(name, board = board_default()), error = function(e) NULL)
+          cached_result <- tryCatch(pin_get(name, board = board), error = function(e) NULL)
           if (is.null(cached_result)) stop(details$error) else warning(details$error)
           return(cached_result)
         }

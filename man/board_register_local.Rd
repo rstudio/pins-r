@@ -23,8 +23,8 @@ Wrapper with explicit parameters over \code{board_register()} to
 register a local folder as a board.
 }
 \examples{
-# register local board using a temp folder
-board_register_local(cache = tempfile())
+# session-specific local board
+board <- board_local(cache = tempfile())
 }
 \seealso{
 board_register

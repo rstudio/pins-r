@@ -107,16 +107,16 @@ be customized as follows:
 # the following examples require an RStudio Connect API key
 
 # register from rstudio
-board_register_rsconnect()
+board <- board_rsconnect()
 
 # register from rstudio with multiple servers
-board_register_rsconnect(server = "https://rstudio-connect-server")
+board <- board_rsconnect(server = "https://rstudio-connect-server")
 
 # register from rstudio with multiple account
-board_register_rsconnect(account = "account-name")
+board <- board_rsconnect(account = "account-name")
 
 # register automated report for rstudio connect
-board_register_rsconnect(
+board <- board_rsconnect(
   key = Sys.getenv("CONNECT_API_KEY"),
   server = Sys.getenv("CONNECT_SERVER")
 )

@@ -39,12 +39,12 @@ register a Kaggle board which allows them to download and upload pins
 \examples{
 \dontrun{
 # the following example requires a Kaggle API token
-board_register_kaggle(token = "path/to/kaggle.json")
+board <- board_kaggle(token = "path/to/kaggle.json")
 
-pin_find("crowdflower", board = "kaggle")
+pin_find("crowdflower", board = board)
 
 # names starting with c/ are competitions
-pin_get("c/crowdflower-weather-twitter", board = "kaggle")
+pin_get("c/crowdflower-weather-twitter", board = board)
 }
 }
 \seealso{

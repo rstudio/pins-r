@@ -127,23 +127,6 @@ You can share resources with others by publishing to:
 -   Azure, `board_azure()`
 -   S3, `board_s3()`
 
-To publish to Kaggle, you would first need to register the Kaggle board
-by creating a [Kaggle API Token](https://www.kaggle.com/me/account):
-
-``` r
-board_register_kaggle(token = "<path-to-kaggle.json>")
-```
-
-You can then easily publish to Kaggle:
-
-``` r
-pin(seattle_sales, board = "kaggle")
-```
-
-<center>
-<img src="tools/readme/kaggle-uploaded-dataset.png" width="70%">
-</center>
-
 Learn more in `vignette("boards-understanding")`
 
 ### RStudio
@@ -182,12 +165,12 @@ Lets use `dplyr` and the `hpiR_seattle_sales` pin to analyze this
 further and then pin our results in RStudio Connect.
 
 ``` r
-board_register_rsconnect(name = "myrsc")
+board <- board_rsconnect()
 
 seattle_sales %>%
   group_by(baths = ceiling(baths)) %>%
   summarise(sale = floor(mean(sale_price))) %>%
-  pin("sales-by-baths", board = "myrsc")
+  pin("sales-by-baths", board = board)
 ```
 
 After a pin is published, you can then browse to the pin’s content from
@@ -207,9 +190,9 @@ ggplot2:
 
 ``` r
 library(ggplot2)
-board_register_rsconnect(name = "myrsc")
+board <- board_rsconnect()
 
-pin_get("sales-by-baths", board = "myrsc") %>%
+pin_get("sales-by-baths", board = board) %>%
   ggplot(aes(x = baths, y = sale)) +
   geom_point() + 
   geom_smooth(method = 'lm', formula = y ~ exp(x))

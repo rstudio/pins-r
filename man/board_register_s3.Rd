@@ -61,7 +61,7 @@ after you've created it before a bucket is usable.
 \examples{
 \dontrun{
 # the following example requires an Amazon S3 API key
-board_register_s3(bucket = "s3bucket")
+board <- board_s3(bucket = "s3bucket")
 }
 }
 \seealso{
