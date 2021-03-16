@@ -48,10 +48,6 @@ board_initialize <- function(board, ...) {
 board_browse <- function(board, ...) {
   UseMethod("board_browse")
 }
-#' @export
-board_browse.default <- function(board, ...) {
-  invisible(NULL)
-}
 
 #' @export
 #' @rdname custom-boards

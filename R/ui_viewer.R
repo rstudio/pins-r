@@ -69,10 +69,6 @@ ui_viewer_register <- function(board, board_call) {
     )
   )
 
-  if (identical(class(board), "local")) {
-    actions[["Browse"]] <- NULL
-  }
-
   observer$connectionOpened(
     # connection type
     type = "Pins",
