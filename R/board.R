@@ -152,6 +152,12 @@ board_cache_path <- function() {
 # helpers -----------------------------------------------------------------
 
 board_empty_results <- function() {
-  data.frame(name = c(), description = c(), rows = c(), cols = c(), class = c())
+  data.frame(
+    name = character(),
+    description = character(),
+    rows = character(),
+    cols = character(),
+    class = character()
+  )
 }
 

@@ -375,9 +375,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
   results <- pin_results_from_rows(entries)
 
   if (nrow(results) == 0) {
-    return(
-      board_empty_results()
-    )
+    return(board_empty_results())
   }
 
   null_or_value <- function(e, value) if (is.null(e)) value else e
