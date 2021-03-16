@@ -39,7 +39,8 @@ Imports:
     rappdirs,
     withr,
     yaml,
-    zip
+    zip,
+    lifecycle
 Suggests:
     callr,
     covr,

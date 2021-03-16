@@ -19,7 +19,7 @@ new_board <- function(board, name, cache, versions = FALSE, ...) {
 
 #' @export
 print.pins_board <- function(x, ...) {
-  cat(paste0(crayon::bold("Pin board"), " <", class(board)[[1]], ">\n"))
+  cat(paste0(crayon::bold("Pin board"), " <", class(x)[[1]], ">\n"))
   cat(paste0(board_desc(x), "\n", collapse = ""))
   pins <- pin_find(board = x)$name
 
