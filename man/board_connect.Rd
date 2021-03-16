@@ -2,9 +2,12 @@
 % Please edit documentation in R/ui_viewer.R
 \name{board_connect}
 \alias{board_connect}
-\title{Connect to Board}
+\alias{board_disconnect}
+\title{Connect to/disconnect from a board}
 \usage{
 board_connect(board, code, ...)
+
+board_disconnect(name, ...)
 }
 \arguments{
 \item{board}{The name of the board to activate.}
@@ -14,6 +17,6 @@ board_connect(board, code, ...)
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Connects to a board to activate RStudio's connection pane, when available.
+Activate/deactivate RStudio's connection pane
 }
 \keyword{internal}
