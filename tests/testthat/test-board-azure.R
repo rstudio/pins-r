@@ -14,15 +14,15 @@ if (!has_envvars(c("TEST_AZURE_CONTAINER", "TEST_AZURE_ACCOUNT", "TEST_AZURE_KEY
   skip("requires env vars TEST_AZURE_CONTAINER, TEST_AZURE_ACCOUNT, TEST_AZURE_KEY")
 }
 
-board_register_azure(
-  name = "test-azure-1",
+board <- board_azure(
   container = Sys.getenv("TEST_AZURE_CONTAINER"),
   account = Sys.getenv("TEST_AZURE_ACCOUNT"),
   key = Sys.getenv("TEST_AZURE_KEY"),
   cache = tempfile()
 )
-withr::defer(board_deregister("test-azure-1"))
-board_register_azure(
+board_test(board, suite = "default")
+
+board <- board_azure(
   name = "test-azure-2",
   container = Sys.getenv("TEST_AZURE_CONTAINER"),
   account = Sys.getenv("TEST_AZURE_ACCOUNT"),
@@ -30,7 +30,4 @@ board_register_azure(
   versions = TRUE,
   cache = tempfile()
 )
-withr::defer(board_deregister("test-azure-2"))
-
-board_test("test-azure-1", suite = "default")
-board_test("test-azure-2", suite = "versions")
+board_test(board, suite = "versions")

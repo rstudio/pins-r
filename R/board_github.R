@@ -51,7 +51,8 @@ board_github <- function(
     path = if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else "",
     branch = branch,
     host = host,
-    main = "master"
+    main = "master",
+    ...
   )
 
   if (!github_authenticated(board)) {
