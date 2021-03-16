@@ -23,10 +23,11 @@
 #' board <- board_gcloud(container = "gcloudcontainer")
 #' }
 #' @export
-board_gcloud <- function(name,
+board_gcloud <- function(
                          bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                          token = NULL,
                          cache = NULL,
+                         name = "gcloud",
                          ...) {
   if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
 

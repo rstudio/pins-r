@@ -22,13 +22,14 @@
 #' board <- board_dospace(bucket = "s3bucket")
 #' }
 #' @export
-board_dospace <- function(name = "dospace",
+board_dospace <- function(
                           space = Sys.getenv("DO_SPACE"),
                           key = Sys.getenv("DO_ACCESS_KEY_ID"),
                           secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
                           datacenter = Sys.getenv("DO_DATACENTER"),
                           cache = NULL,
                           host = "digitaloceanspaces.com",
+                          name = "dospace",
                           ...) {
   if (nchar(space) == 0) stop("The 'dospace' board requires a 'space' parameter.")
   if (nchar(key) == 0) stop("The 'dospace' board requires a 'key' parameter.")

@@ -5,18 +5,14 @@
 \title{Use a Google Cloud board}
 \usage{
 board_gcloud(
-  name,
   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
   token = NULL,
   cache = NULL,
+  name = "gcloud",
   ...
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
 \item{bucket}{The name of the Google Cloud Storage bucket. Defaults to the \code{GCLOUD_STORAGE_BUCKET} environment
 variable.}
 
@@ -31,6 +27,10 @@ authorize the "Google Storage API v1" scope.}
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

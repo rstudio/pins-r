@@ -25,11 +25,12 @@
 #' )
 #' }
 #' @export
-board_azure <- function(name = "azure",
+board_azure <- function(
                         container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                         account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
                         key = Sys.getenv("AZURE_STORAGE_KEY"),
                         cache = NULL,
+                        name = "azure",
                         ...) {
   if (nchar(container) == 0) stop("The 'azure' board requires a 'container' parameter.")
   if (nchar(account) == 0) stop("The 'azure' board requires an 'account' parameter.")

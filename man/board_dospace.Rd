@@ -5,21 +5,17 @@
 \title{Use a DigitalOcean board}
 \usage{
 board_dospace(
-  name = "dospace",
   space = Sys.getenv("DO_SPACE"),
   key = Sys.getenv("DO_ACCESS_KEY_ID"),
   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
   datacenter = Sys.getenv("DO_DATACENTER"),
   cache = NULL,
   host = "digitaloceanspaces.com",
+  name = "dospace",
   ...
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
 \item{space}{The name of the DigitalOcean space.}
 
 \item{key, secret}{The key and secret for your space. You can create
@@ -37,6 +33,10 @@ downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 
 \item{host}{The host to use for storage, defaults to \code{"digitaloceanspaces.com"}.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

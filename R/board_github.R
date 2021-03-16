@@ -32,12 +32,13 @@
 #' board <- board_github(repo = "owner/repo")
 #' }
 #' @export
-board_github <- function(name = "github",
+board_github <- function(
                          repo = NULL,
                          branch = NULL,
                          token = NULL,
                          path = "",
                          host = "https://api.github.com",
+                         name = "github",
                          ...) {
   if (is.null(repo)) {
     stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")

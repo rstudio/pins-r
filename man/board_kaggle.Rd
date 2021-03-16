@@ -4,7 +4,7 @@
 \alias{board_kaggle}
 \title{Use a Kaggle board}
 \usage{
-board_kaggle(name, token = NULL, ...)
+board_kaggle(token = NULL, name = "kaggle", ...)
 }
 \arguments{
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can

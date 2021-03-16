@@ -5,20 +5,16 @@
 \title{Use an RStudio Connect board}
 \usage{
 board_rsconnect(
-  name = "rsconnect",
   server = NULL,
   account = NULL,
   key = NULL,
   output_files = FALSE,
   cache = board_cache_path(),
+  name = "rsconnect",
   ...
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
 \item{server}{Optional address to RStudio Connect server.}
 
 \item{account}{Optional account name to use with RStudio Connect.}
@@ -31,6 +27,10 @@ files}
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

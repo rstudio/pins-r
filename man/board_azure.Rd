@@ -5,19 +5,15 @@
 \title{Use an Azure board}
 \usage{
 board_azure(
-  name = "azure",
   container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
   account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
   key = Sys.getenv("AZURE_STORAGE_KEY"),
   cache = NULL,
+  name = "azure",
   ...
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
 \item{container}{The name of the Azure Storage container.}
 
 \item{account}{The name of the Azure Storage account.}
@@ -33,6 +29,10 @@ use by default.}
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

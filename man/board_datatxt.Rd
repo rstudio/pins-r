@@ -6,7 +6,6 @@
 \usage{
 board_datatxt(
   url,
-  name = NULL,
   headers = NULL,
   cache = board_cache_path(),
   needs_index = TRUE,
@@ -15,15 +14,12 @@ board_datatxt(
   index_randomize = FALSE,
   path = NULL,
   versions = FALSE,
+  name = NULL,
   ...
 )
 }
 \arguments{
 \item{url}{Path to the \code{data.txt} file or directory containing it.}
-
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
 
 \item{headers}{Optional list of headers to include or a function to generate them.}
 
@@ -43,6 +39,10 @@ query string to defeat caching?}
 \item{path}{Subdirectory within \code{url}}
 
 \item{versions}{Should this board be registered with support for versions?}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

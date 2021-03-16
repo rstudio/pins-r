@@ -24,13 +24,14 @@
 #' board <- board_s3(bucket = "s3bucket")
 #' }
 #' @export
-board_s3 <- function(name = "s3",
+board_s3 <- function(
                      bucket = Sys.getenv("AWS_BUCKET"),
                      key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                      secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
                      cache = NULL,
                      region = NULL,
                      host = "s3.amazonaws.com",
+                     name = "s3",
                      ...) {
   if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
   if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")

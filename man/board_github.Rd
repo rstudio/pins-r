@@ -5,20 +5,16 @@
 \title{Use a GitHub board}
 \usage{
 board_github(
-  name = "github",
   repo = NULL,
   branch = NULL,
   token = NULL,
   path = "",
   host = "https://api.github.com",
+  name = "github",
   ...
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
 \item{repo}{The GitHub repository formatted as 'owner/repo', can be
 \code{NULL} if the \code{GITHUB_PAT} environment variable is set.}
 
@@ -30,6 +26,10 @@ board object.}
 
 \item{host}{The URL of the GitHub API. You'll need to customise
 this to use GitHub enterprise, e.g. \code{"https://yourhostname/api/v3"}.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

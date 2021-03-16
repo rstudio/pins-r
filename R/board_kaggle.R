@@ -25,7 +25,7 @@
 #' pin_get("c/crowdflower-weather-twitter", board = board)
 #' }
 #' @export
-board_kaggle <- function(name, token = NULL, ...) {
+board_kaggle <- function(token = NULL, name = "kaggle", ...) {
   token <- token %||% "~/.kaggle/kaggle.json"
   if (!file.exists(token)) {
     stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)

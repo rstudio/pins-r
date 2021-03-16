@@ -28,7 +28,6 @@
 #' pin_find(board = "txtexample")
 #' @export
 board_datatxt <- function(url,
-                          name = NULL,
                           headers = NULL,
                           cache = board_cache_path(),
                           needs_index = TRUE,
@@ -37,6 +36,7 @@ board_datatxt <- function(url,
                           index_randomize = FALSE,
                           path = NULL,
                           versions = FALSE,
+                          name = NULL,
                           ...) {
 
   # use only subdomain as friendly name which is also used as cache folder

@@ -96,12 +96,13 @@
 #' }
 #'
 #' @export
-board_rsconnect <- function(name = "rsconnect",
+board_rsconnect <- function(
                             server = NULL,
                             account = NULL,
                             key = NULL,
                             output_files = FALSE,
                             cache = board_cache_path(),
+                            name = "rsconnect",
                             ...) {
 
   # key <- key %||% Sys.getenv("CONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))

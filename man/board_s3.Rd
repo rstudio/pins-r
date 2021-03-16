@@ -5,21 +5,17 @@
 \title{Use an S3 board}
 \usage{
 board_s3(
-  name = "s3",
   bucket = Sys.getenv("AWS_BUCKET"),
   key = Sys.getenv("AWS_ACCESS_KEY_ID"),
   secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
   cache = NULL,
   region = NULL,
   host = "s3.amazonaws.com",
+  name = "s3",
   ...
 )
 }
 \arguments{
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
 \item{bucket}{The name of the Amazon S3 bucket.}
 
 \item{key, secret}{The key and secret for your space. You can create
@@ -38,6 +34,10 @@ cache location for your operating system, but you can override if needed.}
 enable V4 signatures.}
 
 \item{host}{The host to use for storage, defaults to \code{"s3.amazonaws.com"}.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
