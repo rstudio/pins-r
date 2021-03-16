@@ -12,7 +12,7 @@ reference:
 - title: Boards
   desc: "Alias functions to help register boards."
   contents:
-  - starts_with("board_register")
+  - starts_with("board_")
 
 - title: "Extensions"
   desc: "Functions for creating custom boards."
