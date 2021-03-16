@@ -2,7 +2,10 @@
 % Please edit documentation in R/board_registry.R
 \name{board_register}
 \alias{board_register}
-\title{Register Board}
+\alias{board_deregister}
+\alias{board_default}
+\alias{board_list}
+\title{Board registry}
 \usage{
 board_register(
   board,
@@ -11,47 +14,43 @@ board_register(
   versions = NULL,
   ...
 )
+
+board_deregister(name, ...)
+
+board_default()
+
+board_list()
 }
 \arguments{
 \item{board}{The name of the board to register.}
 
 \item{name}{An optional name to identify this board, defaults to the board name.}
 
-\item{cache}{The local folder to use as a cache, defaults to \code{board_cache_path()}.}
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
 \item{versions}{Should this board be registered with support for versions?}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-Registers a board, useful to find resources with \code{pin_find()} or pin to
-additional boards with \code{pin()}.
-}
-\details{
-A board requires a local cache to avoid downloading files multiple times. It is
-recommended to not specify the \code{cache} parameter since it defaults to a well
-known \code{rappdirs}. However, you are welcome to specify any other
-location for this cache or even a temp folder with \code{tempfile()}. Notice that,
-when using a temp folder, pins will be cleared when your R session restarts. The
-cache parameter can be also set with the \code{pins.path} option.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-If \code{versions} is set to \code{NULL} (the default), it will fall back on the
-board-type-specific default. For instance, local boards do not use versions by default,
-but GitHub boards do.
+Prior to pins 1.0.0, boards were managed using a named registry, with
+\code{\link[=pin]{pin()}} and \code{\link[=pin_get]{pin_get()}} defaulting to a local board. Now, you must
+explicitly supply a \code{board} that you've created using \code{\link[=board_local]{board_local()}},
+\code{\link[=board_rsconnect]{board_rsconnect()}} etc.
 }
 \examples{
-# create a new local board
-board_register("local", "other_board", cache = tempfile())
+# previously
+board_register_local("myboard", cache = tempfile())
+pin(mtcars, board = "myboard")
+pin_get("mtcars", board = "myboard")
 
-# create a Website board
-board_register("datatxt",
-  name = "txtexample",
-  url = "https://datatxt.org/data.txt",
-  cache = tempfile()
-)
+# now
+board <- board_local(cache = tempfile())
+pin(mtcars, board = board)
+pin_get("mtcars", board = board)
 }
-\seealso{
-\code{\link[=board_register_local]{board_register_local()}}, \code{\link[=board_register_github]{board_register_github()}},
-\code{\link[=board_register_kaggle]{board_register_kaggle()}}, \code{\link[=board_register_rsconnect]{board_register_rsconnect()}} and
-\code{\link[=board_register_datatxt]{board_register_datatxt()}}.
-}
+\keyword{internal}

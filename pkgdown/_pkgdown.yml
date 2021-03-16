@@ -22,14 +22,6 @@ reference:
     - pin_preview
     - pin_load
 
-- title: "Board management"
-  desc: "Functions for configuring remote storage lcoations, known as 'boards'."
-  contents:
-    - board_deregister
-    - board_get
-    - board_list
-    - board_register
-
 articles:
 - title: Getting started
   navbar: ~
