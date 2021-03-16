@@ -35,6 +35,7 @@ Imports:
     magrittr,
     mime,
     openssl,
+    rlang,
     rappdirs,
     withr,
     yaml,

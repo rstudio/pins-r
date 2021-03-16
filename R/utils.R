@@ -17,8 +17,6 @@ has_envvars <- function(x) {
   all(Sys.getenv(x) != "")
 }
 
-`%||%` <- function(x, y) if (is.null(x)) y else x
-
 is_url <- function(x) {
   grepl("^http://|^https://", x)
 }
@@ -46,10 +44,9 @@ format_tibble <- function(data) {
     return(data)
   }
 
-  if (length(find.package("tibble", quiet = TRUE)) > 0 && !identical(getOption("pins.tibble"), FALSE)) {
+  if (is_installed("tibble") > 0 && !identical(getOption("pins.tibble"), FALSE)) {
     tibble::as_tibble(data)
-  }
-  else {
+  } else {
     data
   }
 }
