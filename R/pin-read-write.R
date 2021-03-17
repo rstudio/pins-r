@@ -21,9 +21,10 @@ pin_read <- function(board, name) {
 #' @param x An object (typically a data frame) to pin.
 #' @param description A text description of the pin; most important for
 #'   shared boards so that others can understand what the pin contains.
+#' @param metadata A list containing additional metadata to store with the pins.
 #' @rdname pin_read
 #' @export
-pin_write <- function(board, x, name = NULL, description = NULL) {
+pin_write <- function(board, x, name = NULL, description = NULL, metadata = NULL) {
   if (missing(name)) {
     expr <- expr_deparse(enexpr(x))
     name <- pin_default_name(expr, board)
@@ -34,5 +35,8 @@ pin_write <- function(board, x, name = NULL, description = NULL) {
     name = name,
     board = board,
     description = description,
+    metadata = metadata
   )
+
+  invisible(board)
 }

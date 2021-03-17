@@ -54,3 +54,13 @@ format_tibble <- function(data) {
 map_chr <- function(x, f, ...) {
   vapply(x, as_function(f), ..., FUN.VALUE = character(1))
 }
+
+modifyList <- function(x, y) {
+  if (is.null(x)) {
+    y
+  } else if (is.null(y)) {
+    x
+  } else {
+    utils::modifyList(x, y)
+  }
+}

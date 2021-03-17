@@ -11,11 +11,13 @@ board_pin_store(
   board,
   path,
   name,
-  description,
-  type,
-  metadata,
+  pin_metadata,
   extract = TRUE,
   retrieve = TRUE,
+  zip = FALSE,
+  cache = TRUE,
+  metadata = NULL,
+  custom_metadata = NULL,
   ...
 )
 }
@@ -28,13 +30,18 @@ board_pin_store(
 
 \item{name}{The name of the pin.}
 
+\item{pin_metadata}{A list of pin metadata describing the pin. Must contain
+\code{type} and \code{description}.}
+
+\item{retrieve}{Should the pin be retrieved after being created? Defaults to \code{TRUE}.}
+
+\item{custom_metadata}{Deprecated. Please use \code{metadata} instead.}
+
 \item{description}{The text patteren to find a pin.}
 
 \item{type}{The type of pin being stored.}
 
-\item{metadata}{A list containing additional metadata describing the pin.}
-
-\item{retrieve}{Should the pin be retrieved after being created? Defaults to \code{TRUE}.}
+\item{metadat}{Additional user supplied metadata.}
 }
 \description{
 Family of functions meant to be used to implement custom pin extensions, not to be used by users.

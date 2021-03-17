@@ -7,7 +7,7 @@
 \usage{
 pin_read(board, name)
 
-pin_write(board, x, name = NULL, description = NULL)
+pin_write(board, x, name = NULL, description = NULL, metadata = NULL)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_local]{board_local()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -19,6 +19,8 @@ pin_write(board, x, name = NULL, description = NULL)
 
 \item{description}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
+
+\item{metadata}{A list containing additional metadata to store with the pins.}
 }
 \description{
 Use \code{pin_write()} to pin an object to board, and \code{pin_read()} to retrieve
