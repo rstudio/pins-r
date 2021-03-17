@@ -527,3 +527,15 @@ pin_results_extract_column <- function(df, column) {
   df[[column]] <- sapply(df$metadata, function(e) jsonlite::fromJSON(e)[[column]])
   df
 }
+
+pin_split_owner <- function(name) {
+  parts <- strsplit(name, "/")[[1]]
+  list(
+    owner = if (length(parts) > 1) paste(parts[1:length(parts) - 1], collapse = "/") else NULL,
+    name = if (length(parts) > 0) parts[length(parts)] else NULL
+  )
+}
+
+pin_content_name <- function(name) {
+  if (is.character(name)) pin_split_owner(name)$name else name
+}
