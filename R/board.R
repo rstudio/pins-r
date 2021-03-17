@@ -64,6 +64,7 @@ is.board <- function(x) inherits(x, "pins_board")
 #' @param ... Additional parameteres.
 #'
 #' @rdname custom-boards
+#' @keywords internal
 #' @export
 board_pin_create <- function(board, path, name, metadata, ...) {
   UseMethod("board_pin_create")

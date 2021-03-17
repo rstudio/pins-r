@@ -14,14 +14,6 @@ reference:
   contents:
   - starts_with("board_")
 
-- title: "Extensions"
-  desc: "Functions for creating custom boards."
-  contents:
-    - board_pin_create
-    - board_pin_store
-    - pin_preview
-    - pin_load
-
 articles:
 - title: Getting started
   navbar: ~

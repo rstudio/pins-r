@@ -44,3 +44,4 @@ board_pin_versions(board, name, ...)
 Family of functions meant to be used to implement custom boards extensions,
 not to be used by users.
 }
+\keyword{internal}

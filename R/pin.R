@@ -81,6 +81,7 @@ pin_load <- function(path, ...) {
 #' @keywords internal
 #'
 #' @export
+#' @keywords internal
 #' @rdname custom-pins
 board_pin_store <- function(board,
                             path,
