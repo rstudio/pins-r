@@ -1,6 +1,6 @@
 test_that("pin_write() noisily generates name", {
   expect_snapshot({
-    b <- board_local(tempfile())
+    b <- board_temp()
     pin_write(b, mtcars)
   })
 })

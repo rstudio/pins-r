@@ -193,7 +193,7 @@ The local board allows you to share pins with other R sessions.
 
 This is useful because it saves time downloading or processing data, but it doesn't help get your data into the hands of other people. To take full advantage of pins, you probably want to also storing pins in shared locations that others can access:
 
-* Shared folders, `board_local()`.
+* Shared folders, `board_folder()`.
 * GitHub, `board_github()`.
 * RStudio Connect, `board_rsconnect()`
 * Azure, `board_azure()`

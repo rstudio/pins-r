@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # define board and cache a dataset
-#' board <- board_local(tempfile())
+#' board <- board_temp()
 #' pin(mtcars, board = board)
 #'
 #' # Get info

@@ -56,8 +56,8 @@ board <- board_s3(bucket = "s3bucket")
 \seealso{
 Other boards: 
 \code{\link{board_azure}()},
+\code{\link{board_folder}()},
 \code{\link{board_github}()},
-\code{\link{board_local}()},
 \code{\link{board_rsconnect}()}
 }
 \concept{boards}

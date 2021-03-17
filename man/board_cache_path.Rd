@@ -4,7 +4,10 @@
 \alias{board_cache_path}
 \title{Retrieve Default Cache Path}
 \usage{
-board_cache_path()
+board_cache_path(name)
+}
+\arguments{
+\item{name}{Board name}
 }
 \description{
 Retrieves the default path used to cache boards and pins. Makes
@@ -13,5 +16,6 @@ defined by each OS.
 }
 \examples{
 # retrieve default cache path
-board_cache_path()
+board_cache_path("local")
 }
+\keyword{internal}

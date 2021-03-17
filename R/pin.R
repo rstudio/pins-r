@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' # define temporary local board
-#' board <- board_local(tempfile())
+#' board <- board_temp()
 #'
 #' # cache the mtcars dataset
 #' pin(mtcars, board = board)

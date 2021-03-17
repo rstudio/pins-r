@@ -3,12 +3,12 @@
 #' Use `pin_write()` to pin an object to board, and `pin_read()` to retrieve
 #' it.
 #'
-#' @param board A pin board, created by [board_local()], [board_rsconnect()],
+#' @param board A pin board, created by [board_folder()], [board_rsconnect()],
 #'   [board_github()] or other other `board_` function.
 #' @param name Pin name.
 #' @export
 #' @examples
-#' b <- board_local(tempfile())
+#' b <- board_temp()
 #'
 #' b %>% pin_write(mtcars, "mtcars")
 #' b

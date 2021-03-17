@@ -3,11 +3,11 @@ test_that("local board registered by default", {
 })
 
 test_that("has useful print method", {
-  expect_snapshot(board_local(cache = "/tmp", name = "test"))
+  expect_snapshot(board_folder("/tmp", name = "test"))
 })
 
 test_that(paste("can pin() file with auto-generated name in local board"), {
-  b <- local_board_local()
+  b <- board_temp()
 
   expect_equal(nrow(pin_find(board = b)), 0)
 
@@ -21,7 +21,7 @@ test_that(paste("can pin() file with auto-generated name in local board"), {
 })
 
 test_that("can remove a local pin", {
-  b <- local_board_local()
+  b <- board_temp()
 
   pin(mtcars, board = b)
   expect_true(file.exists(pin_registry_path(b, "mtcars")))
@@ -31,7 +31,7 @@ test_that("can remove a local pin", {
 })
 
 test_that("can version a local pin", {
-  b <- local_board_local(versions = TRUE)
+  b <- board_temp(versions = TRUE)
 
   versions <- pin_versions("df", board = b)
   expect_equal(versions, tibble::tibble(version = character()))

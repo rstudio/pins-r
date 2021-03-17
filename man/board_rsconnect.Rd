@@ -9,7 +9,7 @@ board_rsconnect(
   account = NULL,
   key = NULL,
   output_files = FALSE,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   name = "rsconnect",
   ...
 )
@@ -120,8 +120,8 @@ board <- board_rsconnect(
 \seealso{
 Other boards: 
 \code{\link{board_azure}()},
+\code{\link{board_folder}()},
 \code{\link{board_github}()},
-\code{\link{board_local}()},
 \code{\link{board_s3}()}
 }
 \concept{boards}

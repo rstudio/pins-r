@@ -20,7 +20,7 @@
 board_register(
   board,
   name = NULL,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   versions = NULL,
   ...
 )
@@ -30,7 +30,7 @@ board_register_azure(
   container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
   account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
   key = Sys.getenv("AZURE_STORAGE_KEY"),
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   path = NULL,
   ...
 )
@@ -39,7 +39,7 @@ board_register_datatxt(
   url,
   name = NULL,
   headers = NULL,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   ...
 )
 
@@ -49,7 +49,7 @@ board_register_dospace(
   key = Sys.getenv("DO_ACCESS_KEY_ID"),
   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
   datacenter = Sys.getenv("DO_DATACENTER"),
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   host = "digitaloceanspaces.com",
   path = NULL,
   ...
@@ -59,7 +59,7 @@ board_register_gcloud(
   name = "gcloud",
   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
   token = NULL,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   path = NULL,
   ...
 )
@@ -71,16 +71,16 @@ board_register_github(
   token = NULL,
   path = "",
   host = "https://api.github.com",
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   ...
 )
 
-board_register_local(name = "local", cache = board_cache_path(), ...)
+board_register_local(name = "local", cache = board_cache_path(name), ...)
 
 board_register_kaggle(
   name = "kaggle",
   token = NULL,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   ...
 )
 
@@ -90,7 +90,7 @@ board_register_rsconnect(
   account = NULL,
   key = NULL,
   output_files = FALSE,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   ...
 )
 
@@ -99,7 +99,7 @@ board_register_s3(
   bucket = Sys.getenv("AWS_BUCKET"),
   key = Sys.getenv("AWS_ACCESS_KEY_ID"),
   secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   host = "s3.amazonaws.com",
   region = NULL,
   path = NULL,
@@ -129,7 +129,7 @@ pin(mtcars, board = "myboard")
 pin_get("mtcars", board = "myboard")
 
 # now
-board <- board_local(tempfile())
+board <- board_temp()
 pin(mtcars, board = board)
 pin_get("mtcars", board = board)
 }

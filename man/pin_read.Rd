@@ -10,7 +10,7 @@ pin_read(board, name)
 pin_write(board, x, name = NULL, description = NULL, metadata = NULL)
 }
 \arguments{
-\item{board}{A pin board, created by \code{\link[=board_local]{board_local()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
+\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
 \code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
 
 \item{name}{Pin name.}
@@ -27,7 +27,7 @@ Use \code{pin_write()} to pin an object to board, and \code{pin_read()} to retri
 it.
 }
 \examples{
-b <- board_local(tempfile())
+b <- board_temp()
 
 b \%>\% pin_write(mtcars, "mtcars")
 b

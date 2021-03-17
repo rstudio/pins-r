@@ -136,17 +136,20 @@ board_local_storage <- function(...) {
 #' use of the `rappdirs` package to use cache folders
 #' defined by each OS.
 #'
+#' @param name Board name
+#' @keywords internal
 #' @examples
 #' # retrieve default cache path
-#' board_cache_path()
+#' board_cache_path("local")
 #' @export
-board_cache_path <- function() {
-  # if a configuration is present this could mean we are running in a production environment without user caches
-  if (nchar(Sys.getenv("R_CONFIG_ACTIVE")) > 0 && nchar(Sys.getenv("PINS_USE_CACHE")) == 0) {
-    tempfile()
+board_cache_path <- function(name) {
+  # R_CONFIG_ACTIVE suggests we're in a production environment
+  if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
+    path <- tempfile()
   } else {
-    getOption("pins.path", rappdirs::user_cache_dir("pins"))
+    path <- rappdirs::user_cache_dir("pins")
   }
+  fs::path(path, name)
 }
 
 # helpers -----------------------------------------------------------------

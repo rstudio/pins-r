@@ -1,11 +1,11 @@
 # can get info with or without board
 
     Code
-      b <- board_local(tempfile())
+      b <- board_temp()
       pin_write(b, mtcars[1:2], "mtcars2")
       pin_info("mtcars2", b)
     Output
-      # Source: local<mtcars2> [table]
+      # Source: temp<mtcars2> [table]
       # Properties:
       #   rows: 32
       #   cols: 2

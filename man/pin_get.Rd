@@ -45,7 +45,7 @@ all boards and retrieve the one that matches by name.
 }
 \examples{
 # define temporary board
-board <- board_local(tempfile())
+board <- board_temp()
 pin(mtcars, board = board)
 
 # retrieve the mtcars pin

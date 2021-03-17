@@ -1,5 +1,5 @@
 .onLoad <- function(libname, pkgname) {
-  board_register2(board_local(board_cache_path()))
+  board_register2(board_local())
 }
 
 .globals <- new.env(parent = emptyenv())

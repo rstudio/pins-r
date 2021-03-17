@@ -1,27 +1,53 @@
-#' Use a Local board
+#' Use a local folder as board
 #'
-#' Use a local folder as a board.
+#' @description
+#' * `board_folder()` creates a board inside a folder. You can use this to
+#'    share files by using a folder on a shared network drive or inside
+#'    a DropBox.
+#'
+#' * `board_temp()` creates a temporary board that lives in a session
+#'    specific temporary directory. It will be automatically deleted once
+#'    the current R session ends.
+#'
+#' * `board_local()` is mostly included for backward compatiblity. It's
+#'    the default board used by [pin()] and [pin_get()].
 #'
 #' @inheritParams new_board
+#' @param path Path to directory to store pins. Will be created if it
+#'   doesn't already exist.
 #' @family boards
 #' @examples
 #' # session-specific local board
-#' board <- board_local(tempfile())
+#' board <- board_temp()
 #' @export
-board_local <- function(cache,
-                        name = "local",
-                        versions = FALSE) {
-  new_board("pins_board_local", name = name, cache = cache, versions = versions)
+board_folder <- function(path, name = "folder", versions = FALSE) {
+  new_board("pins_board_local",
+    name = name,
+    cache = path,
+    versions = versions
+  )
+}
+
+#' @export
+#' @rdname board_folder
+board_local <- function(versions = FALSE) {
+  board_folder(board_cache_path("local"), name = "local", versions = versions)
+}
+
+#' @rdname board_folder
+#' @export
+board_temp <- function(name = "temp", versions = FALSE) {
+  board_folder(fs::file_temp("pins-"), name = name, versions = versions)
 }
 
 #' @export
 board_desc.pins_board_local <- function(board, ...) {
-  paste0("Path: '", pin_registry_path(board), "'")
+  paste0("Path: '", board$cache, "'")
 }
 
 #' @export
 board_browse.pins_board_local <- function(board, ...) {
-  utils::browseURL(pin_registry_path(board))
+  utils::browseURL(board$cache)
 }
 
 #' @export
@@ -86,12 +112,4 @@ board_pin_remove.pins_board_local <- function(board, name, ...) {
 #' @export
 board_pin_versions.pins_board_local <- function(board, name, ...) {
   board_versions_get(board, name)
-}
-
-
-# Testing -----------------------------------------------------------------
-
-local_board_local <- function(..., env = parent.frame()) {
-  path <- withr::local_tempdir(.local_envir = env)
-  board_local(cache = path, name = "test", ...)
 }

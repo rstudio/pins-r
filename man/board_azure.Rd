@@ -53,8 +53,8 @@ board_register_azure(
 }
 \seealso{
 Other boards: 
+\code{\link{board_folder}()},
 \code{\link{board_github}()},
-\code{\link{board_local}()},
 \code{\link{board_rsconnect}()},
 \code{\link{board_s3}()}
 }

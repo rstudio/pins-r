@@ -7,7 +7,7 @@
 board_datatxt(
   url,
   headers = NULL,
-  cache = board_cache_path(),
+  cache = board_cache_path(name),
   needs_index = TRUE,
   browse_url = url,
   index_updated = NULL,

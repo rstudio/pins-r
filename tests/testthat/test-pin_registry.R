@@ -1,5 +1,5 @@
 test_that("can read from and write to registry ", {
-  board <- local_board_local()
+  board <- board_temp()
 
   expect_equal(pin_registry_read(board), list())
   pin_registry_write(board, list(list(name = "x")))
@@ -7,7 +7,7 @@ test_that("can read from and write to registry ", {
 })
 
 test_that("can add, modify, and delete existing entries", {
-  board <- local_board_local()
+  board <- board_temp()
 
   pin_registry_update(board, "x", list(test = "x"))
   expect_equal(pin_registry_read(board), list(x = list(test = "x", name = "x")))
@@ -23,7 +23,7 @@ test_that("can add, modify, and delete existing entries", {
 })
 
 test_that("can access entries", {
-  board <- local_board_local()
+  board <- board_temp()
 
   expect_snapshot(pin_registry_retrieve(board, "x"), error = TRUE)
 
@@ -40,13 +40,13 @@ test_that("can pin() concurrently", {
   # in real-life.
 
   temp_path <- withr::local_tempdir()
-  board <- board_local(temp_path)
+  board <- board_folder(temp_path)
 
   n_proc <- 10
   n_pins <- 10
 
   pin_n <- function(path, proc, n_pins) {
-    board <- pins::board_local(path)
+    board <- pins::board_folder(path)
     data <- list(message = "concurrent test")
     for (i in seq_len(n_pins)) {
       pins::pin(data, name = as.character(proc * 100 + i), board = board)

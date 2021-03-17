@@ -18,13 +18,13 @@
 #' pin_get("mtcars", board = "myboard")
 #'
 #' # now
-#' board <- board_local(tempfile())
+#' board <- board_temp()
 #' pin(mtcars, board = board)
 #' pin_get("mtcars", board = board)
 #' @export
 board_register <- function(board,
                            name = NULL,
-                           cache = board_cache_path(),
+                           cache = board_cache_path(name),
                            versions = NULL,
                            ...) {
   if (is_url(board)) {
@@ -55,7 +55,7 @@ board_register_azure <- function(name = "azure",
                                  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                                  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
                                  key = Sys.getenv("AZURE_STORAGE_KEY"),
-                                 cache = board_cache_path(),
+                                 cache = board_cache_path(name),
                                  path = NULL,
                                  ...) {
   board <- board_azure(
@@ -75,7 +75,7 @@ board_register_azure <- function(name = "azure",
 board_register_datatxt <- function(url,
                                    name = NULL,
                                    headers = NULL,
-                                   cache = board_cache_path(),
+                                   cache = board_cache_path(name),
                                    ...) {
   board <- board_datatxt(
     name = name,
@@ -94,7 +94,7 @@ board_register_dospace <- function(name = "dospace",
                                    key = Sys.getenv("DO_ACCESS_KEY_ID"),
                                    secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
                                    datacenter = Sys.getenv("DO_DATACENTER"),
-                                   cache = board_cache_path(),
+                                   cache = board_cache_path(name),
                                    host = "digitaloceanspaces.com",
                                    path = NULL,
                                    ...) {
@@ -118,7 +118,7 @@ board_register_dospace <- function(name = "dospace",
 board_register_gcloud <- function(name = "gcloud",
                                   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                                   token = NULL,
-                                  cache = board_cache_path(),
+                                  cache = board_cache_path(name),
                                   path = NULL,
                                   ...) {
   board <- board_gcloud(
@@ -140,7 +140,7 @@ board_register_github <- function(name = "github",
                                   token = NULL,
                                   path = "",
                                   host = "https://api.github.com",
-                                  cache = board_cache_path(),
+                                  cache = board_cache_path(name),
                                   ...) {
   board <- board_github(
     name = name,
@@ -158,9 +158,9 @@ board_register_github <- function(name = "github",
 #' @rdname board_register
 #' @export
 board_register_local <- function(name = "local",
-                                 cache = board_cache_path(),
+                                 cache = board_cache_path(name),
                                  ...) {
-  board <- board_local(name = name, cache = cache, ...)
+  board <- board_folder(path = cache, name = name, ...)
   board_register2(board)
 }
 
@@ -168,7 +168,7 @@ board_register_local <- function(name = "local",
 #' @export
 board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
-                                  cache = board_cache_path(),
+                                  cache = board_cache_path(name),
                                   ...) {
   board <- board_kaggle("kaggle",
     name = name,
@@ -186,7 +186,7 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      account = NULL,
                                      key = NULL,
                                      output_files = FALSE,
-                                     cache = board_cache_path(),
+                                     cache = board_cache_path(name),
                                      ...) {
   board <- board_rsconnect(
     name = name,
@@ -206,7 +206,7 @@ board_register_s3 <- function(name = "s3",
                               bucket = Sys.getenv("AWS_BUCKET"),
                               key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                               secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                              cache = board_cache_path(),
+                              cache = board_cache_path(name),
                               host = "s3.amazonaws.com",
                               region = NULL,
                               path = NULL,
@@ -335,4 +335,6 @@ local_register <- function(board, env = parent.frame()) {
 
   board_registry_set(name, board)
   withr::defer(board_registry_set(name, NULL), envir = env)
+
+  invisible(board)
 }

@@ -36,21 +36,20 @@ messing up the other data you might have pinned:
 ``` r
 library(pins)
 
-b <- board_local(tempfile())
+b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpWmLV3B/file1027444e25e55/local'
+#> Path: '/tmp/RtmpPhF1aa/pins-22ee6a395d22'
 #> With 0 pins: ''
 ```
 
 Next you need to store some data in that board with `pin_write()`:
 
 ``` r
-b %>% pin_write(mtcars)
-#> Creating pin named 'mtcars'
+b %>% pin_write(head(mtcars), "mtcars")
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpWmLV3B/file1027444e25e55/local'
+#> Path: '/tmp/RtmpPhF1aa/pins-22ee6a395d22'
 #> With 1 pins: 'mtcars'
 ```
 
@@ -58,20 +57,13 @@ Later, you can retrieve that data with `pin_read()`:
 
 ``` r
 b %>% pin_read("mtcars")
-#> # A tibble: 32 x 11
-#>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#>    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#>  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#>  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#>  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#>  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-#>  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#>  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#>  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#>  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#>  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-#> 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#> # … with 22 more rows
+#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 
 This can be convenient when working locally, but the real power of pins
@@ -99,7 +91,7 @@ permissions pane.
 
 As well as RStudio connect, you can share your pins:
 
--   In shared folders: `board_local()`.
+-   In shared folders: `board_folder()`.
 -   On GitHub: `board_github()`.
 -   In Microsoft Azure’s storage: `board_azure()`.
 -   On Amazon’s S3: `board_s3()`.

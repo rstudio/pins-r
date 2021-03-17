@@ -48,14 +48,14 @@ To begin using the pins package, you must create a board. A good place to start 
 ```{r setup}
 library(pins)
 
-b <- board_local(tempfile())
+b <- board_temp()
 b
 ```
 
 Next you need to store some data in that board with `pin_write()`:
 
 ```{r}
-b %>% pin_write(mtcars)
+b %>% pin_write(head(mtcars), "mtcars")
 b
 ```
 
@@ -86,7 +86,7 @@ You can easily control who gets to see it using the RStudio Connection permissio
 
 As well as RStudio connect, you can share your pins:
 
-* In shared folders: `board_local()`.
+* In shared folders: `board_folder()`.
 * On GitHub: `board_github()`.
 * In Microsoft Azure's storage: `board_azure()`.
 * On Amazon's S3: `board_s3()`.

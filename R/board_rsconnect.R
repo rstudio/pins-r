@@ -101,7 +101,7 @@ board_rsconnect <- function(
                             account = NULL,
                             key = NULL,
                             output_files = FALSE,
-                            cache = board_cache_path(),
+                            cache = board_cache_path(name),
                             name = "rsconnect",
                             ...) {
 

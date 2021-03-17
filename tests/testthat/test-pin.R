@@ -1,7 +1,7 @@
 # main types --------------------------------------------------------------
 
 test_that("can pin() a data frame", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   df <- data.frame(
     raw = charToRaw("asdas"),
@@ -17,7 +17,7 @@ test_that("can pin() a data frame", {
 })
 
 test_that("can pin() a data.table", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   dt <- data.table::data.table(x = 1:2, y = list("a", "b"))
   pin_write(board, dt, "dt")
@@ -28,7 +28,7 @@ test_that("can pin() a data.table", {
 })
 
 test_that("can pin an arbitrary object", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   x <- list(1, letters, c(TRUE, FALSE, NA))
   pin_write(board, x, "x")
@@ -36,7 +36,7 @@ test_that("can pin an arbitrary object", {
 })
 
 test_that("AsIs class stripped when using I", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   df <- data.frame(x = 1)
   pin_write(board, I(df), "df")
@@ -44,7 +44,7 @@ test_that("AsIs class stripped when using I", {
 })
 
 test_that("can pin a file", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   pin_write(board, test_path("files/hello.txt"), "hello")
   expect_equal(
@@ -54,7 +54,7 @@ test_that("can pin a file", {
 })
 
 test_that("can pin() remote CSV with URL and name", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   url <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/iris/data.csv"
   pin <- pin(url, "iris", board = board)
@@ -63,7 +63,7 @@ test_that("can pin() remote CSV with URL and name", {
 })
 
 test_that("unavailable url can use cache", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   expect_snapshot(error = TRUE, {
     pin("http://httpstat.us/404", "test", board = board)
@@ -76,7 +76,7 @@ test_that("unavailable url can use cache", {
 # custom metadata -------------------------------------------------------------------
 
 test_that("can pin() with custom metadata", {
-  board <- board_local(tempfile())
+  board <- board_temp()
 
   meta <- list(
     source = "The R programming language",
@@ -102,7 +102,7 @@ test_that("can pin() with custom metadata", {
 test_that("can sanitize data frame names", {
   name <- "___sdf ds32___42342     dsf dsf dsfds____"
   expect_equal(
-    pin_default_name(name, board_local(tempfile())),
+    pin_default_name(name, board_temp()),
     "sdf-ds32-42342-dsf-dsf-dsfds"
   )
 })

@@ -3,5 +3,5 @@
     Code
       pin_registry_retrieve(board, "x")
     Error <simpleError>
-      Pin 'x' not found in board 'test'.
+      Pin 'x' not found in board 'temp'.
 

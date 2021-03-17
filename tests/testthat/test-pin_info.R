@@ -1,11 +1,11 @@
 test_that("can get info with or without board", {
   expect_snapshot({
-    b <- board_local(tempfile())
+    b <- board_temp()
     pin_write(b, mtcars[1:2], "mtcars2")
     pin_info("mtcars2", b)
   })
 
-  local_register(board_local(tempfile(), name = "test"))
+  local_register(board_temp("test"))
   expect_snapshot({
     pin(mtcars[1:2], "mtcars2", board = "test")
     pin_info("mtcars2")
@@ -13,8 +13,8 @@ test_that("can get info with or without board", {
 })
 
 test_that("gives useful errors", {
-  local_register(board_local(tempfile(), name = "test1"))
-  local_register(board_local(tempfile(), name = "test2"))
+  local_register(board_temp("test1"))
+  local_register(board_temp("test2"))
 
   expect_snapshot(error = TRUE, {
     pin_info("mtcars2")
