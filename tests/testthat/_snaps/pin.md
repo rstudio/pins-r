@@ -1,3 +1,18 @@
+# unavailable url can use cache
+
+    Code
+      pin("http://httpstat.us/404", "test", board = board)
+    Error <rlang_error>
+      Client error: (404) Not Found. Failed to download remote file: http://httpstat.us/404
+    Code
+      pin_write(board, 1:10, "test")
+      x <- pin("http://httpstat.us/404", "test", board = board)
+    Warning <warning>
+      Failed to re-download pin; using cached value
+      * Client error: (404) Not Found. Failed to download remote file: http://httpstat.us/404
+    Code
+      expect_equal(x, 1:10)
+
 # can pin() with custom metadata
 
     Code

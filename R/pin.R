@@ -112,49 +112,19 @@ board_pin_store <- function(board,
   pin_log("Storing ", name, " into board ", board$name, " with type ", metadata$type)
 
   store_path <- withr::local_tempdir()
-
-  something_changed <- FALSE
   for (single_path in path) {
-    details <- as.environment(list(something_changed = TRUE))
-    if (is_url(single_path)) {
-      single_path <- pin_download(single_path,
-        name,
-        board,
-        extract = extract,
-        details = details,
-        can_fail = TRUE,
-        cache = cache,
-        ...
-      )
-
-      # If failed to download, fall back to cached with warning
-      if (!is.null(details$error)) {
-        cached_result <- tryCatch(pin_get(name, board = board), error = function(e) NULL)
-        if (is.null(cached_result)) stop(details$error) else warning(details$error)
-        return(cached_result)
+    if (fs::dir_exists(single_path)) {
+      for (entry in dir(single_path, full.names = TRUE)) {
+        fs::file_copy(entry, store_path)
       }
-    }
-
-    if (details$something_changed) {
-      if (fs::dir_exists(single_path)) {
-        for (entry in dir(single_path, full.names = TRUE)) {
-          fs::file_copy(entry, store_path)
-        }
-      } else {
-        fs::file_copy(single_path, store_path)
-      }
-
-      something_changed <- TRUE
+    } else {
+      fs::file_copy(single_path, store_path)
     }
   }
 
-  if (something_changed) {
-    if (!pin_manifest_exists(store_path)) {
-      pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
-    }
-    board_pin_create(board, store_path, name = name, metadata = metadata, ...)
-    ui_viewer_updated(board)
-  }
+  pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
+  board_pin_create(board, store_path, name = name, metadata = metadata, ...)
+  ui_viewer_updated(board)
 
   if (retrieve) {
     invisible(pin_get(name, board, ...))
@@ -289,9 +259,38 @@ pin_preview.data.frame <- function(x, board = NULL, ...) {
 
 #' @keywords internal
 #' @export
-pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+pin.character <- function(x, name = NULL, description = NULL, board = NULL, cache = TRUE, extract = TRUE, ...) {
   if (is.null(name)) {
     name <- pin_default_name(fs::path_ext_remove(basename(x[[1]])), board)
+  }
+
+  if (length(x) == 1 && is_url(x)) {
+    details <- as.environment(list(something_changed = TRUE))
+    path <- pin_download(x,
+      name,
+      board,
+      extract = extract,
+      details = details,
+      can_fail = TRUE,
+      cache = cache,
+      ...
+    )
+
+    # If failed to download, fall back to cached with warning
+    if (!is.null(details$error)) {
+      old <- tryCatch(pin_get(name, board = board), error = function(e) NULL)
+      if (is.null(old)) {
+        abort(details$error)
+      } else {
+        warn(c(
+          "Failed to re-download pin; using cached value",
+          details$error
+        ))
+      }
+      return(invisible(old))
+    }
+
+    x <- path
   }
 
   extension <- if (length(x) > 1) "zip" else tools::file_ext(x)

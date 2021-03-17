@@ -62,6 +62,17 @@ test_that("can pin() remote CSV with URL and name", {
   expect_equal(dim(read.csv(pin)), c(150, 5))
 })
 
+test_that("unavailable url can use cache", {
+  board <- board_local(tempfile())
+
+  expect_snapshot(error = TRUE, {
+    pin("http://httpstat.us/404", "test", board = board)
+    pin_write(board, 1:10, "test")
+    x <- pin("http://httpstat.us/404", "test", board = board)
+    expect_equal(x, 1:10)
+  })
+})
+
 # custom metadata -------------------------------------------------------------------
 
 test_that("can pin() with custom metadata", {
