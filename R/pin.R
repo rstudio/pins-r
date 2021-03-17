@@ -78,7 +78,10 @@ pin_load <- function(path, ...) {
 #' @param path The path to store.
 #' @param description The text patteren to find a pin.
 #' @param type The type of pin being stored.
-#' @param metadata A list containing additional metadata describing the pin.
+#' @param pin_metadata A list of pin metadata describing the pin. Must contain
+#'   `type` and `description`.
+#' @param metadat Additional user supplied metadata.
+#' @param custom_metadata Deprecated. Please use `metadata` instead.
 #' @param retrieve Should the pin be retrieved after being created? Defaults to `TRUE`.
 #' @param ... Additional parameteres.
 #' @keywords internal
@@ -88,125 +91,68 @@ pin_load <- function(path, ...) {
 board_pin_store <- function(board,
                             path,
                             name,
-                            description,
-                            type,
-                            metadata,
+                            pin_metadata,
                             extract = TRUE,
                             retrieve = TRUE,
                             zip = FALSE,
                             cache = TRUE,
+                            metadata = NULL,
                             custom_metadata = NULL,
                             ...) {
-  type <- match.arg(type, c("default", "files", "table"))
+  check_store_path(path)
+  check_store_zip(zip)
+
+  metadata <- modifyList(metadata, pin_metadata)
+  if (!is.null(custom_metadata)) {
+    warn("`custom_metadata` is deprecated; please use `metadata` instead")
+    metadata <- modifyList(custom_metadata, metadata)
+  }
 
   board <- board_get(board)
-  if (is.null(name)) name <- gsub("[^a-zA-Z0-9]+", "_", tools::file_path_sans_ext(basename(path)))[[1]]
-  pin_log("Storing ", name, " into board ", board$name, " with type ", type)
+  pin_log("Storing ", name, " into board ", board$name, " with type ", metadata$type)
 
-  if (!isTRUE(cache)) {
-    pin_register_reset_cache(board, name)
-  }
+  store_path <- withr::local_tempdir()
 
-  path <- path[!grepl("data\\.txt", path)]
+  something_changed <- FALSE
+  for (single_path in path) {
+    details <- as.environment(list(something_changed = TRUE))
+    if (is_url(single_path)) {
+      single_path <- pin_download(single_path,
+        name,
+        board,
+        extract = extract,
+        details = details,
+        can_fail = TRUE,
+        cache = cache,
+        ...
+      )
 
-  store_path <- tempfile()
-  dir.create(store_path)
-  on.exit(unlink(store_path, recursive = TRUE))
-
-  if (length(path) == 1 && grepl("^http", path) && !grepl("\\.[a-z]{2,4}$", path) && getOption("pins.search.datatxt", TRUE)) {
-    # attempt to download data.txt to enable public access to boards like rsconnect
-    datatxt_path <- file.path(path, "data.txt")
-    local_path <- pin_download(datatxt_path, name, board, can_fail = TRUE)
-    if (!is.null(local_path)) {
-      manifest <- tryCatch(pin_manifest_get(local_path), error = function(e) {
-        unlink(file.path(local_path, "data.txt"))
-        NULL
-      })
-      if (!is.null(manifest) && !is.null(manifest$path)) {
-        path <- paste(path, manifest$path, sep = "/")
-        extract <- FALSE
+      # If failed to download, fall back to cached with warning
+      if (!is.null(details$error)) {
+        cached_result <- tryCatch(pin_get(name, board = board), error = function(e) NULL)
+        if (is.null(cached_result)) stop(details$error) else warning(details$error)
+        return(cached_result)
       }
     }
-  }
 
-  if (identical(zip, TRUE)) {
-    find_common_path <- function(path) {
-      common <- path[1]
-      if (all(startsWith(path, common)) || identical(common, dirname(common))) {
-        return(common)
-      }
-      return(force(find_common_path(dirname(common[1]))))
-    }
-
-    common_path <- find_common_path(path)
-    withr::with_dir(common_path, {
-      zip(file.path(store_path, "data.zip"), gsub(paste0(common_path, "/"), "", path), flags = "-q")
-    })
-
-    something_changed <- TRUE
-  }
-  else {
-    something_changed <- FALSE
-    for (single_path in path) {
-      details <- as.environment(list(something_changed = TRUE))
-      if (grepl("^http", single_path)) {
-        single_path <- pin_download(single_path,
-          name,
-          board,
-          extract = extract,
-          details = details,
-          can_fail = TRUE,
-          ...
-        )
-        if (!is.null(details$error)) {
-          cached_result <- tryCatch(pin_get(name, board = board), error = function(e) NULL)
-          if (is.null(cached_result)) stop(details$error) else warning(details$error)
-          return(cached_result)
+    if (details$something_changed) {
+      if (fs::dir_exists(single_path)) {
+        for (entry in dir(single_path, full.names = TRUE)) {
+          fs::file_copy(entry, store_path)
         }
+      } else {
+        fs::file_copy(single_path, store_path)
       }
 
-      if (details$something_changed) {
-        copy_or_link <- function(from, to) {
-          if (file.exists(from) && file.info(from)$size >= getOption("pins.link.size", 10^8) && .Platform$OS.type != "windows") {
-            fs::link_create(from, file.path(to, basename(from)))
-          } else {
-            file.copy(from, to, recursive = TRUE)
-          }
-        }
-
-        if (dir.exists(single_path)) {
-          for (entry in dir(single_path, full.names = TRUE)) {
-            copy_or_link(entry, store_path)
-          }
-        }
-        else {
-          copy_or_link(single_path, store_path)
-        }
-
-        something_changed <- TRUE
-      }
+      something_changed <- TRUE
     }
   }
 
   if (something_changed) {
     if (!pin_manifest_exists(store_path)) {
-      metadata$description <- description
-      metadata$type <- type
-
-      metadata <- pins_merge_custom_metadata(metadata, custom_metadata)
-
       pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
-
-      for (metaname in names(metadata)) {
-        # see issues/127 which requires encoding to prevent windows crashes
-        if (is.character(metadata[metaname])) {
-          metadata[metaname] <- enc2utf8(metadata[metaname])
-        }
-      }
     }
-
     board_pin_create(board, store_path, name = name, metadata = metadata, ...)
-
     ui_viewer_updated(board)
   }
 
@@ -217,6 +163,22 @@ board_pin_store <- function(board,
   }
 }
 
+check_store_path <- function(path) {
+  path <- path[!grepl("data\\.txt", path)]
+  if (length(path) == 1 && is_url(path) && fs::path_ext(path) == "") {
+    abort(c(
+      "Pin functions no longer supports direct use of data.txt sites",
+      i = paste0("Please use `board_datatxt('", path, ') instead')
+    ))
+  }
+}
+
+check_store_zip <- function(zip) {
+  if (!identical(zip, FALSE)) {
+    # neither used nor documented, as far as I can tell
+    abort("`zip` argument is no longer supported")
+  }
+}
 
 # default -----------------------------------------------------------------
 
@@ -231,20 +193,14 @@ pin.default <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 
   saveRDS(x, file.path(path, "data.rds"), version = 2)
 
-  board_pin_store(board, path, name, description, "default", list(), ...)
+  metadata <- pin_metadata("default", description)
+  board_pin_store(board, path, name, metadata, ...)
 }
 
 #' @keywords internal
 #' @export
 pin_load.default <- function(path, ...) {
-  result <- readRDS(file.path(path, "data.rds"))
-
-  # TODO: figure out why this is needed; can probably remove
-  if ("AsIs" %in% class(result)) {
-    class(result) <- class(result)[class(result) != "AsIs"]
-  }
-
-  result
+  readRDS(file.path(path, "data.rds"))
 }
 
 #' @keywords internal
@@ -258,29 +214,22 @@ pin_preview.default <- function(x, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...) {
-
-  # Used to avoid mutation in pins_save_csv
-  if ("data.table" %in% class(x)) {
-    return(
-      pin.default(x, name = name, description = description, board = board, ...)
-    )
+  if (is.null(name)) {
+    name <- pin_default_name(deparse(substitute(x)), board)
   }
 
-  if (is.null(name)) name <- pin_default_name(deparse(substitute(x)), board)
-
-  path <- tempfile()
-  dir.create(path)
-  on.exit(unlink(path))
-
+  path <- withr::local_tempdir()
   saveRDS(x, file.path(path, "data.rds"), version = 2)
   pins_safe_csv(x, file.path(path, "data.csv"))
 
-  metadata <- list(
+  metadata <- pin_metadata(
+    "table",
+    description = description,
     rows = nrow(x),
     cols = ncol(x),
     columns = lapply(x, function(e) class(e)[[1]])
   )
-  board_pin_store(board, path, name, description, "table", metadata, ...)
+  board_pin_store(board, path, name, metadata, ...)
 }
 
 pins_safe_csv <- function(x, name) {
@@ -321,14 +270,13 @@ pin_load.table <- function(path, ...) {
   csv <- file.path(path, "data.csv")
 
   if (file.exists(rds)) {
-    result <- readRDS(rds)
+    readRDS(rds)
   } else if (file.exists(csv)) {
     result <- utils::read.csv(csv, stringsAsFactors = FALSE)
+    format_tibble(result)
   } else {
     stop("A 'table' pin requires CSV or RDS files.")
   }
-
-  format_tibble(result)
 }
 
 #' @keywords internal
@@ -342,8 +290,13 @@ pin_preview.data.frame <- function(x, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin.character <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  if (is.null(name)) {
+    name <- pin_default_name(fs::path_ext_remove(basename(x[[1]])), board)
+  }
+
   extension <- if (length(x) > 1) "zip" else tools::file_ext(x)
-  board_pin_store(board, x, name, description, "files", list(extension = extension), ...)
+  metadata <- pin_metadata("files", description, extension = extension)
+  board_pin_store(board, x, name, metadata, ...)
 }
 
 #' @export
@@ -371,6 +324,8 @@ pin_preview.files <- function(x, board = NULL, ...) {
 #' @keywords internal
 #' @export
 pin.AsIs <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  # Force use of default method to avoid special behaviour for character/data.frame
+  class(x) <- setdiff(class(x), "AsIs")
   pin.default(x = x, name = name, description = description, board = board, ...)
 }
 
@@ -419,46 +374,14 @@ pin_default_name <- function(x, board) {
   sanitized
 }
 
-
-pins_merge_custom_metadata <- function(metadata, custom_metadata) {
-  fixed_fields <- c(
-    "rows",
-    "cols",
-    "name",
-    "description"
+pin_metadata <- function(type,
+                         description = NULL,
+                         ...) {
+  type <- match.arg(type, c("default", "files", "table"))
+  list(
+    type = type,
+    description = description,
+    ...
   )
-
-  for (entry in names(custom_metadata)) {
-    if (identical(entry, "columns")) {
-      fixed_columnn_fields <- c("name", "type")
-
-      # convert to list of columns
-      if (is.vector(metadata$columns)) {
-        metadata$columns <- lapply(seq_along(metadata$columns), function(e) list(name = names(metadata$columns)[[e]], type = metadata$columns[[e]]))
-      }
-
-      if (is.data.frame(custom_metadata$columns)) {
-        custom_metadata$columns <- custom_metadata$columns %>%
-          jsonlite::toJSON() %>%
-          jsonlite::fromJSON(simplifyDataFrame = FALSE)
-      }
-
-      for (column in custom_metadata$columns) {
-        found_idx <- Filter(function(e) identical(metadata$columns[[e]]$name, column$name), seq_along(metadata$columns))
-
-        if (identical(length(found_idx), 1L)) {
-          for (field_name in names(column)) {
-            if (!field_name %in% fixed_columnn_fields) {
-              metadata$columns[[found_idx]][[field_name]] <- column[[field_name]]
-            }
-          }
-        }
-      }
-    }
-    else if (!entry %in% fixed_fields) {
-      metadata[[entry]] <- custom_metadata[[entry]]
-    }
-  }
-
-  metadata
 }
+
