@@ -59,12 +59,6 @@ pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
 
 #' @rdname custom-pins
 #' @export
-pin_preview <- function(x, board = NULL, ...) {
-  UseMethod("pin_preview")
-}
-
-#' @rdname custom-pins
-#' @export
 pin_load <- function(path, ...) {
   UseMethod("pin_load")
 }
@@ -236,12 +230,6 @@ pin_load.default <- function(path, ...) {
   result
 }
 
-#' @keywords internal
-#' @export
-pin_preview.default <- function(x, board = NULL, ...) {
-  x
-}
-
 # data.frame --------------------------------------------------------------
 
 #' @keywords internal
@@ -320,12 +308,6 @@ pin_load.table <- function(path, ...) {
   format_tibble(result)
 }
 
-#' @keywords internal
-#' @export
-pin_preview.data.frame <- function(x, board = NULL, ...) {
-  utils::head(x, n = getOption("pins.preview", 10^3))
-}
-
 # files -------------------------------------------------------------------
 
 #' @keywords internal
@@ -344,25 +326,13 @@ pin_load.files <- function(path, ...) {
   format_tibble(result)
 }
 
-#' @keywords internal
-#' @export
-pin_preview.files <- function(x, board = NULL, ...) {
-  data.frame(
-    files = x,
-    stringsAsFactors = FALSE
-  )
-}
-
-
 # asis --------------------------------------------------------------------
-
 
 #' @keywords internal
 #' @export
 pin.AsIs <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   pin.default(x = x, name = name, description = description, board = board, ...)
 }
-
 
 # package -----------------------------------------------------------------
 
