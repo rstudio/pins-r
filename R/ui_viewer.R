@@ -24,6 +24,25 @@ board_disconnect <- function(name, ...) {
 }
 
 
+pin_preview <- function(x, board = NULL, ...) {
+  UseMethod("pin_preview")
+}
+#' @export
+pin_preview.default <- function(x, board = NULL, ...) {
+  x
+}
+#' @export
+pin_preview.data.frame <- function(x, board = NULL, ...) {
+  utils::head(x, n = getOption("pins.preview", 10^3))
+}
+#' @export
+pin_preview.files <- function(x, board = NULL, ...) {
+  data.frame(
+    files = x,
+    stringsAsFactors = FALSE
+  )
+}
+
 ui_viewer_register <- function(board, board_call) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
 
