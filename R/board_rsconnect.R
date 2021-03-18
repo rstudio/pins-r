@@ -56,18 +56,7 @@
 #'
 #' Note the use of an environment variable to ensure that the API key is
 #' not stored in plain text in the document.
-#'
-#' # Customizing
-#'
-#' A pin is displayed in RStudio Connect with an auto-generated page showcasing
-#' instructions for getting the pin and a preview of the dataset, this page can
-#' be customized as follows:
-#'
-#' 1. Locate the file with `system.file("views/data/index.html", package = "pins")`
-#' 1. Copy the file to a new location and make any changes to it.
-#' 1. Set the file path as an option using `Sys.setenv(RSCONNECT_HTML_PATH = <your index>)`.
-#' 1. Pin a dataset normally.
-#'
+
 #' @inheritParams new_board
 #' @param server Optional address to RStudio Connect server.
 #' @param account Optional account name to use with RStudio Connect.
