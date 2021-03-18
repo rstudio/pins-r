@@ -133,7 +133,7 @@ pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv") %>%
 # … with 108,816 more rows, and 1 more variable: index_sa <dbl>
 ```
 
-The `pins` package tries to be smart about downloading files only when the file has changed, you can skip the details on how this works but you should know you can set `download = TRUE` to force `pins` to download the file again even if we think it has not changed. The specific mechanisms `pins` uses are based on HTTP headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
+The `pins` package tries to be smart about downloading files only when the file has changed using headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
 
 Notice that `pin()` assigned a name automatically, `HPI_master` for the previous example; however, you can choose your own name and be explicit about retrieving a pin with `pin_get()`:
 
