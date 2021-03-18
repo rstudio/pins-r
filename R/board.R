@@ -120,6 +120,18 @@ board_pin_versions.default <- function(board, name, ...) {
   data.frame(version = character(0), stringsAsFactors = FALSE)
 }
 
+#' @export
+#' @rdname custom-boards
+board_pin_download <- function(board, name, ...) {
+  UseMethod("board_pin_download")
+}
+#' @export
+#' @rdname custom-boards
+board_pin_upload <- function(board, name, path, metadata, ...) {
+  UseMethod("board_pin_upload")
+}
+
+
 #' Custom Boards Utilities
 #'
 #' A set of utilities used when implementing custom boards.

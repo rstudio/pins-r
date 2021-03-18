@@ -54,7 +54,6 @@ board_browse.pins_board_local <- function(board, ...) {
 board_pin_create.pins_board_local <- function(board, path, name, metadata, ...) {
   board_versions_create(board, name, path)
 
-  # TODO: figure out how to handle names that are not valid paths
   cache_path <- pin_registry_path(board, name)
 
   if (fs::dir_exists(cache_path)) {
@@ -113,3 +112,84 @@ board_pin_remove.pins_board_local <- function(board, name, ...) {
 board_pin_versions.pins_board_local <- function(board, name, ...) {
   board_versions_get(board, name)
 }
+
+# pins 1.0.0 --------------------------------------------------------------
+
+board_pin_upload.pins_board_local <- function(board, name, path, metadata,
+                                              versioned = FALSE, ...) {
+  # TODO: backward compatibility layer
+  # TODO: what happens if no metadata present? More important for (e.g.)
+  #   S3 where other writers might be using different systems
+
+  dest <- fs::path(board$cache, name)
+  dir_create(dest)
+  meta <- read_meta(dest)
+
+  if (has_name(meta, metadata$file_hash)) {
+    upload_inform("unchanged", name)
+    return()
+  }
+
+  if (versioned) {
+    upload_inform("versioned", name, metadata$file_hash)
+  } else {
+    if (length(meta) > 0) {
+      upload_inform("replace", name)
+      for (version in meta) {
+        fs::file_delete(fs::path(board$cache, version$path))
+      }
+    } else {
+      upload_inform("create", name)
+    }
+  }
+
+  meta[[metadata$file_hash]] <- metadata
+  write_meta(meta, dest)
+  fs::file_copy(path, fs::path(dest, metadata$file_hash))
+}
+
+board_pin_download.pins_board_local <- function(board, name, version = NULL, ...) {
+  dest <- fs::path(board$cache, name)
+  meta_all <- read_meta(dest)
+
+  if (is.null(version)) {
+    meta <- meta_all[[length(meta_all)]]
+  } else {
+    if (!has_name(meta_all, version)) {
+      abort(paste0("Can't find version ", version))
+    }
+    meta <- meta_all[[version]]
+  }
+
+  list(
+    meta = meta,
+    path = fs::path(dest, meta$file_hash)
+  )
+}
+
+read_meta <- function(path) {
+  path <- fs::path(path, "meta.yml")
+
+  if (!fs::file_exists(path)) {
+    list()
+  } else {
+    yaml::read_yaml(path, eval.expr = FALSE)
+  }
+}
+write_meta <- function(x, path) {
+  path <- fs::path(path, "meta.yml")
+  yaml::write_yaml(x, path)
+}
+
+
+
+
+board_pin_delete.pins_board_local <- function(board, name, ...) {
+  fs::dir_delete(fs::path(board$cache, name))
+}
+
+board_pin_list.pins_board_local <- function(board, ...) {
+  fs::path_name(fs::dir_ls(board$cache, type = "directory"))
+}
+
+

@@ -48,3 +48,28 @@ test_that("can version a local pin", {
   expect_equal(newest$x, 3)
   expect_equal(oldest$x, 1)
 })
+
+
+# pins 1.0.0 --------------------------------------------------------------
+
+test_that("can get versions", {
+  b <- board_temp()
+  expect_snapshot(pin_write(b, 1:5, "x", type = "rds", versioned = TRUE))
+  expect_equal(length(read_meta(fs::path(b$cache, "x"))), 1)
+
+  expect_snapshot(pin_write(b, 1:6, "x", type = "rds", versioned = TRUE))
+  expect_equal(length(read_meta(fs::path(b$cache, "x"))), 2)
+
+  expect_equal(pin_read(b, "x"), 1:6)
+  expect_equal(pin_read(b, "x", version = "3a40601dc0088965"), 1:5)
+  expect_snapshot(pin_read(b, "x", version = "xxx"), error = TRUE)
+})
+
+test_that("generates useful messages", {
+  b <- board_temp()
+  expect_snapshot({
+    pin_write(b, 1:5, "x", type = "rds")
+    pin_write(b, 1:5, "x", type = "rds")
+    pin_write(b, 1:6, "x", type = "rds")
+  })
+})
