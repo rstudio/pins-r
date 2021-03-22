@@ -52,7 +52,7 @@ format_tibble <- function(data) {
 }
 
 map_chr <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = character(1))
+  vapply(x, as_function(f), ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
 }
 
 modifyList <- function(x, y) {

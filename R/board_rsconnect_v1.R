@@ -1,0 +1,343 @@
+#' @export
+board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
+
+  content <- rsc_content_find(board, name)
+  url <- content$content_url
+  if (!is.null(version)) {
+    stopifnot(is_string(version))
+    # TODO: check version is valid
+    url <- paste0(url, "/rev", version)
+  } else {
+    version <- content$bundle_id
+  }
+
+  pin_name <- paste0(content$guid, "-", version)
+  pin_path <- fs::path(board$cache, pin_name)
+
+  # Bundles (guid + bundle id) are immutable so only need to download once
+  # Can't use bundle download endpoint because that requires collaborator
+  # access. So download data.txt, then download each file that it lists.
+  if (!fs::file_exists(pin_path)) {
+    fs::dir_create(pin_path)
+    download(fs::path(url, "data.txt"), fs::path(pin_path, "meta.yml"))
+
+    meta <- read_meta(pin_path)
+    for (path in meta$paths) {
+      download(fs::path(url, path), fs::path(pin_path, path))
+    }
+  }
+
+  # TODO: handle old and new versions
+  read_meta(pin_path)$paths[[1]]
+}
+
+#' @export
+board_pin_upload.pins_board_rsconnect <- function(
+    board,
+    name,
+    path,
+    metadata,
+    versioned = NULL,
+    ...,
+    access_type = c("acl", "logged_in", "all"))
+{
+  # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
+
+  versioned <- versioned %||% board$versions
+
+  # Make .tar.gz bundle containing data.txt + index.html + pin data
+  bundle_dir <- rsc_bundle(board, name, path, metadata)
+  bundle_file <- fs::file_temp(ext = "tar.gz")
+  utils::tar(
+    bundle_file, fs::dir_ls(bundle_dir),
+    compression = "gzip",
+    tar = "internal"
+  )
+
+  # Find/create content item
+  content <- tryCatch(
+    rsc_find_content(board, name),
+    pins_pin_absent = function(e) {
+      rsc_content_create(board, name, metadata, access_type = access_type)
+    }
+  )
+  content_guid <- content$guid
+
+  # Upload bundle
+  # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
+  json <- rsc_POST(board, rsc_v1("content", content_guid, "bundles"),
+    body = httr::upload_file(bundle_file)
+  )
+  bundle_id <- json$bundle_id
+
+  # Deploy bundle
+  # https://docs.rstudio.com/connect/api/#post-/v1/experimental/content/{guid}/deploy
+  json <- rsc_POST(board, rsc_v1("content", content_guid, "deploy"),
+    query = list(bundle_id = bundle_id)
+  )
+  task_id <- json$task_id
+
+  # Poll until deployment complete
+  # https://docs.rstudio.com/connect/api/#get-/v1/experimental/tasks/{id}
+  json <- rsc_GET(board, rsc_v1("tasks", task_id), list(wait = 1))
+  while (!json$finished) {
+    json <- rsc_GET(
+      board, rsc_v1("tasks", task_id),
+      list(wait = 1, first = json$last)
+    )
+  }
+
+  # Clean up old bundles if not versioned
+  if (!versioned) {
+    versions <- rsc_content_versions(board, content_guid)
+    ids <- setdiff(versions$id, bundle_id)
+
+    if (length(ids) > 1) {
+      abort(c(
+        "Pin is versioned, but you have requested not to use versions",
+        "To un-version this pin you will need to delete it"
+      ))
+    }
+
+    for (id in ids) {
+      rsc_DELETE(board, rsc_v1("content", content_guid, "bundles", id))
+    }
+  }
+
+  invisible()
+}
+
+# Bundle ------------------------------------------------------------------
+
+rsc_bundle <- function(board, name, path, metadata, bundle_path = tempfile()) {
+  fs::dir_create(bundle_path)
+
+  # Bundle contains:
+  # * pin
+  # * data.txt (used to retrieve pins)
+  # * index.html (displayed in connect)
+  # * manifest.json (used for deployment)
+
+  fs::file_copy(path, bundle_path)
+
+  yaml::write_yaml(metadata, fs::path(path, "data.txt"))
+
+  # TODO: flow type specific display down to here
+  index <- rsc_bundle_index(board, name, path)
+  writeLines(index, fs::path(bundle_path, "index.html"))
+
+  manifest <- rsc_bundle_manifest(board, c(path, "data.txt", "index.html"))
+  jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"))
+
+  invisible(bundle_path)
+}
+
+rsc_bundle_index <- function(board, name, path) {
+  '<!DOCTYPE html>
+  <html>
+  <head>
+    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
+    <meta charset=\"utf-8\">
+    <title>A pin</title>
+  </head>
+  <body><p>This is a pin</p></body>
+  </html>'
+}
+
+# Extracted from rsconnect:::createAppManifest
+rsc_bundle_manifest <- function(board, files) {
+  list(
+    version = 1,
+    locale = "en_US",
+    platform = "3.5.1",
+    metadata = list(
+      appmode = "static",
+      primary_rmd = NA,
+      primary_html = "index.html",
+      content_category = "pin",
+      has_parameters = FALSE
+    ),
+    packages = NA,
+    files = files,
+    users = NA
+  )
+}
+
+# Content -----------------------------------------------------------------
+
+rsc_content_find <- function(board, name) {
+  name <- rsc_parse_name(name)
+
+  # TODO: look in cache if !is.null(owner$name)
+
+  # https://docs.rstudio.com/connect/api/#get-/v1/content/{guid}/bundles/{id}/download
+  json <- rsc_GET(board, "v1/content", list(name = name$name))
+  if (length(json) == 0) {
+    abort(
+      paste0("Can't find pin with name '",  name$name, "'"),
+      class = "pins_pin_absent"
+    )
+  }
+
+  if (is.null(name$owner)) {
+    if (length(json) > 1) {
+      # Find user names and offer
+      abort(paste0("Multiple pins with name '",  name$name, "'"))
+    }
+    owner <- rsc_user_name(board, json[[1]]$owner_guid)
+    inform(paste0("Reading pin '", owner, "/", name$name, "'"))
+    json[[1]]
+  } else {
+    owner_guids <- map_chr(json, ~ .x$owner_guid)
+    owner_names <- map_chr(owner_guids, rsc_user_name, board = board)
+    if (!name$owner %in% owner_names) {
+      abort(paste0("Can't find pin named '", name$name, "' with owner '", name$owner, "'"))
+    }
+    json[[name$owner %in% owner_names]]
+  }
+}
+
+rsc_content_create <- function(board, name, metadata, access_type = "acl") {
+  name <- rsc_parse_name(name)
+  if (!grepl("^[-_A-Za-z0-9]+$", name$name)) {
+    abort("RStudio connect requires alpanumeric names")
+  }
+
+  # TODO: What should happen if owner isn't NULL
+  access_type <- arg_match0(access_type, c("acl", "logged_in", "all"))
+
+  body <- list(
+    name = name$name,
+    title = name$name,
+    access_type = access_type,
+    description = metadata$description %||% ""
+  )
+
+  # https://docs.rstudio.com/connect/api/#post-/v1/content
+  rsc_POST(board, rsc_v1("content"), body = body)
+}
+
+rsc_content_versions <- function(board, guid) {
+  # Find bundle
+  # https://docs.rstudio.com/connect/api/#get-/v1/content/{guid}/bundles
+  json <- rsc_GET(board,
+    path = paste0("v1/content/", guid, "/bundles"),
+    query = list(name = name)
+  )
+
+  # add date created
+  versions <- map_chr(json, ~ .x$id)
+  map_chr(json, ~ .x$created_time)
+
+}
+
+rsc_content_delete <- function(board, name, metadata, access_type = "acl") {
+  json <- rsc_content_find(board, name)
+  rsc_DELETE(board, rsc_v1("content", json$guid))
+}
+
+rsc_parse_name <- function(x) {
+  parts <- strsplit(x, "/", fixed = TRUE)[[1]]
+
+  if (length(parts) == 1) {
+    list(owner = NULL, name = parts[[1]])
+  } else if (length(parts)) {
+    list(owner = parts[[1]], name = paste0(parts[-1], collapse = "/"))
+  }
+}
+
+
+rsc_user_name <- function(board, guid) {
+  # https://docs.rstudio.com/connect/api/#get-/v1/users/{guid}
+  rsc_GET(board, rsc_v1("users", guid))$username
+}
+
+# helpers -----------------------------------------------------------------
+
+rsc_GET <- function(board, path, query = NULL, ...) {
+  path <- paste0("/__api__/", path)
+  auth <- rsc_auth(board, path, "GET", NULL)
+
+  req <- httr::GET(board$server,
+    path = path,
+    query = query,
+    auth,
+    ...
+  )
+  rsc_http_content(req)
+}
+
+rsc_DELETE <- function(board, path, query = NULL, ...) {
+  path <- paste0("/__api__/", path)
+  auth <- rsc_auth(board, path, "DELETE", NULL)
+
+  req <- httr::DELETE(board$server,
+    path = path,
+    query = query,
+    auth,
+    ...
+  )
+  rsc_http_content(req)
+}
+
+rsc_POST <- function(board, path, query = NULL, body, ...) {
+  path <- paste0("/__api__/", path)
+
+  # Turn body into a path so it can be passed to
+  # rsconnect:::signatureHeaders() if needed
+  if (is.null(body)) {
+    body_path <- NULL
+  } else if (inherits(body, "form_file")) {
+    body_path <- body
+  } else if (is_bare_list(body)) {
+    body_path <- withr::local_tempfile()
+    jsonlite::write_json(body, body_path, auto_unbox = TRUE)
+    body <- httr::upload_file(body_path, "application/json")
+  } else {
+    abort("Unknown `body` type")
+  }
+  auth <- rsc_auth(board, path, "POST", body_path)
+
+  req <- httr::POST(board$server,
+    path = path,
+    query = query,
+    body = body,
+    auth,
+    ...
+  )
+  rsc_http_content(req)
+}
+
+rsc_auth <- function(board, path, verb, body_path) {
+  if (!is.null(board$key)) {
+    httr::add_headers("Authorization" = paste("Key", board$key))
+  } else {
+    # https://github.com/rstudio/connect/wiki/token-authentication#request-signing-rsconnect
+    info <- rsconnect::accountInfo(board$account, board$server_name)
+
+    signatureHeaders <- utils::getFromNamespace("signatureHeaders", "rsconnect")
+    headers <- signatureHeaders(info, verb, path, body_path)
+    httr::add_headers(.headers = unlist(headers))
+  }
+}
+
+rsc_http_content <- function(req) {
+  if (httr::status_code(req) < 400) {
+    httr::content(req)
+  } else {
+    type <- httr::parse_media(httr::headers(req)$`content-type`)
+    if (type$complete == "application/json") {
+      json <- httr::content(req)
+      abort(c(
+        paste0("RStudio Connect API failed [", req$status_code, "]"),
+        json$error
+      ))
+    } else {
+      httr::stop_for_status(req)
+    }
+  }
+}
+
+rsc_v1 <- function(...) {
+  paste0(c("v1", ...), collapse = "/")
+}
