@@ -55,14 +55,22 @@ test_that("can version a local pin", {
 test_that("can get versions", {
   b <- board_temp()
   expect_snapshot(pin_write(b, 1:5, "x", type = "rds", versioned = TRUE))
-  expect_equal(length(read_meta(fs::path(b$cache, "x"))), 1)
+  expect_equal(length(read_meta(fs::path(b$cache, "x"))$versions), 1)
 
   expect_snapshot(pin_write(b, 1:6, "x", type = "rds", versioned = TRUE))
-  expect_equal(length(read_meta(fs::path(b$cache, "x"))), 2)
+  expect_equal(length(read_meta(fs::path(b$cache, "x"))$versions), 2)
 
   expect_equal(pin_read(b, "x"), 1:6)
   expect_equal(pin_read(b, "x", version = "3a40601dc0088965"), 1:5)
   expect_snapshot(pin_read(b, "x", version = "xxx"), error = TRUE)
+})
+
+test_that("can't unversion an unversioned pin", {
+  b <- board_temp()
+  expect_snapshot(error = TRUE, {
+    pin_write(b, 1:5, "x", type = "rds", versioned = TRUE)
+    pin_write(b, 1:5, "x", type = "rds", versioned = FALSE)
+  })
 })
 
 test_that("generates useful messages", {

@@ -116,7 +116,7 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
 # pins 1.0.0 --------------------------------------------------------------
 
 board_pin_upload.pins_board_local <- function(board, name, path, metadata,
-                                              versioned = FALSE, ...) {
+                                              versioned = NULL, ...) {
   # TODO: backward compatibility layer
   # TODO: what happens if no metadata present? More important for (e.g.)
   #   S3 where other writers might be using different systems
@@ -125,25 +125,35 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
   dir_create(dest)
   meta <- read_meta(dest)
 
-  if (has_name(meta, metadata$file_hash)) {
-    upload_inform("unchanged", name)
-    return()
+  # board$versioning should default to NULL, but user could choose to turn it on
+  versioned <- versioned %||% meta$versioned %||% board$versioning %||%
+    abort("Must supply `versioned` argument")
+  if (isFALSE(versioned) && isTRUE(meta$versioned)) {
+    abort(c(
+      "Pin is versioned, but you have requested a write without versions",
+      i = "To un-version a pin, you must delete it"
+    ))
   }
 
-  if (versioned) {
-    upload_inform("versioned", name, metadata$file_hash)
+  if (has_name(meta$versions, metadata$file_hash)) {
+    # might still want to update metadata even though file hasn't changed
+    upload_inform("unchanged", name)
+    return()
   } else {
-    if (length(meta) > 0) {
-      upload_inform("replace", name)
-      for (version in meta) {
-        fs::file_delete(fs::path(board$cache, version$path))
-      }
+    if (versioned) {
+      upload_inform("versioned", name, metadata$file_hash)
     } else {
-      upload_inform("create", name)
+      if (length(meta) > 0) {
+        upload_inform("replace", name)
+      } else {
+        upload_inform("create", name)
+      }
     }
   }
 
-  meta[[metadata$file_hash]] <- metadata
+  meta$versions[[metadata$file_hash]] <- metadata
+  meta$versioned <- versioned
+
   write_meta(meta, dest)
   fs::file_copy(path, fs::path(dest, metadata$file_hash))
 }
@@ -153,12 +163,12 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
   meta_all <- read_meta(dest)
 
   if (is.null(version)) {
-    meta <- meta_all[[length(meta_all)]]
+    meta <- meta_all$versions[[length(meta_all)]]
   } else {
-    if (!has_name(meta_all, version)) {
+    if (!has_name(meta_all$versions, version)) {
       abort(paste0("Can't find version ", version))
     }
-    meta <- meta_all[[version]]
+    meta <- meta_all$versions[[version]]
   }
 
   list(

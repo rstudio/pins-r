@@ -28,6 +28,18 @@
     Error <rlang_error>
       Can't find version xxx
 
+# can't unversion an unversioned pin
+
+    Code
+      pin_write(b, 1:5, "x", type = "rds", versioned = TRUE)
+    Message <message>
+      Created version 3a40601dc0088965
+    Code
+      pin_write(b, 1:5, "x", type = "rds", versioned = FALSE)
+    Error <rlang_error>
+      Pin is versioned, but you have requested a write without versions
+      i To un-version a pin, you must delete it
+
 # generates useful messages
 
     Code
