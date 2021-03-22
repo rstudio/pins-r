@@ -163,7 +163,7 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
   meta_all <- read_meta(dest)
 
   if (is.null(version)) {
-    meta <- meta_all$versions[[length(meta_all)]]
+    meta <- meta_all$versions[[length(meta_all$versions)]]
   } else {
     if (!has_name(meta_all$versions, version)) {
       abort(paste0("Can't find version ", version))
