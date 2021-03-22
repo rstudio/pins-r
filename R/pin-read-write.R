@@ -17,10 +17,13 @@
 pin_read <- function(board, name, version = NULL, hash = NULL) {
   pin <- board_pin_download(board, name, version = version)
 
-  if (!is.null(hash) && !is_prefix(hash, pin$meta$hash)) {
-    abort(paste0(
-      "Specified hash '", hash, "' doesn't match pin hash '", pin$meta$hash, "'"
-    ))
+  if (!is.null(hash)) {
+    pin_hash <- digest::digest(pin$path, file = TRUE, algo = "xxhash64")
+    if (!is_prefix(hash, pin_hash)) {
+      abort(paste0(
+        "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
+      ))
+    }
   }
 
   object_load(pin$path, pin$meta$type)
