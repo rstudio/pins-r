@@ -18,7 +18,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
   pin <- board_pin_download(board, name, version = version)
 
   if (!is.null(hash)) {
-    pin_hash <- digest::digest(pin$path, file = TRUE, algo = "xxhash64")
+    pin_hash <- hash_file(pin$path)
     if (!is_prefix(hash, pin_hash)) {
       abort(paste0(
         "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
@@ -97,7 +97,7 @@ standard_meta <- function(path, type, desc = NULL) {
     descripton = desc,
     date = Sys.time(),
     file_size = as.integer(fs::file_size(path)),
-    file_hash = digest::digest(path, "xxhash64", file = TRUE)
+    file_hash = hash_file(path)
   )
 }
 
@@ -129,4 +129,8 @@ object_load <- function(path, type) {
 
 is_prefix <- function(prefix, string) {
   substr(string, 1, nchar(prefix)) == prefix
+}
+
+hash_file <- function(path) {
+  digest::digest(path, file = TRUE, algo = "xxhash64")
 }
