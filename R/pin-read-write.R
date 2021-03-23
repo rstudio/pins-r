@@ -15,6 +15,10 @@
 #'
 #' b %>% pin_read("mtcars")
 pin_read <- function(board, name, version = NULL, hash = NULL) {
+  if (!is_string(name)) {
+    abort("`name` must be a string")
+  }
+
   pin <- board_pin_download(board, name, version = version)
 
   if (!is.null(hash)) {
@@ -40,7 +44,7 @@ pin_write <- function(board, x,
                       type = NULL,
                       desc = NULL,
                       metadata = NULL,
-                      versioned = FALSE) {
+                      versioned = NULL) {
 
   if (is.null(type)) {
     type <- guess_type(type)
@@ -97,7 +101,8 @@ standard_meta <- function(path, type, desc = NULL) {
     descripton = desc,
     date = Sys.time(),
     file_size = as.integer(fs::file_size(path)),
-    file_hash = hash_file(path)
+    file_hash = hash_file(path),
+    api_version = 1
   )
 }
 

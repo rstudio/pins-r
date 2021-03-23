@@ -92,6 +92,7 @@ board_rsconnect <- function(
                             output_files = FALSE,
                             cache = board_cache_path(name),
                             name = "rsconnect",
+                            versions = TRUE,
                             ...) {
 
   # key <- key %||% Sys.getenv("CONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))
@@ -115,6 +116,7 @@ board_rsconnect <- function(
     key = key,
     output_files = output_files,
     pins_supported = TRUE,
+    versions = versions,
     ...
   )
 
