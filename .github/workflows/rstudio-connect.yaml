@@ -24,19 +24,55 @@ jobs:
         run: |
           docker run -d --rm --name=pins-connect -p 3939:3939 --privileged -e RSC_LICENSE -e RSTUDIO_CONNECT_HASTE=enabled rstudio/rstudio-connect:${RSC_VERSION}
 
+      - uses: r-lib/actions/setup-r@v1
+        id: install-r
+
+      - name: Install pak and query dependencies
+        run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-
+
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          pak::local_system_requirements(execute = TRUE)
+          pak::pkg_system_requirements("covr", execute = TRUE)
+        shell: Rscript {0}
+
+      - name: Install dependencies
+        run: |
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::pkg_install("rstudio/connectapi")
+        shell: Rscript {0}
+
       - name: output docker logs
         run: |
-          sleep 5
           docker logs pins-connect
 
       - name: wait for connect to start
         run: |
           curl -s --retry 10 --retry-connrefused http://localhost:3939
 
+      - name: initialize Connect user "admin"
+        shell: Rscript {0}
+        run: |
+          key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0")
+          connectapi:::update_renviron_creds(host = key$host, api_key = key$api_key, prefix = "CONNECT")
+
       # TODO: add real integration tests here
       - name: run tests
+        shell: Rscript {0}
         run: |
-          curl -i http://localhost:3939
+          pins::board_register_rsconnect()
+          pins::pin(mtcars, board = "rsconnect")
 
       - name: clean up RStudio Connect
         run: |
