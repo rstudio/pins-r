@@ -2,7 +2,7 @@
 board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
 
   content <- rsc_content_find(board, name)
-  # Message about name of pin actually read
+  # TODO: Message about name of pin actually read
 
   url <- content$content_url
   if (!is.null(version)) {
