@@ -25,8 +25,16 @@ jobs:
         run: |
           docker run -d --rm --name=pins-connect -p 3939:3939 --privileged -e RSC_LICENSE -e RSTUDIO_CONNECT_HASTE=enabled rstudio/rstudio-connect:${RSC_VERSION}
 
+      - name: output docker logs
+        run: |
+          sleep 5
+          docker logs pins-connect
+
+      - name: wait for connect to start
+        run: |
+          curl -s --retry 10 --retry-connrefused http://localhost:3939
+
       # TODO: add real integration tests here
-      # TODO: some delay or health check to ensure RStudio Connect is alive?
       - name: run tests
         run: |
           curl -i http://localhost:3939
