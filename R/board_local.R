@@ -115,6 +115,7 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
 
 # pins 1.0.0 --------------------------------------------------------------
 
+#' @export
 board_pin_upload.pins_board_local <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   # TODO: backward compatibility layer
@@ -122,11 +123,11 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
   #   S3 where other writers might be using different systems
 
   dest <- fs::path(board$cache, name)
-  dir_create(dest)
+  fs::dir_create(dest)
   meta <- read_meta(dest)
 
   # board$versioning should default to NULL, but user could choose to turn it on
-  versioned <- versioned %||% meta$versioned %||% board$versioning %||%
+  versioned <- versioned %||% meta$versioned %||% board$versions %||%
     abort("Must supply `versioned` argument")
   if (isFALSE(versioned) && isTRUE(meta$versioned)) {
     abort(c(
@@ -158,6 +159,7 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
   fs::file_copy(path, fs::path(dest, metadata$file_hash))
 }
 
+#' @export
 board_pin_download.pins_board_local <- function(board, name, version = NULL, ...) {
   dest <- fs::path(board$cache, name)
   meta_all <- read_meta(dest)
@@ -190,9 +192,6 @@ write_meta <- function(x, path) {
   path <- fs::path(path, "meta.yml")
   yaml::write_yaml(x, path)
 }
-
-
-
 
 board_pin_delete.pins_board_local <- function(board, name, ...) {
   fs::dir_delete(fs::path(board$cache, name))

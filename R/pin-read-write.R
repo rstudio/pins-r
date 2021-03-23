@@ -15,9 +15,8 @@
 #'
 #' b %>% pin_read("mtcars")
 pin_read <- function(board, name, version = NULL, hash = NULL) {
-  if (!is_string(name)) {
-    abort("`name` must be a string")
-  }
+  check_board(board)
+  check_name(name)
 
   pin <- board_pin_download(board, name, version = version)
 
@@ -46,6 +45,7 @@ pin_write <- function(board, x,
                       metadata = NULL,
                       versioned = NULL) {
 
+  check_board(board)
   if (is.null(type)) {
     type <- guess_type(type)
     inform(paste0("Guessing `type = '", type, "'`"))
@@ -53,6 +53,8 @@ pin_write <- function(board, x,
   if (is.null(name)) {
     name <- pin_default_name(expr_deparse(enexpr(x)), board)
     inform(paste0("Guessing `name = '", name, "'`"))
+  } else {
+    check_name(name)
   }
 
   path <- object_save(x, tempfile(), type = type)
@@ -138,4 +140,15 @@ is_prefix <- function(prefix, string) {
 
 hash_file <- function(path) {
   digest::digest(path, file = TRUE, algo = "xxhash64")
+}
+
+check_board <- function(x) {
+  if (!inherits(x, "pins_board")) {
+    abort("`board` must be a pin board")
+  }
+}
+check_name <- function(x) {
+  if (!is_string(x)) {
+    abort("`name` must be a string")
+  }
 }

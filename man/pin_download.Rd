@@ -5,11 +5,32 @@
 \alias{pin_upload}
 \title{Upload and download files to and from a board}
 \usage{
-pin_download(path, ...)
+pin_download(board, name, ...)
 
-pin_upload(board, name, path, desc = NULL, metadata = list(), ...)
+pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
+}
+\arguments{
+\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
+\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
+
+\item{name}{Pin name.}
+
+\item{...}{Additional arguments passed on to board pin methods.}
+
+\item{desc}{A text description of the pin; most important for
+shared boards so that others can understand what the pin contains.}
+
+\item{metadata}{A list containing additional metadata to store with the pins.}
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that
-works with paths. You can use this to upload any
+you can use to pin any file.
+}
+\examples{
+board <- board_temp()
+
+board \%>\% pin_upload(system.file("CITATION"))
+path <- board \%>\% pin_download("CITATION")
+path
+readLines(path)[1:5]
 }

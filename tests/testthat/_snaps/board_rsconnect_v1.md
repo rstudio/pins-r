@@ -1,4 +1,4 @@
-# can accidentally switch from versioned to unversioned
+# can't accidentally switch from versioned to unversioned
 
     Code
       pin_write(board, df1, "df1", type = "rds", versioned = FALSE)
