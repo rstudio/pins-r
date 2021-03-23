@@ -64,7 +64,7 @@ jobs:
       - name: initialize Connect user "admin"
         shell: Rscript {0}
         run: |
-          key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0")
+          key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com")
           connectapi:::update_renviron_creds(host = key$host, api_key = key$api_key, prefix = "CONNECT")
 
       # TODO: add real integration tests here
