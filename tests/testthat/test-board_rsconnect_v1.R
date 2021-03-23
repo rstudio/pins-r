@@ -18,6 +18,47 @@ test_that("can read a pin", {
   expect_s3_class(out, "tbl_df")
 })
 
+
+# versioning --------------------------------------------------------------
+
+test_that("versioned by default", {
+  board <- board_rsconnect()
+  withr::defer(rsc_content_delete(board, "df1"))
+
+  pin_write(board, data.frame(x = 1:3), "df1", type = "rds")
+  pin_write(board, data.frame(x = 1:4), "df1", type = "rds")
+  pin_write(board, data.frame(x = 1:5), "df1", type = "rds")
+
+  guid <- rsc_content_find(board, "df1")$guid
+  expect_equal(nrow(rsc_content_versions(board, guid)), 3)
+})
+
+test_that("if unversioned, deletes last one", {
+  board <- board_rsconnect(versions = FALSE)
+  withr::defer(rsc_content_delete(board, "df1"))
+
+  pin_write(board, data.frame(x = 1), "df1", type = "rds")
+  pin_write(board, data.frame(x = 2), "df1", type = "rds")
+
+  guid <- rsc_content_find(board, "df1")$guid
+  expect_equal(nrow(rsc_content_versions(board, guid)), 1)
+
+  df2 <- pin_read(board, "df1")
+  expect_equal(df2$x, 2)
+})
+
+test_that("can't accidentally switch from versioned to unversioned", {
+  board <- board_rsconnect()
+  withr::defer(rsc_content_delete(board, "df1"))
+
+  df1 <- data.frame(x = 1:3)
+  pin_write(board, df1, "df1", type = "rds")
+  pin_write(board, df1, "df1", type = "rds")
+  expect_snapshot(error = TRUE,
+    pin_write(board, df1, "df1", type = "rds", versioned = FALSE)
+  )
+})
+
 # content -----------------------------------------------------------------
 
 test_that("can find content by full/partial name", {

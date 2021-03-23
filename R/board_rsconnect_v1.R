@@ -111,17 +111,17 @@ board_pin_upload.pins_board_rsconnect <- function(
   # Clean up old bundles if not versioned
   if (!versioned) {
     versions <- rsc_content_versions(board, content_guid)
-    ids <- setdiff(versions$id, bundle_id)
+    ids <- setdiff(versions$version, bundle_id)
 
-    if (length(ids) > 1) {
+    if (length(ids) == 0) {
+      # First version
+    } else if (length(ids) == 1) {
+      rsc_DELETE(board, rsc_v1("content", content_guid, "bundles", ids))
+    } else {
       abort(c(
         "Pin is versioned, but you have requested not to use versions",
         "To un-version this pin you will need to delete it"
       ))
-    }
-
-    for (id in ids) {
-      rsc_DELETE(board, rsc_v1("content", content_guid, "bundles", id))
     }
   }
 
@@ -239,17 +239,14 @@ rsc_content_create <- function(board, name, metadata, access_type = "acl") {
 }
 
 rsc_content_versions <- function(board, guid) {
-  # Find bundle
   # https://docs.rstudio.com/connect/api/#get-/v1/content/{guid}/bundles
-  json <- rsc_GET(board,
-    path = paste0("v1/content/", guid, "/bundles"),
-    query = list(name = name)
+  json <- rsc_GET(board, rsc_v1("content", guid, "bundles"))
+
+  data.frame(
+    version = map_chr(json, ~ .x$id),
+    created = rsc_parse_time(map_chr(json, ~ .x$created_time)),
+    active = map_lgl(json, ~ .x$active)
   )
-
-  # add date created
-  versions <- map_chr(json, ~ .x$id)
-  map_chr(json, ~ .x$created_time)
-
 }
 
 rsc_content_delete <- function(board, name) {
@@ -376,4 +373,10 @@ rsc_http_content <- function(req) {
 
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
+}
+
+rsc_parse_time <- function(x) {
+  y <- as.POSIXct(strptime(x, "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
+  attr(y, "tzone") <- ""
+  y
 }
