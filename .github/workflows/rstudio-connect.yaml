@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+      - master
+      - add-connect-ci
+  pull_request:
+    branches:
+      - main
+      - master
+
+name: RStudio Connect Integration Tests
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    env:
+      RSC_VERSION: 1.8.6.2
+      RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
+    steps:
+      - uses: actions/checkout@v2
+
+      # TODO: should use a real action to make sure that cleanup happens on error...
+      - name: run RStudio Connect
+        run: |
+          docker run -d --rm --name=pins-connect -p 3939:3939 --privileged -e RSC_LICENSE -e RSTUDIO_CONNECT_HASTE=enabled rstudio/rstudio-connect:${RSC_VERSION}
+
+      # TODO: add real integration tests here
+      # TODO: some delay or health check to ensure RStudio Connect is alive?
+      - name: run tests
+        run: |
+          curl -i http://localhost:3939
+
+      - name: clean up RStudio Connect
+        run: |
+          docker stop pins-connect
