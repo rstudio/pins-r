@@ -5,9 +5,17 @@
 \alias{pin_write}
 \title{Read and write pins}
 \usage{
-pin_read(board, name)
+pin_read(board, name, version = NULL, hash = NULL)
 
-pin_write(board, x, name = NULL, description = NULL, metadata = NULL)
+pin_write(
+  board,
+  x,
+  name = NULL,
+  type = NULL,
+  desc = NULL,
+  metadata = NULL,
+  versioned = NULL
+)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -17,7 +25,7 @@ pin_write(board, x, name = NULL, description = NULL, metadata = NULL)
 
 \item{x}{An object (typically a data frame) to pin.}
 
-\item{description}{A text description of the pin; most important for
+\item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
 
 \item{metadata}{A list containing additional metadata to store with the pins.}

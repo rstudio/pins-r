@@ -11,6 +11,7 @@ board_rsconnect(
   output_files = FALSE,
   cache = board_cache_path(name),
   name = "rsconnect",
+  versions = TRUE,
   ...
 )
 }
@@ -31,6 +32,8 @@ cache location for your operating system, but you can override if needed.}
 \item{name}{An optional name used identify the board. This is no longer
 generally needed since you should be passing around an explicit
 board object.}
+
+\item{versions}{Should this board be registered with support for versions?}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }
