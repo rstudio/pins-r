@@ -1,8 +1,3 @@
-download <- function(url, path, headers) {
-  write_out <- httr::write_disk(path)
-  req <- httr::GET(url, headers, write_out)
-}
-
 
 download_cache <- function(board, url, path, use_cache = TRUE) {
   cache_meta <- cache_read_metadata(board)

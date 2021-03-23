@@ -1,3 +1,10 @@
+test_that("can download a pin", {
+  board <- board_rsconnect(cache = tempfile())
+
+  out <- pin_read(board, "sales-by-baths")
+  expect_s3_class(out, "tbl_df")
+})
+
 test_that("can find content by full/partial name", {
   board <- board_rsconnect()
 

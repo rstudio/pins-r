@@ -18,17 +18,28 @@ board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL,
   # Can't use bundle download endpoint because that requires collaborator
   # access. So download data.txt, then download each file that it lists.
   if (!fs::file_exists(pin_path)) {
+    # TODO: create in temporary directory, and copy over so any failure
+    # leaves you in a clean slate
     fs::dir_create(pin_path)
-    download(fs::path(url, "data.txt"), fs::path(pin_path, "meta.yml"))
+
+    rsc_download(board, paste0(url, "data.txt"), fs::path(pin_path, "meta.yml"))
 
     meta <- read_meta(pin_path)
-    for (path in meta$paths) {
-      download(fs::path(url, path), fs::path(pin_path, path))
+    for (path in meta$path) {
+      rsc_download(board, paste0(url, path), fs::path(pin_path, path))
     }
   }
 
-  # TODO: handle old and new versions
-  read_meta(pin_path)$paths[[1]]
+  meta <- read_meta(pin_path)
+  if (is.null(meta$api_version)) {
+    meta$type <- switch(meta$type, table = "rds", meta$type)
+    list(
+      path = fs::path(pin_path, setdiff(meta$path, "data.csv")[[1]]),
+      meta = meta
+    )
+  } else {
+    abort("Not implemented")
+  }
 }
 
 #' @export
@@ -266,6 +277,21 @@ rsc_GET <- function(board, path, query = NULL, ...) {
   )
   rsc_http_content(req)
 }
+
+rsc_download <- function(board, url, dest, ...) {
+  path <- paste0("/", httr::parse_url(url)$path)
+  auth <- rsc_auth(board, path, "GET", NULL)
+
+  req <- httr::GET(url,
+    path = path,
+    auth,
+    httr::write_disk(dest),
+    ...
+  )
+  rsc_http_content(req)
+  invisible()
+}
+
 
 rsc_DELETE <- function(board, path, query = NULL, ...) {
   path <- paste0("/__api__/", path)
