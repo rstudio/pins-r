@@ -17,6 +17,11 @@ test_that("User-supplied html files can overwrite the default", {
   expect_equal(readLines(file.path(dir, "index.html")), "new_file")
 })
 
+test_that("subpath with a dash is preserved properly", {
+  path <- rsconnect_remote_path_from_url(list(server = "https://foo.com"), "http://foo.com/bar/foo-com_baz")
+  expect_equal(path, "bar/foo-com_baz")
+})
+
 test_that("Mismatched protocols and ports generate correct URL", {
   path <- rsconnect_remote_path_from_url(list(server = "https://foo.com/rsc"), "http://foo.com/rsc/foo/bar")
   expect_equal(path, "/foo/bar")
