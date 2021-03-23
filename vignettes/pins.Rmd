@@ -1,0 +1,200 @@
+---
+title: "Getting Started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+A [typical Data Science project](https://r4ds.had.co.nz/introduction.html) starts with importing data and finishes with communicating your results with others; however, some projects have a few additional steps that we will refer as: **Discover**, **Cache** and **Share**. While these steps might not deserve to be part of the official Data Science diagram, they can help us understand where the `pins` package can help.
+
+Conceptually, the modified Data Science diagram looks as follows:
+
+```{r eval=FALSE, echo=FALSE}
+nomnoml::nomnoml("
+#direction: right
+#edgeMargin: 4
+#padding: 25
+#fontSize: 18
+#.dashed: dashed
+[<dashed>Discover] --> [<dashed>Cache]
+[<dashed>Cache] --> [Import]
+[Import] -> [Understand]
+[Understand |
+  [Wrangle] -> [Visualize] 
+  [Visualize] -> [Model]
+  [Model] -> [Wrangle]
+]
+[Understand] -> [Communicate]
+[Communicate] --> [<dashed>Share]", "images/pins-starting-overview.png")
+```
+![](images/pins-starting-overview.png){width=100%}
+
+The `pins` package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to lose -- you should always have reproducible code to regenerate a pin.
+
+Let's now introduce each operation the `pins` package supports.
+
+Discover
+: In some Data Science projects, it might not be obvious which dataset you should use; therefore, a first step might be to search online for specific datasets. For instance, suppose that you are trying to figure out what kind of house remodel could increase your home property value the most, where do you get such data from? You can search online but is often hard to filter results to contain only datasets, it also requires you to have some knowledge of which data sources are trustworthy and so on. This is obviously a hard problem and we can't expect a single tool to magically fix this for us; instead, the `pins` package gives you a few tools to search well known data repositories through the `pin_find()` function. In addition, even though most projects have well-defined datasets to import from, you might also want to consider enhancing them with additional data sources; for example, while analyzing a well-known ice-cream sales dataset, you might want also want to find resources with historical weather to properly adjust the existing data.
+
+Cache
+: Once you identify which datasets to import, it is often the case that they are manually downloaded. It is common to give explicit instructions to download datasets before actually importing the dataset. However, manual steps make it hard to reproduce your code -- we can no longer just copy-paste and run code. One easy solution is to use `download.file()`; however, this would cause the file to be re-downloaded each time the code runs, so you can then try to check if the file already exists, and keep adding complexity to try to reliably download and cache files. Quoting Phil Karlton, "There are only two hard things in Computer Science: cache invalidation and naming things". So instead of worrying when to invalidate and cache online resources, you can use `pin()` to cache any resource with ease.
+
+Share
+: There are cases where you might want to not only communicate with others your results, but also allow others to reuse your results. For instance, once you finish analyzing house remodel projects, you might also want to share your final dataset for others to reuse. The `pins` package allows you to share resources in [GitHub](boards-github.html), [Kaggle](boards-kaggle.html), [RStudio Connect](boards-rsconnect.html) and allows you to create extensions to support many other services and technologies.
+
+Before we present code examples on how to discover datasets, install the `pins` package as follows:
+
+``` r
+install.packages("pins")
+```
+
+## Discovering
+
+You can discover datasets with `pin_find()`, which by default will search for data inside CRAN packages. The places where `pins` can find or store resources are referred to as 'boards'. There are multiple boards available but they require you to configure them so we will leave those for later on.
+
+As a quick example, let's search for resources that may contain 'boston housing':
+
+```{r eval=FALSE}
+library(pins)
+pin_find("boston housing")
+```
+```
+# A tibble: 8 x 4
+  name                  description                                            type  board  
+  <chr>                 <chr>                                                  <chr> <chr>  
+1 A3/housing            Boston Housing Prices from A3 package.                 table packag…
+2 BiDAG/Boston          Boston housing data from BiDAG package.                table packag…
+3 GSE/boston            Boston Housing Data from GSE package.                  table packag…
+4 KernelKnn/Boston      Boston Housing Data (Regression) from KernelKnn packa… table packag…
+5 mlbench/BostonHousing Boston Housing Data from mlbench package.              table packag…
+6 pdp/boston            Boston Housing Data from pdp package.                  table packag…
+7 spData/boston         Corrected Boston Housing Data from spData package.     table packag…
+8 spikeslab/housingI    Boston Housing Interaction Data from spikeslab packag… table packag…
+```
+
+We've found out that the `BSDA` package contains a `Housing` dataset, you can then retrieve this dataset using `pin_get()` as follows:
+
+```{r eval=FALSE}
+pin_get("BSDA/Housing")
+```
+```
+# A tibble: 74 x 3
+   city       year   price
+   <chr>      <fct>  <int>
+ 1 Albany     1984   52400
+ 2 Anaheim    1984  134900
+ 3 Atlanta    1984   64600
+ 4 Baltimore  1984   65200
+ 5 Birmingham 1984   66600
+ 6 Boston     1984  102000
+ 7 Chicago    1984   77500
+ 8 Cincinnati 1984   59600
+ 9 Cleveland  1984   65600
+10 Columbus   1984   60400
+# … with 64 more rows
+```
+
+Most datasets in CRAN contain rectangular data, which `pins` knows to load as a data frame. Other boards might contain non-rectangular datasets which `pin_get()` also supports. More on this later on, but first, lets introduce caching.
+
+## Caching
+
+Let's suppose that the 'home prices' dataset is not exactly what we are looking for, we can try to search online for 'home prices' and find out that [catalog.data.gov](https://catalog.data.gov/) contains a more suitable [FHFA House Price Indexes](https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis) dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use `pin()` to cache this dataset locally:
+
+```{r eval=FALSE}
+pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv")
+```
+```
+[1] "/Users/username/Library/Caches/pins/local/HPI_master/HPI_master.csv"
+```
+
+Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.
+
+```{r eval=FALSE}
+library(readr)
+pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv") %>%
+  read_csv(col_types = cols())
+```
+```
+# A tibble: 108,826 x 10
+   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
+   <chr>    <chr>      <chr>     <chr> <chr>      <chr>    <dbl>  <dbl>     <dbl>
+ 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
+ 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
+ 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
+ 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
+ 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
+ 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
+ 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
+ 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
+ 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
+10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
+# … with 108,816 more rows, and 1 more variable: index_sa <dbl>
+```
+
+The `pins` package tries to be smart about downloading files only when the file has changed using headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
+
+Notice that `pin()` assigned a name automatically, `HPI_master` for the previous example; however, you can choose your own name and be explicit about retrieving a pin with `pin_get()`:
+
+```{r eval=FALSE}
+pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv",
+    name = "home_price_indexes")
+
+pin_get("home_price_indexes") %>%
+  read_csv(col_types = cols())
+```
+```
+# A tibble: 108,826 x 10
+   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
+   <chr>    <chr>      <chr>     <chr> <chr>      <chr>    <dbl>  <dbl>     <dbl>
+ 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
+ 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
+ 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
+ 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
+ 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
+ 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
+ 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
+ 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
+ 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
+10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
+# … with 108,816 more rows, and 1 more variable: index_sa <dbl>
+```
+
+You can enable download progress with the `pins.progress` option and print additional caching information using the `pins.verebose` option:
+
+```
+# print verbose upload and download progress
+options(pins.progress = TRUE)
+
+# print verbose pins info
+options(pins.verbose = TRUE)
+```
+
+## Boards
+
+By default, pin uses a "local" board which is stored on your computer.  
+
+Where does it live?
+
+The following example stores a simple data analysis over home prices as 'home_price_analysis' in the 'local' board.
+
+```{r eval=FALSE}
+pin_get("home_price_indexes") %>%
+  read_csv(col_types = cols()) %>%
+  dplyr::group_by(yr) %>%
+  dplyr::count() %>%
+  pin("home_price_analysis")
+```
+
+The local board allows you to share pins with other R sessions. 
+
+## Sharing
+
+This is useful because it saves time downloading or processing data, but it doesn't help get your data into the hands of other people. To take full advantage of pins, you probably want to also storing pins in shared locations that others can access:
+
+* Shared folders, `board_folder()`.
+* GitHub, `board_github()`.
+* RStudio Connect, `board_rsconnect()`
+* Azure, `board_azure()`
+* S3, `board_s3()`

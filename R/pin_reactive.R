@@ -1,20 +1,14 @@
-shiny_dependencies <- function() {
-  list(
-    reactive_poll = get("reactivePoll", envir = asNamespace("shiny"))
-  )
-}
-
 pin_changed_time <- function(name, board, extract) {
   pin_path <- board_pin_get(board_get(board), name, extract = extract)
   pin_files <- file.path(pin_path, dir(pin_path))
 
-  max(file.info(pin_files)[,"mtime"])
+  max(file.info(pin_files)[, "mtime"])
 }
 
 #' Reactive Pin
 #'
 #' Creates a pin that reacts to changes in the given board by
-#' polling \code{pin_get()}, useful when used from the \code{shiny}
+#' polling `pin_get()`, useful when used from the `shiny`
 #' package.
 #'
 #' @param name The name of the pin.
@@ -29,11 +23,9 @@ pin_changed_time <- function(name, board, extract) {
 #'
 #' @export
 pin_reactive <- function(name, board, interval = 5000, session = NULL, extract = NULL) {
-  deps <- shiny_dependencies()
-
   board_object <- board_get(board)
 
-  deps$reactive_poll(
+  shiny::reactivePoll(
     intervalMillis = interval,
     session = session,
     checkFunc = function() {
@@ -44,5 +36,6 @@ pin_reactive <- function(name, board, interval = 5000, session = NULL, extract =
     },
     valueFunc = function() {
       pin_get(name, board = board, extract = extract)
-    })
+    }
+  )
 }

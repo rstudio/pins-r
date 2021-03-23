@@ -1,5 +1,3 @@
-context("board gcloud")
-
 test_that("board contains proper gcloud headers", {
   headers <- names(gcloud_headers(list(token = "abc"), "PUT", "x", "files/hello.txt")$headers)
 
@@ -13,19 +11,15 @@ if (!has_envvars("TEST_GOOGLE_BUCKET")) {
   skip("requires TEST_GOOGLE_BUCKET env var")
 }
 
-board_register_gcloud(
-  name = "test-gcloud-1",
+board <- board_gcloud(
   bucket = Sys.getenv("TEST_GOOGLE_BUCKET"),
   cache = tempfile()
 )
-withr::defer(board_deregister("test-gcloud-1"))
-board_register_gcloud(
-  name = "test-gcloud-1",
+board_test(board, suite = "default")
+
+board <- board_gcloud(
   bucket = Sys.getenv("TEST_GOOGLE_BUCKET"),
   versions = TRUE,
   cache = tempfile()
 )
-withr::defer(board_deregister("test-gcloud-2"))
-
-board_test("test-gcloud-1", suite = "default")
-board_test("test-gcloud-2", suite = "versions")
+board_test(board, suite = "versions")

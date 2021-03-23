@@ -1,9 +1,8 @@
-get_function <- function(name, package) {
-  if (length(find.package(package, quiet = TRUE)) == 0) {
+http_utils_progress <- function(type = "down", size = 0) {
+  if (pins_show_progress(size = size)) {
+    httr::progress(type = type)
+  } else {
     NULL
-  }
-  else {
-    get0(name, envir = asNamespace(package))
   }
 }
 
@@ -14,34 +13,54 @@ pins_show_progress <- function(size = 0) {
   identical(getOption("pins.progress", size > large_file), TRUE) && interactive()
 }
 
-pins_save_csv <- function(x, name) {
-  supported_columns <- c(
-    "character",
-    "numeric",
-    "integer",
-    "Date",
-    "POSIXlt",
-    "logical",
-    "raw"
-  )
-
-  x_class <- unname(sapply(x, function(e) class(e)[[1]]))
-  unsupported_columns <- which(!x_class %in% supported_columns)
-  for (col_idx in unsupported_columns) {
-    x[[col_idx]] <- as.character(x[[col_idx]])
-  }
-
-  utils::write.csv(x, name, row.names = FALSE)
-}
-
-pins_safe_csv <- function(x, name) {
-  tryCatch({
-    pins_save_csv(x, name)
-  }, error = function(e) {
-    warning("Failed to save data frame as CSV file")
-  })
-}
-
 has_envvars <- function(x) {
   all(Sys.getenv(x) != "")
+}
+
+is_url <- function(x) {
+  grepl("^http://|^https://", x)
+}
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
+
+#' Pin Logging
+#'
+#' Log message for diagnosing the `pins` package.
+#'
+#' @param ... Entries to be logged.
+#'
+#' @export
+#' @keywords internal
+pin_log <- function(...) {
+  if (getOption("pins.verbose", FALSE) && !is_testing()) {
+    message(...)
+  }
+}
+
+format_tibble <- function(data) {
+  if (!is.data.frame(data)) {
+    return(data)
+  }
+
+  if (is_installed("tibble") > 0 && !identical(getOption("pins.tibble"), FALSE)) {
+    tibble::as_tibble(data)
+  } else {
+    data
+  }
+}
+
+map_chr <- function(x, f, ...) {
+  vapply(x, as_function(f), ..., FUN.VALUE = character(1))
+}
+
+modifyList <- function(x, y) {
+  if (is.null(x)) {
+    y
+  } else if (is.null(y)) {
+    x
+  } else {
+    utils::modifyList(x, y)
+  }
 }

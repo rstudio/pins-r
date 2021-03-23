@@ -1,5 +1,30 @@
 # pins (development version)
 
+* `board_browse()` now works with local boards.
+
+* All board objects now have class beginning with `pins_board_` and also
+  inherit from common superclass `pins_board`.
+
+* `pin_fetch()` has been removed
+
+* `option(pins.invisible)` is now defunct and ignored. 
+
+* Pins no longer register the code needed to recreate them as this tends to
+  either be dangerous (it's easy to accidentally leak credentails) or useless
+  (it relies on variables that the connection pane doesn't capture).
+
+* The board extension interface has changed. More info to follow.
+
+* All boards now have a `board_` function that allows you create a board
+  without registering it.
+
+* The "packages" board is no longer registered by default; if you want to use
+  this you'll need to register with `board_register("packages")`. It has been
+  radically simplified so that it will no longer download packages, and it
+  `pin_find()` now searches all packages that you have installed, rather than
+  a stale snapshot of data in CRAN packages. The CRAN files dataset has
+  been removed from the package.
+
 # pins 0.4.5
 
 ## Pins

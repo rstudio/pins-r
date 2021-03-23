@@ -1,3 +1,5 @@
+# Variation on pin_registry use for versioning
+
 pin_manifest_get <- function(path) {
   manifest <- list()
 
@@ -30,6 +32,7 @@ pin_manifest_create <- function(path, metadata, files) {
 
   entries[sapply(entries, is.null)] <- NULL
 
+  fs::dir_create(path)
   yaml::write_yaml(entries, file.path(path, "data.txt"))
 }
 
@@ -37,9 +40,16 @@ pin_manifest_create <- function(path, metadata, files) {
 pin_manifest_download <- function(path, namemap = FALSE) {
   manifest <- pin_manifest_get(path)
 
-  if (is.null(manifest$path)) return(NULL)
+  if (is.null(manifest$path)) {
+    return(NULL)
+  }
 
-  downloads <- pin_fetch(structure(manifest$path, class = manifest$type))
+  if (manifest$type == "table") {
+    rds_match <- grepl(".*.rds", manifest$path)
+    downloads <- manifest$path[rds_match]
+  } else {
+    downloads <- manifest$path
+  }
 
   if (identical(namemap, TRUE)) {
     mapped <- as.list(downloads)
@@ -60,8 +70,8 @@ pin_manifest_download <- function(path, namemap = FALSE) {
 pin_manifest_merge <- function(base_manifest, resource_manifest) {
   # path requires special merge
   if (!is.null(resource_manifest$path) &&
-      !is.null(base_manifest$path) &&
-      !grepl("https?://", base_manifest$path)) {
+    !is.null(base_manifest$path) &&
+    !grepl("https?://", base_manifest$path)) {
     base_manifest$path <- file.path(base_manifest$path, resource_manifest$path)
   }
 

@@ -5,7 +5,7 @@ output:
     df_print: paged
 ---
 
-Once you [create data pipelines](create-data-pipelines.htm), you can consider reusing the resources they produce in [Shiny](http://shiny.rstudio.com) or [Plumber](https://www.rplumber.io/) applications. This can be useful to componentize your application and avoid redeploying or restarting your application. 
+Once you [create data pipelines](create-data-pipelines.html), you can consider reusing the resources they produce in [Shiny](http://shiny.rstudio.com) or [Plumber](https://www.rplumber.io/) applications. This can be useful to componentize your application and avoid redeploying or restarting your application. 
 
 When using Plumber, you can simply use `pin_get()` since this function is smart-enough to first check for updates before the resource is retrieved When using Shiny, you can use `pin_reactive()` which automatically transforms the pin's resource into a reactive to use from your application.
 

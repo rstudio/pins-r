@@ -1,6 +1,47 @@
 # nocov start
 
-.globals$ui_updating_connection <- 0
+#' Connect to/disconnect from a board
+#'
+#' Activate/deactivate RStudio's connection pane
+#'
+#' @param board The name of the board to activate.
+#' @param code The code being used to registere this board.
+#' @param ... Additional parameters required to initialize a particular board.
+#' @keywords internal
+#' @export
+board_connect <- function(board, code, ...) {
+  board <- board_get(board)
+  ui_viewer_register(board, code)
+  invisible(board)
+}
+
+#' @export
+#' @rdname board_connect
+board_disconnect <- function(name, ...) {
+  board <- board_get(name)
+  ui_viewer_closed(board)
+  invisible(board)
+}
+
+
+pin_preview <- function(x, board = NULL, ...) {
+  UseMethod("pin_preview")
+}
+#' @export
+pin_preview.default <- function(x, board = NULL, ...) {
+  x
+}
+#' @export
+pin_preview.data.frame <- function(x, board = NULL, ...) {
+  utils::head(x, n = getOption("pins.preview", 10^3))
+}
+#' @export
+pin_preview.files <- function(x, board = NULL, ...) {
+  data.frame(
+    files = x,
+    stringsAsFactors = FALSE
+  )
+}
 
 ui_viewer_register <- function(board, board_call) {
   if (is.null(.globals$ui_connections)) .globals$ui_connections <- list()
@@ -13,7 +54,9 @@ ui_viewer_register <- function(board, board_call) {
   .globals$ui_connections[[board$name]] <- TRUE
 
   observer <- getOption("connectionObserver")
-  if (identical(observer, NULL)) return()
+  if (identical(observer, NULL)) {
+    return()
+  }
 
   icons <- system.file(file.path("icons"), package = "pins")
 
@@ -31,10 +74,6 @@ ui_viewer_register <- function(board, board_call) {
       }
     )
   )
-
-  if (identical(class(board), "local")) {
-    actions[["Browse"]] <- NULL
-  }
 
   observer$connectionOpened(
     # connection type
@@ -59,7 +98,7 @@ ui_viewer_register <- function(board, board_call) {
       .globals$ui_connections[[board$name]] <- FALSE
     },
 
-    listObjectTypes = function () {
+    listObjectTypes = function() {
       list(
         table = list(contains = "data")
       )
@@ -85,7 +124,7 @@ ui_viewer_register <- function(board, board_call) {
       attr_values <- c()
 
       pin_index <- pin_find(table, board = board$name, name = table, metadata = TRUE)
-      pin_index <- pin_index[table == pin_index$name,]
+      pin_index <- pin_index[table == pin_index$name, ]
 
       if (!is.null(pin_index$metadata) || nchar(pin_index$metadata) > 0) {
         metadata <- jsonlite::fromJSON(pin_index$metadata)
@@ -149,4 +188,3 @@ ui_viewer_closed <- function(board) {
 }
 
 # nocov end
-

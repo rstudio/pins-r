@@ -38,32 +38,29 @@ This can improve performance and size at the cost of making the pin unreadable f
 tools and programming languages.
 }
 \examples{
-library(pins)
-
-# define local board
-board_register_local(cache = tempfile())
+# define temporary local board
+board <- board_temp()
 
 # cache the mtcars dataset
-pin(mtcars)
+pin(mtcars, board = board)
 
 # cache computation over mtcars
-mtcars[mtcars$mpg > 30,] \%>\%
-  pin(name = "mtefficient")
+pin(mtcars[mtcars$mpg > 30, ], name = "mtefficient", board = board)
 
 # retrieve cached pin
-pin_get("mtefficient")
+pin_get("mtefficient", board = board)
 
 # url to remote resource
-resource <- file.path("https://raw.githubusercontent.com/facebook/prophet",
-                      "master/examples/example_retail_sales.csv")
+resource <- file.path(
+  "https://raw.githubusercontent.com/facebook/prophet",
+  "master/examples/example_retail_sales.csv"
+)
 
 # cache remote resource
-pin(resource, name = "example_retail_sales")
-
-# load cached csv
-pin_get("example_retail_sales") \%>\% read.csv()
+pin(resource, name = "example_retail_sales", board = board)
 
 # cache and read csv
-read.csv(pin(resource))
-
+path <- pin(resource, board = board)
+path
+head(read.csv(path))
 }

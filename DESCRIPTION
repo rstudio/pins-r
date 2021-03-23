@@ -25,7 +25,6 @@ BugReports: https://github.com/rstudio/pins/issues
 Depends: 
     R (>= 3.2.0)
 Imports:
-    backports,
     base64enc,
     crayon,
     digest,
@@ -36,21 +35,26 @@ Imports:
     magrittr,
     mime,
     openssl,
+    rlang,
     rappdirs,
-    stats,
     withr,
     yaml,
     zip,
-    urltools
+    urltools,
+    lifecycle
 Suggests:
     callr,
     covr,
+    datasets,
     data.table,
     knitr,
     R6,
     rmarkdown,
+    rsconnect,
+    R.utils,
+    shiny,
     stringi,
-    testthat,
+    testthat (>= 3.0.0),
     tibble,
     xml2
 VignetteBuilder: 
@@ -58,3 +62,5 @@ VignetteBuilder:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

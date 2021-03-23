@@ -1,80 +1,115 @@
-board_initialize.local <- function(board, cache, ...) {
-  if (!dir.exists(board$cache)) dir.create(board$cache, recursive = TRUE)
-
-  board
-}
-
-guess_extension_from_path <- function(path) {
-  if (dir.exists(path)) {
-    all_files <- dir(path, recursive = TRUE)
-    all_files <- Filter(function(x) !grepl("data\\.txt", x), all_files)
-
-    path <- all_files[[1]]
-  }
-
-  tools::file_ext(path)
-}
-
-board_pin_create.local <- function(board, path, name, metadata, ...) {
-  board_versions_create(board, name = name, path = path)
-
-  final_path <- pin_storage_path(component = board$name, name = name)
-
-  delete <- dir(final_path, full.names = TRUE)
-  delete <- delete[!grepl("(/|\\\\)_versions$", delete)]
-  unlink(delete, recursive = TRUE)
-  if (!dir.exists(final_path)) dir.create(final_path)
-
-  file.copy(dir(path, full.names = TRUE) , final_path, recursive = TRUE)
-
-  # reduce index size
-  metadata$columns <- NULL
-
-  base_path <- board_local_storage(board$name)
-
-  pin_registry_update(
+#' Use a local folder as board
+#'
+#' @description
+#' * `board_folder()` creates a board inside a folder. You can use this to
+#'    share files by using a folder on a shared network drive or inside
+#'    a DropBox.
+#'
+#' * `board_temp()` creates a temporary board that lives in a session
+#'    specific temporary directory. It will be automatically deleted once
+#'    the current R session ends.
+#'
+#' * `board_local()` is mostly included for backward compatiblity. It's
+#'    the default board used by [pin()] and [pin_get()].
+#'
+#' @inheritParams new_board
+#' @param path Path to directory to store pins. Will be created if it
+#'   doesn't already exist.
+#' @family boards
+#' @examples
+#' # session-specific local board
+#' board <- board_temp()
+#' @export
+board_folder <- function(path, name = "folder", versions = FALSE) {
+  new_board("pins_board_local",
     name = name,
-    params = c(list(
-      path = pin_registry_relative(final_path, base_path = base_path)
-    ), metadata),
-    component = board$name)
+    cache = path,
+    versions = versions
+  )
 }
 
-board_pin_find.local <- function(board, text, ...) {
-  results <- pin_registry_find(text, board$name)
+#' @export
+#' @rdname board_folder
+board_local <- function(versions = FALSE) {
+  board_folder(board_cache_path("local"), name = "local", versions = versions)
+}
 
-  if (nrow(results) == 1) {
-    metadata <- jsonlite::fromJSON(results$metadata)
-    path <- pin_registry_absolute(metadata$path, component = board$name)
-    extended <- pin_manifest_get(path)
-    merged <- pin_manifest_merge(metadata, extended)
+#' @rdname board_folder
+#' @export
+board_temp <- function(name = "temp", versions = FALSE) {
+  board_folder(fs::file_temp("pins-"), name = name, versions = versions)
+}
 
-    results$metadata <- as.character(jsonlite::toJSON(merged, auto_unbox = TRUE))
+#' @export
+board_desc.pins_board_local <- function(board, ...) {
+  paste0("Path: '", board$cache, "'")
+}
+
+#' @export
+board_browse.pins_board_local <- function(board, ...) {
+  utils::browseURL(board$cache)
+}
+
+#' @export
+board_pin_create.pins_board_local <- function(board, path, name, metadata, ...) {
+  board_versions_create(board, name, path)
+
+  # TODO: figure out how to handle names that are not valid paths
+  cache_path <- pin_registry_path(board, name)
+
+  if (fs::dir_exists(cache_path)) {
+    delete <- fs::dir_ls(cache_path)
+    delete <- delete[!grepl("(/|\\\\)_versions$", delete)]
+    unlink(delete, recursive = TRUE)
+  } else {
+    fs::dir_create(cache_path)
   }
+
+  file.copy(fs::dir_ls(path), cache_path, recursive = TRUE)
+
+  metadata$path <- name
+  pin_registry_update(board, name, metadata)
+}
+
+#' @export
+board_pin_find.pins_board_local <- function(board, text, ...) {
+  results <- pin_registry_find(board, text)
+
+  # if (nrow(results) == 1) {
+  #   metadata <- jsonlite::fromJSON(results$metadata)
+  #   path <-  pin_registry_absolute(metadata$path, component = board$name)
+  #   extended <- pin_manifest_get(path)
+  #   merged <- pin_manifest_merge(metadata, extended)
+  #
+  #   results$metadata <- as.character(jsonlite::toJSON(merged, auto_unbox = TRUE))
+  # }
 
   results
 }
 
-board_pin_get.local <- function(board, name, version = NULL, ...) {
-  path <- pin_registry_retrieve_path(name, board$name)
+#' @export
+board_pin_get.pins_board_local <- function(board, name, version = NULL, ...) {
+  rel_path <- pin_registry_retrieve(board, name)$path
+  path <- pin_registry_path(board, rel_path)
 
   if (!is.null(version)) {
-    manifest <- pin_manifest_get(pin_registry_absolute(path, board$name))
-
+    manifest <- pin_manifest_get(path)
     if (!version %in% manifest$versions) {
       version <- board_versions_expand(manifest$versions, version)
     }
 
-    path <- file.path(name, version)
+    path <- fs::path(path, version)
   }
 
-  pin_registry_absolute(path, component = board$name)
+  path
 }
 
-board_pin_remove.local <- function(board, name) {
-  pin_registry_remove(name, board$name)
+#' @export
+board_pin_remove.pins_board_local <- function(board, name, ...) {
+  pin_registry_remove(board, name)
 }
 
-board_pin_versions.local <- function(board, name, ...) {
+#' @export
+board_pin_versions.pins_board_local <- function(board, name, ...) {
   board_versions_get(board, name)
 }

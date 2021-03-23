@@ -1,3 +1,58 @@
+#' Use an Azure board
+#'
+#' @description
+#' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
+#' account, an Azure Storage container, and an Azure Storage key.
+#' You can sign-up and create those at [portal.azure.com](https://portal.azure.com).
+#' @inheritParams board_datatxt
+#' @param container The name of the Azure Storage container.
+#' @param account The name of the Azure Storage account.
+#' @param key The access key for the Azure Storage container. You can find
+#'  this under "Access keys" in your storage account settings.
+#'
+#'  The `key` is equivalent to a password, so generally should not be stored
+#'  in your script. The easiest alternative is to store it in the
+#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
+#'  use by default.
+#' @family boards
+#' @examples
+#' \dontrun{
+#' # the following example requires an Azure Storage key
+#' board_register_azure(
+#'   container = "pinscontainer",
+#'   account = "pinsstorage",
+#'   key = "abcabcabcabcabcabcabcabcabcab=="
+#' )
+#' }
+#' @export
+board_azure <- function(
+                        container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+                        account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+                        key = Sys.getenv("AZURE_STORAGE_KEY"),
+                        cache = NULL,
+                        name = "azure",
+                        ...) {
+  if (nchar(container) == 0) stop("The 'azure' board requires a 'container' parameter.")
+  if (nchar(account) == 0) stop("The 'azure' board requires an 'account' parameter.")
+  if (nchar(key) == 0) stop("The 'azure' board requires a 'key' parameter.")
+
+  azure_url <- paste0("https://", account, ".blob.core.windows.net/", container)
+
+  board_datatxt(
+    name = name,
+    url = azure_url,
+    cache = cache,
+    headers = azure_headers,
+    needs_index = FALSE,
+    container = container,
+    account = account,
+    key = key,
+    connect = FALSE,
+    browse_url = "https://portal.azure.com",
+    ...
+  )
+}
+
 azure_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %Z", tz = "GMT")
   azure_version <- "2015-04-05"
@@ -6,7 +61,7 @@ azure_headers <- function(board, verb, path, file) {
   container <- board$container
   account <- board$account
   if (grepl("^https?://", path)) {
-    path_nohttp <-  gsub("^https?://", "", path)
+    path_nohttp <- gsub("^https?://", "", path)
     sub_path <- gsub("^[^/]+/", "", path_nohttp)
     account <- gsub("\\..*", "", path_nohttp)
     path <- gsub("^[^/]+/", "", sub_path)
@@ -32,7 +87,8 @@ azure_headers <- function(board, verb, path, file) {
     paste("x-ms-date", date, sep = ":"),
     paste("x-ms-version", azure_version, sep = ":"),
     paste0("/", account, "/", container, "/", path),
-    sep = "\n")
+    sep = "\n"
+  )
 
   signature <- openssl::sha256(charToRaw(content), key = base64enc::base64decode(board$key)) %>%
     base64enc::base64encode()
@@ -46,37 +102,3 @@ azure_headers <- function(board, verb, path, file) {
 
   headers
 }
-
-board_initialize.azure <- function(board,
-                                  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
-                                  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
-                                  key = Sys.getenv("AZURE_STORAGE_KEY"),
-                                  cache = NULL,
-                                  ...) {
-  if (nchar(container) == 0)  stop("The 'azure' board requires a 'container' parameter.")
-  if (nchar(account) == 0)  stop("The 'azure' board requires an 'account' parameter.")
-  if (nchar(key) == 0)  stop("The 'azure' board requires a 'key' parameter.")
-
-
-  azure_url <- paste0(
-    "https://",
-    account,
-    ".blob.core.windows.net/",
-    container
-  )
-
-  board_register_datatxt(name = board$name,
-                         url = azure_url,
-                         cache = cache,
-                         headers = azure_headers,
-                         needs_index = FALSE,
-                         container = container,
-                         account = account,
-                         key = key,
-                         connect = FALSE,
-                         borwse_url = "https://portal.azure.com",
-                         ...)
-
-  board_get(board$name)
-}
-

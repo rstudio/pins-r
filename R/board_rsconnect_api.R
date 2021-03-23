@@ -2,9 +2,7 @@
 rsconnect_api_auth <- function(board) !is.null(board$key)
 
 rsconnect_url_from_path <- function(board, path) {
-  deps <- rsconnect_token_dependencies()
-
-  server_info <- deps$server_info(board$server_name)
+  server_info <- rsconnect::serverInfo(board$server_name)
   service <- rsconnect_token_parse_url(server_info$url)
 
   paste0(service$path_sans_api, path)
@@ -24,10 +22,6 @@ rsconnect_api_auth_headers <- function(board, path, verb, content = NULL) {
   httr::add_headers(.headers = unlist(headers))
 }
 
-rsconnect_api_version <- function(board) {
-  rsconnect_api_get(board, "/__api__/server_settings")$version
-}
-
 rsconnect_api_get <- function(board, path) {
   url <- paste0(board$server, path)
   result <- httr::GET(url, rsconnect_api_auth_headers(board, path, "GET"))
@@ -40,8 +34,10 @@ rsconnect_api_get <- function(board, path) {
 }
 
 rsconnect_api_delete <- function(board, path) {
-  result <- httr::DELETE(paste0(board$server, path),
-               rsconnect_api_auth_headers(board, path, "DELETE"))
+  result <- httr::DELETE(
+    paste0(board$server, path),
+    rsconnect_api_auth_headers(board, path, "DELETE")
+  )
 
   if (httr::http_error(result)) {
     stop("Failed to delete ", path, " ", as.character(httr::content(result, encoding = "UTF-8")))
@@ -58,20 +54,22 @@ rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
   }
   else {
     content <- as.character(jsonlite::toJSON(content,
-                                             dataframe = "columns",
-                                             null = "null",
-                                             na = "null",
-                                             auto_unbox = TRUE,
-                                             pretty = TRUE))
+      dataframe = "columns",
+      null = "null",
+      na = "null",
+      auto_unbox = TRUE,
+      pretty = TRUE
+    ))
     encode <- "raw"
   }
 
   if (rsconnect_api_auth(board)) {
     result <- httr::POST(url,
-                         encode = encode,
-                         body = content,
-                         rsconnect_api_auth_headers(board, url, "POST", content),
-                         progress)
+      encode = encode,
+      body = content,
+      rsconnect_api_auth_headers(board, url, "POST", content),
+      progress
+    )
     content <- httr::content(result, encoding = "UTF-8")
 
     if (httr::http_error(result)) {
@@ -92,8 +90,9 @@ rsconnect_api_download <- function(board, name, path, etag) {
   url <- paste0(board$server, path)
 
   pin_download(url,
-               name,
-               board$name,
-               headers = rsconnect_api_auth_headers(board, path, "GET"),
-               custom_etag = etag)
+    name,
+    board,
+    headers = rsconnect_api_auth_headers(board, path, "GET"),
+    custom_etag = etag
+  )
 }

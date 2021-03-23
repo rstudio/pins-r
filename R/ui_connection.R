@@ -7,8 +7,7 @@
 #' @keywords internal
 #' @export
 ui_connection_create <- function() {
-  shinyAppDir <- get("shinyAppDir", envir = asNamespace("shiny"))
-  shinyAppDir(system.file("rstudio/shinycon", package = "pins"))
+  shiny::shinyAppDir(system.file("rstudio/shinycon", package = "pins"))
 }
 
 # nocov end

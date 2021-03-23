@@ -3,12 +3,13 @@ board_metadata_to_text <- function(metadata, text) {
 
   trimmed <- trimws(text)
 
-  if (nchar(trimmed) == 0)
+  if (nchar(trimmed) == 0) {
     spacer <- ""
-  else if (substr(trimmed, nchar(trimmed), nchar(trimmed)) == ".")
+  } else if (substr(trimmed, nchar(trimmed), nchar(trimmed)) == ".") {
     spacer <- " "
-  else
+  } else {
     spacer <- ". "
+  }
 
   if (identical(metadata$type, "table")) {
     paste0(text, spacer, "A table pin with ", metadata$rows, " rows and ", metadata$cols, " columns.")

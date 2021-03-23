@@ -43,7 +43,3 @@ You can then preview each resource by selecting the preview button which trigger
 
 ![](images/rstudio-pins-connection-preview.png){width=480px}
 
-The next section, [Understanding Boards](boards-understanding.html), will properly present what exactly a board is and how to configure additional storage locations. However, it's worth mentioning here that the board registration process to Github, Kaggle and RStudio Connect boards can also be completed when creating a Pins Connection, just select the appropriate board from the drop down to configure each board.
-
-![](images/rstudio-pins-boards.png){width=680px}
-

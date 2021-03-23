@@ -1,291 +1,167 @@
-new_board <- function(board, name, cache, versions, ...) {
-
+#' Create a new board
+#'
+#' @param board The name of the board to register.
+#' @param name An optional name used identify the board. This is no longer
+#'   generally needed since you should be passing around an explicit
+#'   board object.
+#' @param cache Cache path. Every board requires a local cache to avoid
+#'   downloading files multiple times. The default stores in a standard
+#'   cache location for your operating system, but you can override if needed.
+#' @param versions Should this board be registered with support for versions?
+#' @param ... Additional parameters required to initialize a particular board.
+#' @keywords internal
+new_board <- function(board, name, cache, versions = FALSE, ...) {
   if (is.null(cache)) stop("Please specify the 'cache' parameter.")
 
-  board <- structure(list(
+  fs::dir_create(fs::path(cache, name))
+
+  board <- structure(
+    list(
       board = board,
       name = name,
       cache = cache,
-      versions = versions
+      versions = versions,
+      ...
     ),
-    class = board)
-
-  board <- board_initialize(board, cache = cache, versions = versions, ...)
+    class = c(board, "pins_board")
+  )
 
   board
 }
 
-#' Connect to Board
-#'
-#' Connects to a board to activate RStudio's connection pane, when available.
-#'
-#' @param board The name of the board to activate.
-#' @param code The code being used to registere this board.
-#' @param ... Additional parameters required to initialize a particular board.
-#'
-#' @keywords internal
 #' @export
-board_connect <- function(board, code, ...) {
-  board <- board_get(board)
+print.pins_board <- function(x, ...) {
+  cat(paste0(crayon::bold("Pin board"), " <", class(x)[[1]], ">\n"))
+  cat(paste0(board_desc(x), "\n", collapse = ""))
+  pins <- pin_find(board = x)$name
 
-  ui_viewer_register(board, code)
-
-  invisible(board)
-}
-
-#' Disconnect to Board
-#'
-#' Disconnects board from RStudio's connection pane, when available.
-#'
-#' @param name The name of the board to deactivate.
-#' @param ... Additional parameters required to disconnect from a particular board.
-#'
-#' @keywords internal
-#' @export
-board_disconnect <- function(name, ...) {
-  board <- board_get(name)
-
-  ui_viewer_closed(board)
-
-  invisible(board)
-}
-
-#' List Boards
-#'
-#' Retrieves all available boards.
-#'
-#' @export
-board_list <- function() {
-  defaults <- c("local", "packages", board_default())
-  unique(c(board_registry_list(), defaults))
-}
-
-board_infer <- function(x, name = NULL, board = NULL, register_call = NULL, connect = NULL, url = NULL) {
-  inferred <- list(
-    name = name,
-    board = if (is.null(board)) name else board,
-    connect = if (is.null(connect)) !identical(name, "packages") else connect,
-    url = url,
-    register_call = register_call
+  n <- length(pins)
+  if (n > 20) {
+    pins <- c(pins[1:19], "...")
+  }
+  contents <- paste0(
+    "With ", n, " pins: ",
+    paste0("'", pins, "'", collapse = ", ")
   )
 
-  # if boards starts with http:// or https:// assume this is a website board
-  if (grepl("^http://|^https://", x)) {
-    inferred$url <- x
-    inferred$board <- "datatxt"
+  cat(strwrap(contents, exdent = 2), sep = "\n")
 
-    # use only subdomain as friendly name which is also used as cache folder
-    if (is.null(name) || identical(x, name)) {
-      inferred$name <- gsub("https?://|\\..*", "", inferred$url)
-    }
-
-    inferred$register_call <- paste0("pins::board_register(board = \"datatxt\", name = \"",
-                                     inferred$name,
-                                     "\", url = \"",
-                                     inferred$url,
-                                     "\")")
-  }
-
-  if (is.null(inferred$name)) inferred$name <- x
-  if (is.null(inferred$board)) inferred$board <- x
-
-  inferred
+  invisible()
 }
 
+is.board <- function(x) inherits(x, "pins_board")
 
-#' Get Board
+#' Custom Boards
 #'
-#' Retrieves information about a particular board.
+#' Family of functions meant to be used to implement custom boards extensions,
+#' not to be used by users.
 #'
-#' @param name The name of the board to use
+#' @param board The board to extend, retrieved with `board_get()`.
+#' @param path The path to store as a pin.
+#' @param name The name of the pin.
+#' @param metadata A list of metadata associated with this pin.
+#' @param text The text patteren to find a pin.
+#' @param ... Additional parameteres.
+#'
+#' @rdname custom-boards
+#' @keywords internal
+#' @export
+board_pin_create <- function(board, path, name, metadata, ...) {
+  UseMethod("board_pin_create")
+}
+
+#' @export
+#' @rdname custom-boards
+board_initialize <- function(board, ...) {
+  stop("`board_initialize()` is no longer used", call. = FALSE)
+}
+
+#' @export
+#' @rdname custom-boards
+board_browse <- function(board, ...) {
+  UseMethod("board_browse")
+}
+
+#' @export
+#' @rdname custom-boards
+board_desc <- function(board, ...) {
+  UseMethod("board_desc")
+}
+#' @export
+board_desc.default <- function(board, ...) {
+  character()
+}
+
+#' @export
+#' @rdname custom-boards
+board_pin_get <- function(board, name, ...) {
+  UseMethod("board_pin_get")
+}
+
+#' @export
+#' @rdname custom-boards
+board_pin_remove <- function(board, name, ...) {
+  UseMethod("board_pin_remove")
+}
+
+#' @export
+#' @rdname custom-boards
+board_pin_find <- function(board, text, ...) {
+  UseMethod("board_pin_find")
+}
+
+#' @export
+#' @rdname custom-boards
+board_pin_versions <- function(board, name, ...) {
+  UseMethod("board_pin_versions")
+}
+#' @export
+board_pin_versions.default <- function(board, name, ...) {
+  data.frame(version = character(0), stringsAsFactors = FALSE)
+}
+
+#' Custom Boards Utilities
+#'
+#' A set of utilities used when implementing custom boards.
 #'
 #' @export
-board_get <- function(name) {
-  if (is.null(name)) name <- board_default()
-
-  register_call <- paste0("pins::board_register(board = \"", name, "\")")
-
-  if (!name %in% board_registry_list()) {
-    board_inferred <- board_infer(name)
-
-    if (!is.null(board_inferred$register_call)) {
-      register_call <- board_inferred$register_call
-    }
-
-    # attempt to automatically register board
-    name <- board_inferred$name
-    tryCatch(board_register(board_inferred$board,
-                            name = board_inferred$name,
-                            connect = board_inferred$connect,
-                            register_call = register_call,
-                            url = board_inferred$url),
-             error = function(e) NULL)
-
-    if (!name %in% board_registry_list()) {
-      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
-    }
-  }
-
-  board_registry_get(name)
+#' @rdname custom-boards-utils
+#' @keywords internal
+board_local_storage <- function(...) {
+  stop("board_local_storage() is deprecated", call. = FALSE)
 }
 
-#' Register Board
+#' Retrieve Default Cache Path
 #'
-#' Registers a board, useful to find resources with \code{pin_find()} or pin to
-#' additional boards with \code{pin()}.
+#' Retrieves the default path used to cache boards and pins. Makes
+#' use of the `rappdirs` package to use cache folders
+#' defined by each OS.
 #'
-#' @param board The name of the board to register.
-#' @param name An optional name to identify this board, defaults to the board name.
-#' @param cache The local folder to use as a cache, defaults to \code{board_cache_path()}.
-#' @param versions Should this board be registered with support for versions?
-#' @param ... Additional parameters required to initialize a particular board.
-#'
-#' @details
-#'
-#' A board requires a local cache to avoid downloading files multiple times. It is
-#' recommended to not specify the \code{cache} parameter since it defaults to a well
-#' known \code{rappdirs}. However, you are welcome to specify any other
-#' location for this cache or even a temp folder with \code{tempfile()}. Notice that,
-#' when using a temp folder, pins will be cleared when your R session restarts. The
-#' cache parameter can be also set with the \code{pins.path} option.
-#'
-#' If \code{versions} is set to \code{NULL} (the default), it will fall back on the
-#' board-type-specific default. For instance, local boards do not use versions by default,
-#' but GitHub boards do.
-#'
+#' @param name Board name
+#' @keywords internal
 #' @examples
-#' # create a new local board
-#' board_register("local", "other_board", cache = tempfile())
-#'
-#' # create a Website board
-#' board_register("datatxt",
-#'                name = "txtexample",
-#'                url = "https://datatxt.org/data.txt",
-#'                cache = tempfile())
-#'
-#' @seealso \code{\link{board_register_local}}, \code{\link{board_register_github}},
-#'   \code{\link{board_register_kaggle}}, \code{\link{board_register_rsconnect}} and
-#'   \code{\link{board_register_datatxt}}.
-#'
+#' # retrieve default cache path
+#' board_cache_path("local")
 #' @export
-board_register <- function(board,
-                           name = board,
-                           cache = board_cache_path(),
-                           versions = NULL,
-                           ...) {
-  params <- list(...)
+board_cache_path <- function(name) {
+  # R_CONFIG_ACTIVE suggests we're in a production environment
+  if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
+    path <- tempfile()
+  } else {
+    path <- rappdirs::user_cache_dir("pins")
+  }
+  fs::path(path, name)
+}
 
-  inferred <- board_infer(board,
-                          board = board,
-                          name = name,
-                          register_call = params$register_call,
-                          connect = params$connect,
-                          url = params$url)
-  params$url <- NULL
+# helpers -----------------------------------------------------------------
 
-  new_params <- c(
-    list(inferred$board, inferred$name, cache = cache, versions = versions),
-    params,
-    url = inferred$url
+board_empty_results <- function() {
+  data.frame(
+    name = character(),
+    description = character(),
+    rows = character(),
+    cols = character(),
+    class = character()
   )
-
-  board <- do.call("new_board", new_params)
-
-  board_registry_set(inferred$name, board)
-
-  if (is.null(inferred$register_call)) inferred$register_call <- board_register_code(board$name, inferred$name)
-
-  if (!identical(inferred$connect, FALSE)) board_connect(board$name, inferred$register_call)
-
-  invisible(inferred$name)
 }
 
-# need to find the correct wrapper to support board_register_()
-board_register_code <- function(board, name) {
-  parent_idx <- 1
-  parent_call <- NULL
-  function_name <- NULL
-
-  while (parent_idx < length(sys.parents())) {
-    parent_func <- sys.function(sys.parent(parent_idx))
-    parent_call <- sys.call(sys.parent(parent_idx))
-    if (!is.function(parent_func) || !is.call(parent_call)) break;
-
-    this_parent_call <- tryCatch(match.call(definition = parent_func, call = parent_call), error = function(e) NULL)
-
-    if (is.null(this_parent_call)) break;
-    if (length(this_parent_call) < 1) break;
-
-    this_function_name <- deparse(this_parent_call[[1]])
-
-    if (!grepl("(^|::)board_register", this_function_name)) break;
-
-    parent_call <- this_parent_call
-    function_name <- this_function_name
-    parent_idx <- parent_idx + 1
-  }
-
-  header <- if (grepl("^pins::", function_name)) "" else "library(pins)\n"
-  if (is.null(parent_call)) {
-    paste0(header, "board_register(\"", board, "\", name = \"", name, "\")")
-  }
-  else {
-    main_call <- paste(deparse(parent_call, width.cutoff = 500), collapse = " ")
-    paste0(header, main_call)
-  }
-}
-
-#' Deregister Board
-#'
-#' Deregisters a board, useful to disable boards no longer in use.
-#'
-#' @param name An optional name to identify this board, defaults to the board name.
-#' @param ... Additional parameters required to deregister a particular board.
-#'
-#' @examples
-#'
-#' # create a new local board
-#' board_register("local", "other_board", cache = tempfile())
-#'
-#' # pin iris to new board
-#' pin(iris, board = "other_board")
-#'
-#' # deregister new board
-#' board_deregister("other_board")
-#'
-#' @export
-board_deregister <- function(name, ...) {
-  if (!name %in% board_registry_list()) stop("Board '", name, "' is not registered.")
-
-  board <- board_get(name)
-
-  if (!identical(list(...)$disconnect, FALSE)) board_disconnect(name)
-  board_registry_set(name, NULL)
-
-  invisible(NULL)
-}
-
-#' Default Board
-#'
-#' Retrieves the default board, which defaults to \code{"local"} but can also be
-#' configured with the \code{pins.board} option.
-#'
-#' @examples
-#'
-#' library(pins)
-#'
-#' # create temp board
-#' board_register_local("temp", cache = tempfile())
-#'
-#' # configure default board
-#' options(pins.board = "temp")
-#'
-#' # retrieve default board
-#' board_default()
-#'
-#' # revert default board
-#' options(pins.board = NULL)
-#' @export
-board_default <- function() {
-  getOption("pins.board", "local")
-}

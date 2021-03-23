@@ -1,22 +1,13 @@
 # nocov start
 
-rsconnect_token_dependencies <- function() {
-  list(
-    accounts = get_function("accounts", "rsconnect"),
-    account_info = get_function("accountInfo", "rsconnect"),
-    server_info = get_function("serverInfo", "rsconnect"),
-    signature_headers = get_function("signatureHeaders", "rsconnect"),
-    http_function = get_function("httpFunction", "rsconnect")
-  )
-}
-
 rsconnect_token_parse_url <- function(urlText) {
   # see rsconnect::parseHttpUrl
 
   matches <- regexec("(http|https)://([^:/#?]+)(?::(\\d+))?(.*)", urlText)
   components <- regmatches(urlText, matches)[[1]]
-  if (length(components) == 0)
+  if (length(components) == 0) {
     stop("Invalid url: ", urlText)
+  }
 
   url <- list()
   url$protocol <- components[[2]]
@@ -28,11 +19,11 @@ rsconnect_token_parse_url <- function(urlText) {
 }
 
 rsconnect_token_initialize <- function(board) {
-  deps <- rsconnect_token_dependencies()
+  if (!requireNamespace("rsconnect", quietly = TRUE)) {
+    stop("Please install rsconnect", call. = FALSE)
+  }
 
-  if (is.null(deps$accounts)) stop("RStudio Connect is not registered, please install the 'rsconnect' package or specify an API key.")
-
-  accounts <- deps$accounts()
+  accounts <- rsconnect::accounts()
   if (is.null(accounts)) stop("RStudio Connect is not registered, please add a publishing account or specify an API key.")
 
   if (is.null(board$server)) {
@@ -44,10 +35,10 @@ rsconnect_token_initialize <- function(board) {
     stop("The server ", board$server_name, " is not registered, available servers: ", paste0(registered, collapse = ", "))
   }
 
-  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name,]$name
+  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name, ]$name
 
   if (length(board$account) != 1) {
-    stop("Multiple accounts (", paste(board$account, collapse = ", "), ") are associated to this server, please specify the correct account parameter in board_register().")
+    stop("Multiple accounts (", paste(board$account, collapse = ", "), ") are associated to this server, please specify the correct account parameter in board_rsconnect().")
   }
 
   if (!any(accounts$name == board$account)) {
@@ -55,34 +46,31 @@ rsconnect_token_initialize <- function(board) {
   }
 
   # always use the url from rstudio to ensure redirects work properly even when the full path is not specified
-  board$server <- gsub("/__api__", "", deps$server_info(board$server_name)$url)
+  board$server <- gsub("/__api__", "", rsconnect::serverInfo(board$server_name)$url)
 
   board
 }
 
 rsconnect_token_headers <- function(board, url, verb, content) {
-  deps <- rsconnect_token_dependencies()
-
-  account_info <- deps$account_info(board$account, board$server_name)
+  account_info <- rsconnect::accountInfo(board$account, board$server_name)
 
   content_file <- NULL
   if (identical(class(content), "form_file")) {
     content_file <- content$path
   }
-  else if (!identical(content, NULL)){
+  else if (!identical(content, NULL)) {
     if (!is.character(content)) stop("Unsupported object of class", class(content)[[1]])
     content_file <- tempfile()
     on.exit(unlink(content_file))
-    writeChar(content, content_file,  eos = NULL, useBytes = TRUE)
+    writeChar(content, content_file, eos = NULL, useBytes = TRUE)
   }
 
-  deps$signature_headers(account_info, verb, url, content_file)
+  signatureHeaders <- utils::getFromNamespace("signatureHeaders", "rsconnect")
+  signatureHeaders(account_info, verb, url, content_file)
 }
 
 rsconnect_token_post <- function(board, path, content, encode) {
-  deps <- rsconnect_token_dependencies()
-
-  server_info <- deps$server_info(board$server_name)
+  server_info <- rsconnect::serverInfo(board$server_name)
   parsed <- rsconnect_token_parse_url(server_info$url)
 
   if (identical(class(content), "form_file")) {
@@ -96,20 +84,26 @@ rsconnect_token_post <- function(board, path, content, encode) {
     content_type <- "application/json"
   }
 
-  result <- deps$http_function()(parsed$protocol,
-                                 parsed$host,
-                                 parsed$port,
-                                 "POST",
-                                 paste0(parsed$path_sans_api, path),
-                                 rsconnect_token_headers(board, rsconnect_url_from_path(board, path), "POST", content),
-                                 content_type,
-                                 content_file)
+  http <- utils::getFromNamespace("httpFunction", "rsconnect")()
+  result <- http(
+    parsed$protocol,
+    parsed$host,
+    parsed$port,
+    "POST",
+    paste0(parsed$path_sans_api, path),
+    rsconnect_token_headers(board, rsconnect_url_from_path(board, path), "POST", content),
+    content_type,
+    content_file
+  )
 
-  tryCatch({
-    jsonlite::fromJSON(result$content)
-  }, error = function(e) {
-    stop("Failed to parse result: ", result$content)
-  })
+  tryCatch(
+    {
+      jsonlite::fromJSON(result$content)
+    },
+    error = function(e) {
+      stop("Failed to parse result: ", result$content)
+    }
+  )
 }
 
 # nocov end
