@@ -1,4 +1,4 @@
-pin_download <- function(path, ...) {
+pin_download_files <- function(path, ...) {
   for (p in path) {
     if (length(path) > 1) pin_log("Downloading ", p, " from ", length(path), " downloads.")
     local_path <- pin_download_one(p, ...)

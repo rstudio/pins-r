@@ -89,7 +89,7 @@ rsconnect_api_post <- function(board, path, content, encode, progress = NULL) {
 rsconnect_api_download <- function(board, name, path, etag) {
   url <- paste0(board$server, path)
 
-  pin_download(url,
+  pin_download_files(url,
     name,
     board,
     headers = rsconnect_api_auth_headers(board, path, "GET"),
