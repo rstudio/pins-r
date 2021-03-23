@@ -282,7 +282,8 @@ rsc_GET <- function(board, path, query = NULL, ...) {
     auth,
     ...
   )
-  rsc_http_content(req)
+  rsc_check_status(req)
+  httr::content(req)
 }
 
 rsc_download <- function(board, url, dest, ...) {
@@ -295,10 +296,9 @@ rsc_download <- function(board, url, dest, ...) {
     httr::write_disk(dest),
     ...
   )
-  rsc_http_content(req)
+  rsc_check_status(req)
   invisible()
 }
-
 
 rsc_DELETE <- function(board, path, query = NULL, ...) {
   path <- paste0("/__api__/", path)
@@ -310,7 +310,8 @@ rsc_DELETE <- function(board, path, query = NULL, ...) {
     auth,
     ...
   )
-  rsc_http_content(req)
+  rsc_check_status(req)
+  invisible()
 }
 
 rsc_POST <- function(board, path, query = NULL, body, ...) {
@@ -338,7 +339,8 @@ rsc_POST <- function(board, path, query = NULL, body, ...) {
     auth,
     ...
   )
-  rsc_http_content(req)
+  rsc_check_status(req)
+  httr::content(req)
 }
 
 rsc_auth <- function(board, path, verb, body_path) {
@@ -354,9 +356,9 @@ rsc_auth <- function(board, path, verb, body_path) {
   }
 }
 
-rsc_http_content <- function(req) {
+rsc_check_status <- function(req) {
   if (httr::status_code(req) < 400) {
-    httr::content(req)
+
   } else {
     type <- httr::parse_media(httr::headers(req)$`content-type`)
     if (type$complete == "application/json") {
