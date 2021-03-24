@@ -74,6 +74,7 @@ jobs:
       - name: run tests
         shell: Rscript {0}
         run: |
+          readRenviron(".Renviron")
           pins::board_register_rsconnect()
           pins::pin(mtcars, board = "rsconnect")
 
