@@ -74,10 +74,14 @@ jobs:
       - name: run tests
         shell: Rscript {0}
         run: |
-          readRenviron(".Renviron")
-          readLines(".Renviron")
-          Sys.getenv()
-          pins::board_register_rsconnect()
+          #readRenviron(".Renviron")
+
+          # this should read the env vars by default... but it is not
+          # I think that is a bug
+          # pins::board_register_rsconnect()
+
+          # reading the env vars manually
+          pins::board_register_rsconnect(server = Sys.getenv("CONNECT_SERVER"), key = Sys.getenv("CONNECT_API_KEY"))
           pins::pin(mtcars, board = "rsconnect")
 
       - name: clean up RStudio Connect
