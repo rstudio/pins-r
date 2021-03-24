@@ -16,6 +16,7 @@ jobs:
     env:
       RSC_VERSION: 1.8.6.2
       RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
@@ -74,15 +75,14 @@ jobs:
       - name: run tests
         shell: Rscript {0}
         run: |
-          #readRenviron(".Renviron")
-
           # this should read the env vars by default... but it is not
           # I think that is a bug
           # pins::board_register_rsconnect()
 
           # reading the env vars manually
           pins::board_register_rsconnect(server = Sys.getenv("CONNECT_SERVER"), key = Sys.getenv("CONNECT_API_KEY"))
-          pins::pin(mtcars, board = "rsconnect")
+          pins::pin(mtcars, "mtcars", board = "rsconnect")
+          pins::pin_get("mtcars", board = "rsconnect")
 
       - name: clean up RStudio Connect
         run: |
