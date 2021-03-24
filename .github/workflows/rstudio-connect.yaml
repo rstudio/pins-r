@@ -75,6 +75,8 @@ jobs:
         shell: Rscript {0}
         run: |
           readRenviron(".Renviron")
+          readLines(".Renviron")
+          Sys.getenv()
           pins::board_register_rsconnect()
           pins::pin(mtcars, board = "rsconnect")
 
