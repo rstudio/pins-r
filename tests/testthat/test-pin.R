@@ -12,16 +12,16 @@ test_that("can pin() a data frame", {
     logical = TRUE,
     stringsAsFactors = FALSE
   )
-  pin_write(board, df, "df")
-  expect_equal(pin_read(board, "df"), df)
+  pin(df, "df", board = board)
+  expect_equal(pin_get("df", board = board), df)
 })
 
 test_that("can pin() a data.table", {
   board <- board_temp()
 
   dt <- data.table::data.table(x = 1:2, y = list("a", "b"))
-  pin_write(board, dt, "dt")
-  expect_equal(pin_read(board, "dt"), dt)
+  pin(dt, "dt", board = board)
+  expect_equal(pin_get("dt", board = board), dt)
 
   # Check that pin_safe_csv() hasn't mutated original data.table
   expect_named(dt, c("x", "y"))
@@ -31,24 +31,24 @@ test_that("can pin an arbitrary object", {
   board <- board_temp()
 
   x <- list(1, letters, c(TRUE, FALSE, NA))
-  pin_write(board, x, "x")
-  expect_equal(pin_read(board, "x"), x)
+  pin(x, "x", board = board)
+  expect_equal(pin_get("x", board = board), x)
 })
 
 test_that("AsIs class stripped when using I", {
   board <- board_temp()
 
   df <- data.frame(x = 1)
-  pin_write(board, I(df), "df")
-  expect_equal(pin_read(board, "df"), df)
+  pin(I(df), "df", board = board)
+  expect_equal(pin_get("df", board = board), df)
 })
 
 test_that("can pin a file", {
   board <- board_temp()
 
-  pin_write(board, test_path("files/hello.txt"), "hello")
+  pin(test_path("files/hello.txt"), "hello", board = board)
   expect_equal(
-    pin_read(board, "hello"),
+    pin_get("hello", board = board),
     as.character(pin_registry_path(board, "hello", "hello.txt"))
   )
 })
@@ -67,7 +67,7 @@ test_that("unavailable url can use cache", {
 
   expect_snapshot(error = TRUE, {
     pin("http://httpstat.us/404", "test", board = board)
-    pin_write(board, 1:10, "test")
+    pin(1:10, "test", board = board)
     x <- pin("http://httpstat.us/404", "test", board = board)
     expect_equal(x, 1:10)
   })
@@ -88,7 +88,7 @@ test_that("can pin() with custom metadata", {
       list(name = "Petal.Width", description = "Petal Width")
     )
   )
-  pin_write(board, iris, "iris", metadata = meta)
+  pin(iris, "iris", metadata = meta, board = board)
   meta2 <- pin_info("iris", board = board)
   expect_equal(meta2[c("source", "extra_info")], meta)
 

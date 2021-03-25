@@ -2,7 +2,7 @@
 
     Code
       b <- board_temp()
-      pin_write(b, mtcars[1:2], "mtcars2")
+      pin(mtcars[1:2], "mtcars2", board = b)
       pin_info("mtcars2", b)
     Output
       # Source: temp<mtcars2> [table]
@@ -16,10 +16,10 @@
 ---
 
     Code
-      pin(mtcars[1:2], "mtcars2", board = "test")
-      pin_info("mtcars2")
+      pin(mtcars[1:2], "mtcars3", board = "test")
+      pin_info("mtcars3", board = "test")
     Output
-      # Source: test<mtcars2> [table]
+      # Source: test<mtcars3> [table]
       # Properties:
       #   rows: 32
       #   cols: 2
