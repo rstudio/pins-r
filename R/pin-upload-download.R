@@ -25,7 +25,7 @@ pin_download <- function(board, name, ...) {
 pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(), ...) {
   check_board(board)
   if (!is_string(path)) {
-    abort("`path` must be string")
+    abort("`path` must be a string")
   } else if (!fs::file_exists(path)) {
     abort("`path` must exist")
   }

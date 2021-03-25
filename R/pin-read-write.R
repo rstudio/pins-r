@@ -3,9 +3,18 @@
 #' Use `pin_write()` to pin an object to board, and `pin_read()` to retrieve
 #' it.
 #'
+#' `pin_write()` takes care of the details of serialising an R object to
+#' disk, controlled by the `type` argument. See [pin_download()]/[pin_upload()]
+#' if you want to perform the serialisation yourself and work just with files.
+#'
 #' @param board A pin board, created by [board_folder()], [board_rsconnect()],
 #'   [board_github()] or other other `board_` function.
 #' @param name Pin name.
+#' @param version For boards that support versions, this allows you to retrieve
+#'   a specific version of a pin.
+#' @param hash Specify a hash to verify that you get exactly the dataset that
+#'   you expect. You can find the hash of an existing pin by inspecting the
+#'   pin metadata.
 #' @export
 #' @examples
 #' b <- board_temp()
@@ -35,7 +44,10 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
 #' @param x An object (typically a data frame) to pin.
 #' @param desc A text description of the pin; most important for
 #'   shared boards so that others can understand what the pin contains.
-#' @param metadata A list containing additional metadata to store with the pins.
+#' @param metadata A list containing additional metadata to store with the pin.
+#' @param type File type used to save `x` to disk. Must be one of
+#'   "csv", "rds", "json", or "arrow". If not supplied will use json for bare
+#'   lists and rds for everything else.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,

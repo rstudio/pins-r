@@ -20,7 +20,7 @@ pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
 \item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
 
-\item{metadata}{A list containing additional metadata to store with the pins.}
+\item{metadata}{A list containing additional metadata to store with the pin.}
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that
