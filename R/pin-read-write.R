@@ -67,6 +67,10 @@ pin_write <- function(board, x,
 }
 
 upload_inform <- function(type, name, version = NULL) {
+  if (isTRUE(getOption("pins.quiet"))) {
+    return(invisible())
+  }
+
   type <- arg_match0(type, c("unchanged", "create", "replace", "versioned"))
 
   switch(type,
@@ -79,8 +83,8 @@ upload_inform <- function(type, name, version = NULL) {
 
 guess_type <- function(x) {
   if (is.data.frame(x)) {
-    check_installed("arrow")
-    "arrow"
+    "rds"
+    # Might consider switch to arrow in the future
   } else if (is_bare_list(x)) {
     "json"
   } else {
@@ -127,7 +131,7 @@ object_load <- function(path, type) {
 
   switch(type,
     rds = readRDS(path),
-    json = jsonlite::read_json(path),
+    json = jsonlite::read_json(path, simplifyVector = TRUE),
     arrow = arrow::read_feather(path),
     pickle = abort("'pickle' pins not supported in R"),
     csv = read.csv(path, stringsAsFactors = TRUE)

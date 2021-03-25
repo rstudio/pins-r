@@ -1,3 +1,20 @@
+# useful errors on bad inputs
+
+    Code
+      pin_write(mtcars)
+    Error <rlang_error>
+      `board` must be a pin board
+    Code
+      pin_write(board, mtcars, name = 1:10)
+    Message <message>
+      Guessing `type = 'rds'`
+    Error <rlang_error>
+      `name` must be a string
+    Code
+      pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
+    Error <rlang_error>
+      `type` must be one of "rds", "json", "arrow", "pickle", or "csv".
+
 # pin_write() noisily generates name and type
 
     Code
