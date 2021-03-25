@@ -6,8 +6,6 @@
       `board` must be a pin board
     Code
       pin_write(board, mtcars, name = 1:10)
-    Message <message>
-      Guessing `type = 'rds'`
     Error <rlang_error>
       `name` must be a string
     Code
@@ -21,8 +19,8 @@
       b <- board_temp()
       pin_write(b, mtcars)
     Message <message>
-      Guessing `type = 'rds'`
       Guessing `name = 'mtcars'`
+      Guessing `type = 'rds'`
       Created new pin
 
 # can request specific hash

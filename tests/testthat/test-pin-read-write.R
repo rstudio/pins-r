@@ -20,6 +20,8 @@ test_that("can round trip all types", {
 })
 
 test_that("useful errors on bad inputs", {
+  board <- board_temp()
+
   expect_snapshot(error = TRUE, {
     pin_write(mtcars)
     pin_write(board, mtcars, name = 1:10)

@@ -58,15 +58,16 @@ pin_write <- function(board, x,
                       versioned = NULL) {
 
   check_board(board)
-  if (is.null(type)) {
-    type <- guess_type(type)
-    inform(paste0("Guessing `type = '", type, "'`"))
-  }
   if (is.null(name)) {
     name <- pin_default_name(expr_deparse(enexpr(x)), board)
     inform(paste0("Guessing `name = '", name, "'`"))
   } else {
     check_name(name)
+  }
+
+  if (is.null(type)) {
+    type <- guess_type(x)
+    inform(paste0("Guessing `type = '", type, "'`"))
   }
 
   path <- object_save(x, tempfile(), type = type)
