@@ -18,39 +18,6 @@ rsconnect_token_parse_url <- function(urlText) {
   url
 }
 
-rsconnect_token_initialize <- function(board) {
-  if (!requireNamespace("rsconnect", quietly = TRUE)) {
-    stop("Please install rsconnect", call. = FALSE)
-  }
-
-  accounts <- rsconnect::accounts()
-  if (is.null(accounts)) stop("RStudio Connect is not registered, please add a publishing account or specify an API key.")
-
-  if (is.null(board$server)) {
-    board$server_name <- accounts$server[1]
-  }
-
-  if (!any(accounts$server == board$server_name)) {
-    registered <- accounts$server[!grepl("^shinyapps.io", accounts$server)]
-    stop("The server ", board$server_name, " is not registered, available servers: ", paste0(registered, collapse = ", "))
-  }
-
-  if (is.null(board$account)) board$account <- accounts[accounts$server == board$server_name, ]$name
-
-  if (length(board$account) != 1) {
-    stop("Multiple accounts (", paste(board$account, collapse = ", "), ") are associated to this server, please specify the correct account parameter in board_rsconnect().")
-  }
-
-  if (!any(accounts$name == board$account)) {
-    stop("The account ", board$account, " is not registered, available accounts: ", paste0(accounts$name, collapse = ", "))
-  }
-
-  # always use the url from rstudio to ensure redirects work properly even when the full path is not specified
-  board$server <- gsub("/__api__", "", rsconnect::serverInfo(board$server_name)$url)
-
-  board
-}
-
 rsconnect_token_headers <- function(board, url, verb, content) {
   account_info <- rsconnect::accountInfo(board$account, board$server_name)
 

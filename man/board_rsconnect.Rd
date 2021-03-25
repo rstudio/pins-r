@@ -5,6 +5,7 @@
 \title{Use an RStudio Connect board}
 \usage{
 board_rsconnect(
+  auth = c("auto", "envvar", "rsconnect"),
   server = NULL,
   account = NULL,
   key = NULL,
@@ -16,14 +17,19 @@ board_rsconnect(
 )
 }
 \arguments{
-\item{server}{Optional address to RStudio Connect server.}
+\item{auth}{There are two approaches to auth: you can either use \code{"envvars"}
+\code{CONNECT_API_KEY} and \code{CONNECT_SERVER} or the rsconnect package. The
+default is \code{auto}, which will use the environment variables if both are
+available, and rsconnect if not.}
 
-\item{account}{Optional account name to use with RStudio Connect.}
+\item{server}{For \code{auth = "envvar"} the full url to the server.
+For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts.}
+
+\item{account}{A user name used to disambiguate multiple RSC accounts}
 
 \item{key}{The RStudio Connect API key.}
 
-\item{output_files}{Should the output in an automated report create output
-files}
+\item{output_files}{`r lifecycle::badge("deprecated") No longer supported.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -44,17 +50,11 @@ way to do so is by launching \strong{Tools} - \strong{Global Options} - \strong{
 \item \strong{Connect}, and follow the instructions.
 }
 
-If you use multiple RStudio connect servers or multiple user accounts,
-you'll need to specify the \code{server} or \code{account} parameters when connecting
-to the board.
-}
-\section{Sharing}{
 You can share pins with others in RStudio Connect by changing the viewers
 of the document to specific users or groups. This is accomplished by opening
 the new published pin and then changing access under the settings tab.
 After you've shared the pin, it will be automatically available to others.
 }
-
 \section{Public}{
 You can also choose to share a pin publicly and avoid having to register
 the RStudio Connect board to retrieve this pin.
@@ -72,41 +72,15 @@ To avoid having to change the "Access" manually, you can also set the
 }\if{html}{\out{</div>}}
 }
 
-\section{Automation}{
-One significant advantage of RStudio Connect over other boards is its
-ability to schedule R Markdown reports to automate the creation of pins.
-
-To support automation you need to use an \href{https://docs.rstudio.com/connect/user/api-keys/}{RStudio Connect API Key} as your authentication method. Once you've got an
-API key, you can connect to the board with:\if{html}{\out{<div class="r">}}\preformatted{board <- board_rsconnect(
-  server = "https://rstudio-connect-server",
-  key = Sys.getenv("CONNECT_API_KEY"),
-)
-}\if{html}{\out{</div>}}
-
-Note the use of an environment variable to ensure that the API key is
-not stored in plain text in the document.
-}
-
 \examples{
 \dontrun{
-# the following examples require an RStudio Connect API key
-
-# register from rstudio
 board <- board_rsconnect()
+# Share the mtcars with your team
+board \%>\% pin_write(mtcars, "mtcars")
 
-# register from rstudio with multiple servers
-board <- board_rsconnect(server = "https://rstudio-connect-server")
-
-# register from rstudio with multiple account
-board <- board_rsconnect(account = "account-name")
-
-# register automated report for rstudio connect
-board <- board_rsconnect(
-  key = Sys.getenv("CONNECT_API_KEY"),
-  server = Sys.getenv("CONNECT_SERVER")
-)
+# Download a shared dataset
+board \%>\% pin_read(mtcars)
 }
-
 }
 \seealso{
 Other boards: 

@@ -27,21 +27,12 @@ test_that("Mismatched protocols generate correct URL", {
 
 # Live API ---------------------------------------------------------------------
 
-if (!has_envvars(c("RSCONNECT_SERVER", "RSCONNECT_API_KEY"))) {
-  skip("requires env vars RSCONNECT_SERVER, RSCONNECT_API_KEY")
-}
+# if (!has_envvars(c("RSCONNECT_SERVER", "RSCONNECT_API_KEY"))) {
+#   skip("requires env vars RSCONNECT_SERVER, RSCONNECT_API_KEY")
+# }
 
-board <- board_rsconnect(
-  server = Sys.getenv("RSCONNECT_SERVER"),
-  key = Sys.getenv("RSCONNECT_API_KEY"),
-  cache = tempfile()
-)
+board <- board_rsconnect(cache = tempfile())
 board_test(board, suite = "default")
 
-board <- board_rsconnect(
-  server = Sys.getenv("RSCONNECT_SERVER"),
-  key = Sys.getenv("RSCONNECT_API_KEY"),
-  versions = TRUE,
-  cache = tempfile()
-)
+board <- board_rsconnect(versions = TRUE, cache = tempfile())
 board_test(board, suite = "versions")

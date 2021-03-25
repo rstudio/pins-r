@@ -373,6 +373,10 @@ rsc_check_status <- function(req) {
   }
 }
 
+rsc_version <- function(board) {
+  package_version(rsc_GET(board, "server_settings")$version)
+}
+
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
 }

@@ -5,12 +5,6 @@
 #' way to do so is by launching **Tools** - **Global Options** - **Publishing**
 #' - **Connect**, and follow the instructions.
 #'
-#' If you use multiple RStudio connect servers or multiple user accounts,
-#' you'll need to specify the `server` or `account` parameters when connecting
-#' to the board.
-#'
-#' # Sharing
-#'
 #' You can share pins with others in RStudio Connect by changing the viewers
 #' of the document to specific users or groups. This is accomplished by opening
 #' the new published pin and then changing access under the settings tab.
@@ -39,53 +33,29 @@
 #'  )
 #' ```
 #'
-#' # Automation
-#'
-#' One significant advantage of RStudio Connect over other boards is its
-#' ability to schedule R Markdown reports to automate the creation of pins.
-#'
-#' To support automation you need to use an [RStudio Connect API Key](https://docs.rstudio.com/connect/user/api-keys/) as your authentication method. Once you've got an
-#' API key, you can connect to the board with:
-#'
-#' ```r
-#' board <- board_rsconnect(
-#'   server = "https://rstudio-connect-server",
-#'   key = Sys.getenv("CONNECT_API_KEY"),
-#' )
-#' ```
-#'
-#' Note the use of an environment variable to ensure that the API key is
-#' not stored in plain text in the document.
-
 #' @inheritParams new_board
-#' @param server Optional address to RStudio Connect server.
-#' @param account Optional account name to use with RStudio Connect.
+#' @param auth There are two approaches to auth: you can either use `"envvars"`
+#'   `CONNECT_API_KEY` and `CONNECT_SERVER` or the rsconnect package. The
+#'   default is `auto`, which will use the environment variables if both are
+#'   available, and rsconnect if not.
+#' @param server For `auth = "envvar"` the full url to the server.
+#'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts.
+#' @param account A user name used to disambiguate multiple RSC accounts
 #' @param key The RStudio Connect API key.
-#' @param output_files Should the output in an automated report create output
-#'   files
+#' @param output_files `r lifecycle::badge("deprecated") No longer supported.
 #' @family boards
+#' @export
 #' @examples
 #' \dontrun{
-#' # the following examples require an RStudio Connect API key
-#'
-#' # register from rstudio
 #' board <- board_rsconnect()
+#' # Share the mtcars with your team
+#' board %>% pin_write(mtcars, "mtcars")
 #'
-#' # register from rstudio with multiple servers
-#' board <- board_rsconnect(server = "https://rstudio-connect-server")
-#'
-#' # register from rstudio with multiple account
-#' board <- board_rsconnect(account = "account-name")
-#'
-#' # register automated report for rstudio connect
-#' board <- board_rsconnect(
-#'   key = Sys.getenv("CONNECT_API_KEY"),
-#'   server = Sys.getenv("CONNECT_SERVER")
-#' )
+#' # Download a shared dataset
+#' board %>% pin_read(mtcars)
 #' }
-#'
-#' @export
 board_rsconnect <- function(
+                            auth = c("auto", "envvar", "rsconnect"),
                             server = NULL,
                             account = NULL,
                             key = NULL,
@@ -95,17 +65,17 @@ board_rsconnect <- function(
                             versions = TRUE,
                             ...) {
 
-  # key <- key %||% Sys.getenv("CONNECT_API_KEY", Sys.getenv("RSCONNECT_API"))
-  if (identical(key, "")) {
-    stop("Invalid API key, the API key is empty.")
-  }
-
-  # server <- server %||% Sys.getenv("CONNECT_SERVER", Sys.getenv("RSCONNECT_SERVER"))
-  if (!is.null(key) && is.null(server)) {
-    stop("Please specify the 'server' parameter when using API keys.")
-  }
-  if (!is.null(server)) {
-    server <- gsub("/$", "", server)
+  auth <- check_auth(auth)
+  if (auth == "envvar") {
+    server <- server %||% Sys.getenv("CONNECT_SERVER")
+    account <- NULL # see below
+    server_name <- httr::parse_url(server)$hostname
+    key <- key %||% Sys.getenv("CONNECT_API_KEY")
+  } else {
+    info <- rsc_account_find(server, account)
+    account <- info$name
+    server <- info$server
+    server_name <- info$server_name
   }
 
   board <- new_board("pins_board_rsconnect",
@@ -113,34 +83,69 @@ board_rsconnect <- function(
     cache = cache,
     server = server,
     account = account,
+    server_name = server_name,
+    url = url,
     key = key,
-    output_files = output_files,
-    pins_supported = TRUE,
     versions = versions,
     ...
   )
 
-  if (!rsconnect_api_auth(board) && !identical(board$output_files, TRUE)) {
-    board <- rsconnect_token_initialize(board)
-  }
-  if (!rsconnect_pins_supported(board)) {
-    stop("pins not supported by this rsconnect", call. = FALSE)
+  if (rsc_version(board) < "1.7.7") {
+    abort("Pins requires RSC 1.7.7 or later")
   }
 
-  if (is.null(board$account)) {
-    board$account <- rsconnect_api_get(board, "/__api__/users/current/")$username
-  }
+  # Fill in account name if auth == "envvar"
+  board$account <- board$account %||% rsc_GET(board, "users/current/")$username
 
   board
 }
 
-rsconnect_pins_supported <- function(board) {
-  tryCatch(
-    {
-      version <- rsconnect_api_get(board, "/__api__/server_settings")$version
-      package_version(version) > "1.7.7"
-    },
-    error = function(e) FALSE
+check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
+  auth <- arg_match(auth)
+  if (auth == "auto") {
+    if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
+      "envvar"
+    } else {
+      "rsconnect"
+    }
+  } else {
+    auth
+  }
+}
+
+rsc_account_find <- function(server = NULL, name = NULL) {
+  check_installed("rsconnect")
+
+  accounts <- rsconnect::accounts()
+  if (is.null(accounts)) {
+    abort("No RStudio Connect accounts has been registered")
+  }
+
+  if (!is.null(server)) {
+    accounts <- accounts[accounts$server == server, , drop = FALSE]
+  } else {
+    accounts <- accounts[accounts$server != "shinyapps.io", , drop = FALSE]
+  }
+
+  if (!is.null(name)) {
+    accounts <- accounts[accounts$name == name, , drop = FALSE]
+  }
+
+  if (nrow(accounts) == 0) {
+    abort("No matching RStudio Connect accounts found")
+  } else if (nrow(accounts) > 1) (
+    abort(c(
+      "Multiple matching RStudio Connect found",
+      i = "Please disambiguate with `server` and `account`"
+    ))
+  )
+
+  url <- rsconnect::serverInfo(accounts$server)$url
+
+  list(
+    name = accounts$name,
+    server_name = accounts$server,
+    server = sub("/__api__$", "", url)
   )
 }
 
@@ -348,7 +353,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
   filter <- paste0("search=", text)
   content_filter <- ""
 
-  if (identical(board$pins_supported, TRUE) && !identical(all_content, TRUE)) content_filter <- "filter=content_type:pin&"
+  if (!identical(all_content, TRUE)) content_filter <- "filter=content_type:pin&"
 
   entries <- rsconnect_api_get(board, paste0("/__api__/applications/?count=", getOption("pins.search.count", 10000), "&", content_filter, utils::URLencode(filter)))$applications
   if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
