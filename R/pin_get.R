@@ -37,27 +37,31 @@ pin_get <- function(name,
                     signature = NULL,
                     ...) {
   board <- board_get(board)
+
   if (!cache) {
     pin_register_reset_cache(board, name)
   }
   result <- board_pin_get(board, name, extract = extract, version = version, ...)
 
-  manifest <- pin_manifest_get(result)
-  if (is.null(manifest$type)) manifest$type <- "files"
+  meta <- read_meta(result)
 
+  # Why doesn't this use meta$files? Maybe because of zips?
   result_files <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
   result_files <- dir(result_files, full.names = TRUE)
-  if (manifest$type == "files" && length(result_files) > 1) result_files <- result_files[!grepl("/data.txt$", result_files)]
+  if (meta$type == "files" && length(result_files) > 1) {
+    result_files <- result_files[!grepl("/data.txt$", result_files)]
+  }
 
   if (!is.null(signature)) {
     pin_signature <- pin_version_signature(result_files)
-    if (!identical(signature, pin_signature)) stop("Pin signature '", pin_signature, "' does not match given signature.")
+    if (!identical(signature, pin_signature)) {
+      stop("Pin signature '", pin_signature, "' does not match given signature.")
+    }
   }
 
   if (files) {
     result_files
-  }
-  else {
-    pin_load(structure(result, class = manifest$type))
+  } else {
+    pin_load(structure(result, class = meta$type))
   }
 }

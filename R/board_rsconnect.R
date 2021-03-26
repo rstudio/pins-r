@@ -151,105 +151,33 @@ rsc_account_find <- function(server = NULL, name = NULL) {
 
 #' @export
 board_pin_find.pins_board_rsconnect <- function(board,
-                                     text = NULL,
-                                     name = NULL,
-                                     all_content = FALSE,
-                                     extended = FALSE,
-                                     metadata = FALSE,
+                                               text = NULL,
+                                               name = NULL,
+                                               extended = FALSE,
+                                               metadata = FALSE,
                                      ...) {
-  if (is.null(text)) text <- ""
-  if (!is.null(name)) text <- pin_content_name(name)
 
-  filter <- paste0("search=", text)
-  content_filter <- ""
+  params <- list(
+    search = text,
+    filter = "content_type:pin",
+    count = 1000
+  )
+  json <- rsc_GET(board, "applications/", params)
 
-  if (!identical(all_content, TRUE)) content_filter <- "filter=content_type:pin&"
+  pins <- json$applications
+  name <- map_chr(pins, ~ .x$name)
+  user <- map_chr(pins, ~ .x$owner_username)
 
-  entries <- rsconnect_api_get(board, paste0("/__api__/applications/?count=", getOption("pins.search.count", 10000), "&", content_filter, utils::URLencode(filter)))$applications
-  if (!all_content) entries <- Filter(function(e) e$content_category == "pin", entries)
-
-  entries <- lapply(entries, function(e) {
-    e$name <- paste(e$owner_username, e$name, sep = "/")
-    e
-  })
-
-  if (!is.null(name)) {
-    name_pattern <- if (grepl("/", name)) paste0("^", name, "$") else paste0(".*/", name, "$")
-    entries <- Filter(function(e) grepl(name_pattern, e$name), entries)
-  }
-
-  results <- pin_results_from_rows(entries)
-
-  if (nrow(results) == 0) {
-    return(board_empty_results())
-  }
-
-  null_or_value <- function(e, value) if (is.null(e)) value else e
-  results$name <- as.character(results$name)
-  results$type <- unname(sapply(results$description, function(e) null_or_value(board_metadata_from_text(e)$type, "files")))
-
-  if (identical(metadata, TRUE)) {
-    results$metadata <- sapply(results$description, function(e) as.character(jsonlite::toJSON(board_metadata_from_text(e), auto_unbox = TRUE)))
-  }
-
-  results$description <- board_metadata_remove(results$description)
-
-  if (length(entries) == 1) {
-    # enhance with pin information
-    remote_path <- rsconnect_remote_path_from_url(board, entries[[1]]$url)
-    etag <- as.character(entries[[1]]$last_deployed_time)
-
-    manifest <- list()
-    if (identical(metadata, TRUE)) {
-      local_path <- rsconnect_api_download(board, entries[[1]]$name, file.path(remote_path, "data.txt"), etag = etag)
-      manifest <- pin_manifest_get(local_path)
-    }
-
-    if (identical(extended, TRUE)) {
-      manifest <- c(entries[[1]], manifest)
-    }
-
-    results$type <- manifest$type
-
-    if (identical(metadata, TRUE)) {
-      results$metadata <- as.character(jsonlite::toJSON(manifest, auto_unbox = TRUE))
-    }
-  }
-
-  results
-}
-
-rsconnect_get_by_name <- function(board, name, all_content = FALSE) {
-  only_name <- pin_content_name(name)
-
-  details <- board_pin_find(board, text = only_name, name = name, all_content = all_content)
-  details <- pin_results_extract_column(details, "content_category")
-  details <- pin_results_extract_column(details, "url")
-  details <- pin_results_extract_column(details, "guid")
-
-  if (nrow(details) > 1) {
-    owner_details <- details[details$owner_username == board$account, ]
-    if (nrow(owner_details) == 1) {
-      details <- owner_details
-    }
-  }
-
-  if (nrow(details) > 1) {
-    stop(
-      "Multiple pins named '", name, "' in board '", board$name,
-      "', choose from: ", paste0("'", paste0(details$name, collapse = "', '"), "'.")
-    )
-  }
-
-  details
+  wibble(
+    name = paste0(user, "/", name),
+    title = map_chr(pins, ~ .x$title %||% ""),
+    description = map_chr(pins, ~ .x$description)
+  )
 }
 
 #' @export
 board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
-  details <- rsconnect_get_by_name(board, name)
-  details <- pin_results_extract_column(details, "guid")
-
-  invisible(rsconnect_api_delete(board, paste0("/__api__/v1/experimental/content/", details$guid)))
+  rsc_content_delete(board, name)
 }
 
 #' @export
@@ -259,36 +187,6 @@ board_browse.pins_board_rsconnect <- function(board, ...) {
 
 #' @export
 board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
-  details <- rsconnect_get_by_name(board, name)
-  if (nrow(details) == 0) stop("The pin '", name, "' is not available in the '", board$name, "' board.")
-
-  details$guid
-
-  bundles <- rsconnect_api_get(board, paste0("/__api__/v1/experimental/content/", details$guid, "/bundles/"))
-
-  data.frame(
-    version = sapply(bundles$results, function(e) e$id),
-    created = sapply(bundles$results, function(e) e$created_time),
-    size = sapply(bundles$results, function(e) e$size),
-    stringsAsFactors = FALSE
-  ) %>%
-    format_tibble()
-}
-
-
-pin_results_extract_column <- function(df, column) {
-  df[[column]] <- sapply(df$metadata, function(e) jsonlite::fromJSON(e)[[column]])
-  df
-}
-
-pin_split_owner <- function(name) {
-  parts <- strsplit(name, "/")[[1]]
-  list(
-    owner = if (length(parts) > 1) paste(parts[1:length(parts) - 1], collapse = "/") else NULL,
-    name = if (length(parts) > 0) parts[length(parts)] else NULL
-  )
-}
-
-pin_content_name <- function(name) {
-  if (is.character(name)) pin_split_owner(name)$name else name
+  guid <- rsc_content_find(board, name)$guid
+  rsc_content_versions(board, guid)
 }

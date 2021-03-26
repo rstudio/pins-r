@@ -144,7 +144,7 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
     if (versioned) {
       upload_inform("versioned", name, metadata$file_hash)
     } else {
-      if (length(meta) > 0) {
+      if (length(meta$versions) > 0) {
         upload_inform("replace", name)
       } else {
         upload_inform("create", name)
@@ -177,20 +177,6 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
     meta = meta,
     path = fs::path(dest, meta$file_hash)
   )
-}
-
-read_meta <- function(path) {
-  path <- fs::path(path, "meta.yml")
-
-  if (!fs::file_exists(path)) {
-    list()
-  } else {
-    yaml::read_yaml(path, eval.expr = FALSE)
-  }
-}
-write_meta <- function(x, path) {
-  path <- fs::path(path, "meta.yml")
-  yaml::write_yaml(x, path)
 }
 
 board_pin_delete.pins_board_local <- function(board, name, ...) {

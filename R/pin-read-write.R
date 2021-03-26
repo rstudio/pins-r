@@ -38,7 +38,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
     }
   }
 
-  object_load(pin$path, pin$meta$type)
+  object_load(pin$path, pin$meta)
 }
 
 #' @param x An object (typically a data frame) to pin.
@@ -80,18 +80,23 @@ pin_write <- function(board, x,
 }
 
 upload_inform <- function(type, name, version = NULL) {
-  if (isTRUE(getOption("pins.quiet"))) {
-    return(invisible())
-  }
 
   type <- arg_match0(type, c("unchanged", "create", "replace", "versioned"))
 
   switch(type,
-    unchanged = inform("Existing pin unchanged"),
-    versioned = inform(paste0("Created version ", version)),
-    replace = inform("Replaced existing pin"),
-    create = inform("Created new pin"),
+    unchanged = pins_inform("Existing pin unchanged"),
+    versioned = pins_inform(paste0("Created version ", version)),
+    replace = pins_inform("Replaced existing pin"),
+    create = pins_inform("Created new pin"),
   )
+}
+
+pins_inform <- function(...) {
+  if (isTRUE(getOption("pins.quiet"))) {
+    invisible()
+  } else {
+    inform(...)
+  }
 }
 
 guess_type <- function(x) {
@@ -139,16 +144,27 @@ object_save <- function(x, path, type = "rds") {
   path
 }
 
-object_load <- function(path, type) {
-  type <- arg_match0(type, c("rds", "json", "arrow", "pickle", "csv"))
+object_load <- function(path, meta) {
+  if (meta$api_version == 1) {
+    type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv"))
 
-  switch(type,
-    rds = readRDS(path),
-    json = jsonlite::read_json(path, simplifyVector = TRUE),
-    arrow = arrow::read_feather(path),
-    pickle = abort("'pickle' pins not supported in R"),
-    csv = read.csv(path, stringsAsFactors = TRUE)
-  )
+    switch(type,
+      rds = readRDS(path),
+      json = jsonlite::read_json(path, simplifyVector = TRUE),
+      arrow = arrow::read_feather(path),
+      pickle = abort("'pickle' pins not supported in R"),
+      csv = read.csv(path, stringsAsFactors = TRUE)
+    )
+  } else {
+    type <- arg_match0(meta$type, c("default", "files", "table"))
+    path <- fs::path_dir(path[[1]])
+
+    switch(type,
+      default = pin_load.default(path),
+      table = pin_load.table(path),
+      files = pin_load.files(path)
+    )
+  }
 }
 
 is_prefix <- function(prefix, string) {

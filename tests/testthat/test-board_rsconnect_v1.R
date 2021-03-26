@@ -1,6 +1,7 @@
 # user facing -------------------------------------------------------------
 
 test_that("can round-trip a pin", {
+  withr::local_options(pins.quiet = TRUE)
   board <- board_rsconnect(cache = tempfile())
 
   df1 <- data.frame(x = 1:5)
@@ -12,6 +13,7 @@ test_that("can round-trip a pin", {
 })
 
 test_that("can read a pin", {
+  withr::local_options(pins.quiet = TRUE)
   board <- board_rsconnect(cache = tempfile())
 
   out <- pin_read(board, "sales-by-baths")
@@ -34,6 +36,8 @@ test_that("versioned by default", {
 })
 
 test_that("if unversioned, deletes last one", {
+  withr::local_options(pins.quiet = TRUE)
+
   board <- board_rsconnect(versions = FALSE)
   withr::defer(rsc_content_delete(board, "df1"))
 
