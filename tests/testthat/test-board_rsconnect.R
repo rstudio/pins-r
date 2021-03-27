@@ -1,45 +1,62 @@
 # user facing -------------------------------------------------------------
 
-test_that("can round-trip a pin", {
+test_that("can round-trip a pin (v1)", {
   withr::local_options(pins.quiet = TRUE)
   board <- board_rsconnect(cache = tempfile())
 
   df1 <- data.frame(x = 1:5)
   pin_write(board, df1, "df1", type = "rds")
-  withr::defer(rsc_content_delete(board, "df1"))
+  withr::defer(board_pin_remove(board, "df1"))
 
   df2 <- pin_read(board, "df1")
   expect_equal(df1, df2)
 })
 
-test_that("can read a pin", {
+test_that("can round-trip a pin (v0)", {
   withr::local_options(pins.quiet = TRUE)
   board <- board_rsconnect(cache = tempfile())
 
-  out <- pin_read(board, "sales-by-baths")
-  expect_s3_class(out, "tbl_df")
+  df1 <- data.frame(x = 1:5)
+  pin(df1, "df1", board = board)
+  withr::defer(board_pin_remove(board, "df1"))
+
+  df2 <- pin_get("df1", board = board)
+  expect_equal(df1, df2)
 })
 
+test_that("can search pins", {
+  withr::local_options(pins.quiet = TRUE)
+  board <- board_rsconnect(cache = tempfile())
+
+  df1 <- data.frame(x = 1:5)
+  pin(df1, "xyzxyzxyzxyz-abc", board = board)
+  withr::defer(board_pin_remove(board, "xyzxyzxyzxyz-abc"))
+
+  expect_equal(nrow(board_pin_find(board, "xyzxyzxyzxyz")), 1)
+})
 
 # versioning --------------------------------------------------------------
 
 test_that("versioned by default", {
   board <- board_rsconnect()
-  withr::defer(rsc_content_delete(board, "df1"))
+  withr::defer(board_pin_remove(board, "df1"))
 
   pin_write(board, data.frame(x = 1:3), "df1", type = "rds")
   pin_write(board, data.frame(x = 1:4), "df1", type = "rds")
   pin_write(board, data.frame(x = 1:5), "df1", type = "rds")
 
-  guid <- rsc_content_find(board, "df1")$guid
-  expect_equal(nrow(rsc_content_versions(board, guid)), 3)
+  versions <- board_pin_versions(board, "df1")
+  expect_equal(nrow(versions), 3)
+
+  df2 <- pin_read(board, "df1", version = versions$version[[2]])
+  expect_equal(df2, data.frame(x = 1:4))
 })
 
 test_that("if unversioned, deletes last one", {
   withr::local_options(pins.quiet = TRUE)
 
   board <- board_rsconnect(versions = FALSE)
-  withr::defer(rsc_content_delete(board, "df1"))
+  withr::defer(board_pin_remove(board, "df1"))
 
   pin_write(board, data.frame(x = 1), "df1", type = "rds")
   pin_write(board, data.frame(x = 2), "df1", type = "rds")
@@ -53,7 +70,7 @@ test_that("if unversioned, deletes last one", {
 
 test_that("can't accidentally switch from versioned to unversioned", {
   board <- board_rsconnect()
-  withr::defer(rsc_content_delete(board, "df1"))
+  withr::defer(board_pin_remove(board, "df1"))
 
   df1 <- data.frame(x = 1:3)
   pin_write(board, df1, "df1", type = "rds")

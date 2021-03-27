@@ -199,7 +199,7 @@ board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL,
   url <- content$content_url
   if (!is.null(version)) {
     stopifnot(is_string(version))
-    url <- paste0(url, "/rev", version)
+    url <- paste0(url, "_rev", version, "/")
   } else {
     version <- content$bundle_id
   }
