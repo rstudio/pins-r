@@ -193,7 +193,7 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
 
   # handle unexepcted failures gracefully
   if (is.null(data_files)) {
-    warning("Falied to create preview files for pin.")
+    warning("Failed to create preview files for pin.")
     unlink(temp_dir, recursive = TRUE)
     dir.create(temp_dir, recursive = TRUE)
     file.copy(dir(path, full.names = TRUE), temp_dir)
