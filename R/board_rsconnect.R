@@ -230,6 +230,7 @@ board_pin_upload.pins_board_rsconnect <- function(
     path,
     metadata,
     versioned = NULL,
+    x = NULL,
     ...,
     access_type = c("acl", "logged_in", "all"))
 {
@@ -238,7 +239,7 @@ board_pin_upload.pins_board_rsconnect <- function(
   versioned <- versioned %||% board$versions
 
   # Make .tar.gz bundle containing data.txt + index.html + pin data
-  bundle_dir <- rsc_bundle(board, name, path, metadata)
+  bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
   bundle_file <- fs::file_temp(ext = "tar.gz")
   utils::tar(
     bundle_file, fs::dir_ls(bundle_dir),
@@ -326,61 +327,6 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
 }
 
 # Bundle ------------------------------------------------------------------
-
-rsc_bundle <- function(board, name, path, metadata, bundle_path = tempfile()) {
-  fs::dir_create(bundle_path)
-
-  # Bundle contains:
-  # * pin
-  # * data.txt (used to retrieve pins)
-  # * index.html (displayed in connect)
-  # * manifest.json (used for deployment)
-
-  fs::file_copy(path, fs::path(bundle_path, fs::path_file(path)))
-
-  metadata$path <- fs::path_file(path)
-  yaml::write_yaml(metadata, fs::path(bundle_path, "data.txt"))
-
-  # TODO: flow type specific display down to here
-  index <- rsc_bundle_index(board, name, path)
-  writeLines(index, fs::path(bundle_path, "index.html"))
-
-  manifest <- rsc_bundle_manifest(board, c(path, "data.txt", "index.html"))
-  jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
-
-  invisible(bundle_path)
-}
-
-rsc_bundle_index <- function(board, name, path) {
-  '<!DOCTYPE html>
-  <html>
-  <head>
-    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
-    <meta charset=\"utf-8\">
-    <title>A pin</title>
-  </head>
-  <body><p>This is a pin</p></body>
-  </html>'
-}
-
-# Extracted from rsconnect:::createAppManifest
-rsc_bundle_manifest <- function(board, files) {
-  list(
-    version = 1,
-    locale = "en_US",
-    platform = "3.5.1",
-    metadata = list(
-      appmode = "static",
-      primary_rmd = NA,
-      primary_html = "index.html",
-      content_category = "pin",
-      has_parameters = FALSE
-    ),
-    packages = NA,
-    files = files,
-    users = NA
-  )
-}
 
 # Content -----------------------------------------------------------------
 

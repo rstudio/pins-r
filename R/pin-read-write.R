@@ -70,11 +70,11 @@ pin_write <- function(board, x,
     inform(paste0("Guessing `type = '", type, "'`"))
   }
 
-  path <- object_save(x, tempfile(), type = type)
+  path <- object_save(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
   metadata <- modifyList(metadata, object_meta(x))
   metadata <- modifyList(metadata, standard_meta(path, type, desc))
 
-  board_pin_upload(board, name, path, metadata, versioned = versioned)
+  board_pin_upload(board, name, path, metadata, versioned = versioned, x = x)
 
   invisible(board)
 }
@@ -113,7 +113,7 @@ guess_type <- function(x) {
 # Should be a generic?
 object_meta <- function(x) {
   if (is.data.frame(x)) {
-    list(row = nrow(x), cols = ncol(x))
+    list(rows = nrow(x), cols = ncol(x))
   } else {
     list()
   }
@@ -123,7 +123,7 @@ standard_meta <- function(path, type, desc = NULL) {
   list(
     type = type,
     descripton = desc,
-    date = Sys.time(),
+    date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
     file_size = as.integer(fs::file_size(path)),
     file_hash = hash_file(path),
     api_version = 1

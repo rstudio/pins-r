@@ -13,5 +13,5 @@ test_that("older version adds missing pieces", {
   path <- withr::local_tempdir()
 
   write_meta(list(), path)
-  expect_equal(read_meta(path), list(api_verison = 0, type = "files"))
+  expect_equal(read_meta(path), list(api_version = 0, type = "files"))
 })

@@ -127,7 +127,7 @@ board_pin_download <- function(board, name, ...) {
 }
 #' @export
 #' @rdname custom-boards
-board_pin_upload <- function(board, name, path, metadata, ...) {
+board_pin_upload <- function(board, name, path, metadata, x = NULL, ...) {
   UseMethod("board_pin_upload")
 }
 
