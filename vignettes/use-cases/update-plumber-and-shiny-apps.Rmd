@@ -9,7 +9,7 @@ Once you [create data pipelines](create-data-pipelines.html), you can consider r
 
 When using Plumber, you can simply use `pin_get()` since this function is smart-enough to first check for updates before the resource is retrieved When using Shiny, you can use `pin_reactive()` which automatically transforms the pin's resource into a reactive to use from your application.
 
-We can improve the pipeline from the [Create Data Pipelines](create-data-pipelines.htm) use-case by properly generating a web application to display the auto-generated news.
+We can improve the pipeline from the [Create Data Pipelines](create-data-pipelines.html) use-case by properly generating a web application to display the auto-generated news.
 
 A Shiny application that reuses the `news-generated` pin looks as follows:
 
