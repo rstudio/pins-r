@@ -31,7 +31,7 @@ board_pin_versions(board, name, ...)
 
 board_pin_download(board, name, ...)
 
-board_pin_upload(board, name, path, metadata, ...)
+board_pin_upload(board, name, path, metadata, versioned = NULL, x = NULL, ...)
 }
 \arguments{
 \item{board}{The board to extend, retrieved with \code{board_get()}.}

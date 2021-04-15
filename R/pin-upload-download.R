@@ -22,6 +22,7 @@ pin_download <- function(board, name, ...) {
 
 #' @export
 #' @rdname pin_download
+#' @param path Path to file to upload to `board`.
 pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(), ...) {
   check_board(board)
   if (!is_string(path)) {

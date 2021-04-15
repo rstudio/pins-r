@@ -48,6 +48,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
 #' @param type File type used to save `x` to disk. Must be one of
 #'   "csv", "rds", "json", or "arrow". If not supplied will use json for bare
 #'   lists and rds for everything else.
+#' @param versioned Should the pin be versioned? The default, `NULL`, will
+#'   use the default for `board`
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,

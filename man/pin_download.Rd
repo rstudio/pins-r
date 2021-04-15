@@ -17,6 +17,8 @@ pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
 
 \item{...}{Additional arguments passed on to board pin methods.}
 
+\item{path}{Path to file to upload to \code{board}.}
+
 \item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
 

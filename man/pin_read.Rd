@@ -40,6 +40,9 @@ lists and rds for everything else.}
 shared boards so that others can understand what the pin contains.}
 
 \item{metadata}{A list containing additional metadata to store with the pin.}
+
+\item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
+use the default for \code{board}}
 }
 \description{
 Use \code{pin_write()} to pin an object to board, and \code{pin_read()} to retrieve
