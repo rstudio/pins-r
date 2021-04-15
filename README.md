@@ -39,8 +39,8 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpNWp6Xy/pins-16b64337cf1c4'
-#> With 0 pins: ''
+#> Path: '/tmp/Rtmp1041Pm/pins-16f251dc19f74'
+#> With no pins.
 ```
 
 Next you need to store some data in that board with `pin_write()`:

@@ -5,7 +5,7 @@
     Output
       Pin board <pins_board_local>
       Path: '/tmp'
-      With 0 pins: ''
+      With no pins.
 
 # can get versions
 

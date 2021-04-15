@@ -36,13 +36,18 @@ print.pins_board <- function(x, ...) {
   pins <- pin_find(board = x)$name
 
   n <- length(pins)
-  if (n > 20) {
-    pins <- c(pins[1:19], "...")
+  if (n == 0) {
+    contents <- "With no pins."
+  } else {
+    if (n > 20) {
+      pins <- c(pins[1:19], "...")
+    }
+    contents <- paste0(
+      "With ", n, " pins: ",
+      paste0("'", pins, "'", collapse = ", ")
+    )
   }
-  contents <- paste0(
-    "With ", n, " pins: ",
-    paste0("'", pins, "'", collapse = ", ")
-  )
+
 
   cat(strwrap(contents, exdent = 2), sep = "\n")
 
