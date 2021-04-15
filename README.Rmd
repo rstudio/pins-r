@@ -56,8 +56,9 @@ Next you need to store some data in that board with `pin_write()`:
 
 ```{r}
 b %>% pin_write(head(mtcars), "mtcars")
-b
 ```
+
+As you can see, it's saved as an `.rds` by default, but depending on what you're saving and who else you want to read it, you might save it as a `csv`, `json`, or `arrow` file.
 
 Later, you can retrieve that data with `pin_read()`:
 
