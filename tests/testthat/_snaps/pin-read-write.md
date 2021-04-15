@@ -21,7 +21,7 @@
     Message <message>
       Guessing `name = 'mtcars'`
       Guessing `type = 'rds'`
-      Created new pin
+      Creating new version 'd2a1679fa44c4fc3'
 
 # can request specific hash
 
@@ -29,7 +29,7 @@
       b <- board_temp()
       pin_write(b, mtcars, name = "mtcars", type = "rds")
     Message <message>
-      Created new pin
+      Creating new version 'd2a1679fa44c4fc3'
     Code
       pin_read(b, "mtcars", hash = "ABCD")
     Error <rlang_error>

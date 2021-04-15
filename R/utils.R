@@ -78,3 +78,5 @@ modifyList <- function(x, y) {
     utils::modifyList(x, y)
   }
 }
+
+last <- function(x) x[[length(x)]]

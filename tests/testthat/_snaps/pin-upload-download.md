@@ -13,5 +13,5 @@
       pin_upload(board, path)
     Message <message>
       Guessing `name = 'test.txt'`
-      Created new pin
+      Creating new version 'ef46db3751d8e999'
 

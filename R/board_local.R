@@ -118,64 +118,78 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
 #' @export
 board_pin_upload.pins_board_local <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
-  # TODO: backward compatibility layer
-  # TODO: what happens if no metadata present? More important for (e.g.)
-  #   S3 where other writers might be using different systems
+  path_pin <- fs::path(board$cache, name)
+  pin_meta <- read_meta(path_pin)
 
-  dest <- fs::path(board$cache, name)
-  fs::dir_create(dest)
-  meta <- read_meta(dest)
-
-  # board$versioning should default to NULL, but user could choose to turn it on
-  versioned <- versioned %||% meta$versioned %||% board$versions %||%
-    abort("Must supply `versioned` argument")
-  if (isFALSE(versioned) && isTRUE(meta$versioned)) {
-    abort(c(
-      "Pin is versioned, but you have requested a write without versions",
-      i = "To un-version a pin, you must delete it"
-    ))
-  }
-
-  if (has_name(meta$versions, metadata$file_hash)) {
-    # might still want to update metadata even though file hasn't changed
-    upload_inform("unchanged", name)
-    return()
+  if (length(pin_meta$versions) > 1) {
+    versioned <- versioned %||% TRUE
   } else {
-    if (versioned) {
-      upload_inform("versioned", name, metadata$file_hash)
-    } else {
-      if (length(meta$versions) > 0) {
-        upload_inform("replace", name)
-      } else {
-        upload_inform("create", name)
-      }
-    }
+    versioned <- versioned %||% board$versions
   }
 
-  meta$versions[[metadata$file_hash]] <- metadata
-  meta$versioned <- versioned
+  if (!versioned) {
+    if (length(pin_meta$versions) == 0) {
+      pins_inform(paste0("Creating new version '", metadata$file_hash, "'"))
+    } else if (length(pin_meta$versions) == 1) {
+      pins_inform(paste0(
+        "Replacing version '", pin_meta$versions, "'",
+        " with '", metadata$file_hash, "'"
+      ))
+      fs::dir_delete(fs::path(path_pin, pin_meta$versions))
+      pin_meta$versions <- NULL
+    } else {
+      abort(c(
+        "Pin is versioned, but you have requested a write without versions",
+        i = "To un-version a pin, you must delete it"
+      ))
+    }
+  } else {
+    pins_inform(paste0("Creating new version '", metadata$file_hash, "'"))
+  }
 
-  write_meta(meta, dest)
-  fs::file_copy(path, fs::path(dest, metadata$file_hash))
+  path_version <- fs::path(path_pin, metadata$file_hash)
+  fs::dir_create(path_version)
+  fs::file_copy(path, path_version, overwrite = TRUE)
+  write_meta(metadata, path_version)
+
+  # Add to list of versions so we know which is most recent
+  pin_meta$versions <- c(pin_meta$versions, metadata$file_hash)
+  write_meta(pin_meta, path_pin)
 }
 
 #' @export
 board_pin_download.pins_board_local <- function(board, name, version = NULL, ...) {
-  dest <- fs::path(board$cache, name)
-  meta_all <- read_meta(dest)
-
-  if (is.null(version)) {
-    meta <- meta_all$versions[[length(meta_all$versions)]]
-  } else {
-    if (!has_name(meta_all$versions, version)) {
-      abort(paste0("Can't find version ", version))
-    }
-    meta <- meta_all$versions[[version]]
+  path_pin <- fs::path(board$cache, name)
+  if (!fs::dir_exists(path_pin)) {
+    abort(paste0("Can't find pin '", name, "'"))
   }
 
+  # Fallback to old structure
+  meta_pin <- read_meta(path_pin)
+  if (meta_pin$api_version == 0) {
+    meta <- pin_registry_retrieve(board, name)
+    meta$api_version <- 0
+    path <- board_pin_get(board, name, ...)
+    return(list(
+      meta = meta,
+      dir = path,
+      path = fs::path(path, meta$path)
+    ))
+  }
+
+  if (is.null(version)) {
+    version <- last(meta_pin$versions)
+  }
+  path_version <- fs::path(board$cache, name, version)
+  if (!fs::dir_exists(path_version)) {
+    abort(paste0("Can't find version '", version, "'"))
+  }
+
+  meta <- read_meta(path_version)
   list(
     meta = meta,
-    path = fs::path(dest, meta$file_hash)
+    dir = path_version,
+    path = fs::path(path_version, meta$file)
   )
 }
 
@@ -186,5 +200,3 @@ board_pin_delete.pins_board_local <- function(board, name, ...) {
 board_pin_list.pins_board_local <- function(board, ...) {
   fs::path_name(fs::dir_ls(board$cache, type = "directory"))
 }
-
-

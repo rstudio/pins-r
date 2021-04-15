@@ -19,20 +19,6 @@ test_that("can round trip all types", {
   expect_equal(pin_read(board, "x-1"), x)
 })
 
-test_that("can pin_read() pins made by pin()", {
-  withr::local_options(pins.quiet = TRUE)
-  board <- board_temp()
-
-  # pin.data.frame
-  df <- data.frame(x = 1:10)
-  pin(df, "df-1", board = board)
-  expect_equal(pin_read(board, "df-1"), df)
-
-  # pin.character (files)
-
-  # pin.default
-})
-
 test_that("useful errors on bad inputs", {
   board <- board_temp()
 

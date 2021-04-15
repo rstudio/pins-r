@@ -79,18 +79,6 @@ pin_write <- function(board, x,
   invisible(board)
 }
 
-upload_inform <- function(type, name, version = NULL) {
-
-  type <- arg_match0(type, c("unchanged", "create", "replace", "versioned"))
-
-  switch(type,
-    unchanged = pins_inform("Existing pin unchanged"),
-    versioned = pins_inform(paste0("Created version ", version)),
-    replace = pins_inform("Replaced existing pin"),
-    create = pins_inform("Created new pin"),
-  )
-}
-
 pins_inform <- function(...) {
   if (isTRUE(getOption("pins.quiet"))) {
     invisible()
@@ -121,6 +109,7 @@ object_meta <- function(x) {
 
 standard_meta <- function(path, type, desc = NULL) {
   list(
+    file = fs::path_file(path),
     type = type,
     descripton = desc,
     date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
