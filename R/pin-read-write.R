@@ -129,7 +129,7 @@ object_save <- function(x, path, type = "rds") {
     json = jsonlite::write_json(x, path, auto_unbox = TRUE),
     arrow = arrow::write_feather(x, path),
     pickle = abort("'pickle' pins not supported in R"),
-    csv = write.csv(x, path, row.names = FALSE)
+    csv = utils::write.csv(x, path, row.names = FALSE)
   )
 
   path
@@ -144,7 +144,7 @@ object_load <- function(path, meta) {
       json = jsonlite::read_json(path, simplifyVector = TRUE),
       arrow = arrow::read_feather(path),
       pickle = abort("'pickle' pins not supported in R"),
-      csv = read.csv(path, stringsAsFactors = TRUE)
+      csv = utils::read.csv(path, stringsAsFactors = TRUE)
     )
   } else {
     type <- arg_match0(meta$type, c("default", "files", "table"))

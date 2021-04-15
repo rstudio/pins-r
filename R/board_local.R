@@ -162,7 +162,7 @@ board_pin_delete.pins_board_local <- function(board, name, ...) {
 }
 
 board_pin_list.pins_board_local <- function(board, ...) {
-  fs::path_name(fs::dir_ls(board$cache, type = "directory"))
+  fs::path_file(fs::dir_ls(board$cache, type = "directory"))
 }
 
 
