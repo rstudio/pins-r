@@ -113,6 +113,18 @@ check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
   }
 }
 
+
+board_rsconnect_test <- function(...) {
+  if (nrow(rsconnect::accounts()) > 1) {
+    board_rsconnect(..., auth = "rsconnect")
+  } else if (!has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
+    skip("No RSC env vars set up")
+  } else {
+    board_rsconnect(..., auth = "envvar")
+  }
+}
+
+
 rsc_account_find <- function(server = NULL, name = NULL) {
   check_installed("rsconnect")
 

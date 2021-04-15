@@ -1,8 +1,9 @@
 # user facing -------------------------------------------------------------
 
 test_that("can round-trip a pin (v1)", {
+
   withr::local_options(pins.quiet = TRUE)
-  board <- board_rsconnect(cache = tempfile())
+  board <- board_rsconnect_test(cache = tempfile())
 
   df1 <- data.frame(x = 1:5)
   pin_write(board, df1, "df1", type = "rds")
@@ -14,7 +15,7 @@ test_that("can round-trip a pin (v1)", {
 
 test_that("can round-trip a pin (v0)", {
   withr::local_options(pins.quiet = TRUE)
-  board <- board_rsconnect(cache = tempfile())
+  board <- board_rsconnect_test(cache = tempfile())
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "df1", board = board)
@@ -26,7 +27,7 @@ test_that("can round-trip a pin (v0)", {
 
 test_that("can search pins", {
   withr::local_options(pins.quiet = TRUE)
-  board <- board_rsconnect(cache = tempfile())
+  board <- board_rsconnect_test(cache = tempfile())
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "xyzxyzxyzxyz-abc", board = board)
@@ -38,7 +39,7 @@ test_that("can search pins", {
 # versioning --------------------------------------------------------------
 
 test_that("versioned by default", {
-  board <- board_rsconnect()
+  board <- board_rsconnect_test()
   withr::defer(board_pin_remove(board, "df1"))
 
   pin_write(board, data.frame(x = 1:3), "df1", type = "rds")
@@ -55,7 +56,7 @@ test_that("versioned by default", {
 test_that("if unversioned, deletes last one", {
   withr::local_options(pins.quiet = TRUE)
 
-  board <- board_rsconnect(versions = FALSE)
+  board <- board_rsconnect_test(versions = FALSE)
   withr::defer(board_pin_remove(board, "df1"))
 
   pin_write(board, data.frame(x = 1), "df1", type = "rds")
@@ -69,7 +70,7 @@ test_that("if unversioned, deletes last one", {
 })
 
 test_that("can't accidentally switch from versioned to unversioned", {
-  board <- board_rsconnect()
+  board <- board_rsconnect_test()
   withr::defer(board_pin_remove(board, "df1"))
 
   df1 <- data.frame(x = 1:3)
@@ -83,7 +84,7 @@ test_that("can't accidentally switch from versioned to unversioned", {
 # content -----------------------------------------------------------------
 
 test_that("can find content by full/partial name", {
-  board <- board_rsconnect()
+  board <- board_rsconnect_test()
 
   json <- rsc_content_find(board, "sales-by-baths")
   expect_equal(json$name, "sales-by-baths")
@@ -95,7 +96,7 @@ test_that("can find content by full/partial name", {
 })
 
 test_that("can create and delete content", {
-  board <- board_rsconnect()
+  board <- board_rsconnect_test()
 
   rsc_content_create(board, "test-1", list())
   expect_snapshot(error = TRUE,
