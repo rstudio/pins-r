@@ -1,5 +1,23 @@
 # pins (development version)
 
+* The pins API has been overhauled to center around two new functions: 
+  `pin_read()` and `pin_write()`. `pin_write()` has a type argument that 
+  allows you to choose which file type to use, so you can manage the tradeoffs
+  between speed, generality, and language inter-op. They both take the
+  board as the first argument.
+  
+    `pin_read()` and `pin_write()` work with R objects. If you want to 
+    work with files on disk (because, for example, you need to use file type
+    that isn't natively supported), you can use `pin_download()` and 
+    `pin_upload()`. `pin_upload()` takes a path and `pin_download()` returns
+    a path.
+
+* You can no longer switch from a versioned pin to an unversioned pin without
+  first deleting the pin (#410).
+
+* `board_rsconnect()` will automatically connect to the current RSC pin board
+  when run inside RSC itself (assuming you have version 1.8.8 or later) (#396).
+
 * `board_browse()` now works with local boards.
 
 * All board objects now have class beginning with `pins_board_` and also
