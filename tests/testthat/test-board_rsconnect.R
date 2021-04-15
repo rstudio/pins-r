@@ -112,17 +112,3 @@ test_that("can parse user & pin name", {
   expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x"))
   expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x"))
 })
-
-# bundle ------------------------------------------------------------------
-
-test_that("can create a bundle", {
-  board <- board_rsconnect()
-  temp <- withr::local_tempfile(fileext = "rds")
-  saveRDS(data.frame(x = 10), temp)
-
-  out <- rsc_bundle(board, "test", temp, list())
-  expect_setequal(
-    dir(out),
-    c("data.txt", "index.html", "manifest.json", fs::path_file(temp))
-  )
-})
