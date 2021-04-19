@@ -6,7 +6,6 @@ rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = temp
   fs::file_copy(path, fs::path(bundle_path, fs::path_file(path)))
 
   # * data.txt (used to retrieve pins)
-  metadata$path <- fs::path_file(path)
   yaml::write_yaml(metadata, fs::path(bundle_path, "data.txt"))
 
   # * index.html
@@ -54,7 +53,7 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
   data_preview <- rsc_bundle_preview_data(x)
 
   data <- list(
-    pin_files = paste0("<a href=\"", metadata$path, "\">", metadata$path, "</a>", collapse = ", "),
+    pin_files = paste0("<a href=\"", metadata$file, "\">", metadata$file, "</a>", collapse = ", "),
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
     pin_name = paste0(board$account, "/", name),

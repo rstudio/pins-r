@@ -224,13 +224,13 @@ board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL,
   rsc_download(board, url, pin_path, "data.txt")
 
   meta <- read_meta(pin_path)
-  for (path in meta$path) {
-    rsc_download(board, url, pin_path, path)
+  for (file in meta$file) {
+    rsc_download(board, url, pin_path, file)
   }
 
   list(
     dir = pin_path,
-    path = fs::path(pin_path, meta$path),
+    path = fs::path(pin_path, meta$file),
     meta = meta
   )
 }
@@ -328,6 +328,7 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
                                        ...) {
 
   path <- fs::dir_ls(path)
+  metadata$file <- fs::path_file(path)
 
   board_pin_upload.pins_board_rsconnect(
     board = board,
