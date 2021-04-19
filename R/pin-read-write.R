@@ -136,7 +136,7 @@ object_save <- function(x, path, type = "rds") {
 }
 
 write_rds <- function(x, path) {
-  saveRDS(x, path, version = 2)
+  saveRDS(x, path, version = 2, compress = FALSE)
 
   old <- readBin(path, "raw", fs::file_size(path))
 

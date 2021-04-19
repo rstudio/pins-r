@@ -21,7 +21,7 @@
     Message <message>
       Guessing `name = 'mtcars'`
       Guessing `type = 'rds'`
-      Creating new version '5f21220925ff5df0'
+      Creating new version 'dfa6c1c109362781'
 
 # can request specific hash
 
@@ -29,9 +29,9 @@
       b <- board_temp()
       pin_write(b, mtcars, name = "mtcars", type = "rds")
     Message <message>
-      Creating new version '5f21220925ff5df0'
+      Creating new version 'dfa6c1c109362781'
     Code
       pin_read(b, "mtcars", hash = "ABCD")
     Error <rlang_error>
-      Specified hash 'ABCD' doesn't match pin hash '5f21220925ff5df0'
+      Specified hash 'ABCD' doesn't match pin hash 'dfa6c1c109362781'
 
