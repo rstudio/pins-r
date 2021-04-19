@@ -68,21 +68,18 @@ jobs:
           key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com")
           connectapi:::update_renviron_creds(host = key$host, api_key = key$api_key, prefix = "CONNECT")
 
-      - name: Install package
-        run: R CMD INSTALL .
-
-      # TODO: add real integration tests here
-      - name: run tests
+      - name: Check
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
-        run: |
-          # this should read the env vars by default... but it is not
-          # I think that is a bug
-          # pins::board_register_rsconnect()
 
-          # reading the env vars manually
-          pins::board_register_rsconnect(server = Sys.getenv("CONNECT_SERVER"), key = Sys.getenv("CONNECT_API_KEY"))
-          pins::pin(mtcars, "mtcars", board = "rsconnect")
-          pins::pin_get("mtcars", board = "rsconnect")
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@main
+        with:
+          name: rsconnect-results
+          path: check
 
       - name: clean up RStudio Connect
         run: |
