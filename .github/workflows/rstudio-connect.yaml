@@ -52,6 +52,7 @@ jobs:
         run: |
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("rstudio/connectapi")
+          pak::pkg_install("rcmdcheck")
         shell: Rscript {0}
 
       - name: output docker logs
