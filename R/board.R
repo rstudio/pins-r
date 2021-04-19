@@ -36,13 +36,18 @@ print.pins_board <- function(x, ...) {
   pins <- pin_find(board = x)$name
 
   n <- length(pins)
-  if (n > 20) {
-    pins <- c(pins[1:19], "...")
+  if (n == 0) {
+    contents <- "With no pins."
+  } else {
+    if (n > 20) {
+      pins <- c(pins[1:19], "...")
+    }
+    contents <- paste0(
+      "With ", n, " pins: ",
+      paste0("'", pins, "'", collapse = ", ")
+    )
   }
-  contents <- paste0(
-    "With ", n, " pins: ",
-    paste0("'", pins, "'", collapse = ", ")
-  )
+
 
   cat(strwrap(contents, exdent = 2), sep = "\n")
 
@@ -119,6 +124,18 @@ board_pin_versions <- function(board, name, ...) {
 board_pin_versions.default <- function(board, name, ...) {
   data.frame(version = character(0), stringsAsFactors = FALSE)
 }
+
+#' @export
+#' @rdname custom-boards
+board_pin_download <- function(board, name, ...) {
+  UseMethod("board_pin_download")
+}
+#' @export
+#' @rdname custom-boards
+board_pin_upload <- function(board, name, path, metadata, versioned = NULL, x = NULL, ...) {
+  UseMethod("board_pin_upload")
+}
+
 
 #' Custom Boards Utilities
 #'

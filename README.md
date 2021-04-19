@@ -39,19 +39,21 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpPhF1aa/pins-22ee6a395d22'
-#> With 0 pins: ''
+#> Path: '/tmp/Rtmp1041Pm/pins-16f251dc19f74'
+#> With no pins.
 ```
 
 Next you need to store some data in that board with `pin_write()`:
 
 ``` r
 b %>% pin_write(head(mtcars), "mtcars")
-b
-#> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpPhF1aa/pins-22ee6a395d22'
-#> With 1 pins: 'mtcars'
+#> Guessing `type = 'rds'`
+#> Creating new version '0dfb841bbf0395e9'
 ```
+
+As you can see, it’s saved as an `.rds` by default, but depending on
+what you’re saving and who else you want to read it, you might save it
+as a `csv`, `json`, or `arrow` file.
 
 Later, you can retrieve that data with `pin_read()`:
 

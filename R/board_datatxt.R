@@ -152,7 +152,7 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
   index_entry <- pin_info$index_entry
 
   download_path <- file.path(path_guess, "data.txt")
-  pin_download(download_path,
+  pin_download_files(download_path,
     name,
     board,
     can_fail = TRUE,
@@ -184,7 +184,7 @@ board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, versio
 
     download_path <- file.path(path_guess, version, "data.txt")
     local_path <- file.path(local_path, version)
-    pin_download(download_path,
+    pin_download_files(download_path,
       name,
       board,
       can_fail = TRUE,
@@ -225,7 +225,7 @@ board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, versio
       path <- file_path_null(board$url, board$subpath, path)
     }
 
-    local_path <- pin_download(path,
+    local_path <- pin_download_files(path,
       name,
       board,
       extract = identical(extract, TRUE),
@@ -419,7 +419,7 @@ datatxt_pin_files <- function(board, name) {
 
     download_path <- file.path(path_guess, version, "data.txt")
     local_path <- pin_registry_path(board, name, version)
-    pin_download(download_path,
+    pin_download_files(download_path,
       name,
       board,
       can_fail = TRUE,

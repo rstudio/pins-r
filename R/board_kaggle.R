@@ -303,7 +303,7 @@ board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version
     etag <- NULL
   }
 
-  local_path <- pin_download(url,
+  local_path <- pin_download_files(url,
     name,
     board,
     config = kaggle_auth(board),

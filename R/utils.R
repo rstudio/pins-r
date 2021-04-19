@@ -51,8 +51,22 @@ format_tibble <- function(data) {
   }
 }
 
+wibble <- function(...) {
+  if (is_installed("tibble")) {
+    tibble::tibble(...)
+  } else {
+    data.frame(...)
+  }
+}
+
 map_chr <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = character(1))
+  vapply(x, as_function(f), ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
+}
+map_lgl <- function(x, f, ...) {
+  vapply(x, as_function(f), ..., FUN.VALUE = logical(1), USE.NAMES = FALSE)
+}
+map_num <- function(x, f, ...) {
+  vapply(x, as_function(f), ..., FUN.VALUE = double(1), USE.NAMES = FALSE)
 }
 
 modifyList <- function(x, y) {
@@ -64,3 +78,5 @@ modifyList <- function(x, y) {
     utils::modifyList(x, y)
   }
 }
+
+last <- function(x) x[[length(x)]]

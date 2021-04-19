@@ -5,7 +5,7 @@
     Error <rlang_error>
       Client error: (404) Not Found. Failed to download remote file: http://httpstat.us/404
     Code
-      pin_write(board, 1:10, "test")
+      pin(1:10, "test", board = board)
       x <- pin("http://httpstat.us/404", "test", board = board)
     Warning <warning>
       Failed to re-download pin; using cached value
