@@ -26,7 +26,7 @@
 #' b %>% pin_read("mtcars")
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
-  object_load(pin$path, pin$meta)
+  object_read(pin$path, pin$meta)
 }
 
 pin_retrieve <- function(board, name, version = NULL, hash = NULL, ...) {
@@ -82,7 +82,7 @@ pin_write <- function(board, x,
     pins_inform(paste0("Guessing `type = '", type, "'`"))
   }
 
-  path <- object_save(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
+  path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
   meta <- path_meta(path, object = x, type = type, desc = desc, user = metadata)
 
   board_pin_upload(board, name, path, meta, versioned = versioned, x = x)
@@ -101,7 +101,7 @@ guess_type <- function(x) {
   }
 }
 
-object_save <- function(x, path, type = "rds") {
+object_write <- function(x, path, type = "rds") {
   type <- arg_match0(type, c("rds", "json", "arrow", "pickle", "csv"))
 
   switch(type,
@@ -134,7 +134,7 @@ write_rds <- function(x, path) {
   invisible(path)
 }
 
-object_load <- function(path, meta) {
+object_read <- function(path, meta) {
   if (meta$api_version == 1) {
     type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv", "file"))
 
