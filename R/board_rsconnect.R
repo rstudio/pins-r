@@ -206,7 +206,7 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
 #' @export
 board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
 
-  content <- rsc_content_find(board, name, quiet = FALSE)
+  content <- rsc_content_find(board, name)
 
   url <- content$content_url
   if (!is.null(version)) {
