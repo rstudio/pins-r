@@ -5,7 +5,7 @@
 \alias{pin_upload}
 \title{Upload and download files to and from a board}
 \usage{
-pin_download(board, name, ...)
+pin_download(board, name, version = NULL, hash = NULL, ...)
 
 pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
 }
@@ -15,7 +15,14 @@ pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
 
 \item{name}{Pin name.}
 
-\item{...}{Additional arguments passed on to board pin methods.}
+\item{version}{For boards that support versions, this allows you to retrieve
+a specific version of a pin.}
+
+\item{hash}{Specify a hash to verify that you get exactly the dataset that
+you expect. You can find the hash of an existing pin by inspecting the
+pin metadata.}
+
+\item{...}{Additional arguments passed on to methods for a specific board.}
 
 \item{path}{A character vector of file paths to upload to \code{board}.}
 

@@ -4,7 +4,6 @@
 #' you can use to pin any file.
 #'
 #' @inheritParams pin_read
-#' @param ... Additional arguments passed on to board pin methods.
 #' @return `pin_download()` returns a character vector of file paths;
 #'   `pin_upload()` returns `board`, invisibly.
 #' @export
@@ -15,11 +14,9 @@
 #' path <- board %>% pin_download("CITATION")
 #' path
 #' readLines(path)[1:5]
-pin_download <- function(board, name, ...) {
-  check_board(board)
-  check_name(name)
-
-  board_pin_download(board, name, ...)$path
+pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
+  pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
+  pin$path
 }
 
 #' @export

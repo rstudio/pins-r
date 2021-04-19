@@ -5,7 +5,7 @@
 \alias{pin_write}
 \title{Read and write pins}
 \usage{
-pin_read(board, name, version = NULL, hash = NULL)
+pin_read(board, name, version = NULL, hash = NULL, ...)
 
 pin_write(
   board,
@@ -29,6 +29,8 @@ a specific version of a pin.}
 \item{hash}{Specify a hash to verify that you get exactly the dataset that
 you expect. You can find the hash of an existing pin by inspecting the
 pin metadata.}
+
+\item{...}{Additional arguments passed on to methods for a specific board.}
 
 \item{x}{An object (typically a data frame) to pin.}
 

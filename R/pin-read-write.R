@@ -15,6 +15,7 @@
 #' @param hash Specify a hash to verify that you get exactly the dataset that
 #'   you expect. You can find the hash of an existing pin by inspecting the
 #'   pin metadata.
+#' @param ... Additional arguments passed on to methods for a specific board.
 #' @export
 #' @examples
 #' b <- board_temp()
@@ -23,11 +24,17 @@
 #' b
 #'
 #' b %>% pin_read("mtcars")
-pin_read <- function(board, name, version = NULL, hash = NULL) {
+pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
+  pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
+  object_load(pin$path, pin$meta)
+}
+
+pin_retrieve <- function(board, name, version = NULL, hash = NULL, ...) {
   check_board(board)
   check_name(name)
+  ellipsis::check_dots_used()
 
-  pin <- board_pin_download(board, name, version = version)
+  pin <- board_pin_download(board, name, version = version, ...)
 
   if (!is.null(hash)) {
     pin_hash <- pin_hash(pin$path)
@@ -38,7 +45,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
     }
   }
 
-  object_load(pin$path, pin$meta)
+  pin
 }
 
 #' @param x An object (typically a data frame) to pin.
