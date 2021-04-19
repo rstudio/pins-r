@@ -163,7 +163,7 @@ is_prefix <- function(prefix, string) {
 }
 
 hash_file <- function(path) {
-  digest::digest(path, file = TRUE, algo = "xxhash64")
+  digest::digest(file = path, algo = "xxhash64")
 }
 
 check_board <- function(x) {
