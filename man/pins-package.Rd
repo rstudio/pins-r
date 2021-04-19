@@ -8,11 +8,10 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Pin remote resources into a local cache to work
-    offline, improve speed and avoid recomputing; discover and share
-    resources in local folders, 'GitHub', 'Kaggle' or 'RStudio Connect'.
-    Resources can be anything from 'CSV', 'JSON', or image files to
-    arbitrary R objects.
+Publish data sets, models, and other R objects, making it easy to 
+    share them across projects and with your colleagues. You can pin objects to 
+    a variety of "boards", including local folders (to share on a networked 
+    drive or with dropbox), RStudio connect, Amazon S3, and more.
 }
 \seealso{
 Useful links:

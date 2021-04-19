@@ -3,6 +3,9 @@ url: https://pins.rstudio.com
 home:
   strip_header: true
 
+development:
+  mode: auto
+
 reference:
 - title: "Pins"
   desc: "Functions for pinning, finding, retrieving and sharing remote resources."
