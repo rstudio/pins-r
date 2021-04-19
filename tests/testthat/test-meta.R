@@ -8,10 +8,3 @@ test_that("newer version triggers error", {
   write_meta(list(api_version = 2), path)
   expect_snapshot_error(read_meta(path))
 })
-
-test_that("older version adds missing pieces", {
-  path <- withr::local_tempdir()
-
-  write_meta(list(), path)
-  expect_equal(read_meta(path), list(api_version = 0, type = "files"))
-})

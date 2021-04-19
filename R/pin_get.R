@@ -44,6 +44,7 @@ pin_get <- function(name,
   result <- board_pin_get(board, name, extract = extract, version = version, ...)
 
   meta <- read_meta(result)
+  meta$type <- meta$type %||% "files"
 
   # Why doesn't this use meta$files? Maybe because of zips?
   result_files <- result[!grepl(paste0("^", pin_versions_path_name()), result)]
