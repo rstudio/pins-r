@@ -17,12 +17,16 @@ pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
 
 \item{...}{Additional arguments passed on to board pin methods.}
 
-\item{path}{Path to file to upload to \code{board}.}
+\item{path}{A character vector of file paths to upload to \code{board}.}
 
 \item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
 
 \item{metadata}{A list containing additional metadata to store with the pin.}
+}
+\value{
+\code{pin_download()} returns a character vector of file paths;
+\code{pin_upload()} returns \code{board}, invisibly.
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that

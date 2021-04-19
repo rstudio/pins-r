@@ -80,6 +80,20 @@ test_that("can pin_read() pins made by pin()", {
   # pin.default
 })
 
+test_that("can upload/download multiple files", {
+  path1 <- withr::local_tempfile()
+  writeLines("a", path1)
+  path2 <- withr::local_tempfile()
+  writeLines("b", path2)
+
+  board <- board_temp()
+  suppressMessages(pin_upload(board, c(path1, path2), "test"))
+
+  out <- pin_download(board, "test")
+  expect_equal(length(out), 2)
+  expect_equal(readLines(out[[1]]), "a")
+  expect_equal(readLines(out[[2]]), "b")
+})
 
 test_that("can't unversion an unversioned pin", {
   expect_snapshot(error = TRUE, {

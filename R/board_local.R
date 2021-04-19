@@ -93,11 +93,11 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
 
   if (!versioned) {
     if (length(pin_meta$versions) == 0) {
-      pins_inform(paste0("Creating new version '", metadata$file_hash, "'"))
+      pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
     } else if (length(pin_meta$versions) == 1) {
       pins_inform(paste0(
         "Replacing version '", pin_meta$versions, "'",
-        " with '", metadata$file_hash, "'"
+        " with '", metadata$pin_hash, "'"
       ))
       fs::dir_delete(fs::path(path_pin, pin_meta$versions))
       pin_meta$versions <- NULL
@@ -108,16 +108,16 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
       ))
     }
   } else {
-    pins_inform(paste0("Creating new version '", metadata$file_hash, "'"))
+    pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
   }
 
-  path_version <- fs::path(path_pin, metadata$file_hash)
+  path_version <- fs::path(path_pin, metadata$pin_hash)
   fs::dir_create(path_version)
   fs::file_copy(path, path_version, overwrite = TRUE)
   write_meta(metadata, path_version)
 
   # Add to list of versions so we know which is most recent
-  pin_meta$versions <- c(pin_meta$versions, metadata$file_hash)
+  pin_meta$versions <- c(pin_meta$versions, metadata$pin_hash)
   write_meta(pin_meta, path_pin)
 }
 

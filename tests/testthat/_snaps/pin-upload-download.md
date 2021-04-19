@@ -3,11 +3,11 @@
     Code
       pin_upload(board, 1:10)
     Error <rlang_error>
-      `path` must be a string
+      `path` must be a character vector
     Code
       pin_upload(board, "this-path-doesn't-exist")
     Error <rlang_error>
-      `path` must exist
+      All elements of `path` must exist
     Code
       path <- fs::file_touch(fs::path_temp("test.txt"))
       pin_upload(board, path)

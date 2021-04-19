@@ -30,7 +30,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
   pin <- board_pin_download(board, name, version = version)
 
   if (!is.null(hash)) {
-    pin_hash <- hash_file(pin$path)
+    pin_hash <- pin_hash(pin$path)
     if (!is_prefix(hash, pin_hash)) {
       abort(paste0(
         "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
@@ -112,11 +112,11 @@ object_meta <- function(x) {
 standard_meta <- function(path, type, desc = NULL) {
   list(
     file = fs::path_file(path),
+    file_size = as.integer(fs::file_size(path)),
+    pin_hash = pin_hash(path),
     type = type,
     descripton = desc,
     date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
-    file_size = as.integer(fs::file_size(path)),
-    file_hash = hash_file(path),
     api_version = 1
   )
 }
@@ -179,6 +179,15 @@ object_load <- function(path, meta) {
 
 is_prefix <- function(prefix, string) {
   substr(string, 1, nchar(prefix)) == prefix
+}
+
+pin_hash <- function(paths) {
+  if (length(paths) == 1) {
+    hash_file(paths)
+  } else {
+    hashes <- map_chr(paths, hash_file)
+    hash(hashes)
+  }
 }
 
 hash_file <- function(path) {
