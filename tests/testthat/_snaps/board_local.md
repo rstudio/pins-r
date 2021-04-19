@@ -12,14 +12,14 @@
     Code
       pin_write(b, 1:5, "x", type = "rds", versioned = TRUE)
     Message <message>
-      Creating new version '3d563e5fb04b216f'
+      Creating new version '671aaad5ad24bc51'
 
 ---
 
     Code
       pin_write(b, 1:6, "x", type = "rds", versioned = TRUE)
     Message <message>
-      Creating new version '04815005671b2e74'
+      Creating new version '26713f5a2a0644b7'
 
 ---
 
@@ -34,11 +34,11 @@
       b <- board_temp(versions = TRUE)
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Creating new version '3d563e5fb04b216f'
+      Creating new version '671aaad5ad24bc51'
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Creating new version '3d563e5fb04b216f'
+      Creating new version '671aaad5ad24bc51'
     Code
       pin_write(b, 1:5, "x", type = "rds", versioned = FALSE)
     Error <rlang_error>
@@ -54,13 +54,13 @@
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Creating new version '3d563e5fb04b216f'
+      Creating new version '671aaad5ad24bc51'
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Replacing version '3d563e5fb04b216f' with '3d563e5fb04b216f'
+      Replacing version '671aaad5ad24bc51' with '671aaad5ad24bc51'
     Code
       pin_write(b, 1:6, "x", type = "rds")
     Message <message>
-      Replacing version '3d563e5fb04b216f' with '04815005671b2e74'
+      Replacing version '671aaad5ad24bc51' with '26713f5a2a0644b7'
 

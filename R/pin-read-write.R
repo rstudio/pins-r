@@ -125,7 +125,7 @@ object_save <- function(x, path, type = "rds") {
   type <- arg_match0(type, c("rds", "json", "arrow", "pickle", "csv"))
 
   switch(type,
-    rds = saveRDS(x, path, version = 2),
+    rds = write_rds(x, path),
     json = jsonlite::write_json(x, path, auto_unbox = TRUE),
     arrow = arrow::write_feather(x, path),
     pickle = abort("'pickle' pins not supported in R"),
@@ -133,6 +133,21 @@ object_save <- function(x, path, type = "rds") {
   )
 
   path
+}
+
+write_rds <- function(x, path) {
+  saveRDS(x, path, version = 2)
+
+  old <- readBin(path, "raw", fs::file_size(path))
+
+  # Record fixed R version number (3.5.3) to avoid spurious hash changes
+  con <- file(path, open = "wb")
+  writeBin(old[1:7], con)
+  writeBin(as.raw(c(3, 5, 3)), con)
+  writeBin(old[-(1:10)], con)
+  close(con)
+
+  invisible(path)
 }
 
 object_load <- function(path, meta) {
@@ -163,13 +178,7 @@ is_prefix <- function(prefix, string) {
 }
 
 hash_file <- function(path) {
-  if (fs::path_ext(path) == "rds") {
-    # First 10 bytes contain R version number, which we want to ignore
-    data <- readBin(path, "raw", fs::file_size(path))
-    digest::digest(data[-(1:10)], algo = "xxhash64")
-  } else {
-    digest::digest(file = path, algo = "xxhash64")
-  }
+  digest::digest(file = path, algo = "xxhash64")
 }
 
 check_board <- function(x) {
