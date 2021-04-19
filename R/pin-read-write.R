@@ -45,6 +45,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL) {
 #' @param desc A text description of the pin; most important for
 #'   shared boards so that others can understand what the pin contains.
 #' @param metadata A list containing additional metadata to store with the pin.
+#'   When retrieving the pin, this will be stored in the `user` key, to
+#'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
 #'   "csv", "rds", "json", or "arrow". If not supplied will use json for bare
 #'   lists and rds for everything else.
@@ -62,21 +64,23 @@ pin_write <- function(board, x,
   check_board(board)
   if (is.null(name)) {
     name <- pin_default_name(expr_deparse(enexpr(x)), board)
-    inform(paste0("Guessing `name = '", name, "'`"))
+    pins_inform(paste0("Guessing `name = '", name, "'`"))
   } else {
     check_name(name)
   }
+  check_metadata(metadata)
 
   if (is.null(type)) {
     type <- guess_type(x)
-    inform(paste0("Guessing `type = '", type, "'`"))
+    pins_inform(paste0("Guessing `type = '", type, "'`"))
   }
 
   path <- object_save(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
-  metadata <- modifyList(metadata, object_meta(x))
-  metadata <- modifyList(metadata, standard_meta(path, type, desc))
+  meta <- standard_meta(path, type, desc)
+  meta$user <- metadata
+  meta$object <- object_meta(x)
 
-  board_pin_upload(board, name, path, metadata, versioned = versioned, x = x)
+  board_pin_upload(board, name, path, meta, versioned = versioned, x = x)
 
   invisible(board)
 }
@@ -197,5 +201,10 @@ check_name <- function(x) {
 
   if (grepl("\\\\|/", x, perl = TRUE)) {
     abort("`name` can not contain slashes")
+  }
+}
+check_metadata <- function(x) {
+  if (!is.null(x) && !is_bare_list(x)) {
+    abort("`metadata` must be a list")
   }
 }

@@ -16,6 +16,10 @@
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Error <rlang_error>
       `type` must be one of "rds", "json", "arrow", "pickle", or "csv".
+    Code
+      pin_write(board, mtcars, name = "mtcars", metadata = 1)
+    Error <rlang_error>
+      `metadata` must be a list
 
 # pin_write() noisily generates name and type
 
