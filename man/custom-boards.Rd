@@ -9,6 +9,8 @@
 \alias{board_pin_remove}
 \alias{board_pin_find}
 \alias{board_pin_versions}
+\alias{board_pin_download}
+\alias{board_pin_upload}
 \title{Custom Boards}
 \usage{
 board_pin_create(board, path, name, metadata, ...)
@@ -26,6 +28,10 @@ board_pin_remove(board, name, ...)
 board_pin_find(board, text, ...)
 
 board_pin_versions(board, name, ...)
+
+board_pin_download(board, name, ...)
+
+board_pin_upload(board, name, path, metadata, versioned = NULL, x = NULL, ...)
 }
 \arguments{
 \item{board}{The board to extend, retrieved with \code{board_get()}.}

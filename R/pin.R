@@ -249,7 +249,7 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, cach
 
   if (length(x) == 1 && is_url(x)) {
     details <- as.environment(list(something_changed = TRUE))
-    path <- pin_download(x,
+    path <- pin_download_files(x,
       name,
       board,
       extract = extract,

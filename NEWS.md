@@ -1,5 +1,28 @@
 # pins (development version)
 
+* The pins API has been overhauled to center around two new functions: 
+  `pin_read()` and `pin_write()`. `pin_write()` has a type argument that 
+  allows you to choose which file type to use, so you can manage the tradeoffs
+  between speed, generality, and language inter-op. They both take the
+  board as the first argument.
+  
+    `pin_read()` and `pin_write()` work with R objects. If you want to 
+    work with files on disk (because, for example, you need to use file type
+    that isn't natively supported), you can use `pin_download()` and 
+    `pin_upload()`. `pin_upload()` takes a path and `pin_download()` returns
+    a path.
+
+* All boards now have a `board_` function that you use to create a board,
+  instead of registering it. This takes away the magic of which board a 
+  pin comes from, and should hopefully make it easier to understand what
+  pins is doing.
+
+* You can no longer switch from a versioned pin to an unversioned pin without
+  first deleting the pin (#410).
+
+* `board_rsconnect()` will automatically connect to the current RSC pin board
+  when run inside RSC itself (assuming you have version 1.8.8 or later) (#396).
+
 * `board_browse()` now works with local boards.
 
 * All board objects now have class beginning with `pins_board_` and also
@@ -10,13 +33,10 @@
 * `option(pins.invisible)` is now defunct and ignored. 
 
 * Pins no longer register the code needed to recreate them as this tends to
-  either be dangerous (it's easy to accidentally leak credentails) or useless
+  either be dangerous (it's easy to accidentally leak credentials) or useless
   (it relies on variables that the connection pane doesn't capture).
 
 * The board extension interface has changed. More info to follow.
-
-* All boards now have a `board_` function that allows you create a board
-  without registering it.
 
 * The "packages" board is no longer registered by default; if you want to use
   this you'll need to register with `board_register("packages")`. It has been

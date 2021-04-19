@@ -525,7 +525,7 @@ board_pin_find.pins_board_github <- function(board, text, ...) {
     )
 
     if (!httr::http_error(result_single)) {
-      local_path <- pin_download(httr::content(result_single, encoding = "UTF-8")$download_url,
+      local_path <- pin_download_files(httr::content(result_single, encoding = "UTF-8")$download_url,
         result$name,
         board,
         headers = github_headers(board),
@@ -637,7 +637,7 @@ board_pin_get.pins_board_github <- function(board, name, extract = NULL, version
   }
 
   base_url <- github_raw_url(board, branch = branch, board$path, name, "/data.txt")
-  local_path <- pin_download(base_url, name, board, headers = github_headers(board), subpath = subpath)
+  local_path <- pin_download_files(base_url, name, board, headers = github_headers(board), subpath = subpath)
 
   if (file.exists(file.path(local_path, "data.txt"))) {
     index_path <- pin_manifest_download(local_path, namemap = TRUE)
@@ -657,7 +657,7 @@ board_pin_get.pins_board_github <- function(board, name, extract = NULL, version
         file_url <- github_raw_url(board, branch = branch, board$path, name, "/", file)
       }
 
-      pin_download(file_url,
+      pin_download_files(file_url,
         name,
         board,
         headers = headers,

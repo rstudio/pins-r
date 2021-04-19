@@ -1,0 +1,31 @@
+---
+title: "metadata"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pins)
+```
+
+There are two versions of pins metadata:
+
+* version 0: used in pins 0.4.5 and earlier
+* version 1: used in pins 1.0.0 and later (including 0.99.9000)
+
+Metadata versions are backward compatible, e.g. pins 1.0.0 can read versions 0 and 1. pins 1.0.0 and later will automatically throw an error recommending that you upgrade if it encounters a new metadata version.
+
+In version 1 and greater you can identify the metadata version by consulting the "api_version" key. If it is absent, you can assume that you have version 0. `read_meta()` adds this automatically, and gives an informative error if you're reading a newer version than what is supported.
+
+There are two major differences between version 0 and version 1:
+
+* In version 0, type refers to the type of object (e.g. `table`, `default`, `files`).
+  In version 1, type refers to the storage mechanism (e.g. `arrow`, `csv`, `rds`, `pickle`).
+
+* In version 0, user supplied metadata is intermingled with pins metadata.
+  In version 1, user supplied metadata is stored under a `user` key.

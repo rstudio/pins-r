@@ -32,13 +32,6 @@ articles:
   - use-cases/automate-dataset-updates
   - use-cases/create-data-pipelines
   - use-cases/update-plumber-and-shiny-apps
-
-- title: Developer
-  navbar: Developer
-  contents:
-  - pins-extending
-  - boards-extending
-
 navbar:
   components:
     home: ~

@@ -1,38 +1,23 @@
-html {
-  height: 100%;
-}
-
-body {
-  font-family: 'Lato', sans-serif;
-  font-size: 11px;
-  color: #333;
-  height: calc(100% - 20px);
-  margin: 20px 10px 0 10px;
-  overflow: hidden;
-}
-
 .pagedtable {
   overflow: auto;
   padding-left: 8px;
   padding-right: 8px;
 }
 
-.pagedtable-wrapper {
-  margin-bottom: 6px;
-}
-
 .pagedtable table {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  font-size: 12px;
   border-bottom: 1px solid #dddddd;
   font-weight: 100;
   line-height: 24px;
 }
 
+.pagedtable td, .pagedtable th {
+  padding: 2px 4px 3px 4px;
+}
+
 .pagedtable th {
-  padding: 0 5px 0 5px;
   border: none;
   border-bottom: 1px solid #dddddd;
 
@@ -45,14 +30,13 @@ body {
 }
 
 .pagedtable td {
-  padding: 0 4px 0 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .pagedtable .even {
-  background-color: #fcfcfc;
+  background-color: #fafafa;
 }
 
 .pagedtable-padding-col {

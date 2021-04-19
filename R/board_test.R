@@ -82,6 +82,7 @@ board_test_default <- function(board, exclude) {
 }
 
 board_test_versions <- function(board, exclude, name) {
+  name <- paste0("board_", board$name)
   pin_name <- paste0("aversion", round(stats::runif(1, 1, 1000)))
 
   old_progress <- options(pins.progress = FALSE)

@@ -5,9 +5,17 @@
 \alias{pin_write}
 \title{Read and write pins}
 \usage{
-pin_read(board, name)
+pin_read(board, name, version = NULL, hash = NULL)
 
-pin_write(board, x, name = NULL, description = NULL, metadata = NULL)
+pin_write(
+  board,
+  x,
+  name = NULL,
+  type = NULL,
+  desc = NULL,
+  metadata = NULL,
+  versioned = NULL
+)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -15,16 +23,35 @@ pin_write(board, x, name = NULL, description = NULL, metadata = NULL)
 
 \item{name}{Pin name.}
 
+\item{version}{For boards that support versions, this allows you to retrieve
+a specific version of a pin.}
+
+\item{hash}{Specify a hash to verify that you get exactly the dataset that
+you expect. You can find the hash of an existing pin by inspecting the
+pin metadata.}
+
 \item{x}{An object (typically a data frame) to pin.}
 
-\item{description}{A text description of the pin; most important for
+\item{type}{File type used to save \code{x} to disk. Must be one of
+"csv", "rds", "json", or "arrow". If not supplied will use json for bare
+lists and rds for everything else.}
+
+\item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
 
-\item{metadata}{A list containing additional metadata to store with the pins.}
+\item{metadata}{A list containing additional metadata to store with the pin.}
+
+\item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
+use the default for \code{board}}
 }
 \description{
 Use \code{pin_write()} to pin an object to board, and \code{pin_read()} to retrieve
 it.
+}
+\details{
+\code{pin_write()} takes care of the details of serialising an R object to
+disk, controlled by the \code{type} argument. See \code{\link[=pin_download]{pin_download()}}/\code{\link[=pin_upload]{pin_upload()}}
+if you want to perform the serialisation yourself and work just with files.
 }
 \examples{
 b <- board_temp()
