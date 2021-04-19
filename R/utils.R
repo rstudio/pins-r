@@ -80,3 +80,11 @@ modifyList <- function(x, y) {
 }
 
 last <- function(x) x[[length(x)]]
+
+pins_inform <- function(...) {
+  if (isTRUE(getOption("pins.quiet"))) {
+    invisible()
+  } else {
+    inform(...)
+  }
+}

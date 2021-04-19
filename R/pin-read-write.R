@@ -92,14 +92,6 @@ pin_write <- function(board, x,
   invisible(board)
 }
 
-pins_inform <- function(...) {
-  if (isTRUE(getOption("pins.quiet"))) {
-    invisible()
-  } else {
-    inform(...)
-  }
-}
-
 guess_type <- function(x) {
   if (is.data.frame(x)) {
     "rds"
