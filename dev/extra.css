@@ -1,0 +1,91 @@
+
+dd {
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.navbar-brand .version {
+  display: none;
+}
+
+.navbar-brand a:link,
+.navbar-brand a:visited,
+.navbar-brand a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+p img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+blockquote {
+  font-size: inherit;
+  background: #f0ffe0;
+  border-left: 5px solid #b4d88e;
+}
+
+.use-case {
+  margin-bottom: 20px;
+}
+
+.use-case a {
+  margin: 10px 40px 10px 40px;
+  display: inline-block;
+}
+
+.use-case img {
+  width: 140px;
+  box-shadow: 10px 10px 20px #aaaaaa;
+}
+
+.use-case > div {
+  display: inline-block;
+  width: 580px;
+  position: absolute;
+  text-align: justify;
+}
+
+.use-case a.pin-link {
+  float: right;
+  margin: 0;
+  margin-top: 10px;
+}
+
+#pins-pin-discover-and-share-resources-1 > h1 {
+  display: none;
+}
+
+.navbar {
+  background: #FFF;
+  box-shadow: 0 10px 10px -5px rgba(0,0,0,.1);
+}
+
+.navbar-brand a:link, .navbar-brand a:visited, .navbar-brand a:hover {
+  color: #000;
+}
+
+.navbar-brand {
+  margin-left: 15px;
+  background-image: url("reference/figures/logo.png");
+  background-size: 32px auto;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  padding-left: 60px;
+}
+
+#overview > p > img {
+  width: 130px;
+  margin-top: -20px;
+}
+
+.container {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.navbar-nav a {
+  border-radius: 6px;
+}
