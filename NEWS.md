@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `pin_write()` accepts arbitrary `metadata` (#430).
+
 * `pin_write()` can be any string, as long as it doesn't contain slashes
   (#429).
 

@@ -27,6 +27,7 @@ test_that("useful errors on bad inputs", {
     pin_write(board, mtcars, name = 1:10)
     pin_write(board, mtcars, name = "x/y")
     pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
+    pin_write(board, mtcars, name = "mtcars", metadata = 1)
   })
 })
 
@@ -41,6 +42,15 @@ test_that("pin_write() noisily generates name and type", {
     b <- board_temp()
     pin_write(b, mtcars)
   })
+})
+
+test_that("user metadata is namespaced", {
+  withr::local_options(pins.quiet = TRUE)
+  board <- board_temp()
+
+  pin_write(board, 1:10, "x", metadata = list(name = "Susan"))
+  meta <- board_pin_download(board, "x")$meta
+  expect_equal(meta$user, list(name = "Susan"))
 })
 
 test_that("can request specific hash", {

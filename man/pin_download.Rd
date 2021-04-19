@@ -22,7 +22,9 @@ pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
 \item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.}
 
-\item{metadata}{A list containing additional metadata to store with the pin.}
+\item{metadata}{A list containing additional metadata to store with the pin.
+When retrieving the pin, this will be stored in the \code{user} key, to
+avoid potential clashes with the metadata that pins itself uses.}
 }
 \value{
 \code{pin_download()} returns a character vector of file paths;
