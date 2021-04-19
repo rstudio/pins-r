@@ -118,7 +118,7 @@ board_rsconnect_test <- function(...) {
   if (nrow(rsconnect::accounts()) > 1) {
     board_rsconnect(..., auth = "rsconnect")
   } else if (!has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
-    skip("No RSC env vars set up")
+    testthat::skip("No RSC env vars set up")
   } else {
     board_rsconnect(..., auth = "envvar")
   }
