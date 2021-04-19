@@ -90,8 +90,8 @@ azure_headers <- function(board, verb, path, file) {
     sep = "\n"
   )
 
-  signature <- openssl::sha256(charToRaw(content), key = base64enc::base64decode(board$key)) %>%
-    base64enc::base64encode()
+  signature <- openssl::sha256(charToRaw(content), key = jsonlite::base64_dec(board$key)) %>%
+    jsonlite::base64_enc()
 
   headers <- httr::add_headers(
     `x-ms-date` = date,

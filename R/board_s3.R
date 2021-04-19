@@ -192,7 +192,7 @@ s3_headers <- function(board, verb, path, file) {
     )
 
     signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
-      base64enc::base64encode()
+      jsonlite::base64_enc()
 
     headers <- httr::add_headers(
       Host = paste0(bucket, ".", board$host),

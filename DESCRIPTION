@@ -26,7 +26,6 @@ Depends:
     R (>= 3.2.0)
 Imports:
     arrow,
-    base64enc,
     crayon,
     digest,
     filelock,
@@ -44,20 +43,15 @@ Imports:
     yaml,
     zip
 Suggests:
-    callr,
-    covr,
-    data.table,
     datasets,
+    data.table,
     knitr,
     R.utils,
-    R6,
     rmarkdown,
     rsconnect,
     shiny,
-    stringi,
     testthat (>= 3.0.0),
-    tibble,
-    xml2
+    tibble
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

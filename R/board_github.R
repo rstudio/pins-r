@@ -120,7 +120,7 @@ github_update_temp_index <- function(board, path, commit, operation, name = NULL
 
     # API returns contents when size < 1mb
     if (!is.null(content$content)) {
-      index <- board_manifest_load(rawToChar(base64enc::base64decode(content$content)))
+      index <- board_manifest_load(rawToChar(jsonlite::base64_dec(content$content)))
     }
     else {
       response <- httr::GET(content$download_url, github_headers(board))
@@ -169,7 +169,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
   file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
-  base64 <- base64enc::base64encode(index_file)
+  base64 <- jsonlite::base64_enc(index_file)
   response <- httr::PUT(file_url,
     body = list(
       message = commit,
@@ -257,7 +257,7 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
   file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
   pin_log("uploading ", file_url)
 
-  base64 <- base64enc::base64encode(file_path)
+  base64 <- jsonlite::base64_enc(file_path)
   response <- httr::PUT(file_url,
     body = list(
       message = commit,
@@ -280,7 +280,7 @@ github_upload_blob <- function(board, file, file_path, commit) {
   blob_url <- github_url(board, branch = NULL, "/git/blobs")
   pin_log("uploading ", file)
 
-  base64 <- base64enc::base64encode(file_path)
+  base64 <- jsonlite::base64_enc(file_path)
   response <- httr::POST(blob_url,
     body = list(
       content = base64,
@@ -502,7 +502,7 @@ board_pin_find.pins_board_github <- function(board, text, ...) {
       content <- httr::content(result, encoding = "UTF-8")
     }
     else {
-      content <- rawToChar(base64enc::base64decode(content$content))
+      content <- rawToChar(jsonlite::base64_dec(content$content))
     }
 
     result <- board_manifest_load(content) %>%
