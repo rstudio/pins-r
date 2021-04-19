@@ -21,6 +21,9 @@ pin metadata.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 }
+\value{
+A list.
+}
 \description{
 Retrieve metadata for a pin
 }
@@ -31,7 +34,7 @@ b \%>\% pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
 # Get the pin
 b \%>\% pin_read("mtcars")
 # Get its metadata
-b \%>\% pin_meta("mtcars") \%>\% str()
+b \%>\% pin_meta("mtcars")
 # Get path to underlying data
 b \%>\% pin_download("mtcars")
 }

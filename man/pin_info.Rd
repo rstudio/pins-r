@@ -38,6 +38,7 @@ pin(mtcars, board = board)
 # previously:
 pin_info("mtcars", board = board)
 
-# now
+# now:
 board \%>\% pin_meta("mtcars")
 }
+\keyword{internal}
