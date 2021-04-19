@@ -45,10 +45,8 @@ board object.}
 }
 \description{
 To use a RStudio Connect board, you need to first authenticate. The easiest
-way to do so is by launching \strong{Tools} - \strong{Global Options} - \strong{Publishing}
-\itemize{
-\item \strong{Connect}, and follow the instructions.
-}
+way to do so is by launching \strong{Tools} - \strong{Global Options} -
+\strong{Publishing} - \strong{Connect}, and follow the instructions.
 
 You can share pins with others in RStudio Connect by changing the viewers
 of the document to specific users or groups. This is accomplished by opening
