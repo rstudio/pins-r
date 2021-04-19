@@ -194,4 +194,8 @@ check_name <- function(x) {
   if (!is_string(x)) {
     abort("`name` must be a string")
   }
+
+  if (grepl("\\\\|/", x, perl = TRUE)) {
+    abort("`name` can not contain slashes")
+  }
 }

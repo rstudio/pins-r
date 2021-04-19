@@ -9,6 +9,10 @@
     Error <rlang_error>
       `name` must be a string
     Code
+      pin_write(board, mtcars, name = "x/y")
+    Error <rlang_error>
+      `name` can not contain slashes
+    Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Error <rlang_error>
       `type` must be one of "rds", "json", "arrow", "pickle", or "csv".

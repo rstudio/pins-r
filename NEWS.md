@@ -1,5 +1,8 @@
 # pins (development version)
 
+* `pin_write()` can be any string, as long as it doesn't contain slashes
+  (#429).
+
 * The pins API has been overhauled to center around two new functions: 
   `pin_read()` and `pin_write()`. `pin_write()` has a type argument that 
   allows you to choose which file type to use, so you can manage the tradeoffs

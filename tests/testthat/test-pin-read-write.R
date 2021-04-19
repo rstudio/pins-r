@@ -25,6 +25,7 @@ test_that("useful errors on bad inputs", {
   expect_snapshot(error = TRUE, {
     pin_write(mtcars)
     pin_write(board, mtcars, name = 1:10)
+    pin_write(board, mtcars, name = "x/y")
     pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
   })
 })
