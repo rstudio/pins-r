@@ -66,14 +66,14 @@ pin_info <- function(name,
 print.pin_info <- function(x, ...) {
   info <- x
 
-  cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
-  if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
-  if (!is.null(info$signature)) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
+  cat(cli::col_silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
+  if (nchar(info$description) > 0) cat(cli::col_silver(paste0("# Description: ", info$description, "\n")))
+  if (!is.null(info$signature)) cat(cli::col_silver(paste0("# Signature: ", info$signature, "\n")))
 
   info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
   if (length(names(info)) > 0) {
-    cat(crayon::silver(paste0("# Properties:", "\n")))
+    cat(cli::col_silver(paste0("# Properties:", "\n")))
 
     for (i in names(info)) {
       entry <- info[[i]]
@@ -88,6 +88,6 @@ print.pin_info <- function(x, ...) {
       strsplit("\n") %>%
       sapply(function(e) paste("#  ", e)) %>%
       paste0(collapse = "\n")
-    cat(crayon::silver(yaml_str))
+    cat(cli::col_silver(yaml_str))
   }
 }

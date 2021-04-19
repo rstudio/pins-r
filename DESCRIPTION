@@ -27,7 +27,6 @@ Depends:
 Imports:
     arrow,
     cli,
-    crayon,
     digest,
     ellipsis,
     filelock,
