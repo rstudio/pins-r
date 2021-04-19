@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pin Resource — pin • pins</title>
+<title>Retrieve metadata for a pin — pin_meta • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Pin Resource — pin" />
-<meta property="og:description" content="Pins the given resource locally or to the given board." />
+<meta property="og:title" content="Retrieve metadata for a pin — pin_meta" />
+<meta property="og:description" content="Retrieve metadata for a pin" />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -150,94 +150,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pin Resource</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a></small>
-    <div class="hidden name"><code>pin.Rd</code></div>
+    <h1>Retrieve metadata for a pin</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-meta.R'><code>R/pin-meta.R</code></a></small>
+    <div class="hidden name"><code>pin_meta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Pins the given resource locally or to the given board.</p>
+    <p>Retrieve metadata for a pin</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin</span><span class='op'>(</span><span class='va'>x</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, description <span class='op'>=</span> <span class='cn'>NULL</span>, board <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pin_meta</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, hash <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An object, local file or remote URL to pin.</p></td>
+      <th>board</th>
+      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
+<code><a href='board_github.html'>board_github()</a></code> or other other <code>board_</code> function.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>The name for the dataset or object.</p></td>
+      <td><p>Pin name.</p></td>
     </tr>
     <tr>
-      <th>description</th>
-      <td><p>Optional description for this pin.</p></td>
+      <th>version</th>
+      <td><p>For boards that support versions, this allows you to retrieve
+a specific version of a pin.</p></td>
     </tr>
     <tr>
-      <th>board</th>
-      <td><p>The board where this pin will be placed.</p></td>
+      <th>hash</th>
+      <td><p>Specify a hash to verify that you get exactly the dataset that
+you expect. You can find the hash of an existing pin by inspecting the
+pin metadata.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters.</p></td>
+      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>pin()</code> allows you to cache remote resources and intermediate results with ease. When
-caching remote resources, usually URLs, it will check for HTTP caching headers to avoid
-re-downloading when the remote result has not changed.</p>
-<p>This makes it ideal to support reproducible research by requiring manual instruction to
-download resources before running your R script.</p>
-<p>In addition, <code>pin()</code> still works when working offline or when the remote resource
-becomes unavailable; when this happens, a warning will be triggered but your code will
-continue to work.</p>
-<p><code>pin()</code> will stores data frames in two files, an R native file and a 'CSV' file. To
-force saving a pin only using R's native (RDS) format, you can use <code>pin(I(data))</code>.
-This can improve performance and size at the cost of making the pin unreadable from other
-tools and programming languages.</p>
+    <p>A list.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># define temporary local board</span>
-<span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># cache the mtcars dataset</span>
-<span class='fu'>pin</span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># cache computation over mtcars</span>
-<span class='fu'>pin</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>[</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>mpg</span> <span class='op'>&gt;</span> <span class='fl'>30</span>, <span class='op'>]</span>, name <span class='op'>=</span> <span class='st'>"mtefficient"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># retrieve cached pin</span>
-<span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtefficient"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#&gt; Fiat 128       32.4   4 78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic    30.4   4 75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla 33.9   4 71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Lotus Europa   30.4   4 95.1 113 3.77 1.513 16.90  1  1    5    2</div><div class='input'>
-<span class='co'># url to remote resource</span>
-<span class='va'>resource</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span>
-  <span class='st'>"https://raw.githubusercontent.com/facebook/prophet"</span>,
-  <span class='st'>"master/examples/example_retail_sales.csv"</span>
-<span class='op'>)</span>
-
-<span class='co'># cache remote resource</span>
-<span class='fu'>pin</span><span class='op'>(</span><span class='va'>resource</span>, name <span class='op'>=</span> <span class='st'>"example_retail_sales"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># cache and read csv</span>
-<span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'>pin</span><span class='op'>(</span><span class='va'>resource</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-<span class='va'>path</span>
-</div><div class='output co'>#&gt; [1] "/tmp/Rtmp3Dohc0/pins-2d902ef218fb/example-retail-sales/example_retail_sales.csv"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           ds      y
-#&gt; 1 1992-01-01 146376
-#&gt; 2 1992-02-01 147079
-#&gt; 3 1992-03-01 159336
-#&gt; 4 1992-04-01 163669
-#&gt; 5 1992-05-01 170068
-#&gt; 6 1992-06-01 168663</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='st'>"mtcars"</span>, metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Hadley"</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version 'f879756e28a960ae'</span></div><div class='input'>
+<span class='co'># Get the pin</span>
+<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</div><div class='input'><span class='co'># Get its metadata</span>
+<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_meta</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; List of 9
+#&gt;  $ file       : chr "mtcars.rds"
+#&gt;  $ file_size  : int 426
+#&gt;  $ pin_hash   : chr "f879756e28a960ae"
+#&gt;  $ type       : chr "rds"
+#&gt;  $ description: NULL
+#&gt;  $ date       : chr "2021-04-19T23:04:30"
+#&gt;  $ api_version: num 1
+#&gt;  $ user       :List of 1
+#&gt;   ..$ Hadley: logi TRUE
+#&gt;  $ object     :List of 2
+#&gt;   ..$ rows: int 6
+#&gt;   ..$ cols: int 11</div><div class='input'><span class='co'># Get path to underlying data</span>
+<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_download.html'>pin_download</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /tmp/Rtmp3Dohc0/pins-2d90255808ac/mtcars/f879756e28a960ae/mtcars.rds</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
