@@ -26,10 +26,13 @@ Depends:
     R (>= 3.2.0)
 Imports:
     arrow,
+    cli,
     crayon,
     digest,
+    ellipsis,
     filelock,
     fs,
+    glue,
     httr,
     jsonlite,
     lifecycle,
@@ -43,8 +46,8 @@ Imports:
     yaml,
     zip
 Suggests:
-    datasets,
     data.table,
+    datasets,
     knitr,
     R.utils,
     rmarkdown,
