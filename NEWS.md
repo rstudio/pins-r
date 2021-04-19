@@ -14,8 +14,7 @@
     `pin_read()` and `pin_write()` work with R objects. If you want to 
     work with files on disk (because, for example, you need to use file type
     that isn't natively supported), you can use `pin_download()` and 
-    `pin_upload()`. `pin_upload()` takes a path and `pin_download()` returns
-    a path.
+    `pin_upload()`.
 
 * All boards now have a `board_` function that you use to create a board,
   instead of registering it. This takes away the magic of which board a 
