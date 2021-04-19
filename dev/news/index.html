@@ -158,6 +158,8 @@
 <a href="#pins-development-version" class="anchor"></a>pins (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/pin_read.html">pin_write()</a></code> accepts arbitrary <code>metadata</code> (<a href='https://github.com/rstudio/pins/issues/430'>#430</a>).</p></li>
+<li><p><code><a href="../reference/pin_read.html">pin_write()</a></code> can be any string, as long as it doesn’t contain slashes (<a href='https://github.com/rstudio/pins/issues/429'>#429</a>).</p></li>
 <li>
 <p>The pins API has been overhauled to center around two new functions: <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_read.html">pin_write()</a></code>. <code><a href="../reference/pin_read.html">pin_write()</a></code> has a type argument that allows you to choose which file type to use, so you can manage the tradeoffs between speed, generality, and language inter-op. They both take the board as the first argument.</p>
 <p><code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_read.html">pin_write()</a></code> work with R objects. If you want to work with files on disk (because, for example, you need to use file type that isn’t natively supported), you can use <code><a href="../reference/pin_download.html">pin_download()</a></code> and <code><a href="../reference/pin_download.html">pin_upload()</a></code>. <code><a href="../reference/pin_download.html">pin_upload()</a></code> takes a path and <code><a href="../reference/pin_download.html">pin_download()</a></code> returns a path.</p>
