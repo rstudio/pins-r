@@ -22,3 +22,15 @@ test_that("pin_upload generated useful messages", {
     pin_upload(board, path)
   })
 })
+
+test_that("user can supply metadata", {
+  withr::local_options(pins.quiet = TRUE)
+  path1 <- withr::local_tempfile()
+  writeLines("Hi!", path1)
+
+  board <- board_temp()
+  pin_upload(board, path1, "x", metadata = list(name = "Susan"), desc = "A vector")
+  meta <- board_pin_download(board, "x")$meta
+  expect_equal(meta$user, list(name = "Susan"))
+  expect_equal(meta$description, "A vector")
+})

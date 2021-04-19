@@ -1,3 +1,11 @@
+# can't pin_read() file that was pin_uploaded()
+
+    Code
+      pin_read(board, "test")
+    Error <rlang_error>
+      Pin created with `pin_upload()`
+      i Retrieve uploaded paths with `pin_download()`
+
 # useful errors on bad inputs
 
     Code

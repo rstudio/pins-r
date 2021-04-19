@@ -19,6 +19,16 @@ test_that("can round trip all types", {
   expect_equal(pin_read(board, "x-1"), x)
 })
 
+test_that("can't pin_read() file that was pin_uploaded()", {
+  withr::local_options(pins.quiet = TRUE)
+  path <- withr::local_tempfile()
+  writeLines("Hi!", path)
+
+  board <- board_temp()
+  pin_upload(board, path, "test")
+  expect_snapshot(error = TRUE, pin_read(board, "test"))
+})
+
 test_that("useful errors on bad inputs", {
   board <- board_temp()
 
@@ -44,13 +54,14 @@ test_that("pin_write() noisily generates name and type", {
   })
 })
 
-test_that("user metadata is namespaced", {
+test_that("user can supply metadata", {
   withr::local_options(pins.quiet = TRUE)
   board <- board_temp()
 
-  pin_write(board, 1:10, "x", metadata = list(name = "Susan"))
+  pin_write(board, 1:10, "x", metadata = list(name = "Susan"), desc = "A vector")
   meta <- board_pin_download(board, "x")$meta
   expect_equal(meta$user, list(name = "Susan"))
+  expect_equal(meta$description, "A vector")
 })
 
 test_that("can request specific hash", {

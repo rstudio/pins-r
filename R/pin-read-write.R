@@ -83,9 +83,7 @@ pin_write <- function(board, x,
   }
 
   path <- object_save(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
-  meta <- standard_meta(path, type, desc)
-  meta$user <- metadata
-  meta$object <- object_meta(x)
+  meta <- path_meta(path, object = x, type = type, desc = desc, user = metadata)
 
   board_pin_upload(board, name, path, meta, versioned = versioned, x = x)
 
@@ -101,27 +99,6 @@ guess_type <- function(x) {
   } else {
     "rds"
   }
-}
-
-# Should be a generic?
-object_meta <- function(x) {
-  if (is.data.frame(x)) {
-    list(rows = nrow(x), cols = ncol(x))
-  } else {
-    list()
-  }
-}
-
-standard_meta <- function(path, type, desc = NULL) {
-  list(
-    file = fs::path_file(path),
-    file_size = as.integer(fs::file_size(path)),
-    pin_hash = pin_hash(path),
-    type = type,
-    descripton = desc,
-    date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
-    api_version = 1
-  )
 }
 
 object_save <- function(x, path, type = "rds") {
@@ -159,14 +136,18 @@ write_rds <- function(x, path) {
 
 object_load <- function(path, meta) {
   if (meta$api_version == 1) {
-    type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv"))
+    type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv", "file"))
 
     switch(type,
       rds = readRDS(path),
       json = jsonlite::read_json(path, simplifyVector = TRUE),
       arrow = arrow::read_feather(path),
       pickle = abort("'pickle' pins not supported in R"),
-      csv = utils::read.csv(path, stringsAsFactors = TRUE)
+      csv = utils::read.csv(path, stringsAsFactors = TRUE),
+      file = abort(c(
+        "Pin created with `pin_upload()`",
+        i = "Retrieve uploaded paths with `pin_download()`"
+      ))
     )
   } else {
     type <- arg_match0(meta$type, c("default", "files", "table"))

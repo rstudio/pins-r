@@ -37,8 +37,8 @@ pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(),
     check_name(name)
   }
 
-  metadata <- utils::modifyList(metadata, standard_meta(path, NULL, desc))
-  board_pin_upload(board, name, path, metadata, ...)
+  meta <- path_meta(path, desc = desc, user = metadata)
+  board_pin_upload(board, name, path, meta, ...)
 
   invisible(board)
 }
