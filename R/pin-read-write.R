@@ -163,7 +163,13 @@ is_prefix <- function(prefix, string) {
 }
 
 hash_file <- function(path) {
-  digest::digest(file = path, algo = "xxhash64")
+  if (fs::path_ext(path) == "rds") {
+    # First 10 bytes contain R version number, which we want to ignore
+    data <- readBin(path, "raw", fs::file_size(path))
+    digest::digest(data[-(1:10)], algo = "xxhash64")
+  } else {
+    digest::digest(file = path, algo = "xxhash64")
+  }
 }
 
 check_board <- function(x) {
