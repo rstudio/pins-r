@@ -12,6 +12,11 @@
     `pin_upload()`. `pin_upload()` takes a path and `pin_download()` returns
     a path.
 
+* All boards now have a `board_` function that you use to create a board,
+  instead of registering it. This takes away the magic of which board a 
+  pin comes from, and should hopefully make it easier to understand what
+  pins is doing.
+
 * You can no longer switch from a versioned pin to an unversioned pin without
   first deleting the pin (#410).
 
@@ -28,13 +33,10 @@
 * `option(pins.invisible)` is now defunct and ignored. 
 
 * Pins no longer register the code needed to recreate them as this tends to
-  either be dangerous (it's easy to accidentally leak credentails) or useless
+  either be dangerous (it's easy to accidentally leak credentials) or useless
   (it relies on variables that the connection pane doesn't capture).
 
 * The board extension interface has changed. More info to follow.
-
-* All boards now have a `board_` function that allows you create a board
-  without registering it.
 
 * The "packages" board is no longer registered by default; if you want to use
   this you'll need to register with `board_register("packages")`. It has been
