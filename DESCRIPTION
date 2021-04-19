@@ -54,7 +54,6 @@ Suggests:
     rmarkdown,
     rsconnect,
     shiny,
-    stringi,
     testthat (>= 3.0.0),
     tibble,
     xml2

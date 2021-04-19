@@ -8,11 +8,11 @@ on:
       - main
       - master
 
-name: RStudio Connect Integration Tests
+name: RStudio Connect
 
 jobs:
-  integration-tests:
-    runs-on: ubuntu-latest
+  R-CMD-check:
+    runs-on: ubuntu-18.04
     env:
       RSC_VERSION: 1.8.6.2
       RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
