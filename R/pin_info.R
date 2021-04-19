@@ -1,6 +1,8 @@
 #' Pin Info
 #'
-#' Retrieve information for a given pin.
+#' @description
+#' `r lifecycle::badge("superseded")`
+#' `pin_info()` is superseded in favour of `pin_meta()`.
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.
@@ -8,14 +10,18 @@
 #' @param metadata Should additional pin-specific information be shown?
 #' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
+#' @keywords internal
 #'
 #' @examples
 #' # define board and cache a dataset
 #' board <- board_temp()
 #' pin(mtcars, board = board)
 #'
-#' # Get info
+#' # previously:
 #' pin_info("mtcars", board = board)
+#'
+#' # now:
+#' board %>% pin_meta("mtcars")
 #' @export
 pin_info <- function(name,
                      board = NULL,

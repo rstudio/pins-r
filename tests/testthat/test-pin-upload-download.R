@@ -30,7 +30,7 @@ test_that("user can supply metadata", {
 
   board <- board_temp()
   pin_upload(board, path1, "x", metadata = list(name = "Susan"), desc = "A vector")
-  meta <- board_pin_download(board, "x")$meta
+  meta <- pin_meta(board, "x")
   expect_equal(meta$user, list(name = "Susan"))
   expect_equal(meta$description, "A vector")
 })

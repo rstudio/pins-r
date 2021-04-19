@@ -1,5 +1,8 @@
 # pins (development version)
 
+* New `pin_meta()` retrieves metadata about a pin (#418). `pin_info()` is 
+  superseded in favour of `pin_meta()`.
+
 * `pin_write()` accepts arbitrary `metadata` (#430).
 
 * `pin_write()` can be any string, as long as it doesn't contain slashes

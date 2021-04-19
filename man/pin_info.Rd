@@ -27,13 +27,17 @@ pin_info(
 \item{...}{Additional parameters.}
 }
 \description{
-Retrieve information for a given pin.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+\code{pin_info()} is superseded in favour of \code{pin_meta()}.
 }
 \examples{
 # define board and cache a dataset
 board <- board_temp()
 pin(mtcars, board = board)
 
-# Get info
+# previously:
 pin_info("mtcars", board = board)
+
+# now
+board \%>\% pin_meta("mtcars")
 }
