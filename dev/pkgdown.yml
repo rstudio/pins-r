@@ -12,7 +12,7 @@ articles:
   use-cases/create-data-pipelines: create-data-pipelines.html
   use-cases/reuse-tidy-datasets: reuse-tidy-datasets.html
   use-cases/update-plumber-and-shiny-apps: update-plumber-and-shiny-apps.html
-last_built: 2021-04-19T18:16Z
+last_built: 2021-04-19T19:38Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles
