@@ -4,15 +4,15 @@ pkgdown_sha: ~
 articles:
   advanced-too-big: advanced-too-big.html
   advanced-versions: advanced-versions.html
-  boards-extending: boards-extending.html
-  pins-extending: pins-extending.html
+  articles/metadata: metadata.html
+  articles/spec: spec.html
   pins-rstudio: pins-rstudio.html
   pins: pins.html
   use-cases/automate-dataset-updates: automate-dataset-updates.html
   use-cases/create-data-pipelines: create-data-pipelines.html
   use-cases/reuse-tidy-datasets: reuse-tidy-datasets.html
   use-cases/update-plumber-and-shiny-apps: update-plumber-and-shiny-apps.html
-last_built: 2021-04-19T17:51Z
+last_built: 2021-04-19T18:04Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles

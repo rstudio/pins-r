@@ -83,7 +83,7 @@ it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.99.9000</span>
       </span>
     </div>
 
@@ -125,14 +125,6 @@ it." />
     <li>
       <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Developer</li>
-    <li>
-      <a href="../articles/pins-extending.html">Extending Pins</a>
-    </li>
-    <li>
-      <a href="../articles/boards-extending.html">Extending Boards</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -169,9 +161,17 @@ it." />
 it.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_read</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>pin_read</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, hash <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>pin_write</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>x</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, description <span class='op'>=</span> <span class='cn'>NULL</span>, metadata <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>pin_write</span><span class='op'>(</span>
+  <span class='va'>board</span>,
+  <span class='va'>x</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  desc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metadata <span class='op'>=</span> <span class='cn'>NULL</span>,
+  versioned <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,29 +186,56 @@ it.</p>
       <td><p>Pin name.</p></td>
     </tr>
     <tr>
+      <th>version</th>
+      <td><p>For boards that support versions, this allows you to retrieve
+a specific version of a pin.</p></td>
+    </tr>
+    <tr>
+      <th>hash</th>
+      <td><p>Specify a hash to verify that you get exactly the dataset that
+you expect. You can find the hash of an existing pin by inspecting the
+pin metadata.</p></td>
+    </tr>
+    <tr>
       <th>x</th>
       <td><p>An object (typically a data frame) to pin.</p></td>
     </tr>
     <tr>
-      <th>description</th>
+      <th>type</th>
+      <td><p>File type used to save <code>x</code> to disk. Must be one of
+"csv", "rds", "json", or "arrow". If not supplied will use json for bare
+lists and rds for everything else.</p></td>
+    </tr>
+    <tr>
+      <th>desc</th>
       <td><p>A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.</p></td>
     </tr>
     <tr>
       <th>metadata</th>
-      <td><p>A list containing additional metadata to store with the pins.</p></td>
+      <td><p>A list containing additional metadata to store with the pin.</p></td>
+    </tr>
+    <tr>
+      <th>versioned</th>
+      <td><p>Should the pin be versioned? The default, <code>NULL</code>, will
+use the default for <code>board</code></p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>pin_write()</code> takes care of the details of serialising an R object to
+disk, controlled by the <code>type</code> argument. See <code><a href='pin_download.html'>pin_download()</a></code>/<code><a href='pin_download.html'>pin_upload()</a></code>
+if you want to perform the serialisation yourself and work just with files.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_write</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mtcars"</span><span class='op'>)</span>
-<span class='va'>b</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '2f642ce498ec2413'</span></div><div class='input'><span class='va'>b</span>
 </div><div class='output co'>#&gt; <span style='font-weight: bold;'>Pin board</span><span> &lt;pins_board_local&gt;
-#&gt; Path: '/tmp/RtmpD0BS8O/pins-2e542987b5ef'
-#&gt; With 1 pins: 'mtcars'</div><div class='input'>
+#&gt; Path: '/tmp/Rtmp3zszxu/pins-2edf44383c81'
+#&gt; With no pins.</div><div class='input'>
 <span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_read</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4

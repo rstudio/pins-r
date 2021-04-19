@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.99.9000</span>
       </span>
     </div>
 
@@ -123,14 +123,6 @@
     <li>
       <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Developer</li>
-    <li>
-      <a href="../articles/pins-extending.html">Extending Pins</a>
-    </li>
-    <li>
-      <a href="../articles/boards-extending.html">Extending Boards</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -166,13 +158,19 @@
 <a href="#pins-development-version" class="anchor"></a>pins (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li>
+<p>The pins API has been overhauled to center around two new functions: <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_read.html">pin_write()</a></code>. <code><a href="../reference/pin_read.html">pin_write()</a></code> has a type argument that allows you to choose which file type to use, so you can manage the tradeoffs between speed, generality, and language inter-op. They both take the board as the first argument.</p>
+<p><code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_read.html">pin_write()</a></code> work with R objects. If you want to work with files on disk (because, for example, you need to use file type that isn’t natively supported), you can use <code><a href="../reference/pin_download.html">pin_download()</a></code> and <code><a href="../reference/pin_download.html">pin_upload()</a></code>. <code><a href="../reference/pin_download.html">pin_upload()</a></code> takes a path and <code><a href="../reference/pin_download.html">pin_download()</a></code> returns a path.</p>
+</li>
+<li><p>All boards now have a <code>board_</code> function that you use to create a board, instead of registering it. This takes away the magic of which board a pin comes from, and should hopefully make it easier to understand what pins is doing.</p></li>
+<li><p>You can no longer switch from a versioned pin to an unversioned pin without first deleting the pin (<a href='https://github.com/rstudio/pins/issues/410'>#410</a>).</p></li>
+<li><p><code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> will automatically connect to the current RSC pin board when run inside RSC itself (assuming you have version 1.8.8 or later) (<a href='https://github.com/rstudio/pins/issues/396'>#396</a>).</p></li>
 <li><p><code><a href="../reference/board_pin_create.html">board_browse()</a></code> now works with local boards.</p></li>
 <li><p>All board objects now have class beginning with <code>pins_board_</code> and also inherit from common superclass <code>pins_board</code>.</p></li>
 <li><p><code>pin_fetch()</code> has been removed</p></li>
 <li><p><code><a href="https://rdrr.io/r/base/options.html">option(pins.invisible)</a></code> is now defunct and ignored.</p></li>
-<li><p>Pins no longer register the code needed to recreate them as this tends to either be dangerous (it’s easy to accidentally leak credentails) or useless (it relies on variables that the connection pane doesn’t capture).</p></li>
+<li><p>Pins no longer register the code needed to recreate them as this tends to either be dangerous (it’s easy to accidentally leak credentials) or useless (it relies on variables that the connection pane doesn’t capture).</p></li>
 <li><p>The board extension interface has changed. More info to follow.</p></li>
-<li><p>All boards now have a <code>board_</code> function that allows you create a board without registering it.</p></li>
 <li><p>The “packages” board is no longer registered by default; if you want to use this you’ll need to register with <code><a href="../reference/board_register.html">board_register("packages")</a></code>. It has been radically simplified so that it will no longer download packages, and it <code><a href="../reference/pin_find.html">pin_find()</a></code> now searches all packages that you have installed, rather than a stale snapshot of data in CRAN packages. The CRAN files dataset has been removed from the package.</p></li>
 </ul>
 </div>

@@ -19,10 +19,11 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Pin, Discover and Share Resources">
-<meta property="og:description" content='Publish data sets, models, and other R objects, making it easy to 
-    share them across projects and with your colleagues. You can pin objects to 
-    a variety of "boards", including local folders (to share on a networked 
-    drive or with dropbox), RStudio connect, Amazon S3, and more.'>
+<meta property="og:description" content='Publish data sets, models, and other R objects, making it
+    easy to share them across projects and with your colleagues. You can
+    pin objects to a variety of "boards", including local folders (to
+    share on a networked drive or with dropbox), RStudio connect, Amazon
+    S3, and more.'>
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -43,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pins</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.99.9000</span>
       </span>
     </div>
 
@@ -84,14 +85,6 @@
     </li>
     <li>
       <a href="articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
-    </li>
-    <li class="divider">
-    <li class="dropdown-header">Developer</li>
-    <li>
-      <a href="articles/pins-extending.html">Extending Pins</a>
-    </li>
-    <li>
-      <a href="articles/boards-extending.html">Extending Boards</a>
     </li>
   </ul>
 </li>
@@ -152,15 +145,14 @@
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span>
 <span class="co">#&gt; Pin board &lt;pins_board_local&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpPhF1aa/pins-22ee6a395d22'</span>
-<span class="co">#&gt; With 0 pins: ''</span></code></pre></div>
+<span class="co">#&gt; Path: '/tmp/Rtmp1041Pm/pins-16f251dc19f74'</span>
+<span class="co">#&gt; With no pins.</span></code></pre></div>
 <p>Next you need to store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
-<span class="va">b</span>
-<span class="co">#&gt; Pin board &lt;pins_board_local&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpPhF1aa/pins-22ee6a395d22'</span>
-<span class="co">#&gt; With 1 pins: 'mtcars'</span></code></pre></div>
+<span class="co">#&gt; Guessing `type = 'rds'`</span>
+<span class="co">#&gt; Creating new version '0dfb841bbf0395e9'</span></code></pre></div>
+<p>As you can see, it’s saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
 <p>Later, you can retrieve that data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>

@@ -61,6 +61,9 @@
     <loc>https://pins.rstudio.com/reference/pin_default_name.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/pin_download.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/pin_find.html</loc>
   </url>
   <url>
@@ -103,10 +106,10 @@
     <loc>https://pins.rstudio.com/articles/advanced-versions.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/boards-extending.html</loc>
+    <loc>https://pins.rstudio.com/articles/articles/metadata.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/pins-extending.html</loc>
+    <loc>https://pins.rstudio.com/articles/articles/spec.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/pins-rstudio.html</loc>

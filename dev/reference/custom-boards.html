@@ -83,7 +83,7 @@ not to be used by users." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.4.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.99.9000</span>
       </span>
     </div>
 
@@ -124,14 +124,6 @@ not to be used by users." />
     </li>
     <li>
       <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
-    </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Developer</li>
-    <li>
-      <a href="../articles/pins-extending.html">Extending Pins</a>
-    </li>
-    <li>
-      <a href="../articles/boards-extending.html">Extending Boards</a>
     </li>
   </ul>
 </li>
@@ -183,7 +175,11 @@ not to be used by users.</p>
 
 <span class='fu'>board_pin_find</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>text</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>board_pin_versions</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>board_pin_versions</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>board_pin_download</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>board_pin_upload</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>path</span>, <span class='va'>metadata</span>, versioned <span class='op'>=</span> <span class='cn'>NULL</span>, x <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
