@@ -76,8 +76,12 @@ board_pin_remove.pins_board_local <- function(board, name, ...) {
 board_pin_versions.pins_board_local <- function(board, name, ...) {
   path_pin <- fs::path(board$cache, name)
   pin_meta <- read_meta(path_pin)
+  versions <- pin_meta$versions %||% character()
 
-  wibble(version = pin_meta$versions %||% character())
+  meta <- map(versions, function(v) pin_meta(board, name, version = v))
+  date <- rsc_parse_time(map_chr(meta, function(x) x[["date"]] %||% NA_character_))
+
+  wibble(version = versions, created = date)
 }
 
 # pins v1 ----------------------------------------------------------------

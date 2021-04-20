@@ -548,6 +548,6 @@ rsc_v1 <- function(...) {
 
 rsc_parse_time <- function(x) {
   y <- as.POSIXct(strptime(x, "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
-  attr(y, "tzone") <- ""
+  attr(y, "tzone") <- NULL
   y
 }
