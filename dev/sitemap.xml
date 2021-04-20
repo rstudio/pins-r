@@ -103,9 +103,6 @@
     <loc>https://pins.rstudio.com/reference/ui_connection_create.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/advanced-versions.html</loc>
-  </url>
-  <url>
     <loc>https://pins.rstudio.com/articles/articles/metadata.html</loc>
   </url>
   <url>
@@ -119,5 +116,8 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/pins.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/articles/versioning.html</loc>
   </url>
 </urlset>

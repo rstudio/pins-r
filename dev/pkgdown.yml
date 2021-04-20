@@ -2,13 +2,13 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  advanced-versions: advanced-versions.html
   articles/metadata: metadata.html
   articles/pins-rstudio: pins-rstudio.html
   articles/spec: spec.html
   articles/use-cases: use-cases.html
   pins: pins.html
-last_built: 2021-04-20T20:07Z
+  versioning: versioning.html
+last_built: 2021-04-20T20:18Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles

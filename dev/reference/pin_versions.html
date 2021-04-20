@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pin Versions — pin_versions • pins</title>
+<title>Pin versions — pin_versions • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Pin Versions — pin_versions" />
-<meta property="og:description" content="Retrieve versions available for a given pin." />
+<meta property="og:title" content="Pin versions — pin_versions" />
+<meta property="og:description" content="List versions available for a pin. See vignette(&quot;versioning)&quot; for details." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -105,7 +105,7 @@
       <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
     </li>
     <li>
-      <a href="../articles/advanced-versions.html">Versioning</a>
+      <a href="../articles/versioning.html">Versioned pins</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -136,127 +136,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pin Versions</h1>
+    <h1>Pin versions</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin_versions.R'><code>R/pin_versions.R</code></a></small>
     <div class="hidden name"><code>pin_versions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Retrieve versions available for a given pin.</p>
+    <p>List versions available for a pin. See <code>vignette("versioning)"</code> for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_versions</span><span class='op'>(</span><span class='va'>name</span>, board <span class='op'>=</span> <span class='cn'>NULL</span>, full <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pin_versions</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, full <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>The exact name of the pin to match when searching.</p></td>
+      <th>board</th>
+      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
+<code><a href='board_github.html'>board_github()</a></code> or other other <code>board_</code> function.</p></td>
     </tr>
     <tr>
-      <th>board</th>
-      <td><p>The board name used to find the pin.</p></td>
+      <th>name</th>
+      <td><p>Pin name.</p></td>
     </tr>
     <tr>
       <th>full</th>
-      <td><p>Should the full versioned paths be shown? Defaults to <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters.</p></td>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a></p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame with at least a <code>version</code> column. Some boards may
+provided additional data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># define temporary board with versioning enabled</span>
-<span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span>versions <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span>versions <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='co'># cache the mtcars dataset</span>
-<span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span>, name <span class='op'>=</span> <span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># cache variation of the mtcars dataset</span>
-<span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span> <span class='op'>*</span> <span class='fl'>10</span>, name <span class='op'>=</span> <span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># print the mtcars versions</span>
-<span class='va'>versions</span> <span class='op'>&lt;-</span> <span class='fu'>pin_versions</span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-<span class='va'>versions</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 1</span><span>
-#&gt;   version
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> f947bcc
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> af44ffe</div><div class='input'>
-<span class='co'># retrieve the original version</span>
-<span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtcars"</span>, version <span class='op'>=</span> <span class='va'>versions</span><span class='op'>$</span><span class='va'>version</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                     mpg cyl disp   hp drat    wt  qsec vs am gear carb
-#&gt; Mazda RX4           210  60 1600 1100 39.0 26.20 164.6  0 10   40   40
-#&gt; Mazda RX4 Wag       210  60 1600 1100 39.0 28.75 170.2  0 10   40   40
-#&gt; Datsun 710          228  40 1080  930 38.5 23.20 186.1 10 10   40   10
-#&gt; Hornet 4 Drive      214  60 2580 1100 30.8 32.15 194.4 10  0   30   10
-#&gt; Hornet Sportabout   187  80 3600 1750 31.5 34.40 170.2  0  0   30   20
-#&gt; Valiant             181  60 2250 1050 27.6 34.60 202.2 10  0   30   10
-#&gt; Duster 360          143  80 3600 2450 32.1 35.70 158.4  0  0   30   40
-#&gt; Merc 240D           244  40 1467  620 36.9 31.90 200.0 10  0   40   20
-#&gt; Merc 230            228  40 1408  950 39.2 31.50 229.0 10  0   40   20
-#&gt; Merc 280            192  60 1676 1230 39.2 34.40 183.0 10  0   40   40
-#&gt; Merc 280C           178  60 1676 1230 39.2 34.40 189.0 10  0   40   40
-#&gt; Merc 450SE          164  80 2758 1800 30.7 40.70 174.0  0  0   30   30
-#&gt; Merc 450SL          173  80 2758 1800 30.7 37.30 176.0  0  0   30   30
-#&gt; Merc 450SLC         152  80 2758 1800 30.7 37.80 180.0  0  0   30   30
-#&gt; Cadillac Fleetwood  104  80 4720 2050 29.3 52.50 179.8  0  0   30   40
-#&gt; Lincoln Continental 104  80 4600 2150 30.0 54.24 178.2  0  0   30   40
-#&gt; Chrysler Imperial   147  80 4400 2300 32.3 53.45 174.2  0  0   30   40
-#&gt; Fiat 128            324  40  787  660 40.8 22.00 194.7 10 10   40   10
-#&gt; Honda Civic         304  40  757  520 49.3 16.15 185.2 10 10   40   20
-#&gt; Toyota Corolla      339  40  711  650 42.2 18.35 199.0 10 10   40   10
-#&gt; Toyota Corona       215  40 1201  970 37.0 24.65 200.1 10  0   30   10
-#&gt; Dodge Challenger    155  80 3180 1500 27.6 35.20 168.7  0  0   30   20
-#&gt; AMC Javelin         152  80 3040 1500 31.5 34.35 173.0  0  0   30   20
-#&gt; Camaro Z28          133  80 3500 2450 37.3 38.40 154.1  0  0   30   40
-#&gt; Pontiac Firebird    192  80 4000 1750 30.8 38.45 170.5  0  0   30   20
-#&gt; Fiat X1-9           273  40  790  660 40.8 19.35 189.0 10 10   40   10
-#&gt; Porsche 914-2       260  40 1203  910 44.3 21.40 167.0  0 10   50   20
-#&gt; Lotus Europa        304  40  951 1130 37.7 15.13 169.0 10 10   50   20
-#&gt; Ford Pantera L      158  80 3510 2640 42.2 31.70 145.0  0 10   50   40
-#&gt; Ferrari Dino        197  60 1450 1750 36.2 27.70 155.0  0 10   50   60
-#&gt; Maserati Bora       150  80 3010 3350 35.4 35.70 146.0  0 10   50   80
-#&gt; Volvo 142E          214  40 1210 1090 41.1 27.80 186.0 10 10   40   20</div><div class='input'>
-<span class='co'># retrieve the variation version</span>
-<span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtcars"</span>, version <span class='op'>=</span> <span class='va'>versions</span><span class='op'>$</span><span class='va'>version</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-#&gt; Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-#&gt; Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-#&gt; Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></span></pre>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>, name <span class='op'>=</span> <span class='st'>"df"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '91e5f7f417660e3e'</span></div><div class='input'><span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>2</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>, name <span class='op'>=</span> <span class='st'>"df"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '945df2ac8996cad7'</span></div><div class='input'><span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>)</span>, name <span class='op'>=</span> <span class='st'>"df"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '257ef310ebd9de8a'</span></div><div class='input'>
+<span class='co'># pin_read() returns the latest version by default</span>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"df"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   x
+#&gt; 1 3
+#&gt; 2 4
+#&gt; 3 5
+#&gt; 4 6
+#&gt; 5 7</div><div class='input'>
+<span class='co'># but you can return earlier versions if needed</span>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_versions</span><span class='op'>(</span><span class='st'>"df"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt;   version          created            
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>             
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 91e5f7f417660e3e 2021-04-20 </span><span style='color: #949494;'>20:18:27</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 945df2ac8996cad7 2021-04-20 </span><span style='color: #949494;'>20:18:27</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 257ef310ebd9de8a 2021-04-20 </span><span style='color: #949494;'>20:18:27</span><span></div><div class='input'>
+<span class='va'>ver</span> <span class='op'>&lt;-</span> <span class='fu'>pin_versions</span><span class='op'>(</span><span class='va'>board</span>, <span class='st'>"df"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>version</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"df"</span>, version <span class='op'>=</span> <span class='va'>ver</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   x
+#&gt; 1 1
+#&gt; 2 2
+#&gt; 3 3
+#&gt; 4 4
+#&gt; 5 5</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
