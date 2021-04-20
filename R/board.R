@@ -10,10 +10,9 @@
 #' @param versions Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
-new_board <- function(board, name, cache, versions = FALSE, ...) {
-  if (is.null(cache)) stop("Please specify the 'cache' parameter.")
-
-  fs::dir_create(fs::path(cache, name))
+new_board <- function(board, name, cache = NULL, versions = FALSE, ...) {
+  cache <- cache %||% board_cache_path(name)
+  fs::dir_create(cache)
 
   board <- structure(
     list(
