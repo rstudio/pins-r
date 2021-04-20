@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+# Fake testing so that we get consistent hashes
+withr::local_envvar("TESTTHAT" = "true")
 ```
 
 ## Versioned pins
