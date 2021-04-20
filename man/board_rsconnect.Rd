@@ -10,7 +10,7 @@ board_rsconnect(
   account = NULL,
   key = NULL,
   output_files = FALSE,
-  cache = board_cache_path(name),
+  cache = NULL,
   name = "rsconnect",
   versions = TRUE,
   ...
