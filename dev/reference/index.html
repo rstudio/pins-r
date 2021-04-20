@@ -150,7 +150,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-pins" class="hasAnchor"><a href="#section-pins" class="anchor"></a>Pins</h2>
-          <p class="section-desc"><p>Functions for pinning, finding, retrieving and sharing remote resources.</p></p>
+          <p class="section-desc"></p>
         </th>
       </tr>
       
@@ -161,27 +161,9 @@
       <tr>
         
         <td>
-          <p><code><a href="pin.html">pin()</a></code> </p>
+          <p><code><a href="pin_read.html">pin_read()</a></code> <code><a href="pin_read.html">pin_write()</a></code> </p>
         </td>
-        <td><p>Pin Resource</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pin_download.html">pin_download()</a></code> <code><a href="pin_download.html">pin_upload()</a></code> </p>
-        </td>
-        <td><p>Upload and download files to and from a board</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pin_find.html">pin_find()</a></code> </p>
-        </td>
-        <td><p>Find Pin</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pin_get.html">pin_get()</a></code> </p>
-        </td>
-        <td><p>Retrieve Pin</p></td>
+        <td><p>Read and write pins</p></td>
       </tr><tr>
         
         <td>
@@ -191,33 +173,27 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="pin_reactive.html">pin_reactive()</a></code> </p>
+          <p><code><a href="pin_download.html">pin_download()</a></code> <code><a href="pin_download.html">pin_upload()</a></code> </p>
         </td>
-        <td><p>Reactive Pin</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pin_read.html">pin_read()</a></code> <code><a href="pin_read.html">pin_write()</a></code> </p>
-        </td>
-        <td><p>Read and write pins</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pin_remove.html">pin_remove()</a></code> </p>
-        </td>
-        <td><p>Remove Pin</p></td>
+        <td><p>Upload and download files to and from a board</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="pin_versions.html">pin_versions()</a></code> </p>
         </td>
         <td><p>Pin versions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pin_remove.html">pin_remove()</a></code> </p>
+        </td>
+        <td><p>Remove Pin</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-boards" class="hasAnchor"><a href="#section-boards" class="anchor"></a>Boards</h2>
-          <p class="section-desc"><p>Alias functions to help register boards.</p></p>
+          <p class="section-desc"><p>Boards abstract over different storage backends, making it easy to share data in a vareity of ways.</p></p>
         </th>
       </tr>
       
@@ -255,6 +231,43 @@
           <p><code><a href="board_s3.html">board_s3()</a></code> </p>
         </td>
         <td><p>Use an S3 board</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-old-api" class="hasAnchor"><a href="#section-old-api" class="anchor"></a>Old API</h2>
+          <p class="section-desc"><p>Prior to v1.0.0, pins used a different interface where the board was implicit, not explicit. These functions remain so old code continues to work, but we recommend that you move away from them.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="pin.html">pin()</a></code> </p>
+        </td>
+        <td><p>Pin Resource</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pin_get.html">pin_get()</a></code> </p>
+        </td>
+        <td><p>Retrieve Pin</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pin_find.html">pin_find()</a></code> </p>
+        </td>
+        <td><p>Find Pin</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pin_reactive.html">pin_reactive()</a></code> </p>
+        </td>
+        <td><p>Reactive Pin</p></td>
       </tr>
     </tbody>
     </table>
