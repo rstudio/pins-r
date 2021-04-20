@@ -2,17 +2,13 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  advanced-too-big: advanced-too-big.html
   advanced-versions: advanced-versions.html
   articles/metadata: metadata.html
+  articles/pins-rstudio: pins-rstudio.html
   articles/spec: spec.html
-  pins-rstudio: pins-rstudio.html
+  articles/use-cases: use-cases.html
   pins: pins.html
-  use-cases/automate-dataset-updates: automate-dataset-updates.html
-  use-cases/create-data-pipelines: create-data-pipelines.html
-  use-cases/reuse-tidy-datasets: reuse-tidy-datasets.html
-  use-cases/update-plumber-and-shiny-apps: update-plumber-and-shiny-apps.html
-last_built: 2021-04-19T23:04Z
+last_built: 2021-04-20T20:07Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles

@@ -60,27 +60,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
     </li>
     <li>
       <a href="../articles/advanced-versions.html">Versioning</a>
     </li>
     <li>
-      <a href="../articles/advanced-too-big.html">Too Big To Pin</a>
-    </li>
-    <li class="divider">
-    <li class="dropdown-header">Use cases</li>
-    <li>
-      <a href="../articles/use-cases/reuse-tidy-datasets.html">Reuse Tidy Datasets</a>
-    </li>
-    <li>
-      <a href="../articles/use-cases/automate-dataset-updates.html">Automate Dataset Updates</a>
-    </li>
-    <li>
-      <a href="../articles/use-cases/create-data-pipelines.html">Create Data Pipelines</a>
-    </li>
-    <li>
-      <a href="../articles/use-cases/update-plumber-and-shiny-apps.html">Update Plumber and Shiny Apps</a>
+      <a href="../articles/articles/use-cases.html">Use cases</a>
     </li>
   </ul>
 </li>
@@ -120,7 +106,7 @@
     
 <p>A <a href="https://r4ds.had.co.nz/introduction.html">typical Data Science project</a> starts with importing data and finishes with communicating your results with others; however, some projects have a few additional steps that we will refer as: <strong>Discover</strong>, <strong>Cache</strong> and <strong>Share</strong>. While these steps might not deserve to be part of the official Data Science diagram, they can help us understand where the <code>pins</code> package can help.</p>
 <p>Conceptually, the modified Data Science diagram looks as follows:</p>
-<p><img src="images/pins-starting-overview.png" style="width:100.0%"></p>
+<p><img src="pins-starting-overview.png" style="width:100.0%"></p>
 <p>The <code>pins</code> package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to lose – you should always have reproducible code to regenerate a pin.</p>
 <p>Let’s now introduce each operation the <code>pins</code> package supports.</p>
 <dl>
@@ -258,6 +244,11 @@ options(pins.verbose = TRUE)</a></code></pre>
 <li>S3, <code><a href="../reference/board_s3.html">board_s3()</a></code>
 </li>
 </ul>
+</div>
+<div id="large-pins" class="section level2">
+<h2 class="hasAnchor">
+<a href="#large-pins" class="anchor"></a>Large pins</h2>
+<p>Note that most boards require pins to be serialised over the HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don’t recommend pins for files over 500 MB. If you find yourself routinely pinning data larger that this, you’ll need to reconsider your data engineering pipeline.</p>
 </div>
   </div>
 

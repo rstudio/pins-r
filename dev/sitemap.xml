@@ -103,33 +103,21 @@
     <loc>https://pins.rstudio.com/reference/ui_connection_create.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/advanced-too-big.html</loc>
-  </url>
-  <url>
     <loc>https://pins.rstudio.com/articles/advanced-versions.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/articles/metadata.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/articles/articles/pins-rstudio.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/articles/articles/spec.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/pins-rstudio.html</loc>
+    <loc>https://pins.rstudio.com/articles/articles/use-cases.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/pins.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/articles/use-cases/automate-dataset-updates.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/articles/use-cases/create-data-pipelines.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/articles/use-cases/reuse-tidy-datasets.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/articles/use-cases/update-plumber-and-shiny-apps.html</loc>
   </url>
 </urlset>

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>metadata • pins</title>
+<title>Using Pins in RStudio • pins</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../extra.css" rel="stylesheet">
-<meta property="og:title" content="metadata">
+<meta property="og:title" content="Using Pins in RStudio">
 <meta property="og:description" content="pins">
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <meta name="robots" content="noindex">
@@ -91,38 +91,50 @@
 
       
 
-      </header><script src="metadata_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="pins-rstudio_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>metadata</h1>
+      <h1 data-toc-skip>Using Pins in RStudio</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/articles/metadata.Rmd"><code>vignettes/articles/metadata.Rmd</code></a></small>
-      <div class="hidden name"><code>metadata.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/articles/pins-rstudio.Rmd"><code>vignettes/articles/pins-rstudio.Rmd</code></a></small>
+      <div class="hidden name"><code>pins-rstudio.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span></code></pre></div>
-<p>There are two versions of pins metadata:</p>
-<ul>
-<li>version 0: used in pins 0.4.5 and earlier</li>
-<li>version 1: used in pins 1.0.0 and later (including 0.99.9000)</li>
-</ul>
-<p>Metadata versions are backward compatible, e.g. pins 1.0.0 can read versions 0 and 1. pins 1.0.0 and later will automatically throw an error recommending that you upgrade if it encounters a new metadata version.</p>
-<p>In version 1 and greater you can identify the metadata version by consulting the “api_version” key. If it is absent, you can assume that you have version 0. <code>read_meta()</code> adds this automatically, and gives an informative error if you’re reading a newer version than what is supported.</p>
-<p>There are two major differences between version 0 and version 1:</p>
-<ul>
-<li><p>In version 0, type refers to the type of object (e.g. <code>table</code>, <code>default</code>, <code>files</code>). In version 1, type refers to the storage mechanism (e.g. <code>arrow</code>, <code>csv</code>, <code>rds</code>, <code>pickle</code>).</p></li>
-<li><p>In version 0, user supplied metadata is intermingled with pins metadata. In version 1, user supplied metadata is stored under a <code>user</code> key.</p></li>
-</ul>
+<p>After installing the <code>pins</code> package, two features become available in RStudio: the <strong>Find Pins Addin</strong> and a new <strong>Pins Connection</strong> type. The addin allows you do discover datasets while the connection allows you to register new boards and manage your existing pins.</p>
+<div id="addin" class="section level2">
+<h2 class="hasAnchor">
+<a href="#addin" class="anchor"></a>Addin</h2>
+<p>You can use the Find Pins <a href="https://rstudio.github.io/rstudioaddins/">Addin</a> to visually discover resources, this functionality is equivalent to using <code><a href="../../reference/pin_find.html">pin_find()</a></code>.</p>
+<p><img src="images/rstudio-discover-pins.png" style="width:100.0%"></p>
+<p>To launch this addin, use the <strong>Addins</strong> toolbar and then select <strong>Find Pins</strong>:</p>
+<p><img src="images/rstudio-pins-addin-menu.png" width="220"></p>
+<p>You can then use the search textbox to search across all registered boards, or select particular board from the dropdown to scope your search to particular ones. For instance, we can select the CRAN packages board and then search for ‘home prices’ which will update the results as you type. This example is equivalent to searching with <code><a href="../../reference/pin_find.html">pin_find("home prices", board = "packages")</a></code>.</p>
+<p><img src="images/rstudio-pins-addin-search.png" width="380"></p>
+<p>Please notice that search is implemented differently in each board. For the CRAN packages board, the entire search string is searched, case insensitive, in the name and description. Other boards might implement more advanced or simple search algorithms.</p>
 </div>
+<div id="connection" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection" class="anchor"></a>Connection</h2>
+<p>You can connect to several different boards to discover, pin and share resources. Those boards will be introduced in the <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a>, and <a href="boards-rsconnect.html">RStudio Connect</a> articles. However, you can also use this functionality to connect to the default local board, and explore the pins that you’ve created with <code><a href="../../reference/pin.html">pin()</a></code>.</p>
+<p><img src="images/rstudio-cached-pins.png" style="width:100.0%"></p>
+<p>First, open the RStudio’s <strong>Connections Pane</strong>, followed by selecting <strong>New Connection</strong> from the toolbar, this action will launch the connection wizard with a new <strong>Pins</strong> connection type. The connection provides support to connect to multiple boards, but for now, we will use a <strong>local</strong> connection which stores pins in a local folder.</p>
+<p><img src="images/rstudio-pins-connection.png" width="600"></p>
+<p>Once connected to a board, you can browse pins available in that particular board using the connections pane. Each pin can then be expanded to show, when available, the columns each resource contains.</p>
+<p><img src="images/rstudio-pins-connection-pane.png" width="600"></p>
+<p>You can then preview each resource by selecting the preview button which triggers code similar to <code>pin_preview(pin_get("&lt;name&gt;", board = "&lt;connection-board&gt;"))</code>.</p>
+<p><img src="images/rstudio-pins-connection-preview.png" width="480"></p>
+</div>
+  </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
