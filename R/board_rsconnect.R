@@ -60,7 +60,7 @@ board_rsconnect <- function(
                             account = NULL,
                             key = NULL,
                             output_files = FALSE,
-                            cache = board_cache_path(name),
+                            cache = NULL,
                             name = "rsconnect",
                             versions = TRUE,
                             ...) {
@@ -77,6 +77,8 @@ board_rsconnect <- function(
     server <- info$server
     server_name <- info$server_name
   }
+
+  cache <- cache %||% board_cache_path(paste0("rsc-", server))
 
   board <- new_board("pins_board_rsconnect",
     name = name,
@@ -116,11 +118,11 @@ check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
 
 board_rsconnect_test <- function(...) {
   if (!is.null(rsconnect::accounts())) {
-    board_rsconnect(..., auth = "rsconnect")
+    board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
   } else if (!has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
     testthat::skip("No RSC env vars set up")
   } else {
-    board_rsconnect(..., auth = "envvar")
+    board_rsconnect(..., auth = "envvar", cache = fs::file_temp())
   }
 }
 

@@ -3,7 +3,7 @@
 test_that("can round-trip a pin (v1)", {
 
   withr::local_options(pins.quiet = TRUE)
-  board <- board_rsconnect_test(cache = tempfile())
+  board <- board_rsconnect_test()
 
   df1 <- data.frame(x = 1:5)
   pin_write(board, df1, "df1", type = "rds")
@@ -15,7 +15,7 @@ test_that("can round-trip a pin (v1)", {
 
 test_that("can round-trip a pin (v0)", {
   withr::local_options(pins.quiet = TRUE)
-  board <- board_rsconnect_test(cache = tempfile())
+  board <- board_rsconnect_test()
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "df1", board = board)
@@ -27,7 +27,7 @@ test_that("can round-trip a pin (v0)", {
 
 test_that("can search pins", {
   withr::local_options(pins.quiet = TRUE)
-  board <- board_rsconnect_test(cache = tempfile())
+  board <- board_rsconnect_test()
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "xyzxyzxyzxyz-abc", board = board)

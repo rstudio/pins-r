@@ -27,9 +27,9 @@ nomnoml::nomnoml("
   [Model] -> [Wrangle]
 ]
 [Understand] -> [Communicate]
-[Communicate] --> [<dashed>Share]", "images/pins-starting-overview.png")
+[Communicate] --> [<dashed>Share]", "pins-starting-overview.png")
 ```
-![](images/pins-starting-overview.png){width=100%}
+![](pins-starting-overview.png){width=100%}
 
 The `pins` package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to lose -- you should always have reproducible code to regenerate a pin.
 
@@ -198,3 +198,8 @@ This is useful because it saves time downloading or processing data, but it does
 * RStudio Connect, `board_rsconnect()`
 * Azure, `board_azure()`
 * S3, `board_s3()`
+
+## Large pins
+
+Note that most boards require pins to be serialised over the 
+HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don't recommend pins for files over 500 MB. If you find yourself routinely pinning data larger that this, you'll need to reconsider your data engineering pipeline.

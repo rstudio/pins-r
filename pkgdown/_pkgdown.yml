@@ -21,17 +21,10 @@ articles:
 - title: Getting started
   navbar: ~
   contents:
-  - pins-rstudio
+  - articles/pins-rstudio
   - versioning
-  - advanced-too-big
+  - articles/use-cases
 
-- title: Use cases
-  navbar: Use cases
-  contents:
-  - use-cases/reuse-tidy-datasets
-  - use-cases/automate-dataset-updates
-  - use-cases/create-data-pipelines
-  - use-cases/update-plumber-and-shiny-apps
 navbar:
   components:
     home: ~
