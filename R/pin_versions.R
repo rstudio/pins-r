@@ -18,7 +18,9 @@
 #'
 #' # but you can return earlier versions if needed
 #' board %>% pin_versions("df")
-#' board %>% pin_read("df", version = "91e5f7f417660e3e")
+#'
+#' ver <- pin_versions(board, "df")$version[[1]]
+#' board %>% pin_read("df", version = ver)
 #' @export
 pin_versions <- function(board, name, full = deprecated()) {
   if (missing(name) || is.board(name) || name %in% board_list()) {
