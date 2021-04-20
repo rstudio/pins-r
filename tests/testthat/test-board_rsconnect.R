@@ -63,7 +63,7 @@ test_that("versioned by default", {
   pin_write(board, data.frame(x = 1:4), "df1", type = "rds")
   pin_write(board, data.frame(x = 1:5), "df1", type = "rds")
 
-  versions <- pin_version(board, "df1")
+  versions <- pin_versions(board, "df1")
   expect_equal(nrow(versions), 3)
 
   df2 <- pin_read(board, "df1", version = versions$version[[2]])

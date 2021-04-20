@@ -22,7 +22,7 @@ articles:
   navbar: ~
   contents:
   - pins-rstudio
-  - advanced-versions
+  - versioning
   - advanced-too-big
 
 - title: Use cases

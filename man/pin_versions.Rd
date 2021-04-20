@@ -2,39 +2,36 @@
 % Please edit documentation in R/pin_versions.R
 \name{pin_versions}
 \alias{pin_versions}
-\title{Pin Versions}
+\title{Pin versions}
 \usage{
-pin_versions(name, board = NULL, full = FALSE, ...)
+pin_versions(board, name, full = deprecated())
 }
 \arguments{
-\item{name}{The exact name of the pin to match when searching.}
+\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
+\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
 
-\item{board}{The board name used to find the pin.}
+\item{name}{Pin name.}
 
-\item{full}{Should the full versioned paths be shown? Defaults to \code{FALSE}.}
-
-\item{...}{Additional parameters.}
+\item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+}
+\value{
+A data frame with at least a \code{version} column. Some boards may
+provided additional data.
 }
 \description{
-Retrieve versions available for a given pin.
+List versions available for a pin. See \verb{vignette("versioning)"} for details.
 }
 \examples{
-# define temporary board with versioning enabled
 board <- board_temp(versions = TRUE)
 
-# cache the mtcars dataset
-pin(mtcars, name = "mtcars", board = board)
+board \%>\% pin_write(data.frame(x = 1:5), name = "df")
+board \%>\% pin_write(data.frame(x = 2:6), name = "df")
+board \%>\% pin_write(data.frame(x = 3:7), name = "df")
 
-# cache variation of the mtcars dataset
-pin(mtcars * 10, name = "mtcars", board = board)
+# pin_read() returns the latest version by default
+board \%>\% pin_read("df")
 
-# print the mtcars versions
-versions <- pin_versions("mtcars", board = board)
-versions
-
-# retrieve the original version
-pin_get("mtcars", version = versions$version[[1]], board = board)
-
-# retrieve the variation version
-pin_get("mtcars", version = versions$version[[2]], board = board)
+# but you can return earlier versions if needed
+board \%>\% pin_versions("df")
+board \%>\% pin_read("df", version = "91e5f7f417660e3e")
 }

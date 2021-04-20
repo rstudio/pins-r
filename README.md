@@ -12,12 +12,11 @@ coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](htt
 
 ## Overview
 
-You can use the `pins` package to:
-
--   **Pin** remote resources locally.
--   **Discover** new resources across different boards.
--   **Share** resources in local folders, with RStudio Connect, on S3,
-    and more.
+The pins package helps you publish data sets, models, and other R
+objects, making it easy to share them across projects and with your
+colleagues. You can pin objects to a variety of “boards”, including
+local folders (to share on a networked drive or with dropbox), RStudio
+connect, Amazon S3, and more.
 
 ## Installation
 
@@ -39,7 +38,7 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/Rtmp1041Pm/pins-16f251dc19f74'
+#> Path: '/tmp/RtmpdoHnpy/pins-35f166d885db'
 #> With no pins.
 ```
 
@@ -48,12 +47,14 @@ Next you need to store some data in that board with `pin_write()`:
 ``` r
 b %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '0dfb841bbf0395e9'
+#> Creating new version 'f879756e28a960ae'
 ```
 
 As you can see, it’s saved as an `.rds` by default, but depending on
 what you’re saving and who else you want to read it, you might save it
-as a `csv`, `json`, or `arrow` file.
+as a `csv`, `json`, or `arrow` file. Writing the new data to the same
+name pin will overwrite, unless you use versioning: see
+`vignette("versioning")` for details.
 
 Later, you can retrieve that data with `pin_read()`:
 

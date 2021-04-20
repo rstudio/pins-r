@@ -1,17 +1,17 @@
-# can use old pin_version() api
+# can use old pin_versions() api
 
     Code
       x <- pin_versions("x")
     Warning <warning>
-      `pin_version()` now takes `board` as first argument
+      `pin_versions()` now takes `board` as first argument
     Code
       x <- pin_versions("x", "local")
     Warning <warning>
-      `pin_version()` now takes `board` as first argument
+      `pin_versions()` now takes `board` as first argument
     Code
       x <- pin_versions("x", board)
     Warning <warning>
-      `pin_version()` now takes `board` as first argument
+      `pin_versions()` now takes `board` as first argument
 
 # `full` is deprecated
 

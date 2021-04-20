@@ -1,5 +1,5 @@
 
-test_that("can use old pin_version() api", {
+test_that("can use old pin_versions() api", {
   withr::local_options(pins.quiet = TRUE)
 
   board <- board_register_local()

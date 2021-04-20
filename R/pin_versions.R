@@ -1,6 +1,6 @@
 #' Pin versions
 #'
-#' List versions available for a pin.
+#' List versions available for a pin. See `vignette("versioning)"` for details.
 #'
 #' @inheritParams pin_read
 #' @param full `r lifecycle::badge("deprecated")`
@@ -22,7 +22,7 @@
 #' @export
 pin_versions <- function(board, name, full = deprecated()) {
   if (missing(name) || is.board(name) || name %in% board_list()) {
-    warn("`pin_version()` now takes `board` as first argument")
+    warn("`pin_versions()` now takes `board` as first argument")
     swap <- board
     board <- if (missing(name)) NULL else name
     name <- swap
