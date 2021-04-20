@@ -1,5 +1,8 @@
 # pins (development version)
 
+* `pin_versions()` now takes `board` as first argument and `name` as second
+  (although it will continue to work as before with a warning).
+
 * New `pin_meta()` retrieves metadata about a pin (#418). `pin_info()` is 
   superseded in favour of `pin_meta()`.
 
