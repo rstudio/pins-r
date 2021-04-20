@@ -89,11 +89,11 @@ test_that("can pin() with custom metadata", {
     )
   )
   pin(iris, "iris", metadata = meta, board = board)
-  meta2 <- pin_info("iris", board = board)
+  meta2 <- pin_meta(board, "iris")
   expect_equal(meta2[c("source", "extra_info")], meta)
 
   expect_snapshot(pin(iris, "iris2", board = board, custom_metadata = meta))
-  meta2 <- pin_info("iris2", board = board)
+  meta2 <- pin_meta(board, "iris2")
   expect_equal(meta2[c("source", "extra_info")], meta)
 })
 

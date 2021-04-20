@@ -41,6 +41,8 @@ board_temp <- function(name = "temp", versions = FALSE) {
   board_folder(fs::file_temp("pins-"), name = name, versions = versions)
 }
 
+# Methods -----------------------------------------------------------------
+
 #' @export
 board_desc.pins_board_local <- function(board, ...) {
   paste0("Path: '", board$cache, "'")
@@ -52,21 +54,14 @@ board_browse.pins_board_local <- function(board, ...) {
 }
 
 #' @export
-board_pin_find.pins_board_local <- function(board, text, ...) {
-  results <- pin_registry_find(board, text)
-
-  # if (nrow(results) == 1) {
-  #   metadata <- jsonlite::fromJSON(results$metadata)
-  #   path <-  pin_registry_absolute(metadata$path, component = board$name)
-  #   extended <- pin_manifest_get(path)
-  #   merged <- pin_manifest_merge(metadata, extended)
-  #
-  #   results$metadata <- as.character(jsonlite::toJSON(merged, auto_unbox = TRUE))
-  # }
-
-  results
+pin_list.pins_board_local <- function(board, ...) {
+  fs::path_file(fs::dir_ls(board$cache, type = "directory"))
 }
 
+#' @export
+board_pin_find.pins_board_local <- function(board, text, ...) {
+  pin_search(board, text)
+}
 
 #' @export
 board_pin_remove.pins_board_local <- function(board, name, ...) {
@@ -140,7 +135,7 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
   meta_pin <- read_meta(path_pin)
   if (meta_pin$api_version == 0) {
     meta <- pin_registry_retrieve(board, name)
-    meta$api_version <- 0
+    meta$api_version <- 0L
     path <- board_pin_get(board, name, ...)
     return(list(
       meta = meta,

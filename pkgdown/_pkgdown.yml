@@ -14,6 +14,8 @@ reference:
   - pin_download
   - pin_versions
   - pin_remove
+  - pin_list
+  - pin_search
 
 - title: Boards
   desc: >

@@ -23,3 +23,4 @@ print.pins_meta <- function(x, ...) {
   utils::str(unclass(x))
   invisible(x)
 }
+

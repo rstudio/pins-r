@@ -1,10 +1,10 @@
 # has useful print method
 
     Code
-      board_folder("/tmp", name = "test")
+      board_folder("/tmp/test", name = "test")
     Output
       Pin board <pins_board_local>
-      Path: '/tmp'
+      Path: '/tmp/test'
       With no pins.
 
 # can get versions
