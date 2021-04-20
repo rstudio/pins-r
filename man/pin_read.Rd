@@ -24,11 +24,11 @@ pin_write(
 \item{name}{Pin name.}
 
 \item{version}{For boards that support versions, this allows you to retrieve
-a specific version of a pin.}
+a specific version of a pin. See \verb{vignette("versioning)"} for details.}
 
 \item{hash}{Specify a hash to verify that you get exactly the dataset that
-you expect. You can find the hash of an existing pin by inspecting the
-pin metadata.}
+you expect. You can find the hash of an existing pin by looking for
+\code{pin_hash} in \code{\link[=pin_meta]{pin_meta()}}.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 
@@ -63,5 +63,6 @@ b <- board_temp()
 b \%>\% pin_write(mtcars, "mtcars")
 b
 
+b \%>\% pin_meta("mtcars")
 b \%>\% pin_read("mtcars")
 }

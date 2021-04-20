@@ -122,7 +122,7 @@ board_pin_versions <- function(board, name, ...) {
 }
 #' @export
 board_pin_versions.default <- function(board, name, ...) {
-  data.frame(version = character(0), stringsAsFactors = FALSE)
+  wibble(version = character(0))
 }
 
 #' @export

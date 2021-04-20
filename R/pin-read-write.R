@@ -11,10 +11,10 @@
 #'   [board_github()] or other other `board_` function.
 #' @param name Pin name.
 #' @param version For boards that support versions, this allows you to retrieve
-#'   a specific version of a pin.
+#'   a specific version of a pin. See `vignette("versioning)"` for details.
 #' @param hash Specify a hash to verify that you get exactly the dataset that
-#'   you expect. You can find the hash of an existing pin by inspecting the
-#'   pin metadata.
+#'   you expect. You can find the hash of an existing pin by looking for
+#'   `pin_hash` in [pin_meta()].
 #' @param ... Additional arguments passed on to methods for a specific board.
 #' @export
 #' @examples
@@ -23,6 +23,7 @@
 #' b %>% pin_write(mtcars, "mtcars")
 #' b
 #'
+#' b %>% pin_meta("mtcars")
 #' b %>% pin_read("mtcars")
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   pin <- pin_retrieve(board, name, version = version, hash = hash, ...)

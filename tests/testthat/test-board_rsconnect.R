@@ -63,7 +63,7 @@ test_that("versioned by default", {
   pin_write(board, data.frame(x = 1:4), "df1", type = "rds")
   pin_write(board, data.frame(x = 1:5), "df1", type = "rds")
 
-  versions <- board_pin_versions(board, "df1")
+  versions <- pin_versions(board, "df1")
   expect_equal(nrow(versions), 3)
 
   df2 <- pin_read(board, "df1", version = versions$version[[2]])
@@ -80,7 +80,7 @@ test_that("if unversioned, deletes last one", {
   pin_write(board, data.frame(x = 2), "df1", type = "rds")
 
   guid <- rsc_content_find(board, "df1")$guid
-  expect_equal(nrow(rsc_content_versions(board, guid)), 1)
+  expect_equal(nrow(pin_versions(board, "df1")), 1)
 
   df2 <- pin_read(board, "df1")
   expect_equal(df2$x, 2)

@@ -22,7 +22,7 @@ articles:
   navbar: ~
   contents:
   - articles/pins-rstudio
-  - advanced-versions
+  - versioning
   - articles/use-cases
 
 navbar:

@@ -34,7 +34,10 @@ test_that("can version a local pin", {
   b <- board_temp(versions = TRUE)
 
   versions <- pin_versions("df", board = b)
-  expect_equal(versions, tibble::tibble(version = character()))
+  expect_equal(
+    versions,
+    wibble(version = character(), created = .POSIXct(integer()))
+  )
 
   pin(data.frame(x = 1), "df", board = b)
   pin(data.frame(x = 2), "df", board = b)
@@ -55,11 +58,11 @@ test_that("can version a local pin", {
 test_that("can get versions", {
   b <- board_temp()
   expect_snapshot(pin_write(b, 1:5, "x", type = "rds", versioned = TRUE))
-  first_version <- read_meta(fs::path(b$cache, "x"))$versions
+  first_version <- pin_versions(b, "x")$version
   expect_equal(length(first_version), 1)
 
   expect_snapshot(pin_write(b, 1:6, "x", type = "rds", versioned = TRUE))
-  expect_equal(length(read_meta(fs::path(b$cache, "x"))$versions), 2)
+  expect_equal(length(pin_versions(b, "x")$version), 2)
 
   expect_equal(pin_read(b, "x"), 1:6)
   expect_equal(pin_read(b, "x", version = first_version), 1:5)
