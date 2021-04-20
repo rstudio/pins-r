@@ -55,7 +55,7 @@ wibble <- function(...) {
   if (is_installed("tibble")) {
     tibble::tibble(...)
   } else {
-    data.frame(...)
+    data.frame(..., stringsAsFactors = FALSE)
   }
 }
 

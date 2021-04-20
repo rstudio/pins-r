@@ -55,11 +55,11 @@ test_that("can version a local pin", {
 test_that("can get versions", {
   b <- board_temp()
   expect_snapshot(pin_write(b, 1:5, "x", type = "rds", versioned = TRUE))
-  first_version <- read_meta(fs::path(b$cache, "x"))$versions
+  first_version <- pin_versions(b, "x")$version
   expect_equal(length(first_version), 1)
 
   expect_snapshot(pin_write(b, 1:6, "x", type = "rds", versioned = TRUE))
-  expect_equal(length(read_meta(fs::path(b$cache, "x"))$versions), 2)
+  expect_equal(length(pin_versions(b, "x")$version), 2)
 
   expect_equal(pin_read(b, "x"), 1:6)
   expect_equal(pin_read(b, "x", version = first_version), 1:5)

@@ -74,7 +74,10 @@ board_pin_remove.pins_board_local <- function(board, name, ...) {
 
 #' @export
 board_pin_versions.pins_board_local <- function(board, name, ...) {
-  board_versions_get(board, name)
+  path_pin <- fs::path(board$cache, name)
+  pin_meta <- read_meta(path_pin)
+
+  wibble(version = pin_meta$versions %||% character())
 }
 
 # pins v1 ----------------------------------------------------------------
