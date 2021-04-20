@@ -27,11 +27,12 @@ board object.}
 \item \code{board_folder()} creates a board inside a folder. You can use this to
 share files by using a folder on a shared network drive or inside
 a DropBox.
+\item \code{board_local()} creates a board in a system data directory. It's useful
+if you want to share pins between R sessions on your computer, and you
+don't care where the data lives.
 \item \code{board_temp()} creates a temporary board that lives in a session
 specific temporary directory. It will be automatically deleted once
-the current R session ends.
-\item \code{board_local()} is mostly included for backward compatiblity. It's
-the default board used by \code{\link[=pin]{pin()}} and \code{\link[=pin_get]{pin_get()}}.
+the current R session ends. It's useful for examples and tests.
 }
 }
 \examples{
