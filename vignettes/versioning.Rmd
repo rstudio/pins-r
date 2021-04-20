@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 
 # Fake testing so that we get consistent hashes
-withr::local_envvar("TESTTHAT" = "true")
+Sys.setenv("TESTTHAT" = "true")
 ```
 
 ## Versioned pins
@@ -78,7 +78,7 @@ board %>% pin_read("x")
 But you can request an older version by supplying the `version` argument:
 
 ```{r}
-board %>% pin_read("x", version = "4cbcc49c50fda258")
+board %>% pin_read("x", version = "ab444e71e875d63b")
 ```
 
 ## Other functions
