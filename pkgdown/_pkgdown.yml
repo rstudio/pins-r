@@ -7,15 +7,31 @@ development:
   mode: auto
 
 reference:
-- title: "Pins"
-  desc: "Functions for pinning, finding, retrieving and sharing remote resources."
+- title: Pins
   contents:
-    - starts_with("pin")
+  - pin_read
+  - pin_meta
+  - pin_download
+  - pin_versions
+  - pin_remove
 
 - title: Boards
-  desc: "Alias functions to help register boards."
+  desc: >
+    Boards abstract over different storage backends, making it easy to
+    share data in a vareity of ways.
   contents:
   - starts_with("board_")
+
+- title: Old API
+  desc: >
+    Prior to v1.0.0, pins used a different interface where the board was
+    implicit, not explicit. These functions remain so old code continues to
+    work, but we recommend that you move away from them.
+  contents:
+  - pin
+  - pin_get
+  - pin_find
+  - pin_reactive
 
 articles:
 - title: Getting started
