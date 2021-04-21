@@ -3,7 +3,7 @@ test_that("local board registered by default", {
 })
 
 test_that("has useful print method", {
-  expect_snapshot(board_folder("/tmp", name = "test"))
+  expect_snapshot(board_folder("/tmp/test", name = "test"))
 })
 
 test_that(paste("can pin() file with auto-generated name in local board"), {

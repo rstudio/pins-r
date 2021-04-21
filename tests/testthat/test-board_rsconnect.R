@@ -25,15 +25,20 @@ test_that("can round-trip a pin (v0)", {
   expect_equal(df1, df2)
 })
 
-test_that("can search pins", {
+test_that("can find/search pins", {
   withr::local_options(pins.quiet = TRUE)
   board <- board_rsconnect_test()
-
-  df1 <- data.frame(x = 1:5)
-  pin(df1, "xyzxyzxyzxyz-abc", board = board)
+  board %>% pin_write(1:5, "xyzxyzxyzxyz-abc", desc = "defdefdef")
   withr::defer(board_pin_remove(board, "xyzxyzxyzxyz-abc"))
 
   expect_equal(nrow(board_pin_find(board, "xyzxyzxyzxyz")), 1)
+  expect_equal(nrow(board_pin_find(board, "abcabcabc")), 0)
+  expect_equal(nrow(pin_search(board, "xyzxyzxyzxyz")), 1)
+  expect_equal(nrow(pin_search(board, "abcabcabc")), 0)
+
+  # RSC currently does not search descriptions
+  # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
+  # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
 })
 
 test_that("can upload/download multiple files", {
@@ -103,11 +108,9 @@ test_that("can't accidentally switch from versioned to unversioned", {
 test_that("can find content by full/partial name", {
   board <- board_rsconnect_test()
 
-  json <- rsc_content_find(board, "sales-by-baths")
-  expect_equal(json$name, "sales-by-baths")
-
-  json <- rsc_content_find(board, "hadley/sales-by-baths")
-  expect_equal(json$name, "sales-by-baths")
+  json1 <- rsc_content_find(board, "sales-by-baths")
+  json2 <- rsc_content_find(board, "hadley/sales-by-baths")
+  expect_equal(json1$guid, json2$guid)
 
   expect_snapshot(rsc_content_find(board, "susan/sales-by-baths"), error = TRUE)
 })
@@ -127,6 +130,6 @@ test_that("can create and delete content", {
 })
 
 test_that("can parse user & pin name", {
-  expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x"))
-  expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x"))
+  expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x", full = NULL))
+  expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x", full = "y/x"))
 })

@@ -1,4 +1,3 @@
-
 test_that("can use old pin_versions() api", {
   withr::local_options(pins.quiet = TRUE)
 
@@ -13,6 +12,7 @@ test_that("can use old pin_versions() api", {
 })
 
 test_that("`full` is deprecated", {
+  withr::local_options(pins.quiet = TRUE)
   board <- board_temp()
   board %>% pin_write(x = 1:5, "x")
 

@@ -59,16 +59,6 @@ wibble <- function(...) {
   }
 }
 
-map_chr <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
-}
-map_lgl <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = logical(1), USE.NAMES = FALSE)
-}
-map_num <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = double(1), USE.NAMES = FALSE)
-}
-
 modifyList <- function(x, y) {
   if (is.null(x)) {
     y

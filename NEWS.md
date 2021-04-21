@@ -1,10 +1,15 @@
 # pins (development version)
 
+* New `pin_list()` lists the names of all pins in a board.
+
+* New `pin_search()` replaces `pin_find()` (which is now deprecated) allows
+  you to search the name and description of all pins in a board.
+
 * `pin_versions()` now takes `board` as first argument and `name` as second
   (although it will continue to work as before with a warning).
 
 * New `pin_meta()` retrieves metadata about a pin (#418). `pin_info()` is 
-  superseded in favour of `pin_meta()`.
+  deprecated in favour of `pin_meta()`.
 
 * `pin_write()` accepts arbitrary `metadata` (#430).
 

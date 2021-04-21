@@ -7,9 +7,11 @@
 # repository.
 
 map <- function(.x, .f, ...) {
+  .f <- as_function(.f)
   lapply(.x, .f, ...)
 }
 map_mold <- function(.x, .f, .mold, ...) {
+  .f <- as_function(.f)
   out <- vapply(.x, .f, .mold, ..., USE.NAMES = FALSE)
   names(out) <- names(.x)
   out

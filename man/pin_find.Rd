@@ -27,30 +27,13 @@ pin_find(
 \item{...}{Additional parameters.}
 }
 \description{
-Search a board (or boards) for a pin.
-}
-\details{
-\code{pin_find()} allows you to discover new resources or retrieve
-pins you've previously created with \code{pin()}.
-
-The \code{pins} package comes with a CRAN packages board which
-allows searching all CRAN packages; however, you can add additional
-boards to search from like Kaggle, Github and RStudio Connect.
-
-For 'local' and 'packages' boards, the 'text' parameter searches
-the title and description of a pin using a regular expression. Other
-boards search in different ways, most of them are just partial matches,
-please refer to their documentation to understand how other
-boards search for pins.
-
-Once you find a pin, you can retrieve with \code{pin_get("pin-name")}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+\code{pin_find()} is deprecated in favour of \code{\link[=pin_search]{pin_search()}}.
 }
 \examples{
-library(pins)
-
-# retrieve pins
-pin_find()
-
-# search pins related to 'cars'
 pin_find("cars")
+# ->
+board <- board_local()
+board \%>\% pin_search("cars")
 }
+\keyword{internal}

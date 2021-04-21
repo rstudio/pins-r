@@ -284,10 +284,8 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, cach
 #' @export
 pin_load.files <- function(path, ...) {
   files <- dir(path, recursive = TRUE, full.names = TRUE)
-
   result <- files[!grepl("data\\.txt$", files)]
-
-  format_tibble(result)
+  result
 }
 
 # asis --------------------------------------------------------------------

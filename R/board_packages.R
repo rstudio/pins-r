@@ -1,7 +1,6 @@
 board_packages <- function() {
   new_board("pins_board_packages",
     name = "packages",
-    cache = board_cache_path("packages"),
     versions = FALSE
   )
 }

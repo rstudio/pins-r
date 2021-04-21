@@ -1,4 +1,5 @@
 test_that("can get info with or without board", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   expect_snapshot({
     b <- board_temp()
     pin(mtcars[1:2], "mtcars2", board = b)
@@ -13,6 +14,7 @@ test_that("can get info with or without board", {
 })
 
 test_that("gives useful errors", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   local_register(board_temp("test1"))
   local_register(board_temp("test2"))
 

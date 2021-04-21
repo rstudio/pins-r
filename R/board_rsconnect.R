@@ -71,20 +71,23 @@ board_rsconnect <- function(
     account <- NULL # see below
     server_name <- httr::parse_url(server)$hostname
     key <- key %||% Sys.getenv("CONNECT_API_KEY")
+    account_info <- NULL
   } else {
     info <- rsc_account_find(server, account)
     account <- info$name
     server <- info$server
     server_name <- info$server_name
+    account_info <- rsconnect::accountInfo(account, server_name)
   }
 
-  cache <- cache %||% board_cache_path(paste0("rsc-", server))
+  cache <- cache %||% board_cache_path(paste0("rsc-", server_name))
 
   board <- new_board("pins_board_rsconnect",
     name = name,
     cache = cache,
     server = server,
     account = account,
+    account_info = account_info,
     server_name = server_name,
     url = url,
     key = key,
@@ -164,32 +167,6 @@ rsc_account_find <- function(server = NULL, name = NULL) {
 }
 
 #' @export
-board_pin_find.pins_board_rsconnect <- function(board,
-                                               text = NULL,
-                                               name = NULL,
-                                               extended = FALSE,
-                                               metadata = FALSE,
-                                     ...) {
-
-  params <- list(
-    search = text,
-    filter = "content_type:pin",
-    count = 1000
-  )
-  json <- rsc_GET(board, "applications/", params)
-
-  pins <- json$applications
-  name <- map_chr(pins, ~ .x$name)
-  user <- map_chr(pins, ~ .x$owner_username)
-
-  wibble(
-    name = paste0(user, "/", name),
-    title = map_chr(pins, ~ .x$title %||% ""),
-    description = map_chr(pins, ~ .x$description)
-  )
-}
-
-#' @export
 board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
   rsc_content_delete(board, name)
 }
@@ -200,6 +177,20 @@ board_browse.pins_board_rsconnect <- function(board, ...) {
 }
 
 #' @export
+pin_list.pins_board_rsconnect <- function(board, ...) {
+  params <- list(
+    filter = "content_type:pin",
+    count = 1000
+  )
+  json <- rsc_GET(board, "applications/", params)
+  pins <- json$applications
+
+  name <- map_chr(pins, ~ .x$name)
+  user <- map_chr(pins, ~ .x$owner_username)
+  paste0(user, "/", name)
+}
+
+#' @export
 board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
   guid <- rsc_content_find(board, name)$guid
   rsc_content_versions(board, guid)
@@ -207,34 +198,53 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
 
 #' @export
 board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
-
-  content <- rsc_content_find(board, name)
-
-  url <- content$content_url
-  if (!is.null(version)) {
-    stopifnot(is_string(version))
-    url <- paste0(url, "_rev", version, "/")
-  } else {
-    version <- content$bundle_id
-  }
-
-  # Bundles (guid + bundle id) are immutable so only need to download once
   # Can't use bundle download endpoint because that requires collaborator
   # access. So download data.txt, then download each file that it lists.
-  pin_path <- fs::path(board$cache, paste0(content$guid, "_", version))
-  fs::dir_create(pin_path)
-  rsc_download(board, url, pin_path, "data.txt")
+  meta <- pin_meta(board, name, version = version)
 
-  meta <- read_meta(pin_path)
   for (file in meta$file) {
-    rsc_download(board, url, pin_path, file)
+    rsc_download(board, meta$url, meta$cache_path, file)
   }
 
   list(
-    dir = pin_path,
-    path = fs::path(pin_path, meta$file),
+    dir = meta$cache_path,
+    path = fs::path(meta$cache_path, meta$file),
     meta = meta
   )
+}
+
+#' @export
+pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {
+  content <- rsc_content_find(board, name)
+
+  if (is.null(version)) {
+    if (offline) {
+      pins_inform("Using cached")
+      bundle_id <- content$bundle_id
+    } else {
+      bundle_id <- rsc_GET(board, rsc_v1("content", content$guid))$bundle_id
+    }
+  } else {
+    bundle_id <- version
+  }
+  url <- paste0(content$url, "_rev", bundle_id, "/")
+
+  # Cache data.txt locally
+  cache_path <- fs::path(board$cache, paste0(content$guid, "_", bundle_id))
+  fs::dir_create(cache_path)
+  rsc_download(board, url, cache_path, "data.txt")
+
+  meta <- read_meta(cache_path)
+
+  if (meta$api_version == 0) {
+    meta$file <- meta$path %||% meta$file
+  }
+
+  meta$cache_path <- cache_path
+  meta$content_id <- content$guid
+  meta$version <- bundle_id
+  meta$url <- url
+  new_meta(meta)
 }
 
 #' @export
@@ -252,15 +262,6 @@ board_pin_upload.pins_board_rsconnect <- function(
 
   versioned <- versioned %||% board$versions
 
-  # Make .tar.gz bundle containing data.txt + index.html + pin data
-  bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
-  bundle_file <- fs::file_temp(ext = "tar.gz")
-  utils::tar(
-    bundle_file, fs::dir_ls(bundle_dir),
-    compression = "gzip",
-    tar = "internal"
-  )
-
   # Find/create content item
   content <- tryCatch(
     rsc_content_find(board, name),
@@ -269,6 +270,15 @@ board_pin_upload.pins_board_rsconnect <- function(
     }
   )
   content_guid <- content$guid
+
+  # Make .tar.gz bundle containing data.txt + index.html + pin data
+  bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
+  bundle_file <- fs::file_temp(ext = "tar.gz")
+  utils::tar(
+    bundle_file, fs::dir_ls(bundle_dir),
+    compression = "gzip",
+    tar = "internal"
+  )
 
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
@@ -314,6 +324,24 @@ board_pin_upload.pins_board_rsconnect <- function(
   invisible()
 }
 
+#' @export
+pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
+  params <- list(
+    search = pattern,
+    filter = "content_type:pin",
+    count = 1000
+  )
+  json <- rsc_GET(board, "applications/", params)
+
+  if (length(json$applications) == 0) {
+    return(multi_meta(board, character()))
+  }
+
+  name <- map_chr(json$applications, ~ .x$name)
+  user <- map_chr(json$applications, ~ .x$owner_username)
+  multi_meta(board, paste0(user, "/", name))
+}
+
 # v0 ----------------------------------------------------------------------
 
 #' @export
@@ -341,16 +369,49 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
   )
 }
 
+#' @export
+board_pin_find.pins_board_rsconnect <- function(board,
+                                               text = NULL,
+                                               name = NULL,
+                                               extended = FALSE,
+                                               metadata = FALSE,
+                                     ...) {
+
+  params <- list(
+    search = text,
+    filter = "content_type:pin",
+    count = 1000
+  )
+  json <- rsc_GET(board, "applications/", params)
+
+  pins <- json$applications
+  name <- map_chr(pins, ~ .x$name)
+  user <- map_chr(pins, ~ .x$owner_username)
+
+  wibble(
+    name = paste0(user, "/", name),
+    title = map_chr(pins, ~ .x$title %||% ""),
+    description = map_chr(pins, ~ .x$description)
+  )
+}
+
 # Bundle ------------------------------------------------------------------
 
 # Content -----------------------------------------------------------------
 
-rsc_content_find <- function(board, name, quiet = TRUE) {
+rsc_content_find <- function(board, name, version = NULL, quiet = TRUE) {
   name <- rsc_parse_name(name)
 
-  # TODO: look in cache if !is.null(owner$name)
+  cache_path <- fs::path(board$cache, "content-cache.yml")
+  if (!is.null(name$owner)) {
 
-  # https://docs.rstudio.com/connect/api/#get-/v1/content/{guid}/bundles/{id}/download
+    cache <- read_cache(cache_path)
+    if (has_name(cache, name$full)) {
+      return(cache[[name$full]])
+    }
+  }
+
+  # https://docs.rstudio.com/connect/api/#get-/v1/content
   json <- rsc_GET(board, "v1/content", list(name = name$name))
   if (length(json) == 0) {
     abort(
@@ -365,18 +426,27 @@ rsc_content_find <- function(board, name, quiet = TRUE) {
       abort(paste0("Multiple pins with name '",  name$name, "'"))
     }
     owner <- rsc_user_name(board, json[[1]]$owner_guid)
+    name$full <- paste0(owner, "/", name$name)
+
     if (!quiet) {
-      pins_inform(paste0("Downloading pin '", owner, "/", name$name, "'"))
+      pins_inform(paste0("Downloading pin '", name$full, "'"))
     }
-    json[[1]]
+    selected <- json[[1]]
   } else {
     owner_guids <- map_chr(json, ~ .x$owner_guid)
     owner_names <- map_chr(owner_guids, rsc_user_name, board = board)
     if (!name$owner %in% owner_names) {
       abort(paste0("Can't find pin named '", name$name, "' with owner '", name$owner, "'"))
     }
-    json[[name$owner %in% owner_names]]
+    selected <- json[[name$owner %in% owner_names]]
   }
+
+  content <- list(
+    guid = selected$guid,
+    bundle_id = selected$bundle_id,
+    url = selected$content_url
+  )
+  update_cache(cache_path, name$full, content)
 }
 
 rsc_content_create <- function(board, name, metadata, access_type = "acl") {
@@ -407,29 +477,51 @@ rsc_content_versions <- function(board, guid) {
     version = map_chr(json, ~ .x$id),
     created = rsc_parse_time(map_chr(json, ~ .x$created_time)),
     active = map_lgl(json, ~ .x$active),
-    size = map_num(json, ~ .x$size),
+    size = map_dbl(json, ~ .x$size),
   )
 }
 
 rsc_content_delete <- function(board, name) {
-  json <- rsc_content_find(board, name)
-  rsc_DELETE(board, rsc_v1("content", json$guid))
+  content <- rsc_content_find(board, name)
+  rsc_DELETE(board, rsc_v1("content", content$guid))
 }
 
 rsc_parse_name <- function(x) {
   parts <- strsplit(x, "/", fixed = TRUE)[[1]]
 
   if (length(parts) == 1) {
-    list(owner = NULL, name = parts[[1]])
+    list(owner = NULL, name = parts[[1]], full = NULL)
   } else if (length(parts)) {
-    list(owner = parts[[1]], name = paste0(parts[-1], collapse = "/"))
+    list(owner = parts[[1]], name = paste0(parts[-1], collapse = "/"), full = x)
   }
 }
 
-
 rsc_user_name <- function(board, guid) {
-  # https://docs.rstudio.com/connect/api/#get-/v1/users/{guid}
-  rsc_GET(board, rsc_v1("users", guid))$username
+  path <- fs::path(board$cache, "users-cache.yml")
+  users <- read_cache(path)
+
+  if (has_name(users, guid)) {
+    users[[guid]]
+  } else {
+    # https://docs.rstudio.com/connect/api/#get-/v1/users/{guid}
+    username <- rsc_GET(board, rsc_v1("users", guid))$username
+    update_cache(path, guid, username)
+  }
+}
+
+read_cache <- function(path) {
+  if (file.exists(path)) {
+    yaml::read_yaml(path)
+  } else {
+    list()
+  }
+}
+update_cache <- function(path, key, value) {
+  cache <- read_cache(path)
+  cache[[key]] <- value
+  yaml::write_yaml(cache, path)
+
+  value
 }
 
 # helpers -----------------------------------------------------------------
@@ -515,10 +607,8 @@ rsc_auth <- function(board, path, verb, body_path) {
     httr::add_headers("Authorization" = paste("Key", board$key))
   } else {
     # https://github.com/rstudio/connect/wiki/token-authentication#request-signing-rsconnect
-    info <- rsconnect::accountInfo(board$account, board$server_name)
-
     signatureHeaders <- utils::getFromNamespace("signatureHeaders", "rsconnect")
-    headers <- signatureHeaders(info, verb, path, body_path)
+    headers <- signatureHeaders(board$account_info, verb, path, body_path)
     httr::add_headers(.headers = unlist(headers))
   }
 }

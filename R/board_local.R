@@ -41,6 +41,8 @@ board_temp <- function(name = "temp", versions = FALSE) {
   board_folder(fs::file_temp("pins-"), name = name, versions = versions)
 }
 
+# Methods -----------------------------------------------------------------
+
 #' @export
 board_desc.pins_board_local <- function(board, ...) {
   paste0("Path: '", board$cache, "'")
@@ -52,21 +54,14 @@ board_browse.pins_board_local <- function(board, ...) {
 }
 
 #' @export
-board_pin_find.pins_board_local <- function(board, text, ...) {
-  results <- pin_registry_find(board, text)
-
-  # if (nrow(results) == 1) {
-  #   metadata <- jsonlite::fromJSON(results$metadata)
-  #   path <-  pin_registry_absolute(metadata$path, component = board$name)
-  #   extended <- pin_manifest_get(path)
-  #   merged <- pin_manifest_merge(metadata, extended)
-  #
-  #   results$metadata <- as.character(jsonlite::toJSON(merged, auto_unbox = TRUE))
-  # }
-
-  results
+pin_list.pins_board_local <- function(board, ...) {
+  fs::path_file(fs::dir_ls(board$cache, type = "directory"))
 }
 
+#' @export
+board_pin_find.pins_board_local <- function(board, text, ...) {
+  pin_registry_find(board, text)
+}
 
 #' @export
 board_pin_remove.pins_board_local <- function(board, name, ...) {
@@ -90,6 +85,7 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
 #' @export
 board_pin_upload.pins_board_local <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
+  check_name(name)
   path_pin <- fs::path(board$cache, name)
   pin_meta <- read_meta(path_pin)
 
@@ -131,6 +127,28 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
 
 #' @export
 board_pin_download.pins_board_local <- function(board, name, version = NULL, ...) {
+  check_name(name)
+  meta <- pin_meta(board, name, version = version)
+
+  if (meta$api_version == 0) {
+    path <- board_pin_get(board, name, ...)
+    list(
+      meta = meta,
+      dir = path,
+      path = fs::path(path, meta$path)
+    )
+  } else {
+    path_version <- fs::path(board$cache, name, meta$version)
+    list(
+      meta = meta,
+      dir = path_version,
+      path = fs::path(path_version, meta$file)
+    )
+  }
+}
+
+#' @export
+pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
   path_pin <- fs::path(board$cache, name)
   if (!fs::dir_exists(path_pin)) {
     abort(paste0("Can't find pin '", name, "'"))
@@ -140,29 +158,19 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
   meta_pin <- read_meta(path_pin)
   if (meta_pin$api_version == 0) {
     meta <- pin_registry_retrieve(board, name)
-    meta$api_version <- 0
-    path <- board_pin_get(board, name, ...)
-    return(list(
-      meta = meta,
-      dir = path,
-      path = fs::path(path, meta$path)
-    ))
-  }
+    meta$api_version <- 0L
+    new_meta(meta)
+  } else {
+    version <- version %||% last(meta_pin$versions)
+    path_version <- fs::path(board$cache, name, version)
 
-  if (is.null(version)) {
-    version <- last(meta_pin$versions)
+    if (!fs::dir_exists(path_version)) {
+      abort(paste0("Can't find version '", version, "'"))
+    }
+    meta <- read_meta(path_version)
+    meta$version <- version
+    new_meta(meta)
   }
-  path_version <- fs::path(board$cache, name, version)
-  if (!fs::dir_exists(path_version)) {
-    abort(paste0("Can't find version '", version, "'"))
-  }
-
-  meta <- read_meta(path_version)
-  list(
-    meta = meta,
-    dir = path_version,
-    path = fs::path(path_version, meta$file)
-  )
 }
 
 board_pin_delete.pins_board_local <- function(board, name, ...) {
