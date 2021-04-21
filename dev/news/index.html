@@ -144,8 +144,10 @@
 <a href="#pins-development-version" class="anchor"></a>pins (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code><a href="../reference/pin_list.html">pin_list()</a></code> lists the names of all pins in a board.</p></li>
+<li><p>New <code><a href="../reference/pin_search.html">pin_search()</a></code> replaces <code><a href="../reference/pin_find.html">pin_find()</a></code> (which is now deprecated) allows you to search the name and description of all pins in a board.</p></li>
 <li><p><code><a href="../reference/pin_versions.html">pin_versions()</a></code> now takes <code>board</code> as first argument and <code>name</code> as second (although it will continue to work as before with a warning).</p></li>
-<li><p>New <code><a href="../reference/pin_meta.html">pin_meta()</a></code> retrieves metadata about a pin (<a href='https://github.com/rstudio/pins/issues/418'>#418</a>). <code><a href="../reference/pin_info.html">pin_info()</a></code> is superseded in favour of <code><a href="../reference/pin_meta.html">pin_meta()</a></code>.</p></li>
+<li><p>New <code><a href="../reference/pin_meta.html">pin_meta()</a></code> retrieves metadata about a pin (<a href='https://github.com/rstudio/pins/issues/418'>#418</a>). <code><a href="../reference/pin_info.html">pin_info()</a></code> is deprecated in favour of <code><a href="../reference/pin_meta.html">pin_meta()</a></code>.</p></li>
 <li><p><code><a href="../reference/pin_read.html">pin_write()</a></code> accepts arbitrary <code>metadata</code> (<a href='https://github.com/rstudio/pins/issues/430'>#430</a>).</p></li>
 <li><p><code><a href="../reference/pin_read.html">pin_write()</a></code> can be any string, as long as it doesn’t contain slashes (<a href='https://github.com/rstudio/pins/issues/429'>#429</a>).</p></li>
 <li>

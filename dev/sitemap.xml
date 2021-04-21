@@ -73,6 +73,9 @@
     <loc>https://pins.rstudio.com/reference/pin_info.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/pin_list.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/pin_log.html</loc>
   </url>
   <url>
@@ -86,6 +89,9 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/pin_remove.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/pin_search.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/pin_versions.html</loc>
