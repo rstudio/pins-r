@@ -148,7 +148,7 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
 }
 
 #' @export
-pin_meta.pins_board_local <- function(board, name, version = NULL) {
+pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
   path_pin <- fs::path(board$cache, name)
   if (!fs::dir_exists(path_pin)) {
     abort(paste0("Can't find pin '", name, "'"))

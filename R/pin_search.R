@@ -1,6 +1,14 @@
 #' Search for pins
 #'
+#' The underlying search method depends on the `board`, but most will search
+#' for text in the pin name and description.
 #'
+#' @returns A data frame that summarises the metadata for each pin.
+#'   Key columns (`version`, `type`, `description`, `created`, and `file_size`)
+#'   are pulled out into columns; everything else can be found in the `meta`
+#'   list-column.
+#' @inheritParams pin_read
+#' @param pattern A string to search for in pin name and description.
 #' @export
 #' @examples
 #' board <- board_temp()
@@ -22,11 +30,24 @@ pin_search.pins_board <- function(board, pattern = NULL) {
   out <- multi_meta(board, names)
 
   if (!is.null(pattern)) {
-    match <- grepl(pattern, out$name, perl = TRUE) |
-      grepl(pattern, out$description, perl = TRUE)
+    match <- grepl(pattern, out$name, fixed = TRUE) |
+      grepl(pattern, out$description, fixed = TRUE)
     out <- out[match, , drop = FALSE]
   }
 
   out
 }
 
+multi_meta <- function(board, names) {
+  meta <- map(names, pin_meta, board = board)
+
+  wibble(
+    name = names,
+    version = as.integer(map_dbl(meta, ~ .x$api_version %||% NA_real_)),
+    type = map_chr(meta, ~ .x$type %||% NA_character_),
+    description = map_chr(meta, ~ .x$description %||% ""),
+    created = rsc_parse_time(map_chr(meta, ~ .x$date %||% NA_character_)),
+    file_size = fs::as_fs_bytes(map_int(meta, ~ sum(.x$file_size))),
+    meta = meta
+  )
+}

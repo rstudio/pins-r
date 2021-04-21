@@ -6,8 +6,21 @@
 \usage{
 pin_search(board, pattern = NULL)
 }
+\arguments{
+\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
+\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
+
+\item{pattern}{A string to search for in pin name and description.}
+}
+\value{
+A data frame that summarises the metadata for each pin.
+Key columns (\code{version}, \code{type}, \code{description}, \code{created}, and \code{file_size})
+are pulled out into columns; everything else can be found in the \code{meta}
+list-column.
+}
 \description{
-Search for pins
+The underlying search method depends on the \code{board}, but most will search
+for text in the pin name and description.
 }
 \examples{
 board <- board_temp()
