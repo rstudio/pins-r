@@ -13,9 +13,13 @@
 #' b %>% pin_meta("mtcars")
 #' # Get path to underlying data
 #' b %>% pin_download("mtcars")
-pin_meta <- function(board, name, version = NULL, hash = NULL, ...) {
-  pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
-  structure(pin$meta, class = "pins_meta")
+pin_meta <- function(board, name, version = NULL, ...) {
+  UseMethod("pin_meta")
+}
+
+
+new_meta <- function(x) {
+  structure(x, class = "pins_meta")
 }
 
 #' @export

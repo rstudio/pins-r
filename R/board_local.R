@@ -126,6 +126,27 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
 
 #' @export
 board_pin_download.pins_board_local <- function(board, name, version = NULL, ...) {
+  meta <- pin_meta(board, name, version = version)
+
+  if (meta$api_version == 0) {
+    path <- board_pin_get(board, name, ...)
+    list(
+      meta = meta,
+      dir = path,
+      path = fs::path(path, meta$path)
+    )
+  } else {
+    path_version <- fs::path(board$cache, name, meta$version)
+    list(
+      meta = meta,
+      dir = path_version,
+      path = fs::path(path_version, meta$file)
+    )
+  }
+}
+
+#' @export
+pin_meta.pins_board_local <- function(board, name, version = NULL) {
   path_pin <- fs::path(board$cache, name)
   if (!fs::dir_exists(path_pin)) {
     abort(paste0("Can't find pin '", name, "'"))
@@ -136,28 +157,18 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
   if (meta_pin$api_version == 0) {
     meta <- pin_registry_retrieve(board, name)
     meta$api_version <- 0L
-    path <- board_pin_get(board, name, ...)
-    return(list(
-      meta = meta,
-      dir = path,
-      path = fs::path(path, meta$path)
-    ))
-  }
+    new_meta(meta)
+  } else {
+    version <- version %||% last(meta_pin$versions)
+    path_version <- fs::path(board$cache, name, version)
 
-  if (is.null(version)) {
-    version <- last(meta_pin$versions)
+    if (!fs::dir_exists(path_version)) {
+      abort(paste0("Can't find version '", version, "'"))
+    }
+    meta <- read_meta(path_version)
+    meta$version <- version
+    new_meta(meta)
   }
-  path_version <- fs::path(board$cache, name, version)
-  if (!fs::dir_exists(path_version)) {
-    abort(paste0("Can't find version '", version, "'"))
-  }
-
-  meta <- read_meta(path_version)
-  list(
-    meta = meta,
-    dir = path_version,
-    path = fs::path(path_version, meta$file)
-  )
 }
 
 board_pin_delete.pins_board_local <- function(board, name, ...) {

@@ -4,7 +4,7 @@
 \alias{pin_meta}
 \title{Retrieve metadata for a pin}
 \usage{
-pin_meta(board, name, version = NULL, hash = NULL, ...)
+pin_meta(board, name, version = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -14,10 +14,6 @@ pin_meta(board, name, version = NULL, hash = NULL, ...)
 
 \item{version}{For boards that support versions, this allows you to retrieve
 a specific version of a pin. See \verb{vignette("versioning)"} for details.}
-
-\item{hash}{Specify a hash to verify that you get exactly the dataset that
-you expect. You can find the hash of an existing pin by looking for
-\code{pin_hash} in \code{\link[=pin_meta]{pin_meta()}}.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 }
