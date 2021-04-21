@@ -1,5 +1,10 @@
 # pins (development version)
 
+* New `pin_list()` lists the names of all pins in a board.
+
+* New `pin_search()` replaces `pin_find()` (which is now deprecated) allows
+  you to search the name and description of all pins in a board.
+
 * `pin_versions()` now takes `board` as first argument and `name` as second
   (although it will continue to work as before with a warning).
 
