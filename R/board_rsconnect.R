@@ -333,9 +333,12 @@ pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
   )
   json <- rsc_GET(board, "applications/", params)
 
+  if (length(json$applications) == 0) {
+    return(multi_meta(board, character()))
+  }
+
   name <- map_chr(json$applications, ~ .x$name)
   user <- map_chr(json$applications, ~ .x$owner_username)
-
   multi_meta(board, paste0(user, "/", name))
 }
 

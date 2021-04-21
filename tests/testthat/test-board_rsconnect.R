@@ -25,15 +25,20 @@ test_that("can round-trip a pin (v0)", {
   expect_equal(df1, df2)
 })
 
-test_that("can search pins", {
+test_that("can find/search pins", {
   withr::local_options(pins.quiet = TRUE)
   board <- board_rsconnect_test()
-
-  df1 <- data.frame(x = 1:5)
-  pin(df1, "xyzxyzxyzxyz-abc", board = board)
+  board %>% pin_write(1:5, "xyzxyzxyzxyz-abc", desc = "defdefdef")
   withr::defer(board_pin_remove(board, "xyzxyzxyzxyz-abc"))
 
   expect_equal(nrow(board_pin_find(board, "xyzxyzxyzxyz")), 1)
+  expect_equal(nrow(board_pin_find(board, "abcabcabc")), 0)
+  expect_equal(nrow(pin_search(board, "xyzxyzxyzxyz")), 1)
+  expect_equal(nrow(pin_search(board, "abcabcabc")), 0)
+
+  # RSC currently does not search descriptions
+  # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
+  # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
 })
 
 test_that("can upload/download multiple files", {
