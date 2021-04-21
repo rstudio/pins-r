@@ -9,7 +9,7 @@
   (although it will continue to work as before with a warning).
 
 * New `pin_meta()` retrieves metadata about a pin (#418). `pin_info()` is 
-  superseded in favour of `pin_meta()`.
+  deprecated in favour of `pin_meta()`.
 
 * `pin_write()` accepts arbitrary `metadata` (#430).
 

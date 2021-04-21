@@ -1,8 +1,8 @@
 #' Pin Info
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
-#' `pin_info()` is superseded in favour of `pin_meta()`.
+#' `r lifecycle::badge("deprecated")`
+#' `pin_info()` is deprecated in favour of [pin_meta()].
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.
@@ -13,14 +13,11 @@
 #' @keywords internal
 #'
 #' @examples
-#' # define board and cache a dataset
 #' board <- board_temp()
 #' pin(mtcars, board = board)
 #'
-#' # previously:
 #' pin_info("mtcars", board = board)
-#'
-#' # now:
+#' # ->
 #' board %>% pin_meta("mtcars")
 #' @export
 pin_info <- function(name,
@@ -30,6 +27,7 @@ pin_info <- function(name,
                      signature = FALSE,
                      ...) {
 
+  lifecycle::deprecate_warn("1.0.0", "pin_info()", "pin_meta()")
   entry <- pin_find(
     name = name,
     board = board,

@@ -32,6 +32,7 @@ reference:
   contents:
   - pin
   - pin_get
+  - pin_info
   - pin_find
   - pin_reactive
 

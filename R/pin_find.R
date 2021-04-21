@@ -1,6 +1,8 @@
 #' Find Pin
 #'
-#' Search a board (or boards) for a pin.
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' `pin_find()` is deprecated in favour of [pin_search()].
 #'
 #' @param text The text to find in the pin description or name.
 #' @param board The board name used to find the pin.
@@ -8,32 +10,12 @@
 #' @param extended Should additional board-specific columns be shown?
 #' @param metadata Include pin metadata in results?
 #' @param ... Additional parameters.
-#'
-#' @details
-#'
-#' `pin_find()` allows you to discover new resources or retrieve
-#' pins you've previously created with `pin()`.
-#'
-#' The `pins` package comes with a CRAN packages board which
-#' allows searching all CRAN packages; however, you can add additional
-#' boards to search from like Kaggle, Github and RStudio Connect.
-#'
-#' For 'local' and 'packages' boards, the 'text' parameter searches
-#' the title and description of a pin using a regular expression. Other
-#' boards search in different ways, most of them are just partial matches,
-#' please refer to their documentation to understand how other
-#' boards search for pins.
-#'
-#' Once you find a pin, you can retrieve with `pin_get("pin-name")`.
-#'
+#' @keywords internal
 #' @examples
-#' library(pins)
-#'
-#' # retrieve pins
-#' pin_find()
-#'
-#' # search pins related to 'cars'
 #' pin_find("cars")
+#' # ->
+#' board <- board_local()
+#' board %>% pin_search("cars")
 #' @export
 pin_find <- function(text = NULL,
                      board = NULL,
@@ -41,6 +23,9 @@ pin_find <- function(text = NULL,
                      extended = FALSE,
                      metadata = FALSE,
                      ...) {
+
+  lifecycle::deprecate_warn("1.0.0", "pin_find()", "pin_search()")
+
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)
   } else if (is.character(board)) {
