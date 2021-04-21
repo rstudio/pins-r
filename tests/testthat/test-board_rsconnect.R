@@ -103,11 +103,9 @@ test_that("can't accidentally switch from versioned to unversioned", {
 test_that("can find content by full/partial name", {
   board <- board_rsconnect_test()
 
-  json <- rsc_content_find(board, "sales-by-baths")
-  expect_equal(json$name, "sales-by-baths")
-
-  json <- rsc_content_find(board, "hadley/sales-by-baths")
-  expect_equal(json$name, "sales-by-baths")
+  json1 <- rsc_content_find(board, "sales-by-baths")
+  json2 <- rsc_content_find(board, "hadley/sales-by-baths")
+  expect_equal(json1$guid, json2$guid)
 
   expect_snapshot(rsc_content_find(board, "susan/sales-by-baths"), error = TRUE)
 })
@@ -127,6 +125,6 @@ test_that("can create and delete content", {
 })
 
 test_that("can parse user & pin name", {
-  expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x"))
-  expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x"))
+  expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x", full = NULL))
+  expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x", full = "y/x"))
 })
