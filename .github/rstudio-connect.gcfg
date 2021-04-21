@@ -9,6 +9,9 @@ Listen = :3939
 [Authentication]
 Provider = pam
 
+[Authorization]
+DefaultUserRole = publisher
+
 [Python]
 Enabled = true
 Executable = /opt/python/3.6.5/bin/python
