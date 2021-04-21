@@ -219,7 +219,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
 
   if (is.null(version)) {
     if (offline) {
-      pin_inform("Using cached")
+      pins_inform("Using cached")
       bundle_id <- content$bundle_id
     } else {
       bundle_id <- rsc_GET(board, rsc_v1("content", content$guid))$bundle_id

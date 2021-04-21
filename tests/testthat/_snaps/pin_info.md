@@ -7,20 +7,11 @@
     Output
       # Source: temp<mtcars2> [table]
       # Properties:
-      #   version: 0
-      #   created: .na.real
-      #   file_size: 0
-      #   meta:
-      #   - type: table
-      #     description: ~
-      #     rows: 32
-      #     cols: 2
-      #     columns:
-      #       mpg: numeric
-      #       cyl: numeric
-      #     path: mtcars2
-      #     name: mtcars2
-      #     api_version: 0
+      #   rows: 32
+      #   cols: 2
+      #   columns:
+      #     mpg: numeric
+      #     cyl: numeric
 
 ---
 
@@ -30,20 +21,11 @@
     Output
       # Source: test<mtcars3> [table]
       # Properties:
-      #   version: 0
-      #   created: .na.real
-      #   file_size: 0
-      #   meta:
-      #   - type: table
-      #     description: ~
-      #     rows: 32
-      #     cols: 2
-      #     columns:
-      #       mpg: numeric
-      #       cyl: numeric
-      #     path: mtcars3
-      #     name: mtcars3
-      #     api_version: 0
+      #   rows: 32
+      #   cols: 2
+      #   columns:
+      #     mpg: numeric
+      #     cyl: numeric
 
 # gives useful errors
 

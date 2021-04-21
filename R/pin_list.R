@@ -15,7 +15,6 @@
 #' board %>% pin_write(runif(20), "z")
 #'
 #' board %>% pin_list()
-#' board %>% pin_list_meta()
 pin_list <- function(board, ...) {
   ellipsis::check_dots_used()
   UseMethod("pin_list")

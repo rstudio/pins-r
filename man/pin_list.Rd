@@ -27,5 +27,4 @@ board \%>\% pin_write(letters, "y")
 board \%>\% pin_write(runif(20), "z")
 
 board \%>\% pin_list()
-board \%>\% pin_list_meta()
 }

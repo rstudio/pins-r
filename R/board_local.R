@@ -60,7 +60,7 @@ pin_list.pins_board_local <- function(board, ...) {
 
 #' @export
 board_pin_find.pins_board_local <- function(board, text, ...) {
-  pin_search(board, text)
+  pin_registry_find(board, text)
 }
 
 #' @export
