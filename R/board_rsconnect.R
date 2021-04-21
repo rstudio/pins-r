@@ -324,6 +324,21 @@ board_pin_upload.pins_board_rsconnect <- function(
   invisible()
 }
 
+#' @export
+pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
+  params <- list(
+    search = pattern,
+    filter = "content_type:pin",
+    count = 1000
+  )
+  json <- rsc_GET(board, "applications/", params)
+
+  name <- map_chr(json$applications, ~ .x$name)
+  user <- map_chr(json$applications, ~ .x$owner_username)
+
+  multi_meta(board, paste0(user, "/", name))
+}
+
 # v0 ----------------------------------------------------------------------
 
 #' @export

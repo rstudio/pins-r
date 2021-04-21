@@ -7,6 +7,7 @@
     Output
       # Source: temp<mtcars2> [table]
       # Properties:
+      #   version: 0
       #   created: .na.real
       #   file_size: 0
       #   meta:
@@ -29,6 +30,7 @@
     Output
       # Source: test<mtcars3> [table]
       # Properties:
+      #   version: 0
       #   created: .na.real
       #   file_size: 0
       #   meta:
