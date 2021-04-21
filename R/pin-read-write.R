@@ -32,7 +32,6 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 
 pin_retrieve <- function(board, name, version = NULL, hash = NULL, ...) {
   check_board(board)
-  check_name(name)
   ellipsis::check_dots_used()
 
   pin <- board_pin_download(board, name, version = version, ...)
