@@ -1,6 +1,4 @@
 test_that("can round-trip a file", {
-  withr::local_options(pins.quiet = TRUE)
-
   board <- board_temp()
 
   path1 <- withr::local_tempfile()
@@ -12,6 +10,7 @@ test_that("can round-trip a file", {
 })
 
 test_that("pin_upload generated useful messages", {
+  ui_loud()
   board <- board_temp()
 
   expect_snapshot(error = TRUE, {
@@ -24,7 +23,6 @@ test_that("pin_upload generated useful messages", {
 })
 
 test_that("user can supply metadata", {
-  withr::local_options(pins.quiet = TRUE)
   path1 <- withr::local_tempfile()
   writeLines("Hi!", path1)
 

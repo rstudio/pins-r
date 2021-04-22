@@ -57,6 +57,7 @@ test_that("can version a local pin", {
 
 test_that("can get versions", {
   b <- board_temp()
+  ui_loud()
   expect_snapshot(pin_write(b, 1:5, "x", type = "rds", versioned = TRUE))
   first_version <- pin_versions(b, "x")$version
   expect_equal(length(first_version), 1)
@@ -70,7 +71,6 @@ test_that("can get versions", {
 })
 
 test_that("can pin_read() pins made by pin()", {
-  withr::local_options(pins.quiet = TRUE)
   board <- board_temp()
 
   # pin.data.frame
@@ -99,6 +99,7 @@ test_that("can upload/download multiple files", {
 })
 
 test_that("can't unversion an unversioned pin", {
+  ui_loud()
   expect_snapshot(error = TRUE, {
     b <- board_temp(versions = TRUE)
     pin_write(b, 1:5, "x", type = "rds")
@@ -108,6 +109,7 @@ test_that("can't unversion an unversioned pin", {
 })
 
 test_that("generates useful messages", {
+  ui_loud()
   b <- board_temp()
   expect_snapshot(error = TRUE, {
     pin_read(b, "x")

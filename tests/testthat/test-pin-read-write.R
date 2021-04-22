@@ -1,5 +1,4 @@
 test_that("can round trip all types", {
-  withr::local_options(pins.quiet = TRUE)
   board <- board_temp()
 
   # Data frames
@@ -20,7 +19,6 @@ test_that("can round trip all types", {
 })
 
 test_that("can't pin_read() file that was pin_uploaded()", {
-  withr::local_options(pins.quiet = TRUE)
   path <- withr::local_tempfile()
   writeLines("Hi!", path)
 
@@ -48,6 +46,7 @@ test_that("guess_type() works as expected", {
 })
 
 test_that("pin_write() noisily generates name and type", {
+  ui_loud()
   expect_snapshot({
     b <- board_temp()
     pin_write(b, mtcars)
@@ -55,7 +54,6 @@ test_that("pin_write() noisily generates name and type", {
 })
 
 test_that("user can supply metadata", {
-  withr::local_options(pins.quiet = TRUE)
   board <- board_temp()
 
   pin_write(board, 1:10, "x", metadata = list(name = "Susan"), desc = "A vector")
@@ -65,6 +63,7 @@ test_that("user can supply metadata", {
 })
 
 test_that("can request specific hash", {
+  ui_loud()
   expect_snapshot(error = TRUE, {
     b <- board_temp()
     pin_write(b, mtcars, name = "mtcars", type = "rds")

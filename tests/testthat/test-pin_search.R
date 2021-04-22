@@ -1,6 +1,4 @@
 test_that("default search looks in name and description", {
-  withr::local_options(pins.quiet = TRUE)
-
   board <- board_temp()
   board %>% pin_write(1:5, "x")
   board %>% pin_write(1:5, "y", desc = "z")
@@ -11,8 +9,6 @@ test_that("default search looks in name and description", {
 })
 
 test_that("empty search returns empty columns", {
-  withr::local_options(pins.quiet = TRUE)
-
   board <- board_temp()
   out <- board %>% pin_search()
   expect_s3_class(out, "tbl_df")
