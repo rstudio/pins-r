@@ -15,3 +15,10 @@
       Guessing `name = 'test.txt'`
       Creating new version 'ef46db3751d8e999'
 
+# can pin file called data.txt
+
+    Code
+      pin_upload(board, fs::path(path, "data.txt"))
+    Error <rlang_error>
+      Can pin file called `data.txt`
+

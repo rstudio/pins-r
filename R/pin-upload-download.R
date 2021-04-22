@@ -30,6 +30,10 @@ pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(),
   if (!all(fs::file_exists(path))) {
     abort("All elements of `path` must exist")
   }
+  if (any(fs::path_file(path) == "data.txt")) {
+    abort("Can pin file called `data.txt`")
+  }
+
   if (is.null(name) && length(path) == 1) {
     name <- fs::path_file(path)
     inform(paste0("Guessing `name = '", name, "'`"))

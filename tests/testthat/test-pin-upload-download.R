@@ -22,6 +22,14 @@ test_that("pin_upload generated useful messages", {
   })
 })
 
+test_that("can pin file called data.txt", {
+  path <- withr::local_tempdir()
+  writeLines("Hi!", fs::path(path, "data.txt"))
+
+  board <- board_temp()
+  expect_snapshot(pin_upload(board, fs::path(path, "data.txt")), error = TRUE)
+})
+
 test_that("user can supply metadata", {
   path1 <- withr::local_tempfile()
   writeLines("Hi!", path1)
