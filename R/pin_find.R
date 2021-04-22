@@ -24,7 +24,7 @@ pin_find <- function(text = NULL,
                      metadata = FALSE,
                      ...) {
 
-  lifecycle::deprecate_warn("1.0.0", "pin_find()", "pin_search()")
+  # lifecycle::deprecate_warn("1.0.0", "pin_find()", "pin_search()")
 
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)
