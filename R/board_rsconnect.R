@@ -511,7 +511,7 @@ rsc_user_name <- function(board, guid) {
 
 read_cache <- function(path) {
   if (file.exists(path)) {
-    yaml::read_yaml(path)
+    yaml::read_yaml(path, eval.expr = FALSE)
   } else {
     list()
   }

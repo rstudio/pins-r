@@ -22,7 +22,7 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @export
 #' @rdname pin_download
 #' @param path A character vector of file paths to upload to `board`.
-pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(), ...) {
+pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = NULL, ...) {
   check_board(board)
   if (!is.character(path)) {
     abort("`path` must be a character vector")

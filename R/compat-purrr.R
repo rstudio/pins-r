@@ -57,6 +57,7 @@ pluck_cpl <- function(.x, .f) {
 }
 
 map2 <- function(.x, .y, .f, ...) {
+  .f <- as_function(.f)
   out <- mapply(.f, .x, .y, MoreArgs = list(...), SIMPLIFY = FALSE)
   if (length(out) == length(.x)) {
     set_names(out, names(.x))

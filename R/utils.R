@@ -64,3 +64,5 @@ ui_quiet <- function() {
 ui_loud <- function() {
   withr::local_options("pins.quiet" = FALSE, .local_envir = parent.frame())
 }
+
+github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
