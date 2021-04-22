@@ -1,0 +1,10 @@
+file: pin-rds.rds
+file_size: 126
+pin_hash: b19672da7864f6fb
+type: rds
+description: A pin containing a data frame with 10 rows and 1 columns
+created: 2021-04-22T20:21:21
+api_version: 1.0
+object:
+  rows: 10
+  cols: 1
