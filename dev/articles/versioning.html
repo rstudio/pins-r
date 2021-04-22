@@ -125,10 +125,7 @@
 <p>When you write a pin, you can specifically request that versioning be turned on for that pin:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Guessing `name = 'mtcars'`</span>
-<span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version 'dfa6c1c109362781'</span></code></pre></div>
+<span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </li>
 </ul>
 <p>Some board, like <code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> have versioning on by default, because it’s automatically supported by the underlying storage engine. In most cases, however, you’ll need to explicitly enable it.</p>
@@ -142,20 +139,17 @@
 <code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versions <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version 'ab444e71e875d63b'</span>
 <span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version 'a077a308c264f4ec'</span>
-<span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version '0a284e1293902068'</span></code></pre></div>
+<span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></code></pre></div>
 <p>You can list all the available versions with <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   version          created            </span>
 <span class="co">#&gt;   &lt;chr&gt;            &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 ab444e71e875d63b 2021-04-21 23:01:05</span>
-<span class="co">#&gt; 2 a077a308c264f4ec 2021-04-21 23:01:05</span>
-<span class="co">#&gt; 3 0a284e1293902068 2021-04-21 23:01:05</span></code></pre></div>
+<span class="co">#&gt; 1 ab444e71e875d63b NA                 </span>
+<span class="co">#&gt; 2 a077a308c264f4ec NA                 </span>
+<span class="co">#&gt; 3 0a284e1293902068 NA</span></code></pre></div>
 <p>The exact data returned will depend on the board.</p>
 <p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent version:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">

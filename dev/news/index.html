@@ -144,6 +144,8 @@
 <a href="#pins-development-version" class="anchor"></a>pins (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code><a href="../reference/pin_delete.html">pin_delete()</a></code> supersedes <code><a href="../reference/pin_remove.html">pin_remove()</a></code>, and can delete multiple pins at once (<a href='https://github.com/rstudio/pins/issues/433'>#433</a>).</p></li>
+<li><p>Pins no longer converts data frames to tibbles.</p></li>
 <li><p>New <code><a href="../reference/pin_list.html">pin_list()</a></code> lists the names of all pins in a board.</p></li>
 <li><p>New <code><a href="../reference/pin_search.html">pin_search()</a></code> replaces <code><a href="../reference/pin_find.html">pin_find()</a></code> (which is now deprecated) allows you to search the name and description of all pins in a board.</p></li>
 <li><p><code><a href="../reference/pin_versions.html">pin_versions()</a></code> now takes <code>board</code> as first argument and <code>name</code> as second (although it will continue to work as before with a warning).</p></li>

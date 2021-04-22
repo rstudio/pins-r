@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pin Resource — pin • pins</title>
+<title>Delete a pin — pin_delete • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Pin Resource — pin" />
-<meta property="og:description" content="Pins the given resource locally or to the given board." />
+<meta property="og:title" content="Delete a pin — pin_delete" />
+<meta property="og:description" content="Delete a pin, removing it from the board" />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -136,94 +136,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pin Resource</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin.R'><code>R/pin.R</code></a></small>
-    <div class="hidden name"><code>pin.Rd</code></div>
+    <h1>Delete a pin</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-delete.R'><code>R/pin-delete.R</code></a></small>
+    <div class="hidden name"><code>pin_delete.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Pins the given resource locally or to the given board.</p>
+    <p>Delete a pin, removing it from the board</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin</span><span class='op'>(</span><span class='va'>x</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, description <span class='op'>=</span> <span class='cn'>NULL</span>, board <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pin_delete</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>names</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An object, local file or remote URL to pin.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>The name for the dataset or object.</p></td>
-    </tr>
-    <tr>
-      <th>description</th>
-      <td><p>Optional description for this pin.</p></td>
-    </tr>
-    <tr>
       <th>board</th>
-      <td><p>The board where this pin will be placed.</p></td>
+      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
+<code><a href='board_github.html'>board_github()</a></code> or other other <code>board_</code> function.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional parameters.</p></td>
+      <th>names</th>
+      <td><p>The names of one or more pins to delete</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>pin()</code> allows you to cache remote resources and intermediate results with ease. When
-caching remote resources, usually URLs, it will check for HTTP caching headers to avoid
-re-downloading when the remote result has not changed.</p>
-<p>This makes it ideal to support reproducible research by requiring manual instruction to
-download resources before running your R script.</p>
-<p>In addition, <code>pin()</code> still works when working offline or when the remote resource
-becomes unavailable; when this happens, a warning will be triggered but your code will
-continue to work.</p>
-<p><code>pin()</code> will stores data frames in two files, an R native file and a 'CSV' file. To
-force saving a pin only using R's native (RDS) format, you can use <code>pin(I(data))</code>.
-This can improve performance and size at the cost of making the pin unreadable from other
-tools and programming languages.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># define temporary local board</span>
-<span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># cache the mtcars dataset</span>
-<span class='fu'>pin</span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># cache computation over mtcars</span>
-<span class='fu'>pin</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>[</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>mpg</span> <span class='op'>&gt;</span> <span class='fl'>30</span>, <span class='op'>]</span>, name <span class='op'>=</span> <span class='st'>"mtefficient"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># retrieve cached pin</span>
-<span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtefficient"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#&gt; Fiat 128       32.4   4 78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Honda Civic    30.4   4 75.7  52 4.93 1.615 18.52  1  1    4    2
-#&gt; Toyota Corolla 33.9   4 71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Lotus Europa   30.4   4 95.1 113 3.77 1.513 16.90  1  1    5    2</div><div class='input'>
-<span class='co'># url to remote resource</span>
-<span class='va'>resource</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span>
-  <span class='st'>"https://raw.githubusercontent.com/facebook/prophet"</span>,
-  <span class='st'>"master/examples/example_retail_sales.csv"</span>
-<span class='op'>)</span>
-
-<span class='co'># cache remote resource</span>
-<span class='fu'>pin</span><span class='op'>(</span><span class='va'>resource</span>, name <span class='op'>=</span> <span class='st'>"example_retail_sales"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='co'># cache and read csv</span>
-<span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'>pin</span><span class='op'>(</span><span class='va'>resource</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-<span class='va'>path</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpxCPcZh/pins-2c7546609df8/example-retail-sales/example_retail_sales.csv"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           ds      y
-#&gt; 1 1992-01-01 146376
-#&gt; 2 1992-02-01 147079
-#&gt; 3 1992-03-01 159336
-#&gt; 4 1992-04-01 163669
-#&gt; 5 1992-05-01 170068
-#&gt; 6 1992-06-01 168663</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='st'>"x"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '4cbcc49c50fda258'</span></div><div class='input'><span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `name = 'mtcars'`</span></div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '2f642ce498ec2413'</span></div><div class='input'><span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1e6</span><span class='op'>)</span>, <span class='st'>"y"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version 'bef31106968c2389'</span></div><div class='input'><span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "mtcars" "x"      "y"     </div><div class='input'>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_delete</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "mtcars"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
