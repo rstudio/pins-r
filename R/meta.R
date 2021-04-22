@@ -34,7 +34,7 @@ path_meta <- function(path, type = NULL, object = NULL, user = NULL, desc = NULL
     pin_hash = pin_hash(path),
     type = type %||% "file",
     description = desc,
-    date = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
+    created = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
     api_version = 1
   )
 
