@@ -6,6 +6,8 @@
 #' only re-download the data if it's changed from the last time you downloaded
 #' it (using the tools of
 #' [HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)).
+#' You'll also be protected from the vagaries of the internet; if a fresh
+#' download fails, you'll get the previously cached result with a warning.
 #'
 #' `board_url()` is read only and does not currently support versions.
 #'
@@ -130,11 +132,11 @@ board_pin_get.pins_board_url <- function(board, name, version = NULL, ...) {
 
 # Helpers ------------------------------------------------------------------
 
-download_cache <- function(url, path_dir, path_file, use_cache = TRUE) {
+download_cache <- function(url, path_dir, path_file) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
 
-  if (use_cache && !is.null(cache)) {
+  if (!is.null(cache)) {
     if (!has_expired(cache$expires)) {
       signal("", "pins_cache_cached")
       return(cache$path)
@@ -152,7 +154,21 @@ download_cache <- function(url, path_dir, path_file, use_cache = TRUE) {
   # only want to replace existing cache path if request is successful
   tmp_path <- tempfile()
   write_out <- httr::write_disk(tmp_path)
-  req <- httr::GET(url, headers, write_out)
+
+  req <- tryCatch(
+    httr::GET(url, headers, write_out),
+    error = function(e) {
+      if (!is.null(cache)) {
+        NULL
+      } else {
+        stop(e)
+      }
+    }
+  )
+  if (is.null(req)) {
+    warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
+    return(cache$path)
+  }
 
   if (httr::status_code(req) <= 200) {
     signal("", "pins_cache_downloaded")
@@ -160,7 +176,13 @@ download_cache <- function(url, path_dir, path_file, use_cache = TRUE) {
   } else if (httr::status_code(req) == 304) {
     signal("", "pins_cache_not_modified")
   } else {
-    httr::stop_for_status(req)
+    if (!is.null(cache)) {
+      warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
+      httr::warn_for_status(req)
+      return(cache$path)
+    } else {
+      httr::stop_for_status(req)
+    }
   }
 
   info <- httr::cache_info(req)

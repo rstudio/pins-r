@@ -3,8 +3,9 @@
 * New `board_url()` lets you create a manual pin board from a vector of 
   urls. This is useful because `pin_donwload()` and `pin_read()` are 
   cached, and will only re-download the data if it's changed since the
-  last time you used it (#409). This replaces the previous ability to
-  "pin" a url.
+  last time you used it (#409). (They'll also use the cached result with a
+  warning if they fail to get a fresh copy). This replaces the previous 
+  ability to "pin" a url.
 
 * New `pin_delete()` supersedes `pin_remove()`, and can delete multiple
   pins at once (#433).

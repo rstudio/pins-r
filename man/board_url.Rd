@@ -20,6 +20,8 @@ useful because \code{\link[=pin_download]{pin_download()}} and \code{\link[=pin_
 only re-download the data if it's changed from the last time you downloaded
 it (using the tools of
 \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching}{HTTP caching}).
+You'll also be protected from the vagaries of the internet; if a fresh
+download fails, you'll get the previously cached result with a warning.
 
 \code{board_url()} is read only and does not currently support versions.
 }
