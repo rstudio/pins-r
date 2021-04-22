@@ -51,6 +51,7 @@ pin_retrieve <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @param x An object (typically a data frame) to pin.
 #' @param desc A text description of the pin; most important for
 #'   shared boards so that others can understand what the pin contains.
+#'   If omitted, pins will generate a brief description of the contents.
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.

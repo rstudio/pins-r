@@ -108,7 +108,6 @@ kaggle_create_resource <- function(name, description, token, type, metadata, not
         token = token
       ),
       versionNotes = jsonlite::unbox(notes),
-      subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
       title = jsonlite::unbox(description),
       deleteOldVersions = jsonlite::unbox(identical(board$versions, FALSE))
     )
@@ -125,7 +124,6 @@ kaggle_create_resource <- function(name, description, token, type, metadata, not
       licenseName = jsonlite::unbox("CC0-1.0"),
       ownerSlug = jsonlite::unbox(kaggle_auth_info(board)$username),
       slug = jsonlite::unbox(name),
-      subtitle = jsonlite::unbox(board_metadata_to_text(metadata, "")),
       title = jsonlite::unbox(description),
       categories = list()
     )

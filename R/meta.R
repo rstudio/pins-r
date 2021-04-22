@@ -33,7 +33,7 @@ path_meta <- function(path, type = NULL, object = NULL, user = NULL, desc = NULL
     file_size = as.integer(fs::file_size(path)),
     pin_hash = pin_hash(path),
     type = type %||% "file",
-    description = desc,
+    description = desc %||% default_description(object, path),
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
     api_version = 1
   )
@@ -53,3 +53,23 @@ object_meta <- function(object) {
     list()
   }
 }
+
+# description -------------------------------------------------------------
+
+default_description <- function(object, path) {
+  if (is.null(object)) {
+    n <- length(path)
+    if (n == 1) {
+      desc <- glue("a .{fs::path_ext(path)} file")
+    } else {
+      desc <- glue("{n} files")
+    }
+  } else if (is.data.frame(object)) {
+    desc <- glue("a data frame with {nrow(object)} rows and {ncol(object)} columns")
+  } else {
+    desc <- friendly_type(typeof(object))
+  }
+
+  paste0("A pin containing ", desc)
+}
+

@@ -39,7 +39,8 @@ you expect. You can find the hash of an existing pin by looking for
 lists and rds for everything else.}
 
 \item{desc}{A text description of the pin; most important for
-shared boards so that others can understand what the pin contains.}
+shared boards so that others can understand what the pin contains.
+If omitted, pins will generate a brief description of the contents.}
 
 \item{metadata}{A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the \code{user} key, to
