@@ -228,20 +228,17 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_write</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mtcars"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '2f642ce498ec2413'</span></div><div class='input'><span class='va'>b</span>
 </div><div class='output co'>#&gt; <span style='font-weight: bold;'>Pin board</span><span> &lt;pins_board_local&gt;
-#&gt; Path: '/tmp/RtmpW10sVX/pins-2c5f1b5d819e'
+#&gt; Path: '/tmp/RtmpnsYExa/pins-2c9712289c04'
 #&gt; With 1 pins: 'mtcars'</div><div class='input'>
 <span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_meta.html'>pin_meta</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 9
+</div><div class='output co'>#&gt; List of 8
 #&gt;  $ file       : chr "mtcars.rds"
 #&gt;  $ file_size  : int 1217
 #&gt;  $ pin_hash   : chr "2f642ce498ec2413"
 #&gt;  $ type       : chr "rds"
 #&gt;  $ description: chr "A pin containing a data frame with 32 rows and 11 columns"
-#&gt;  $ created    : chr "2021-04-22T20:26:54"
+#&gt;  $ created    : chr "2021-04-22T22:11:10"
 #&gt;  $ api_version: num 1
-#&gt;  $ object     :List of 2
-#&gt;   ..$ rows: int 32
-#&gt;   ..$ cols: int 11
 #&gt;  $ version    : chr "2f642ce498ec2413"</div><div class='input'><span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_read</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
