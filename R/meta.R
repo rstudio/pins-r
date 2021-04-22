@@ -39,19 +39,7 @@ path_meta <- function(path, type = NULL, object = NULL, user = NULL, desc = NULL
   )
 
   meta$user <- user
-  if (!is.null(object)) {
-    meta$object <- object_meta(object)
-
-  }
   meta
-}
-
-object_meta <- function(object) {
-  if (is.data.frame(object)) {
-    list(rows = nrow(object), cols = ncol(object))
-  } else {
-    list()
-  }
 }
 
 # description -------------------------------------------------------------

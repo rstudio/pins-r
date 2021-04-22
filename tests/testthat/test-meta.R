@@ -2,6 +2,17 @@ test_that("non-existent file returns default data", {
   expect_equal(read_meta(tempfile()), list(api_version = 1))
 })
 
+test_that("standard metadata is useful", {
+  df <- data.frame(x = 1:10)
+  path <- withr::local_tempfile()
+  saveRDS(df, path)
+
+  meta <- path_meta(path, "arrow", df)
+  meta$file <- "df.rds"
+  meta$created <- "<TODAY>"
+  expect_snapshot_output(str(meta))
+})
+
 test_that("newer version triggers error", {
   path <- withr::local_tempdir()
 
