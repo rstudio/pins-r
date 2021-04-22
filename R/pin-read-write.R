@@ -67,7 +67,9 @@ pin_write <- function(board, x,
                       type = NULL,
                       desc = NULL,
                       metadata = NULL,
-                      versioned = NULL) {
+                      versioned = NULL,
+                      ...) {
+  ellipsis::check_dots_used()
 
   check_board(board)
   if (is.null(name)) {
@@ -86,7 +88,7 @@ pin_write <- function(board, x,
   path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
   meta <- path_meta(path, object = x, type = type, desc = desc, user = metadata)
 
-  board_pin_upload(board, name, path, meta, versioned = versioned, x = x)
+  board_pin_upload(board, name, path, meta, versioned = versioned, x = x, ...)
 
   invisible(board)
 }

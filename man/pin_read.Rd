@@ -14,7 +14,8 @@ pin_write(
   type = NULL,
   desc = NULL,
   metadata = NULL,
-  versioned = NULL
+  versioned = NULL,
+  ...
 )
 }
 \arguments{
