@@ -16,7 +16,7 @@
 #' readLines(path)[1:5]
 pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
   pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
-  pin$path
+  as.character(pin$path)
 }
 
 #' @export
@@ -39,6 +39,14 @@ pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(),
     inform(paste0("Guessing `name = '", name, "'`"))
   } else {
     check_name(name)
+  }
+
+  # Expand any directories
+  is_dir <- fs::is_dir(path)
+  if (any(is_dir)) {
+    path <- as.list(path)
+    path[is_dir] <- map(path[is_dir], fs::dir_ls, recurse = TRUE, type = c("file", "symlink"))
+    path <- as.character(unlist(path, use.names = FALSE))
   }
 
   meta <- path_meta(path, desc = desc, user = metadata)

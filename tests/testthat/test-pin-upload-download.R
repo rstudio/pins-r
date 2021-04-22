@@ -22,6 +22,21 @@ test_that("pin_upload generated useful messages", {
   })
 })
 
+test_that("can pin a directory", {
+  path <- withr::local_tempdir()
+  writeLines("Hi!", fs::path(path, "a.txt"))
+  writeLines("Hello :)", fs::path(path, "b.txt"))
+  subpath <- fs::dir_create(fs::path(path, "subdir"))
+  writeLines("Heyya", fs::path(subpath, "c.txt"))
+
+  board <- board_temp()
+  pin_upload(board, path, "test")
+  # Currently squashes subdirs into top-level
+  expect_equal(pin_meta(board, "test")$file, c("a.txt", "b.txt", "c.txt"))
+  expect_equal(readLines(pin_download(board, "test")[[1]]), "Hi!")
+  expect_equal(readLines(pin_download(board, "test")[[3]]), "Heyya")
+})
+
 test_that("can pin file called data.txt", {
   path <- withr::local_tempdir()
   writeLines("Hi!", fs::path(path, "data.txt"))
