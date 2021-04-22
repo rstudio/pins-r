@@ -10,28 +10,28 @@
 #' the new published pin and then changing access under the settings tab.
 #' After you've shared the pin, it will be automatically available to others.
 #'
-#' # Public
+#' # Public pins
 #'
-#' You can also choose to share a pin publicly and avoid having to register
-#' the RStudio Connect board to retrieve this pin.
-#'
-#' To create a public pin, first publish a pin and navigate to RStudio Connect;
-#' then set the "Access" to "Anyone - no login required" -- The pin will become
-#' public and accessible to anyone using their content URL. The remote resource
-#' stored in RStudio Connect can then be cached locally with `pin()` as follows:
+#' You can choose to share a pin publicly by setting the access type to `all`:
 #'
 #' ```r
-#' pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content")
+#' board %>% pin_write(my_df, access_type = "all")
 #' ```
 #'
-#' To avoid having to change the "Access" manually, you can also set the
-#' `access_type` to `acl`, `loggend_in` or `all` when creating a pin:
+#' (You can also do this in RSC by setting "Access" to
+#' "Anyone - no login required")
+#'
+#' Now anyone can read your pin through [board_url()]:
 #'
 #' ```r
-#'  pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content",
-#'    access_type = "all"
-#'  )
+#' board <- board_url(c(
+#'   my_df = "https://connect.rstudioservices.com/content/3004/"
+#' ))
+#' board %>% pin_read("my_df")
 #' ```
+#'
+#' You can find the needed URL by clicking "Open Solo" and then copying and pasting
+#' the url from your browser.
 #'
 #' @inheritParams new_board
 #' @param auth There are two approaches to auth: you can either use `"envvars"`
