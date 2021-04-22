@@ -13,9 +13,9 @@ reference:
   - pin_meta
   - pin_download
   - pin_versions
-  - pin_remove
   - pin_list
   - pin_search
+  - pin_delete
 
 - title: Boards
   desc: >
@@ -34,6 +34,7 @@ reference:
   - pin_get
   - pin_info
   - pin_find
+  - pin_remove
   - pin_reactive
 
 articles:

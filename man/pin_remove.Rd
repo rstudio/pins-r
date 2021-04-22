@@ -14,18 +14,13 @@ pin_remove(name, board)
 \description{
 Unpins the given named pin from the given board.
 }
-\details{
-Notice that some boards do not support deleting pins, this is the case
-for the Kaggle board. For these boards, you would manually have to
-remote resources using the tools the board provides.
-}
 \examples{
-# define temporary board
 board <- board_temp()
-
-# create mtcars pin
 pin(mtcars, board = board)
-
-# remove mtcars pin
 pin_remove("mtcars", board = board)
+
+# ->
+board \%>\% pin_write(mtcars)
+board \%>\% pin_delete("mtcars")
 }
+\keyword{internal}

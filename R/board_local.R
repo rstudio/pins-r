@@ -65,7 +65,9 @@ board_pin_find.pins_board_local <- function(board, text, ...) {
 
 #' @export
 board_pin_remove.pins_board_local <- function(board, name, ...) {
-  pin_registry_remove(board, name)
+  check_name(name)
+
+  fs::dir_delete(fs::path(board$cache, name))
 }
 
 #' @export

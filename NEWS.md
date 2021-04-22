@@ -1,5 +1,8 @@
 # pins (development version)
 
+* New `pin_delete()` supersedes `pin_remove()`, and can delete multiple
+  pins at once (#433).
+
 * Pins no longer converts data frames to tibbles.
 
 * New `pin_list()` lists the names of all pins in a board.
