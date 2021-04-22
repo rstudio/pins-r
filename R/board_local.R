@@ -163,7 +163,7 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
     meta$api_version <- 0L
     new_meta(meta)
   } else {
-    version <- version %||% last(meta_pin$versions)
+    version <- version %||% last(meta_pin$versions) %||% abort("No versions found")
     path_version <- fs::path(board$cache, name, version)
 
     if (!fs::dir_exists(path_version)) {
