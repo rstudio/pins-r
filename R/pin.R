@@ -231,8 +231,7 @@ pin_load.table <- function(path, ...) {
   if (file.exists(rds)) {
     readRDS(rds)
   } else if (file.exists(csv)) {
-    result <- utils::read.csv(csv, stringsAsFactors = FALSE)
-    format_tibble(result)
+    utils::read.csv(csv, stringsAsFactors = FALSE)
   } else {
     stop("A 'table' pin requires CSV or RDS files.")
   }
@@ -306,9 +305,7 @@ pin_load.package <- function(path, ...) {
   files <- dir(path, full.names = TRUE)
   files <- files[!grepl("data\\.txt$", files)]
 
-  result <- get(load(files))
-
-  format_tibble(result)
+  get(load(files))
 }
 
 

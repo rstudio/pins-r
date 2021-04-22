@@ -35,7 +35,7 @@ test_that("can version a local pin", {
   versions <- pin_versions("df", board = b)
   expect_equal(
     versions,
-    wibble(version = character(), created = .POSIXct(integer()))
+    tibble::tibble(version = character(), created = .POSIXct(integer()))
   )
 
   pin(data.frame(x = 1), "df", board = b)

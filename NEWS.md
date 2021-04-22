@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Pins no longer converts data frames to tibbles.
+
 * New `pin_list()` lists the names of all pins in a board.
 
 * New `pin_search()` replaces `pin_find()` (which is now deprecated) allows

@@ -54,9 +54,7 @@ pin_find <- function(text = NULL,
     results$metadata <- NULL
   }
 
-  results <- results[order(results$name), ]
-
-  format_tibble(results)
+  results[order(results$name), ]
 }
 
 pin_find_empty <- function() {

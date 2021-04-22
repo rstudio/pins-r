@@ -39,26 +39,6 @@ pin_log <- function(...) {
   }
 }
 
-format_tibble <- function(data) {
-  if (!is.data.frame(data)) {
-    return(data)
-  }
-
-  if (is_installed("tibble") > 0 && !identical(getOption("pins.tibble"), FALSE)) {
-    tibble::as_tibble(data)
-  } else {
-    data
-  }
-}
-
-wibble <- function(...) {
-  if (is_installed("tibble")) {
-    tibble::tibble(...)
-  } else {
-    data.frame(..., stringsAsFactors = FALSE)
-  }
-}
-
 modifyList <- function(x, y) {
   if (is.null(x)) {
     y
@@ -84,5 +64,3 @@ ui_quiet <- function() {
 ui_loud <- function() {
   withr::local_options("pins.quiet" = FALSE, .local_envir = parent.frame())
 }
-
-

@@ -41,7 +41,7 @@ pin_search.pins_board <- function(board, pattern = NULL) {
 multi_meta <- function(board, names) {
   meta <- map(names, pin_meta, board = board)
 
-  wibble(
+  tibble::tibble(
     name = names,
     version = as.integer(map_dbl(meta, ~ .x$api_version %||% NA_real_)),
     type = map_chr(meta, ~ .x$type %||% NA_character_),

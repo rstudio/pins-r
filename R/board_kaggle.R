@@ -343,14 +343,12 @@ board_pin_versions.pins_board_kaggle <- function(board, name, ...) {
     stop("Failed to retrieve commits from ", board$repo, ": ", parsed$message)
   }
 
-  data.frame(
+  tibble::tibble(
     version = sapply(parsed$versions, function(e) e$versionNumber),
     created = sapply(parsed$versions, function(e) e$creationDate),
     author = sapply(parsed$versions, function(e) e$creatorName),
     message = sapply(parsed$versions, function(e) e$versionNotes),
-    stringsAsFactors = FALSE
-  ) %>%
-    format_tibble()
+  )
 }
 
 kaggle_resource_exists <- function(board, name) {

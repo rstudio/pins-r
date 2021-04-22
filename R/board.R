@@ -121,7 +121,7 @@ board_pin_versions <- function(board, name, ...) {
 }
 #' @export
 board_pin_versions.default <- function(board, name, ...) {
-  wibble(version = character(0))
+  tibble::tibble(version = character(0))
 }
 
 #' @export

@@ -77,7 +77,7 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
   meta <- map(versions, function(v) pin_meta(board, name, version = v))
   date <- rsc_parse_time(map_chr(meta, function(x) x[["date"]] %||% NA_character_))
 
-  wibble(version = versions, created = date)
+  tibble::tibble(version = versions, created = date)
 }
 
 # pins v1 ----------------------------------------------------------------

@@ -40,6 +40,7 @@ Imports:
     openssl,
     rappdirs,
     rlang,
+    tibble,
     whisker,
     withr,
     yaml,
@@ -52,8 +53,7 @@ Suggests:
     rmarkdown,
     rsconnect,
     shiny,
-    testthat (>= 3.0.0),
-    tibble
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

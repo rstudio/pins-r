@@ -757,12 +757,10 @@ board_pin_versions.pins_board_github <- function(board, name, ...) {
     stop("Failed to retrieve commits from ", board$repo, ": ", commits$message)
   }
 
-  data.frame(
+  tibble::tibble(
     version = sapply(commits, function(e) e$sha),
     created = sapply(commits, function(e) e$commit$author$date),
     author = sapply(commits, function(e) e$author$login),
-    message = sapply(commits, function(e) e$commit$message),
-    stringsAsFactors = FALSE
-  ) %>%
-    format_tibble()
+    message = sapply(commits, function(e) e$commit$message)
+  )
 }

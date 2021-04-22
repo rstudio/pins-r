@@ -388,7 +388,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
   name <- map_chr(pins, ~ .x$name)
   user <- map_chr(pins, ~ .x$owner_username)
 
-  wibble(
+  tibble::tibble(
     name = paste0(user, "/", name),
     title = map_chr(pins, ~ .x$title %||% ""),
     description = map_chr(pins, ~ .x$description)
@@ -473,7 +473,7 @@ rsc_content_versions <- function(board, guid) {
   # https://docs.rstudio.com/connect/api/#get-/v1/content/{guid}/bundles
   json <- rsc_GET(board, rsc_v1("content", guid, "bundles"))
 
-  wibble(
+  tibble::tibble(
     version = map_chr(json, ~ .x$id),
     created = rsc_parse_time(map_chr(json, ~ .x$created_time)),
     active = map_lgl(json, ~ .x$active),
