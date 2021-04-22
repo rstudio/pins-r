@@ -88,7 +88,7 @@ pin_browse.pins_board_local <- function(board, name, version = NULL, ..., cache 
     abort("board_local() does not have a cache")
   }
   meta <- pin_meta(board, name, version = version)
-  utils::browseURL(meta$pin_path)
+  browse_url(meta$pin_path)
 }
 
 # pins v1 ----------------------------------------------------------------

@@ -22,5 +22,13 @@ to cache pin files.}
 }
 \description{
 \code{pin_browse()} navigates you to the home of a pin, either on the
-internet or in your local file system.
+internet or on your local file system.
+}
+\examples{
+board <- board_temp(versions = TRUE)
+board \%>\% pin_write(1:10, "x")
+board \%>\% pin_write(1:11, "x")
+board \%>\% pin_write(1:12, "x")
+
+board \%>\% pin_browse("x")
 }
