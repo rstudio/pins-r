@@ -1,5 +1,8 @@
 # pins (development version)
 
+* New `pin_browse()` shows you the source of the pin, either on the internet
+  or on your local file system (#435).
+
 * New `pin_delete()` supersedes `pin_remove()`, and can delete multiple
   pins at once (#433).
 

@@ -248,6 +248,16 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
 }
 
 #' @export
+pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., cache = FALSE) {
+  meta <- pin_meta(board, name, version = version)
+  if (cache) {
+    utils::browseURL(meta$cache_path)
+  } else {
+    utils::browseURL(meta$url)
+  }
+}
+
+#' @export
 board_pin_upload.pins_board_rsconnect <- function(
     board,
     name,
