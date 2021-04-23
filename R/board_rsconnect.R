@@ -173,7 +173,7 @@ board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
 
 #' @export
 board_browse.pins_board_rsconnect <- function(board, ...) {
-  utils::browseURL(board$server)
+  browse_url(board$server)
 }
 
 #' @export
@@ -245,6 +245,16 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   meta$version <- bundle_id
   meta$url <- url
   new_meta(meta)
+}
+
+#' @export
+pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., cache = FALSE) {
+  meta <- pin_meta(board, name, version = version)
+  if (cache) {
+    browse_url(meta$cache_path)
+  } else {
+    browse_url(meta$url)
+  }
 }
 
 #' @export
