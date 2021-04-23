@@ -80,7 +80,7 @@ board_rsconnect <- function(
     account_info <- rsconnect::accountInfo(account, server_name)
   }
 
-  cache <- cache %||% board_cache_path(paste0("rsc-", server_name))
+  cache <- cache %||% board_cache_path(paste0("rsc-", hash(server)))
 
   board <- new_board("pins_board_rsconnect",
     name = name,
@@ -230,7 +230,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   url <- paste0(content$url, "_rev", bundle_id, "/")
 
   # Cache data.txt locally
-  cache_path <- fs::path(board$cache, paste0(content$guid, "_", bundle_id))
+  cache_path <- fs::path(board$cache, content$guid, bundle_id)
   fs::dir_create(cache_path)
   rsc_download(board, url, cache_path, "data.txt")
 
