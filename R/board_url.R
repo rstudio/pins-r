@@ -203,6 +203,8 @@ download_cache <- function(url, path_dir, path_file) {
       modified = unclass(info$modified),
       path = path
     ))
+  } else {
+    cli::cli_alert("{.url {url}} is not cacheable")
   }
 
   path

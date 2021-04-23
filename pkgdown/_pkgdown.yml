@@ -39,11 +39,10 @@ reference:
   - pin_reactive
 
 articles:
-- title: Getting started
+- title: ~
   navbar: ~
   contents:
   - articles/pins-rstudio
-  - versioning
   - articles/use-cases
 
 navbar:
