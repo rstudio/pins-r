@@ -67,9 +67,6 @@
       <a href="articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
     </li>
     <li>
-      <a href="articles/versioning.html">Versioned pins</a>
-    </li>
-    <li>
       <a href="articles/articles/use-cases.html">Use cases</a>
     </li>
   </ul>
@@ -130,7 +127,7 @@
 <code class="sourceCode R"><span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
 <span class="co">#&gt; Creating new version 'f879756e28a960ae'</span></code></pre></div>
-<p>As you can see, it’s saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file. Writing the new data to the same name pin will overwrite, unless you use versioning: see <code><a href="articles/versioning.html">vignette("versioning")</a></code> for details.</p>
+<p>As you can see, it’s saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file. Writing the new data to the same name pin will overwrite, unless you use versioning: see <code>vignette("versioning")</code> for details.</p>
 <p>Later, you can retrieve that data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>

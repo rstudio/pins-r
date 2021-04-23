@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Getting Started • pins</title>
+<title>Get started with pins • pins</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Getting Started">
+<meta property="og:title" content="Get started with pins">
 <meta property="og:description" content="pins">
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <meta name="robots" content="noindex">
@@ -63,9 +63,6 @@
       <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
     </li>
     <li>
-      <a href="../articles/versioning.html">Versioned pins</a>
-    </li>
-    <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
     </li>
   </ul>
@@ -94,7 +91,7 @@
       </header><script src="pins_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Getting Started</h1>
+      <h1 data-toc-skip>Get started with pins</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/pins.Rmd"><code>vignettes/pins.Rmd</code></a></small>
@@ -104,151 +101,207 @@
 
     
     
-<p>A <a href="https://r4ds.had.co.nz/introduction.html">typical Data Science project</a> starts with importing data and finishes with communicating your results with others; however, some projects have a few additional steps that we will refer as: <strong>Discover</strong>, <strong>Cache</strong> and <strong>Share</strong>. While these steps might not deserve to be part of the official Data Science diagram, they can help us understand where the <code>pins</code> package can help.</p>
-<p>Conceptually, the modified Data Science diagram looks as follows:</p>
-<p><img src="pins-starting-overview.png" style="width:100.0%"></p>
-<p>The <code>pins</code> package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to lose – you should always have reproducible code to regenerate a pin.</p>
-<p>Let’s now introduce each operation the <code>pins</code> package supports.</p>
-<dl>
-<dt>Discover</dt>
-<dd>In some Data Science projects, it might not be obvious which dataset you should use; therefore, a first step might be to search online for specific datasets. For instance, suppose that you are trying to figure out what kind of house remodel could increase your home property value the most, where do you get such data from? You can search online but is often hard to filter results to contain only datasets, it also requires you to have some knowledge of which data sources are trustworthy and so on. This is obviously a hard problem and we can’t expect a single tool to magically fix this for us; instead, the <code>pins</code> package gives you a few tools to search well known data repositories through the <code><a href="../reference/pin_find.html">pin_find()</a></code> function. In addition, even though most projects have well-defined datasets to import from, you might also want to consider enhancing them with additional data sources; for example, while analyzing a well-known ice-cream sales dataset, you might want also want to find resources with historical weather to properly adjust the existing data.
-</dd>
-<dt>Cache</dt>
-<dd>Once you identify which datasets to import, it is often the case that they are manually downloaded. It is common to give explicit instructions to download datasets before actually importing the dataset. However, manual steps make it hard to reproduce your code – we can no longer just copy-paste and run code. One easy solution is to use <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code>; however, this would cause the file to be re-downloaded each time the code runs, so you can then try to check if the file already exists, and keep adding complexity to try to reliably download and cache files. Quoting Phil Karlton, “There are only two hard things in Computer Science: cache invalidation and naming things”. So instead of worrying when to invalidate and cache online resources, you can use <code><a href="../reference/pin.html">pin()</a></code> to cache any resource with ease.
-</dd>
-<dt>Share</dt>
-<dd>There are cases where you might want to not only communicate with others your results, but also allow others to reuse your results. For instance, once you finish analyzing house remodel projects, you might also want to share your final dataset for others to reuse. The <code>pins</code> package allows you to share resources in <a href="boards-github.html">GitHub</a>, <a href="boards-kaggle.html">Kaggle</a>, <a href="boards-rsconnect.html">RStudio Connect</a> and allows you to create extensions to support many other services and technologies.
-</dd>
-</dl>
-<p>Before we present code examples on how to discover datasets, install the <code>pins</code> package as follows:</p>
+<p>The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of “boards”, including local folders (to share on a networked drive or with dropbox), RStudio connect, Amazon S3, and more. This vignette will introduce you to the basics of pins.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pins"</span><span class="op">)</span></code></pre></div>
-<div id="discovering" class="section level2">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span></code></pre></div>
+<div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
-<a href="#discovering" class="anchor"></a>Discovering</h2>
-<p>You can discover datasets with <code><a href="../reference/pin_find.html">pin_find()</a></code>, which by default will search for data inside CRAN packages. The places where <code>pins</code> can find or store resources are referred to as ‘boards’. There are multiple boards available but they require you to configure them so we will leave those for later on.</p>
-<p>As a quick example, let’s search for resources that may contain ‘boston housing’:</p>
+<a href="#getting-started" class="anchor"></a>Getting started</h2>
+<p>Every pin lives in a pin board, so you have to start by creating a pin board. In this vignette I’m going to use a temporary board which is automatically deleted when your R session is over:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/pin_find.html">pin_find</a></span><span class="op">(</span><span class="st">"boston housing"</span><span class="op">)</span></code></pre></div>
-<pre><code># A tibble: 8 x 4
-  name                  description                                            type  board  
-  &lt;chr&gt;                 &lt;chr&gt;                                                  &lt;chr&gt; &lt;chr&gt;  
-1 A3/housing            Boston Housing Prices from A3 package.                 table packag…
-2 BiDAG/Boston          Boston housing data from BiDAG package.                table packag…
-3 GSE/boston            Boston Housing Data from GSE package.                  table packag…
-4 KernelKnn/Boston      Boston Housing Data (Regression) from KernelKnn packa… table packag…
-5 mlbench/BostonHousing Boston Housing Data from mlbench package.              table packag…
-6 pdp/boston            Boston Housing Data from pdp package.                  table packag…
-7 spData/boston         Corrected Boston Housing Data from spData package.     table packag…
-8 spikeslab/housingI    Boston Housing Interaction Data from spikeslab packag… table packag…</code></pre>
-<p>We’ve found out that the <code>BSDA</code> package contains a <code>Housing</code> dataset, you can then retrieve this dataset using <code><a href="../reference/pin_get.html">pin_get()</a></code> as follows:</p>
+<code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>But in real-life, you’d pick another board depending on where you want the pins data to live. Here are a few options:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>board &lt;-<span class="st"> </span><span class="kw">board_local</span>() <span class="co"># share data across R sessions on the same computer</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>board &lt;-<span class="st"> </span><span class="kw">board_folder</span>(<span class="st">"~/Dropbox"</span>) <span class="co"># share data with others using dropbox</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>board &lt;-<span class="st"> </span><span class="kw">board_folder</span>(<span class="st">"Z:</span><span class="ch">\\</span><span class="st">my-team\pins"</span>) <span class="co"># share data using a shared network drive</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>board &lt;-<span class="st"> </span><span class="kw">board_rsconnect</span>() <span class="co"># share data with RStudio connect</span></span></code></pre></div>
+</div>
+<div id="reading-and-writing-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#reading-and-writing-data" class="anchor"></a>Reading and writing data</h2>
+<p>Once you have a pin board, you can save data to it with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"BSDA/Housing"</span><span class="op">)</span></code></pre></div>
-<pre><code># A tibble: 74 x 3
-   city       year   price
-   &lt;chr&gt;      &lt;fct&gt;  &lt;int&gt;
- 1 Albany     1984   52400
- 2 Anaheim    1984  134900
- 3 Atlanta    1984   64600
- 4 Baltimore  1984   65200
- 5 Birmingham 1984   66600
- 6 Boston     1984  102000
- 7 Chicago    1984   77500
- 8 Cincinnati 1984   59600
- 9 Cleveland  1984   65600
-10 Columbus   1984   60400
-# … with 64 more rows</code></pre>
-<p>Most datasets in CRAN contain rectangular data, which <code>pins</code> knows to load as a data frame. Other boards might contain non-rectangular datasets which <code><a href="../reference/pin_get.html">pin_get()</a></code> also supports. More on this later on, but first, lets introduce caching.</p>
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
+<span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></code></pre></div>
+<p>As you can see, pins has chosen to save this data to a <code>.rds</code> file. But you can choose from a variety of other options depending on your goals:</p>
+<ul>
+<li>
+<code>type = "rds"</code> uses <code>writeRDS()</code> to save a binary R data file. It can save any R object but it’s only readable from R, not other languages.</li>
+<li>
+<code>type = "csv"</code> uses <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code> to write a <code>.csv</code> file. CSVs can read by any application, but only support a simple columns (e.g. numbers, strings, dates) and are largely large and slow.</li>
+<li>
+<code>type = "arrow"</code> uses <code><a href="https://arrow.apache.org/docs/r//reference/write_feather.html">arrow::write_feather()</a></code> to create an arrow/feather file. These files support a very rich variety of column types, and are extremely fast. Not every data application can read arrow files, but support is growing rapidly.</li>
+<li>
+<code>type = "json"</code> uses <code><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html">jsonlite::write_json()</a></code> to create a <code>.json</code> file. Pretty much every programming language can read json files, but they only work well for nested lists.</li>
+</ul>
+<p>In a future session, you can read that data back with <code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 32 x 11</span>
+<span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
+<span class="co">#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
+<span class="co">#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
+<span class="co">#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
+<span class="co">#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
+<span class="co">#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
+<span class="co">#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
+<span class="co">#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
+<span class="co">#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
+<span class="co">#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
+<span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
+<p>Note that when the data lives elsewhere, pins takes care of downloading and caching so that it’s only re-downloaded when needed. That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don’t recommend using pins with files over 500 MB. If you find yourself routinely pinning data larger that this, you might need to reconsider your data engineering pipeline.</p>
+</div>
+<div id="metadata" class="section level2">
+<h2 class="hasAnchor">
+<a href="#metadata" class="anchor"></a>Metadata</h2>
+<p>Every pin is accompanied by some metadata that you can access with <code><a href="../reference/pin_meta.html">pin_meta()</a></code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<span class="co">#&gt; List of 9</span>
+<span class="co">#&gt;  $ file       : chr "mtcars.rds"</span>
+<span class="co">#&gt;  $ file_size  : int 3194</span>
+<span class="co">#&gt;  $ pin_hash   : chr "d8cd0a2018b5407c"</span>
+<span class="co">#&gt;  $ type       : chr "rds"</span>
+<span class="co">#&gt;  $ description: chr "A pin containing a data frame with 32 rows and 11 columns"</span>
+<span class="co">#&gt;  $ created    : chr "2021-04-23T15:37:42"</span>
+<span class="co">#&gt;  $ api_version: num 1</span>
+<span class="co">#&gt;  $ version    : chr "d8cd0a2018b5407c"</span>
+<span class="co">#&gt;  $ pin_path   : 'fs_path' chr "/tmp/RtmpI7jmAZ/pins-2cd57292bdcf/mtcars/d8cd0a2018b5407c"</span></code></pre></div>
+<p>This shows you the metadata that’s generated by default. When creating the pin you can override the default description and provide any additional metadata that you’d like to track with the data:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="st">"mtcars"</span>, 
+  desc <span class="op">=</span> <span class="st">"Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span>,
+  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    source <span class="op">=</span> <span class="st">"Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
+  <span class="op">)</span>
+<span class="op">)</span>
+<span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<span class="co">#&gt; List of 10</span>
+<span class="co">#&gt;  $ file       : chr "mtcars.rds"</span>
+<span class="co">#&gt;  $ file_size  : int 36</span>
+<span class="co">#&gt;  $ pin_hash   : chr "e4f1cb07e8737ec2"</span>
+<span class="co">#&gt;  $ type       : chr "rds"</span>
+<span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span>
+<span class="co">#&gt;  $ created    : chr "2021-04-23T15:37:42"</span>
+<span class="co">#&gt;  $ api_version: num 1</span>
+<span class="co">#&gt;  $ user       :List of 1</span>
+<span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
+<span class="co">#&gt;  $ version    : chr "e4f1cb07e8737ec2"</span>
+<span class="co">#&gt;  $ pin_path   : 'fs_path' chr "/tmp/RtmpI7jmAZ/pins-2cd57292bdcf/mtcars/e4f1cb07e8737ec2"</span></code></pre></div>
+<p>While we’ll do our best to keep the automatically generated metadata consistent over time, I’d recommend manually capturing anything you really care about in <code>metadata</code>.</p>
+</div>
+<div id="versioning" class="section level2">
+<h2 class="hasAnchor">
+<a href="#versioning" class="anchor"></a>Versioning</h2>
+<p>In many situations it’s useful to version pins, so that writing to an existing pin does not replace the existing data, but instead adds a new copy. There are two ways to turn versioning on:</p>
+<ul>
+<li>
+<p>When you create a board you can turn versioning on for every pin in that board:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versions <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+</li>
+<li>
+<p>When you write a pin, you can specifically request that versioning be turned on for that pin:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+</li>
+</ul>
+<p>Some boards, like <code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> have versioning on by default, because it’s automatically supported by the underlying storage engine. In most cases, however, you’ll need to explicitly enable it.</p>
+<p>Once you have turned versioning on, every <code><a href="../reference/pin_read.html">pin_write()</a></code> will create a new version:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versions <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
+<span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
+<span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></code></pre></div>
+<p>You can list all the available versions with <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt;   version          created            </span>
+<span class="co">#&gt;   &lt;chr&gt;            &lt;dttm&gt;             </span>
+<span class="co">#&gt; 1 ab444e71e875d63b NA                 </span>
+<span class="co">#&gt; 2 a077a308c264f4ec NA                 </span>
+<span class="co">#&gt; 3 0a284e1293902068 NA</span></code></pre></div>
+<p>(Pins does not currently provide any tool to remove old versions, but this seems like it would be a useful feature.)</p>
+<p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent version:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
+<span class="co">#&gt; [1] 3 4 5 6 7</span></code></pre></div>
+<p>But you can request an older version by supplying the <code>version</code> argument:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="st">"ab444e71e875d63b"</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1 2 3 4 5</span></code></pre></div>
+</div>
+<div id="reading-and-writing-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#reading-and-writing-files" class="anchor"></a>Reading and writing files</h2>
+<p>So far we’ve focussed on <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> which work with R objects. pins also provides the lower-level <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> which work with files on disk. You can use them to share data that’s otherwise unsupported by pins.</p>
+<p><code><a href="../reference/pin_download.html">pin_upload()</a></code> works like <code><a href="../reference/pin_read.html">pin_write()</a></code> but instead of an R object you give it a vector of paths. I’ll start by creating a few files in the temp directory:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mtcars.csv"</span>, <span class="st">"alphabet.txt"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span><span class="op">(</span><span class="va">letters</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p>Now I can upload those to the board:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span></code></pre></div>
+<p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/tmp/RtmpI7jmAZ/pins-2cd57292bdcf/example/e9d422a36d87ea43185b20bdd1406142/mtcars.csv"  </span>
+<span class="co">#&gt; [2] "/tmp/RtmpI7jmAZ/pins-2cd57292bdcf/example/e9d422a36d87ea43185b20bdd1406142/alphabet.txt"</span></code></pre></div>
+<p>It’s now your job to handle them. You should treat these paths as internal implementation details — never modify them and never save them for use outside of pins.</p>
+<p>Note that you can’t <code><a href="../reference/pin_read.html">pin_read()</a></code> something you pinned with <code><a href="../reference/pin_download.html">pin_upload()</a></code>:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
+<span class="co">#&gt; Error: Pin created with `pin_upload()`</span>
+<span class="co">#&gt; ℹ Retrieve uploaded paths with `pin_download()`</span></code></pre></div>
+<p>But you can <code><a href="../reference/pin_download.html">pin_download()</a></code> something that you’ve pinned with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/tmp/RtmpI7jmAZ/pins-2cd57292bdcf/mtcars/e4f1cb07e8737ec2/mtcars.rds"</span></code></pre></div>
 </div>
 <div id="caching" class="section level2">
 <h2 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h2>
-<p>Let’s suppose that the ‘home prices’ dataset is not exactly what we are looking for, we can try to search online for ‘home prices’ and find out that <a href="https://catalog.data.gov/">catalog.data.gov</a> contains a more suitable <a href="https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis">FHFA House Price Indexes</a> dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use <code><a href="../reference/pin.html">pin()</a></code> to cache this dataset locally:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>[1] "/Users/username/Library/Caches/pins/local/HPI_master/HPI_master.csv"</code></pre>
-<p>Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">readr</span><span class="op">)</span>
-<span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">read_csv</span><span class="op">(</span>col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code># A tibble: 108,826 x 10
-   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
-   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
- 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
- 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
- 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
- 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
- 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
- 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
- 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
- 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
- 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
-10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
-# … with 108,816 more rows, and 1 more variable: index_sa &lt;dbl&gt;</code></pre>
-<p>The <code>pins</code> package tries to be smart about downloading files only when the file has changed using headers like <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag</a> to avoid downloading files when they have not changed or when the cache has not expired.</p>
-<p>Notice that <code><a href="../reference/pin.html">pin()</a></code> assigned a name automatically, <code>HPI_master</code> for the previous example; however, you can choose your own name and be explicit about retrieving a pin with <code><a href="../reference/pin_get.html">pin_get()</a></code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="st">"http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv"</span>,
-    name <span class="op">=</span> <span class="st">"home_price_indexes"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"home_price_indexes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">read_csv</span><span class="op">(</span>col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code># A tibble: 108,826 x 10
-   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
-   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
- 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
- 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
- 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
- 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
- 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
- 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
- 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
- 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
- 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
-10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
-# … with 108,816 more rows, and 1 more variable: index_sa &lt;dbl&gt;</code></pre>
-<p>You can enable download progress with the <code>pins.progress</code> option and print additional caching information using the <code>pins.verebose</code> option:</p>
-<pre><code><a href="https://rdrr.io/r/base/options.html"># print verbose upload and download progress
-options(pins.progress = TRUE)
-
-# print verbose pins info
-options(pins.verbose = TRUE)</a></code></pre>
+<p><code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> automatically cache remote pins. This means that you have a local copy of the data so reading it is fast, but it’s still automatically updated when needed. This is such a useful feature that pins provides the special <code><a href="../reference/board_url.html">board_url()</a></code> that lets you use this feature with arbitrary urls. The following creates a board that contains a single pin called <code>hpi_master</code>:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="st">"penguins"</span> <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins_raw.csv"</span>
+<span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Now you can you easily download and read this data:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 344 x 17</span>
+<span class="co">#&gt;    studyName Sample.Number Species         Region Island  Stage    Individual.ID</span>
+<span class="co">#&gt;    &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        </span>
+<span class="co">#&gt;  1 PAL0708               1 Adelie Penguin… Anvers Torger… Adult, … N1A1         </span>
+<span class="co">#&gt;  2 PAL0708               2 Adelie Penguin… Anvers Torger… Adult, … N1A2         </span>
+<span class="co">#&gt;  3 PAL0708               3 Adelie Penguin… Anvers Torger… Adult, … N2A1         </span>
+<span class="co">#&gt;  4 PAL0708               4 Adelie Penguin… Anvers Torger… Adult, … N2A2         </span>
+<span class="co">#&gt;  5 PAL0708               5 Adelie Penguin… Anvers Torger… Adult, … N3A1         </span>
+<span class="co">#&gt;  6 PAL0708               6 Adelie Penguin… Anvers Torger… Adult, … N3A2         </span>
+<span class="co">#&gt;  7 PAL0708               7 Adelie Penguin… Anvers Torger… Adult, … N4A1         </span>
+<span class="co">#&gt;  8 PAL0708               8 Adelie Penguin… Anvers Torger… Adult, … N4A2         </span>
+<span class="co">#&gt;  9 PAL0708               9 Adelie Penguin… Anvers Torger… Adult, … N5A1         </span>
+<span class="co">#&gt; 10 PAL0708              10 Adelie Penguin… Anvers Torger… Adult, … N5A2         </span>
+<span class="co">#&gt; # … with 334 more rows, and 10 more variables: Clutch.Completion &lt;chr&gt;,</span>
+<span class="co">#&gt; #   Date.Egg &lt;chr&gt;, Culmen.Length..mm. &lt;dbl&gt;, Culmen.Depth..mm. &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   Flipper.Length..mm. &lt;int&gt;, Body.Mass..g. &lt;int&gt;, Sex &lt;chr&gt;,</span>
+<span class="co">#&gt; #   Delta.15.N..o.oo. &lt;dbl&gt;, Delta.13.C..o.oo. &lt;dbl&gt;, Comments &lt;chr&gt;</span></code></pre></div>
+<p>The first time you call <code><a href="../reference/pin_download.html">pin_download()</a></code> it will download the dataset. Every subsequent time, it will do a lightweight check (using <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching">HTTP caching</a>) and only re-download the data if it’s changed.</p>
 </div>
-<div id="boards" class="section level2">
-<h2 class="hasAnchor">
-<a href="#boards" class="anchor"></a>Boards</h2>
-<p>By default, pin uses a “local” board which is stored on your computer.</p>
-<p>Where does it live?</p>
-<p>The following example stores a simple data analysis over home prices as ‘home_price_analysis’ in the ‘local’ board.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"home_price_indexes"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">read_csv</span><span class="op">(</span>col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">group_by</span><span class="op">(</span><span class="va">yr</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">count</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="st">"home_price_analysis"</span><span class="op">)</span></code></pre></div>
-<p>The local board allows you to share pins with other R sessions.</p>
-</div>
-<div id="sharing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sharing" class="anchor"></a>Sharing</h2>
-<p>This is useful because it saves time downloading or processing data, but it doesn’t help get your data into the hands of other people. To take full advantage of pins, you probably want to also storing pins in shared locations that others can access:</p>
-<ul>
-<li>Shared folders, <code><a href="../reference/board_folder.html">board_folder()</a></code>.</li>
-<li>GitHub, <code><a href="../reference/board_github.html">board_github()</a></code>.</li>
-<li>RStudio Connect, <code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code>
-</li>
-<li>Azure, <code><a href="../reference/board_azure.html">board_azure()</a></code>
-</li>
-<li>S3, <code><a href="../reference/board_s3.html">board_s3()</a></code>
-</li>
-</ul>
-</div>
-<div id="large-pins" class="section level2">
-<h2 class="hasAnchor">
-<a href="#large-pins" class="anchor"></a>Large pins</h2>
-<p>Note that most boards require pins to be serialised over the HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don’t recommend pins for files over 500 MB. If you find yourself routinely pinning data larger that this, you’ll need to reconsider your data engineering pipeline.</p>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Here I’m using <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> to avoid extra package dependencies for real code I’d recommend <code><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">data.table::fread()</a></code> or <code>readr::read_csv().</code><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
   </div>
 
