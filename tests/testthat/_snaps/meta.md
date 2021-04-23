@@ -1,3 +1,14 @@
+# standard metadata is useful
+
+    List of 7
+     $ file       : chr "df.rds"
+     $ file_size  : int 200
+     $ pin_hash   : chr "db696042be80dbb4"
+     $ type       : chr "arrow"
+     $ description: chr "A pin containing a data frame with 10 rows and 1 columns"
+     $ created    : chr "<TODAY>"
+     $ api_version: num 1
+
 # newer version triggers error
 
     Metadata requires pins 2.0.0 or greater

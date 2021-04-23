@@ -82,6 +82,15 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
   tibble::tibble(version = versions, created = date)
 }
 
+#' @export
+pin_browse.pins_board_local <- function(board, name, version = NULL, ..., cache = FALSE) {
+  if (cache) {
+    abort("board_local() does not have a cache")
+  }
+  meta <- pin_meta(board, name, version = version)
+  browse_url(meta$pin_path)
+}
+
 # pins v1 ----------------------------------------------------------------
 
 #' @export
@@ -163,7 +172,7 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
     meta$api_version <- 0L
     new_meta(meta)
   } else {
-    version <- version %||% last(meta_pin$versions)
+    version <- version %||% last(meta_pin$versions) %||% abort("No versions found")
     path_version <- fs::path(board$cache, name, version)
 
     if (!fs::dir_exists(path_version)) {
@@ -171,6 +180,7 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
     }
     meta <- read_meta(path_version)
     meta$version <- version
+    meta$pin_path <- path_version
     new_meta(meta)
   }
 }

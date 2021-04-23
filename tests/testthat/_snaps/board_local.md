@@ -45,6 +45,13 @@
       Pin is versioned, but you have requested a write without versions
       i To un-version a pin, you must delete it
 
+# can browse
+
+    Code
+      b %>% pin_browse("x")
+    Message <cliMessage>
+      i Pin at </tmp/test/x/afd4b2f6506fce6d>
+
 # generates useful messages
 
     Code
