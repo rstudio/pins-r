@@ -53,12 +53,12 @@ of the document to specific users or groups. This is accomplished by opening
 the new published pin and then changing access under the settings tab.
 After you've shared the pin, it will be automatically available to others.
 }
-\section{Public}{
-You can also choose to share a pin publicly by setting the access type:\if{html}{\out{<div class="r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
+\section{Public pins}{
+You can choose to share a pin publicly by setting the access type to \code{all}:\if{html}{\out{<div class="r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
 }\if{html}{\out{</div>}}
 
-(You can also do this in RSC setting "Access" to "Anyone - no login required"
-in the pin config)
+(You can also do this in RSC by setting "Access" to
+"Anyone - no login required")
 
 Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:\if{html}{\out{<div class="r">}}\preformatted{board <- board_url(c(
   my_df = "https://connect.rstudioservices.com/content/3004/"
@@ -66,7 +66,7 @@ Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:\if{h
 board \%>\% pin_read("my_df")
 }\if{html}{\out{</div>}}
 
-You can get the URL by clicking "Open Solo" and then copying and pasting
+You can find the needed URL by clicking "Open Solo" and then copying and pasting
 the url from your browser.
 }
 

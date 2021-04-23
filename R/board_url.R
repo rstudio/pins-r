@@ -104,6 +104,16 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
+pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
+  meta <- pin_meta(board, name, version = version)
+  if (cache) {
+    browse_url(meta$pin_path)
+  } else {
+    browse_url(meta$url)
+  }
+}
+
+#' @export
 board_pin_download.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   path <- map2_chr(meta$url, meta$file, ~ download_cache(.x, meta$pin_path, .y))
