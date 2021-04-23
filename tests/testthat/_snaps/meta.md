@@ -2,8 +2,8 @@
 
     List of 7
      $ file       : chr "df.rds"
-     $ file_size  : int 159
-     $ pin_hash   : chr "d0e746d5ea7ef897"
+     $ file_size  : int 200
+     $ pin_hash   : chr "db696042be80dbb4"
      $ type       : chr "arrow"
      $ description: chr "A pin containing a data frame with 10 rows and 1 columns"
      $ created    : chr "<TODAY>"
