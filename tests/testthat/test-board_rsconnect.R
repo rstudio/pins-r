@@ -53,7 +53,6 @@ test_that("can upload/download multiple files", {
   expect_equal(readLines(out[[2]]), "b")
 })
 
-
 # versioning --------------------------------------------------------------
 
 test_that("versioned by default", {

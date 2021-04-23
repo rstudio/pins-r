@@ -53,21 +53,21 @@ of the document to specific users or groups. This is accomplished by opening
 the new published pin and then changing access under the settings tab.
 After you've shared the pin, it will be automatically available to others.
 }
-\section{Public}{
-You can also choose to share a pin publicly and avoid having to register
-the RStudio Connect board to retrieve this pin.
-
-To create a public pin, first publish a pin and navigate to RStudio Connect;
-then set the "Access" to "Anyone - no login required" -- The pin will become
-public and accessible to anyone using their content URL. The remote resource
-stored in RStudio Connect can then be cached locally with \code{pin()} as follows:\if{html}{\out{<div class="r">}}\preformatted{pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content")
+\section{Public pins}{
+If your RSC instance allows it, you can share a pin publicly by setting the
+access type to \code{all}:\if{html}{\out{<div class="r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
 }\if{html}{\out{</div>}}
 
-To avoid having to change the "Access" manually, you can also set the
-\code{access_type} to \code{acl}, \code{loggend_in} or \code{all} when creating a pin:\if{html}{\out{<div class="r">}}\preformatted{ pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content",
-   access_type = "all"
- )
+(You can also do this in RSC by setting "Access" to
+"Anyone - no login required")
+
+Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:\if{html}{\out{<div class="r">}}\preformatted{board <- board_url(c(
+  my_df = "https://connect.rstudioservices.com/content/3004/"
+))
+board \%>\% pin_read("my_df")
 }\if{html}{\out{</div>}}
+
+You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}.
 }
 
 \examples{

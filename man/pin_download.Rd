@@ -7,7 +7,7 @@
 \usage{
 pin_download(board, name, version = NULL, hash = NULL, ...)
 
-pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
+pin_upload(board, path, name = NULL, desc = NULL, metadata = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
