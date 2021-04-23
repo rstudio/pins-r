@@ -12,7 +12,8 @@
 #'
 #' # Public pins
 #'
-#' You can choose to share a pin publicly by setting the access type to `all`:
+#' If your RSC instance allows it, you can share a pin publicly by setting the
+#' access type to `all`:
 #'
 #' ```r
 #' board %>% pin_write(my_df, access_type = "all")
@@ -30,8 +31,7 @@
 #' board %>% pin_read("my_df")
 #' ```
 #'
-#' You can find the needed URL by clicking "Open Solo" and then copying and pasting
-#' the url from your browser.
+#' You can find the URL of a pin with [pin_browse()].
 #'
 #' @inheritParams new_board
 #' @param auth There are two approaches to auth: you can either use `"envvars"`
