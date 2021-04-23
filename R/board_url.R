@@ -34,7 +34,7 @@ board_url <- function(urls, cache = NULL) {
 
   # Share cache across all instances of board_url(); pins are stored in
   # directories based on the hash of the URL to avoid cache collisions.
-  cache <- cache %||% board_cache_path("local")
+  cache <- cache %||% board_cache_path("url")
 
   new_board("pins_board_url",
     urls = urls,
