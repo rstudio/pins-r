@@ -144,6 +144,7 @@
 <a href="#pins-development-version" class="anchor"></a>pins (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code><a href="../reference/board_url.html">board_url()</a></code> lets you create a manual pin board from a vector of urls. This is useful because <code>pin_donwload()</code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> are cached, and will only re-download the data if it’s changed since the last time you used it (<a href='https://github.com/rstudio/pins/issues/409'>#409</a>). (They’ll also use the cached result with a warning if they fail to get a fresh copy). This replaces the previous ability to “pin” a url.</p></li>
 <li><p>New <code><a href="../reference/pin_browse.html">pin_browse()</a></code> shows you the source of the pin, either on the internet or on your local file system (<a href='https://github.com/rstudio/pins/issues/435'>#435</a>).</p></li>
 <li><p>New <code><a href="../reference/pin_delete.html">pin_delete()</a></code> supersedes <code><a href="../reference/pin_remove.html">pin_remove()</a></code>, and can delete multiple pins at once (<a href='https://github.com/rstudio/pins/issues/433'>#433</a>).</p></li>
 <li><p>Pins no longer converts data frames to tibbles.</p></li>
