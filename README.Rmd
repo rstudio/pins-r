@@ -21,16 +21,17 @@ ggplot2::theme_set(ggplot2::theme_light())
 # pins <img src="man/figures/logo.png" align="right" width="130px"/>
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions)
-[![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
-[![Codecov test coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+
+[![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions) [![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) [![Codecov test coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+
 <!-- badges: end -->
 
 ## Overview
 
-The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of "boards", including local folders (to share on a networked drive or with dropbox), RStudio connect, Amazon S3, and more.
+The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues.
+You can pin objects to a variety of "boards", including local folders (to share on a networked drive or with dropbox), RStudio connect, Amazon S3, and more.
 
-## Installation 
+## Installation
 
 ```{r eval = FALSE}
 # Install the released version from CRAN:
@@ -39,7 +40,9 @@ install.packages("pins")
 
 ## Usage
 
-To begin using the pins package, you must create a board. A good place to start is the local board, which stores pins in a local directory. Here I use a temporary board, so that you can run these examples without messing up the other data you might have pinned:
+To use the pins package, you must first create a pin board.
+A good place to start is `board_folder()` which stores pins in a directory you specific.
+Here I'll use `board_temp()` which because it creates a temporary board that will evaporate when your R session ends:
 
 ```{r setup}
 library(pins)
@@ -48,23 +51,23 @@ b <- board_temp()
 b
 ```
 
-Next you need to store some data in that board with `pin_write()`:
+Next you can to store some data in that board with `pin_write()`.
+The first argument is the object to pin (normally a data frame) , and the second argument is the name you'll use to later retrieve it:
 
 ```{r}
 b %>% pin_write(head(mtcars), "mtcars")
 ```
 
-As you can see, it's saved as an `.rds` by default, but depending on what you're saving and who else you want to read it, you might save it as a `csv`, `json`, or `arrow` file. Writing the new data to the same name pin will overwrite, unless you use versioning: see `vignette("versioning")` for details.
+As you can see, it's saved as an `.rds` by default, but depending on what you're saving and who else you want to read it, you might save it as a `csv`, `json`, or `arrow` file.
 
-Later, you can retrieve that data with `pin_read()`:
+Later, in a different R session, you can retrieve the data with `pin_read()`:
 
 ```{r}
 b %>% pin_read("mtcars")
 ```
 
 This can be convenient when working locally, but the real power of pins comes when you use a shared board, because because the writer and reader can be different people (or automated processes).
-
-For example, if you use RStudio Connect, you can pin data to shared board:
+For example, you can RStudio Connect you can pin data to board that's accessible to your team:
 
 ```{r, eval = FALSE}
 b <- board_rsconnect()
@@ -72,18 +75,19 @@ b %>% pin_write(tidy_sales_data, "sales-summary")
 #> Saving to hadley/sales-summary
 ```
 
-And then someone else (or an automated Rmd report) can read it:
+Then someone else (or an automated Rmd report) can read it:
 
 ```{r, eval = FALSE}
 b <- board_rsconnect()
 b %>% pin_read("hadley/sales-summary")
 ```
 
-You can easily control who gets to see it using the RStudio Connection permissions pane.
+You can easily control who gets to access the data using the RStudio Connection permissions pane.
 
 As well as RStudio connect, you can share your pins:
 
-* In shared folders: `board_folder()`.
-* On GitHub: `board_github()`.
-* In Microsoft Azure's storage: `board_azure()`.
-* On Amazon's S3: `board_s3()`.
+-   On GitHub: `board_github()`.
+-   In Microsoft Azure's storage: `board_azure()`.
+-   On Amazon's S3: `board_s3()`.
+
+Learn more in `vignette("pins")`.

@@ -8,6 +8,7 @@
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Codecov test
 coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+
 <!-- badges: end -->
 
 ## Overview
@@ -27,10 +28,10 @@ install.packages("pins")
 
 ## Usage
 
-To begin using the pins package, you must create a board. A good place
-to start is the local board, which stores pins in a local directory.
-Here I use a temporary board, so that you can run these examples without
-messing up the other data you might have pinned:
+To use the pins package, you must first create a pin board. A good place
+to start is `board_folder()` which stores pins in a directory you
+specific. Here I’ll use `board_temp()` which because it creates a
+temporary board that will evaporate when your R session ends:
 
 ``` r
 library(pins)
@@ -38,11 +39,13 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpdoHnpy/pins-35f166d885db'
+#> Path: '/tmp/RtmpqzAAuz/pins-1533c327af1c'
 #> With no pins.
 ```
 
-Next you need to store some data in that board with `pin_write()`:
+Next you can to store some data in that board with `pin_write()`. The
+first argument is the object to pin (normally a data frame) , and the
+second argument is the name you’ll use to later retrieve it:
 
 ``` r
 b %>% pin_write(head(mtcars), "mtcars")
@@ -52,11 +55,10 @@ b %>% pin_write(head(mtcars), "mtcars")
 
 As you can see, it’s saved as an `.rds` by default, but depending on
 what you’re saving and who else you want to read it, you might save it
-as a `csv`, `json`, or `arrow` file. Writing the new data to the same
-name pin will overwrite, unless you use versioning: see
-`vignette("versioning")` for details.
+as a `csv`, `json`, or `arrow` file.
 
-Later, you can retrieve that data with `pin_read()`:
+Later, in a different R session, you can retrieve the data with
+`pin_read()`:
 
 ``` r
 b %>% pin_read("mtcars")
@@ -71,10 +73,9 @@ b %>% pin_read("mtcars")
 
 This can be convenient when working locally, but the real power of pins
 comes when you use a shared board, because because the writer and reader
-can be different people (or automated processes).
-
-For example, if you use RStudio Connect, you can pin data to shared
-board:
+can be different people (or automated processes). For example, you can
+RStudio Connect you can pin data to board that’s accessible to your
+team:
 
 ``` r
 b <- board_rsconnect()
@@ -82,19 +83,20 @@ b %>% pin_write(tidy_sales_data, "sales-summary")
 #> Saving to hadley/sales-summary
 ```
 
-And then someone else (or an automated Rmd report) can read it:
+Then someone else (or an automated Rmd report) can read it:
 
 ``` r
 b <- board_rsconnect()
 b %>% pin_read("hadley/sales-summary")
 ```
 
-You can easily control who gets to see it using the RStudio Connection
-permissions pane.
+You can easily control who gets to access the data using the RStudio
+Connection permissions pane.
 
 As well as RStudio connect, you can share your pins:
 
--   In shared folders: `board_folder()`.
 -   On GitHub: `board_github()`.
 -   In Microsoft Azure’s storage: `board_azure()`.
 -   On Amazon’s S3: `board_s3()`.
+
+Learn more in `vignette("pins")`.
