@@ -405,8 +405,6 @@ board_pin_find.pins_board_rsconnect <- function(board,
   )
 }
 
-# Bundle ------------------------------------------------------------------
-
 # Content -----------------------------------------------------------------
 
 rsc_content_find <- function(board, name, version = NULL, quiet = TRUE) {
