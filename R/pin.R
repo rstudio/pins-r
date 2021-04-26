@@ -122,7 +122,10 @@ board_pin_store <- function(board,
   ui_viewer_updated(board)
 
   if (retrieve) {
-    invisible(pin_get(name, board, ...))
+    # Hack to suppress RSC message that you need to use the full name
+    suppressMessages(
+      invisible(pin_get(name, board, ...))
+    )
   } else {
     invisible(NULL)
   }

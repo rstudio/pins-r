@@ -51,10 +51,12 @@ modifyList <- function(x, y) {
 
 last <- function(x) x[[length(x)]]
 
-pins_inform <- function(...) {
-  opt <- getOption("pins.quiet", NA)
+pins_message <- function() {
+  getOption("pins.quiet") %||% !is_testing()
+}
 
-  if (identical(opt, FALSE) || (identical(opt, NA) && !is_testing())) {
+pins_inform <- function(...) {
+  if (pins_message()) {
     inform(...)
   }
 }

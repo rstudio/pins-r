@@ -52,7 +52,7 @@
 #' board %>% pin_write(mtcars, "mtcars")
 #'
 #' # Download a shared dataset
-#' board %>% pin_read(mtcars)
+#' board %>% pin_read("timothy/mtcars")
 #' }
 board_rsconnect <- function(
                             auth = c("auto", "envvar", "rsconnect"),
@@ -266,20 +266,26 @@ board_pin_upload.pins_board_rsconnect <- function(
     versioned = NULL,
     x = NULL,
     ...,
-    access_type = c("acl", "logged_in", "all"))
+    access_type = NULL)
 {
   # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
 
   versioned <- versioned %||% board$versions
+  if (!is.null(access_type)) {
+    access_type <- arg_match0(access_type, c("acl", "logged_in", "all"))
+  }
 
   # Find/create content item
-  content <- tryCatch(
-    rsc_content_find(board, name),
+  content_guid <- tryCatch(
+    {
+      guid <- rsc_content_find(board, name, warn = FALSE)$guid
+      rsc_content_update(board, guid, metadata, access_type = access_type)
+      guid
+    },
     pins_pin_absent = function(e) {
-      rsc_content_create(board, name, metadata, access_type = access_type)
+      rsc_content_create(board, name, metadata, access_type = access_type)$guid
     }
   )
-  content_guid <- content$guid
 
   # Make .tar.gz bundle containing data.txt + index.html + pin data
   bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
@@ -407,7 +413,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
 
 # Content -----------------------------------------------------------------
 
-rsc_content_find <- function(board, name, version = NULL, quiet = TRUE) {
+rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
   name <- rsc_parse_name(name)
 
   cache_path <- fs::path(board$cache, "content-cache.yml")
@@ -436,8 +442,8 @@ rsc_content_find <- function(board, name, version = NULL, quiet = TRUE) {
     owner <- rsc_user_name(board, json[[1]]$owner_guid)
     name$full <- paste0(owner, "/", name$name)
 
-    if (!quiet) {
-      pins_inform(paste0("Downloading pin '", name$full, "'"))
+    if (warn) {
+      cli::cli_alert_warning("Please use full name when reading a pin: {.val {name$full}}, not {.val {name$name}}.")
     }
     selected <- json[[1]]
   } else {
@@ -463,18 +469,30 @@ rsc_content_create <- function(board, name, metadata, access_type = "acl") {
     abort("RStudio connect requires alpanumeric names")
   }
 
-  # TODO: What should happen if owner isn't NULL
-  access_type <- arg_match0(access_type, c("acl", "logged_in", "all"))
-
   body <- list(
     name = name$name,
     title = name$name,
-    access_type = access_type,
+    access_type = access_type %||% "acl",
     description = metadata$description %||% ""
   )
 
   # https://docs.rstudio.com/connect/api/#post-/v1/content
   rsc_POST(board, rsc_v1("content"), body = body)
+}
+
+rsc_content_update <- function(board, guid, metadata, access_type = NULL) {
+  body <- compact(list(
+    access_type = access_type,
+    description = metadata$description
+  ))
+
+  # https://docs.rstudio.com/connect/api/#patch-/v1/content/{guid}
+  rsc_PATCH(board, rsc_v1("content", guid), body = body)
+}
+
+rsc_content_info <- function(board, guid) {
+  # https://docs.rstudio.com/connect/api/#get-/v1/content/{guid}
+  rsc_GET(board, rsc_v1("content", guid), body = body)
 }
 
 rsc_content_versions <- function(board, guid) {
@@ -581,7 +599,7 @@ rsc_DELETE <- function(board, path, query = NULL, ...) {
   invisible()
 }
 
-rsc_POST <- function(board, path, query = NULL, body, ...) {
+rsc_POST <- function(board, path, query = NULL, body, ..., .method = "POST") {
   path <- paste0("/__api__/", path)
 
   # Turn body into a path so it can be passed to
@@ -597,9 +615,10 @@ rsc_POST <- function(board, path, query = NULL, body, ...) {
   } else {
     abort("Unknown `body` type")
   }
-  auth <- rsc_auth(board, path, "POST", body_path)
+  auth <- rsc_auth(board, path, .method, body_path)
 
-  req <- httr::POST(board$server,
+  req <- httr::VERB(.method,
+    url = board$server,
     path = path,
     query = query,
     body = body,
@@ -608,6 +627,10 @@ rsc_POST <- function(board, path, query = NULL, body, ...) {
   )
   rsc_check_status(req)
   httr::content(req)
+}
+
+rsc_PATCH <- function(board, path, query = NULL, body, ...) {
+  rsc_POST(board, path, query = query, body = body, ..., .method = "PATCH")
 }
 
 rsc_auth <- function(board, path, verb, body_path) {

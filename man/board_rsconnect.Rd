@@ -77,7 +77,7 @@ board <- board_rsconnect()
 board \%>\% pin_write(mtcars, "mtcars")
 
 # Download a shared dataset
-board \%>\% pin_read(mtcars)
+board \%>\% pin_read("timothy/mtcars")
 }
 }
 \seealso{
