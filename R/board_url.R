@@ -192,39 +192,39 @@ download_cache <- function(url, path_dir, path_file, use_cache_on_failure = FALS
       }
     }
   )
+
   if (is.null(req)) {
     warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
-    return(cache$path)
-  }
-
-  if (httr::status_code(req) <= 200) {
+    cache$path
+  } else if (httr::status_code(req) <= 200) {
     signal("", "pins_cache_downloaded")
     fs::file_copy(tmp_path, path, overwrite = TRUE)
+
+    info <- httr::cache_info(req)
+    if (info$cacheable) {
+      update_cache(cache_path, url, list(
+        expires = info$expires,
+        etag = info$etag,
+        modified = unclass(info$modified),
+        path = path
+      ))
+    } else {
+      cli::cli_alert("{.url {url}} is not cacheable")
+    }
+
+    path
   } else if (httr::status_code(req) == 304) {
     signal("", "pins_cache_not_modified")
+    cache$path
   } else {
     if (!is.null(cache) && use_cache_on_failure) {
       warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
       httr::warn_for_status(req)
-      return(cache$path)
+      cache$path
     } else {
       httr::stop_for_status(req)
     }
   }
-
-  info <- httr::cache_info(req)
-  if (info$cacheable) {
-    update_cache(cache_path, url, list(
-      expires = info$expires,
-      etag = info$etag,
-      modified = unclass(info$modified),
-      path = path
-    ))
-  } else {
-    cli::cli_alert("{.url {url}} is not cacheable")
-  }
-
-  path
 }
 
 download_cache_path <- function(path) {
