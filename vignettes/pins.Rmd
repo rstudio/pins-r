@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 
 # Fake testing environment to get consistent hashes
 Sys.setenv("TESTTHAT" = "true")
+options(pins.quiet = FALSE)
 ```
 
 The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues.
@@ -192,7 +193,7 @@ board %>% pin_download("mtcars")
 
 `pin_read()` and `pin_download()` automatically cache remote pins.
 This means that you have a local copy of the data so reading it is fast, but it's still automatically updated when needed.
-This is such a useful feature that pins provides the special `board_url()` that lets you use this feature with arbitrary urls.
+This is such a useful feature that pins provides the special `board_url()` that lets you use this feature with arbitrary URLs.
 The following creates a board that contains a single pin called `hpi_master`:[^1]
 
 [^1]: Here I'm using `read.csv()` to avoid extra package dependencies for real code I'd recommend `data.table::fread()` or `readr::read_csv().`
@@ -208,7 +209,7 @@ Now you can you easily download and read this data:
 ```{r}
 my_data %>%
   pin_download("penguins") %>% 
-  read.csv() %>% 
+  read.csv(check.names = FALSE) %>% 
   tibble::as_tibble()
 ```
 
