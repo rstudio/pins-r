@@ -13,6 +13,10 @@
 #'
 #' @param urls A named character vector of URLs If the URL ends in a `/`,
 #'   `board_url` will look for a `data.txt` that provides metadata.
+#' @param use_cache_on_failure If the url fails to download, is it ok to
+#'   use the last cached failure? Defaults to `is_interactive()` so you'll
+#'   be robust to poor internet connectivity when exploring interactively,
+#'   but you'll get clear errors when the code is deployed.
 #' @inheritParams new_board
 #' @export
 #' @examples
@@ -27,7 +31,7 @@
 #'
 #' board %>% pin_download("files")
 #' board %>% pin_download("raw")
-board_url <- function(urls, cache = NULL) {
+board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive()) {
   if (!is.character(urls) || !is_named(urls)) {
     abort("`urls` must be a named character vector")
   }
@@ -39,7 +43,8 @@ board_url <- function(urls, cache = NULL) {
   new_board("pins_board_url",
     urls = urls,
     name = "url",
-    cache = cache
+    cache = cache,
+    use_cache_on_failure = use_cache_on_failure
   )
 }
 
@@ -86,7 +91,12 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 
   if (is_dir) {
     # If directory, read from /data.txt
-    download_cache(paste0(url, "data.txt"), pin_path, "data.txt")
+    download_cache(
+      url = paste0(url, "data.txt"),
+      path_dir = pin_path,
+      path_file = "data.txt",
+      use_cache_on_failure = board$use_cache_on_failure
+    )
     meta <- read_meta(pin_path)
     meta$url <- paste0(url, meta$file)
     meta$pin_path <- pin_path
@@ -116,7 +126,14 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
 #' @export
 board_pin_download.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
-  path <- map2_chr(meta$url, meta$file, ~ download_cache(.x, meta$pin_path, .y))
+  path <- map2_chr(meta$url, meta$file, function(url, file) {
+    download_cache(
+      url = url,
+      path_dir = meta$pin_path,
+      path_file = file,
+      use_cache_on_failure = board$use_cache_on_failure
+    )
+  })
 
   list(
     meta = meta,
@@ -142,7 +159,7 @@ board_pin_get.pins_board_url <- function(board, name, version = NULL, ...) {
 
 # Helpers ------------------------------------------------------------------
 
-download_cache <- function(url, path_dir, path_file) {
+download_cache <- function(url, path_dir, path_file, use_cache_on_failure = FALSE) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
 
@@ -168,7 +185,7 @@ download_cache <- function(url, path_dir, path_file) {
   req <- tryCatch(
     httr::GET(url, headers, write_out),
     error = function(e) {
-      if (!is.null(cache)) {
+      if (!is.null(cache) && use_cache_on_failure) {
         NULL
       } else {
         stop(e)
@@ -186,7 +203,7 @@ download_cache <- function(url, path_dir, path_file) {
   } else if (httr::status_code(req) == 304) {
     signal("", "pins_cache_not_modified")
   } else {
-    if (!is.null(cache)) {
+    if (!is.null(cache) && use_cache_on_failure) {
       warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
       httr::warn_for_status(req)
       return(cache$path)

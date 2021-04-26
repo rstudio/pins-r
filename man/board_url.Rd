@@ -4,7 +4,7 @@
 \alias{board_url}
 \title{Build a pin board from a vector of URLs}
 \usage{
-board_url(urls, cache = NULL)
+board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }
 \arguments{
 \item{urls}{A named character vector of URLs If the URL ends in a \code{/},
@@ -13,6 +13,11 @@ board_url(urls, cache = NULL)
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{use_cache_on_failure}{If the url fails to download, is it ok to
+use the last cached failure? Defaults to \code{is_interactive()} so you'll
+be robust to poor internet connectivity when exploring interactively,
+but you'll get clear errors when the code is deployed.}
 }
 \description{
 \code{board_url()} lets you build up a board from individual urls. This is
