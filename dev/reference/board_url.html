@@ -156,7 +156,7 @@ download fails, you'll get the previously cached result with a warning.</p>
 <p><code>board_url()</code> is read only and does not currently support versions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>board_url</span><span class='op'>(</span><span class='va'>urls</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>board_url</span><span class='op'>(</span><span class='va'>urls</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span>, use_cache_on_failure <span class='op'>=</span> <span class='fu'>is_interactive</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +171,13 @@ download fails, you'll get the previously cached result with a warning.</p>
       <td><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></td>
+    </tr>
+    <tr>
+      <th>use_cache_on_failure</th>
+      <td><p>If the url fails to download, is it ok to
+use the last cached failure? Defaults to <code>is_interactive()</code> so you'll
+be robust to poor internet connectivity when exploring interactively,
+but you'll get clear errors when the code is deployed.</p></td>
     </tr>
     </table>
 

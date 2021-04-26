@@ -98,6 +98,7 @@
 
 <!-- badges: start -->
 
+<!-- badges: end -->
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
@@ -113,22 +114,22 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>To begin using the pins package, you must create a board. A good place to start is the local board, which stores pins in a local directory. Here I use a temporary board, so that you can run these examples without messing up the other data you might have pinned:</p>
+<p>To use the pins package, you must first create a pin board. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code> which stores pins in a directory you specific. Here I’ll use <code><a href="reference/board_folder.html">board_temp()</a></code> which because it creates a temporary board that will evaporate when your R session ends:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
 
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span>
 <span class="co">#&gt; Pin board &lt;pins_board_local&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpdoHnpy/pins-35f166d885db'</span>
+<span class="co">#&gt; Path: '/tmp/RtmpqzAAuz/pins-1533c327af1c'</span>
 <span class="co">#&gt; With no pins.</span></code></pre></div>
-<p>Next you need to store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>:</p>
+<p>Next you can to store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>. The first argument is the object to pin (normally a data frame) , and the second argument is the name you’ll use to later retrieve it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
 <span class="co">#&gt; Creating new version 'f879756e28a960ae'</span></code></pre></div>
-<p>As you can see, it’s saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file. Writing the new data to the same name pin will overwrite, unless you use versioning: see <code>vignette("versioning")</code> for details.</p>
-<p>Later, you can retrieve that data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
+<p>As you can see, it’s saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
+<p>Later, in a different R session, you can retrieve the data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
@@ -138,24 +139,23 @@
 <span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
 <span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
 <span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
-<p>This can be convenient when working locally, but the real power of pins comes when you use a shared board, because because the writer and reader can be different people (or automated processes).</p>
-<p>For example, if you use RStudio Connect, you can pin data to shared board:</p>
+<p>This can be convenient when working locally, but the real power of pins comes when you use a shared board, because because the writer and reader can be different people (or automated processes). For example, you can RStudio Connect you can pin data to board that’s accessible to your team:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">tidy_sales_data</span>, <span class="st">"sales-summary"</span><span class="op">)</span>
 <span class="co">#&gt; Saving to hadley/sales-summary</span></code></pre></div>
-<p>And then someone else (or an automated Rmd report) can read it:</p>
+<p>Then someone else (or an automated Rmd report) can read it:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
-<p>You can easily control who gets to see it using the RStudio Connection permissions pane.</p>
+<p>You can easily control who gets to access the data using the RStudio Connection permissions pane.</p>
 <p>As well as RStudio connect, you can share your pins:</p>
 <ul>
-<li>In shared folders: <code><a href="reference/board_folder.html">board_folder()</a></code>.</li>
 <li>On GitHub: <code><a href="reference/board_github.html">board_github()</a></code>.</li>
 <li>In Microsoft Azure’s storage: <code><a href="reference/board_azure.html">board_azure()</a></code>.</li>
 <li>On Amazon’s S3: <code><a href="reference/board_s3.html">board_s3()</a></code>.</li>
 </ul>
+<p>Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
 </div>
 </div>
   </div>
