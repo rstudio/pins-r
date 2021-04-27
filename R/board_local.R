@@ -181,15 +181,6 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
   }
 }
 
-board_pin_delete.pins_board_local <- function(board, name, ...) {
-  fs::dir_delete(fs::path(board$cache, name))
-}
-
-board_pin_list.pins_board_local <- function(board, ...) {
-  fs::path_file(fs::dir_ls(board$cache, type = "directory"))
-}
-
-
 # v0 ----------------------------------------------------------------------
 
 #' @export
