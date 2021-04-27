@@ -28,7 +28,7 @@
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   check_board(board)
 
-  meta <- board_pin_download(board, name, version = version, ...)
+  meta <- pin_cache(board, name, version = version, ...)
   check_hash(meta, hash)
 
   object_read(meta)

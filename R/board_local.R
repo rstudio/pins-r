@@ -137,7 +137,7 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
 }
 
 #' @export
-board_pin_download.pins_board_local <- function(board, name, version = NULL, ...) {
+pin_cache.pins_board_local <- function(board, name, version = NULL, ...) {
   check_name(name)
   meta <- pin_meta(board, name, version = version)
 
