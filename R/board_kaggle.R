@@ -273,13 +273,12 @@ kaggle_competition_files <- function(board, name) {
 #' @export
 board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version = NULL, ...) {
   if (grepl("^c/", name)) {
-    competition_files <- name <- gsub("^c/", "", name)
+    name <- gsub("^c/", "", name)
     if (!grepl("/", name)) {
       files <- kaggle_competition_files(board, name)
-      competition_files <- paste0(name, "/", sapply(files, function(e) e$ref))
     }
-    url <- paste0("https://www.kaggle.com/api/v1/competitions/data/download/", competition_files)
-    extract <- FALSE
+    url <- paste0("https://www.kaggle.com/api/v1/competitions/data/download-all/", name)
+    download_name <- paste0(name, ".zip") # it's always a zip file
 
     etag <- max(sapply(files, function(e) e$creationDate))
     content_length <- sum(sapply(files, function(e) e$totalBytes))
@@ -287,6 +286,7 @@ board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version
   else {
     if (!grepl("/", name)) name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
+    download_name <- NULL # use the default name (found with basename)
 
     extended <- pin_find(name = name, board = board, extended = TRUE)
 
@@ -308,7 +308,8 @@ board_pin_get.pins_board_kaggle <- function(board, name, extract = NULL, version
     custom_etag = etag,
     extract = !identical(extract, FALSE),
     content_length = content_length,
-    subpath = subpath
+    subpath = subpath,
+    download_name = download_name
   )
 
   local_path
