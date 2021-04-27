@@ -126,7 +126,8 @@ board_pin_versions.default <- function(board, name, ...) {
 
 #' @export
 #' @rdname custom-boards
-board_pin_download <- function(board, name, ...) {
+board_pin_download <- function(board, name, version = NULL, ...) {
+  ellipsis::check_dots_used()
   UseMethod("board_pin_download")
 }
 #' @export

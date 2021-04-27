@@ -201,16 +201,12 @@ board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL,
   # Can't use bundle download endpoint because that requires collaborator
   # access. So download data.txt, then download each file that it lists.
   meta <- pin_meta(board, name, version = version)
-
   for (file in meta$file) {
-    rsc_download(board, meta$url, meta$cache_path, file)
+    rsc_download(board, meta$url, meta$cache_dir, file)
   }
 
-  list(
-    dir = meta$cache_path,
-    path = fs::path(meta$cache_path, meta$file),
-    meta = meta
-  )
+  meta$cache_paths <- fs::path(meta$cache_dir, meta$file)
+  meta
 }
 
 #' @export
@@ -240,7 +236,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
     meta$file <- meta$path %||% meta$file
   }
 
-  meta$cache_path <- cache_path
+  meta$cache_dir <- cache_path
   meta$content_id <- content$guid
   meta$version <- bundle_id
   meta$url <- url
@@ -251,7 +247,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
 pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., cache = FALSE) {
   meta <- pin_meta(board, name, version = version)
   if (cache) {
-    browse_url(meta$cache_path)
+    browse_url(meta$cache_dir)
   } else {
     browse_url(meta$url)
   }
@@ -364,8 +360,8 @@ pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
 board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
                                                extract = NULL) {
 
-  pin <- board_pin_download.pins_board_rsconnect(board, name, version = version, ...)
-  pin$dir
+  pin <- board_pin_download(board, name, version = version, ...)
+  pin$cache_dir
 }
 
 #' @export

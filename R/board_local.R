@@ -143,19 +143,15 @@ board_pin_download.pins_board_local <- function(board, name, version = NULL, ...
 
   if (meta$api_version == 0) {
     path <- board_pin_get(board, name, ...)
-    list(
-      meta = meta,
-      dir = path,
-      path = fs::path(path, meta$path)
-    )
+    meta$cache_dir <- path
+    meta$cache_paths <- fs::path(path, meta$path)
   } else {
     path_version <- fs::path(board$cache, name, meta$version)
-    list(
-      meta = meta,
-      dir = path_version,
-      path = fs::path(path_version, meta$file)
-    )
+    meta$cache_dir <- path_version
+    meta$cache_paths <- fs::path(path_version, meta$file)
   }
+
+  meta
 }
 
 #' @export

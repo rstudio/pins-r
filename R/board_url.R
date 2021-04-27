@@ -135,11 +135,9 @@ board_pin_download.pins_board_url <- function(board, name, version = NULL, ...) 
     )
   })
 
-  list(
-    meta = meta,
-    dir = fs::path(board$cache, name),
-    path = path
-  )
+  meta$cache_dir <- fs::path(board$cache, name)
+  meta$cache_paths <- path
+  meta
 }
 
 # v0 ----------------------------------------------------------------------

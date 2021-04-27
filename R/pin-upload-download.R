@@ -15,8 +15,12 @@
 #' path
 #' readLines(path)[1:5]
 pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
-  pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
-  as.character(pin$path)
+  check_board(board)
+
+  meta <- board_pin_download(board, name, version = version, ...)
+  check_hash(meta, hash)
+
+  as.character(meta$cache_paths)
 }
 
 #' @export
