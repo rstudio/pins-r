@@ -205,7 +205,6 @@ pin_cache.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
     rsc_download(board, meta$url, meta$cache_dir, file)
   }
 
-  meta$cache_paths <- fs::path(meta$cache_dir, meta$file)
   meta
 }
 

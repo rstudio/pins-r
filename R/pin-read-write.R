@@ -124,7 +124,11 @@ write_rds <- function(x, path) {
 }
 
 object_read <- function(meta) {
-  path <- meta$cache_paths
+  path <- fs::path(meta$cache_dir, meta$file)
+  missing <- !fs::file_exists(path)
+  if (any(missing)) {
+    abort(c("Cache failure. Missing files:", path[!missing]))
+  }
 
   if (meta$api_version == 1) {
     type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv", "file"))
@@ -193,7 +197,7 @@ check_hash <- function(meta, hash) {
     return()
   }
 
-  pin_hash <- pin_hash(meta$cache_paths)
+  pin_hash <- pin_hash(fs::path(meta$cache_dir, meta$file))
   if (!is_prefix(hash, pin_hash)) {
     abort(paste0(
       "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"

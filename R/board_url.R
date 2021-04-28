@@ -86,30 +86,30 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   url <- board$urls[[name]]
   is_dir <- grepl("/$", url)
 
-  pin_path <- fs::path(board$cache, hash(url))
-  fs::dir_create(pin_path)
+  cache_dir <- fs::path(board$cache, hash(url))
+  fs::dir_create(cache_dir)
 
   if (is_dir) {
     # If directory, read from /data.txt
     download_cache(
       url = paste0(url, "data.txt"),
-      path_dir = pin_path,
+      path_dir = cache_dir,
       path_file = "data.txt",
       use_cache_on_failure = board$use_cache_on_failure
     )
-    meta <- read_meta(pin_path)
+    meta <- read_meta(cache_dir)
     meta$url <- paste0(url, meta$file)
-    meta$pin_path <- pin_path
-    meta
+    meta$cache_dir <- cache_dir
+    new_meta(meta)
   } else {
     # Otherwise assume it's a single file with no metadata
-    list(
+    new_meta(list(
       type = "file",
       file = fs::path_file(url),
       url = url,
-      pin_path = pin_path,
+      cache_dir = cache_dir,
       api_version = 1
-    )
+    ))
   }
 }
 
@@ -117,7 +117,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
   meta <- pin_meta(board, name, version = version)
   if (cache) {
-    browse_url(meta$pin_path)
+    browse_url(meta$cache_dir)
   } else {
     browse_url(meta$url)
   }
@@ -129,14 +129,12 @@ pin_cache.pins_board_url <- function(board, name, version = NULL, ...) {
   path <- map2_chr(meta$url, meta$file, function(url, file) {
     download_cache(
       url = url,
-      path_dir = meta$pin_path,
+      path_dir = meta$cache_dir,
       path_file = file,
       use_cache_on_failure = board$use_cache_on_failure
     )
   })
 
-  meta$cache_dir <- fs::path(board$cache, name)
-  meta$cache_paths <- path
   meta
 }
 
