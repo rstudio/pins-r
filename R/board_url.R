@@ -98,18 +98,23 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       use_cache_on_failure = board$use_cache_on_failure
     )
     meta <- read_meta(cache_dir)
-    meta$url <- paste0(url, meta$file)
-    meta$cache_dir <- cache_dir
-    new_meta(meta)
+    local_meta(meta,
+      dir = cache_dir,
+      version = NULL,
+      url = paste0(url, meta$file)
+    )
   } else {
     # Otherwise assume it's a single file with no metadata
-    new_meta(list(
+    meta <- list(
       type = "file",
       file = fs::path_file(url),
-      url = url,
-      cache_dir = cache_dir,
       api_version = 1
-    ))
+    )
+    local_meta(meta,
+      dir = cache_dir,
+      version = NULL,
+      url = url
+    )
   }
 }
 
@@ -117,7 +122,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
   meta <- pin_meta(board, name, version = version)
   if (cache) {
-    browse_url(meta$cache_dir)
+    browse_url(meta$local$dir)
   } else {
     browse_url(meta$url)
   }
@@ -126,10 +131,10 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
 #' @export
 pin_cache.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
-  path <- map2_chr(meta$url, meta$file, function(url, file) {
+  path <- map2_chr(meta$local$url, meta$file, function(url, file) {
     download_cache(
       url = url,
-      path_dir = meta$cache_dir,
+      path_dir = meta$local$dir,
       path_file = file,
       use_cache_on_failure = board$use_cache_on_failure
     )

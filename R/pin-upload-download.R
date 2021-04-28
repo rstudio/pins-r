@@ -20,7 +20,7 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
   meta <- pin_cache(board, name, version = version, ...)
   check_hash(meta, hash)
 
-  as.character(fs::path(meta$cache_dir, meta$file))
+  as.character(fs::path(meta$local$dir, meta$file))
 }
 
 #' @export

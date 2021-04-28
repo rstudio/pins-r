@@ -124,7 +124,7 @@ write_rds <- function(x, path) {
 }
 
 object_read <- function(meta) {
-  path <- fs::path(meta$cache_dir, meta$file)
+  path <- fs::path(meta$local$dir, meta$file)
   missing <- !fs::file_exists(path)
   if (any(missing)) {
     abort(c("Cache failure. Missing files:", path[!missing]))
@@ -197,7 +197,7 @@ check_hash <- function(meta, hash) {
     return()
   }
 
-  pin_hash <- pin_hash(fs::path(meta$cache_dir, meta$file))
+  pin_hash <- pin_hash(fs::path(meta$local$dir, meta$file))
   if (!is_prefix(hash, pin_hash)) {
     abort(paste0(
       "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"

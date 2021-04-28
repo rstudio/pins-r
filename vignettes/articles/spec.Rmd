@@ -68,4 +68,4 @@ There are two major differences between version 0 and version 1:
 * In version 0, user supplied metadata is intermingled with pins metadata.
   In version 1, user supplied metadata is stored under a `user` key.
 
-`pin_meta()` retrieves metadata from the remote board and adds to it any additional data needed to manage the local cache. At a minimum this must always include the `cache_dir`.
+`pin_meta()` retrieves metadata from the remote board and adds to it any additional data needed to manage the local cache, stored in the `local` element.
