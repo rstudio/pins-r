@@ -15,8 +15,12 @@
 #' path
 #' readLines(path)[1:5]
 pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
-  pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
-  as.character(pin$path)
+  check_board(board)
+
+  meta <- pin_fetch(board, name, version = version, ...)
+  check_hash(meta, hash)
+
+  as.character(fs::path(meta$local$dir, meta$file))
 }
 
 #' @export
@@ -49,9 +53,9 @@ pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = NULL, .
     path <- as.character(unlist(path, use.names = FALSE))
   }
 
-  meta <- path_meta(path, desc = desc, user = metadata)
-  board_pin_upload(board, name, path, meta, ...)
+  meta <- standard_meta(path, desc = desc, type = "file")
+  meta$user <- metadata
 
-  invisible(board)
+  pin_store(board, name, path, meta, ...)
 }
 

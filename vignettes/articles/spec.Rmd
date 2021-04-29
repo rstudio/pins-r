@@ -13,50 +13,59 @@ knitr::opts_chunk$set(
 library(pins)
 ```
 
-Key concepts
+# Big picture
+
+Key concepts:
+
 * pin version: one or more files accompanied by metadata
 * pin: a collection of pin versions 
 * pin board: a collection of pins
 
-(an unversioned pin deletes the old version when adding a new version)
-
-For a file system backed board:
-* a pin version is a directory containing `data.txt` + other files
-* a pin is a directory of pin-versions
-* a pin-board is a directory of pins
-
-For RSC:
-* a pin-version is a bundle
-* a pin is a content item
-* a pin-board is an RSC instance
-
-Remote pins also manage a cache, organised around the same principles.
-
-Primitives:
-
-* `pin_list(board)` -> data frame.
-* `pin_upload(board, path, name, metadata = list())` -> board (invisibly)
-* `pin_download(board, name, version = NULL)` -> path(s)
-* `pin_delete(board, name)` -> board (invisibly)
-* `pin_metadata(board, name, version = NULL)` -> list
-* `pin_versions(board, name)` -> data frame
-
-Internals? Maybe need something higher level for version clean up?
-* `pin_version_list()` 
-* `pin_version_delete()`
-* `pin_version_find()`
-* `pin_data_download()`
-
-User facing:
-
-* `pin_search()` - `pin_ls()` + `pin_metadata()` + grepl -> data frame
-* `pin_read()` - `pin_download()` + type specific behaviour -> board (invisibly)
-* `pin_write()` - `pin_upload()` + type specific behaviour -> object
-
-May need to customise via `pin_read()`/`pin_write()`, so that e.g. `board_connect()` can clearly document that you can add a `tags` parameter. But these would just be thin wrappers over `pin_download()`/`pin_upload()`.
+These a realised differently for different backends:
 
 * Folder: each pin is a directory; each version is a subdirectory. Version id is content hash.
 * RSC: each pin is a content item; each version is a bundle. Version id is bundle ids
 * Github: each pin is a directory; each version is commit. Version id is sha1. 
 
+## Main API
 
+### v1.0.0
+
+* `pin_list()`
+* `pin_find()`
+* `pin_browse()`
+* `pin_meta()`
+* `pin_store()` powers `pin_upload()` and `pin_write()`. 
+* `pin_fetch()` powers `pin_read()` and `pin_download()`
+
+Still not sure how to connect user facing `pin_write()`/`pin_read()` docs with underlying `pin_store()`/`pin_fetch()` generics.
+
+### Transitional
+
+These are from v0, but are close enough to v1 semantics that I haven't touched yet.
+
+* `board_pin_versions()`
+* `board_pin_remove()`
+
+Probably should define `pin_versions()` and `pin_delete()` and have default method fall back.
+
+## Metadata
+
+There are two versions of pins metadata:
+
+* version 0: used in pins 0.4.5 and earlier
+* version 1: used in pins 1.0.0 and later (including 0.99.9000)
+
+Metadata versions are backward compatible, e.g. pins 1.0.0 can read versions 0 and 1. pins 1.0.0 and later will automatically throw an error recommending that you upgrade if it encounters a new metadata version.
+
+In version 1 and greater you can identify the metadata version by consulting the "api_version" key. If it is absent, you can assume that you have version 0. `read_meta()` adds this automatically, and gives an informative error if you're reading a newer version than what is supported.
+
+There are two major differences between version 0 and version 1:
+
+* In version 0, type refers to the type of object (e.g. `table`, `default`, `files`).
+  In version 1, type refers to the storage mechanism (e.g. `arrow`, `csv`, `rds`, `pickle`).
+
+* In version 0, user supplied metadata is intermingled with pins metadata.
+  In version 1, user supplied metadata is stored under a `user` key.
+
+`pin_meta()` retrieves metadata from the remote board and adds to it any additional data needed to manage the local cache, stored in the `local` element.

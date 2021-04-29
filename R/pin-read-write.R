@@ -26,26 +26,12 @@
 #' b %>% pin_meta("mtcars")
 #' b %>% pin_read("mtcars")
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
-  pin <- pin_retrieve(board, name, version = version, hash = hash, ...)
-  object_read(pin$path, pin$meta)
-}
-
-pin_retrieve <- function(board, name, version = NULL, hash = NULL, ...) {
   check_board(board)
-  ellipsis::check_dots_used()
 
-  pin <- board_pin_download(board, name, version = version, ...)
+  meta <- pin_fetch(board, name, version = version, ...)
+  check_hash(meta, hash)
 
-  if (!is.null(hash)) {
-    pin_hash <- pin_hash(pin$path)
-    if (!is_prefix(hash, pin_hash)) {
-      abort(paste0(
-        "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
-      ))
-    }
-  }
-
-  pin
+  object_read(meta)
 }
 
 #' @param x An object (typically a data frame) to pin.
@@ -86,11 +72,10 @@ pin_write <- function(board, x,
   }
 
   path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
-  meta <- path_meta(path, object = x, type = type, desc = desc, user = metadata)
+  meta <- standard_meta(path, object = x, type = type, desc = desc)
+  meta$user <- metadata
 
-  board_pin_upload(board, name, path, meta, versioned = versioned, x = x, ...)
-
-  invisible(board)
+  pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
 }
 
 guess_type <- function(x) {
@@ -137,7 +122,13 @@ write_rds <- function(x, path) {
   invisible(path)
 }
 
-object_read <- function(path, meta) {
+object_read <- function(meta) {
+  path <- fs::path(meta$local$dir, meta$file)
+  missing <- !fs::file_exists(path)
+  if (any(missing)) {
+    abort(c("Cache failure. Missing files:", path[!missing]))
+  }
+
   if (meta$api_version == 1) {
     type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv", "file"))
 
@@ -198,5 +189,17 @@ check_name <- function(x) {
 check_metadata <- function(x) {
   if (!is.null(x) && !is_bare_list(x)) {
     abort("`metadata` must be a list")
+  }
+}
+check_hash <- function(meta, hash) {
+  if (is.null(hash)) {
+    return()
+  }
+
+  pin_hash <- pin_hash(fs::path(meta$local$dir, meta$file))
+  if (!is_prefix(hash, pin_hash)) {
+    abort(paste0(
+      "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
+    ))
   }
 }

@@ -58,22 +58,6 @@ pin_list.pins_board_url <- function(board, ...) {
 }
 
 #' @export
-board_pin_remove.pins_board_url <- function(board, name, ...) {
-  abort("board_url() is read only")
-}
-
-#' @export
-board_pin_upload.pins_board_url <- function(board, name, path, metadata,
-                                              versioned = NULL, ...) {
-  abort("board_url() is read only")
-}
-
-#' @export
-board_pin_versions.pins_board_url <- function(board, name, ...) {
-  abort("board_url() doesn't support versions")
-}
-
-#' @export
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   if (!has_name(board$urls, name)) {
@@ -86,60 +70,79 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   url <- board$urls[[name]]
   is_dir <- grepl("/$", url)
 
-  pin_path <- fs::path(board$cache, hash(url))
-  fs::dir_create(pin_path)
+  cache_dir <- fs::path(board$cache, hash(url))
+  fs::dir_create(cache_dir)
 
   if (is_dir) {
     # If directory, read from /data.txt
     download_cache(
       url = paste0(url, "data.txt"),
-      path_dir = pin_path,
+      path_dir = cache_dir,
       path_file = "data.txt",
       use_cache_on_failure = board$use_cache_on_failure
     )
-    meta <- read_meta(pin_path)
-    meta$url <- paste0(url, meta$file)
-    meta$pin_path <- pin_path
-    meta
+    meta <- read_meta(cache_dir)
+    local_meta(meta,
+      dir = cache_dir,
+      version = NULL,
+      url = paste0(url, meta$file)
+    )
   } else {
     # Otherwise assume it's a single file with no metadata
-    list(
+    meta <- list(
       type = "file",
       file = fs::path_file(url),
-      url = url,
-      pin_path = pin_path,
       api_version = 1
     )
+    local_meta(meta,
+      dir = cache_dir,
+      version = NULL,
+      url = url
+    )
   }
+}
+
+#' @export
+pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
+  meta <- pin_meta(board, name, version = version)
+  path <- map2_chr(meta$local$url, meta$file, function(url, file) {
+    download_cache(
+      url = url,
+      path_dir = meta$local$dir,
+      path_file = file,
+      use_cache_on_failure = board$use_cache_on_failure
+    )
+  })
+
+  meta
 }
 
 #' @export
 pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
   meta <- pin_meta(board, name, version = version)
   if (cache) {
-    browse_url(meta$pin_path)
+    browse_url(meta$local$dir)
   } else {
     browse_url(meta$url)
   }
 }
 
-#' @export
-board_pin_download.pins_board_url <- function(board, name, version = NULL, ...) {
-  meta <- pin_meta(board, name, version = version)
-  path <- map2_chr(meta$url, meta$file, function(url, file) {
-    download_cache(
-      url = url,
-      path_dir = meta$pin_path,
-      path_file = file,
-      use_cache_on_failure = board$use_cache_on_failure
-    )
-  })
+# Unsupported features ----------------------------------------------------
 
-  list(
-    meta = meta,
-    dir = fs::path(board$cache, name),
-    path = path
-  )
+#' @export
+board_pin_remove.pins_board_url <- function(board, name, ...) {
+  abort("board_url() is read only")
+}
+
+#' @export
+pin_store.pins_board_url <- function(board, name, path, metadata,
+                                              versioned = NULL, ...) {
+  abort("board_url() is read only")
+}
+
+#' @export
+board_pin_versions.pins_board_url <- function(board, name, ...) {
+  abort("board_url() doesn't support versions")
 }
 
 # v0 ----------------------------------------------------------------------

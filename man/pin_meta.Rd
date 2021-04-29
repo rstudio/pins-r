@@ -21,7 +21,14 @@ a specific version of a pin. See \verb{vignette("versioning)"} for details.}
 A list.
 }
 \description{
-Retrieve metadata for a pin
+Pin metadata comes from three sources:
+\itemize{
+\item Standard metadata added by \code{pin_upload()}/\code{pin_write()}.
+\item Metadata supplied by the user, stored in \verb{$user}.
+\item Local metadata generated when caching the pin, stored in \verb{$local}.
+This includes information like the version of the pin, and the path
+its local cache.
+}
 }
 \examples{
 b <- board_temp()

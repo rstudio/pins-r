@@ -118,7 +118,6 @@ check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
   }
 }
 
-
 board_rsconnect_test <- function(...) {
   if (!is.null(rsconnect::accounts())) {
     board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
@@ -128,7 +127,6 @@ board_rsconnect_test <- function(...) {
     board_rsconnect(..., auth = "envvar", cache = fs::file_temp())
   }
 }
-
 
 rsc_account_find <- function(server = NULL, name = NULL) {
   check_installed("rsconnect")
@@ -197,23 +195,6 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
 }
 
 #' @export
-board_pin_download.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
-  # Can't use bundle download endpoint because that requires collaborator
-  # access. So download data.txt, then download each file that it lists.
-  meta <- pin_meta(board, name, version = version)
-
-  for (file in meta$file) {
-    rsc_download(board, meta$url, meta$cache_path, file)
-  }
-
-  list(
-    dir = meta$cache_path,
-    path = fs::path(meta$cache_path, meta$file),
-    meta = meta
-  )
-}
-
-#' @export
 pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {
   content <- rsc_content_find(board, name)
 
@@ -240,25 +221,38 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
     meta$file <- meta$path %||% meta$file
   }
 
-  meta$cache_path <- cache_path
-  meta$content_id <- content$guid
-  meta$version <- bundle_id
-  meta$url <- url
-  new_meta(meta)
+  local_meta(meta,
+    dir = cache_path,
+    version = bundle_id,
+    content_id = content$guid,
+    url = url
+  )
+}
+
+#' @export
+pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
+  # Can't use bundle download endpoint because that requires collaborator
+  # access. So download data.txt, then download each file that it lists.
+  meta <- pin_meta(board, name, version = version)
+  for (file in meta$file) {
+    rsc_download(board, meta$local$url, meta$local$dir, file)
+  }
+
+  meta
 }
 
 #' @export
 pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., cache = FALSE) {
   meta <- pin_meta(board, name, version = version)
   if (cache) {
-    browse_url(meta$cache_path)
+    browse_url(meta$local$dir)
   } else {
     browse_url(meta$url)
   }
 }
 
 #' @export
-board_pin_upload.pins_board_rsconnect <- function(
+pin_store.pins_board_rsconnect <- function(
     board,
     name,
     path,
@@ -337,7 +331,7 @@ board_pin_upload.pins_board_rsconnect <- function(
     }
   }
 
-  invisible()
+  invisible(board)
 }
 
 #' @export
@@ -364,8 +358,8 @@ pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
 board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
                                                extract = NULL) {
 
-  pin <- board_pin_download.pins_board_rsconnect(board, name, version = version, ...)
-  pin$dir
+  meta <- pin_fetch(board, name, version = version, ...)
+  meta$local$dir
 }
 
 #' @export
@@ -376,7 +370,7 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
   path <- fs::dir_ls(path)
   metadata$file <- fs::path_file(path)
 
-  board_pin_upload.pins_board_rsconnect(
+  pin_store(
     board = board,
     name = name,
     path = path,

@@ -1,5 +1,16 @@
 #' Retrieve metadata for a pin
 #'
+#' @description
+#' Pin metadata comes from three sources:
+#'
+#' * Standard metadata added by `pin_upload()`/`pin_write()`.
+#'
+#' * Metadata supplied by the user, stored in `$user`.
+#'
+#' * Local metadata generated when caching the pin, stored in `$local`.
+#'   This includes information like the version of the pin, and the path
+#'   its local cache.
+#'
 #' @inheritParams pin_read
 #' @returns A list.
 #' @export
@@ -19,7 +30,14 @@ pin_meta <- function(board, name, version = NULL, ...) {
 }
 
 
-new_meta <- function(x) {
+# All pin_meta() methods should use `local_meta()` to ensure that results
+# are stored in a consistent way
+local_meta <- function(x, dir, version, ...) {
+  x$local <- list(
+    dir = dir,
+    version = version,
+    ...
+  )
   structure(x, class = "pins_meta")
 }
 

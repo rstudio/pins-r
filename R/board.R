@@ -124,18 +124,6 @@ board_pin_versions.default <- function(board, name, ...) {
   tibble::tibble(version = character(0))
 }
 
-#' @export
-#' @rdname custom-boards
-board_pin_download <- function(board, name, ...) {
-  UseMethod("board_pin_download")
-}
-#' @export
-#' @rdname custom-boards
-board_pin_upload <- function(board, name, path, metadata, versioned = NULL, x = NULL, ...) {
-  UseMethod("board_pin_upload")
-}
-
-
 #' Custom Boards Utilities
 #'
 #' A set of utilities used when implementing custom boards.
