@@ -38,13 +38,6 @@ reference:
   - pin_remove
   - pin_reactive
 
-articles:
-- title: ~
-  navbar: ~
-  contents:
-  - articles/pins-rstudio
-  - articles/use-cases
-
 navbar:
   components:
     home: ~
