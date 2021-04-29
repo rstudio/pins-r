@@ -45,8 +45,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 
 <meta property="og:title" content="Read and write pins — pin_read" />
 <meta property="og:description" content="Use pin_write() to pin an object to board, and pin_read() to retrieve
@@ -103,7 +101,7 @@ it." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -222,24 +220,24 @@ if you want to perform the serialisation yourself and work just with files.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_write</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '2f642ce498ec2413'</span></div><div class='input'><span class='va'>b</span>
-</div><div class='output co'>#&gt; <span style='font-weight: bold;'>Pin board</span><span> &lt;pins_board_local&gt;
-#&gt; Path: '/tmp/RtmpW6tNRi/pins-2e4724259c7e'
+<span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_write</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='co'>#&gt; Guessing `type = 'rds'`</div><div class='co'>#&gt; Creating new version '2f642ce498ec2413'</div><div class='input'><span class='va'>b</span>
+</div><div class='co'>#&gt; <span style='font-weight: bold;'>Pin board</span><span> &lt;pins_board_local&gt;</span>
+#&gt; Path: '/tmp/RtmpSYpQh1/pins-32a233f7a23f'
 #&gt; With 1 pins: 'mtcars'</div><div class='input'>
-<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_meta.html'>pin_meta</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 8
+<span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_meta.html'>pin_meta</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='co'>#&gt; List of 8
 #&gt;  $ file       : chr "mtcars.rds"
 #&gt;  $ file_size  : int 1217
 #&gt;  $ pin_hash   : chr "2f642ce498ec2413"
 #&gt;  $ type       : chr "rds"
 #&gt;  $ description: chr "A pin containing a data frame with 32 rows and 11 columns"
-#&gt;  $ created    : chr "2021-04-29T20:19:06"
+#&gt;  $ created    : chr "2021-04-29T20:28:30"
 #&gt;  $ api_version: num 1
 #&gt;  $ local      :List of 2
-#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpW6tNRi/pins-2e4724259c7e/mtcars/2f642ce498ec2413"
-#&gt;   ..$ version: chr "2f642ce498ec2413"</div><div class='input'><span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_read</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpSYpQh1/pins-32a233f7a23f/mtcars/2f642ce498ec2413"
+#&gt;   ..$ version: chr "2f642ce498ec2413"</div><div class='input'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_read</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -271,7 +269,7 @@ if you want to perform the serialisation yourself and work just with files.</p>
 #&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
 #&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></span></pre>
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

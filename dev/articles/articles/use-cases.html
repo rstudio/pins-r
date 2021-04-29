@@ -17,8 +17,7 @@
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><link href="../../extra.css" rel="stylesheet">
-<meta property="og:title" content="Use cases">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Use cases">
 <meta property="og:description" content="pins">
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <meta name="robots" content="noindex">
@@ -60,7 +59,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../../articles/articles/use-cases.html">Use cases</a>
@@ -112,7 +111,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
 <span class="fu"><a href="../../reference/board_register.html">board_register_kaggle</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"path/to/kaggle.json"</span><span class="op">)</span>
 
-<span class="va">news</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"therohk/million-headlines"</span>, board <span class="op">=</span> <span class="st">"kaggle"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">news</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"therohk/million-headlines"</span>, board <span class="op">=</span> <span class="st">"kaggle"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu">readr</span><span class="fu">::</span><span class="fu">read_csv</span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">news</span></code></pre></div>
@@ -134,7 +133,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span>
 
-<span class="va">news_cleaned</span> <span class="op">&lt;-</span> <span class="va">news</span> <span class="op">%&gt;%</span>
+<span class="va">news_cleaned</span> <span class="op">&lt;-</span> <span class="va">news</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu">mutate</span><span class="op">(</span>publish_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">publish_date</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y%m%d"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">news_cleaned</span></code></pre></div>
@@ -154,16 +153,16 @@
 # … with 1,103,653 more rows</code></pre>
 <p>Let’s also assume we are interested in understanding when news outlets publish news, not what headlines are published. For this, we can keep the counts per day and month and throw away the other columns:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">news_totals</span> <span class="op">&lt;-</span> <span class="va">news_cleaned</span> <span class="op">%&gt;%</span>
-  <span class="fu">group_by</span><span class="op">(</span><span class="va">publish_date</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">news_totals</span> <span class="op">&lt;-</span> <span class="va">news_cleaned</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">publish_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu">summarize</span><span class="op">(</span>count <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can now plot by month the total amount of news being produced by this news outlet:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span>
 
-<span class="va">news_totals</span> <span class="op">%&gt;%</span>
-  <span class="fu">group_by</span><span class="op">(</span>publish_date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu">floor_date</span><span class="op">(</span><span class="va">publish_date</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">summarize</span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">news_totals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">group_by</span><span class="op">(</span>publish_date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu">floor_date</span><span class="op">(</span><span class="va">publish_date</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">summarize</span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">publish_date</span>, y<span class="op">=</span><span class="va">count</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> </code></pre></div>
 <p><img src="images/reuse-analysis-ggplot2.png" style="width:70.0%"></p>
@@ -237,8 +236,8 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
 
-<span class="fu"><a href="../../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"worldnews"</span>, board <span class="op">=</span> <span class="st">"rsconnect"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">mutate</span><span class="op">(</span>generated <span class="op">=</span> <span class="fu">gpt2</span><span class="fu">::</span><span class="fu">gpt2</span><span class="op">(</span><span class="va">title</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="fu"><a href="../../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"worldnews"</span>, board <span class="op">=</span> <span class="st">"rsconnect"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">mutate</span><span class="op">(</span>generated <span class="op">=</span> <span class="fu">gpt2</span><span class="fu">::</span><span class="fu">gpt2</span><span class="op">(</span><span class="va">title</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../../reference/pin.html">pin</a></span><span class="op">(</span><span class="st">"news-generated"</span>, board <span class="op">=</span> <span class="st">"rsconnect"</span><span class="op">)</span></code></pre></div>
 <p>You can preview this pipeline at <a href="https://beta.rstudioconnect.com/connect/#/apps/6565/access">beta.rstudioconnect.com/connect/#/apps/6565/access</a></p>
 <p><a href="https://beta.rstudioconnect.com/connect/#/apps/6565/access"><img src="images/create-pipelines-rsconnect.png"></a></p>
@@ -278,9 +277,9 @@
     <span class="op">}</span><span class="op">)</span>
 
     <span class="va">output</span><span class="op">$</span><span class="va">newsContent</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPrint.html">renderText</a></span> <span class="op">(</span><span class="op">{</span>
-        <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/news.html">news</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">title</span> <span class="op">==</span> <span class="va">input</span><span class="op">$</span><span class="va">newsHeadline</span><span class="op">)</span> <span class="op">%&gt;%</span>
-            <span class="fu">pull</span><span class="op">(</span><span class="va">generated</span><span class="op">)</span> <span class="op">%&gt;%</span>
-            <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">newsHeadline</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/news.html">news</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">title</span> <span class="op">==</span> <span class="va">input</span><span class="op">$</span><span class="va">newsHeadline</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+            <span class="fu">pull</span><span class="op">(</span><span class="va">generated</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+            <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">newsHeadline</span>, <span class="va">.</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
             <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"&lt;\\|endoftext\\|&gt;.*"</span>, <span class="st">""</span>, <span class="va">.</span><span class="op">)</span>
     <span class="op">}</span><span class="op">)</span>
 <span class="op">}</span>

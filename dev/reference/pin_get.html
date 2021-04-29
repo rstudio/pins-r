@@ -45,8 +45,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 
 <meta property="og:title" content="Retrieve Pin — pin_get" />
 <meta property="og:description" content="Retrieves a pin by name from the local or given board." />
@@ -102,7 +100,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -206,7 +204,7 @@ all boards and retrieve the one that matches by name.</p>
 
 <span class='co'># retrieve the mtcars pin</span>
 <span class='fu'>pin_get</span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</div><div class='co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1

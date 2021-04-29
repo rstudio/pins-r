@@ -45,8 +45,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 
 <meta property="og:title" content="Remove Pin — pin_remove" />
 <meta property="og:description" content="Unpins the given named pin from the given board." />
@@ -102,7 +100,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -164,8 +162,8 @@
 <span class='fu'>pin_remove</span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
 
 <span class='co'># -&gt;</span>
-<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Guessing `name = 'mtcars'`</span></div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version '2f642ce498ec2413'</span></div><div class='input'><span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_delete.html'>pin_delete</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+<span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
+</div><div class='co'>#&gt; Guessing `name = 'mtcars'`</div><div class='co'>#&gt; Guessing `type = 'rds'`</div><div class='co'>#&gt; Creating new version '2f642ce498ec2413'</div><div class='input'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_delete.html'>pin_delete</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

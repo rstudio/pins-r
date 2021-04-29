@@ -45,8 +45,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 
 <meta property="og:title" content="Retrieve metadata for a pin — pin_meta" />
 <meta property="og:description" content="Pin metadata comes from three sources:
@@ -109,7 +107,7 @@ its local cache.
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -187,33 +185,33 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='st'>"mtcars"</span>, metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Hadley"</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Guessing `type = 'rds'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version 'f879756e28a960ae'</span></div><div class='input'>
+<span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='st'>"mtcars"</span>, metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Hadley"</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; Guessing `type = 'rds'`</div><div class='co'>#&gt; Creating new version 'f879756e28a960ae'</div><div class='input'>
 <span class='co'># Get the pin</span>
-<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+<span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
 #&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
 #&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</div><div class='input'><span class='co'># Get its metadata</span>
-<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_meta</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 9
+<span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_meta</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='co'>#&gt; List of 9
 #&gt;  $ file       : chr "mtcars.rds"
 #&gt;  $ file_size  : int 426
 #&gt;  $ pin_hash   : chr "f879756e28a960ae"
 #&gt;  $ type       : chr "rds"
 #&gt;  $ description: chr "A pin containing a data frame with 6 rows and 11 columns"
-#&gt;  $ created    : chr "2021-04-29T20:19:06"
+#&gt;  $ created    : chr "2021-04-29T20:28:30"
 #&gt;  $ api_version: num 1
 #&gt;  $ user       :List of 1
 #&gt;   ..$ Hadley: logi TRUE
 #&gt;  $ local      :List of 2
-#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpW6tNRi/pins-2e477030df3c/mtcars/f879756e28a960ae"
+#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpSYpQh1/pins-32a24131d766/mtcars/f879756e28a960ae"
 #&gt;   ..$ version: chr "f879756e28a960ae"</div><div class='input'><span class='co'># Get path to underlying data</span>
-<span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_download.html'>pin_download</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpW6tNRi/pins-2e477030df3c/mtcars/f879756e28a960ae/mtcars.rds"</div></pre>
+<span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_download.html'>pin_download</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] "/tmp/RtmpSYpQh1/pins-32a24131d766/mtcars/f879756e28a960ae/mtcars.rds"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

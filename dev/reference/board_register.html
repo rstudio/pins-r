@@ -45,8 +45,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 
 <meta property="og:title" content="Board registry — board_register" />
 <meta property="og:description" content="
@@ -106,7 +104,7 @@ board_rsconnect() etc." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -254,7 +252,7 @@ explicitly supply a <code>board</code> that you've created using <code><a href='
 <span class='fu'>board_register_local</span><span class='op'>(</span><span class='st'>"myboard"</span>, cache <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='st'>"myboard"</span><span class='op'>)</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='st'>"myboard"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</div><div class='co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -291,7 +289,7 @@ explicitly supply a <code>board</code> that you've created using <code><a href='
 <span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</div><div class='co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1

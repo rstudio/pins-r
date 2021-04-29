@@ -45,8 +45,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 
 <meta property="og:title" content="Pin Resource — pin" />
 <meta property="og:description" content="Pins the given resource locally or to the given board." />
@@ -102,7 +100,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/pins-rstudio.html">Using Pins in RStudio</a>
+      <a href="../articles/articles/internals.html">Pins internals</a>
     </li>
     <li>
       <a href="../articles/articles/use-cases.html">Use cases</a>
@@ -196,7 +194,7 @@ tools and programming languages.</p>
 
 <span class='co'># retrieve cached pin</span>
 <span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtefficient"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
+</div><div class='co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Fiat 128       32.4   4 78.7  66 4.08 2.200 19.47  1  1    4    1
 #&gt; Honda Civic    30.4   4 75.7  52 4.93 1.615 18.52  1  1    4    2
 #&gt; Toyota Corolla 33.9   4 71.1  65 4.22 1.835 19.90  1  1    4    1
@@ -213,8 +211,8 @@ tools and programming languages.</p>
 <span class='co'># cache and read csv</span>
 <span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'>pin</span><span class='op'>(</span><span class='va'>resource</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
 <span class='va'>path</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpW6tNRi/pins-2e472185e089/example-retail-sales/example_retail_sales.csv"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           ds      y
+</div><div class='co'>#&gt; [1] "/tmp/RtmpSYpQh1/pins-32a21534b43a/example-retail-sales/example_retail_sales.csv"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt;           ds      y
 #&gt; 1 1992-01-01 146376
 #&gt; 2 1992-02-01 147079
 #&gt; 3 1992-03-01 159336
