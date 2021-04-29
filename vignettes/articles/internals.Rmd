@@ -1,5 +1,5 @@
 ---
-title: "api"
+title: "Pins internals"
 ---
 
 ```{r, include = FALSE}
