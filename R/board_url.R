@@ -63,7 +63,7 @@ board_pin_remove.pins_board_url <- function(board, name, ...) {
 }
 
 #' @export
-board_pin_upload.pins_board_url <- function(board, name, path, metadata,
+pin_store.pins_board_url <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   abort("board_url() is read only")
 }
@@ -129,7 +129,7 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
 }
 
 #' @export
-pin_cache.pins_board_url <- function(board, name, version = NULL, ...) {
+pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   path <- map2_chr(meta$local$url, meta$file, function(url, file) {
     download_cache(

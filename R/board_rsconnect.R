@@ -197,7 +197,7 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
 }
 
 #' @export
-pin_cache.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
+pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   # Can't use bundle download endpoint because that requires collaborator
   # access. So download data.txt, then download each file that it lists.
   meta <- pin_meta(board, name, version = version)
@@ -254,7 +254,7 @@ pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., ca
 }
 
 #' @export
-board_pin_upload.pins_board_rsconnect <- function(
+pin_store.pins_board_rsconnect <- function(
     board,
     name,
     path,
@@ -333,7 +333,7 @@ board_pin_upload.pins_board_rsconnect <- function(
     }
   }
 
-  invisible()
+  invisible(board)
 }
 
 #' @export
@@ -360,7 +360,7 @@ pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
 board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
                                                extract = NULL) {
 
-  meta <- pin_cache(board, name, version = version, ...)
+  meta <- pin_fetch(board, name, version = version, ...)
   meta$local$dir
 }
 
@@ -372,7 +372,7 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
   path <- fs::dir_ls(path)
   metadata$file <- fs::path_file(path)
 
-  board_pin_upload.pins_board_rsconnect(
+  pin_store(
     board = board,
     name = name,
     path = path,

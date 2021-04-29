@@ -17,7 +17,7 @@
 pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
   check_board(board)
 
-  meta <- pin_cache(board, name, version = version, ...)
+  meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
 
   as.character(fs::path(meta$local$dir, meta$file))
@@ -54,8 +54,6 @@ pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = NULL, .
   }
 
   meta <- path_meta(path, desc = desc, user = metadata)
-  board_pin_upload(board, name, path, meta, ...)
-
-  invisible(board)
+  pin_store(board, name, path, meta, ...)
 }
 

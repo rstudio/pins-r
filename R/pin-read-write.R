@@ -28,7 +28,7 @@
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   check_board(board)
 
-  meta <- pin_cache(board, name, version = version, ...)
+  meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
 
   object_read(meta)
@@ -74,9 +74,7 @@ pin_write <- function(board, x,
   path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
   meta <- path_meta(path, object = x, type = type, desc = desc, user = metadata)
 
-  board_pin_upload(board, name, path, meta, versioned = versioned, x = x, ...)
-
-  invisible(board)
+  pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
 }
 
 guess_type <- function(x) {

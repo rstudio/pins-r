@@ -35,10 +35,10 @@ These a realised differently for different backends:
 * `pin_find()`
 * `pin_browse()`
 * `pin_meta()`
-* `board_pin_upload()` powers `pin_upload()` and `pin_write()`. 
-* `pin_cache()` powers `pin_read()` and `pin_download()`
+* `pin_store()` powers `pin_upload()` and `pin_write()`. 
+* `pin_fetch()` powers `pin_read()` and `pin_download()`
 
-Still not sure how to connect user facing `pin_write()`/`pin_read()` docs with underlying `pin_store()`/`pin_cache()` generics.
+Still not sure how to connect user facing `pin_write()`/`pin_read()` docs with underlying `pin_store()`/`pin_fetch()` generics.
 
 ### Transitional
 

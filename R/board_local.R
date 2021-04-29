@@ -94,7 +94,7 @@ pin_browse.pins_board_local <- function(board, name, version = NULL, ..., cache 
 # pins v1 ----------------------------------------------------------------
 
 #' @export
-board_pin_upload.pins_board_local <- function(board, name, path, metadata,
+pin_store.pins_board_local <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$cache, name)
@@ -134,10 +134,12 @@ board_pin_upload.pins_board_local <- function(board, name, path, metadata,
   # Add to list of versions so we know which is most recent
   pin_meta$versions <- c(pin_meta$versions, metadata$pin_hash)
   write_meta(pin_meta, path_pin)
+
+  invisible(board)
 }
 
 #' @export
-pin_cache.pins_board_local <- function(board, name, version = NULL, ...) {
+pin_fetch.pins_board_local <- function(board, name, version = NULL, ...) {
   pin_meta(board, name, version = version)
 }
 
