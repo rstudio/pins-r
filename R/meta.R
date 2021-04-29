@@ -27,19 +27,16 @@ write_meta <- function(x, path) {
 
 # pin metadata ------------------------------------------------------------
 
-path_meta <- function(path, type = NULL, object = NULL, user = NULL, desc = NULL) {
-  meta <- list(
+standard_meta <- function(path, type, object = NULL, desc = NULL) {
+  list(
     file = fs::path_file(path),
     file_size = as.integer(fs::file_size(path)),
     pin_hash = pin_hash(path),
-    type = type %||% "file",
+    type = type,
     description = desc %||% default_description(object, path),
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
     api_version = 1
   )
-
-  meta$user <- user
-  meta
 }
 
 # description -------------------------------------------------------------

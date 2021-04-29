@@ -7,7 +7,7 @@ test_that("standard metadata is useful", {
   path <- withr::local_tempfile()
   write_rds(df, path)
 
-  meta <- path_meta(path, "arrow", df)
+  meta <- standard_meta(path, "arrow", df)
   meta$file <- "df.rds"
   meta$created <- "<TODAY>"
   expect_snapshot_output(str(meta))

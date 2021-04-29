@@ -53,7 +53,9 @@ pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = NULL, .
     path <- as.character(unlist(path, use.names = FALSE))
   }
 
-  meta <- path_meta(path, desc = desc, user = metadata)
+  meta <- standard_meta(path, desc = desc, type = "file")
+  meta$user <- metadata
+
   pin_store(board, name, path, meta, ...)
 }
 

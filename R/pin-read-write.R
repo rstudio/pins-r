@@ -72,7 +72,8 @@ pin_write <- function(board, x,
   }
 
   path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
-  meta <- path_meta(path, object = x, type = type, desc = desc, user = metadata)
+  meta <- standard_meta(path, object = x, type = type, desc = desc)
+  meta$user <- metadata
 
   pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
 }
