@@ -146,7 +146,6 @@ pin_store.pins_board_local <- function(board, name, path, metadata,
 
 #' @export
 pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
-  print(name)
   check_name(name)
   path_pin <- fs::path(board$path, name)
   if (!fs::dir_exists(path_pin)) {
@@ -156,7 +155,6 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
   # Fallback to old structure
   meta_pin <- read_meta(path_pin)
   if (meta_pin$api_version == 0) {
-    print("0")
     path <- board_pin_get(board, name, ...)
     meta <- pin_registry_retrieve(board, name)
     meta$file <- setdiff(fs::path_rel(fs::dir_ls(path), path), "data.txt")
@@ -164,8 +162,6 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
 
     local_meta(meta, dir = path, version = NULL)
   } else {
-    print("1")
-    print(meta_pin$versions)
     version <- version %||% last(meta_pin$versions) %||% abort("No versions found")
     path_version <- fs::path(board$path, name, version)
 
