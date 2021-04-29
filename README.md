@@ -1,5 +1,5 @@
 
-# pins <img src="man/figures/logo.png" align="right" width="130px"/>
+# pins <a href='https://pins.rstudio.com'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -37,7 +37,7 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpjQpIcA/pins-10757fa4d2c9'
+#> Path: '/tmp/RtmpXz6NnB/pins-108ca22945b75'
 #> With no pins.
 ```
 
