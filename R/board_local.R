@@ -139,11 +139,6 @@ pin_store.pins_board_local <- function(board, name, path, metadata,
 }
 
 #' @export
-pin_fetch.pins_board_local <- function(board, name, version = NULL, ...) {
-  pin_meta(board, name, version = version)
-}
-
-#' @export
 pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$cache, name)
@@ -171,6 +166,12 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
     local_meta(meta, dir = path_version, version = version)
   }
 }
+
+#' @export
+pin_fetch.pins_board_local <- function(board, name, version = NULL, ...) {
+  pin_meta(board, name, version = version)
+}
+
 
 # v0 ----------------------------------------------------------------------
 

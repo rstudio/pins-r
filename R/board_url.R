@@ -58,22 +58,6 @@ pin_list.pins_board_url <- function(board, ...) {
 }
 
 #' @export
-board_pin_remove.pins_board_url <- function(board, name, ...) {
-  abort("board_url() is read only")
-}
-
-#' @export
-pin_store.pins_board_url <- function(board, name, path, metadata,
-                                              versioned = NULL, ...) {
-  abort("board_url() is read only")
-}
-
-#' @export
-board_pin_versions.pins_board_url <- function(board, name, ...) {
-  abort("board_url() doesn't support versions")
-}
-
-#' @export
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   if (!has_name(board$urls, name)) {
@@ -119,16 +103,6 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
-  meta <- pin_meta(board, name, version = version)
-  if (cache) {
-    browse_url(meta$local$dir)
-  } else {
-    browse_url(meta$url)
-  }
-}
-
-#' @export
 pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   path <- map2_chr(meta$local$url, meta$file, function(url, file) {
@@ -141,6 +115,34 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   })
 
   meta
+}
+
+#' @export
+pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
+  meta <- pin_meta(board, name, version = version)
+  if (cache) {
+    browse_url(meta$local$dir)
+  } else {
+    browse_url(meta$url)
+  }
+}
+
+# Unsupported features ----------------------------------------------------
+
+#' @export
+board_pin_remove.pins_board_url <- function(board, name, ...) {
+  abort("board_url() is read only")
+}
+
+#' @export
+pin_store.pins_board_url <- function(board, name, path, metadata,
+                                              versioned = NULL, ...) {
+  abort("board_url() is read only")
+}
+
+#' @export
+board_pin_versions.pins_board_url <- function(board, name, ...) {
+  abort("board_url() doesn't support versions")
 }
 
 # v0 ----------------------------------------------------------------------

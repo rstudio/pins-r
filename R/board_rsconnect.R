@@ -118,7 +118,6 @@ check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
   }
 }
 
-
 board_rsconnect_test <- function(...) {
   if (!is.null(rsconnect::accounts())) {
     board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
@@ -128,7 +127,6 @@ board_rsconnect_test <- function(...) {
     board_rsconnect(..., auth = "envvar", cache = fs::file_temp())
   }
 }
-
 
 rsc_account_find <- function(server = NULL, name = NULL) {
   check_installed("rsconnect")
@@ -197,18 +195,6 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
 }
 
 #' @export
-pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
-  # Can't use bundle download endpoint because that requires collaborator
-  # access. So download data.txt, then download each file that it lists.
-  meta <- pin_meta(board, name, version = version)
-  for (file in meta$file) {
-    rsc_download(board, meta$local$url, meta$local$dir, file)
-  }
-
-  meta
-}
-
-#' @export
 pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {
   content <- rsc_content_find(board, name)
 
@@ -241,6 +227,18 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
     content_id = content$guid,
     url = url
   )
+}
+
+#' @export
+pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
+  # Can't use bundle download endpoint because that requires collaborator
+  # access. So download data.txt, then download each file that it lists.
+  meta <- pin_meta(board, name, version = version)
+  for (file in meta$file) {
+    rsc_download(board, meta$local$url, meta$local$dir, file)
+  }
+
+  meta
 }
 
 #' @export
