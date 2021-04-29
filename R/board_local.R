@@ -65,8 +65,7 @@ board_pin_remove.pins_board_local <- function(board, name, ...) {
 #' @export
 board_pin_versions.pins_board_local <- function(board, name, ...) {
   path_pin <- fs::path(board$path, name)
-  pin_meta <- read_meta(path_pin)
-  versions <- pin_meta$versions %||% character()
+  versions <- read_versions(path_pin) %||% character(0)
 
   meta <- map(versions, function(v) pin_meta(board, name, version = v))
   date <- rsc_parse_time(map_chr(meta, function(x) x[["date"]] %||% NA_character_))
@@ -90,24 +89,24 @@ pin_store.pins_board_local <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
-  pin_meta <- read_meta(path_pin)
+  versions <- read_versions(path_pin)
 
-  if (length(pin_meta$versions) > 1) {
+  if (length(versions) > 1) {
     versioned <- versioned %||% TRUE
   } else {
     versioned <- versioned %||% board$versions
   }
 
   if (!versioned) {
-    if (length(pin_meta$versions) == 0) {
+    if (length(versions) == 0) {
       pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
-    } else if (length(pin_meta$versions) == 1) {
+    } else if (length(versions) == 1) {
       pins_inform(paste0(
-        "Replacing version '", pin_meta$versions, "'",
+        "Replacing version '", versions, "'",
         " with '", metadata$pin_hash, "'"
       ))
-      fs::dir_delete(fs::path(path_pin, pin_meta$versions))
-      pin_meta$versions <- NULL
+      fs::dir_delete(fs::path(path_pin, versions))
+      versions <- NULL
     } else {
       abort(c(
         "Pin is versioned, but you have requested a write without versions",
@@ -124,8 +123,8 @@ pin_store.pins_board_local <- function(board, name, path, metadata,
   write_meta(metadata, path_version)
 
   # Add to list of versions so we know which is most recent
-  pin_meta$versions <- c(pin_meta$versions, metadata$pin_hash)
-  write_meta(pin_meta, path_pin)
+  versions <- c(versions, metadata$pin_hash)
+  update_versions(path_pin, versions)
 
   invisible(board)
 }
@@ -143,13 +142,27 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
     abort(paste0("Can't find pin '", name, "'"))
   }
 
-  meta_pin <- read_meta(path_pin)
-  version <- version %||% last(meta_pin$versions) %||% abort("No versions found")
-  path_version <- fs::path(board$path, name, version)
+  version <- version %||%
+    last(read_versions(path_pin)) %||%
+    abort("No versions found")
 
+  path_version <- fs::path(path_pin, version)
   if (!fs::dir_exists(path_version)) {
     abort(paste0("Can't find version '", version, "'"))
   }
+
   meta <- read_meta(path_version)
   local_meta(meta, dir = path_version, version = version)
+}
+
+
+# Helpers -----------------------------------------------------------------
+
+read_versions <- function(path) {
+  path <- fs::path(path, "versions.yml")
+  read_cache(path)$versions
+}
+update_versions <- function(path, x) {
+  path <- fs::path(path, "versions.yml")
+  update_cache(path, "versions", x)
 }

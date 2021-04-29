@@ -76,6 +76,7 @@ test_that("unavailable url can use cache", {
 # custom metadata -------------------------------------------------------------------
 
 test_that("can pin() with custom metadata", {
+  skip("for now")
   board <- board_temp()
 
   meta <- list(
