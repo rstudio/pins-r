@@ -52,24 +52,13 @@ board_desc.pins_board_local <- function(board, ...) {
 }
 
 #' @export
-board_browse.pins_board_local <- function(board, ...) {
-  utils::browseURL(board$path)
-}
-
-#' @export
 pin_list.pins_board_local <- function(board, ...) {
   fs::path_file(fs::dir_ls(board$path, type = "directory"))
 }
 
 #' @export
-board_pin_find.pins_board_local <- function(board, text, ...) {
-  pin_registry_find(board, text)
-}
-
-#' @export
 board_pin_remove.pins_board_local <- function(board, name, ...) {
   check_name(name)
-
   fs::dir_delete(fs::path(board$path, name))
 }
 
@@ -142,6 +131,11 @@ pin_store.pins_board_local <- function(board, name, path, metadata,
 }
 
 #' @export
+pin_fetch.pins_board_local <- function(board, name, version = NULL, ...) {
+  pin_meta(board, name, version = version)
+}
+
+#' @export
 pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
@@ -149,69 +143,13 @@ pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
     abort(paste0("Can't find pin '", name, "'"))
   }
 
-  # Fallback to old structure
   meta_pin <- read_meta(path_pin)
-  if (meta_pin$api_version == 0) {
-    path <- board_pin_get(board, name, ...)
-    meta <- pin_registry_retrieve(board, name)
-    meta$file <- setdiff(fs::path_rel(fs::dir_ls(path), path), "data.txt")
-    meta$api_version <- 0L
+  version <- version %||% last(meta_pin$versions) %||% abort("No versions found")
+  path_version <- fs::path(board$path, name, version)
 
-    local_meta(meta, dir = path, version = NULL)
-  } else {
-    version <- version %||% last(meta_pin$versions) %||% abort("No versions found")
-    path_version <- fs::path(board$path, name, version)
-
-    if (!fs::dir_exists(path_version)) {
-      abort(paste0("Can't find version '", version, "'"))
-    }
-    meta <- read_meta(path_version)
-    local_meta(meta, dir = path_version, version = version)
+  if (!fs::dir_exists(path_version)) {
+    abort(paste0("Can't find version '", version, "'"))
   }
+  meta <- read_meta(path_version)
+  local_meta(meta, dir = path_version, version = version)
 }
-
-#' @export
-pin_fetch.pins_board_local <- function(board, name, version = NULL, ...) {
-  pin_meta(board, name, version = version)
-}
-
-
-# v0 ----------------------------------------------------------------------
-
-#' @export
-board_pin_create.pins_board_local <- function(board, path, name, metadata, ...) {
-  board_versions_create(board, name, path)
-
-  cache_path <- pin_registry_path(board, name)
-
-  if (fs::dir_exists(cache_path)) {
-    delete <- fs::dir_ls(cache_path)
-    delete <- delete[!grepl("(/|\\\\)_versions$", delete)]
-    unlink(delete, recursive = TRUE)
-  } else {
-    fs::dir_create(cache_path)
-  }
-
-  file.copy(fs::dir_ls(path), cache_path, recursive = TRUE)
-
-  metadata$path <- name
-  pin_registry_update(board, name, metadata)
-}
-
-#' @export
-board_pin_get.pins_board_local <- function(board, name, version = NULL, ...) {
-  rel_path <- pin_registry_retrieve(board, name)$path
-  path <- pin_registry_path(board, rel_path)
-
-  if (!is.null(version)) {
-    manifest <- pin_manifest_get(path)
-    if (!version %in% manifest$versions) {
-      version <- board_versions_expand(manifest$versions, version)
-    }
-
-    path <- fs::path(path, version)
-  }
-
-  path
-}
-

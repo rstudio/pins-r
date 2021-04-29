@@ -52,6 +52,13 @@
     Message <cliMessage>
       i Pin at </tmp/test/x/afd4b2f6506fce6d>
 
+---
+
+    Code
+      b %>% pin_browse("x", cache = TRUE)
+    Error <rlang_error>
+      board_local() does not have a cache
+
 # generates useful messages
 
     Code

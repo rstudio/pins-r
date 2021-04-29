@@ -1,58 +1,16 @@
-test_that("local board registered by default", {
-  expect_true("local" %in% board_list())
-})
-
 test_that("has useful print method", {
   expect_snapshot(board_folder("/tmp/test", name = "test"))
 })
 
-test_that(paste("can pin() file with auto-generated name in local board"), {
-  b <- board_temp()
-
-  expect_equal(pin_list(b), character())
-
-  hello <- test_path("files/hello.txt")
-  path <- pin(hello, board = b)
-  expect_true(file.exists(path))
-  expect_equal(readLines(path), "hello world")
-
-  expect_equal(pin_list(b), "hello")
-})
-
 test_that("can remove a local pin", {
-  b <- board_temp()
+  board <- board_temp()
 
-  pin(mtcars, board = b)
-  expect_true(file.exists(pin_registry_path(b, "mtcars")))
+  pin_write(board, 1:10, "x")
+  expect_equal(pin_list(board), "x")
 
-  pin_remove("mtcars", board = b)
-  expect_false(file.exists(pin_registry_path(b, "mtcars")))
+  pin_delete(board, "x")
+  expect_equal(pin_list(board), character())
 })
-
-test_that("can version a local pin", {
-  b <- board_temp(versions = TRUE)
-
-  versions <- pin_versions("df", board = b)
-  expect_equal(
-    versions,
-    tibble::tibble(version = character(), created = .POSIXct(integer()))
-  )
-
-  pin(data.frame(x = 1), "df", board = b)
-  pin(data.frame(x = 2), "df", board = b)
-  pin(data.frame(x = 3), "df", board = b)
-
-  versions <- pin_versions("df", board = b)
-  expect_equal(nrow(versions), 3)
-
-  newest <- pin_get("df", version = versions$version[[1]], board = b)
-  oldest <- pin_get("df", version = versions$version[[3]], board = b)
-  expect_equal(newest$x, 3)
-  expect_equal(oldest$x, 1)
-})
-
-
-# pins 1.0.0 --------------------------------------------------------------
 
 test_that("can get versions", {
   b <- board_temp()
@@ -67,19 +25,6 @@ test_that("can get versions", {
   expect_equal(pin_read(b, "x"), 1:6)
   expect_equal(pin_read(b, "x", version = first_version), 1:5)
   expect_snapshot(pin_read(b, "x", version = "xxx"), error = TRUE)
-})
-
-test_that("can pin_read() pins made by pin()", {
-  board <- board_temp()
-
-  # pin.data.frame
-  df <- data.frame(x = 1:10)
-  pin(df, "df-1", board = board)
-  expect_equal(pin_read(board, "df-1"), df)
-
-  # pin.character (files)
-
-  # pin.default
 })
 
 test_that("can upload/download multiple files", {
@@ -114,6 +59,7 @@ test_that("can browse", {
   withr::defer(b %>% pin_delete("x"))
 
   expect_snapshot(b %>% pin_browse("x"))
+  expect_snapshot(b %>% pin_browse("x", cache = TRUE), error = TRUE)
 })
 
 test_that("generates useful messages", {
