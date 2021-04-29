@@ -3,6 +3,9 @@ url: https://pins.rstudio.com
 development:
   mode: auto
 
+template:
+  bootstrap: 4
+
 reference:
 - title: Pins
   contents:
