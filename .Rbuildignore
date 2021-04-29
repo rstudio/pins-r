@@ -10,3 +10,4 @@
 ^vignettes/articles$
 ^LICENSE\.md$
 ^blog$
+^_pkgdown\.yml$
