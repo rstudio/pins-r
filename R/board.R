@@ -12,7 +12,9 @@
 #' @keywords internal
 new_board <- function(board, name, cache = NULL, versions = FALSE, ...) {
   cache <- cache %||% board_cache_path(name)
-  fs::dir_create(cache)
+  if (!is.na(cache)) {
+    fs::dir_create(cache)
+  }
 
   board <- structure(
     list(
