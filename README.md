@@ -11,8 +11,6 @@ coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](htt
 
 <!-- badges: end -->
 
-## Overview
-
 The pins package helps you publish data sets, models, and other R
 objects, making it easy to share them across projects and with your
 colleagues. You can pin objects to a variety of “boards”, including
@@ -39,7 +37,7 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpqzAAuz/pins-1533c327af1c'
+#> Path: '/tmp/RtmpjQpIcA/pins-10757fa4d2c9'
 #> With no pins.
 ```
 

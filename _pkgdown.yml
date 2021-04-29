@@ -1,8 +1,5 @@
 url: https://pins.rstudio.com
 
-home:
-  strip_header: true
-
 development:
   mode: auto
 
