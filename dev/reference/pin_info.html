@@ -206,7 +206,7 @@ pin_info() is deprecated in favour of pin_meta()." />
 #&gt; #     gear: numeric
 #&gt; #     carb: numeric</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_meta.html'>pin_meta</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 8
+</div><div class='output co'>#&gt; List of 10
 #&gt;  $ type       : chr "table"
 #&gt;  $ description: NULL
 #&gt;  $ rows       : int 32
@@ -225,7 +225,11 @@ pin_info() is deprecated in favour of pin_meta()." />
 #&gt;   ..$ carb: chr "numeric"
 #&gt;  $ path       : chr "mtcars"
 #&gt;  $ name       : chr "mtcars"
-#&gt;  $ api_version: int 0</div></span></pre>
+#&gt;  $ file       : chr [1:2] "data.csv" "data.rds"
+#&gt;  $ api_version: int 0
+#&gt;  $ local      :List of 2
+#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpW6tNRi/pins-2e47bbcffb5/mtcars"
+#&gt;   ..$ version: NULL</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

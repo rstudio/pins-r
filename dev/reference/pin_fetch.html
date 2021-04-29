@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Upload and download files to and from a board — pin_download • pins</title>
+<title>Fetch/store a pin — pin_fetch • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,9 +48,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Upload and download files to and from a board — pin_download" />
-<meta property="og:description" content="This is a lower-level interface than pin_read() and pin_write() that
-you can use to pin any file." />
+<meta property="og:title" content="Fetch/store a pin — pin_fetch" />
+<meta property="og:description" content="These are low-level functions that power pin_read(), pin_write(),
+pin_upload(), and pin_download. They are needed primarily for folks
+developing new board types, and should not generally be called directly." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -134,82 +135,29 @@ you can use to pin any file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Upload and download files to and from a board</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-upload-download.R'><code>R/pin-upload-download.R</code></a></small>
-    <div class="hidden name"><code>pin_download.Rd</code></div>
+    <h1>Fetch/store a pin</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-store-fetch.R'><code>R/pin-store-fetch.R</code></a></small>
+    <div class="hidden name"><code>pin_fetch.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is a lower-level interface than <code><a href='pin_read.html'>pin_read()</a></code> and <code><a href='pin_read.html'>pin_write()</a></code> that
-you can use to pin any file.</p>
+    <p>These are low-level functions that power <code><a href='pin_read.html'>pin_read()</a></code>, <code><a href='pin_read.html'>pin_write()</a></code>,
+<code><a href='pin_download.html'>pin_upload()</a></code>, and <a href='pin_download.html'>pin_download</a>. They are needed primarily for folks
+developing new board types, and should not generally be called directly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_download</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, hash <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>pin_fetch</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>pin_upload</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>path</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, desc <span class='op'>=</span> <span class='cn'>NULL</span>, metadata <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>pin_store</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>path</span>, <span class='va'>metadata</span>, versioned <span class='op'>=</span> <span class='cn'>NULL</span>, x <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>board</th>
-      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
-<code><a href='board_github.html'>board_github()</a></code> or other other <code>board_</code> function.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>Pin name.</p></td>
-    </tr>
-    <tr>
-      <th>version</th>
-      <td><p>For boards that support versions, this allows you to retrieve
-a specific version of a pin. See <code>vignette("versioning)"</code> for details.</p></td>
-    </tr>
-    <tr>
-      <th>hash</th>
-      <td><p>Specify a hash to verify that you get exactly the dataset that
-you expect. You can find the hash of an existing pin by looking for
-<code>pin_hash</code> in <code><a href='pin_meta.html'>pin_meta()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>A character vector of file paths to upload to <code>board</code>.</p></td>
-    </tr>
-    <tr>
-      <th>desc</th>
-      <td><p>A text description of the pin; most important for
-shared boards so that others can understand what the pin contains.
-If omitted, pins will generate a brief description of the contents.</p></td>
-    </tr>
-    <tr>
-      <th>metadata</th>
-      <td><p>A list containing additional metadata to store with the pin.
-When retrieving the pin, this will be stored in the <code>user</code> key, to
-avoid potential clashes with the metadata that pins itself uses.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>pin_download()</code> returns a character vector of file paths;
-<code>pin_upload()</code> returns <code>board</code>, invisibly.</p>
+    <p><code>pin_fetch()</code> is called primarily for its side-effect of downloading
+remote pins into the local cache. It returns the same data as <a href='pin_meta.html'>pin_meta</a>.
+<code>pin_store()</code> is called for its side-effect of uploading a local file
+to a remote board. It invisibly returns the <code>board</code>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_upload</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"CITATION"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Guessing `name = 'CITATION'`</span></div><div class='output co'>#&gt; <span class='message'>Creating new version 'dec01eaf537bb006'</span></div><div class='input'><span class='va'>path</span> <span class='op'>&lt;-</span> <span class='va'>board</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_download</span><span class='op'>(</span><span class='st'>"CITATION"</span><span class='op'>)</span>
-<span class='va'>path</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpW6tNRi/pins-2e475c9714a5/CITATION/dec01eaf537bb006/CITATION"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] "bibentry(\"Manual\","                                                         
-#&gt; [2] "         title = \"R: A Language and Environment for Statistical Computing\","
-#&gt; [3] "         author = person(\"R Core Team\"),"                                   
-#&gt; [4] "         organization = \"R Foundation for Statistical Computing\","          
-#&gt; [5] "         address      = \"Vienna, Austria\","                                 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

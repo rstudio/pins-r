@@ -49,7 +49,14 @@
   
 
 <meta property="og:title" content="Retrieve metadata for a pin — pin_meta" />
-<meta property="og:description" content="Retrieve metadata for a pin" />
+<meta property="og:description" content="Pin metadata comes from three sources:
+Standard metadata added by pin_upload()/pin_write().
+Metadata supplied by the user, stored in $user.
+Local metadata generated when caching the pin, stored in $local.
+This includes information like the version of the pin, and the path
+its local cache.
+
+" />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -139,7 +146,14 @@
     </div>
 
     <div class="ref-description">
-    <p>Retrieve metadata for a pin</p>
+    <p>Pin metadata comes from three sources:</p><ul>
+<li><p>Standard metadata added by <code><a href='pin_download.html'>pin_upload()</a></code>/<code><a href='pin_read.html'>pin_write()</a></code>.</p></li>
+<li><p>Metadata supplied by the user, stored in <code>$user</code>.</p></li>
+<li><p>Local metadata generated when caching the pin, stored in <code>$local</code>.
+This includes information like the version of the pin, and the path
+its local cache.</p></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'>pin_meta</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
@@ -185,20 +199,21 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
 #&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</div><div class='input'><span class='co'># Get its metadata</span>
 <span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'>pin_meta</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 10
+</div><div class='output co'>#&gt; List of 9
 #&gt;  $ file       : chr "mtcars.rds"
 #&gt;  $ file_size  : int 426
 #&gt;  $ pin_hash   : chr "f879756e28a960ae"
 #&gt;  $ type       : chr "rds"
 #&gt;  $ description: chr "A pin containing a data frame with 6 rows and 11 columns"
-#&gt;  $ created    : chr "2021-04-27T21:52:19"
+#&gt;  $ created    : chr "2021-04-29T20:19:06"
 #&gt;  $ api_version: num 1
 #&gt;  $ user       :List of 1
 #&gt;   ..$ Hadley: logi TRUE
-#&gt;  $ version    : chr "f879756e28a960ae"
-#&gt;  $ pin_path   : 'fs_path' chr "/tmp/RtmpgWUnyt/pins-5bb71c118a5/mtcars/f879756e28a960ae"</div><div class='input'><span class='co'># Get path to underlying data</span>
+#&gt;  $ local      :List of 2
+#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpW6tNRi/pins-2e477030df3c/mtcars/f879756e28a960ae"
+#&gt;   ..$ version: chr "f879756e28a960ae"</div><div class='input'><span class='co'># Get path to underlying data</span>
 <span class='va'>b</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='pin_download.html'>pin_download</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpgWUnyt/pins-5bb71c118a5/mtcars/f879756e28a960ae/mtcars.rds"</div></pre>
+</div><div class='output co'>#&gt; [1] "/tmp/RtmpW6tNRi/pins-2e477030df3c/mtcars/f879756e28a960ae/mtcars.rds"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

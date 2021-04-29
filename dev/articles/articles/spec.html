@@ -103,47 +103,76 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span></code></pre></div>
-<p>Key concepts * pin version: one or more files accompanied by metadata * pin: a collection of pin versions * pin board: a collection of pins</p>
-<p>(an unversioned pin deletes the old version when adding a new version)</p>
-<p>For a file system backed board: * a pin version is a directory containing <code>data.txt</code> + other files * a pin is a directory of pin-versions * a pin-board is a directory of pins</p>
-<p>For RSC: * a pin-version is a bundle * a pin is a content item * a pin-board is an RSC instance</p>
-<p>Remote pins also manage a cache, organised around the same principles.</p>
-<p>Primitives:</p>
+<div id="big-picture" class="section level1">
+<h1 class="hasAnchor">
+<a href="#big-picture" class="anchor"></a>Big picture</h1>
+<p>Key concepts:</p>
 <ul>
-<li>
-<code><a href="../../reference/pin_list.html">pin_list(board)</a></code> -&gt; data frame.</li>
-<li>
-<code><a href="../../reference/pin_download.html">pin_upload(board, path, name, metadata = list())</a></code> -&gt; board (invisibly)</li>
-<li>
-<code><a href="../../reference/pin_download.html">pin_download(board, name, version = NULL)</a></code> -&gt; path(s)</li>
-<li>
-<code><a href="../../reference/pin_delete.html">pin_delete(board, name)</a></code> -&gt; board (invisibly)</li>
-<li>
-<code>pin_metadata(board, name, version = NULL)</code> -&gt; list</li>
-<li>
-<code><a href="../../reference/pin_versions.html">pin_versions(board, name)</a></code> -&gt; data frame</li>
+<li>pin version: one or more files accompanied by metadata</li>
+<li>pin: a collection of pin versions</li>
+<li>pin board: a collection of pins</li>
 </ul>
-<p>Internals? Maybe need something higher level for version clean up? * <code>pin_version_list()</code> * <code>pin_version_delete()</code> * <code>pin_version_find()</code> * <code>pin_data_download()</code></p>
-<p>User facing:</p>
-<ul>
-<li>
-<code><a href="../../reference/pin_search.html">pin_search()</a></code> - <code>pin_ls()</code> + <code>pin_metadata()</code> + grepl -&gt; data frame</li>
-<li>
-<code><a href="../../reference/pin_read.html">pin_read()</a></code> - <code><a href="../../reference/pin_download.html">pin_download()</a></code> + type specific behaviour -&gt; board (invisibly)</li>
-<li>
-<code><a href="../../reference/pin_read.html">pin_write()</a></code> - <code><a href="../../reference/pin_download.html">pin_upload()</a></code> + type specific behaviour -&gt; object</li>
-</ul>
-<p>May need to customise via <code><a href="../../reference/pin_read.html">pin_read()</a></code>/<code><a href="../../reference/pin_read.html">pin_write()</a></code>, so that e.g. <code><a href="../../reference/board_connect.html">board_connect()</a></code> can clearly document that you can add a <code>tags</code> parameter. But these would just be thin wrappers over <code><a href="../../reference/pin_download.html">pin_download()</a></code>/<code><a href="../../reference/pin_download.html">pin_upload()</a></code>.</p>
+<p>These a realised differently for different backends:</p>
 <ul>
 <li>Folder: each pin is a directory; each version is a subdirectory. Version id is content hash.</li>
 <li>RSC: each pin is a content item; each version is a bundle. Version id is bundle ids</li>
 <li>Github: each pin is a directory; each version is commit. Version id is sha1.</li>
 </ul>
+<div id="main-api" class="section level2">
+<h2 class="hasAnchor">
+<a href="#main-api" class="anchor"></a>Main API</h2>
+<div id="v1-0-0" class="section level3">
+<h3 class="hasAnchor">
+<a href="#v1-0-0" class="anchor"></a>v1.0.0</h3>
+<ul>
+<li><code><a href="../../reference/pin_list.html">pin_list()</a></code></li>
+<li><code><a href="../../reference/pin_find.html">pin_find()</a></code></li>
+<li><code><a href="../../reference/pin_browse.html">pin_browse()</a></code></li>
+<li><code><a href="../../reference/pin_meta.html">pin_meta()</a></code></li>
+<li>
+<code><a href="../../reference/pin_fetch.html">pin_store()</a></code> powers <code><a href="../../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../../reference/pin_read.html">pin_write()</a></code>.</li>
+<li>
+<code><a href="../../reference/pin_fetch.html">pin_fetch()</a></code> powers <code><a href="../../reference/pin_read.html">pin_read()</a></code> and <code><a href="../../reference/pin_download.html">pin_download()</a></code>
+</li>
+</ul>
+<p>Still not sure how to connect user facing <code><a href="../../reference/pin_read.html">pin_write()</a></code>/<code><a href="../../reference/pin_read.html">pin_read()</a></code> docs with underlying <code><a href="../../reference/pin_fetch.html">pin_store()</a></code>/<code><a href="../../reference/pin_fetch.html">pin_fetch()</a></code> generics.</p>
 </div>
+<div id="transitional" class="section level3">
+<h3 class="hasAnchor">
+<a href="#transitional" class="anchor"></a>Transitional</h3>
+<p>These are from v0, but are close enough to v1 semantics that I haven’t touched yet.</p>
+<ul>
+<li><code><a href="../../reference/board_pin_create.html">board_pin_versions()</a></code></li>
+<li><code><a href="../../reference/board_pin_create.html">board_pin_remove()</a></code></li>
+</ul>
+<p>Probably should define <code><a href="../../reference/pin_versions.html">pin_versions()</a></code> and <code><a href="../../reference/pin_delete.html">pin_delete()</a></code> and have default method fall back.</p>
+</div>
+</div>
+<div id="metadata" class="section level2">
+<h2 class="hasAnchor">
+<a href="#metadata" class="anchor"></a>Metadata</h2>
+<p>There are two versions of pins metadata:</p>
+<ul>
+<li>version 0: used in pins 0.4.5 and earlier</li>
+<li>version 1: used in pins 1.0.0 and later (including 0.99.9000)</li>
+</ul>
+<p>Metadata versions are backward compatible, e.g. pins 1.0.0 can read versions 0 and 1. pins 1.0.0 and later will automatically throw an error recommending that you upgrade if it encounters a new metadata version.</p>
+<p>In version 1 and greater you can identify the metadata version by consulting the “api_version” key. If it is absent, you can assume that you have version 0. <code>read_meta()</code> adds this automatically, and gives an informative error if you’re reading a newer version than what is supported.</p>
+<p>There are two major differences between version 0 and version 1:</p>
+<ul>
+<li><p>In version 0, type refers to the type of object (e.g. <code>table</code>, <code>default</code>, <code>files</code>). In version 1, type refers to the storage mechanism (e.g. <code>arrow</code>, <code>csv</code>, <code>rds</code>, <code>pickle</code>).</p></li>
+<li><p>In version 0, user supplied metadata is intermingled with pins metadata. In version 1, user supplied metadata is stored under a <code>user</code> key.</p></li>
+</ul>
+<p><code><a href="../../reference/pin_meta.html">pin_meta()</a></code> retrieves metadata from the remote board and adds to it any additional data needed to manage the local cache, stored in the <code>local</code> element.</p>
+</div>
+</div>
+  </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 

@@ -160,7 +160,7 @@
 <li><p><code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> will automatically connect to the current RSC pin board when run inside RSC itself (assuming you have version 1.8.8 or later) (<a href='https://github.com/rstudio/pins/issues/396'>#396</a>).</p></li>
 <li><p><code><a href="../reference/board_pin_create.html">board_browse()</a></code> now works with local boards.</p></li>
 <li><p>All board objects now have class beginning with <code>pins_board_</code> and also inherit from common superclass <code>pins_board</code>.</p></li>
-<li><p><code>pin_fetch()</code> has been removed</p></li>
+<li><p><code><a href="../reference/pin_fetch.html">pin_fetch()</a></code> has been removed</p></li>
 <li><p><code><a href="https://rdrr.io/r/base/options.html">option(pins.invisible)</a></code> is now defunct and ignored.</p></li>
 <li><p>Pins no longer register the code needed to recreate them as this tends to either be dangerous (it’s easy to accidentally leak credentials) or useless (it relies on variables that the connection pane doesn’t capture).</p></li>
 <li><p>The board extension interface has changed. More info to follow.</p></li>

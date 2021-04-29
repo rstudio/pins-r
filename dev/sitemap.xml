@@ -73,6 +73,9 @@
     <loc>https://pins.rstudio.com/reference/pin_download.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/pin_fetch.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/pin_find.html</loc>
   </url>
   <url>
@@ -116,9 +119,6 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/ui_connection_create.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/articles/articles/metadata.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/articles/pins-rstudio.html</loc>
