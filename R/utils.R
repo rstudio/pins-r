@@ -66,3 +66,23 @@ ui_loud <- function() {
 }
 
 github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
+
+write_yaml <- function(x, path) {
+  x <- to_utf8(x)
+  yaml::write_yaml(x, path)
+}
+
+# On Windows, yaml::write_yaml() crashes with Latin1 data
+# https://github.com/viking/r-yaml/issues/90
+to_utf8 <- function(x) {
+  if (is.list(x)) {
+    if (!is.null(names(x))) {
+      names(x) <- enc2utf8(names(x))
+    }
+    lapply(x, to_utf8)
+  } else if (is.character(x)) {
+    enc2utf8(x)
+  } else {
+    x
+  }
+}

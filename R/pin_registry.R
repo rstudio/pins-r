@@ -18,7 +18,7 @@ pin_registry_read <- function(board) {
 pin_registry_write <- function(board, entries) {
   stopifnot(is.board(board))
 
-  yaml::write_yaml(unname(entries), pin_registry_path(board, "data.txt"))
+  write_yaml(unname(entries), pin_registry_path(board, "data.txt"))
 }
 
 # Lock registry file to prevent multi-process race conditions
