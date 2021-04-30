@@ -6,7 +6,7 @@ rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = temp
   fs::file_copy(path, fs::path(bundle_path, fs::path_file(path)))
 
   # * data.txt (used to retrieve pins)
-  yaml::write_yaml(metadata, fs::path(bundle_path, "data.txt"))
+  write_yaml(metadata, fs::path(bundle_path, "data.txt"))
 
   # * index.html
   rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)

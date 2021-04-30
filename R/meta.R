@@ -22,7 +22,7 @@ read_meta <- function(path) {
 
 write_meta <- function(x, path) {
   path <- fs::path(path, "data.txt")
-  yaml::write_yaml(x, path)
+  write_yaml(x, path)
 }
 
 # pin metadata ------------------------------------------------------------

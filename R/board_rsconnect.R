@@ -539,7 +539,7 @@ read_cache <- function(path) {
 update_cache <- function(path, key, value) {
   cache <- read_cache(path)
   cache[[key]] <- value
-  yaml::write_yaml(cache, path)
+  write_yaml(cache, path)
 
   value
 }

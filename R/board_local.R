@@ -58,7 +58,10 @@ board_browse.pins_board_local <- function(board, ...) {
 
 #' @export
 pin_list.pins_board_local <- function(board, ...) {
-  fs::path_file(fs::dir_ls(board$path, type = "directory"))
+  dir <- fs::dir_ls(board$path, type = "directory")
+  metadata <- fs::path(dir, "data.txt")
+
+  fs::path_file(dir[fs::file_exists(metadata)])
 }
 
 #' @export

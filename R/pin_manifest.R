@@ -16,7 +16,7 @@ pin_manifest_get <- function(path) {
 pin_manifest_update <- function(path, manifest) {
   data_txt <- file.path(path, "data.txt")
 
-  manifest <- yaml::write_yaml(manifest, data_txt)
+  manifest <- write_yaml(manifest, data_txt)
 
   manifest
 }
@@ -33,7 +33,7 @@ pin_manifest_create <- function(path, metadata, files) {
   entries[sapply(entries, is.null)] <- NULL
 
   fs::dir_create(path)
-  yaml::write_yaml(entries, file.path(path, "data.txt"))
+  write_yaml(entries, file.path(path, "data.txt"))
 }
 
 # retrieve a list of files to download
