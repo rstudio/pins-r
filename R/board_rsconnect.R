@@ -284,11 +284,13 @@ pin_store.pins_board_rsconnect <- function(
   # Make .tar.gz bundle containing data.txt + index.html + pin data
   bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
   bundle_file <- fs::file_temp(ext = "tar.gz")
-  utils::tar(
+
+  # suppress warnings about "invalid uid value" / "invalid gid value"
+  suppressWarnings(utils::tar(
     bundle_file, fs::dir_ls(bundle_dir),
     compression = "gzip",
     tar = "internal"
-  )
+  ))
 
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
