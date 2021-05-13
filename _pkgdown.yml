@@ -25,12 +25,13 @@ reference:
   contents:
   - starts_with("board_")
 
-- title: Old API
+- title: Legacy API
   desc: >
     Prior to v1.0.0, pins used a different interface where the board was
     implicit, not explicit. These functions remain so old code continues to
     work, but we recommend that you move away from them.
   contents:
+  - starts_with("legacy_")
   - pin
   - pin_get
   - pin_info

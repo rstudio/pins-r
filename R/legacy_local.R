@@ -1,4 +1,21 @@
-
+#' Legacy local board
+#'
+#' `legacy_local()` powers `board_register_local()`, which allows you to
+#' access local pins created in earlier versions of the pins package. For
+#' new pins, we recommend that you transition to [board_local()] which
+#' supports the new pins API.
+#'
+#' @inheritParams new_board
+#' @export
+#' @examples
+#' # Old api
+#' pin(data.frame(x = 1:3), "test")
+#' pin_get("test")
+#'
+#' # New api
+#' board <- board_local()
+#' board %>% pin_write(data.frame(x = 1:3), "test")
+#' board %>% pin_read("test")
 legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   path <- path %||% rappdirs::user_data_dir("pins")
   fs::dir_create(path)
