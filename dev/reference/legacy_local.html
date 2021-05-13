@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find Pin — pin_find • pins</title>
+<title>Legacy local board — legacy_local • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,13 @@
 
 
 
-<meta property="og:title" content="Find Pin — pin_find" />
-<meta property="og:description" content="
-pin_find() is deprecated in favour of pin_search()." />
+<meta property="og:title" content="Legacy local board — legacy_local" />
+<meta property="og:description" content="legacy_local() powers board_register_local(), which allows you to
+access local pins created in earlier versions of the pins package. For
+new pins, we recommend that you transition to board_local() which
+supports the new pins API.
+legacy_temp() creates a legacy board in a temporary location, for use
+in tests and examples." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -132,76 +136,69 @@ pin_find() is deprecated in favour of pin_search()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find Pin</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin_find.R'><code>R/pin_find.R</code></a></small>
-    <div class="hidden name"><code>pin_find.Rd</code></div>
+    <h1>Legacy local board</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/legacy_local.R'><code>R/legacy_local.R</code></a></small>
+    <div class="hidden name"><code>legacy_local.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a>
-<code>pin_find()</code> is deprecated in favour of <code><a href='pin_search.html'>pin_search()</a></code>.</p>
+    <p><code>legacy_local()</code> powers <code><a href='board_register.html'>board_register_local()</a></code>, which allows you to
+access local pins created in earlier versions of the pins package. For
+new pins, we recommend that you transition to <code><a href='board_folder.html'>board_local()</a></code> which
+supports the new pins API.</p>
+<p><code>legacy_temp()</code> creates a legacy board in a temporary location, for use
+in tests and examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_find</span><span class='op'>(</span>
-  text <span class='op'>=</span> <span class='cn'>NULL</span>,
-  board <span class='op'>=</span> <span class='cn'>NULL</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  extended <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  metadata <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>legacy_local</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, name <span class='op'>=</span> <span class='st'>"local"</span>, versions <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>legacy_temp</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"temp"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>text</th>
-      <td><p>The text to find in the pin description or name.</p></td>
-    </tr>
-    <tr>
-      <th>board</th>
-      <td><p>The board name used to find the pin.</p></td>
+      <th>path</th>
+      <td><p>Path where pins will be stored. If not supplied, defaults
+to a system <strong>cache</strong> directory, which may be deleted by the operating
+system if you run out of disk space.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>The exact name of the pin to match when searching.</p></td>
+      <td><p>An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.</p></td>
     </tr>
     <tr>
-      <th>extended</th>
-      <td><p>Should additional board-specific columns be shown?</p></td>
-    </tr>
-    <tr>
-      <th>metadata</th>
-      <td><p>Include pin metadata in results?</p></td>
+      <th>versions</th>
+      <td><p>Should this board be registered with support for versions?</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters.</p></td>
+      <td><p>Additional parameters required to initialize a particular board.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>pin_find</span><span class='op'>(</span><span class='st'>"cars"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           name</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> mtcars  mtcars</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       mtcars</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> mtcars1 mtcars</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                   description</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> mtcars                                                                                                                                                                                       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> mtcars1                                                                                                                                                                                      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>          type      board</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> mtcars  table      local</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       table txtexample</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> mtcars1 table    myboard</span>
-<span class='r-in'><span class='co'># -&gt;</span></span>
+    <pre class="examples"><span class='r-in'><span class='co'># Old api</span></span>
+<span class='r-in'><span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, <span class='st'>"test"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"test"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   x</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 3</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># New api</span></span>
 <span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_local</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_search.html'>pin_search</a></span><span class='op'>(</span><span class='st'>"cars"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 7</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   name   version type  description          created             file_size meta  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;dttm&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;fs::byt&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> mtcars       1 rds   A pin containing a … 2021-05-13 </span><span style='color: #949494;'>21:54:29</span><span>     1.19K </span><span style='color: #949494;'>&lt;pins</span><span>…</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>, <span class='st'>"test"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version 'd450353d78515a77'</span>
+<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"test"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   x</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 3</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
