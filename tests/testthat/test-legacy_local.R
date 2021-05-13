@@ -3,7 +3,7 @@ test_that("local board registered by default", {
 })
 
 test_that(paste("can add and delete pin"), {
-  b <- board_legacy_temp()
+  b <- legacy_temp()
   expect_equal(pin_list(b), character())
 
   hello <- test_path("files/hello.txt")
@@ -18,7 +18,7 @@ test_that(paste("can add and delete pin"), {
 })
 
 test_that("can version a local pin", {
-  b <- board_legacy_temp(versions = TRUE)
+  b <- legacy_temp(versions = TRUE)
 
   versions <- pin_versions("df", board = b)
   expect_equal(versions, data.frame())

@@ -160,7 +160,7 @@ board_register_github <- function(name = "github",
 board_register_local <- function(name = "local",
                                  cache = board_cache_path(name),
                                  ...) {
-  board <- board_folder(path = cache, name = name, ...)
+  board <- legacy_local(path = cache, name = name, ...)
   board_register2(board)
 }
 

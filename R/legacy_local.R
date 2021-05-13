@@ -1,4 +1,5 @@
-board_legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
+
+legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   path <- path %||% rappdirs::user_data_dir("pins")
   fs::dir_create(path)
 
@@ -10,8 +11,8 @@ board_legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   )
 }
 
-board_legacy_temp <- function(name = "temp", ...) {
-  board_legacy_local(tempfile(), name = name, ...)
+legacy_temp <- function(name = "temp", ...) {
+  legacy_local(tempfile(), name = name, ...)
 }
 
 #' @export

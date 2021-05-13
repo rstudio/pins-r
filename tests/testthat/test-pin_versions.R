@@ -1,6 +1,6 @@
 test_that("can use old pin_versions() api", {
-  board <- board_register_local()
-  board %>% pin_write(x = 1:5, "x")
+  board <- legacy_local()
+  pin(x = 1:5, "x", board = b)
 
   expect_snapshot({
     x <- pin_versions("x")
