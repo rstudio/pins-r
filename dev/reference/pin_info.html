@@ -182,52 +182,57 @@ pin_info() is deprecated in favour of pin_meta()." />
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-
-<span class='fu'>pin_info</span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>`pin_info()` was deprecated in pins 1.0.0.
-#&gt; Please use `pin_meta()` instead.</div><div class='co'>#&gt; <span style='color: #555555;'># Source: temp&lt;mtcars&gt; [table]</span>
-<span style='color: #555555;'>#&gt; # Properties:</span>
-<span style='color: #555555;'>#&gt; #   rows: 32</span>
-<span style='color: #555555;'>#&gt; #   cols: 11</span>
-<span style='color: #555555;'>#&gt; #   columns:</span>
-<span style='color: #555555;'>#&gt; #     mpg: numeric</span>
-<span style='color: #555555;'>#&gt; #     cyl: numeric</span>
-<span style='color: #555555;'>#&gt; #     disp: numeric</span>
-<span style='color: #555555;'>#&gt; #     hp: numeric</span>
-<span style='color: #555555;'>#&gt; #     drat: numeric</span>
-<span style='color: #555555;'>#&gt; #     wt: numeric</span>
-<span style='color: #555555;'>#&gt; #     qsec: numeric</span>
-<span style='color: #555555;'>#&gt; #     vs: numeric</span>
-<span style='color: #555555;'>#&gt; #     am: numeric</span>
-<span style='color: #555555;'>#&gt; #     gear: numeric</span>
-<span style='color: #555555;'>#&gt; #     carb: numeric</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_meta.html'>pin_meta</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; List of 10
-#&gt;  $ type       : chr "table"
-#&gt;  $ description: NULL
-#&gt;  $ rows       : int 32
-#&gt;  $ cols       : int 11
-#&gt;  $ columns    :List of 11
-#&gt;   ..$ mpg : chr "numeric"
-#&gt;   ..$ cyl : chr "numeric"
-#&gt;   ..$ disp: chr "numeric"
-#&gt;   ..$ hp  : chr "numeric"
-#&gt;   ..$ drat: chr "numeric"
-#&gt;   ..$ wt  : chr "numeric"
-#&gt;   ..$ qsec: chr "numeric"
-#&gt;   ..$ vs  : chr "numeric"
-#&gt;   ..$ am  : chr "numeric"
-#&gt;   ..$ gear: chr "numeric"
-#&gt;   ..$ carb: chr "numeric"
-#&gt;  $ path       : chr "mtcars"
-#&gt;  $ name       : chr "mtcars"
-#&gt;  $ file       : chr [1:2] "data.csv" "data.rds"
-#&gt;  $ api_version: int 0
-#&gt;  $ local      :List of 2
-#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpqNpLQt/pins-2bb96199c308/mtcars"
-#&gt;   ..$ version: NULL</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>pin_info</span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='va'>board</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`pin_info()` was deprecated in pins 1.0.0.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Please use `pin_meta()` instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>This warning is displayed once every 8 hours.</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'># Source: temp&lt;mtcars&gt; [table]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'># Properties:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#   rows: 32</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#   cols: 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#   columns:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     mpg: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     cyl: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     disp: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     hp: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     drat: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     wt: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     qsec: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     vs: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     am: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     gear: numeric</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>#     carb: numeric</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_meta.html'>pin_meta</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> List of 10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ type       : chr "table"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ description: NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ rows       : int 32</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ cols       : int 11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ columns    :List of 11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ mpg : chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ cyl : chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ disp: chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ hp  : chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ drat: chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ wt  : chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ qsec: chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ vs  : chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ am  : chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ gear: chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ carb: chr "numeric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ path       : chr "mtcars"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ name       : chr "mtcars"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ file       : chr [1:2] "data.csv" "data.rds"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ api_version: int 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ local      :List of 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpfuX0lk/pins-2f8dbc9ee56/mtcars"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ version: NULL</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
