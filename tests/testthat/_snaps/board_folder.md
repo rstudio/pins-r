@@ -3,7 +3,7 @@
     Code
       board_folder("/tmp/test", name = "test")
     Output
-      Pin board <pins_board_local>
+      Pin board <pins_board_folder>
       Path: '/tmp/test'
       With no pins.
 

@@ -54,7 +54,7 @@ board_desc.pins_board_folder <- function(board, ...) {
 #' @export
 pin_list.pins_board_folder <- function(board, ...) {
   dir <- fs::dir_ls(board$path, type = "directory")
-  metadata <- fs::path(dir, "data.txt")
+  metadata <- fs::path(dir, "versions.yml")
 
   fs::path_file(dir[fs::file_exists(metadata)])
 }
