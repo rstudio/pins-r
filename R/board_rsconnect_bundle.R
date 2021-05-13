@@ -12,7 +12,7 @@ rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = temp
   rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)
 
   # * manifest.json (used for deployment)
-  manifest <- rsc_bundle_manifest(board, c(path, "data.txt", "index.html"))
+  manifest <- rsc_bundle_manifest(board, c(fs::path_file(path), "data.txt", "index.html"))
   jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
 
   invisible(bundle_path)
