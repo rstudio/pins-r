@@ -24,7 +24,7 @@
 board_folder <- function(path, name = "folder", versions = FALSE) {
   fs::dir_create(path)
 
-  new_board("pins_board_local",
+  new_board("pins_board_folder",
     name = name,
     cache = NA_character_,
     path = path,
@@ -47,12 +47,12 @@ board_temp <- function(name = "temp", versions = FALSE) {
 # Methods -----------------------------------------------------------------
 
 #' @export
-board_desc.pins_board_local <- function(board, ...) {
+board_desc.pins_board_folder <- function(board, ...) {
   paste0("Path: '", board$path, "'")
 }
 
 #' @export
-pin_list.pins_board_local <- function(board, ...) {
+pin_list.pins_board_folder <- function(board, ...) {
   dir <- fs::dir_ls(board$path, type = "directory")
   metadata <- fs::path(dir, "data.txt")
 
@@ -60,13 +60,13 @@ pin_list.pins_board_local <- function(board, ...) {
 }
 
 #' @export
-board_pin_remove.pins_board_local <- function(board, name, ...) {
+board_pin_remove.pins_board_folder <- function(board, name, ...) {
   check_name(name)
   fs::dir_delete(fs::path(board$path, name))
 }
 
 #' @export
-board_pin_versions.pins_board_local <- function(board, name, ...) {
+board_pin_versions.pins_board_folder <- function(board, name, ...) {
   path_pin <- fs::path(board$path, name)
   versions <- read_versions(path_pin) %||% character(0)
 
@@ -77,7 +77,7 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
 }
 
 #' @export
-pin_browse.pins_board_local <- function(board, name, version = NULL, ..., cache = FALSE) {
+pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache = FALSE) {
   if (cache) {
     abort("board_local() does not have a cache")
   }
@@ -88,7 +88,7 @@ pin_browse.pins_board_local <- function(board, name, version = NULL, ..., cache 
 # pins v1 ----------------------------------------------------------------
 
 #' @export
-pin_store.pins_board_local <- function(board, name, path, metadata,
+pin_store.pins_board_folder <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
@@ -133,12 +133,12 @@ pin_store.pins_board_local <- function(board, name, path, metadata,
 }
 
 #' @export
-pin_fetch.pins_board_local <- function(board, name, version = NULL, ...) {
+pin_fetch.pins_board_folder <- function(board, name, version = NULL, ...) {
   pin_meta(board, name, version = version)
 }
 
 #' @export
-pin_meta.pins_board_local <- function(board, name, version = NULL, ...) {
+pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
   if (!fs::dir_exists(path_pin)) {
