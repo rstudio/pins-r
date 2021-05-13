@@ -67,16 +67,20 @@ board_rsconnect <- function(
 
   auth <- check_auth(auth)
   if (auth == "envvar") {
-    server <- server %||% Sys.getenv("CONNECT_SERVER")
-    account <- NULL # see below
+    server <- server %||% Sys.getenv("CONNECT_SERVER") %||% abort("`server` must be supplied")
     server_name <- httr::parse_url(server)$hostname
-    key <- key %||% Sys.getenv("CONNECT_API_KEY")
+    # account determined below
+    url <- paste(server, "/__api__/")
+
+    key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
     account_info <- NULL
   } else {
     info <- rsc_account_find(server, account)
-    account <- info$name
-    server <- info$server
-    server_name <- info$server_name
+    server_name <- info$server
+    account <- info$account
+    url <- info$url
+
+    key <- NULL
     account_info <- rsconnect::accountInfo(account, server_name)
   }
 
@@ -85,22 +89,20 @@ board_rsconnect <- function(
   board <- new_board("pins_board_rsconnect",
     name = name,
     cache = cache,
-    server = server,
-    account = account,
-    account_info = account_info,
-    server_name = server_name,
     url = url,
+    account = account,         # for full name of pin
+    server_name = server_name, # for board_rsconnect(server = "...") in template
+    account_info = account_info,
     key = key,
     versions = versions,
     ...
   )
+  # Fill in account name if auth == "envvar"
+  board$account <- board$account %||% rsc_GET(board, "users/current/")$username
 
   if (rsc_version(board) < "1.7.7") {
     abort("Pins requires RSC 1.7.7 or later")
   }
-
-  # Fill in account name if auth == "envvar"
-  board$account <- board$account %||% rsc_GET(board, "users/current/")$username
 
   board
 }
@@ -137,30 +139,29 @@ rsc_account_find <- function(server = NULL, name = NULL) {
   }
 
   if (!is.null(server)) {
+    server <- arg_match0(server, accounts$server, "server")
     accounts <- accounts[accounts$server == server, , drop = FALSE]
   } else {
     accounts <- accounts[accounts$server != "shinyapps.io", , drop = FALSE]
   }
 
   if (!is.null(name)) {
+    name <- arg_match0(name, accounts$name, "account")
     accounts <- accounts[accounts$name == name, , drop = FALSE]
   }
 
-  if (nrow(accounts) == 0) {
-    abort("No matching RStudio Connect accounts found")
-  } else if (nrow(accounts) > 1) (
+  if (nrow(accounts) > 1) (
     abort(c(
       "Multiple matching RStudio Connect found",
-      i = "Please disambiguate with `server` and `account`"
+      i = "Please disambiguate with `server` and/or `account`"
     ))
   )
 
-  url <- rsconnect::serverInfo(accounts$server)$url
-
+  info <- rsconnect::serverInfo(accounts$server)
   list(
-    name = accounts$name,
-    server_name = accounts$server,
-    server = sub("/__api__$", "", url)
+    server = accounts$server,
+    account = accounts$name,
+    url = info$url
   )
 }
 
@@ -171,7 +172,7 @@ board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
 
 #' @export
 board_browse.pins_board_rsconnect <- function(board, ...) {
-  browse_url(board$server)
+  browse_url(board$url)
 }
 
 #' @export
@@ -284,11 +285,13 @@ pin_store.pins_board_rsconnect <- function(
   # Make .tar.gz bundle containing data.txt + index.html + pin data
   bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
   bundle_file <- fs::file_temp(ext = "tar.gz")
-  utils::tar(
+
+  # suppress warnings about "invalid uid value" / "invalid gid value"
+  suppressWarnings(utils::tar(
     bundle_file, fs::dir_ls(bundle_dir),
     compression = "gzip",
     tar = "internal"
-  )
+  ))
 
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
@@ -539,18 +542,23 @@ read_cache <- function(path) {
 update_cache <- function(path, key, value) {
   cache <- read_cache(path)
   cache[[key]] <- value
-  yaml::write_yaml(cache, path)
+  write_yaml(cache, path)
 
   value
 }
 
 # helpers -----------------------------------------------------------------
 
+rsc_path <- function(board, path) {
+  board_path <- httr::parse_url(board$url)$path
+  paste0("/", board_path, "/", path)
+}
+
 rsc_GET <- function(board, path, query = NULL, ...) {
-  path <- paste0("/__api__/", path)
+  path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "GET", NULL)
 
-  req <- httr::GET(board$server,
+  req <- httr::GET(board$url,
     path = path,
     query = query,
     auth,
@@ -580,10 +588,10 @@ rsc_download <- function(board, content_url, dest_path, name) {
 }
 
 rsc_DELETE <- function(board, path, query = NULL, ...) {
-  path <- paste0("/__api__/", path)
+  path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "DELETE", NULL)
 
-  req <- httr::DELETE(board$server,
+  req <- httr::DELETE(board$url,
     path = path,
     query = query,
     auth,
@@ -594,7 +602,7 @@ rsc_DELETE <- function(board, path, query = NULL, ...) {
 }
 
 rsc_POST <- function(board, path, query = NULL, body, ..., .method = "POST") {
-  path <- paste0("/__api__/", path)
+  path <- rsc_path(board, path)
 
   # Turn body into a path so it can be passed to
   # rsconnect:::signatureHeaders() if needed
@@ -612,7 +620,7 @@ rsc_POST <- function(board, path, query = NULL, body, ..., .method = "POST") {
   auth <- rsc_auth(board, path, .method, body_path)
 
   req <- httr::VERB(.method,
-    url = board$server,
+    url = board$url,
     path = path,
     query = query,
     body = body,

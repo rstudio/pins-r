@@ -6,13 +6,13 @@ rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = temp
   fs::file_copy(path, fs::path(bundle_path, fs::path_file(path)))
 
   # * data.txt (used to retrieve pins)
-  yaml::write_yaml(metadata, fs::path(bundle_path, "data.txt"))
+  write_yaml(metadata, fs::path(bundle_path, "data.txt"))
 
   # * index.html
   rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)
 
   # * manifest.json (used for deployment)
-  manifest <- rsc_bundle_manifest(board, c(path, "data.txt", "index.html"))
+  manifest <- rsc_bundle_manifest(board, c(fs::path_file(path), "data.txt", "index.html"))
   jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
 
   invisible(bundle_path)
@@ -58,7 +58,7 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
     pin_name = paste0(board$account, "/", name),
     pin_metadata = jsonlite::toJSON(metadata, auto_unbox = TRUE, pretty = TRUE),
-    server_name = board$server
+    server_name = board$server_name
   )
 
   template <- readLines(fs::path_package("pins", "preview", "index.html"))

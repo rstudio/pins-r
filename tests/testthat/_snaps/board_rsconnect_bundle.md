@@ -1,7 +1,7 @@
 # generates index files
 
     Code
-      board <- list(account = "TEST", server = "example.com")
+      board <- list(account = "TEST", server_name = "example.com")
       df <- data.frame(x = 1:2, y = 2:1)
       metadata <- list(file = "test.csv")
       cat(rsc_bundle_preview_index(board, "test", df, metadata))

@@ -63,6 +63,7 @@ test_that("can pin() remote CSV with URL and name", {
 })
 
 test_that("unavailable url can use cache", {
+  skip_on_cran()
   board <- board_temp()
 
   expect_snapshot(error = TRUE, {

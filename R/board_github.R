@@ -461,7 +461,7 @@ board_pin_create.pins_board_github <- function(board, path, name, metadata, ...)
 
     names(datatxt$filenames) <- datatxt$path
 
-    yaml::write_yaml(datatxt, file_path)
+    write_yaml(datatxt, file_path)
   }
 
   # create upload definition of remote-path/local-path

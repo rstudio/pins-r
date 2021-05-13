@@ -19,7 +19,7 @@ test_that("bundle contains expected files", {
 
 test_that("generates index files", {
   expect_snapshot({
-    board <- list(account = "TEST", server = "example.com")
+    board <- list(account = "TEST", server_name = "example.com")
     df <- data.frame(x = 1:2, y = 2:1)
     metadata <- list(file = "test.csv")
 

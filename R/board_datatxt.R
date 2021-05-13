@@ -108,7 +108,7 @@ datatxt_refresh_index <- function(board) {
   }
 
   fs::dir_create(fs::path_dir(local_index))
-  yaml::write_yaml(current_index, local_index)
+  write_yaml(current_index, local_index)
 }
 
 
@@ -527,7 +527,7 @@ board_manifest_load <- function(manifest) {
 }
 
 board_manifest_create <- function(index, file) {
-  yaml::write_yaml(index, file)
+  write_yaml(index, file)
 }
 
 pin_entries_to_dataframe <- function(entries) {
