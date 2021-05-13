@@ -86,3 +86,12 @@ to_utf8 <- function(x) {
     x
   }
 }
+
+envvar_get <- function(name) {
+  val <- Sys.getenv(name)
+  if (identical(val, NA)) {
+    NULL
+  } else {
+    val
+  }
+}

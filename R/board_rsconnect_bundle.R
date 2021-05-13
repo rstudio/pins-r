@@ -58,7 +58,7 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
     pin_name = paste0(board$account, "/", name),
     pin_metadata = jsonlite::toJSON(metadata, auto_unbox = TRUE, pretty = TRUE),
-    server_name = board$server
+    server_name = board$server_name
   )
 
   template <- readLines(fs::path_package("pins", "preview", "index.html"))
