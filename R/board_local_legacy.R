@@ -1,3 +1,25 @@
+board_legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
+  path <- path %||% rappdirs::user_data_dir("pins")
+  fs::dir_create(path)
+
+  new_board("pins_board_local",
+    name = name,
+    cache = NA_character_,
+    path = path,
+    versions = versions
+  )
+}
+
+board_legacy_temp <- function(name = "temp", ...) {
+  board_legacy_local(tempfile(), name = name, ...)
+}
+
+#' @export
+pin_list.pins_board_local <- function(board, ...)  {
+  # so default print method works
+  board_pin_find(board, NULL)$name
+}
+
 #' @export
 board_browse.pins_board_local <- function(board, ...) {
   utils::browseURL(board$path)
@@ -45,3 +67,12 @@ board_pin_get.pins_board_local <- function(board, name, version = NULL, ...) {
   path
 }
 
+#' @export
+board_pin_versions.pins_board_local <- function(board, name, ...) {
+  board_versions_get(board, name)
+}
+
+#' @export
+board_pin_remove.pins_board_local <- function(board, name) {
+  pin_registry_remove(board, name)
+}
