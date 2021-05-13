@@ -153,7 +153,7 @@ rsc_account_find <- function(server = NULL, name = NULL) {
   if (nrow(accounts) > 1) (
     abort(c(
       "Multiple matching RStudio Connect found",
-      i = "Please disambiguate with `server` and `account`"
+      i = "Please disambiguate with `server` and/or `account`"
     ))
   )
 
