@@ -137,18 +137,18 @@ rsc_account_find <- function(server = NULL, name = NULL) {
   }
 
   if (!is.null(server)) {
+    server <- arg_match0(server, accounts$server, "server")
     accounts <- accounts[accounts$server == server, , drop = FALSE]
   } else {
     accounts <- accounts[accounts$server != "shinyapps.io", , drop = FALSE]
   }
 
   if (!is.null(name)) {
+    name <- arg_match0(name, accounts$name, "account")
     accounts <- accounts[accounts$name == name, , drop = FALSE]
   }
 
-  if (nrow(accounts) == 0) {
-    abort("No matching RStudio Connect accounts found")
-  } else if (nrow(accounts) > 1) (
+  if (nrow(accounts) > 1) (
     abort(c(
       "Multiple matching RStudio Connect found",
       i = "Please disambiguate with `server` and `account`"
