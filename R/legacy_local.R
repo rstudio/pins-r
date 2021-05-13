@@ -1,11 +1,18 @@
 #' Legacy local board
 #'
+#' @description
 #' `legacy_local()` powers `board_register_local()`, which allows you to
 #' access local pins created in earlier versions of the pins package. For
 #' new pins, we recommend that you transition to [board_local()] which
 #' supports the new pins API.
 #'
+#' `legacy_temp()` creates a legacy board in a temporary location, for use
+#' in tests and examples.
+#'
 #' @inheritParams new_board
+#' @param path Path where pins will be stored. If not supplied, defaults
+#'   to a system **cache** directory, which may be deleted by the operating
+#'   system if you run out of disk space.
 #' @export
 #' @examples
 #' # Old api
@@ -28,6 +35,8 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   )
 }
 
+#' @export
+#' @rdname legacy_local
 legacy_temp <- function(name = "temp", ...) {
   legacy_local(tempfile(), name = name, ...)
 }

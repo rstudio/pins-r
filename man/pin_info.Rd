@@ -31,11 +31,14 @@ pin_info(
 \code{pin_info()} is deprecated in favour of \code{\link[=pin_meta]{pin_meta()}}.
 }
 \examples{
-board <- board_temp()
-pin(mtcars, board = board)
+# old API
+board_register_local(cache = tempfile())
+pin(mtcars)
+pin_info("mtcars", "local")
 
-pin_info("mtcars", board = board)
-# ->
+# new API
+board <- board_temp()
+board \%>\% pin_write(mtcars)
 board \%>\% pin_meta("mtcars")
 }
 \keyword{internal}

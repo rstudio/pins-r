@@ -117,20 +117,24 @@ board_get(name)
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Prior to pins 1.0.0, boards were managed using a named registry, with
-\code{\link[=pin]{pin()}} and \code{\link[=pin_get]{pin_get()}} defaulting to a local board. Now, you must
-explicitly supply a \code{board} that you've created using \code{\link[=board_local]{board_local()}},
-\code{\link[=board_rsconnect]{board_rsconnect()}} etc.
+Prior to pins 1.0.0, boards were managed using a named registry. Functions
+like \code{\link[=pin]{pin()}}, \code{\link[=pin_get]{pin_get()}}, \code{\link[=pin_info]{pin_info()}} take the board as the \strong{second}
+argument, using \code{\link[=legacy_local]{legacy_local()}} if the board was not explicitly specified.
+
+Now we recommend using the new pins API, where you explicitly create a
+board using using \code{\link[=board_local]{board_local()}}, \code{\link[=board_rsconnect]{board_rsconnect()}}, and friends, and
+supply it to the \strong{first} argument of \code{\link[=pin_read]{pin_read()}}, \code{\link[=pin_write]{pin_write()}}, and
+\code{\link[=pin_meta]{pin_meta()}}.
 }
 \examples{
-# previously
+# old API
 board_register_local("myboard", cache = tempfile())
 pin(mtcars, board = "myboard")
 pin_get("mtcars", board = "myboard")
 
-# now
+# new API
 board <- board_temp()
-pin(mtcars, board = board)
-pin_get("mtcars", board = board)
+board \%>\% pin_write(mtcars)
+board \%>\% pin_read("mtcars")
 }
 \keyword{internal}

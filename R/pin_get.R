@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' # define temporary board
-#' board <- board_temp()
+#' board <- legacy_temp()
 #' pin(mtcars, board = board)
 #'
 #' # retrieve the mtcars pin
