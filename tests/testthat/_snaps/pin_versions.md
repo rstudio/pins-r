@@ -2,16 +2,8 @@
 
     Code
       x <- pin_versions("x")
-    Warning <warning>
-      `pin_versions()` now takes `board` as first argument
-    Code
       x <- pin_versions("x", "local")
-    Warning <warning>
-      `pin_versions()` now takes `board` as first argument
-    Code
       x <- pin_versions("x", board)
-    Warning <warning>
-      `pin_versions()` now takes `board` as first argument
 
 # `full` is deprecated
 

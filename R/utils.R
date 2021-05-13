@@ -95,3 +95,7 @@ envvar_get <- function(name) {
     val
   }
 }
+
+this_not_that <- function(this, that) {
+  abort(glue("Use `{this}` with this board, not `{that}`"))
+}

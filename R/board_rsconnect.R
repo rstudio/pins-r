@@ -87,6 +87,7 @@ board_rsconnect <- function(
   cache <- cache %||% board_cache_path(paste0("rsc-", hash(server)))
 
   board <- new_board("pins_board_rsconnect",
+    api = c(0, 1),
     name = name,
     cache = cache,
     url = url,
@@ -171,6 +172,13 @@ board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
 }
 
 #' @export
+pin_delete.pins_board_rsconnect <- function(board, names, ...) {
+  for (name in names) {
+    rsc_content_delete(board, name)
+  }
+}
+
+#' @export
 board_browse.pins_board_rsconnect <- function(board, ...) {
   browse_url(board$url)
 }
@@ -194,6 +202,8 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
   guid <- rsc_content_find(board, name)$guid
   rsc_content_versions(board, guid)
 }
+#' @export
+pin_versions.pins_board_rsconnect <- board_pin_versions.pins_board_rsconnect
 
 #' @export
 pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {

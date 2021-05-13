@@ -4,7 +4,7 @@
 \alias{new_board}
 \title{Create a new board}
 \usage{
-new_board(board, name, cache = NULL, versions = FALSE, ...)
+new_board(board, name, api, cache = NULL, versions = FALSE, ...)
 }
 \arguments{
 \item{board}{The name of the board to register.}

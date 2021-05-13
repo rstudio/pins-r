@@ -32,6 +32,7 @@ board_kaggle <- function(token = NULL, name = "kaggle", ...) {
   }
 
   board <- new_board(
+    api = 0,
     "pins_board_kaggle",
     name = name,
     token = token,

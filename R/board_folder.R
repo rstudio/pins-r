@@ -25,6 +25,7 @@ board_folder <- function(path, name = "folder", versions = FALSE) {
   fs::dir_create(path)
 
   new_board("pins_board_folder",
+    api = 1,
     name = name,
     cache = NA_character_,
     path = path,
@@ -60,13 +61,15 @@ pin_list.pins_board_folder <- function(board, ...) {
 }
 
 #' @export
-board_pin_remove.pins_board_folder <- function(board, name, ...) {
-  check_name(name)
-  fs::dir_delete(fs::path(board$path, name))
+pin_delete.pins_board_folder <- function(board, names, ...) {
+  walk(names, check_name)
+  fs::dir_delete(fs::path(board$path, names))
+
+  invisible(board)
 }
 
 #' @export
-board_pin_versions.pins_board_folder <- function(board, name, ...) {
+pin_versions.pins_board_folder <- function(board, name, ...) {
   path_pin <- fs::path(board$path, name)
   versions <- read_versions(path_pin) %||% character(0)
 

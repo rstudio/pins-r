@@ -7,10 +7,9 @@
 pin_versions(board, name, full = deprecated())
 }
 \arguments{
-\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
-
-\item{name}{Pin name.}
+\item{board, name}{A pair of board and pin name. You can supply in either
+order: supply \code{name} then optionally \code{board} for legacy boards, and
+\code{board} then \code{name} for modern boards.}
 
 \item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 }

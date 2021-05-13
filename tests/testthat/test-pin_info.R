@@ -26,3 +26,10 @@ test_that("gives useful errors", {
     pin_info("mtcars2")
   })
 })
+
+test_that("gives informative error if used with modern board", {
+  expect_snapshot(error = TRUE, {
+    board <- board_temp()
+    pin_info("mtcars", board = board)
+  })
+})

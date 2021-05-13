@@ -43,6 +43,7 @@ board_datatxt <- function(url,
   name <- name %||% gsub("https?://|\\..*", "", url)
 
   board <- new_board("pins_board_datatxt",
+    api = 0,
     name = name,
     cache = cache,
     versions = versions,

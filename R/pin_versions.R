@@ -2,7 +2,9 @@
 #'
 #' List versions available for a pin. See `vignette("versioning)"` for details.
 #'
-#' @inheritParams pin_read
+#' @param board,name A pair of board and pin name. You can supply in either
+#'   order: supply `name` then optionally `board` for legacy boards, and
+#'   `board` then `name` for modern boards.
 #' @param full `r lifecycle::badge("deprecated")`
 #' @return A data frame with at least a `version` column. Some boards may
 #'   provided additional data.
@@ -23,16 +25,27 @@
 #' board %>% pin_read("df", version = ver)
 #' @export
 pin_versions <- function(board, name, full = deprecated()) {
-  if (missing(name) || is.board(name) || name %in% board_list()) {
-    warn("`pin_versions()` now takes `board` as first argument")
-    swap <- board
-    board <- if (missing(name)) NULL else name
-    name <- swap
-  }
   if (lifecycle::is_present(full)) {
     lifecycle::deprecate_warn("1.0.0", "pin_versions(full)")
   }
 
-  board <- board_get(board)
-  board_pin_versions(board, name)
+  if (missing(name) || is.board(name) || name %in% board_list()) {
+    swap <- board
+    board <- if (missing(name)) NULL else name
+    board <- board_get(board)
+
+    name <- swap
+
+    if (!0 %in% board$api) {
+      abort("Please supply `board` then `name` when working with modern boards")
+    }
+
+    board_pin_versions(board, name)
+  } else {
+    if (!1 %in% board$api) {
+      abort("Please supply `name` then `board` when working with legacy boards")
+    }
+
+    UseMethod("pin_versions")
+  }
 }

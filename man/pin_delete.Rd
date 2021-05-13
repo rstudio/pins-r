@@ -4,16 +4,18 @@
 \alias{pin_delete}
 \title{Delete a pin}
 \usage{
-pin_delete(board, names)
+pin_delete(board, names, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
 \code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
 
 \item{names}{The names of one or more pins to delete}
+
+\item{...}{Additional arguments passed on to methods for a specific board.}
 }
 \description{
-Delete a pin, removing it from the board
+Delete a pin (or pins), removing it from the board
 }
 \examples{
 board <- board_temp()

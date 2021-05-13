@@ -28,10 +28,9 @@
     Code
       pin(1:5, name = "x", board = board)
     Error <rlang_error>
-      board_url() is read only
+      Use `pin_write()` with this board, not `pin()`
     Code
       pin_get(name = "x", board = board)
     Error <rlang_error>
-      `board_url()` doesn't support `pin()`
-      i Please use `pin_read()` instead
+      Use `pin_read()` with this board, not `pin_get()`
 
