@@ -74,6 +74,6 @@ board_pin_versions.pins_board_local <- function(board, name, ...) {
 }
 
 #' @export
-board_pin_remove.pins_board_local <- function(board, name) {
+board_pin_remove.pins_board_local <- function(board, name, ...) {
   pin_registry_remove(board, name)
 }
