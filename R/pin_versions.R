@@ -24,7 +24,8 @@
 #' ver <- pin_versions(board, "df")$version[[1]]
 #' board %>% pin_read("df", version = ver)
 #' @export
-pin_versions <- function(board, name, full = deprecated()) {
+pin_versions <- function(board, name, ..., full = deprecated()) {
+  ellipsis::check_dots_used()
   if (lifecycle::is_present(full)) {
     lifecycle::deprecate_warn("1.0.0", "pin_versions(full)")
   }

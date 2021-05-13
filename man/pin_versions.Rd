@@ -4,7 +4,7 @@
 \alias{pin_versions}
 \title{Pin versions}
 \usage{
-pin_versions(board, name, full = deprecated())
+pin_versions(board, name, ..., full = deprecated())
 }
 \arguments{
 \item{board, name}{A pair of board and pin name. You can supply in either
