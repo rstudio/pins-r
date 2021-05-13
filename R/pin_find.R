@@ -44,6 +44,11 @@ pin_find <- function(text = NULL,
     board_pins
   })
   results[[length(results) + 1]] <- pin_find_empty()
+
+  # Take lowest common denominator of columns
+  names <- lapply(results, names)
+  names <- Reduce(intersect, names)
+  results <- lapply(results, "[", names)
   results <- do.call("rbind", results)
 
   if (!is.null(name)) {

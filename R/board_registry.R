@@ -3,24 +3,26 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' Prior to pins 1.0.0, boards were managed using a named registry, with
-#' [pin()] and [pin_get()] defaulting to a local board. Now, you must
-#' explicitly supply a `board` that you've created using [board_local()],
-#' [board_rsconnect()] etc.
+#' Prior to pins 1.0.0, boards were managed using a named registry. Functions
+#' like [pin()], [pin_get()], [pin_info()] take the board as the **second**
+#' argument, using [legacy_local()] if the board was not explicitly specified.
 #'
-#'
+#' Now we recommend using the new pins API, where you explicitly create a
+#' board using using [board_local()], [board_rsconnect()], and friends, and
+#' supply it to the **first** argument of [pin_read()], [pin_write()], and
+#' [pin_meta()].
 #'
 #' @keywords internal
 #' @examples
-#' # previously
+#' # old API
 #' board_register_local("myboard", cache = tempfile())
 #' pin(mtcars, board = "myboard")
 #' pin_get("mtcars", board = "myboard")
 #'
-#' # now
+#' # new API
 #' board <- board_temp()
-#' pin(mtcars, board = board)
-#' pin_get("mtcars", board = board)
+#' board %>% pin_write(mtcars)
+#' board %>% pin_read("mtcars")
 #' @export
 board_register <- function(board,
                            name = NULL,
@@ -160,7 +162,7 @@ board_register_github <- function(name = "github",
 board_register_local <- function(name = "local",
                                  cache = board_cache_path(name),
                                  ...) {
-  board <- board_folder(path = cache, name = name, ...)
+  board <- legacy_local(path = cache, name = name, ...)
   board_register2(board)
 }
 

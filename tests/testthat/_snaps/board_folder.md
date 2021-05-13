@@ -3,7 +3,7 @@
     Code
       board_folder("/tmp/test", name = "test")
     Output
-      Pin board <pins_board_local>
+      Pin board <pins_board_folder>
       Path: '/tmp/test'
       With no pins.
 
@@ -51,6 +51,13 @@
       b %>% pin_browse("x")
     Message <cliMessage>
       i Pin at </tmp/test/x/afd4b2f6506fce6d>
+
+---
+
+    Code
+      b %>% pin_browse("x", cache = TRUE)
+    Error <rlang_error>
+      board_local() does not have a cache
 
 # generates useful messages
 

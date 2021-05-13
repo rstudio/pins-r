@@ -1,7 +1,7 @@
 # can get info with or without board
 
     Code
-      b <- board_temp()
+      b <- legacy_temp()
       pin(mtcars[1:2], "mtcars2", board = b)
       pin_info("mtcars2", b)
     Output

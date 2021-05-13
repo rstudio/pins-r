@@ -4,7 +4,7 @@
 \alias{pin_remove}
 \title{Remove Pin}
 \usage{
-pin_remove(name, board)
+pin_remove(name, board = NULL)
 }
 \arguments{
 \item{name}{The name for the pin.}
@@ -15,11 +15,13 @@ pin_remove(name, board)
 Unpins the given named pin from the given board.
 }
 \examples{
-board <- board_temp()
-pin(mtcars, board = board)
-pin_remove("mtcars", board = board)
+# old API
+board_register_local(cache = tempfile())
+pin(mtcars)
+pin_remove("mtcars")
 
-# ->
+# new API
+board <- board_local()
 board \%>\% pin_write(mtcars)
 board \%>\% pin_delete("mtcars")
 }

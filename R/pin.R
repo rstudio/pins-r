@@ -27,31 +27,16 @@
 #' tools and programming languages.
 #'
 #' @examples
-#' # define temporary local board
-#' board <- board_temp()
+#' # old API
+#' board_register_local(cache = tempfile())
+#' pin(mtcars)
+#' pin_get("mtcars")
 #'
-#' # cache the mtcars dataset
-#' pin(mtcars, board = board)
+#' # new api
+#' board <- board_local()
+#' board %>% pin_write(mtcars)
+#' board %>% pin_read("mtcars")
 #'
-#' # cache computation over mtcars
-#' pin(mtcars[mtcars$mpg > 30, ], name = "mtefficient", board = board)
-#'
-#' # retrieve cached pin
-#' pin_get("mtefficient", board = board)
-#'
-#' # url to remote resource
-#' resource <- file.path(
-#'   "https://raw.githubusercontent.com/facebook/prophet",
-#'   "master/examples/example_retail_sales.csv"
-#' )
-#'
-#' # cache remote resource
-#' pin(resource, name = "example_retail_sales", board = board)
-#'
-#' # cache and read csv
-#' path <- pin(resource, board = board)
-#' path
-#' head(read.csv(path))
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   UseMethod("pin")

@@ -1,7 +1,7 @@
 # main types --------------------------------------------------------------
 
 test_that("can pin() a data frame", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   df <- data.frame(
     raw = charToRaw("asdas"),
@@ -17,7 +17,7 @@ test_that("can pin() a data frame", {
 })
 
 test_that("can pin() a data.table", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   dt <- data.table::data.table(x = 1:2, y = list("a", "b"))
   pin(dt, "dt", board = board)
@@ -28,7 +28,7 @@ test_that("can pin() a data.table", {
 })
 
 test_that("can pin an arbitrary object", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   x <- list(1, letters, c(TRUE, FALSE, NA))
   pin(x, "x", board = board)
@@ -36,7 +36,7 @@ test_that("can pin an arbitrary object", {
 })
 
 test_that("AsIs class stripped when using I", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   df <- data.frame(x = 1)
   pin(I(df), "df", board = board)
@@ -44,7 +44,7 @@ test_that("AsIs class stripped when using I", {
 })
 
 test_that("can pin a file", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   pin(test_path("files/hello.txt"), "hello", board = board)
   expect_equal(
@@ -54,7 +54,7 @@ test_that("can pin a file", {
 })
 
 test_that("can pin() remote CSV with URL and name", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   url <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/iris/data.csv"
   pin <- pin(url, "iris", board = board)
@@ -64,7 +64,7 @@ test_that("can pin() remote CSV with URL and name", {
 
 test_that("unavailable url can use cache", {
   skip_on_cran()
-  board <- board_temp()
+  board <- legacy_temp()
 
   expect_snapshot(error = TRUE, {
     pin("http://httpstat.us/404", "test", board = board)
@@ -77,7 +77,8 @@ test_that("unavailable url can use cache", {
 # custom metadata -------------------------------------------------------------------
 
 test_that("can pin() with custom metadata", {
-  board <- board_temp()
+  withr::local_options(lifecycle_verbosity = "quiet")
+  board <- legacy_temp()
 
   meta <- list(
     source = "The R programming language",
@@ -90,11 +91,11 @@ test_that("can pin() with custom metadata", {
     )
   )
   pin(iris, "iris", metadata = meta, board = board)
-  meta2 <- pin_meta(board, "iris")
+  meta2 <- pin_info("iris", board)
   expect_equal(meta2[c("source", "extra_info")], meta)
 
   expect_snapshot(pin(iris, "iris2", board = board, custom_metadata = meta))
-  meta2 <- pin_meta(board, "iris2")
+  meta2 <- pin_info("iris2", board)
   expect_equal(meta2[c("source", "extra_info")], meta)
 })
 
