@@ -131,7 +131,7 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
 # Unsupported features ----------------------------------------------------
 
 #' @export
-pin_delete.pins_board_url <- function(board, name, ...) {
+pin_delete.pins_board_url <- function(board, names, ...) {
   abort("board_url() is read only")
 }
 

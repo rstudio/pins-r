@@ -6,6 +6,7 @@
 #'   order: supply `name` then optionally `board` for legacy boards, and
 #'   `board` then `name` for modern boards.
 #' @param full `r lifecycle::badge("deprecated")`
+#' @param ... Additional arguments passed on to methods for a specific board.
 #' @return A data frame with at least a `version` column. Some boards may
 #'   provided additional data.
 #' @examples
@@ -34,7 +35,6 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
     swap <- board
     board <- if (missing(name)) NULL else name
     board <- board_get(board)
-
     name <- swap
 
     if (!0 %in% board$api) {

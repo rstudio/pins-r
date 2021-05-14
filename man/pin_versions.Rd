@@ -11,6 +11,8 @@ pin_versions(board, name, ..., full = deprecated())
 order: supply \code{name} then optionally \code{board} for legacy boards, and
 \code{board} then \code{name} for modern boards.}
 
+\item{...}{Additional arguments passed on to methods for a specific board.}
+
 \item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 }
 \value{
