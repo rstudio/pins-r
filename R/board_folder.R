@@ -32,6 +32,10 @@ board_folder <- function(path, name = "folder", versions = FALSE) {
     versions = versions
   )
 }
+#' @export
+board_desc.pins_board_folder <- function(board, ...) {
+  paste0("Path: '", board$path, "'")
+}
 
 #' @export
 #' @rdname board_folder
@@ -46,11 +50,6 @@ board_temp <- function(name = "temp", versions = FALSE) {
 }
 
 # Methods -----------------------------------------------------------------
-
-#' @export
-board_desc.pins_board_folder <- function(board, ...) {
-  paste0("Path: '", board$path, "'")
-}
 
 #' @export
 pin_list.pins_board_folder <- function(board, ...) {
@@ -87,8 +86,6 @@ pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache
   meta <- pin_meta(board, name, version = version)
   browse_url(meta$local$dir)
 }
-
-# pins v1 ----------------------------------------------------------------
 
 #' @export
 pin_store.pins_board_folder <- function(board, name, path, metadata,
@@ -160,7 +157,6 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   meta <- read_meta(path_version)
   local_meta(meta, dir = path_version, version = version)
 }
-
 
 # Helpers -----------------------------------------------------------------
 

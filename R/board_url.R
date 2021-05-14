@@ -141,11 +141,6 @@ pin_store.pins_board_url <- function(board, name, path, metadata,
   abort("board_url() is read only")
 }
 
-#' @export
-pin_versions.pins_board_url <- function(board, name, ...) {
-  abort("board_url() doesn't support versions")
-}
-
 # Helpers ------------------------------------------------------------------
 
 download_cache <- function(url, path_dir, path_file, use_cache_on_failure = FALSE) {

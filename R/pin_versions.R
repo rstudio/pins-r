@@ -50,3 +50,8 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
     UseMethod("pin_versions")
   }
 }
+
+#' @export
+pin_versions.pins_board <- function(board, name, ...) {
+  abort("board_url() doesn't support versions")
+}
