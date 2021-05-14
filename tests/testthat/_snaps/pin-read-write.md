@@ -51,3 +51,15 @@
     Error <rlang_error>
       Specified hash 'ABCD' doesn't match pin hash 'dfa6c1c109362781'
 
+# informative error for legacy boards
+
+    Code
+      board <- legacy_temp()
+      board %>% pin_write(1:10, "x")
+    Error <rlang_error>
+      Use `pin()` with this board, not `pin_write()`
+    Code
+      board %>% pin_read("x")
+    Error <rlang_error>
+      Use `pin_get()` with this board, not `pin_read()`
+

@@ -55,3 +55,11 @@ test_that("user can supply metadata", {
   expect_equal(meta$user, list(name = "Susan"))
   expect_equal(meta$description, "A vector")
 })
+
+test_that("informative error for legacy boards", {
+  expect_snapshot(error = TRUE, {
+    board <- legacy_temp()
+    board %>% pin_upload(1:10, "x")
+    board %>% pin_download("x")
+  })
+})

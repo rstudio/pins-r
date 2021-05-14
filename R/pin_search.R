@@ -21,6 +21,7 @@
 #' board %>% pin_search("number")
 #' board %>% pin_search("letters")
 pin_search <- function(board, pattern = NULL) {
+  check_board(board, "pin_search()", "pin_find()")
   UseMethod("pin_search")
 }
 

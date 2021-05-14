@@ -15,7 +15,7 @@
 #' path
 #' readLines(path)[1:5]
 pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
-  check_board(board)
+  check_board(board, "pin_download()", "pin_get()")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
@@ -27,7 +27,8 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @rdname pin_download
 #' @param path A character vector of file paths to upload to `board`.
 pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = NULL, ...) {
-  check_board(board)
+  check_board(board, "pin_upload()", "pin()")
+
   if (!is.character(path)) {
     abort("`path` must be a character vector")
   }
