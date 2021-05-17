@@ -56,6 +56,7 @@ board %>% pin_write(mtcars, "mtcars")
 
 The first argument is the object to save (usually a data frame, but it can be any R object), and the second argument defines the "name" of pin.
 The name is important and is basically equivalent to a file name: you'll use it when you later want to read the data from the pin.
+The only rule for a pin name is that it can't contain slashes.
 
 As you can see, pins has chosen to save this data to a `.rds` file.
 But you can choose from a variety of other options depending on your goals:
