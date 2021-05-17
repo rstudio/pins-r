@@ -2,9 +2,10 @@
 #'
 #' List versions available for a pin. See `vignette("versioning)"` for details.
 #'
-#' @param board,name A pair of board and pin name. You can supply in either
-#'   order: supply `name` then optionally `board` for legacy boards, and
-#'   `board` then `name` for modern boards.
+#' @param board,name A pair of board and pin name. For modern boards,
+#'   use `board %>% pin_versions(name)`. For backward compatibility with the
+#'   legacy API, you can also use `pin_versions(name)` or
+#'   `pin_version(name, board)`.
 #' @param full `r lifecycle::badge("deprecated")`
 #' @param ... Additional arguments passed on to methods for a specific board.
 #' @return A data frame with at least a `version` column. Some boards may

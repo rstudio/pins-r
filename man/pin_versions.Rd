@@ -7,9 +7,10 @@
 pin_versions(board, name, ..., full = deprecated())
 }
 \arguments{
-\item{board, name}{A pair of board and pin name. You can supply in either
-order: supply \code{name} then optionally \code{board} for legacy boards, and
-\code{board} then \code{name} for modern boards.}
+\item{board, name}{A pair of board and pin name. For modern boards,
+use \code{board \%>\% pin_versions(name)}. For backward compatibility with the
+legacy API, you can also use \code{pin_versions(name)} or
+\code{pin_version(name, board)}.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 
