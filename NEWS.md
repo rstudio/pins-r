@@ -1,54 +1,68 @@
 # pins (development version)
 
-* New `board_url()` lets you create a manual pin board from a vector of 
+## Modern API
+
+This versions of pins brings with it a new API that is designed to be much less magical. All functions take an explicit `board` argument (more on that shortly), and have been designed with type-stability in mind.
+
+* `pin_read()` and `pin_write()` replace most uses of `pin_get()` and `pin()`.
+  `pin_write()` has a `type` argument that allows you to choose how to serialise
+  your R objects to disk, allowing you to manage the tradeoffs between speed, 
+  generality, and language inter-op, and `metadata` argument that allows you to 
+  store arbitrary metadata (#430).
+  
+* `pin_download()` and `pin_upload()` are lower-level versions of `pin_read()` 
+  and `pin_write()` that work with file paths rather than R objects. They
+  replace the use of `pin()` with a path and eliminate the ambiguity implicit
+  in `pin_get()`, which can return either R objects or paths.
+
+* `pin_browse()` replaces `board_browse()`, and takes you to a specific pin, 
+  either the original source on the internet, or the cached version in your 
+  local file system (#435).
+
+* `pin_delete()` replaces `pin_remove()`, and can delete multiple pins (#433).
+
+* `pin_list()` lists all pins in a board.
+
+* `pin_meta()` replaces `pin_info()` and retrieves pin metadata (#418). 
+
+* `pin_search()` replaces `pin_find()`. It is much more limited because the
+  previous version was based on assumptions that are not true for many boards.
+
+## Modern boards
+
+Along with a new API for interacting with pins comes a new API for connecting to a board. Now, rather than "registering" a board that you later refer to either implicitly or with a string, you generate a board object which is passed to every function. This takes away the magic of which board a pin comes from and should hopefully make it easier to understand what pins is doing.
+
+```R
+board <- board_local()
+board %>% pin_write(mtcars, "mtcars")
+board %>% pin_read("mtcars")
+```
+
+This version includes the following modern boards:
+
+* `board_folder()` is a generalised replacement for the old local board which
+  can store data in any directory of your choosing, making it possible to 
+  share boards using shared network drives or on dropbox or similar. If you
+  don't want to pick a directory, you can use `board_local()` which uses a
+  system data directory.
+  
+* `board_rsconnect()` supports both modern and legacy APIs, so that you and
+  your colleagues can use a mixture of pins versions as you transition to
+  pins 1.0.0. This API is backward compatible so that you can `pin_read()` pins 
+  created by `pin()`, but you can not `pin_get()` pins created by `pin_write()`.
+  
+* `board_url()` lets you create a manual pin board from a vector of 
   urls. This is useful because `pin_donwload()` and `pin_read()` are 
   cached, and will only re-download the data if it's changed since the
   last time you used it (#409). (They'll also use the cached result with a
   warning if they fail to get a fresh copy). This replaces the previous 
   ability to "pin" a url.
 
-* New `pin_browse()` shows you the source of the pin, either on the internet
-  or on your local file system (#435).
+The remaining boards will continue to work with the legacy pins API; we will gradually implement modern versions of the legacy boards based on user feedback.
 
-* New `pin_delete()` supersedes `pin_remove()`, and can delete multiple
-  pins at once (#433).
+## Minor improvements and bug fixes
 
-* Pins no longer converts data frames to tibbles.
-
-* New `pin_list()` lists the names of all pins in a board.
-
-* New `pin_search()` replaces `pin_find()` (which is now deprecated) allows
-  you to search the name and description of all pins in a board.
-
-* `pin_versions()` now takes `board` as first argument and `name` as second
-  (although it will continue to work as before with a warning).
-
-* New `pin_meta()` retrieves metadata about a pin (#418). `pin_info()` is 
-  deprecated in favour of `pin_meta()`.
-
-* `pin_write()` accepts arbitrary `metadata` (#430).
-
-* `pin_write()` can be any string, as long as it doesn't contain slashes
-  (#429).
-
-* The pins API has been overhauled to center around two new functions: 
-  `pin_read()` and `pin_write()`. `pin_write()` has a type argument that 
-  allows you to choose which file type to use, so you can manage the tradeoffs
-  between speed, generality, and language inter-op. They both take the
-  board as the first argument.
-  
-    `pin_read()` and `pin_write()` work with R objects. If you want to 
-    work with files on disk (because, for example, you need to use file type
-    that isn't natively supported), you can use `pin_download()` and 
-    `pin_upload()`.
-
-* All boards now have a `board_` function that you use to create a board,
-  instead of registering it. This takes away the magic of which board a 
-  pin comes from, and should hopefully make it easier to understand what
-  pins is doing.
-
-* You can no longer switch from a versioned pin to an unversioned pin without
-  first deleting the pin (#410).
+* Pinned data frames are longer converted to tibbles.
 
 * `board_rsconnect()` will automatically connect to the current RSC pin board
   when run inside RSC itself (assuming you have version 1.8.8 or later) (#396).
@@ -66,14 +80,15 @@
   either be dangerous (it's easy to accidentally leak credentials) or useless
   (it relies on variables that the connection pane doesn't capture).
 
-* The board extension interface has changed. More info to follow.
-
 * The "packages" board is no longer registered by default; if you want to use
   this you'll need to register with `board_register("packages")`. It has been
   radically simplified so that it will no longer download packages, and it
   `pin_find()` now searches all packages that you have installed, rather than
   a stale snapshot of data in CRAN packages. The CRAN files dataset has
   been removed from the package.
+
+* You can no longer switch from a versioned pin to an unversioned pin without
+  first deleting the pin (#410).
 
 # pins 0.4.5
 
