@@ -73,7 +73,7 @@ pin_versions.pins_board_folder <- function(board, name, ...) {
   versions <- read_versions(path_pin) %||% character(0)
 
   meta <- map(versions, function(v) pin_meta(board, name, version = v))
-  date <- rsc_parse_time(map_chr(meta, function(x) x[["date"]] %||% NA_character_))
+  date <- rsc_parse_time(map_chr(meta, function(x) x[["created"]] %||% NA_character_))
 
   tibble::tibble(version = versions, created = date)
 }
