@@ -118,7 +118,7 @@
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span>
 <span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpoeBJjW/pins-2eae1a6d0081'</span>
+<span class="co">#&gt; Path: '/tmp/RtmpUK9If3/pins-4c2557d856c1'</span>
 <span class="co">#&gt; With no pins.</span></code></pre></div>
 <p>Next you can to store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>. The first argument is the object to pin (normally a data frame) , and the second argument is the name you’ll use to later retrieve it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -147,6 +147,34 @@
 <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
 <p>You can easily control who gets to access the data using the RStudio Connection permissions pane.</p>
 <p>Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
+</div>
+<div id="legacy-api" class="section level2">
+<h2 class="hasAnchor">
+<a href="#legacy-api" class="anchor"></a>Legacy API</h2>
+<p>If you’ve used pins in the past, you might be familiar with a somewhat different API where you first register a board and then refer to it by name in <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/pin_get.html">pin_get()</a></code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/legacy_local.html">board_register_local</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, board <span class="op">=</span> <span class="st">"example"</span><span class="op">)</span>
+<span class="fu"><a href="reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"mtcars"</span>, board <span class="op">=</span> <span class="st">"example"</span><span class="op">)</span>
+<span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="co">#&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
+<p>You can continue to use this API for the foreseeable future, but where possible we recommend upgrading to a modern board that uses the newer API where the board <strong>object</strong> is always the first argument.</p>
+<p>It’s also possible to use <code><a href="reference/pin.html">pin()</a></code> and <code><a href="reference/pin_get.html">pin_get()</a></code> without an explicit board argument, in which case it uses legacy local board:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span>
+<span class="fu"><a href="reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span>
+<span class="co">#&gt;   x</span>
+<span class="co">#&gt; 1 1</span>
+<span class="co">#&gt; 2 2</span>
+<span class="co">#&gt; 3 3</span></code></pre></div>
+<p>This board is called <code><a href="reference/legacy_local.html">legacy_local()</a></code>. It behaves similarly to <code><a href="reference/board_folder.html">board_local()</a></code>, but is completely distinct (i.e. pinned data is not shared between the boards).</p>
+<p>Currently there are three boards that work with the modern API (<code><a href="reference/board_folder.html">board_local()</a></code>, <code><a href="reference/board_rsconnect.html">board_rsconnect()</a></code>, and <code><a href="reference/board_url.html">board_url()</a></code>) and eight boards that work with the legacy API (<code><a href="reference/legacy_azure.html">board_register_azure()</a></code>, <code><a href="reference/legacy_datatxt.html">board_register_datatxt()</a></code>, <code><a href="reference/legacy_dospace.html">board_register_dospace()</a></code>, <code><a href="reference/legacy_gcloud.html">board_register_gcloud()</a></code>, <code><a href="reference/legacy_github.html">board_register_github()</a></code>, <code><a href="reference/legacy_kaggle.html">board_register_kaggle()</a></code>, <code><a href="reference/board_register.html">board_register_rsconnect()</a></code>, <code><a href="reference/legacy_s3.html">board_register_s3()</a></code>) (Note that <code><a href="reference/board_rsconnect.html">board_rsconnect()</a></code> supports both modern and legacy APIs). The set of boards that supports the modern API will continue to grow in future releases.</p>
 </div>
 </div>
   </div>
