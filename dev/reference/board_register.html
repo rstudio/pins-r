@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Board registry — board_register • pins</title>
+<title>Board registry (legacy API) — board_register • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,15 +46,9 @@
 
 
 
-<meta property="og:title" content="Board registry — board_register" />
-<meta property="og:description" content="
-Prior to pins 1.0.0, boards were managed using a named registry. Functions
-like pin(), pin_get(), pin_info() take the board as the second
-argument, using legacy_local() if the board was not explicitly specified.
-Now we recommend using the new pins API, where you explicitly create a
-board using using board_local(), board_rsconnect(), and friends, and
-supply it to the first argument of pin_read(), pin_write(), and
-pin_meta()." />
+<meta property="og:title" content="Board registry (legacy API) — board_register" />
+<meta property="og:description" content="The legacy pins API uses a board registry, where you first register a board
+then refer to it by name in calls to pin functions." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -138,20 +132,14 @@ pin_meta()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Board registry</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_registry.R'><code>R/board_registry.R</code></a></small>
+    <h1>Board registry (legacy API)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/legacy_board_registry.R'><code>R/legacy_board_registry.R</code></a></small>
     <div class="hidden name"><code>board_register.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a></p>
-<p>Prior to pins 1.0.0, boards were managed using a named registry. Functions
-like <code><a href='pin.html'>pin()</a></code>, <code><a href='pin_get.html'>pin_get()</a></code>, <code><a href='pin_info.html'>pin_info()</a></code> take the board as the <strong>second</strong>
-argument, using <code><a href='legacy_local.html'>legacy_local()</a></code> if the board was not explicitly specified.</p>
-<p>Now we recommend using the new pins API, where you explicitly create a
-board using using <code><a href='board_folder.html'>board_local()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>, and friends, and
-supply it to the <strong>first</strong> argument of <code><a href='pin_read.html'>pin_read()</a></code>, <code><a href='pin_read.html'>pin_write()</a></code>, and
-<code><a href='pin_meta.html'>pin_meta()</a></code>.</p>
+    <p>The legacy pins API uses a board registry, where you first register a board
+then refer to it by name in calls to pin functions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>board_register</span><span class='op'>(</span>
@@ -162,65 +150,6 @@ supply it to the <strong>first</strong> argument of <code><a href='pin_read.html
   <span class='va'>...</span>
 <span class='op'>)</span>
 
-<span class='fu'>board_register_azure</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"azure"</span>,
-  container <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AZURE_STORAGE_CONTAINER"</span><span class='op'>)</span>,
-  account <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AZURE_STORAGE_ACCOUNT"</span><span class='op'>)</span>,
-  key <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AZURE_STORAGE_KEY"</span><span class='op'>)</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>board_register_datatxt</span><span class='op'>(</span>
-  <span class='va'>url</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  headers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>board_register_dospace</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"dospace"</span>,
-  space <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_SPACE"</span><span class='op'>)</span>,
-  key <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_ACCESS_KEY_ID"</span><span class='op'>)</span>,
-  secret <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_SECRET_ACCESS_KEY"</span><span class='op'>)</span>,
-  datacenter <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_DATACENTER"</span><span class='op'>)</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  host <span class='op'>=</span> <span class='st'>"digitaloceanspaces.com"</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>board_register_gcloud</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"gcloud"</span>,
-  bucket <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GCLOUD_STORAGE_BUCKET"</span><span class='op'>)</span>,
-  token <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>board_register_github</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"github"</span>,
-  repo <span class='op'>=</span> <span class='cn'>NULL</span>,
-  branch <span class='op'>=</span> <span class='cn'>NULL</span>,
-  token <span class='op'>=</span> <span class='cn'>NULL</span>,
-  path <span class='op'>=</span> <span class='st'>""</span>,
-  host <span class='op'>=</span> <span class='st'>"https://api.github.com"</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>board_register_local</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"local"</span>, cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>board_register_kaggle</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"kaggle"</span>,
-  token <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
 <span class='fu'>board_register_rsconnect</span><span class='op'>(</span>
   name <span class='op'>=</span> <span class='st'>"rsconnect"</span>,
   server <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -228,18 +157,6 @@ supply it to the <strong>first</strong> argument of <code><a href='pin_read.html
   key <span class='op'>=</span> <span class='cn'>NULL</span>,
   output_files <span class='op'>=</span> <span class='cn'>FALSE</span>,
   cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='fu'>board_register_s3</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"s3"</span>,
-  bucket <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AWS_BUCKET"</span><span class='op'>)</span>,
-  key <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AWS_ACCESS_KEY_ID"</span><span class='op'>)</span>,
-  secret <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AWS_SECRET_ACCESS_KEY"</span><span class='op'>)</span>,
-  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
-  host <span class='op'>=</span> <span class='st'>"s3.amazonaws.com"</span>,
-  region <span class='op'>=</span> <span class='cn'>NULL</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
 
@@ -254,8 +171,8 @@ supply it to the <strong>first</strong> argument of <code><a href='pin_read.html
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># old API</span></span>
-<span class='r-in'><span class='fu'>board_register_local</span><span class='op'>(</span><span class='st'>"myboard"</span>, cache <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span class='co'># legacy API</span></span>
+<span class='r-in'><span class='fu'><a href='legacy_local.html'>board_register_local</a></span><span class='op'>(</span><span class='st'>"myboard"</span>, cache <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='pin.html'>pin</a></span><span class='op'>(</span><span class='va'>mtcars</span>, board <span class='op'>=</span> <span class='st'>"myboard"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='pin_get.html'>pin_get</a></span><span class='op'>(</span><span class='st'>"mtcars"</span>, board <span class='op'>=</span> <span class='st'>"myboard"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
@@ -292,7 +209,7 @@ supply it to the <strong>first</strong> argument of <code><a href='pin_read.html
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># new API</span></span>
+<span class='r-in'><span class='co'># modern API (not available for all boards)</span></span>
 <span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `name = 'mtcars'`</span>

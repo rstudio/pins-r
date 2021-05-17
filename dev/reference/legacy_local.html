@@ -142,7 +142,7 @@ in tests and examples." />
     </div>
 
     <div class="ref-description">
-    <p><code>legacy_local()</code> powers <code><a href='board_register.html'>board_register_local()</a></code>, which allows you to
+    <p><code>legacy_local()</code> powers <code>board_register_local()</code>, which allows you to
 access local pins created in earlier versions of the pins package. For
 new pins, we recommend that you transition to <code><a href='board_folder.html'>board_local()</a></code> which
 supports the new pins API.</p>
@@ -151,6 +151,8 @@ in tests and examples.</p>
     </div>
 
     <pre class="usage"><span class='fu'>legacy_local</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, name <span class='op'>=</span> <span class='st'>"local"</span>, versions <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>board_register_local</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"local"</span>, cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>legacy_temp</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"temp"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
@@ -172,6 +174,12 @@ board object.</p></td>
     <tr>
       <th>versions</th>
       <td><p>Should this board be registered with support for versions?</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.</p></td>
     </tr>
     <tr>
       <th>...</th>

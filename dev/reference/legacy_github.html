@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delete a pin — pin_delete • pins</title>
+<title>GitHub board (legacy API) — legacy_github • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,12 @@
 
 
 
-<meta property="og:title" content="Delete a pin — pin_delete" />
-<meta property="og:description" content="Delete a pin (or pins), removing it from the board" />
+<meta property="og:title" content="GitHub board (legacy API) — legacy_github" />
+<meta property="og:description" content="To use a GitHub board, you'll need to set up authentication. This is likely
+to just work if you already use GitHub for other purposes since pins will
+inspect your  GITHUB_PAT environment variable. Otherwise, you can follow
+the instructions at https://happygitwithr.com/credential-caching.html to
+get set up." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -131,54 +135,99 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Delete a pin</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-delete.R'><code>R/pin-delete.R</code></a></small>
-    <div class="hidden name"><code>pin_delete.Rd</code></div>
+    <h1>GitHub board (legacy API)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/legacy_github.R'><code>R/legacy_github.R</code></a></small>
+    <div class="hidden name"><code>legacy_github.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Delete a pin (or pins), removing it from the board</p>
+    <p>To use a GitHub board, you'll need to set up authentication. This is likely
+to just work if you already use GitHub for other purposes since pins will
+inspect your  <code>GITHUB_PAT</code> environment variable. Otherwise, you can follow
+the instructions at <a href='https://happygitwithr.com/credential-caching.html'>https://happygitwithr.com/credential-caching.html</a> to
+get set up.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_delete</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>names</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>legacy_github</span><span class='op'>(</span>
+  repo <span class='op'>=</span> <span class='cn'>NULL</span>,
+  branch <span class='op'>=</span> <span class='cn'>NULL</span>,
+  token <span class='op'>=</span> <span class='cn'>NULL</span>,
+  path <span class='op'>=</span> <span class='st'>""</span>,
+  host <span class='op'>=</span> <span class='st'>"https://api.github.com"</span>,
+  name <span class='op'>=</span> <span class='st'>"github"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>board_register_github</span><span class='op'>(</span>
+  name <span class='op'>=</span> <span class='st'>"github"</span>,
+  repo <span class='op'>=</span> <span class='cn'>NULL</span>,
+  branch <span class='op'>=</span> <span class='cn'>NULL</span>,
+  token <span class='op'>=</span> <span class='cn'>NULL</span>,
+  path <span class='op'>=</span> <span class='st'>""</span>,
+  host <span class='op'>=</span> <span class='st'>"https://api.github.com"</span>,
+  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>board</th>
-      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
-<code><a href='board_url.html'>board_url()</a></code> or other other <code>board_</code> function.</p></td>
+      <th>repo</th>
+      <td><p>The GitHub repository formatted as 'owner/repo', can be
+<code>NULL</code> if the <code>GITHUB_PAT</code> environment variable is set.</p></td>
     </tr>
     <tr>
-      <th>names</th>
-      <td><p>The names of one or more pins to delete</p></td>
+      <th>branch</th>
+      <td><p>The branch to use to commit pins.</p></td>
+    </tr>
+    <tr>
+      <th>token</th>
+      <td><p>Token to use when <code>GITHUB_PAT</code> is not specified.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>The subdirectory in the repo where the pins will be stored.</p></td>
+    </tr>
+    <tr>
+      <th>host</th>
+      <td><p>The URL of the GitHub API. You'll need to customise
+this to use GitHub enterprise, e.g. <code>"https://yourhostname/api/v3"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
+      <td><p>Additional parameters required to initialize a particular board.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="large-files"><a class="anchor" href="#large-files"></a>Large Files</h2>
+
+    <p>A GitHub repo only supports files under 25MB in size (100MB in theory but
+there is additional overhead when using the GitHub API). To store large
+files, GitHub
+<a href='https://help.github.com/en/articles/distributing-large-binaries'>recommends</a>
+storing them using GitHub Releases which support up to 2GB files, which
+is what pins uses. You don't need to do anything extra as this will happen
+behind the scenes, but don't be surprised if pins creates releases in your
+repo.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='st'>"x"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '4cbcc49c50fda258'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `name = 'mtcars'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '2f642ce498ec2413'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1e6</span><span class='op'>)</span>, <span class='st'>"y"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version 'e9c4e042dd44c381'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mtcars" "x"      "y"     </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_delete</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mtcars"</span>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># the following example requires a GitHub API key</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'>legacy_github</span><span class='op'>(</span>repo <span class='op'>=</span> <span class='st'>"owner/repo"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

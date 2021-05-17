@@ -109,7 +109,7 @@
 <p>As a start, lets retrieve the dataset using <code>pins</code> and load it using <code>readr</code>. You will need to authenticate to Kaggle by downloading your token file from <a href="https://www.kaggle.com/me/account">kaggle.com/me/account</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
-<span class="fu"><a href="../../reference/board_register.html">board_register_kaggle</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"path/to/kaggle.json"</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/legacy_kaggle.html">board_register_kaggle</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"path/to/kaggle.json"</span><span class="op">)</span>
 
 <span class="va">news</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"therohk/million-headlines"</span>, board <span class="op">=</span> <span class="st">"kaggle"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu">readr</span><span class="fu">::</span><span class="fu">read_csv</span><span class="op">(</span><span class="op">)</span>

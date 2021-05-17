@@ -4,40 +4,19 @@
     <loc>https://pins.rstudio.com/index.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_azure.html</loc>
-  </url>
-  <url>
     <loc>https://pins.rstudio.com/reference/board_cache_path.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/board_connect.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_datatxt.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/board_dospace.html</loc>
-  </url>
-  <url>
     <loc>https://pins.rstudio.com/reference/board_folder.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/board_gcloud.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/board_github.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/board_kaggle.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/board_register.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/board_rsconnect.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/board_s3.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/board_test.html</loc>
@@ -55,7 +34,28 @@
     <loc>https://pins.rstudio.com/reference/custom-pins.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/legacy_azure.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/legacy_datatxt.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/legacy_dospace.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/legacy_gcloud.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/legacy_github.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/legacy_kaggle.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/legacy_local.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/legacy_s3.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/new_board.html</loc>

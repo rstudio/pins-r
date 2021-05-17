@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delete a pin — pin_delete • pins</title>
+<title>DigitalOcean board (legacy API) — legacy_dospace • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="Delete a pin — pin_delete" />
-<meta property="og:description" content="Delete a pin (or pins), removing it from the board" />
+<meta property="og:title" content="DigitalOcean board (legacy API) — legacy_dospace" />
+<meta property="og:description" content="To use DigitalOcean Spaces as a board, you first
+need an DigitalOcean space and a storage key. You can sign-up and create
+those at digitalocean.com." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -131,54 +133,92 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Delete a pin</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-delete.R'><code>R/pin-delete.R</code></a></small>
-    <div class="hidden name"><code>pin_delete.Rd</code></div>
+    <h1>DigitalOcean board (legacy API)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/legacy_dospaces.R'><code>R/legacy_dospaces.R</code></a></small>
+    <div class="hidden name"><code>legacy_dospace.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Delete a pin (or pins), removing it from the board</p>
+    <p>To use DigitalOcean Spaces as a <a href='boards-understanding.html'>board</a>, you first
+need an DigitalOcean space and a storage key. You can sign-up and create
+those at <a href='https://www.digitalocean.com/'>digitalocean.com</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_delete</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>names</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>legacy_dospace</span><span class='op'>(</span>
+  space <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_SPACE"</span><span class='op'>)</span>,
+  key <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_ACCESS_KEY_ID"</span><span class='op'>)</span>,
+  secret <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_SECRET_ACCESS_KEY"</span><span class='op'>)</span>,
+  datacenter <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_DATACENTER"</span><span class='op'>)</span>,
+  cache <span class='op'>=</span> <span class='cn'>NULL</span>,
+  host <span class='op'>=</span> <span class='st'>"digitaloceanspaces.com"</span>,
+  name <span class='op'>=</span> <span class='st'>"dospace"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>board_register_dospace</span><span class='op'>(</span>
+  name <span class='op'>=</span> <span class='st'>"dospace"</span>,
+  space <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_SPACE"</span><span class='op'>)</span>,
+  key <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_ACCESS_KEY_ID"</span><span class='op'>)</span>,
+  secret <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_SECRET_ACCESS_KEY"</span><span class='op'>)</span>,
+  datacenter <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"DO_DATACENTER"</span><span class='op'>)</span>,
+  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
+  host <span class='op'>=</span> <span class='st'>"digitaloceanspaces.com"</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>board</th>
-      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
-<code><a href='board_url.html'>board_url()</a></code> or other other <code>board_</code> function.</p></td>
+      <th>space</th>
+      <td><p>The name of the DigitalOcean space.</p></td>
     </tr>
     <tr>
-      <th>names</th>
-      <td><p>The names of one or more pins to delete</p></td>
+      <th>key, secret</th>
+      <td><p>The key and secret for your space. You can create
+a key and secret in the "Spaces access keys" in your API settings.</p>
+<p>The <code>secret</code> is equivalent to a password, so generally should not be stored
+in your script. The easiest alternative is to store it in the
+<code>DO_SECRET_ACCESS_KEY</code> environment variable, which <code>legacy_dospace()</code> will
+use by default.</p></td>
+    </tr>
+    <tr>
+      <th>datacenter</th>
+      <td><p>The datacenter name.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.</p></td>
+    </tr>
+    <tr>
+      <th>host</th>
+      <td><p>The host to use for storage, defaults to <code>"digitaloceanspaces.com"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
+      <td><p>Additional parameters required to initialize a particular board.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Subdirectory within <code>url</code></p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='st'>"x"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '4cbcc49c50fda258'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `name = 'mtcars'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '2f642ce498ec2413'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1e6</span><span class='op'>)</span>, <span class='st'>"y"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version 'e9c4e042dd44c381'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mtcars" "x"      "y"     </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_delete</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mtcars"</span>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># the following example requires a DigitalOcean Spaces API key</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'>legacy_dospace</span><span class='op'>(</span>bucket <span class='op'>=</span> <span class='st'>"s3bucket"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

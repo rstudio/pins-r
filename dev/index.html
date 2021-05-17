@@ -117,8 +117,8 @@
 
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span>
-<span class="co">#&gt; Pin board &lt;pins_board_local&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpXz6NnB/pins-108ca22945b75'</span>
+<span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span>
+<span class="co">#&gt; Path: '/tmp/RtmpoeBJjW/pins-2eae1a6d0081'</span>
 <span class="co">#&gt; With no pins.</span></code></pre></div>
 <p>Next you can to store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>. The first argument is the object to pin (normally a data frame) , and the second argument is the name you’ll use to later retrieve it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -146,12 +146,6 @@
 <code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
 <p>You can easily control who gets to access the data using the RStudio Connection permissions pane.</p>
-<p>As well as RStudio connect, you can share your pins:</p>
-<ul>
-<li>On GitHub: <code><a href="reference/board_github.html">board_github()</a></code>.</li>
-<li>In Microsoft Azure’s storage: <code><a href="reference/board_azure.html">board_azure()</a></code>.</li>
-<li>On Amazon’s S3: <code><a href="reference/board_s3.html">board_s3()</a></code>.</li>
-</ul>
 <p>Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
 </div>
 </div>

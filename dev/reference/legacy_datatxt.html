@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delete a pin — pin_delete • pins</title>
+<title>Remote "data.txt" board (legacy API) — legacy_datatxt • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="Delete a pin — pin_delete" />
-<meta property="og:description" content="Delete a pin (or pins), removing it from the board" />
+<meta property="og:title" content="Remote "data.txt" board (legacy API) — legacy_datatxt" />
+<meta property="og:description" content="Use board that for a website that uses the data.txt
+specification. A data.txt file is a YAML that provides some basic metadata
+about a directory of files." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -131,54 +133,114 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Delete a pin</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin-delete.R'><code>R/pin-delete.R</code></a></small>
-    <div class="hidden name"><code>pin_delete.Rd</code></div>
+    <h1>Remote "data.txt" board (legacy API)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/legacy_datatxt.R'><code>R/legacy_datatxt.R</code></a></small>
+    <div class="hidden name"><code>legacy_datatxt.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Delete a pin (or pins), removing it from the board</p>
+    <p>Use board that for a website that uses the <a href='https://datatxt.org'>data.txt</a>
+specification. A <code>data.txt</code> file is a YAML that provides some basic metadata
+about a directory of files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_delete</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>names</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>legacy_datatxt</span><span class='op'>(</span>
+  <span class='va'>url</span>,
+  headers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
+  needs_index <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  browse_url <span class='op'>=</span> <span class='va'>url</span>,
+  index_updated <span class='op'>=</span> <span class='cn'>NULL</span>,
+  index_randomize <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  versions <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>board_register_datatxt</span><span class='op'>(</span>
+  <span class='va'>url</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  headers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cache <span class='op'>=</span> <span class='fu'><a href='board_cache_path.html'>board_cache_path</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>board</th>
-      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
-<code><a href='board_url.html'>board_url()</a></code> or other other <code>board_</code> function.</p></td>
+      <th>url</th>
+      <td><p>Path to the <code>data.txt</code> file or directory containing it.</p></td>
     </tr>
     <tr>
-      <th>names</th>
-      <td><p>The names of one or more pins to delete</p></td>
+      <th>headers</th>
+      <td><p>Optional list of headers to include or a function to generate them.</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.</p></td>
+    </tr>
+    <tr>
+      <th>needs_index</th>
+      <td><p>Does this board have an index file?</p></td>
+    </tr>
+    <tr>
+      <th>browse_url</th>
+      <td><p>Not currently used</p></td>
+    </tr>
+    <tr>
+      <th>index_updated</th>
+      <td><p>Callback function used to update index</p></td>
+    </tr>
+    <tr>
+      <th>index_randomize</th>
+      <td><p>When retrieving <code>data.txt</code> at a parameter with random
+query string to defeat caching?</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Subdirectory within <code>url</code></p></td>
+    </tr>
+    <tr>
+      <th>versions</th>
+      <td><p>Should this board be registered with support for versions?</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
+      <td><p>Additional parameters required to initialize a particular board.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='st'>"x"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '4cbcc49c50fda258'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `name = 'mtcars'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '2f642ce498ec2413'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1e6</span><span class='op'>)</span>, <span class='st'>"y"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version 'e9c4e042dd44c381'</span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mtcars" "x"      "y"     </span>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># register website board using datatxt file</span></span>
+<span class='r-in'><span class='fu'>board_register_datatxt</span><span class='op'>(</span></span>
+<span class='r-in'>  url <span class='op'>=</span> <span class='st'>"https://datatxt.org/data.txt"</span>,</span>
+<span class='r-in'>  name <span class='op'>=</span> <span class='st'>"txtexample"</span>,</span>
+<span class='r-in'>  cache <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
 <span class='r-in'></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_delete</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_list.html'>pin_list</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mtcars"</span>
+<span class='r-in'><span class='co'># find pins</span></span>
+<span class='r-in'><span class='fu'><a href='pin_find.html'>pin_find</a></span><span class='op'>(</span>board <span class='op'>=</span> <span class='st'>"txtexample"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   iris</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 mtcars</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                                                                                         description</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                                                                             The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    type      board</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 table txtexample</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 table txtexample</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
