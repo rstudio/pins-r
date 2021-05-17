@@ -3,7 +3,7 @@
 \name{legacy_github}
 \alias{legacy_github}
 \alias{board_register_github}
-\title{Use a GitHub board}
+\title{GitHub board (legacy API)}
 \usage{
 legacy_github(
   repo = NULL,

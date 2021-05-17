@@ -1,4 +1,4 @@
-#' Use a remote "data.txt" board
+#' Remote "data.txt" board (legacy API)
 #'
 #' Use board that for a website that uses the [data.txt](https://datatxt.org)
 #' specification. A `data.txt` file is a YAML that provides some basic metadata

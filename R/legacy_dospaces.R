@@ -1,4 +1,4 @@
-#' Use a DigitalOcean board
+#' DigitalOcean board (legacy API)
 #'
 #' To use DigitalOcean Spaces as a [board](boards-understanding.html), you first
 #' need an DigitalOcean space and a storage key. You can sign-up and create

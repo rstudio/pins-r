@@ -1,4 +1,4 @@
-#' Use a GitHub board
+#' GitHub board (legacy API)
 #'
 #' To use a GitHub board, you'll need to set up authentication. This is likely
 #' to just work if you already use GitHub for other purposes since pins will

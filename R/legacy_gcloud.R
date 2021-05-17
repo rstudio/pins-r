@@ -1,4 +1,4 @@
-#' Use a Google Cloud board
+#' Google Cloud board (legacy API)
 #'
 #' To use a Google Cloud Storage board, you first need a Google Cloud Storage
 #' account, a Google Storage bucket, and an access token or the

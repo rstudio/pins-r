@@ -1,4 +1,4 @@
-#' Build a pin board from a vector of URLs
+#' Use a vector of URLs as a board
 #'
 #' @description
 #' `board_url()` lets you build up a board from individual urls. This is

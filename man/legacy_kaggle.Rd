@@ -3,7 +3,7 @@
 \name{legacy_kaggle}
 \alias{legacy_kaggle}
 \alias{board_register_kaggle}
-\title{Use a Kaggle board}
+\title{Kaggle board (legacy API)}
 \usage{
 legacy_kaggle(token = NULL, name = "kaggle", ...)
 

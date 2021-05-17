@@ -1,4 +1,4 @@
-#' Use an Azure board
+#' Azure board (legacy API)
 #'
 #' @description
 #' To use Microsoft Azure Storage as a board, you'll need an Azure Storage

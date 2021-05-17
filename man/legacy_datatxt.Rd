@@ -3,7 +3,7 @@
 \name{legacy_datatxt}
 \alias{legacy_datatxt}
 \alias{board_register_datatxt}
-\title{Use a remote "data.txt" board}
+\title{Remote "data.txt" board (legacy API)}
 \usage{
 legacy_datatxt(
   url,

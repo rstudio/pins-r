@@ -3,7 +3,7 @@
 \name{legacy_dospace}
 \alias{legacy_dospace}
 \alias{board_register_dospace}
-\title{Use a DigitalOcean board}
+\title{DigitalOcean board (legacy API)}
 \usage{
 legacy_dospace(
   space = Sys.getenv("DO_SPACE"),

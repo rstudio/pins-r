@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_url.R
 \name{board_url}
 \alias{board_url}
-\title{Build a pin board from a vector of URLs}
+\title{Use a vector of URLs as a board}
 \usage{
 board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }

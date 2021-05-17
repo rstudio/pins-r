@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_rsconnect.R
 \name{board_rsconnect}
 \alias{board_rsconnect}
-\title{Use an RStudio Connect board}
+\title{Use RStudio Connect as board}
 \usage{
 board_rsconnect(
   auth = c("auto", "envvar", "rsconnect"),

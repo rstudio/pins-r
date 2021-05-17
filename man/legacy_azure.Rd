@@ -3,7 +3,7 @@
 \name{legacy_azure}
 \alias{legacy_azure}
 \alias{board_register_azure}
-\title{Use an Azure board}
+\title{Azure board (legacy API)}
 \usage{
 legacy_azure(
   container = Sys.getenv("AZURE_STORAGE_CONTAINER"),

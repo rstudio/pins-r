@@ -3,7 +3,7 @@
 \name{legacy_s3}
 \alias{legacy_s3}
 \alias{board_register_s3}
-\title{Use an S3 board}
+\title{S3 board (legacy API)}
 \usage{
 legacy_s3(
   bucket = Sys.getenv("AWS_BUCKET"),

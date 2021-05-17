@@ -1,4 +1,4 @@
-#' Use a Kaggle board
+#' Kaggle board (legacy API)
 #'
 #' To use a Kaggle board, you need to first download a token file from
 #' <https://www.kaggle.com/me/account>.

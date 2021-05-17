@@ -3,7 +3,7 @@
 \name{legacy_gcloud}
 \alias{legacy_gcloud}
 \alias{board_register_gcloud}
-\title{Use a Google Cloud board}
+\title{Google Cloud board (legacy API)}
 \usage{
 legacy_gcloud(
   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
