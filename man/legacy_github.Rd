@@ -73,11 +73,3 @@ repo.
 board <- legacy_github(repo = "owner/repo")
 }
 }
-\seealso{
-Other boards: 
-\code{\link{board_folder}()},
-\code{\link{board_rsconnect}()},
-\code{\link{legacy_azure}()},
-\code{\link{legacy_s3}()}
-}
-\concept{boards}

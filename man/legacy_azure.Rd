@@ -64,11 +64,3 @@ board_register_azure(
 )
 }
 }
-\seealso{
-Other boards: 
-\code{\link{board_folder}()},
-\code{\link{board_rsconnect}()},
-\code{\link{legacy_github}()},
-\code{\link{legacy_s3}()}
-}
-\concept{boards}

@@ -43,3 +43,9 @@ board \%>\% pin_read("rds")
 board \%>\% pin_download("files")
 board \%>\% pin_download("raw")
 }
+\seealso{
+Other boards: 
+\code{\link{board_folder}()},
+\code{\link{board_rsconnect}()}
+}
+\concept{boards}

@@ -25,7 +25,6 @@
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
-#' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires a GitHub API key

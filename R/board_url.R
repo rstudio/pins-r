@@ -17,6 +17,7 @@
 #'   use the last cached failure? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
+#' @family boards
 #' @inheritParams new_board
 #' @export
 #' @examples

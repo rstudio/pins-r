@@ -83,8 +83,6 @@ board \%>\% pin_read("timothy/mtcars")
 \seealso{
 Other boards: 
 \code{\link{board_folder}()},
-\code{\link{legacy_azure}()},
-\code{\link{legacy_github}()},
-\code{\link{legacy_s3}()}
+\code{\link{board_url}()}
 }
 \concept{boards}

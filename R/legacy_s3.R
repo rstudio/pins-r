@@ -17,7 +17,6 @@
 #' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
 #' @param region The region to use, required in some AWS regions and to
 #'   enable V4 signatures.
-#' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key

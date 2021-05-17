@@ -14,7 +14,6 @@
 #'  in your script. The easiest alternative is to store it in the
 #'  `AZURE_STORAGE_KEY` environment variable, which `legacy_azure()` will
 #'  use by default.
-#' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires an Azure Storage key

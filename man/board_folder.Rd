@@ -42,8 +42,6 @@ board <- board_temp()
 \seealso{
 Other boards: 
 \code{\link{board_rsconnect}()},
-\code{\link{legacy_azure}()},
-\code{\link{legacy_github}()},
-\code{\link{legacy_s3}()}
+\code{\link{board_url}()}
 }
 \concept{boards}

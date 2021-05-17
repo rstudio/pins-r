@@ -68,11 +68,3 @@ after you've created it before a bucket is usable.
 board <- legacy_s3(bucket = "s3bucket")
 }
 }
-\seealso{
-Other boards: 
-\code{\link{board_folder}()},
-\code{\link{board_rsconnect}()},
-\code{\link{legacy_azure}()},
-\code{\link{legacy_github}()}
-}
-\concept{boards}
