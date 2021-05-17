@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_info.R
 \name{pin_info}
 \alias{pin_info}
-\title{Pin Info}
+\title{Retrieve pin metadata (legacy API)}
 \usage{
 pin_info(
   name,
@@ -27,8 +27,7 @@ pin_info(
 \item{...}{Additional parameters.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-\code{pin_info()} is deprecated in favour of \code{\link[=pin_meta]{pin_meta()}}.
+Retrieve metadata for pins in legacy boards.
 }
 \examples{
 # old API

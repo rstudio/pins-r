@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_remove.R
 \name{pin_remove}
 \alias{pin_remove}
-\title{Remove Pin}
+\title{Delete a pin (legacy API)}
 \usage{
 pin_remove(name, board = NULL)
 }
@@ -12,7 +12,7 @@ pin_remove(name, board = NULL)
 \item{board}{The board from where this pin will be removed.}
 }
 \description{
-Unpins the given named pin from the given board.
+Deletes pins from a legacy board.
 }
 \examples{
 # old API

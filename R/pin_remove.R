@@ -1,6 +1,6 @@
-#' Remove Pin
+#' Delete a pin (legacy API)
 #'
-#' Unpins the given named pin from the given board.
+#' Deletes pins from a legacy board.
 #'
 #' @param name The name for the pin.
 #' @param board The board from where this pin will be removed.

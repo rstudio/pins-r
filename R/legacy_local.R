@@ -1,4 +1,4 @@
-#' Legacy local board
+#' Local board (legacy API)
 #'
 #' @description
 #' `legacy_local()` powers `board_register_local()`, which allows you to

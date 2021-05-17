@@ -27,9 +27,9 @@ reference:
 
 - title: Legacy API
   desc: >
-    Prior to v1.0.0, pins used a different interface where the board was
-    implicit, not explicit. These functions remain so old code continues to
-    work, but we recommend that you move away from them.
+    These functions implement the legacy pins API. They will continue to exist
+    for some time so your existing code will continue to work, but we recommend
+    you move to the modern API and modern boards where possible.
   contents:
   - starts_with("legacy_")
   - pin

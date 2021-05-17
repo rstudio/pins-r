@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_get.R
 \name{pin_get}
 \alias{pin_get}
-\title{Retrieve Pin}
+\title{Retrieve a pin (legacy API)}
 \usage{
 pin_get(
   name,

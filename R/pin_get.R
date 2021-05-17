@@ -1,4 +1,4 @@
-#' Retrieve Pin
+#' Retrieve a pin (legacy API)
 #'
 #' Retrieves a pin by name from the local or given board.
 #'

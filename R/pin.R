@@ -1,4 +1,4 @@
-#' Pin Resource
+#' Pin a resource (legacy API)
 #'
 #' Pins the given resource locally or to the given board.
 #'

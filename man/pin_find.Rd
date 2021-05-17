@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_find.R
 \name{pin_find}
 \alias{pin_find}
-\title{Find Pin}
+\title{Search for pins (legacy API)}
 \usage{
 pin_find(
   text = NULL,
@@ -27,8 +27,7 @@ pin_find(
 \item{...}{Additional parameters.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-\code{pin_find()} is deprecated in favour of \code{\link[=pin_search]{pin_search()}}.
+Search for pins in legacy boards.
 }
 \examples{
 pin_find("cars")

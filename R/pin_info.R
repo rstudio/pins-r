@@ -1,8 +1,6 @@
-#' Pin Info
+#' Retrieve pin metadata (legacy API)
 #'
-#' @description
-#' `r lifecycle::badge("deprecated")`
-#' `pin_info()` is deprecated in favour of [pin_meta()].
+#' Retrieve metadata for pins in legacy boards.
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.

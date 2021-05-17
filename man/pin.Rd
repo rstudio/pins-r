@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin.R
 \name{pin}
 \alias{pin}
-\title{Pin Resource}
+\title{Pin a resource (legacy API)}
 \usage{
 pin(x, name = NULL, description = NULL, board = NULL, ...)
 }

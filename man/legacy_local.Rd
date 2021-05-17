@@ -3,7 +3,7 @@
 \name{legacy_local}
 \alias{legacy_local}
 \alias{legacy_temp}
-\title{Legacy local board}
+\title{Local board (legacy API)}
 \usage{
 legacy_local(path = NULL, name = "local", versions = FALSE)
 
