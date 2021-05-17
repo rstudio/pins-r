@@ -8,7 +8,7 @@ pin_search(board, pattern = NULL)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
 
 \item{pattern}{A string to search for in pin name and description.}
 }

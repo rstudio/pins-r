@@ -4,7 +4,7 @@
 #' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
 #' account, an Azure Storage container, and an Azure Storage key.
 #' You can sign-up and create those at [portal.azure.com](https://portal.azure.com).
-#' @inheritParams board_datatxt
+#' @inheritParams legacy_datatxt
 #' @param container The name of the Azure Storage container.
 #' @param account The name of the Azure Storage account.
 #' @param key The access key for the Azure Storage container. You can find
@@ -12,7 +12,7 @@
 #'
 #'  The `key` is equivalent to a password, so generally should not be stored
 #'  in your script. The easiest alternative is to store it in the
-#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
+#'  `AZURE_STORAGE_KEY` environment variable, which `legacy_azure()` will
 #'  use by default.
 #' @family boards
 #' @examples
@@ -25,7 +25,7 @@
 #' )
 #' }
 #' @export
-board_azure <- function(
+legacy_azure <- function(
                         container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                         account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
                         key = Sys.getenv("AZURE_STORAGE_KEY"),
@@ -38,7 +38,7 @@ board_azure <- function(
 
   azure_url <- paste0("https://", account, ".blob.core.windows.net/", container)
 
-  board_datatxt(
+  legacy_datatxt(
     name = name,
     url = azure_url,
     cache = cache,

@@ -24,6 +24,7 @@ reference:
     share data in a vareity of ways.
   contents:
   - starts_with("board_")
+  - -board_register
 
 - title: Legacy API
   desc: >
@@ -31,6 +32,7 @@ reference:
     for some time so your existing code will continue to work, but we recommend
     you move to the modern API and modern boards where possible.
   contents:
+  - board_register
   - starts_with("legacy_")
   - pin
   - pin_get

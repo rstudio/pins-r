@@ -14,7 +14,6 @@
 #'   query string to defeat caching?
 #' @param path Subdirectory within `url`
 #' @param versions Should this board be registered with support for versions?
-#' @keywords internal
 #' @examples
 #'
 #' # register website board using datatxt file
@@ -27,7 +26,7 @@
 #' # find pins
 #' pin_find(board = "txtexample")
 #' @export
-board_datatxt <- function(url,
+legacy_datatxt <- function(url,
                           headers = NULL,
                           cache = board_cache_path(name),
                           needs_index = TRUE,
@@ -480,7 +479,7 @@ board_pin_versions.pins_board_datatxt <- function(board, name, ...) {
 
 # Testing -----------------------------------------------------------------
 
-local_board_datatxt <- function(..., env = parent.frame()) {
+local_legacy_datatxt <- function(..., env = parent.frame()) {
   path <- withr::local_tempdir(.local_envir = env)
 
   board_register_datatxt(

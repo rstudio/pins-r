@@ -1,25 +1,16 @@
-#' Board registry
+#' Board registry (legacy API)
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' The legacy pins API uses a board registry, where you first register a board
+#' then refer to it by name in calls to pin functions.
 #'
-#' Prior to pins 1.0.0, boards were managed using a named registry. Functions
-#' like [pin()], [pin_get()], [pin_info()] take the board as the **second**
-#' argument, using [legacy_local()] if the board was not explicitly specified.
-#'
-#' Now we recommend using the new pins API, where you explicitly create a
-#' board using using [board_local()], [board_rsconnect()], and friends, and
-#' supply it to the **first** argument of [pin_read()], [pin_write()], and
-#' [pin_meta()].
-#'
-#' @keywords internal
 #' @examples
-#' # old API
+#' # legacy API
 #' board_register_local("myboard", cache = tempfile())
 #' pin(mtcars, board = "myboard")
 #' pin_get("mtcars", board = "myboard")
 #'
-#' # new API
+#' # modern API (not available for all boards)
 #' board <- board_temp()
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
@@ -30,7 +21,7 @@ board_register <- function(board,
                            versions = NULL,
                            ...) {
   if (is_url(board)) {
-    board <- board_datatxt(
+    board <- legacy_datatxt(
       name = name,
       url = board,
       cache = cache,
@@ -60,7 +51,7 @@ board_register_azure <- function(name = "azure",
                                  cache = board_cache_path(name),
                                  path = NULL,
                                  ...) {
-  board <- board_azure(
+  board <- legacy_azure(
     name = name,
     container = container,
     account = account,
@@ -79,7 +70,7 @@ board_register_datatxt <- function(url,
                                    headers = NULL,
                                    cache = board_cache_path(name),
                                    ...) {
-  board <- board_datatxt(
+  board <- legacy_datatxt(
     name = name,
     url = url,
     headers = headers,
@@ -100,7 +91,7 @@ board_register_dospace <- function(name = "dospace",
                                    host = "digitaloceanspaces.com",
                                    path = NULL,
                                    ...) {
-  board <- board_dospace(
+  board <- legacy_dospace(
     name = name,
     space = space,
     key = key,
@@ -123,7 +114,7 @@ board_register_gcloud <- function(name = "gcloud",
                                   cache = board_cache_path(name),
                                   path = NULL,
                                   ...) {
-  board <- board_gcloud(
+  board <- legacy_gcloud(
     name = name,
     bucket = bucket,
     token = token,
@@ -144,7 +135,7 @@ board_register_github <- function(name = "github",
                                   host = "https://api.github.com",
                                   cache = board_cache_path(name),
                                   ...) {
-  board <- board_github(
+  board <- legacy_github(
     name = name,
     repo = repo,
     branch = branch,
@@ -172,7 +163,7 @@ board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
                                   cache = board_cache_path(name),
                                   ...) {
-  board <- board_kaggle("kaggle",
+  board <- legacy_kaggle("kaggle",
     name = name,
     token = token,
     cache = cache,
@@ -213,7 +204,7 @@ board_register_s3 <- function(name = "s3",
                               region = NULL,
                               path = NULL,
                               ...) {
-  board_s3(
+  legacy_s3(
     name = name,
     bucket = bucket,
     key = key,
@@ -303,8 +294,7 @@ board_get <- function(name) {
     name
   } else if (is.character(name) && length(name) == 1) {
     if (is_url(name)) {
-      # TODO: remove magic registration
-      board <- board_datatxt(url = name)
+      board <- legacy_datatxt(url = name)
       board_register2(board)
       board
     } else if (name == "packages") {

@@ -40,4 +40,3 @@ board <- board_temp()
 board \%>\% pin_write(mtcars)
 board \%>\% pin_meta("mtcars")
 }
-\keyword{internal}

@@ -13,11 +13,10 @@
 #'
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
-#' @keywords internal
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token
-#' board <- board_kaggle(token = "path/to/kaggle.json")
+#' board <- legacy_kaggle(token = "path/to/kaggle.json")
 #'
 #' pin_find("crowdflower", board = board)
 #'
@@ -25,7 +24,7 @@
 #' pin_get("c/crowdflower-weather-twitter", board = board)
 #' }
 #' @export
-board_kaggle <- function(token = NULL, name = "kaggle", ...) {
+legacy_kaggle <- function(token = NULL, name = "kaggle", ...) {
   token <- token %||% "~/.kaggle/kaggle.json"
   if (!file.exists(token)) {
     stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)

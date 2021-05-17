@@ -16,7 +16,6 @@
 #' board %>% pin_write(mtcars)
 #' board %>% pin_delete("mtcars")
 #' @export
-#' @keywords internal
 pin_remove <- function(name, board = NULL) {
   board <- board_get(board)
 

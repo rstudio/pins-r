@@ -4,25 +4,24 @@
 #' need an DigitalOcean space and a storage key. You can sign-up and create
 #' those at [digitalocean.com](https://www.digitalocean.com/).
 #'
-#' @inheritParams board_datatxt
+#' @inheritParams legacy_datatxt
 #' @param space The name of the DigitalOcean space.
 #' @param key,secret The key and secret for your space. You can create
 #'   a key and secret in the "Spaces access keys" in your API settings.
 #'
 #'  The `secret` is equivalent to a password, so generally should not be stored
 #'  in your script. The easiest alternative is to store it in the
-#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
+#'  `DO_SECRET_ACCESS_KEY` environment variable, which `legacy_dospace()` will
 #'  use by default.
 #' @param datacenter The datacenter name.
 #' @param host The host to use for storage, defaults to `"digitaloceanspaces.com"`.
-#' @keywords internal
 #' @examples
 #' \dontrun{
 #' # the following example requires a DigitalOcean Spaces API key
-#' board <- board_dospace(bucket = "s3bucket")
+#' board <- legacy_dospace(bucket = "s3bucket")
 #' }
 #' @export
-board_dospace <- function(
+legacy_dospace <- function(
                           space = Sys.getenv("DO_SPACE"),
                           key = Sys.getenv("DO_ACCESS_KEY_ID"),
                           secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
@@ -36,7 +35,7 @@ board_dospace <- function(
   if (nchar(secret) == 0) stop("The 'dospace' board requires a 'secret' parameter.")
   if (nchar(datacenter) == 0) stop("The 'dospace' board requires a 'datacenter' parameter.")
 
-  board_datatxt(
+  legacy_datatxt(
     name = name,
     url = paste0("https://", space, ".", datacenter, ".", host),
     cache = cache,

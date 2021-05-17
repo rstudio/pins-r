@@ -6,7 +6,7 @@
 #' configured. You can sign-up and create these from
 #' <https://console.cloud.google.com>
 #'
-#' @inheritParams board_datatxt
+#' @inheritParams legacy_datatxt
 #' @param bucket The name of the Google Cloud Storage bucket. Defaults to the `GCLOUD_STORAGE_BUCKET` environment
 #'   variable.
 #' @param token The access token of the Google Cloud Storage container.
@@ -16,14 +16,13 @@
 #'   If you do want to use an access token, you can retrieve it from
 #'   <https://developers.google.com/oauthplayground>. You will need to
 #'   authorize the "Google Storage API v1" scope.
-#' @keywords internal
 #' @examples
 #' \dontrun{
 #' # the following example requires the Google Cloud SDK to be configured
-#' board <- board_gcloud(container = "gcloudcontainer")
+#' board <- legacy_gcloud(container = "gcloudcontainer")
 #' }
 #' @export
-board_gcloud <- function(
+legacy_gcloud <- function(
                          bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                          token = NULL,
                          cache = NULL,
@@ -44,7 +43,7 @@ board_gcloud <- function(
     }
   }
 
-  board_datatxt(
+  legacy_datatxt(
     name = name,
     url = paste0("https://storage.googleapis.com/", bucket),
     cache = cache,

@@ -29,10 +29,10 @@
 #' @examples
 #' \dontrun{
 #' # the following example requires a GitHub API key
-#' board <- board_github(repo = "owner/repo")
+#' board <- legacy_github(repo = "owner/repo")
 #' }
 #' @export
-board_github <- function(
+legacy_github <- function(
                          repo = NULL,
                          branch = NULL,
                          token = NULL,

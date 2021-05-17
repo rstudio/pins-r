@@ -5,7 +5,7 @@
 #' those at <https://aws.amazon.com/>. Note that it can take a few minutes
 #' after you've created it before a bucket is usable.
 #'
-#' @inheritParams board_datatxt
+#' @inheritParams legacy_datatxt
 #' @param bucket The name of the Amazon S3 bucket.
 #' @param key,secret The key and secret for your space. You can create
 #'   a key and secret in the "Spaces access keys" in your API settings.
@@ -21,10 +21,10 @@
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key
-#' board <- board_s3(bucket = "s3bucket")
+#' board <- legacy_s3(bucket = "s3bucket")
 #' }
 #' @export
-board_s3 <- function(
+legacy_s3 <- function(
                      bucket = Sys.getenv("AWS_BUCKET"),
                      key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                      secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
@@ -37,7 +37,7 @@ board_s3 <- function(
   if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0) stop("The 's3' board requires a 'secret' parameter.")
 
-  board_datatxt(
+  legacy_datatxt(
     name = name,
     url = paste0("https://", bucket, ".", host),
     cache = cache,
