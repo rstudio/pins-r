@@ -10,7 +10,7 @@
 #' @param versions Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
-new_board <- function(board, name, cache = NULL, versions = FALSE, ...) {
+new_board <- function(board, name, api, cache = NULL, versions = FALSE, ...) {
   cache <- cache %||% board_cache_path(name)
   if (!is.na(cache)) {
     fs::dir_create(cache)
@@ -19,6 +19,7 @@ new_board <- function(board, name, cache = NULL, versions = FALSE, ...) {
   board <- structure(
     list(
       board = board,
+      api = api,
       name = name,
       cache = cache,
       versions = versions,
@@ -56,75 +57,6 @@ print.pins_board <- function(x, ...) {
 }
 
 is.board <- function(x) inherits(x, "pins_board")
-
-#' Custom Boards
-#'
-#' Family of functions meant to be used to implement custom boards extensions,
-#' not to be used by users.
-#'
-#' @param board The board to extend, retrieved with `board_get()`.
-#' @param path The path to store as a pin.
-#' @param name The name of the pin.
-#' @param metadata A list of metadata associated with this pin.
-#' @param text The text patteren to find a pin.
-#' @param ... Additional parameteres.
-#'
-#' @rdname custom-boards
-#' @keywords internal
-#' @export
-board_pin_create <- function(board, path, name, metadata, ...) {
-  UseMethod("board_pin_create")
-}
-
-#' @export
-#' @rdname custom-boards
-board_initialize <- function(board, ...) {
-  stop("`board_initialize()` is no longer used", call. = FALSE)
-}
-
-#' @export
-#' @rdname custom-boards
-board_browse <- function(board, ...) {
-  UseMethod("board_browse")
-}
-
-#' @export
-#' @rdname custom-boards
-board_desc <- function(board, ...) {
-  UseMethod("board_desc")
-}
-#' @export
-board_desc.default <- function(board, ...) {
-  character()
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_get <- function(board, name, ...) {
-  UseMethod("board_pin_get")
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_remove <- function(board, name, ...) {
-  UseMethod("board_pin_remove")
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_find <- function(board, text, ...) {
-  UseMethod("board_pin_find")
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_versions <- function(board, name, ...) {
-  UseMethod("board_pin_versions")
-}
-#' @export
-board_pin_versions.default <- function(board, name, ...) {
-  tibble::tibble(version = character(0))
-}
 
 #' Custom Boards Utilities
 #'

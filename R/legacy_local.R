@@ -28,6 +28,7 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   fs::dir_create(path)
 
   new_board("pins_board_local",
+    api = 0,
     name = name,
     cache = NA_character_,
     path = path,

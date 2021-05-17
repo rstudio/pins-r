@@ -41,6 +41,7 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   cache <- cache %||% board_cache_path("url")
 
   new_board("pins_board_url",
+    api = 1,
     urls = urls,
     name = "url",
     cache = cache,
@@ -130,7 +131,7 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
 # Unsupported features ----------------------------------------------------
 
 #' @export
-board_pin_remove.pins_board_url <- function(board, name, ...) {
+pin_delete.pins_board_url <- function(board, names, ...) {
   abort("board_url() is read only")
 }
 
@@ -138,26 +139,6 @@ board_pin_remove.pins_board_url <- function(board, name, ...) {
 pin_store.pins_board_url <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   abort("board_url() is read only")
-}
-
-#' @export
-board_pin_versions.pins_board_url <- function(board, name, ...) {
-  abort("board_url() doesn't support versions")
-}
-
-# v0 ----------------------------------------------------------------------
-
-#' @export
-board_pin_create.pins_board_url <- function(board, path, name, metadata, ...) {
-  abort("board_url() is read only")
-}
-
-#' @export
-board_pin_get.pins_board_url <- function(board, name, version = NULL, ...) {
-  abort(c(
-    "`board_url()` doesn't support `pin()`",
-    i = "Please use `pin_read()` instead"
-  ))
 }
 
 # Helpers ------------------------------------------------------------------

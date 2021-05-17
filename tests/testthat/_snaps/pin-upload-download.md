@@ -22,3 +22,15 @@
     Error <rlang_error>
       Can pin file called `data.txt`
 
+# informative error for legacy boards
+
+    Code
+      board <- legacy_temp()
+      board %>% pin_upload(1:10, "x")
+    Error <rlang_error>
+      Use `pin()` with this board, not `pin_upload()`
+    Code
+      board %>% pin_download("x")
+    Error <rlang_error>
+      Use `pin_get()` with this board, not `pin_download()`
+

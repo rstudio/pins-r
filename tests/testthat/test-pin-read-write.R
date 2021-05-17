@@ -70,3 +70,11 @@ test_that("can request specific hash", {
     pin_read(b, "mtcars", hash = "ABCD")
   })
 })
+
+test_that("informative error for legacy boards", {
+  expect_snapshot(error = TRUE, {
+    board <- legacy_temp()
+    board %>% pin_write(1:10, "x")
+    board %>% pin_read("x")
+  })
+})

@@ -4,13 +4,15 @@
 \alias{pin_versions}
 \title{Pin versions}
 \usage{
-pin_versions(board, name, full = deprecated())
+pin_versions(board, name, ..., full = deprecated())
 }
 \arguments{
-\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
+\item{board, name}{A pair of board and pin name. For modern boards,
+use \code{board \%>\% pin_versions(name)}. For backward compatibility with the
+legacy API, you can also use \code{pin_versions(name)} or
+\code{pin_version(name, board)}.}
 
-\item{name}{Pin name.}
+\item{...}{Additional arguments passed on to methods for a specific board.}
 
 \item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 }

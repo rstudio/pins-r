@@ -26,7 +26,8 @@
 #' b %>% pin_meta("mtcars")
 #' b %>% pin_read("mtcars")
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
-  check_board(board)
+  ellipsis::check_dots_used()
+  check_board(board, "pin_read()", "pin_get()")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
@@ -56,8 +57,8 @@ pin_write <- function(board, x,
                       versioned = NULL,
                       ...) {
   ellipsis::check_dots_used()
+  check_board(board, "pin_write()", "pin()")
 
-  check_board(board)
   if (is.null(name)) {
     name <- pin_default_name(expr_deparse(enexpr(x)), board)
     pins_inform(paste0("Guessing `name = '", name, "'`"))
@@ -172,9 +173,13 @@ hash_file <- function(path) {
   digest::digest(file = path, algo = "xxhash64")
 }
 
-check_board <- function(x) {
+check_board <- function(x, v1, v0) {
   if (!inherits(x, "pins_board")) {
     abort("`board` must be a pin board")
+  }
+
+  if (!1 %in% x$api) {
+    this_not_that(v0, v1)
   }
 }
 check_name <- function(x) {

@@ -1,5 +1,6 @@
 board_packages <- function() {
   new_board("pins_board_packages",
+    api = 0,
     name = "packages",
     versions = FALSE
   )

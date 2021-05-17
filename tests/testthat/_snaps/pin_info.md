@@ -40,3 +40,11 @@
     Error <rlang_error>
       Pin 'mtcars2' was found in multiple boards: test1,test2
 
+# gives informative error if used with modern board
+
+    Code
+      board <- board_temp()
+      pin_info("mtcars", board = board)
+    Error <rlang_error>
+      Use `pin_meta()` with this board, not `pin_info()`
+

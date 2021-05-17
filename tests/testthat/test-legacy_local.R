@@ -20,14 +20,14 @@ test_that(paste("can add and delete pin"), {
 test_that("can version a local pin", {
   b <- legacy_temp(versions = TRUE)
 
-  versions <- pin_versions("df", board = b)
+  versions <- pin_versions("df", b)
   expect_equal(versions, data.frame())
 
   pin(data.frame(x = 1), "df", board = b)
   pin(data.frame(x = 2), "df", board = b)
   pin(data.frame(x = 3), "df", board = b)
 
-  versions <- pin_versions("df", board = b)
+  versions <- pin_versions("df", b)
   expect_equal(nrow(versions), 3)
 
   newest <- pin_get("df", version = versions$version[[1]], board = b)

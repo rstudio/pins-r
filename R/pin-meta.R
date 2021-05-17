@@ -25,10 +25,9 @@
 #' # Get path to underlying data
 #' b %>% pin_download("mtcars")
 pin_meta <- function(board, name, version = NULL, ...) {
-  check_board(board)
+  check_board(board, "pin_meta()", "pin_info()")
   UseMethod("pin_meta")
 }
-
 
 # All pin_meta() methods should use `local_meta()` to ensure that results
 # are stored in a consistent way

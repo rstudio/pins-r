@@ -45,6 +45,7 @@ board_github <- function(
   }
 
   board <- new_board("pins_board_github",
+    api = 0,
     name = name,
     token = token,
     repo = repo,

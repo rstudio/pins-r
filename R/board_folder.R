@@ -25,11 +25,16 @@ board_folder <- function(path, name = "folder", versions = FALSE) {
   fs::dir_create(path)
 
   new_board("pins_board_folder",
+    api = 1,
     name = name,
     cache = NA_character_,
     path = path,
     versions = versions
   )
+}
+#' @export
+board_desc.pins_board_folder <- function(board, ...) {
+  paste0("Path: '", board$path, "'")
 }
 
 #' @export
@@ -47,11 +52,6 @@ board_temp <- function(name = "temp", versions = FALSE) {
 # Methods -----------------------------------------------------------------
 
 #' @export
-board_desc.pins_board_folder <- function(board, ...) {
-  paste0("Path: '", board$path, "'")
-}
-
-#' @export
 pin_list.pins_board_folder <- function(board, ...) {
   dir <- fs::dir_ls(board$path, type = "directory")
   metadata <- fs::path(dir, "versions.yml")
@@ -60,13 +60,15 @@ pin_list.pins_board_folder <- function(board, ...) {
 }
 
 #' @export
-board_pin_remove.pins_board_folder <- function(board, name, ...) {
-  check_name(name)
-  fs::dir_delete(fs::path(board$path, name))
+pin_delete.pins_board_folder <- function(board, names, ...) {
+  walk(names, check_name)
+  fs::dir_delete(fs::path(board$path, names))
+
+  invisible(board)
 }
 
 #' @export
-board_pin_versions.pins_board_folder <- function(board, name, ...) {
+pin_versions.pins_board_folder <- function(board, name, ...) {
   path_pin <- fs::path(board$path, name)
   versions <- read_versions(path_pin) %||% character(0)
 
@@ -84,8 +86,6 @@ pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache
   meta <- pin_meta(board, name, version = version)
   browse_url(meta$local$dir)
 }
-
-# pins v1 ----------------------------------------------------------------
 
 #' @export
 pin_store.pins_board_folder <- function(board, name, path, metadata,
@@ -157,7 +157,6 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   meta <- read_meta(path_version)
   local_meta(meta, dir = path_version, version = version)
 }
-
 
 # Helpers -----------------------------------------------------------------
 
