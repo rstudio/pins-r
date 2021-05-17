@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Delete a pin — pin_delete" />
-<meta property="og:description" content="Delete a pin, removing it from the board" />
+<meta property="og:description" content="Delete a pin (or pins), removing it from the board" />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -137,10 +137,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Delete a pin, removing it from the board</p>
+    <p>Delete a pin (or pins), removing it from the board</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_delete</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>names</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pin_delete</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>names</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +153,10 @@
     <tr>
       <th>names</th>
       <td><p>The names of one or more pins to delete</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
     </tr>
     </table>
 

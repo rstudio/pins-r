@@ -140,19 +140,21 @@
     <p>List versions available for a pin. See <code>vignette("versioning)"</code> for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_versions</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, full <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pin_versions</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>...</span>, full <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>board</th>
-      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
-<code><a href='board_github.html'>board_github()</a></code> or other other <code>board_</code> function.</p></td>
+      <th>board, name</th>
+      <td><p>A pair of board and pin name. For modern boards,
+use <code>board %&gt;% pin_versions(name)</code>. For backward compatibility with the
+legacy API, you can also use <code>pin_versions(name)</code> or
+<code>pin_version(name, board)</code>.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>Pin name.</p></td>
+      <th>...</th>
+      <td><p>Additional arguments passed on to methods for a specific board.</p></td>
     </tr>
     <tr>
       <th>full</th>
