@@ -40,7 +40,3 @@ reference:
   - pin_find
   - pin_remove
   - pin_reactive
-
-navbar:
-  components:
-    home: ~
