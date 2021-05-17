@@ -14,6 +14,7 @@
 #' board <- board_temp()
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
+#' @keywords internal
 #' @export
 board_register <- function(board,
                            name = NULL,

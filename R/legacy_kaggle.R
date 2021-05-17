@@ -13,6 +13,7 @@
 #'
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
+#' @inheritParams new_board
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token

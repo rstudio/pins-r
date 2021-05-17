@@ -17,6 +17,16 @@ board_register_kaggle(
 \arguments{
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can
 be \code{NULL} if the \verb{~/.kaggle/kaggle.json} file already exists.}
+
+\item{name}{An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.}
+
+\item{...}{Additional parameters required to initialize a particular board.}
+
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 }
 \description{
 To use a Kaggle board, you need to first download a token file from
