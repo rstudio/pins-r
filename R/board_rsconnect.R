@@ -1,4 +1,4 @@
-#' Use an RStudio Connect board
+#' Use RStudio Connect as board
 #'
 #' @description
 #' To use a RStudio Connect board, you need to first authenticate. The easiest

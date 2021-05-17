@@ -25,4 +25,3 @@ board <- board_local()
 board \%>\% pin_write(mtcars)
 board \%>\% pin_delete("mtcars")
 }
-\keyword{internal}

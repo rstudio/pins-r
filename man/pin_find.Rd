@@ -35,4 +35,3 @@ pin_find("cars")
 board <- board_local()
 board \%>\% pin_search("cars")
 }
-\keyword{internal}

@@ -8,7 +8,6 @@
 #' @param metadata Should additional pin-specific information be shown?
 #' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
-#' @keywords internal
 #'
 #' @examples
 #' # old API

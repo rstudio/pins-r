@@ -2,10 +2,13 @@
 % Please edit documentation in R/legacy_local.R
 \name{legacy_local}
 \alias{legacy_local}
+\alias{board_register_local}
 \alias{legacy_temp}
 \title{Local board (legacy API)}
 \usage{
 legacy_local(path = NULL, name = "local", versions = FALSE)
+
+board_register_local(name = "local", cache = board_cache_path(name), ...)
 
 legacy_temp(name = "temp", ...)
 }
@@ -19,6 +22,10 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{versions}{Should this board be registered with support for versions?}
+
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
 }

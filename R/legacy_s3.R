@@ -1,11 +1,11 @@
-#' Use an S3 board
+#' S3 board (legacy API)
 #'
 #' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 #' with enough permissions to access the S3 bucket. You can sign-up and create
 #' those at <https://aws.amazon.com/>. Note that it can take a few minutes
 #' after you've created it before a bucket is usable.
 #'
-#' @inheritParams board_datatxt
+#' @inheritParams legacy_datatxt
 #' @param bucket The name of the Amazon S3 bucket.
 #' @param key,secret The key and secret for your space. You can create
 #'   a key and secret in the "Spaces access keys" in your API settings.
@@ -17,14 +17,13 @@
 #' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
 #' @param region The region to use, required in some AWS regions and to
 #'   enable V4 signatures.
-#' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires an Amazon S3 API key
-#' board <- board_s3(bucket = "s3bucket")
+#' board <- legacy_s3(bucket = "s3bucket")
 #' }
 #' @export
-board_s3 <- function(
+legacy_s3 <- function(
                      bucket = Sys.getenv("AWS_BUCKET"),
                      key = Sys.getenv("AWS_ACCESS_KEY_ID"),
                      secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
@@ -37,7 +36,7 @@ board_s3 <- function(
   if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0) stop("The 's3' board requires a 'secret' parameter.")
 
-  board_datatxt(
+  legacy_datatxt(
     name = name,
     url = paste0("https://", bucket, ".", host),
     cache = cache,
@@ -53,6 +52,30 @@ board_s3 <- function(
     ...
   )
 }
+
+#' @rdname legacy_s3
+#' @export
+board_register_s3 <- function(name = "s3",
+                              bucket = Sys.getenv("AWS_BUCKET"),
+                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                              cache = board_cache_path(name),
+                              host = "s3.amazonaws.com",
+                              region = NULL,
+                              path = NULL,
+                              ...) {
+  legacy_s3(
+    name = name,
+    bucket = bucket,
+    key = key,
+    secret = secret,
+    cache = cache,
+    region = region,
+    path = path,
+    ...
+  )
+}
+
 
 # See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
 # httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) %>% httr::text_content()

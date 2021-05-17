@@ -4,7 +4,7 @@ if (!has_envvars("TEST_KAGGLE_API")) {
 
 path <- tempfile()
 writeLines(Sys.getenv("TEST_KAGGLE_API"), path)
-board <- board_kaggle(token = path, cache = tempfile())
+board <- legacy_kaggle(token = path, cache = tempfile())
 
 test_that("can pin_find() 'seattle' in kaggle board", {
   searches <- pin_find("game of thrones", board = board)

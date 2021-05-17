@@ -11,13 +11,13 @@ if (!has_envvars("TEST_GOOGLE_BUCKET")) {
   skip("requires TEST_GOOGLE_BUCKET env var")
 }
 
-board <- board_gcloud(
+board <- legacy_gcloud(
   bucket = Sys.getenv("TEST_GOOGLE_BUCKET"),
   cache = tempfile()
 )
 board_test(board, suite = "default")
 
-board <- board_gcloud(
+board <- legacy_gcloud(
   bucket = Sys.getenv("TEST_GOOGLE_BUCKET"),
   versions = TRUE,
   cache = tempfile()

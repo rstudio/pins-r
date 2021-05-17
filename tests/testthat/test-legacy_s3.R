@@ -13,7 +13,7 @@ if (!has_envvars(c("TEST_AWS_BUCKET", "TEST_AWS_KEY", "TEST_AWS_SECRET", "TEST_A
   skip("requires env vars TEST_AWS_BUCKET, TEST_AWS_KEY, TEST_AWS_SECRET, TEST_AWS_REGION")
 }
 
-board <- board_s3(
+board <- legacy_s3(
   bucket = Sys.getenv("TEST_AWS_BUCKET"),
   key = Sys.getenv("TEST_AWS_KEY"),
   secret = Sys.getenv("TEST_AWS_SECRET"),
@@ -22,7 +22,7 @@ board <- board_s3(
 )
 board_test(board, suite = "default")
 
-board <- board_s3(
+board <- legacy_s3(
   name = "test-s3-2",
   bucket = Sys.getenv("TEST_AWS_BUCKET"),
   key = Sys.getenv("TEST_AWS_KEY"),

@@ -13,7 +13,7 @@ test_that("can board_register() a data.txt board", {
 test_that("can pin_get() iris from a data.txt board", {
   skip_on_cran()
 
-  b <- local_board_datatxt()
+  b <- local_legacy_datatxt()
   iris <- pin_get("iris", board = b)
 
   expect_equal(dim(iris), c(150, 5))
@@ -22,7 +22,7 @@ test_that("can pin_get() iris from a data.txt board", {
 test_that("doen't evaluate expressions in data.txt", {
   skip_on_cran()
 
-  b <- local_board_datatxt()
+  b <- local_legacy_datatxt()
   json <- pin_find("mtcars_expr", board = b, metadata = TRUE)$metadata
   meta <- jsonlite::fromJSON(json)
 

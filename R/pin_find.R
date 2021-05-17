@@ -8,7 +8,6 @@
 #' @param extended Should additional board-specific columns be shown?
 #' @param metadata Include pin metadata in results?
 #' @param ... Additional parameters.
-#' @keywords internal
 #' @examples
 #' pin_find("cars")
 #' # ->

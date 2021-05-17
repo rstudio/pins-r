@@ -1,4 +1,4 @@
-#' Build a pin board from a vector of URLs
+#' Use a vector of URLs as a board
 #'
 #' @description
 #' `board_url()` lets you build up a board from individual urls. This is
@@ -17,6 +17,7 @@
 #'   use the last cached failure? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
+#' @family boards
 #' @inheritParams new_board
 #' @export
 #' @examples

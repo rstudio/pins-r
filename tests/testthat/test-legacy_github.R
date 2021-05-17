@@ -2,7 +2,7 @@ if (!has_envvars(c("TEST_GITHUB_REPO", "TEST_GITHUB_BRANCH"))) {
   skip("github tests require env vars TEST_GITHUB_REPO & TEST_GITHUB_BRANCH")
 }
 
-board <- board_github(
+board <- legacy_github(
   repo = Sys.getenv("TEST_GITHUB_REPO"),
   branch = Sys.getenv("TEST_GITHUB_BRANCH"),
   cache = tempfile()
@@ -28,7 +28,7 @@ test_that("uninitialized repo returns empty results", {
     skip("GITHUB_PAT envvar required.")
   }
 
-  board <- board_github("rstudio/sparklyr", cache = tempfile())
+  board <- legacy_github("rstudio/sparklyr", cache = tempfile())
   total <- nrow(pin_find("", board = board))
   expect_equal(total, 0)
 })

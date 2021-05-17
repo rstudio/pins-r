@@ -8,7 +8,7 @@
 #' if you want to perform the serialisation yourself and work just with files.
 #'
 #' @param board A pin board, created by [board_folder()], [board_rsconnect()],
-#'   [board_github()] or other other `board_` function.
+#'   [board_url()] or other other `board_` function.
 #' @param name Pin name.
 #' @param version For boards that support versions, this allows you to retrieve
 #'   a specific version of a pin. See `vignette("versioning)"` for details.

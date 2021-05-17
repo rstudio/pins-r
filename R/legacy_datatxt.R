@@ -1,4 +1,4 @@
-#' Use a remote "data.txt" board
+#' Remote "data.txt" board (legacy API)
 #'
 #' Use board that for a website that uses the [data.txt](https://datatxt.org)
 #' specification. A `data.txt` file is a YAML that provides some basic metadata
@@ -14,7 +14,6 @@
 #'   query string to defeat caching?
 #' @param path Subdirectory within `url`
 #' @param versions Should this board be registered with support for versions?
-#' @keywords internal
 #' @examples
 #'
 #' # register website board using datatxt file
@@ -27,7 +26,7 @@
 #' # find pins
 #' pin_find(board = "txtexample")
 #' @export
-board_datatxt <- function(url,
+legacy_datatxt <- function(url,
                           headers = NULL,
                           cache = board_cache_path(name),
                           needs_index = TRUE,
@@ -58,6 +57,24 @@ board_datatxt <- function(url,
   )
   datatxt_refresh_index(board)
   board
+}
+
+
+#' @rdname legacy_datatxt
+#' @export
+board_register_datatxt <- function(url,
+                                   name = NULL,
+                                   headers = NULL,
+                                   cache = board_cache_path(name),
+                                   ...) {
+  board <- legacy_datatxt(
+    name = name,
+    url = url,
+    headers = headers,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
 }
 
 
@@ -480,7 +497,7 @@ board_pin_versions.pins_board_datatxt <- function(board, name, ...) {
 
 # Testing -----------------------------------------------------------------
 
-local_board_datatxt <- function(..., env = parent.frame()) {
+local_legacy_datatxt <- function(..., env = parent.frame()) {
   path <- withr::local_tempdir(.local_envir = env)
 
   board_register_datatxt(

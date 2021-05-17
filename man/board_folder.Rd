@@ -41,9 +41,7 @@ board <- board_temp()
 }
 \seealso{
 Other boards: 
-\code{\link{board_azure}()},
-\code{\link{board_github}()},
 \code{\link{board_rsconnect}()},
-\code{\link{board_s3}()}
+\code{\link{board_url}()}
 }
 \concept{boards}

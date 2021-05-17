@@ -14,7 +14,7 @@ if (!has_envvars(c("TEST_AZURE_CONTAINER", "TEST_AZURE_ACCOUNT", "TEST_AZURE_KEY
   skip("requires env vars TEST_AZURE_CONTAINER, TEST_AZURE_ACCOUNT, TEST_AZURE_KEY")
 }
 
-board <- board_azure(
+board <- legacy_azure(
   container = Sys.getenv("TEST_AZURE_CONTAINER"),
   account = Sys.getenv("TEST_AZURE_ACCOUNT"),
   key = Sys.getenv("TEST_AZURE_KEY"),
@@ -22,7 +22,7 @@ board <- board_azure(
 )
 board_test(board, suite = "default")
 
-board <- board_azure(
+board <- legacy_azure(
   name = "test-azure-2",
   container = Sys.getenv("TEST_AZURE_CONTAINER"),
   account = Sys.getenv("TEST_AZURE_ACCOUNT"),

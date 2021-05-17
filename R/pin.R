@@ -121,7 +121,7 @@ check_store_path <- function(path) {
   if (length(path) == 1 && is_url(path) && fs::path_ext(path) == "") {
     abort(c(
       "Pin functions no longer supports direct use of data.txt sites",
-      i = paste0("Please use `board_datatxt('", path, ') instead')
+      i = paste0("Please use `legacy_datatxt('", path, ') instead')
     ))
   }
 }

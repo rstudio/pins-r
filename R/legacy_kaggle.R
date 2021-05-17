@@ -1,4 +1,4 @@
-#' Use a Kaggle board
+#' Kaggle board (legacy API)
 #'
 #' To use a Kaggle board, you need to first download a token file from
 #' <https://www.kaggle.com/me/account>.
@@ -13,11 +13,11 @@
 #'
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
-#' @keywords internal
+#' @inheritParams new_board
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token
-#' board <- board_kaggle(token = "path/to/kaggle.json")
+#' board <- legacy_kaggle(token = "path/to/kaggle.json")
 #'
 #' pin_find("crowdflower", board = board)
 #'
@@ -25,7 +25,7 @@
 #' pin_get("c/crowdflower-weather-twitter", board = board)
 #' }
 #' @export
-board_kaggle <- function(token = NULL, name = "kaggle", ...) {
+legacy_kaggle <- function(token = NULL, name = "kaggle", ...) {
   token <- token %||% "~/.kaggle/kaggle.json"
   if (!file.exists(token)) {
     stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)
@@ -41,6 +41,22 @@ board_kaggle <- function(token = NULL, name = "kaggle", ...) {
 
   board
 }
+
+#' @rdname legacy_kaggle
+#' @export
+board_register_kaggle <- function(name = "kaggle",
+                                  token = NULL,
+                                  cache = board_cache_path(name),
+                                  ...) {
+  board <- legacy_kaggle("kaggle",
+    name = name,
+    token = token,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
 
 kaggle_auth_info <- function(board) {
   jsonlite::read_json(board$token)

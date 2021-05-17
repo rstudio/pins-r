@@ -23,7 +23,9 @@ reference:
     Boards abstract over different storage backends, making it easy to
     share data in a vareity of ways.
   contents:
-  - starts_with("board_")
+  - board_local
+  - board_rsconnect
+  - board_url
 
 - title: Legacy API
   desc: >

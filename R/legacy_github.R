@@ -1,4 +1,4 @@
-#' Use a GitHub board
+#' GitHub board (legacy API)
 #'
 #' To use a GitHub board, you'll need to set up authentication. This is likely
 #' to just work if you already use GitHub for other purposes since pins will
@@ -25,14 +25,13 @@
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
-#' @family boards
 #' @examples
 #' \dontrun{
 #' # the following example requires a GitHub API key
-#' board <- board_github(repo = "owner/repo")
+#' board <- legacy_github(repo = "owner/repo")
 #' }
 #' @export
-board_github <- function(
+legacy_github <- function(
                          repo = NULL,
                          branch = NULL,
                          token = NULL,
@@ -86,6 +85,30 @@ board_github <- function(
   }
 
   board
+}
+
+
+#' @rdname legacy_github
+#' @export
+board_register_github <- function(name = "github",
+                                  repo = NULL,
+                                  branch = NULL,
+                                  token = NULL,
+                                  path = "",
+                                  host = "https://api.github.com",
+                                  cache = board_cache_path(name),
+                                  ...) {
+  board <- legacy_github(
+    name = name,
+    repo = repo,
+    branch = branch,
+    token = token,
+    path = path,
+    host = host,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
 }
 
 

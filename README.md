@@ -36,8 +36,8 @@ library(pins)
 
 b <- board_temp()
 b
-#> Pin board <pins_board_local>
-#> Path: '/tmp/RtmpXz6NnB/pins-108ca22945b75'
+#> Pin board <pins_board_folder>
+#> Path: '/tmp/RtmpoeBJjW/pins-2eae1a6d0081'
 #> With no pins.
 ```
 
@@ -90,11 +90,5 @@ b %>% pin_read("hadley/sales-summary")
 
 You can easily control who gets to access the data using the RStudio
 Connection permissions pane.
-
-As well as RStudio connect, you can share your pins:
-
--   On GitHub: `board_github()`.
--   In Microsoft Azure’s storage: `board_azure()`.
--   On Amazon’s S3: `board_s3()`.
 
 Learn more in `vignette("pins")`.
