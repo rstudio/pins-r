@@ -2,6 +2,7 @@
 % Please edit documentation in R/legacy_github.R
 \name{legacy_github}
 \alias{legacy_github}
+\alias{board_register_github}
 \title{Use a GitHub board}
 \usage{
 legacy_github(
@@ -11,6 +12,17 @@ legacy_github(
   path = "",
   host = "https://api.github.com",
   name = "github",
+  ...
+)
+
+board_register_github(
+  name = "github",
+  repo = NULL,
+  branch = NULL,
+  token = NULL,
+  path = "",
+  host = "https://api.github.com",
+  cache = board_cache_path(name),
   ...
 )
 }
@@ -32,6 +44,10 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{cache}{Cache path. Every board requires a local cache to avoid
+downloading files multiple times. The default stores in a standard
+cache location for your operating system, but you can override if needed.}
 }
 \description{
 To use a GitHub board, you'll need to set up authentication. This is likely

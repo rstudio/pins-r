@@ -54,6 +54,30 @@ legacy_s3 <- function(
   )
 }
 
+#' @rdname legacy_s3
+#' @export
+board_register_s3 <- function(name = "s3",
+                              bucket = Sys.getenv("AWS_BUCKET"),
+                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+                              cache = board_cache_path(name),
+                              host = "s3.amazonaws.com",
+                              region = NULL,
+                              path = NULL,
+                              ...) {
+  legacy_s3(
+    name = name,
+    bucket = bucket,
+    key = key,
+    secret = secret,
+    cache = cache,
+    region = region,
+    path = path,
+    ...
+  )
+}
+
+
 # See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
 # httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) %>% httr::text_content()
 s3_headers_v4 <- function(board, verb, path, filepath) {

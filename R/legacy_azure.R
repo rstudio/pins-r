@@ -53,6 +53,28 @@ legacy_azure <- function(
   )
 }
 
+#' @rdname legacy_azure
+#' @export
+board_register_azure <- function(name = "azure",
+                                 container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+                                 account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+                                 key = Sys.getenv("AZURE_STORAGE_KEY"),
+                                 cache = board_cache_path(name),
+                                 path = NULL,
+                                 ...) {
+  board <- legacy_azure(
+    name = name,
+    container = container,
+    account = account,
+    key = key,
+    cache = cache,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+
 azure_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %Z", tz = "GMT")
   azure_version <- "2015-04-05"

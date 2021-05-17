@@ -2,6 +2,7 @@
 % Please edit documentation in R/legacy_azure.R
 \name{legacy_azure}
 \alias{legacy_azure}
+\alias{board_register_azure}
 \title{Use an Azure board}
 \usage{
 legacy_azure(
@@ -10,6 +11,16 @@ legacy_azure(
   key = Sys.getenv("AZURE_STORAGE_KEY"),
   cache = NULL,
   name = "azure",
+  ...
+)
+
+board_register_azure(
+  name = "azure",
+  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+  key = Sys.getenv("AZURE_STORAGE_KEY"),
+  cache = board_cache_path(name),
+  path = NULL,
   ...
 )
 }
@@ -35,6 +46,8 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{path}{Subdirectory within \code{url}}
 }
 \description{
 To use Microsoft Azure Storage as a board, you'll need an Azure Storage

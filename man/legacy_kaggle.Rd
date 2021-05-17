@@ -2,9 +2,17 @@
 % Please edit documentation in R/legacy_kaggle.R
 \name{legacy_kaggle}
 \alias{legacy_kaggle}
+\alias{board_register_kaggle}
 \title{Use a Kaggle board}
 \usage{
 legacy_kaggle(token = NULL, name = "kaggle", ...)
+
+board_register_kaggle(
+  name = "kaggle",
+  token = NULL,
+  cache = board_cache_path(name),
+  ...
+)
 }
 \arguments{
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can

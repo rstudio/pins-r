@@ -89,6 +89,30 @@ legacy_github <- function(
 }
 
 
+#' @rdname legacy_github
+#' @export
+board_register_github <- function(name = "github",
+                                  repo = NULL,
+                                  branch = NULL,
+                                  token = NULL,
+                                  path = "",
+                                  host = "https://api.github.com",
+                                  cache = board_cache_path(name),
+                                  ...) {
+  board <- legacy_github(
+    name = name,
+    repo = repo,
+    branch = branch,
+    token = token,
+    path = path,
+    host = host,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+
 github_authenticated <- function(board) {
   if (!is.null(board$token)) {
     TRUE

@@ -36,6 +36,16 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   )
 }
 
+#' @rdname legacy_local
+#' @export
+board_register_local <- function(name = "local",
+                                 cache = board_cache_path(name),
+                                 ...) {
+  board <- legacy_local(path = cache, name = name, ...)
+  board_register2(board)
+}
+
+
 #' @export
 #' @rdname legacy_local
 legacy_temp <- function(name = "temp", ...) {

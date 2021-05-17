@@ -59,6 +59,26 @@ legacy_gcloud <- function(
   )
 }
 
+
+#' @rdname legacy_gcloud
+#' @export
+board_register_gcloud <- function(name = "gcloud",
+                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+                                  token = NULL,
+                                  cache = board_cache_path(name),
+                                  path = NULL,
+                                  ...) {
+  board <- legacy_gcloud(
+    name = name,
+    bucket = bucket,
+    token = token,
+    cache = cache,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
 gcloud_headers <- function(board, verb, path, file) {
   content_type <- NULL
   if (!is.null(file)) {

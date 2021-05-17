@@ -2,6 +2,7 @@
 % Please edit documentation in R/legacy_gcloud.R
 \name{legacy_gcloud}
 \alias{legacy_gcloud}
+\alias{board_register_gcloud}
 \title{Use a Google Cloud board}
 \usage{
 legacy_gcloud(
@@ -9,6 +10,15 @@ legacy_gcloud(
   token = NULL,
   cache = NULL,
   name = "gcloud",
+  ...
+)
+
+board_register_gcloud(
+  name = "gcloud",
+  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+  token = NULL,
+  cache = board_cache_path(name),
+  path = NULL,
   ...
 )
 }
@@ -33,6 +43,8 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{path}{Subdirectory within \code{url}}
 }
 \description{
 To use a Google Cloud Storage board, you first need a Google Cloud Storage

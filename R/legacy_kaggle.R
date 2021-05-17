@@ -41,6 +41,22 @@ legacy_kaggle <- function(token = NULL, name = "kaggle", ...) {
   board
 }
 
+#' @rdname legacy_kaggle
+#' @export
+board_register_kaggle <- function(name = "kaggle",
+                                  token = NULL,
+                                  cache = board_cache_path(name),
+                                  ...) {
+  board <- legacy_kaggle("kaggle",
+    name = name,
+    token = token,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+
 kaggle_auth_info <- function(board) {
   jsonlite::read_json(board$token)
 }

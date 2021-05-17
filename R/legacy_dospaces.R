@@ -52,6 +52,33 @@ legacy_dospace <- function(
   )
 }
 
+
+#' @rdname legacy_dospace
+#' @export
+board_register_dospace <- function(name = "dospace",
+                                   space = Sys.getenv("DO_SPACE"),
+                                   key = Sys.getenv("DO_ACCESS_KEY_ID"),
+                                   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+                                   datacenter = Sys.getenv("DO_DATACENTER"),
+                                   cache = board_cache_path(name),
+                                   host = "digitaloceanspaces.com",
+                                   path = NULL,
+                                   ...) {
+  board <- legacy_dospace(
+    name = name,
+    space = space,
+    key = key,
+    secret = secret,
+    datacenter = datacenter,
+    cache = cache,
+    host = host,
+    path = path,
+    ...
+  )
+  board_register2(board)
+}
+
+
 dospace_headers <- function(board, verb, path, file) {
   date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z", tz = "UTC")
 

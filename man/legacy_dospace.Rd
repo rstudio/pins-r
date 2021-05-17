@@ -2,6 +2,7 @@
 % Please edit documentation in R/legacy_dospaces.R
 \name{legacy_dospace}
 \alias{legacy_dospace}
+\alias{board_register_dospace}
 \title{Use a DigitalOcean board}
 \usage{
 legacy_dospace(
@@ -12,6 +13,18 @@ legacy_dospace(
   cache = NULL,
   host = "digitaloceanspaces.com",
   name = "dospace",
+  ...
+)
+
+board_register_dospace(
+  name = "dospace",
+  space = Sys.getenv("DO_SPACE"),
+  key = Sys.getenv("DO_ACCESS_KEY_ID"),
+  secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+  datacenter = Sys.getenv("DO_DATACENTER"),
+  cache = board_cache_path(name),
+  host = "digitaloceanspaces.com",
+  path = NULL,
   ...
 )
 }
@@ -39,6 +52,8 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{path}{Subdirectory within \code{url}}
 }
 \description{
 To use DigitalOcean Spaces as a \href{boards-understanding.html}{board}, you first

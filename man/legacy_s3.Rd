@@ -2,6 +2,7 @@
 % Please edit documentation in R/legacy_s3.R
 \name{legacy_s3}
 \alias{legacy_s3}
+\alias{board_register_s3}
 \title{Use an S3 board}
 \usage{
 legacy_s3(
@@ -12,6 +13,18 @@ legacy_s3(
   region = NULL,
   host = "s3.amazonaws.com",
   name = "s3",
+  ...
+)
+
+board_register_s3(
+  name = "s3",
+  bucket = Sys.getenv("AWS_BUCKET"),
+  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  cache = board_cache_path(name),
+  host = "s3.amazonaws.com",
+  region = NULL,
+  path = NULL,
   ...
 )
 }
@@ -40,6 +53,8 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{...}{Additional parameters required to initialize a particular board.}
+
+\item{path}{Subdirectory within \code{url}}
 }
 \description{
 To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user

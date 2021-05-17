@@ -2,6 +2,7 @@
 % Please edit documentation in R/legacy_datatxt.R
 \name{legacy_datatxt}
 \alias{legacy_datatxt}
+\alias{board_register_datatxt}
 \title{Use a remote "data.txt" board}
 \usage{
 legacy_datatxt(
@@ -15,6 +16,14 @@ legacy_datatxt(
   path = NULL,
   versions = FALSE,
   name = NULL,
+  ...
+)
+
+board_register_datatxt(
+  url,
+  name = NULL,
+  headers = NULL,
+  cache = board_cache_path(name),
   ...
 )
 }

@@ -60,6 +60,24 @@ legacy_datatxt <- function(url,
 }
 
 
+#' @rdname legacy_datatxt
+#' @export
+board_register_datatxt <- function(url,
+                                   name = NULL,
+                                   headers = NULL,
+                                   cache = board_cache_path(name),
+                                   ...) {
+  board <- legacy_datatxt(
+    name = name,
+    url = url,
+    headers = headers,
+    cache = cache,
+    ...
+  )
+  board_register2(board)
+}
+
+
 file_path_null <- function(...) {
   paths <- list(...)
   paths <- Filter(Negate(is.null), paths)
