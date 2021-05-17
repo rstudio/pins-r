@@ -1,5 +1,5 @@
 
-# pins <a href='https://pins.rstudio.com'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# pins <a href='https://pins.rstudio.com'><img src="man/figures/logo.png" align="right" height="139"/></a>
 
 <!-- badges: start -->
 
@@ -37,7 +37,7 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpoeBJjW/pins-2eae1a6d0081'
+#> Path: '/tmp/RtmpUK9If3/pins-4c2557d856c1'
 #> With no pins.
 ```
 
@@ -92,3 +92,53 @@ You can easily control who gets to access the data using the RStudio
 Connection permissions pane.
 
 Learn more in `vignette("pins")`.
+
+## Legacy API
+
+If you’ve used pins in the past, you might be familiar with a somewhat
+different API where you first register a board and then refer to it by
+name in `pin()` and `pin_get()`:
+
+``` r
+board_register_local("example", tempfile())
+
+pin(head(mtcars), "mtcars", board = "example")
+pin_get("mtcars", board = "example")
+#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+You can continue to use this API for the foreseeable future, but where
+possible we recommend upgrading to a modern board that uses the newer
+API where the board **object** is always the first argument.
+
+It’s also possible to use `pin()` and `pin_get()` without an explicit
+board argument, in which case it uses legacy local board:
+
+``` r
+pin(data.frame(x = 1:3), "test-data")
+pin_get("test-data")
+#>   x
+#> 1 1
+#> 2 2
+#> 3 3
+```
+
+This board is called `legacy_local()`. It behaves similarly to
+`board_local()`, but is completely distinct (i.e. pinned data is not
+shared between the boards).
+
+Currently there are three boards that work with the modern API
+(`board_local()`, `board_rsconnect()`, and `board_url()`) and eight
+boards that work with the legacy API (`board_register_azure()`,
+`board_register_datatxt()`, `board_register_dospace()`,
+`board_register_gcloud()`, `board_register_github()`,
+`board_register_kaggle()`, `board_register_rsconnect()`,
+`board_register_s3()`) (Note that `board_rsconnect()` supports both
+modern and legacy APIs). The set of boards that supports the modern API
+will continue to grow in future releases.
