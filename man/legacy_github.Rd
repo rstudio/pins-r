@@ -6,7 +6,7 @@
 \title{GitHub board (legacy API)}
 \usage{
 legacy_github(
-  repo = NULL,
+  repo,
   branch = NULL,
   token = NULL,
   path = "",
@@ -27,12 +27,13 @@ board_register_github(
 )
 }
 \arguments{
-\item{repo}{The GitHub repository formatted as 'owner/repo', can be
-\code{NULL} if the \code{GITHUB_PAT} environment variable is set.}
+\item{repo}{The GitHub repository formatted as 'owner/repo'.}
 
-\item{branch}{The branch to use to commit pins.}
+\item{branch}{The branch to use to commit pins. Default, \code{NULL}, will
+use \code{main} or \code{master} if present.}
 
-\item{token}{Token to use when \code{GITHUB_PAT} is not specified.}
+\item{token}{GitHub personal acess token. Defaults to env var \code{GITHUB_PAT}
+if not set.}
 
 \item{path}{The subdirectory in the repo where the pins will be stored.}
 
@@ -70,6 +71,6 @@ repo.
 \examples{
 \dontrun{
 # the following example requires a GitHub API key
-board <- legacy_github(repo = "owner/repo")
+board <- legacy_github("owner/repo")
 }
 }

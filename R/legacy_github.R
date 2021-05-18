@@ -18,30 +18,31 @@
 #' repo.
 #'
 #' @inheritParams new_board
-#' @param repo The GitHub repository formatted as 'owner/repo', can be
-#'   `NULL` if the `GITHUB_PAT` environment variable is set.
-#' @param branch The branch to use to commit pins.
-#' @param token Token to use when `GITHUB_PAT` is not specified.
+#' @param repo The GitHub repository formatted as 'owner/repo'.
+#' @param branch The branch to use to commit pins. Default, `NULL`, will
+#'   use `main` or `master` if present.
+#' @param token GitHub personal acess token. Defaults to env var `GITHUB_PAT`
+#'   if not set.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
 #' @examples
 #' \dontrun{
 #' # the following example requires a GitHub API key
-#' board <- legacy_github(repo = "owner/repo")
+#' board <- legacy_github("owner/repo")
 #' }
 #' @export
 legacy_github <- function(
-                         repo = NULL,
+                         repo,
                          branch = NULL,
                          token = NULL,
                          path = "",
                          host = "https://api.github.com",
                          name = "github",
                          ...) {
-  if (is.null(repo)) {
-    stop("GitHub repository must be specified as 'owner/repo' with 'repo' parameter.")
-  }
+
+  token <- token %||% envvar_get("GITHUB_PAT") %||%
+    abort("Specify GitHub PAT with `token` or 'GITHUB_PAT' env var")
 
   board <- new_board("pins_board_github",
     api = 0,
@@ -49,20 +50,9 @@ legacy_github <- function(
     token = token,
     repo = repo,
     path = if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else "",
-    branch = branch,
     host = host,
-    main = "master",
     ...
   )
-
-  if (!github_authenticated(board)) {
-    if (is.null(token)) {
-      stop(
-        "GitHub Personal Access Token must be specified with the 'token' parameter or with the 'GITHUB_PAT' ",
-        "environment variable. You can create a token at https://github.com/settings/tokens."
-      )
-    }
-  }
 
   # check repo exists
   check_exists <- httr::GET(github_url(board, branch = NULL), github_headers(board))
@@ -76,13 +66,25 @@ legacy_github <- function(
     branches <- github_branches(board)
   }
 
-  if ("main" %in% branches) {
-    board$main <- "main"
+  if (is.null(branch)) {
+    if ("main" %in% branches) {
+      branch <- "main"
+    } else if ("master" %in% branches) {
+      branch <- "master"
+    } else {
+      abort("No 'master' or 'main' branch present; please use `branch` argument")
+    }
+  } else if (is_string(branch)) {
+    if (!branch %in% branches) {
+      abort(c(
+        "`branch` must be an existing branch.",
+        glue("Can't find branch called '{branch}'")
+      ))
+    }
+  } else {
+    abort("`branch` must be a string or NULL")
   }
-
-  if (!identical(branch, NULL) && !branch %in% branches) {
-    github_branches_create(board, branch, board$main)
-  }
+  board$branch <- branch
 
   board
 }
@@ -109,15 +111,6 @@ board_register_github <- function(name = "github",
     ...
   )
   board_register2(board)
-}
-
-
-github_authenticated <- function(board) {
-  if (!is.null(board$token)) {
-    TRUE
-  } else {
-    nchar(Sys.getenv("GITHUB_PAT")) > 0
-  }
 }
 
 github_auth <- function(board) {
