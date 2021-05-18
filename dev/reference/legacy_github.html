@@ -155,7 +155,7 @@ get set up.</p>
     </div>
 
     <pre class="usage"><span class='fu'>legacy_github</span><span class='op'>(</span>
-  repo <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>repo</span>,
   branch <span class='op'>=</span> <span class='cn'>NULL</span>,
   token <span class='op'>=</span> <span class='cn'>NULL</span>,
   path <span class='op'>=</span> <span class='st'>""</span>,
@@ -180,16 +180,17 @@ get set up.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>repo</th>
-      <td><p>The GitHub repository formatted as 'owner/repo', can be
-<code>NULL</code> if the <code>GITHUB_PAT</code> environment variable is set.</p></td>
+      <td><p>The GitHub repository formatted as 'owner/repo'.</p></td>
     </tr>
     <tr>
       <th>branch</th>
-      <td><p>The branch to use to commit pins.</p></td>
+      <td><p>The branch to use to commit pins. Default, <code>NULL</code>, will
+use <code>main</code> or <code>master</code> if present.</p></td>
     </tr>
     <tr>
       <th>token</th>
-      <td><p>Token to use when <code>GITHUB_PAT</code> is not specified.</p></td>
+      <td><p>GitHub personal acess token. Defaults to env var <code>GITHUB_PAT</code>
+if not set.</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -232,7 +233,7 @@ repo.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'><span class='co'># the following example requires a GitHub API key</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'>legacy_github</span><span class='op'>(</span>repo <span class='op'>=</span> <span class='st'>"owner/repo"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'>legacy_github</span><span class='op'>(</span><span class='st'>"owner/repo"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 </pre>
   </div>
