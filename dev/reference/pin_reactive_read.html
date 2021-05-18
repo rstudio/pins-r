@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reactive Pin (legacy API) — pin_reactive • pins</title>
+<title>Wrap a pin in a reactive expression — pin_reactive_read • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,11 @@
 
 
 
-<meta property="og:title" content="Reactive Pin (legacy API) — pin_reactive" />
-<meta property="og:description" content="Creates a pin that reacts to changes in the given board by
-polling pin_get(), useful when used from the shiny
-package." />
+<meta property="og:title" content="Wrap a pin in a reactive expression — pin_reactive_read" />
+<meta property="og:description" content="pin_reactive_read() and pin_reactive_download() wrap the results of
+pin_read() and pin_download() into a Shiny reactive. This allows you to
+use pinned data within your app, and have the results automatically
+recompute when the pin is modified." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -139,49 +140,62 @@ package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Reactive Pin (legacy API)</h1>
+    <h1>Wrap a pin in a reactive expression</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/pin_reactive.R'><code>R/pin_reactive.R</code></a></small>
-    <div class="hidden name"><code>pin_reactive.Rd</code></div>
+    <div class="hidden name"><code>pin_reactive_read.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a pin that reacts to changes in the given board by
-polling <code><a href='pin_get.html'>pin_get()</a></code>, useful when used from the <code>shiny</code>
-package.</p>
+    <p><code>pin_reactive_read()</code> and <code>pin_reactive_download()</code> wrap the results of
+<code><a href='pin_read.html'>pin_read()</a></code> and <code><a href='pin_download.html'>pin_download()</a></code> into a Shiny reactive. This allows you to
+use pinned data within your app, and have the results automatically
+recompute when the pin is modified.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_reactive</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>board</span>, interval <span class='op'>=</span> <span class='fl'>5000</span>, session <span class='op'>=</span> <span class='cn'>NULL</span>, extract <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pin_reactive_read</span><span class='op'>(</span><span class='va'>interval</span>, <span class='va'>session</span>, <span class='va'>board</span>, <span class='va'>name</span><span class='op'>)</span>
+
+<span class='fu'>pin_reactive_download</span><span class='op'>(</span><span class='va'>interval</span>, <span class='va'>session</span>, <span class='va'>board</span>, <span class='va'>name</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>The name of the pin.</p></td>
-    </tr>
-    <tr>
-      <th>board</th>
-      <td><p>The board where this pin will be retrieved from.</p></td>
-    </tr>
-    <tr>
       <th>interval</th>
-      <td><p>Approximate number of milliseconds to wait to retrieve
-updated pin. This can be a numeric value, or a function that returns
-a numeric value.</p></td>
+      <td><p>Approximate number of milliseconds to wait between
+re-downloading the pin metadata to check if anything has changed.</p></td>
     </tr>
     <tr>
       <th>session</th>
-      <td><p>The user session to associate this file reader with, or NULL if
-none. If non-null, the reader will automatically stop when the session ends.</p></td>
+      <td><p>Pass through the <code>session</code> argument of your server function
+to ensure that clean up</p></td>
     </tr>
     <tr>
-      <th>extract</th>
-      <td><p>Should compressed files be extracted? Each board defines the
-deefault behavior.</p></td>
+      <th>board</th>
+      <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
+<code><a href='board_url.html'>board_url()</a></code> or other other <code>board_</code> function.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Pin name.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://shiny.rstudio.com/'>shiny</a></span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tableOutput.html'>tableOutput</a></span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_local</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>pin_reactive_read</span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>session</span>, <span class='va'>board</span>, <span class='st'>"shiny"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>output</span><span class='op'>$</span><span class='va'>table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderTable.html'>renderTable</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>}</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
