@@ -191,7 +191,7 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
 }
 
 s3_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z")
+  date <- http_date()
 
   # allow full urls to allow arbitrary file downloads
   bucket <- board$bucket

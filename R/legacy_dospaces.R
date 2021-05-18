@@ -80,7 +80,7 @@ board_register_dospace <- function(name = "dospace",
 
 
 dospace_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z", tz = "UTC")
+  date <- http_date()
 
   # allow full urls to allow arbitrary file downloads
   space <- board$space

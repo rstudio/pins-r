@@ -75,7 +75,7 @@ board_register_azure <- function(name = "azure",
 
 
 azure_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %Z", tz = "GMT")
+  date <- http_date()
   azure_version <- "2015-04-05"
 
   # allow full urls to allow arbitrary file downloads

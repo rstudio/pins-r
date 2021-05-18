@@ -224,7 +224,7 @@ has_expired <- function(x) {
   }
 }
 
-http_date <- function(x) {
+http_date <- function(x = Sys.time()) {
   if (is.null(x)) {
     return(NULL)
   }
