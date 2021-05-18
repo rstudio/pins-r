@@ -1,11 +1,4 @@
-pin_changed_time <- function(name, board, extract) {
-  pin_path <- board_pin_get(board_get(board), name, extract = extract)
-  pin_files <- file.path(pin_path, dir(pin_path))
-
-  max(file.info(pin_files)[, "mtime"])
-}
-
-#' Reactive Pin
+#' Reactive Pin (legacy API)
 #'
 #' Creates a pin that reacts to changes in the given board by
 #' polling `pin_get()`, useful when used from the `shiny`
@@ -38,4 +31,68 @@ pin_reactive <- function(name, board, interval = 5000, session = NULL, extract =
       pin_get(name, board = board, extract = extract)
     }
   )
+}
+
+pin_changed_time <- function(name, board, extract) {
+  pin_path <- board_pin_get(board_get(board), name, extract = extract)
+  pin_files <- file.path(pin_path, dir(pin_path))
+
+  max(file.info(pin_files)[, "mtime"])
+}
+
+
+#' Wrap a pin in a reactive expression
+#'
+#' `pin_reactive_read()` and `pin_reactive_download()` wrap the results of
+#' [pin_read()] and [pin_download()] into a Shiny reactive. This allows you to
+#' use pinned data within your app, and have the results automatically
+#' recompute when the pin is modified.
+#'
+#' @param interval Approximate number of milliseconds to wait between
+#'   re-downloading the pin metadata to check if anything has changed.
+#' @param session Pass through the `session` argument of your server function
+#'   to ensure that clean up
+#' @inheritParams pin_read
+#' @export
+#' @examples
+#' if (FALSE) {
+#'   library(shiny)
+#'   ui <- fluidPage(
+#'     tableOutput("table")
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     board <- board_local()
+#'     data <- pin_reactive_read(1000, session, board, "shiny")
+#'     output$table <- renderTable(data())
+#'   }
+#'   shinyApp(ui, server)
+#' }
+pin_reactive_read <- function(interval, session, board, name) {
+  check_installed("shiny")
+
+  shiny::reactivePoll(
+    intervalMillis = interval,
+    session = session,
+    checkFunc = function() pin_created(board, name),
+    valueFunc = function() pin_read(board, name)
+  )
+}
+
+#' @export
+#' @rdname pin_reactive_read
+pin_reactive_download <- function(interval, session, board, name) {
+  check_installed("shiny")
+
+  shiny::reactivePoll(
+    intervalMillis = interval,
+    session = session,
+    checkFunc = function() pin_created(board, name),
+    valueFunc = function() pin_download(board, name)
+  )
+}
+
+pin_created <- function(board, name) {
+  meta <- pin_meta(board, name)
+  meta$created
 }

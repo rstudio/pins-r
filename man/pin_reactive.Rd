@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_reactive.R
 \name{pin_reactive}
 \alias{pin_reactive}
-\title{Reactive Pin}
+\title{Reactive Pin (legacy API)}
 \usage{
 pin_reactive(name, board, interval = 5000, session = NULL, extract = NULL)
 }

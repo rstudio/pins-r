@@ -17,6 +17,7 @@ reference:
   - pin_search
   - pin_delete
   - pin_browse
+  - pin_reactive_read
 
 - title: Boards
   desc: >
