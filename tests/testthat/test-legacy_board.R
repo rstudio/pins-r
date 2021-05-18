@@ -4,7 +4,7 @@ test_that("good errors when use modern board with legacy api", {
     pin(mtcars, "mtcars", board = board)
     pin_get("mtcars", board = board)
     pin_find("mtcars", board = board)
-    pin_versions("mtcars", board = board)
+    pin_versions("mtcars", board)
     board_browse(board)
   })
 

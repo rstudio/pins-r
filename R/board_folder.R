@@ -68,17 +68,6 @@ pin_delete.pins_board_folder <- function(board, names, ...) {
 }
 
 #' @export
-pin_versions.pins_board_folder <- function(board, name, ...) {
-  path_pin <- fs::path(board$path, name)
-  versions <- read_versions(path_pin) %||% character(0)
-
-  meta <- map(versions, function(v) pin_meta(board, name, version = v))
-  date <- rsc_parse_time(map_chr(meta, function(x) x[["created"]] %||% NA_character_))
-
-  tibble::tibble(version = versions, created = date)
-}
-
-#' @export
 pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache = FALSE) {
   if (cache) {
     abort("board_local() does not have a cache")
@@ -92,24 +81,24 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
-  versions <- read_versions(path_pin)
+  versions <- pin_versions(board, name)
 
-  if (length(versions) > 1) {
+  if (nrow(versions) > 1) {
     versioned <- versioned %||% TRUE
   } else {
     versioned <- versioned %||% board$versions
   }
 
   if (!versioned) {
-    if (length(versions) == 0) {
+    if (nrow(versions) == 0) {
       pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
-    } else if (length(versions) == 1) {
+    } else if (nrow(versions) == 1) {
       pins_inform(paste0(
-        "Replacing version '", versions, "'",
+        "Replacing version '", versions$version, "'",
         " with '", metadata$pin_hash, "'"
       ))
-      fs::dir_delete(fs::path(path_pin, versions))
-      versions <- NULL
+      fs::dir_delete(fs::path(path_pin, versions$version))
+      versions <- versions[0, , drop = FALSE]
     } else {
       abort(c(
         "Pin is versioned, but you have requested a write without versions",
@@ -126,8 +115,9 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
   write_meta(metadata, path_version)
 
   # Add to list of versions so we know which is most recent
-  versions <- c(versions, metadata$pin_hash)
-  update_versions(path_pin, versions)
+  versions <- rbind(versions,
+    data.frame(version = metadata$pin_hash, created = metadata$created))
+  update_cache(fs::path(path_pin, "versions.yml"), "versions", versions)
 
   invisible(board)
 }
@@ -140,16 +130,12 @@ pin_fetch.pins_board_folder <- function(board, name, version = NULL, ...) {
 #' @export
 pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   check_name(name)
-  path_pin <- fs::path(board$path, name)
-  if (!fs::dir_exists(path_pin)) {
-    abort(paste0("Can't find pin '", name, "'"))
-  }
 
   version <- version %||%
-    last(read_versions(path_pin)) %||%
+    last(pin_versions(board, name)$version) %||%
     abort("No versions found")
 
-  path_version <- fs::path(path_pin, version)
+  path_version <- fs::path(board$path, name, version)
   if (!fs::dir_exists(path_version)) {
     abort(paste0("Can't find version '", version, "'"))
   }
@@ -158,13 +144,17 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   local_meta(meta, dir = path_version, version = version)
 }
 
-# Helpers -----------------------------------------------------------------
+#' @export
+pin_versions.pins_board_folder <- function(board, name, ...) {
+  path <- fs::path(board$path, name, "versions.yml")
 
-read_versions <- function(path) {
-  path <- fs::path(path, "versions.yml")
-  read_cache(path)$versions
-}
-update_versions <- function(path, x) {
-  path <- fs::path(path, "versions.yml")
-  update_cache(path, "versions", x)
+  # TODO: extract out into read_versions() and use in board_s3
+  versions <- read_cache(path)$versions
+  if (is.null(versions)) {
+    data.frame(version = character(), created = .POSIXct(double()))
+  } else {
+    versions <- tibble::as_tibble(versions)
+    versions$created <- rsc_parse_time(versions$created)
+    versions
+  }
 }

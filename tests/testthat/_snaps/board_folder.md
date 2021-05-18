@@ -10,14 +10,14 @@
 # can get versions
 
     Code
-      pin_write(b, 1:5, "x", type = "rds", versioned = TRUE)
+      pin_write(b, 1:5, "x", type = "rds")
     Message <message>
       Creating new version 'ab444e71e875d63b'
 
 ---
 
     Code
-      pin_write(b, 1:6, "x", type = "rds", versioned = TRUE)
+      pin_write(b, 1:6, "x", type = "rds")
     Message <message>
       Creating new version 'ab6b56a248de3a44'
 
@@ -63,8 +63,8 @@
 
     Code
       pin_read(b, "x")
-    Error <rlang_error>
-      Can't find pin 'x'
+    Error <simpleError>
+      attempt to select less than one element in integerOneIndex
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>

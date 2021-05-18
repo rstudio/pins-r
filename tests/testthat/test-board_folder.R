@@ -13,14 +13,14 @@ test_that("can remove a local pin", {
 })
 
 test_that("can get versions", {
-  b <- board_temp()
+  b <- board_temp(versions = TRUE)
   ui_loud()
-  expect_snapshot(pin_write(b, 1:5, "x", type = "rds", versioned = TRUE))
+  expect_snapshot(pin_write(b, 1:5, "x", type = "rds"))
+  expect_equal(nrow(pin_versions(b, "x")), 1)
   first_version <- pin_versions(b, "x")$version
-  expect_equal(length(first_version), 1)
 
-  expect_snapshot(pin_write(b, 1:6, "x", type = "rds", versioned = TRUE))
-  expect_equal(length(pin_versions(b, "x")$version), 2)
+  expect_snapshot(pin_write(b, 1:6, "x", type = "rds"))
+  expect_equal(nrow(pin_versions(b, "x")), 2)
 
   expect_equal(pin_read(b, "x"), 1:6)
   expect_equal(pin_read(b, "x", version = first_version), 1:5)

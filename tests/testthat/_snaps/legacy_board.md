@@ -14,10 +14,9 @@
     Error <rlang_error>
       Use `pin_search()` with this board, not `pin_find()`
     Code
-      pin_versions("mtcars", board = board)
-    Output
-      # A tibble: 0 x 2
-      # ... with 2 variables: version <chr>, created <dttm>
+      pin_versions("mtcars", board)
+    Error <rlang_error>
+      Please supply `board` then `name` when working with modern boards
     Code
       board_browse(board)
     Error <rlang_error>
