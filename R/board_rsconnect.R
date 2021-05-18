@@ -70,7 +70,7 @@ board_rsconnect <- function(
     server <- server %||% Sys.getenv("CONNECT_SERVER") %||% abort("`server` must be supplied")
     server_name <- httr::parse_url(server)$hostname
     # account determined below
-    url <- paste(server, "/__api__/")
+    url <- paste0(server, "/__api__/")
 
     key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
     account_info <- NULL
