@@ -35,7 +35,12 @@ new_board <- function(board, name, api, cache = NULL, versions = FALSE, ...) {
 print.pins_board <- function(x, ...) {
   cat(paste0(cli::style_bold("Pin board"), " <", class(x)[[1]], ">\n"))
   cat(paste0(board_desc(x), "\n", collapse = ""))
-  pins <- pin_list(x)
+
+  if (1 %in% x$api) {
+    pins <- pin_list(x)
+  } else {
+    pins <- pin_find(board = x)$name
+  }
 
   n <- length(pins)
   if (n == 0) {
