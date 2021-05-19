@@ -50,8 +50,6 @@ pin_changed_time <- function(name, board, extract) {
 #'
 #' @param interval Approximate number of milliseconds to wait between
 #'   re-downloading the pin metadata to check if anything has changed.
-#' @param session Pass through the `session` argument of your server function
-#'   to ensure that clean up
 #' @inheritParams pin_read
 #' @export
 #' @examples
@@ -63,17 +61,17 @@ pin_changed_time <- function(name, board, extract) {
 #'
 #'   server <- function(input, output, session) {
 #'     board <- board_local()
-#'     data <- pin_reactive_read(1000, session, board, "shiny")
+#'     data <- pin_reactive_read(board, "shiny", interval = 1000)
 #'     output$table <- renderTable(data())
 #'   }
 #'   shinyApp(ui, server)
 #' }
-pin_reactive_read <- function(interval, session, board, name) {
+pin_reactive_read <- function(board, name, interval = 5000) {
   check_installed("shiny")
 
   shiny::reactivePoll(
     intervalMillis = interval,
-    session = session,
+    session = shiny::getDefaultReactiveDomain(),
     checkFunc = function() pin_created(board, name),
     valueFunc = function() pin_read(board, name)
   )
@@ -81,12 +79,12 @@ pin_reactive_read <- function(interval, session, board, name) {
 
 #' @export
 #' @rdname pin_reactive_read
-pin_reactive_download <- function(interval, session, board, name) {
+pin_reactive_download <- function(board, name, interval = 5000) {
   check_installed("shiny")
 
   shiny::reactivePoll(
     intervalMillis = interval,
-    session = session,
+    session = shiny::getDefaultReactiveDomain(),
     checkFunc = function() pin_created(board, name),
     valueFunc = function() pin_download(board, name)
   )

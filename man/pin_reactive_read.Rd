@@ -5,21 +5,18 @@
 \alias{pin_reactive_download}
 \title{Wrap a pin in a reactive expression}
 \usage{
-pin_reactive_read(interval, session, board, name)
+pin_reactive_read(board, name, interval = 5000)
 
-pin_reactive_download(interval, session, board, name)
+pin_reactive_download(board, name, interval = 5000)
 }
 \arguments{
-\item{interval}{Approximate number of milliseconds to wait between
-re-downloading the pin metadata to check if anything has changed.}
-
-\item{session}{Pass through the \code{session} argument of your server function
-to ensure that clean up}
-
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
 \code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
 
 \item{name}{Pin name.}
+
+\item{interval}{Approximate number of milliseconds to wait between
+re-downloading the pin metadata to check if anything has changed.}
 }
 \description{
 \code{pin_reactive_read()} and \code{pin_reactive_download()} wrap the results of
@@ -36,7 +33,7 @@ if (FALSE) {
 
   server <- function(input, output, session) {
     board <- board_local()
-    data <- pin_reactive_read(1000, session, board, "shiny")
+    data <- pin_reactive_read(board, "shiny", interval = 1000)
     output$table <- renderTable(data())
   }
   shinyApp(ui, server)
