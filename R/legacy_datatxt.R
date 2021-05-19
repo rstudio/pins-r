@@ -41,8 +41,7 @@ legacy_datatxt <- function(url,
   # use only subdomain as friendly name which is also used as cache folder
   name <- name %||% gsub("https?://|\\..*", "", url)
 
-  board <- new_board("pins_board_datatxt",
-    api = 0,
+  board <- new_board_v0("pins_board_datatxt",
     name = name,
     cache = cache,
     versions = versions,

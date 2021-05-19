@@ -41,10 +41,8 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   # directories based on the hash of the URL to avoid cache collisions.
   cache <- cache %||% board_cache_path("url")
 
-  new_board("pins_board_url",
-    api = 1,
+  new_board_v1("pins_board_url",
     urls = urls,
-    name = "url",
     cache = cache,
     use_cache_on_failure = use_cache_on_failure
   )

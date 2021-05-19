@@ -7,11 +7,10 @@
 #' @param cache Cache path. Every board requires a local cache to avoid
 #'   downloading files multiple times. The default stores in a standard
 #'   cache location for your operating system, but you can override if needed.
-#' @param versions Should this board be registered with support for versions?
+#' @param versions,versioned Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
-new_board <- function(board, name, api, cache = NULL, versions = FALSE, ...) {
-  cache <- cache %||% board_cache_path(name)
+new_board <- function(board, api, cache, ...) {
   if (!is.na(cache)) {
     fs::dir_create(cache)
   }
@@ -20,9 +19,7 @@ new_board <- function(board, name, api, cache = NULL, versions = FALSE, ...) {
     list(
       board = board,
       api = api,
-      name = name,
       cache = cache,
-      versions = versions,
       ...
     ),
     class = c(board, "pins_board")
@@ -30,6 +27,32 @@ new_board <- function(board, name, api, cache = NULL, versions = FALSE, ...) {
 
   board
 }
+
+#' @rdname new_board
+new_board_v0 <- function(board, name, cache = NULL, versions = FALSE, ...) {
+  cache <- cache %||% board_cache_path(name)
+
+  new_board(
+    board = board,
+    api = 0L,
+    name = name,
+    cache = cache,
+    versions = versions,
+    ...
+  )
+}
+
+#' @rdname new_board
+new_board_v1 <- function(board, cache, versioned = FALSE, ...) {
+  new_board(
+    board = board,
+    api = 1L,
+    cache = cache,
+    versioned = versioned,
+    ...
+  )
+}
+
 
 #' @export
 print.pins_board <- function(x, ...) {

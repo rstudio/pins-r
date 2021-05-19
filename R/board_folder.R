@@ -21,15 +21,13 @@
 #' # session-specific local board
 #' board <- board_temp()
 #' @export
-board_folder <- function(path, name = "folder", versions = FALSE) {
+board_folder <- function(path, name = "folder", versioned = FALSE) {
   fs::dir_create(path)
 
-  new_board("pins_board_folder",
-    api = 1,
-    name = name,
+  new_board_v1("pins_board_folder",
     cache = NA_character_,
     path = path,
-    versions = versions
+    versioned = versioned
   )
 }
 #' @export
@@ -39,14 +37,14 @@ board_desc.pins_board_folder <- function(board, ...) {
 
 #' @export
 #' @rdname board_folder
-board_local <- function(versions = FALSE) {
-  board_folder(rappdirs::user_data_dir("pins"), name = "local", versions = versions)
+board_local <- function(versioned = FALSE) {
+  board_folder(rappdirs::user_data_dir("pins"), name = "local", versioned = versioned)
 }
 
 #' @rdname board_folder
 #' @export
-board_temp <- function(name = "temp", versions = FALSE) {
-  board_folder(fs::file_temp("pins-"), name = name, versions = versions)
+board_temp <- function(name = "temp", versioned = FALSE) {
+  board_folder(fs::file_temp("pins-"), name = name, versioned = versioned)
 }
 
 # Methods -----------------------------------------------------------------
@@ -86,7 +84,7 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
   if (nrow(versions) > 1) {
     versioned <- versioned %||% TRUE
   } else {
-    versioned <- versioned %||% board$versions
+    versioned <- versioned %||% board$versioned
   }
 
   if (!versioned) {

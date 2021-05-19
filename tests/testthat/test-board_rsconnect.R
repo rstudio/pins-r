@@ -90,7 +90,7 @@ test_that("versioned by default", {
 })
 
 test_that("if unversioned, deletes last one", {
-  board <- board_rsconnect_test(versions = FALSE)
+  board <- board_rsconnect_test(versioned = FALSE)
   withr::defer(pin_delete(board, "hadley/test-df1"))
 
   pin_write(board, data.frame(x = 1), "test-df1", type = "rds")

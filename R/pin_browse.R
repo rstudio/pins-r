@@ -9,7 +9,7 @@
 #'   to cache pin files.
 #' @export
 #' @examples
-#' board <- board_temp(versions = TRUE)
+#' board <- board_temp(versioned = TRUE)
 #' board %>% pin_write(1:10, "x")
 #' board %>% pin_write(1:11, "x")
 #' board %>% pin_write(1:12, "x")

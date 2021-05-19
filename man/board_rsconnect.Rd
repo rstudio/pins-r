@@ -12,8 +12,8 @@ board_rsconnect(
   output_files = FALSE,
   cache = NULL,
   name = "rsconnect",
-  versions = TRUE,
-  ...
+  versioned = TRUE,
+  versions = deprecated()
 )
 }
 \arguments{
@@ -39,9 +39,9 @@ cache location for your operating system, but you can override if needed.}
 generally needed since you should be passing around an explicit
 board object.}
 
-\item{versions}{Should this board be registered with support for versions?}
+\item{versioned}{Should this board be registered with support for versions?}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{versions}{Should this board be registered with support for versions?}
 }
 \description{
 To use a RStudio Connect board, you need to first authenticate. The easiest

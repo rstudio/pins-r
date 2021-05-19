@@ -120,7 +120,7 @@ There are two ways to turn versioning on:
 -   When you create a board you can turn versioning on for every pin in that board:
 
     ```{r, eval = FALSE}
-    board2 <- board_temp(versions = TRUE)
+    board2 <- board_temp(versioned = TRUE)
     ```
 
 -   When you write a pin, you can specifically request that versioning be turned on for that pin:
@@ -136,7 +136,7 @@ In most cases, however, you'll need to explicitly enable it.
 Once you have turned versioning on, every `pin_write()` will create a new version:
 
 ```{r}
-board2 <- board_temp(versions = TRUE)
+board2 <- board_temp(versioned = TRUE)
 
 board2 %>% pin_write(1:5, name = "x", type = "rds")
 board2 %>% pin_write(2:6, name = "x", type = "rds")
