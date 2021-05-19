@@ -35,7 +35,7 @@
       b <- board_temp()
       pin_write(b, mtcars)
     Message <message>
-      Guessing `name = 'mtcars'`
+      Using `name = 'mtcars'`
       Guessing `type = 'rds'`
       Creating new version 'dfa6c1c109362781'
     Code
