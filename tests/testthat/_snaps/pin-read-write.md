@@ -38,6 +38,10 @@
       Guessing `name = 'mtcars'`
       Guessing `type = 'rds'`
       Creating new version 'dfa6c1c109362781'
+    Code
+      pin_write(b, data.frame(x = 1))
+    Error <rlang_error>
+      Must supply `name` when `x` is an expression
 
 # can request specific hash
 

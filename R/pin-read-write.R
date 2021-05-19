@@ -60,8 +60,13 @@ pin_write <- function(board, x,
   check_board(board, "pin_write()", "pin()")
 
   if (is.null(name)) {
-    name <- pin_default_name(expr_deparse(enexpr(x)), board)
-    pins_inform(paste0("Guessing `name = '", name, "'`"))
+    name <- enexpr(x)
+    if (is_symbol(name)) {
+      name <- as.character(name)
+      pins_inform(paste0("Guessing `name = '", name, "'`"))
+    } else {
+      abort("Must supply `name` when `x` is an expression")
+    }
   } else {
     check_name(name)
   }
