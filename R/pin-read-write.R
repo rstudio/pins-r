@@ -150,6 +150,7 @@ object_read <- function(meta) {
       ))
     )
   } else {
+    # used by board_rsconnect()
     type <- arg_match0(meta$type, c("default", "files", "table"))
     path <- fs::path_dir(path[[1]])
 
