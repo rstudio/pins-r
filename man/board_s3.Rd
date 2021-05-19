@@ -22,16 +22,19 @@ board_s3(
 
 \item{versioned}{Should this board be registered with support for versions?}
 
-\item{access_key, secret_access-key, session_token, credential_expiration}{Manually control authentication. See documentation below for details.}
+\item{access_key, secret_access_key, session_token, credential_expiration}{Manually control authentication. See documentation below for details.}
+
+\item{profile}{Role to use from AWS shared credentials/config file.}
 
 \item{region}{AWS region. If not specified, will be read from \code{AWS_REGION},
 or AWS config file.}
 
+\item{endpoint}{AWS endpoint to use; usually generated automatically from
+\code{region}.}
+
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
-
-\item{role}{Role to use from AWS shared credentials/config file.}
 }
 \description{
 Pin data to a bucket on Amazon's S3 service.
@@ -75,5 +78,9 @@ like \code{pins_list()} will work, but won't return useful output.
 }
 
 \examples{
-board_s3("pins-test-hadley", region = "us-east-2")
+\dontrun{
+board <- board_s3("pins-test-hadley", region = "us-east-2")
+board \%>\% pin_write(mtcars)
+board \%>\% pin_read("mtcars")
+}
 }

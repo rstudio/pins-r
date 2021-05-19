@@ -53,6 +53,10 @@ This version includes the following modern boards:
   pins 1.0.0. This API is backward compatible so that you can `pin_read()` pins 
   created by `pin()`, but you can not `pin_get()` pins created by `pin_write()`.
   
+* `board_s3()` stores data in to Amazon's S3 service. It is built on top of 
+  [paws](https://paws-r.github.io) so supports a wide range of authentication
+  options.
+
 * `board_url()` lets you create a manual pin board from a vector of 
   urls. This is useful because `pin_donwload()` and `pin_read()` are 
   cached, and will only re-download the data if it's changed since the

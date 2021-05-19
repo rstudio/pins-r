@@ -45,13 +45,20 @@
 #'
 #' @inheritParams new_board
 #' @param bucket Bucket name.
-#' @param access_key,secret_access-key,session_token,credential_expiration
+#' @param access_key,secret_access_key,session_token,credential_expiration
 #'   Manually control authentication. See documentation below for details.
 #' @param region AWS region. If not specified, will be read from `AWS_REGION`,
 #'   or AWS config file.
-#' @param role Role to use from AWS shared credentials/config file.
+#' @param endpoint AWS endpoint to use; usually generated automatically from
+#'   `region`.
+#' @param profile Role to use from AWS shared credentials/config file.
+#' @export
 #' @examples
-#' board_s3("pins-test-hadley", region = "us-east-2")
+#' \dontrun{
+#' board <- board_s3("pins-test-hadley", region = "us-east-2")
+#' board %>% pin_write(mtcars)
+#' board %>% pin_read("mtcars")
+#' }
 board_s3 <- function(
                     bucket,
                     versioned = TRUE,
@@ -94,6 +101,10 @@ board_s3 <- function(
 }
 
 board_s3_test <- function(...) {
+  if (Sys.info()[["user"]] != "hadley" && has_envvars("AWS_ACCESS_KEY_ID")) {
+    testthat::skip("S3 tests only work for Hadley")
+  }
+
   board_s3("pins-test-hadley", region = "us-east-2", cache = tempfile(), ...)
 }
 
@@ -253,7 +264,7 @@ s3_upload_yaml <- function(board, key, yaml) {
 }
 
 s3_upload_file <- function(board, key, path) {
-  body <- brio::read_file_raw(path)
+  body <- readBin(path, "raw", file.size(path))
   board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
 }
 
