@@ -77,7 +77,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 
   if (is_dir) {
     # If directory, read from /data.txt
-    download_cache(
+    http_download(
       url = paste0(url, "data.txt"),
       path_dir = cache_dir,
       path_file = "data.txt",
@@ -108,7 +108,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   path <- map2_chr(meta$local$url, meta$file, function(url, file) {
-    download_cache(
+    http_download(
       url = url,
       path_dir = meta$local$dir,
       path_file = file,
@@ -144,7 +144,7 @@ pin_store.pins_board_url <- function(board, name, path, metadata,
 
 # Helpers ------------------------------------------------------------------
 
-download_cache <- function(url, path_dir, path_file, use_cache_on_failure = FALSE) {
+http_download <- function(url, path_dir, path_file, use_cache_on_failure = FALSE) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
 

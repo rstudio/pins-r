@@ -55,7 +55,7 @@ test_that("useful errors for unsupported methods", {
   })
 })
 
-# download_cache ----------------------------------------------------------
+# http_download ----------------------------------------------------------
 
 test_that("use cache with Last-Modified header", {
   skip_on_cran()
@@ -63,7 +63,7 @@ test_that("use cache with Last-Modified header", {
   url <- "https://httpbin.org/cache"
 
   expect_condition(
-    download_cache(url, path, "test"),
+    http_download(url, path, "test"),
     class = "pins_cache_downloaded"
   )
 
@@ -71,7 +71,7 @@ test_that("use cache with Last-Modified header", {
   expect_named(cache, url)
 
   expect_condition(
-    download_cache(url, path, "test"),
+    http_download(url, path, "test"),
     class = "pins_cache_not_modified"
   )
 })
@@ -82,7 +82,7 @@ test_that("use cache with etags header", {
   url <- "https://httpbin.org/etag/xxx"
 
   expect_condition(
-    download_cache(url, path, "test"),
+    http_download(url, path, "test"),
     class = "pins_cache_downloaded"
   )
 
@@ -90,7 +90,7 @@ test_that("use cache with etags header", {
   expect_equal(cache[["https://httpbin.org/etag/xxx"]]$etag, "xxx")
 
   expect_condition(
-    download_cache(url, path, "test"),
+    http_download(url, path, "test"),
     class = "pins_cache_not_modified"
   )
 })
@@ -101,7 +101,7 @@ test_that("no request if cache-control set", {
   url <- "https://httpbin.org/cache/60"
 
   expect_condition(
-    download_cache(url, path, "test"),
+    http_download(url, path, "test"),
     class = "pins_cache_downloaded"
   )
 
@@ -109,7 +109,7 @@ test_that("no request if cache-control set", {
   expect_named(cache, url)
 
   expect_condition(
-    download_cache(url, path, "test"),
+    http_download(url, path, "test"),
     class = "pins_cache_cached"
   )
 })
