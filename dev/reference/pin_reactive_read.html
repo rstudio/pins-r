@@ -152,23 +152,13 @@ use pinned data within your app, and have the results automatically
 recompute when the pin is modified.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pin_reactive_read</span><span class='op'>(</span><span class='va'>interval</span>, <span class='va'>session</span>, <span class='va'>board</span>, <span class='va'>name</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>pin_reactive_read</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, interval <span class='op'>=</span> <span class='fl'>5000</span><span class='op'>)</span>
 
-<span class='fu'>pin_reactive_download</span><span class='op'>(</span><span class='va'>interval</span>, <span class='va'>session</span>, <span class='va'>board</span>, <span class='va'>name</span><span class='op'>)</span></pre>
+<span class='fu'>pin_reactive_download</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, interval <span class='op'>=</span> <span class='fl'>5000</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>interval</th>
-      <td><p>Approximate number of milliseconds to wait between
-re-downloading the pin metadata to check if anything has changed.</p></td>
-    </tr>
-    <tr>
-      <th>session</th>
-      <td><p>Pass through the <code>session</code> argument of your server function
-to ensure that clean up</p></td>
-    </tr>
     <tr>
       <th>board</th>
       <td><p>A pin board, created by <code><a href='board_folder.html'>board_folder()</a></code>, <code><a href='board_rsconnect.html'>board_rsconnect()</a></code>,
@@ -177,6 +167,11 @@ to ensure that clean up</p></td>
     <tr>
       <th>name</th>
       <td><p>Pin name.</p></td>
+    </tr>
+    <tr>
+      <th>interval</th>
+      <td><p>Approximate number of milliseconds to wait between
+re-downloading the pin metadata to check if anything has changed.</p></td>
     </tr>
     </table>
 
@@ -190,7 +185,7 @@ to ensure that clean up</p></td>
 <span class='r-in'></span>
 <span class='r-in'>  <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'>    <span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_local</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'>    <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>pin_reactive_read</span><span class='op'>(</span><span class='fl'>1000</span>, <span class='va'>session</span>, <span class='va'>board</span>, <span class='st'>"shiny"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>pin_reactive_read</span><span class='op'>(</span><span class='va'>board</span>, <span class='st'>"shiny"</span>, interval <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span></span>
 <span class='r-in'>    <span class='va'>output</span><span class='op'>$</span><span class='va'>table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/renderTable.html'>renderTable</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'>  <span class='op'>}</span></span>
 <span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span></span>
