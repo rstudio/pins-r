@@ -26,6 +26,7 @@ reference:
   contents:
   - board_local
   - board_rsconnect
+  - board_s3
   - board_url
 
 - title: Legacy API

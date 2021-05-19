@@ -211,7 +211,7 @@ http_download <- function(url, path_dir, path_file, use_cache_on_failure = FALSE
 }
 
 download_cache_path <- function(path) {
-  fs::path(path, "http-cache.yaml")
+  fs::path(path, "download-cache.yaml")
 }
 
 has_expired <- function(x) {
