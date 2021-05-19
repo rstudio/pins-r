@@ -31,8 +31,7 @@ legacy_kaggle <- function(token = NULL, name = "kaggle", ...) {
     stop("Kaggle token file '", token, "' does not exist.", call. = FALSE)
   }
 
-  board <- new_board(
-    api = 0,
+  board <- new_board_v0(
     "pins_board_kaggle",
     name = name,
     token = token,

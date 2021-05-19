@@ -24,7 +24,7 @@ provided additional data.
 List versions available for a pin. See \verb{vignette("versioning)"} for details.
 }
 \examples{
-board <- board_temp(versions = TRUE)
+board <- board_temp(versioned = TRUE)
 
 board \%>\% pin_write(data.frame(x = 1:5), name = "df")
 board \%>\% pin_write(data.frame(x = 2:6), name = "df")

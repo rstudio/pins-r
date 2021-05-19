@@ -13,7 +13,7 @@ test_that("can remove a local pin", {
 })
 
 test_that("can get versions", {
-  b <- board_temp(versions = TRUE)
+  b <- board_temp(versioned = TRUE)
   ui_loud()
   expect_snapshot(pin_write(b, 1:5, "x", type = "rds"))
   expect_equal(nrow(pin_versions(b, "x")), 1)
@@ -45,7 +45,7 @@ test_that("can upload/download multiple files", {
 test_that("can't unversion an unversioned pin", {
   ui_loud()
   expect_snapshot(error = TRUE, {
-    b <- board_temp(versions = TRUE)
+    b <- board_temp(versioned = TRUE)
     pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:5, "x", type = "rds", versioned = FALSE)

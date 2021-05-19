@@ -1,5 +1,5 @@
 test_that("can read from and write to registry ", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   expect_equal(pin_registry_read(board), list())
   pin_registry_write(board, list(list(name = "x")))
@@ -7,7 +7,7 @@ test_that("can read from and write to registry ", {
 })
 
 test_that("can add, modify, and delete existing entries", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   pin_registry_update(board, "x", list(test = "x"))
   expect_equal(pin_registry_read(board), list(x = list(test = "x", name = "x")))
@@ -23,7 +23,7 @@ test_that("can add, modify, and delete existing entries", {
 })
 
 test_that("can access entries", {
-  board <- board_temp()
+  board <- legacy_temp()
 
   expect_snapshot(pin_registry_retrieve(board, "x"), error = TRUE)
 

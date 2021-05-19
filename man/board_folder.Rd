@@ -6,11 +6,11 @@
 \alias{board_temp}
 \title{Use a local folder as board}
 \usage{
-board_folder(path, name = "folder", versions = FALSE)
+board_folder(path, name = "folder", versioned = FALSE)
 
-board_local(versions = FALSE)
+board_local(versioned = FALSE)
 
-board_temp(name = "temp", versions = FALSE)
+board_temp(name = "temp", versioned = FALSE)
 }
 \arguments{
 \item{path}{Path to directory to store pins. Will be created if it
@@ -20,7 +20,7 @@ doesn't already exist.}
 generally needed since you should be passing around an explicit
 board object.}
 
-\item{versions}{Should this board be registered with support for versions?}
+\item{versioned}{Should this board be registered with support for versions?}
 }
 \description{
 \itemize{

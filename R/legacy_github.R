@@ -44,8 +44,7 @@ legacy_github <- function(
   token <- token %||% envvar_get("GITHUB_PAT") %||%
     abort("Specify GitHub PAT with `token` or 'GITHUB_PAT' env var")
 
-  board <- new_board("pins_board_github",
-    api = 0,
+  board <- new_board_v0("pins_board_github",
     name = name,
     token = token,
     repo = repo,

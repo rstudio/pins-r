@@ -62,8 +62,9 @@ board_rsconnect <- function(
                             output_files = FALSE,
                             cache = NULL,
                             name = "rsconnect",
-                            versions = TRUE,
-                            ...) {
+                            versioned = TRUE,
+                            versions = deprecated()) {
+
 
   auth <- check_auth(auth)
   if (auth == "envvar") {
@@ -84,6 +85,11 @@ board_rsconnect <- function(
     account_info <- rsconnect::accountInfo(account, server_name)
   }
 
+  if (lifecycle::is_present(versions)) {
+    lifecycle::deprecate_warn("1.0.0", "board_rsconnect(versions)","board_rsconnect(versioned)")
+    versioned <- versions
+  }
+
   cache <- cache %||% board_cache_path(paste0("rsc-", hash(server)))
 
   board <- new_board("pins_board_rsconnect",
@@ -95,8 +101,7 @@ board_rsconnect <- function(
     server_name = server_name, # for board_rsconnect(server = "...") in template
     account_info = account_info,
     key = key,
-    versions = versions,
-    ...
+    versioned = versioned
   )
   # Fill in account name if auth == "envvar"
   board$account <- board$account %||% rsc_GET(board, "users/current/")$username
@@ -275,7 +280,7 @@ pin_store.pins_board_rsconnect <- function(
 {
   # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
 
-  versioned <- versioned %||% board$versions
+  versioned <- versioned %||% board$versioned
   if (!is.null(access_type)) {
     access_type <- arg_match0(access_type, c("acl", "logged_in", "all"))
   }

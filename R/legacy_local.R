@@ -27,8 +27,7 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   path <- path %||% rappdirs::user_data_dir("pins")
   fs::dir_create(path)
 
-  new_board("pins_board_local",
-    api = 0,
+  new_board_v0("pins_board_local",
     name = name,
     cache = NA_character_,
     path = path,

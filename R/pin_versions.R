@@ -11,7 +11,7 @@
 #' @return A data frame with at least a `version` column. Some boards may
 #'   provided additional data.
 #' @examples
-#' board <- board_temp(versions = TRUE)
+#' board <- board_temp(versioned = TRUE)
 #'
 #' board %>% pin_write(data.frame(x = 1:5), name = "df")
 #' board %>% pin_write(data.frame(x = 2:6), name = "df")

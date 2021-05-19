@@ -31,7 +31,7 @@
 # can't unversion an unversioned pin
 
     Code
-      b <- board_temp(versions = TRUE)
+      b <- board_temp(versioned = TRUE)
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
       Creating new version 'ab444e71e875d63b'

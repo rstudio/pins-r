@@ -60,11 +60,15 @@ pin_write <- function(board, x,
   check_board(board, "pin_write()", "pin()")
 
   if (is.null(name)) {
-    name <- pin_default_name(expr_deparse(enexpr(x)), board)
-    pins_inform(paste0("Guessing `name = '", name, "'`"))
-  } else {
-    check_name(name)
+    name <- enexpr(x)
+    if (is_symbol(name)) {
+      name <- as.character(name)
+      pins_inform(paste0("Using `name = '", name, "'`"))
+    } else {
+      abort("Must supply `name` when `x` is an expression")
+    }
   }
+  check_name(name)
   check_metadata(metadata)
 
   if (is.null(type)) {
@@ -145,6 +149,7 @@ object_read <- function(meta) {
       ))
     )
   } else {
+    # used by board_rsconnect()
     type <- arg_match0(meta$type, c("default", "files", "table"))
     path <- fs::path_dir(path[[1]])
 

@@ -47,9 +47,10 @@ test_that("guess_type() works as expected", {
 
 test_that("pin_write() noisily generates name and type", {
   ui_loud()
-  expect_snapshot({
+  expect_snapshot(error = TRUE, {
     b <- board_temp()
     pin_write(b, mtcars)
+    pin_write(b, data.frame(x = 1))
   })
 })
 

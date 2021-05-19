@@ -101,7 +101,7 @@ This includes:
 When creating the pin, you can override the default description and provide additional metadata that is stored with the data:
 
 ```{r}
-board %>% pin_write("mtcars", 
+board %>% pin_write(mtcars, 
   desc = "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
   metadata = list(
     source = "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."
@@ -120,7 +120,7 @@ There are two ways to turn versioning on:
 -   When you create a board you can turn versioning on for every pin in that board:
 
     ```{r, eval = FALSE}
-    board2 <- board_temp(versions = TRUE)
+    board2 <- board_temp(versioned = TRUE)
     ```
 
 -   When you write a pin, you can specifically request that versioning be turned on for that pin:
@@ -136,7 +136,7 @@ In most cases, however, you'll need to explicitly enable it.
 Once you have turned versioning on, every `pin_write()` will create a new version:
 
 ```{r}
-board2 <- board_temp(versions = TRUE)
+board2 <- board_temp(versioned = TRUE)
 
 board2 %>% pin_write(1:5, name = "x", type = "rds")
 board2 %>% pin_write(2:6, name = "x", type = "rds")
