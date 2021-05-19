@@ -134,11 +134,16 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
     abort(glue("Can't find pin called '{name}'"))
   }
 
-  version <- version %||%
-    last(pin_versions(board, name)$version) %||%
-    abort("No versions found")
+  if (is.null(version)) {
+    version <- last(pin_versions(board, name)$version) %||% abort("No versions found")
+  } else if (is_string(version)) {
+    if (!s3_exists(board, fs::path(name, version))) {
+      abort(glue("Can't find version '{version}' of {name} pin"))
+    }
+  } else {
+    abort("`version` must be a string or `NULL`")
+  }
 
-  # TODO: error messages for bad name/bad version
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
