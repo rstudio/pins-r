@@ -101,7 +101,7 @@ board_s3 <- function(
 }
 
 board_s3_test <- function(...) {
-  if (Sys.info()[["user"]] != "hadley" && has_envvars("AWS_ACCESS_KEY_ID")) {
+  if (Sys.info()[["user"]] != "hadley" || !has_envvars("AWS_ACCESS_KEY_ID")) {
     testthat::skip("S3 tests only work for Hadley")
   }
 
