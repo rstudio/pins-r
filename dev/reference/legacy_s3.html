@@ -50,7 +50,8 @@
 <meta property="og:description" content="To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 with enough permissions to access the S3 bucket. You can sign-up and create
 those at https://aws.amazon.com/. Note that it can take a few minutes
-after you've created it before a bucket is usable." />
+after you've created it before a bucket is usable.
+See board_s3() for a modern version of this legacy board." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -150,6 +151,7 @@ after you've created it before a bucket is usable." />
 with enough permissions to access the S3 bucket. You can sign-up and create
 those at <a href='https://aws.amazon.com/'>https://aws.amazon.com/</a>. Note that it can take a few minutes
 after you've created it before a bucket is usable.</p>
+<p>See <code><a href='board_s3.html'>board_s3()</a></code> for a modern version of this legacy board.</p>
     </div>
 
     <pre class="usage"><span class='fu'>legacy_s3</span><span class='op'>(</span>
@@ -188,7 +190,7 @@ after you've created it before a bucket is usable.</p>
 a key and secret in the "Spaces access keys" in your API settings.</p>
 <p>The <code>secret</code> is equivalent to a password, so generally should not be stored
 in your script. The easiest alternative is to store it in the
-<code>AWS_SECRET_ACCESS_KEY</code> environment variable, which <code>board_s3()</code> will
+<code>AWS_SECRET_ACCESS_KEY</code> environment variable, which <code><a href='board_s3.html'>board_s3()</a></code> will
 use by default.</p></td>
     </tr>
     <tr>

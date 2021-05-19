@@ -19,6 +19,9 @@
     <loc>https://pins.rstudio.com/reference/board_rsconnect.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/board_s3.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/board_test.html</loc>
   </url>
   <url>

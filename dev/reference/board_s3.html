@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use an S3 board — board_s3 • pins</title>
+<title>Use an S3 bucket as a board — board_s3 • pins</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,8 @@
 
 
 
-<meta property="og:title" content="Use an S3 board — board_s3" />
-<meta property="og:description" content="To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
-with enough permissions to access the S3 bucket. You can sign-up and create
-those at https://aws.amazon.com/. Note that it can take a few minutes
-after you've created it before a bucket is usable." />
+<meta property="og:title" content="Use an S3 bucket as a board — board_s3" />
+<meta property="og:description" content="Pin data to a bucket on Amazon's S3 service." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -90,6 +87,12 @@ after you've created it before a bucket is usable." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/pins.html">Get started</a>
 </li>
 <li>
@@ -134,27 +137,26 @@ after you've created it before a bucket is usable." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use an S3 board</h1>
+    <h1>Use an S3 bucket as a board</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/pins/blob/master/R/board_s3.R'><code>R/board_s3.R</code></a></small>
     <div class="hidden name"><code>board_s3.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
-with enough permissions to access the S3 bucket. You can sign-up and create
-those at <a href='https://aws.amazon.com/'>https://aws.amazon.com/</a>. Note that it can take a few minutes
-after you've created it before a bucket is usable.</p>
+    <p>Pin data to a bucket on Amazon's S3 service.</p>
     </div>
 
     <pre class="usage"><span class='fu'>board_s3</span><span class='op'>(</span>
-  bucket <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AWS_BUCKET"</span><span class='op'>)</span>,
-  key <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AWS_ACCESS_KEY_ID"</span><span class='op'>)</span>,
-  secret <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"AWS_SECRET_ACCESS_KEY"</span><span class='op'>)</span>,
-  cache <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>bucket</span>,
+  versioned <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  access_key <span class='op'>=</span> <span class='cn'>NULL</span>,
+  secret_access_key <span class='op'>=</span> <span class='cn'>NULL</span>,
+  session_token <span class='op'>=</span> <span class='cn'>NULL</span>,
+  credential_expiration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  profile <span class='op'>=</span> <span class='cn'>NULL</span>,
   region <span class='op'>=</span> <span class='cn'>NULL</span>,
-  host <span class='op'>=</span> <span class='st'>"s3.amazonaws.com"</span>,
-  name <span class='op'>=</span> <span class='st'>"s3"</span>,
-  <span class='va'>...</span>
+  endpoint <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cache <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -162,16 +164,29 @@ after you've created it before a bucket is usable.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bucket</th>
-      <td><p>The name of the Amazon S3 bucket.</p></td>
+      <td><p>Bucket name.</p></td>
     </tr>
     <tr>
-      <th>key, secret</th>
-      <td><p>The key and secret for your space. You can create
-a key and secret in the "Spaces access keys" in your API settings.</p>
-<p>The <code>secret</code> is equivalent to a password, so generally should not be stored
-in your script. The easiest alternative is to store it in the
-<code>AWS_SECRET_ACCESS_KEY</code> environment variable, which <code>board_s3()</code> will
-use by default.</p></td>
+      <th>versioned</th>
+      <td><p>Should this board be registered with support for versions?</p></td>
+    </tr>
+    <tr>
+      <th>access_key, secret_access_key, session_token, credential_expiration</th>
+      <td><p>Manually control authentication. See documentation below for details.</p></td>
+    </tr>
+    <tr>
+      <th>profile</th>
+      <td><p>Role to use from AWS shared credentials/config file.</p></td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td><p>AWS region. If not specified, will be read from <code>AWS_REGION</code>,
+or AWS config file.</p></td>
+    </tr>
+    <tr>
+      <th>endpoint</th>
+      <td><p>AWS endpoint to use; usually generated automatically from
+<code>region</code>.</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -179,39 +194,51 @@ use by default.</p></td>
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></td>
     </tr>
-    <tr>
-      <th>region</th>
-      <td><p>The region to use, required in some AWS regions and to
-enable V4 signatures.</p></td>
-    </tr>
-    <tr>
-      <th>host</th>
-      <td><p>The host to use for storage, defaults to <code>"s3.amazonaws.com"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters required to initialize a particular board.</p></td>
-    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="authentication"><a class="anchor" href="#authentication"></a>Authentication</h2>
 
-    <div class='dont-index'><p>Other boards: 
-<code><a href='board_azure.html'>board_azure</a>()</code>,
-<code><a href='board_folder.html'>board_folder</a>()</code>,
-<code><a href='board_github.html'>board_github</a>()</code>,
-<code><a href='board_rsconnect.html'>board_rsconnect</a>()</code></p></div>
+    <p><code>board_s3()</code> is powered by the paws package which provides a wide range
+of authnetication options, as documented at
+<a href='https://github.com/paws-r/paws/blob/main/docs/credentials.md'>https://github.com/paws-r/paws/blob/main/docs/credentials.md</a>.
+In brief, there are four main options that are tried in order:</p><ul>
+<li><p>The <code>access_key</code> and <code>secret_access_key</code> arguments to this function.
+If you have a temporary session token, you'll also need to supply
+<code>session_token</code> and <code>credential_expiration</code>.
+(Not recommended since your <code>secret_access_key</code> will be recorded
+in <code>.Rhistory</code>)</p></li>
+<li><p>The <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code> env vars.
+(And <code>AWS_SESSION_TOKEN</code> and <code>AWS_CREDENTIAL_EXPIRATION</code> env vars if you
+have a temporary session token)</p></li>
+<li><p>The AWS shared credential file, <code>~/.aws/credentials</code>:</p><pre>[profile-name]
+aws_access_key_id=your AWS access key
+aws_secret_access_key=your AWS secret key
+</pre>
+
+<p>The "default" profile will be used if you don't supply the access key
+and secret access key as described above. Otherwise you can use the
+<code>profile</code> argument to use a profile of your choice.</p></li>
+<li><p>Automatic authentication from EC2 instance or container IAM role.</p></li>
+</ul>
+
+<p>See the paws documentation for more unusual options including getting
+credentials from a command line process, picking a role when running inside
+an EC2 instance, using a role from another profile, and using multifactor
+authentication.</p>
+    <h2 class="hasAnchor" id="caveats"><a class="anchor" href="#caveats"></a>Caveats</h2>
+
+    
+<ul>
+<li><p>If you point at a bucket that's not created by pins, some functions
+like <code>pins_list()</code> will work, but won't return useful output.</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='co'># the following example requires an Amazon S3 API key</span></span>
-<span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'>board_s3</span><span class='op'>(</span>bucket <span class='op'>=</span> <span class='st'>"s3bucket"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'>&lt;-</span> <span class='fu'>board_s3</span><span class='op'>(</span><span class='st'>"pins-test-hadley"</span>, region <span class='op'>=</span> <span class='st'>"us-east-2"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 </pre>
   </div>
