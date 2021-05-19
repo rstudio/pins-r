@@ -55,6 +55,7 @@
 #' board_s3("pins-test-hadley", region = "us-east-2")
 board_s3 <- function(
                     bucket,
+                    versions = TRUE,
                     access_key = NULL,
                     secret_access_key = NULL,
                     session_token = NULL,
@@ -89,8 +90,13 @@ board_s3 <- function(
     api = 1,
     bucket = bucket,
     svc = svc,
-    cache = cache
+    cache = cache,
+    versions = versions
   )
+}
+
+board_s3_test <- function(...) {
+  board_s3("pins-test-hadley", region = "us-east-2", cache = tempfile(), ...)
 }
 
 #' @export
@@ -221,11 +227,12 @@ record_version <- function(board, name, metadata, versioned = NULL) {
 s3_delete_dir <- function(board, dir) {
   resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(dir, "/"))
   if (resp$KeyCount == 0) {
-    return()
+    return(invisible())
   }
 
   delete <- list(Objects = map(resp$Contents, "[", "Key"))
   board$svc$delete_objects(board$bucket, Delete = delete)
+  invisible()
 }
 
 s3_upload_yaml <- function(board, key, yaml) {
@@ -238,50 +245,8 @@ s3_upload_file <- function(board, key, path) {
   board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
 }
 
-s3_download <- function(board, key, use_cache_on_failure = FALSE) {
-  cache_path <- download_cache_path(board$cache)
-  cache <- read_cache(cache_path)[[key]]
-
-  if (!is.null(cache)) {
-    # https://github.com/paws-r/paws/issues/418
-    return(fs::path(board$cache, key))
-
-    if_modified_since <- http_date(cache$modified)
-    if_none_match <- cache$etag
-  } else {
-    if_modified_since <- NULL
-    if_none_match <- NULL
-  }
-
-  req <- tryCatch(
-    resp <- board$svc$get_object(
-      Bucket = board$bucket,
-      Key = key,
-      IfModifiedSince = if_modified_since,
-      IfNoneMatch = if_none_match
-    ),
-    error = function(e) {
-      if (!is.null(cache) && use_cache_on_failure) {
-        NULL
-      } else {
-        stop(e)
-      }
-    }
-  )
-
-  if (is.null(resp)) {
-    warn(glue::glue("Downloading '{key}' failed; falling back to cached version"))
-  } else if (!is.null(resp$Body)) {
-    signal("", "pins_cache_downloaded")
-    writeBin(resp$Body, fs::path(board$cache, key))
-
-    update_cache(cache_path, key, list(
-      expires = if (length(resp$Expiration) == 0) NULL else resp$Expiration,
-      etag = gsub('^"|"$', "", resp$ETag),
-      modified = unclass(null_if_na(resp$LastModified))
-    ))
-  } else {
-    signal("", "pins_cache_not_modified")
-  }
+s3_download <- function(board, key) {
+  resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
+  writeBin(resp$Body, fs::path(board$cache, key))
   fs::path(board$cache, key)
 }
