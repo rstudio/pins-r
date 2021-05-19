@@ -246,7 +246,10 @@ s3_upload_file <- function(board, key, path) {
 }
 
 s3_download <- function(board, key) {
+  path <- fs::path(board$cache, key)
+
   resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
-  writeBin(resp$Body, fs::path(board$cache, key))
-  fs::path(board$cache, key)
+  writeBin(resp$Body, path)
+
+  path
 }
