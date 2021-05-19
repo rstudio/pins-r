@@ -142,7 +142,7 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
-  s3_download(board, fs::path(name, version, "data.txt"))
+  s3_download(board, fs::path(name, version, "data.txt"), immutable = TRUE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
     dir = path_version,
@@ -154,7 +154,8 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
 pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   for (file in meta$file) {
-    s3_download(board, fs::path(name, meta$local$version, file))
+    key <- fs::path(name, meta$local$version, file)
+    s3_download(board, key, immutable = TRUE)
   }
 
   meta
@@ -251,11 +252,13 @@ s3_upload_file <- function(board, key, path) {
   board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
 }
 
-s3_download <- function(board, key) {
+s3_download <- function(board, key, immutable = FALSE) {
   path <- fs::path(board$cache, key)
 
-  resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
-  writeBin(resp$Body, path)
+  if (!immutable || !fs::file_exists(path)) {
+    resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
+    writeBin(resp$Body, path)
+  }
 
   path
 }
