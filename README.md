@@ -37,7 +37,7 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpUK9If3/pins-4c2557d856c1'
+#> Path: '/tmp/Rtmp6kAi3y/pins-c0083ff0cffe'
 #> With no pins.
 ```
 
@@ -133,12 +133,13 @@ This board is called `legacy_local()`. It behaves similarly to
 `board_local()`, but is completely distinct (i.e. pinned data is not
 shared between the boards).
 
-Currently there are three boards that work with the modern API
-(`board_local()`, `board_rsconnect()`, and `board_url()`) and eight
-boards that work with the legacy API (`board_register_azure()`,
-`board_register_datatxt()`, `board_register_dospace()`,
-`board_register_gcloud()`, `board_register_github()`,
-`board_register_kaggle()`, `board_register_rsconnect()`,
-`board_register_s3()`) (Note that `board_rsconnect()` supports both
-modern and legacy APIs). The set of boards that supports the modern API
-will continue to grow in future releases.
+Currently there are four boards that work with the modern API
+(`board_local()`, `board_rsconnect()`, `board_s3()`, and `board_url()`)
+and eight boards that work with the legacy API
+(`board_register_azure()`, `board_register_datatxt()`,
+`board_register_dospace()`, `board_register_gcloud()`,
+`board_register_github()`, `board_register_kaggle()`,
+`board_register_rsconnect()`, `board_register_s3()`) (Note that
+`board_rsconnect()` supports both modern and legacy APIs). The set of
+boards that supports the modern API will continue to grow in future
+releases.
