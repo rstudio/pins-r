@@ -6,6 +6,7 @@
 \usage{
 board_s3(
   bucket,
+  versions = TRUE,
   access_key = NULL,
   secret_access_key = NULL,
   session_token = NULL,
@@ -19,6 +20,8 @@ board_s3(
 \arguments{
 \item{bucket}{Name of the bucket to be used as a pin board.}
 
+\item{versions}{Should this board be registered with support for versions?}
+
 \item{access_key, secret_access-key, session_token, credential_expiration}{Manually control authentication. See documentation below for details.}
 
 \item{region}{AWS region. If not specified, will be read from \code{AWS_REGION},
@@ -31,8 +34,7 @@ cache location for your operating system, but you can override if needed.}
 \item{role}{Role to use from AWS shared credentials/config file.}
 }
 \description{
-Connect to S3. This will be a read-only board if you have read-only
-access and a read-write board if you have write access.
+Pin data to a bucket on Amazon's S3 service.
 }
 \section{Authentication}{
 \code{board_s3()} is powered by the paws package which provides a wide range

@@ -1,7 +1,6 @@
 #' Use an S3 bucket as a board
 #'
-#' Connect to S3. This will be a read-only board if you have read-only
-#' access and a read-write board if you have write access.
+#' Pin data to a bucket on Amazon's S3 service.
 #'
 #' # Authentication
 #'
@@ -45,7 +44,7 @@
 #'   like `pins_list()` will work, but won't return useful output.
 #'
 #' @inheritParams new_board
-#' @param bucket Name of the bucket to be used as a pin board.
+#' @param bucket Bucket name.
 #' @param access_key,secret_access-key,session_token,credential_expiration
 #'   Manually control authentication. See documentation below for details.
 #' @param region AWS region. If not specified, will be read from `AWS_REGION`,
@@ -265,3 +264,4 @@ s3_download <- function(board, key) {
 s3_exists <- function(board, key) {
   resp <- board$svc$list_objects_v2(board$bucket, Prefix = key)
   resp$KeyCount > 0
+}
