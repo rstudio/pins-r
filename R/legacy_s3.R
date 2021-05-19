@@ -1,9 +1,12 @@
 #' S3 board (legacy API)
 #'
+#' @description
 #' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 #' with enough permissions to access the S3 bucket. You can sign-up and create
 #' those at <https://aws.amazon.com/>. Note that it can take a few minutes
 #' after you've created it before a bucket is usable.
+#'
+#' See [board_s3()] for a modern version of this legacy board.
 #'
 #' @inheritParams legacy_datatxt
 #' @param bucket The name of the Amazon S3 bucket.

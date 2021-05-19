@@ -1,3 +1,53 @@
+#' Use an S3 bucket as a board
+#'
+#' # Authentication
+#'
+#' `board_s3()` is powered by the paws package which provides very flexible
+#' credential handling. You can see the details at
+#' <https://github.com/paws-r/paws/blob/main/docs/credentials.md>.
+#' In brief, there are four main options that are tried in order:
+#'
+#' * The `access_key` and `secret_access_key` are arguments to this function.
+#'   If you have a temporary session token, you'll also need to supply
+#'   `session_token` and `credential_expiration`.
+#'   (Not recommended since your `secret_access_key` will be recorded
+#'   in `.Rhistory`)
+#'
+#' * The `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` env vars.
+#'   (And `AWS_SESSION_TOKEN` and `AWS_CREDENTIAL_EXPIRATION` if you have
+#'   a temporary session token)
+#'
+#' * The AWS shared credential file, `~/.aws/credentials`
+#'
+#'     ```
+#'     [profile-name]
+#'     aws_access_key_id=your AWS access key
+#'     aws_secret_access_key=your AWS secret key
+#'     ```
+#'
+#'     The "default" profile will be used if you don't supply the access key
+#'     and secret access key as described above. Otherwise you can use the
+#'     `profile` argument to use a profile of your choice.
+#'
+#' * Automatic authentication from EC2 instance or container IAM role.
+#'
+#' See the paws documentation for more unusual options including getting
+#' credentials from a command line process, picking a role when running inside
+#' an EC2 instance, using a role from another profile, and using multifactor
+#' authentication.
+#'
+#' # Caveats
+#'
+#' * If you point at a bucket that's not created by pins, some functions
+#'   like `pins_list()` will work, but won't return useful output.
+#'
+#' @inheritParams new_board
+#' @param bucket Name of the bucket to be used as a pin board.
+#' @param access_key,secret_access-key,session_token,credential_expiration
+#'   Manually control authentication. See documentation below for details.
+#' @param region AWS region. If not specified, will be read from `AWS_REGION`,
+#'   or AWS config file.
+#' @param role Role to use from AWS shared credentials/config file.
 #' @examples
 #' board_s3("pins-test-hadley", region = "us-east-2")
 board_s3 <- function(
