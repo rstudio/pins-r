@@ -1,10 +1,13 @@
 test_that("can read and write simple pin", {
   board <- board_s3_test()
 
+  expect_snapshot(pin_read(board, "test-basic"), error = TRUE)
+  expect_equal(pin_list(board), character())
+
   pin_write(board, data.frame(x = 1:3), "test-basic")
   expect_equal(pin_list(board), "test-basic")
-
   expect_equal(pin_read(board, "test-basic"), data.frame(x = 1:3))
+
   pin_delete(board, "test-basic")
   expect_equal(pin_list(board), character())
 })
