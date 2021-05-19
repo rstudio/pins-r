@@ -95,7 +95,6 @@ pin_list.pins_board_s3 <- function(board, ...) {
   # TODO: implement pagination
   resp <- board$svc$list_objects_v2(board$bucket, Delimiter = "/")
 
-  # TODO: check that directory contains versions.yml
   prefixes <- map_chr(resp$CommonPrefixes, ~ .x$Prefix)
   sub("/$", "", prefixes)
 }
@@ -103,7 +102,7 @@ pin_list.pins_board_s3 <- function(board, ...) {
 #' @export
 pin_delete.pins_board_s3 <- function(board, names, ...) {
   for (name in names) {
-    board$svc$delete_object(board$bucket, name)
+    s3_delete_dir(board, name)
   }
   invisible(board)
 }
@@ -159,9 +158,7 @@ pin_store.pins_board_s3 <- function(board, name, path, metadata,
   ver <- record_version(board, name, metadata, versioned = versioned)
   if (ver$delete) {
     meta <- pin_meta(board, name)
-    keys <- fs::path(name, meta$local$version, c(meta$file, "data.txt"))
-    delete <- list(Objects = map(keys, ~ list(Key = .x)))
-    board$svc$delete_objects(board$bucket, Delete = delete)
+    s3_delete_dir(board, fs::path(name, meta$local$version))
   }
 
   path_s3 <- fs::path(name, metadata$pin_hash)
@@ -217,6 +214,16 @@ record_version <- function(board, name, metadata, versioned = NULL) {
 }
 
 # Helpers -----------------------------------------------------------------
+
+s3_delete_dir <- function(board, dir) {
+  resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(dir, "/"))
+  if (resp$KeyCount == 0) {
+    return()
+  }
+
+  delete <- list(Objects = map(resp$Contents, "[", "Key"))
+  board$svc$delete_objects(board$bucket, Delete = delete)
+}
 
 s3_upload_yaml <- function(board, key, yaml) {
   body <- charToRaw(yaml::as.yaml(yaml))
