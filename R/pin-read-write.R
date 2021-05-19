@@ -67,9 +67,8 @@ pin_write <- function(board, x,
     } else {
       abort("Must supply `name` when `x` is an expression")
     }
-  } else {
-    check_name(name)
   }
+  check_name(name)
   check_metadata(metadata)
 
   if (is.null(type)) {
