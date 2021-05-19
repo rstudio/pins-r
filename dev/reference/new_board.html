@@ -146,7 +146,11 @@
     <p>Create a new board</p>
     </div>
 
-    <pre class="usage"><span class='fu'>new_board</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, <span class='va'>api</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span>, versions <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>new_board</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>api</span>, <span class='va'>cache</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>new_board_v0</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span>, versions <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>new_board_v1</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>cache</span>, versioned <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,24 +160,24 @@
       <td><p>The name of the board to register.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.</p></td>
-    </tr>
-    <tr>
       <th>cache</th>
       <td><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></td>
     </tr>
     <tr>
-      <th>versions</th>
-      <td><p>Should this board be registered with support for versions?</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Additional parameters required to initialize a particular board.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>An optional name used identify the board. This is no longer
+generally needed since you should be passing around an explicit
+board object.</p></td>
+    </tr>
+    <tr>
+      <th>versions, versioned</th>
+      <td><p>Should this board be registered with support for versions?</p></td>
     </tr>
     </table>
 
