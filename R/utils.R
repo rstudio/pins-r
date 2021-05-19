@@ -88,14 +88,17 @@ to_utf8 <- function(x) {
 }
 
 envvar_get <- function(name) {
-  val <- Sys.getenv(name)
-  if (identical(val, NA)) {
-    NULL
-  } else {
-    val
-  }
+  null_if_na(Sys.getenv(name))
 }
 
 this_not_that <- function(this, that) {
   abort(glue("Use `{this}` with this board, not `{that}`"))
+}
+
+null_if_na <- function(x) {
+  if (length(x) == 1 && is.na(x)) {
+    NULL
+  } else {
+    x
+  }
 }
