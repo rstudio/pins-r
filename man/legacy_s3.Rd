@@ -61,6 +61,8 @@ To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 with enough permissions to access the S3 bucket. You can sign-up and create
 those at \url{https://aws.amazon.com/}. Note that it can take a few minutes
 after you've created it before a bucket is usable.
+
+See \code{\link[=board_s3]{board_s3()}} for a modern version of this legacy board.
 }
 \examples{
 \dontrun{

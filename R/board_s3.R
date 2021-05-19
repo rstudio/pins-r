@@ -1,23 +1,26 @@
 #' Use an S3 bucket as a board
 #'
+#' Connect to S3. This will be a read-only board if you have read-only
+#' access and a read-write board if you have write access.
+#'
 #' # Authentication
 #'
-#' `board_s3()` is powered by the paws package which provides very flexible
-#' credential handling. You can see the details at
+#' `board_s3()` is powered by the paws package which provides a wide range
+#' of authnetication options, as documented at
 #' <https://github.com/paws-r/paws/blob/main/docs/credentials.md>.
 #' In brief, there are four main options that are tried in order:
 #'
-#' * The `access_key` and `secret_access_key` are arguments to this function.
+#' * The `access_key` and `secret_access_key` arguments to this function.
 #'   If you have a temporary session token, you'll also need to supply
 #'   `session_token` and `credential_expiration`.
 #'   (Not recommended since your `secret_access_key` will be recorded
 #'   in `.Rhistory`)
 #'
 #' * The `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` env vars.
-#'   (And `AWS_SESSION_TOKEN` and `AWS_CREDENTIAL_EXPIRATION` if you have
-#'   a temporary session token)
+#'   (And `AWS_SESSION_TOKEN` and `AWS_CREDENTIAL_EXPIRATION` env vars if you
+#'   have a temporary session token)
 #'
-#' * The AWS shared credential file, `~/.aws/credentials`
+#' * The AWS shared credential file, `~/.aws/credentials`:
 #'
 #'     ```
 #'     [profile-name]
