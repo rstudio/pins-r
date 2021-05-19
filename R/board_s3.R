@@ -54,7 +54,7 @@
 #' board_s3("pins-test-hadley", region = "us-east-2")
 board_s3 <- function(
                     bucket,
-                    versions = TRUE,
+                    versioned = TRUE,
                     access_key = NULL,
                     secret_access_key = NULL,
                     session_token = NULL,
@@ -84,13 +84,12 @@ board_s3 <- function(
   svc$head_bucket(bucket)
 
   cache <- cache %||% board_cache_path(paste0("s3-", bucket))
-  new_board("pins_board_s3",
+  new_board_v1("pins_board_s3",
     name = "s3",
-    api = 1,
     bucket = bucket,
     svc = svc,
     cache = cache,
-    versions = versions
+    versioned = versioned
   )
 }
 
@@ -194,7 +193,7 @@ record_version <- function(board, name, metadata, versioned = NULL) {
   if (nrow(versions) > 1) {
     versioned <- versioned %||% TRUE
   } else {
-    versioned <- versioned %||% board$versions
+    versioned <- versioned %||% board$versioned
   }
 
   if (!versioned) {

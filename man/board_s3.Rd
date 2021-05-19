@@ -6,7 +6,7 @@
 \usage{
 board_s3(
   bucket,
-  versions = TRUE,
+  versioned = TRUE,
   access_key = NULL,
   secret_access_key = NULL,
   session_token = NULL,
@@ -18,9 +18,9 @@ board_s3(
 )
 }
 \arguments{
-\item{bucket}{Name of the bucket to be used as a pin board.}
+\item{bucket}{Bucket name.}
 
-\item{versions}{Should this board be registered with support for versions?}
+\item{versioned}{Should this board be registered with support for versions?}
 
 \item{access_key, secret_access-key, session_token, credential_expiration}{Manually control authentication. See documentation below for details.}
 

@@ -13,7 +13,7 @@ test_that("can read and write simple pin", {
 })
 
 test_that("if versioning off, overwrites existing version", {
-  board <- board_s3_test(versions = FALSE)
+  board <- board_s3_test(versioned = FALSE)
 
   pin_write(board, 1, "test-unversioned")
   withr::defer(pin_delete(board, "test-unversioned"))
