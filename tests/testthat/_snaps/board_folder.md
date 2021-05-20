@@ -5,7 +5,7 @@
     Output
       Pin board <pins_board_folder>
       Path: '/tmp/test'
-      With no pins.
+      Cache size: 0
 
 # can get versions
 

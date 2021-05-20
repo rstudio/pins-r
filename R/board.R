@@ -57,7 +57,12 @@ new_board_v1 <- function(board, cache, versioned = FALSE, ...) {
 #' @export
 print.pins_board <- function(x, ...) {
   cat(paste0(cli::style_bold("Pin board"), " <", class(x)[[1]], ">\n"))
-  cat(paste0(board_desc(x), "\n", collapse = ""))
+
+  desc <- board_desc(x)
+  if (length(desc) > 0) {
+    cat(paste0(desc, "\n", collapse = ""))
+  }
+  cat("Cache size: ", format(cache_size(x)), "\n", sep = "")
 
   if (1 %in% x$api) {
     pins <- pin_list(x)
@@ -66,22 +71,27 @@ print.pins_board <- function(x, ...) {
   }
 
   n <- length(pins)
-  if (n == 0) {
-    contents <- "With no pins."
-  } else {
+  if (n > 0) {
     if (n > 20) {
       pins <- c(pins[1:19], "...")
     }
     contents <- paste0(
-      "With ", n, " pins: ",
+      "Pins [", n, "]: ",
       paste0("'", pins, "'", collapse = ", ")
     )
+    cat(strwrap(contents, exdent = 2), sep = "\n")
   }
 
+  invisible(x)
+}
 
-  cat(strwrap(contents, exdent = 2), sep = "\n")
-
-  invisible()
+cache_size <- function(board) {
+  if (is.na(board$cache)) {
+    0
+  } else {
+    paths <- fs::dir_ls(board$cache, recurse = TRUE, type = "file")
+    sum(fs::file_size(paths))
+  }
 }
 
 is.board <- function(x) inherits(x, "pins_board")
