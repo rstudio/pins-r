@@ -33,6 +33,8 @@ This versions of pins brings with it a new API that is designed to be much less 
 * `pin_exists()` reports whether or not a pin exists.
 
 * `pin_version_delete()` allows you to delete a single version.
+  `pin_versions_prune()` (#459) allows you to easily prune old versions keeping
+  either a specified number of versions, or all versions beneath a certain age.
 
 ## Modern boards
 

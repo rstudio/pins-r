@@ -3,11 +3,14 @@
 \name{pin_versions}
 \alias{pin_versions}
 \alias{pin_version_delete}
+\alias{pin_versions_prune}
 \title{Pin versions}
 \usage{
 pin_versions(board, name, ..., full = deprecated())
 
 pin_version_delete(board, name, version, ...)
+
+pin_versions_prune(board, name, n = NULL, days = NULL)
 }
 \arguments{
 \item{board, name}{A pair of board and pin name. For modern boards,
@@ -20,15 +23,24 @@ legacy API, you can also use \code{pin_versions(name)} or
 \item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{version}{Version identifier.}
+
+\item{n, days}{Pick one of \code{n} or \code{days} to choose how many versions to
+keep. \code{n = 3} will keep the last three versions, \code{days = 14} will
+keep all the versions in the 14 days. Regardless of what values you
+set, \code{pin_versions_prune()} will never delete the most recent version.}
 }
 \value{
 A data frame with at least a \code{version} column. Some boards may
 provided additional data.
 }
 \description{
-\code{pin_versions()} list versions available for a pin; \code{pin_version_delete()}
-allows you to delete a single version. See \verb{vignette("versioning)"} for
-more details about versioning pins.
+\itemize{
+\item \code{pin_versions()} lists available versions a pin.
+\item \code{pin_versions_prune()} deletes old versions.
+\item \code{pin_version_delete()} deletes a single version.
+}
+
+See \verb{vignette("versioning)"} for more details about versioning pins.
 }
 \examples{
 board <- board_temp(versioned = TRUE)
@@ -45,4 +57,7 @@ board \%>\% pin_versions("df")
 
 ver <- pin_versions(board, "df")$version[[1]]
 board \%>\% pin_read("df", version = ver)
+
+# delete all versions created more than 30 days ago
+board \%>\% pin_versions_prune("df", days = 30)
 }

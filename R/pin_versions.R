@@ -1,8 +1,11 @@
 #' Pin versions
 #'
-#' `pin_versions()` list versions available for a pin; `pin_version_delete()`
-#' allows you to delete a single version. See `vignette("versioning)"` for
-#' more details about versioning pins.
+#' @description
+#' * `pin_versions()` lists available versions a pin.
+#' * `pin_versions_prune()` deletes old versions.
+#' * `pin_version_delete()` deletes a single version.
+#'
+#' See `vignette("versioning)"` for more details about versioning pins.
 #'
 #' @param board,name A pair of board and pin name. For modern boards,
 #'   use `board %>% pin_versions(name)`. For backward compatibility with the
@@ -27,6 +30,9 @@
 #'
 #' ver <- pin_versions(board, "df")$version[[1]]
 #' board %>% pin_read("df", version = ver)
+#'
+#' # delete all versions created more than 30 days ago
+#' board %>% pin_versions_prune("df", days = 30)
 #' @export
 pin_versions <- function(board, name, ..., full = deprecated()) {
   ellipsis::check_dots_used()
@@ -70,6 +76,53 @@ pin_version_delete <- function(board, name, version, ...) {
 #' @export
 pin_version_delete.pins_board <- function(board, name, version, ...) {
   abort("board_url() doesn't support versions")
+}
+
+#' @export
+#' @rdname pin_versions
+#' @param n,days Pick one of `n` or `days` to choose how many versions to
+#'   keep. `n = 3` will keep the last three versions, `days = 14` will
+#'   keep all the versions in the 14 days. Regardless of what values you
+#'   set, `pin_versions_prune()` will never delete the most recent version.
+pin_versions_prune <- function(board, name, n = NULL, days = NULL) {
+  versions <- pin_versions(board, name)
+  keep <- versions_keep(versions$created, n = n, days = days)
+
+  if (!all(keep)) {
+    to_delete <- versions$version[!keep]
+
+    pins_inform(paste0("Deleting versions: ", paste0(to_delete, collapse = ", ")))
+    for (version in to_delete) {
+      pin_version_delete(board, name, version)
+    }
+  } else {
+    pins_inform("No old versions to delete")
+  }
+
+}
+
+versions_keep <- function(created, n = NULL, days = NULL) {
+  if (!inherits(created, "POSIXct")) {
+    abort("Internal error: invalid result from pin_versions()")
+  }
+  if (!xor(is.null(n), is.null(days))) {
+    abort("Must supply exactly one of `n` and `days`")
+  }
+
+  if (!is.null(n)) {
+    if (!is_integerish(n, 1)) {
+      abort("`n` must be a single integer")
+    }
+    keep <- order(created, decreasing = TRUE) <= n
+  } else {
+    if (!is_integerish(days, 1)) {
+      abort("`days` must be a single integer")
+    }
+    keep <- created > (Sys.time() - days * 86400)
+  }
+  keep[which.max(created)] <- TRUE
+
+  keep
 }
 
 versions_template <- function(version = character()) {
