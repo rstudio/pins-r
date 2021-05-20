@@ -57,12 +57,43 @@ pin_versions.pins_board <- function(board, name, ...) {
   abort("board_url() doesn't support versions")
 }
 
+versions_template <- function(version = character()) {
+  if (!is.character(version)) {
+    abort("`version` must be a character vector")
+  }
+
+  tibble::tibble(
+    version = version,
+    created = .POSIXct(NA_real_, tz = ""),
+    hash = NA_character_
+  )
+}
+
+version_name <- function(metadata) {
+  if (is_testing()) {
+    paste0("20120304T050607Z-", substr(metadata$pin_hash, 1, 5))
+  } else {
+    paste0(metadata$created, "-", substr(metadata$pin_hash, 1, 5))
+  }
+
+}
+
+version_from_path <- function(x) {
+  out <- versions_template(x)
+
+  pieces <- strsplit(x, "-")
+  n_ok <- lengths(pieces) == 2
+  out$created[n_ok] <- parse_8601_compact(map_chr(pieces[n_ok], "[[", 1))
+  out$hash[n_ok] <- map_chr(pieces[n_ok], "[[", 2)
+
+  out
+}
 
 version_create_inform <- function(board, name, metadata, versioned = NULL) {
   if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
   } else {
-    versions <- data.frame(version = character(), created = .POSIXct(double()))
+    versions <- versions_template()
   }
 
   if (nrow(versions) > 1) {
@@ -71,14 +102,13 @@ version_create_inform <- function(board, name, metadata, versioned = NULL) {
     versioned <- versioned %||% board$versioned
   }
 
+  new_version <- version_name(metadata)
+
   if (!versioned) {
     if (nrow(versions) == 0) {
-      pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
+      pins_inform(glue("Creating new version '{new_version}'"))
     } else if (nrow(versions) == 1) {
-      pins_inform(paste0(
-        "Replacing version '", versions$version, "'",
-        " with '", metadata$pin_hash, "'"
-      ))
+      pins_inform(glue("Replacing version '{versions$version}' with '{new_version}'"))
     } else {
       abort(c(
         "Pin is versioned, but you have requested a write without versions",
@@ -86,19 +116,11 @@ version_create_inform <- function(board, name, metadata, versioned = NULL) {
       ))
     }
   } else {
-    pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
+    pins_inform(glue("Creating new version '{new_version}'"))
   }
 
-  delete <- !versioned && nrow(versions) == 1
-
-  new_row <- data.frame(
-    version = metadata$pin_hash,
-    created = metadata$created
-  )
-  versions <- rbind(if (!delete) versions, new_row)
-
   list(
-    delete = delete,
-    versions = versions
+    delete = if (!versioned && nrow(versions) == 1) versions$version,
+    new = new_version
   )
 }

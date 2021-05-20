@@ -13,7 +13,7 @@
       pin_upload(board, path)
     Message <message>
       Guessing `name = 'test.txt'`
-      Creating new version 'ef46db3751d8e999'
+      Creating new version '20120304T050607Z-ef46d'
 
 # can pin file called data.txt
 

@@ -12,14 +12,14 @@
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Creating new version 'ab444e71e875d63b'
+      Creating new version '20120304T050607Z-ab444'
 
 ---
 
     Code
       pin_write(b, 1:6, "x", type = "rds")
     Message <message>
-      Creating new version 'ab6b56a248de3a44'
+      Creating new version '20120304T050607Z-ab6b5'
 
 ---
 
@@ -32,15 +32,15 @@
 
     Code
       b <- board_temp(versioned = TRUE)
-      pin_write(b, 1:5, "x", type = "rds")
+      pin_write(b, 1, "x", type = "rds")
     Message <message>
-      Creating new version 'ab444e71e875d63b'
+      Creating new version '20120304T050607Z-3de1f'
     Code
-      pin_write(b, 1:5, "x", type = "rds")
+      pin_write(b, 2, "x", type = "rds")
     Message <message>
-      Creating new version 'ab444e71e875d63b'
+      Creating new version '20120304T050607Z-04a4e'
     Code
-      pin_write(b, 1:5, "x", type = "rds", versioned = FALSE)
+      pin_write(b, 3, "x", type = "rds", versioned = FALSE)
     Error <rlang_error>
       Pin is versioned, but you have requested a write without versions
       i To un-version a pin, you must delete it
@@ -50,7 +50,7 @@
     Code
       b %>% pin_browse("x")
     Message <cliMessage>
-      i Pin at </tmp/test/x/afd4b2f6506fce6d>
+      i Pin at </tmp/test/x/20120304T050607Z-afd4b>
 
 ---
 
@@ -69,13 +69,13 @@
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Creating new version 'ab444e71e875d63b'
+      Creating new version '20120304T050607Z-ab444'
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
-      Replacing version 'ab444e71e875d63b' with 'ab444e71e875d63b'
+      Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab444'
     Code
       pin_write(b, 1:6, "x", type = "rds")
     Message <message>
-      Replacing version 'ab444e71e875d63b' with 'ab6b56a248de3a44'
+      Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab6b5'
 

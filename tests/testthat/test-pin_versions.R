@@ -17,3 +17,10 @@ test_that("`full` is deprecated", {
     x <- pin_versions(board, "x", full = TRUE)
   })
 })
+
+test_that("can parse versions from path", {
+  date <- as.POSIXct("2020-01-03 04:05", tz = "")
+  out <- version_from_path(paste0(as_8601_compact(date), "-", "hash"))
+  expect_equal(out$created, date)
+  expect_equal(out$hash, "hash")
+})

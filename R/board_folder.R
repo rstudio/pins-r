@@ -51,15 +51,12 @@ board_temp <- function(name = "temp", versioned = FALSE) {
 
 #' @export
 pin_list.pins_board_folder <- function(board, ...) {
-  dir <- fs::dir_ls(board$path, type = "directory")
-  metadata <- fs::path(dir, "versions.yml")
-
-  fs::path_file(dir[fs::file_exists(metadata)])
+ fs::path_file(fs::dir_ls(board$path, type = "directory"))
 }
 
 #' @export
 pin_exists.pins_board_folder <- function(board, name, ...) {
-  as.logical(fs::file_exists(fs::path(board$path, name, "versions.yml")))
+  as.logical(fs::dir_exists(fs::path(board$path, name)))
 }
 
 #' @export
@@ -85,19 +82,15 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
   check_name(name)
   path_pin <- fs::path(board$path, name)
 
-  ver <- version_create_inform(board, name, metadata, versioned = versioned)
-  if (ver$delete) {
-    meta <- pin_meta(board, name)
-    fs::dir_delete(fs::path(path_pin, meta$local$version))
+  version <- version_create_inform(board, name, metadata, versioned = versioned)
+  if (!is.null(version$delete)) {
+    fs::dir_delete(fs::path(path_pin, version$delete))
   }
 
-  path_version <- fs::path(path_pin, metadata$pin_hash)
+  path_version <- fs::path(path_pin, version$new)
   fs::dir_create(path_version)
-  fs::file_copy(path, path_version, overwrite = TRUE)
   write_meta(metadata, path_version)
-
-  # Add to list of versions so we know which is most recent
-  update_cache(fs::path(path_pin, "versions.yml"), "versions", ver$versions)
+  fs::file_copy(path, path_version, overwrite = TRUE)
 
   invisible(board)
 }
@@ -130,10 +123,6 @@ pin_versions.pins_board_folder <- function(board, name, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
-  path <- fs::path(board$path, name, "versions.yml")
-
-  versions <- read_cache(path)$versions
-  versions <- tibble::as_tibble(versions)
-  versions$created <- rsc_parse_time(versions$created)
-  versions
+  paths <- fs::dir_ls(fs::path(board$path, name), type = "directory")
+  version_from_path(fs::path_file(paths))
 }

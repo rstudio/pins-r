@@ -5,7 +5,7 @@
 #' # Authentication
 #'
 #' `board_s3()` is powered by the paws package which provides a wide range
-#' of authnetication options, as documented at
+#' of authetication options, as documented at
 #' <https://github.com/paws-r/paws/blob/main/docs/credentials.md>.
 #' In brief, there are four main options that are tried in order:
 #'
@@ -135,12 +135,13 @@ pin_delete.pins_board_s3 <- function(board, names, ...) {
 pin_versions.pins_board_s3 <- function(board, name, ...) {
   check_pin_exists(board, name)
 
-  path_pin <- fs::path(board$cache, name)
-  fs::dir_create(path_pin)
-
-  path <- s3_download(board, fs::path(name, "versions.yml"))
-  yaml <- read_cache(path)
-  tibble::as_tibble(yaml$versions)
+  resp <- board$svc$list_objects_v2(
+    Bucket = board$bucket,
+    Prefix = paste0(name, "/"),
+    Delimiter = "/"
+  )
+  paths <- fs::path_file(map_chr(resp$CommonPrefixes, ~ .$Prefix))
+  version_from_path(paths)
 }
 
 #' @export
@@ -182,20 +183,16 @@ pin_store.pins_board_s3 <- function(board, name, path, metadata,
                                     versioned = NULL, ...) {
   check_name(name)
 
-  ver <- version_create_inform(board, name, metadata, versioned = versioned)
-  if (ver$delete) {
-    meta <- pin_meta(board, name)
-    s3_delete_dir(board, fs::path(name, meta$local$version))
+  version <- version_create_inform(board, name, metadata, versioned = versioned)
+  if (!is.null(version$delete)) {
+    s3_delete_dir(board, fs::path(name, version$delete))
   }
 
-  path_s3 <- fs::path(name, metadata$pin_hash)
+  path_s3 <- fs::path(name, version$new)
   s3_upload_yaml(board, fs::path(path_s3, "data.txt"), metadata)
   for (file in path) {
     s3_upload_file(board, fs::path(path_s3, fs::path_file(file)), file)
   }
-
-  # Add to list of versions so we know which is most recent
-  s3_upload_yaml(board, fs::path(name, "versions.yml"), list(versions = ver$versions))
 
   invisible(board)
 }

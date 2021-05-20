@@ -37,7 +37,7 @@
     Message <message>
       Using `name = 'mtcars'`
       Guessing `type = 'rds'`
-      Creating new version 'dfa6c1c109362781'
+      Creating new version '20120304T050607Z-dfa6c'
     Code
       pin_write(b, data.frame(x = 1))
     Error <rlang_error>
@@ -49,7 +49,7 @@
       b <- board_temp()
       pin_write(b, mtcars, name = "mtcars", type = "rds")
     Message <message>
-      Creating new version 'dfa6c1c109362781'
+      Creating new version '20120304T050607Z-dfa6c'
     Code
       pin_read(b, "mtcars", hash = "ABCD")
     Error <rlang_error>

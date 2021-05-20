@@ -21,6 +21,22 @@ test_that("absent pins handled consistently", {
   expect_error(pin_meta(board, "y"), class = "pins_pin_absent")
 })
 
+test_that("tracks versions as expected", {
+  board <- board_s3_test()
+
+  pin_write(board, 1, "test-version")
+  withr::defer(pin_delete(board, "test-version"))
+
+  versions <- pin_versions(board, "test-version")
+  expect_equal(nrow(versions), 1)
+  pin_write(board, 2, "test-version")
+  pin_write(board, 3, "test-version")
+  expect_equal(nrow(pin_versions(board, "test-version")), 3)
+
+  x <- pin_read(board, "test-version", version = versions$version[[1]])
+  expect_equal(x, 1)
+})
+
 test_that("if versioning off, overwrites existing version", {
   board <- board_s3_test(versioned = FALSE)
 

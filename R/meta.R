@@ -34,9 +34,18 @@ standard_meta <- function(path, type, object = NULL, desc = NULL) {
     pin_hash = pin_hash(path),
     type = type,
     description = desc %||% default_description(object, path),
-    created = format(Sys.time(), "%Y-%m-%dT%H:%M:%S", tz = "UTC"),
+    created = format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
     api_version = 1
   )
+}
+
+as_8601_compact <- function(x = Sys.time()) {
+  format(x, "%Y%m%dT%H%M%SZ", tz = "UTC")
+}
+parse_8601_compact <- function(x) {
+  y <- as.POSIXct(strptime(x, "%Y%m%dT%H%M", tz = "UTC"))
+  attr(y, "tzone") <- ""
+  y
 }
 
 # description -------------------------------------------------------------

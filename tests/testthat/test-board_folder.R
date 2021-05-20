@@ -57,9 +57,9 @@ test_that("can't unversion an unversioned pin", {
   ui_loud()
   expect_snapshot(error = TRUE, {
     b <- board_temp(versioned = TRUE)
-    pin_write(b, 1:5, "x", type = "rds")
-    pin_write(b, 1:5, "x", type = "rds")
-    pin_write(b, 1:5, "x", type = "rds", versioned = FALSE)
+    pin_write(b, 1, "x", type = "rds")
+    pin_write(b, 2, "x", type = "rds")
+    pin_write(b, 3, "x", type = "rds", versioned = FALSE)
   })
 })
 
