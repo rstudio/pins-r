@@ -54,7 +54,7 @@ last <- function(x) x[[length(x)]]
 pins_inform <- function(...) {
   opt <- getOption("pins.quiet", NA)
   if (identical(opt, FALSE) || (identical(opt, NA) && !is_testing())) {
-    inform(...)
+    inform(glue(..., .envir = caller_env()))
   }
 }
 

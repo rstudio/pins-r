@@ -169,9 +169,9 @@ version_setup <- function(board, name, metadata, versioned = NULL) {
   new_version <- version_name(metadata)
 
   if (versioned || n_versions == 0) {
-    pins_inform(glue("Creating new version '{new_version}'"))
+    pins_inform("Creating new version '{new_version}'")
   } else if (n_versions == 1) {
-    pins_inform(glue("Replacing version '{old_version}' with '{new_version}'"))
+    pins_inform("Replacing version '{old_version}' with '{new_version}'")
     pin_version_delete(board, name, old_version)
   } else {
     abort(c(

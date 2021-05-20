@@ -63,7 +63,7 @@ pin_write <- function(board, x,
     name <- enexpr(x)
     if (is_symbol(name)) {
       name <- as.character(name)
-      pins_inform(paste0("Using `name = '", name, "'`"))
+      pins_inform("Using `name = '{name}'`")
     } else {
       abort("Must supply `name` when `x` is an expression")
     }
@@ -73,7 +73,7 @@ pin_write <- function(board, x,
 
   if (is.null(type)) {
     type <- guess_type(x)
-    pins_inform(paste0("Guessing `type = '", type, "'`"))
+    pins_inform("Guessing `type = '{type}'`")
   }
 
   path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)

@@ -25,7 +25,7 @@ cache_browse <- function() {
 cache_info <- function() {
   boards <- cache_boards()
 
-  pins_inform(paste0("Cache info: '", cache_dir(), "'"))
+  pins_inform("Cache info: '{cache_dir()}'")
   for (board in boards) {
     size <- dir_size(board)
     cat("* ", fs::path_file(board), ": ", format(size), "\n", sep = "")
@@ -44,7 +44,7 @@ cache_prune <- function(days = 30) {
   }
 
   size <- dir_size(to_delete)
-  pins_inform(paste0("Delete ", length(to_delete), " pin versions, freeing ", format(size), "?"))
+  pins_inform("Delete {length(to_delete)} pin versions, freeing {format(size)} ?")
 
   if (utils::menu(c("Yes", "No")) == 1) {
     fs::dir_delete(to_delete)
