@@ -175,6 +175,8 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
 #' @export
 pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
+  cache_touch(board, meta)
+
   for (file in meta$file) {
     key <- fs::path(name, meta$local$version, file)
     s3_download(board, key, immutable = TRUE)

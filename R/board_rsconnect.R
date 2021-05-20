@@ -267,6 +267,8 @@ pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   # Can't use bundle download endpoint because that requires collaborator
   # access. So download data.txt, then download each file that it lists.
   meta <- pin_meta(board, name, version = version)
+  cache_touch(board, meta)
+
   for (file in meta$file) {
     rsc_download(board, meta$local$url, meta$local$dir, file)
   }

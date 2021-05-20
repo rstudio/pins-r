@@ -81,6 +81,9 @@ The remaining boards will continue to work with the legacy pins API; we will gra
 
 * `board_browse()` now works with local boards.
 
+* `cache_browse()`, `cache_info()`, and `cache_prune()` provide some basic
+  tooling around the local pins cache maintained by pins (#438).
+
 * All board objects now have class beginning with `pins_board_` and also
   inherit from common superclass `pins_board`.
 

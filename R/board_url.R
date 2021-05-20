@@ -109,6 +109,8 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 #' @export
 pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
+  cache_touch(board, meta)
+
   path <- map2_chr(meta$local$url, meta$file, function(url, file) {
     http_download(
       url = url,

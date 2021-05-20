@@ -89,8 +89,7 @@ cache_size <- function(board) {
   if (is.na(board$cache)) {
     0
   } else {
-    paths <- fs::dir_ls(board$cache, recurse = TRUE, type = "file")
-    sum(fs::file_size(paths))
+    dir_size(board$cache)
   }
 }
 
@@ -124,7 +123,7 @@ board_cache_path <- function(name) {
   if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
     path <- tempfile()
   } else {
-    path <- rappdirs::user_cache_dir("pins")
+    path <- cache_dir()
   }
   fs::path(path, name)
 }
