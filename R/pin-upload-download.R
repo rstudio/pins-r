@@ -25,38 +25,38 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 
 #' @export
 #' @rdname pin_download
-#' @param path A character vector of file paths to upload to `board`.
-pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = NULL, ...) {
+#' @param paths A character vector of file paths to upload to `board`.
+pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, ...) {
   check_board(board, "pin_upload()", "pin()")
 
-  if (!is.character(path)) {
+  if (!is.character(paths)) {
     abort("`path` must be a character vector")
   }
-  if (!all(fs::file_exists(path))) {
+  if (!all(fs::file_exists(paths))) {
     abort("All elements of `path` must exist")
   }
-  if (any(fs::path_file(path) == "data.txt")) {
+  if (any(fs::path_file(paths) == "data.txt")) {
     abort("Can pin file called `data.txt`")
   }
 
-  if (is.null(name) && length(path) == 1) {
-    name <- fs::path_file(path)
+  if (is.null(name) && length(paths) == 1) {
+    name <- fs::path_file(paths)
     inform(paste0("Guessing `name = '", name, "'`"))
   } else {
     check_name(name)
   }
 
   # Expand any directories
-  is_dir <- fs::is_dir(path)
+  is_dir <- fs::is_dir(paths)
   if (any(is_dir)) {
-    path <- as.list(path)
-    path[is_dir] <- map(path[is_dir], fs::dir_ls, recurse = TRUE, type = c("file", "symlink"))
-    path <- as.character(unlist(path, use.names = FALSE))
+    paths <- as.list(paths)
+    paths[is_dir] <- map(paths[is_dir], fs::dir_ls, recurse = TRUE, type = c("file", "symlink"))
+    paths <- as.character(unlist(paths, use.names = FALSE))
   }
 
-  meta <- standard_meta(path, desc = desc, type = "file")
+  meta <- standard_meta(paths, desc = desc, type = "file")
   meta$user <- metadata
 
-  pin_store(board, name, path, meta, ...)
+  pin_store(board, name, paths, meta, ...)
 }
 

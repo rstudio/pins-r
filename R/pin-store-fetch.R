@@ -19,7 +19,8 @@ pin_fetch <- function(board, name, version = NULL, ...) {
 
 #' @export
 #' @rdname pin_fetch
-pin_store <- function(board, name, path, metadata, versioned = NULL, x = NULL, ...) {
+#' @inherit pin_upload
+pin_store <- function(board, name, paths, metadata, versioned = NULL, x = NULL, ...) {
   ellipsis::check_dots_used()
   UseMethod("pin_store")
 }

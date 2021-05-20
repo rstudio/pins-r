@@ -179,7 +179,7 @@ pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_s3 <- function(board, name, path, metadata,
+pin_store.pins_board_s3 <- function(board, name, paths, metadata,
                                     versioned = NULL, ...) {
   check_name(name)
 
@@ -190,8 +190,8 @@ pin_store.pins_board_s3 <- function(board, name, path, metadata,
 
   path_s3 <- fs::path(name, version$new)
   s3_upload_yaml(board, fs::path(path_s3, "data.txt"), metadata)
-  for (file in path) {
-    s3_upload_file(board, fs::path(path_s3, fs::path_file(file)), file)
+  for (path in paths) {
+    s3_upload_file(board, fs::path(path_s3, fs::path_file(path)), path)
   }
 
   invisible(board)

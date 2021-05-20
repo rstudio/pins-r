@@ -282,7 +282,7 @@ pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., ca
 pin_store.pins_board_rsconnect <- function(
     board,
     name,
-    path,
+    paths,
     metadata,
     versioned = NULL,
     x = NULL,
@@ -309,7 +309,7 @@ pin_store.pins_board_rsconnect <- function(
   )
 
   # Make .tar.gz bundle containing data.txt + index.html + pin data
-  bundle_dir <- rsc_bundle(board, name, path, metadata, x = x)
+  bundle_dir <- rsc_bundle(board, name, paths, metadata, x = x)
   bundle_file <- fs::file_temp(ext = "tar.gz")
 
   # suppress warnings about "invalid uid value" / "invalid gid value"
@@ -402,7 +402,7 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
   pin_store(
     board = board,
     name = name,
-    path = path,
+    paths = path,
     metadata = metadata,
     ...
   )

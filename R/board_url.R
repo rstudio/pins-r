@@ -139,7 +139,7 @@ pin_delete.pins_board_url <- function(board, names, ...) {
 }
 
 #' @export
-pin_store.pins_board_url <- function(board, name, path, metadata,
+pin_store.pins_board_url <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
   abort("board_url() is read only")
 }

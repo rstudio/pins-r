@@ -7,7 +7,7 @@
 \usage{
 pin_download(board, name, version = NULL, hash = NULL, ...)
 
-pin_upload(board, path, name = NULL, desc = NULL, metadata = NULL, ...)
+pin_upload(board, paths, name = NULL, desc = NULL, metadata = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -24,7 +24,7 @@ you expect. You can find the hash of an existing pin by looking for
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 
-\item{path}{A character vector of file paths to upload to \code{board}.}
+\item{paths}{A character vector of file paths to upload to \code{board}.}
 
 \item{desc}{A text description of the pin; most important for
 shared boards so that others can understand what the pin contains.

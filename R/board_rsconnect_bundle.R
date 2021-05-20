@@ -1,9 +1,9 @@
-rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = tempfile()) {
+rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tempfile()) {
   fs::dir_create(bundle_path)
 
   # Bundle contains:
   # * pin
-  fs::file_copy(path, fs::path(bundle_path, fs::path_file(path)))
+  fs::file_copy(paths, fs::path(bundle_path, fs::path_file(paths)))
 
   # * data.txt (used to retrieve pins)
   write_yaml(metadata, fs::path(bundle_path, "data.txt"))
@@ -12,7 +12,7 @@ rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = temp
   rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)
 
   # * manifest.json (used for deployment)
-  manifest <- rsc_bundle_manifest(board, c(fs::path_file(path), "data.txt", "index.html"))
+  manifest <- rsc_bundle_manifest(board, c(fs::path_file(paths), "data.txt", "index.html"))
   jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
 
   invisible(bundle_path)

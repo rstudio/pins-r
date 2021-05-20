@@ -77,7 +77,7 @@ pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache
 }
 
 #' @export
-pin_store.pins_board_folder <- function(board, name, path, metadata,
+pin_store.pins_board_folder <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
@@ -90,7 +90,7 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
   path_version <- fs::path(path_pin, version$new)
   fs::dir_create(path_version)
   write_meta(metadata, path_version)
-  fs::file_copy(path, path_version, overwrite = TRUE)
+  fs::file_copy(paths, path_version, overwrite = TRUE)
 
   invisible(board)
 }

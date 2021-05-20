@@ -7,7 +7,7 @@
 \usage{
 pin_fetch(board, name, version = NULL, ...)
 
-pin_store(board, name, path, metadata, versioned = NULL, x = NULL, ...)
+pin_store(board, name, paths, metadata, versioned = NULL, x = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -19,6 +19,8 @@ pin_store(board, name, path, metadata, versioned = NULL, x = NULL, ...)
 a specific version of a pin. See \verb{vignette("versioning)"} for details.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
+
+\item{paths}{A character vector of file paths to upload to \code{board}.}
 
 \item{metadata}{A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the \code{user} key, to
@@ -39,5 +41,13 @@ to a remote board. It invisibly returns the \code{board}.
 These are low-level functions that power \code{\link[=pin_read]{pin_read()}}, \code{\link[=pin_write]{pin_write()}},
 \code{\link[=pin_upload]{pin_upload()}}, and \link{pin_download}. They are needed primarily for folks
 developing new board types, and should not generally be called directly.
+}
+\examples{
+board <- board_temp()
+
+board \%>\% pin_upload(system.file("CITATION"))
+path <- board \%>\% pin_download("CITATION")
+path
+readLines(path)[1:5]
 }
 \keyword{internal}
