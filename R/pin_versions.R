@@ -56,3 +56,49 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
 pin_versions.pins_board <- function(board, name, ...) {
   abort("board_url() doesn't support versions")
 }
+
+
+version_create_inform <- function(board, name, metadata, versioned = NULL) {
+  if (pin_exists(board, name)) {
+    versions <- pin_versions(board, name)
+  } else {
+    versions <- data.frame(version = character(), created = .POSIXct(double()))
+  }
+
+  if (nrow(versions) > 1) {
+    versioned <- versioned %||% TRUE
+  } else {
+    versioned <- versioned %||% board$versioned
+  }
+
+  if (!versioned) {
+    if (nrow(versions) == 0) {
+      pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
+    } else if (nrow(versions) == 1) {
+      pins_inform(paste0(
+        "Replacing version '", versions$version, "'",
+        " with '", metadata$pin_hash, "'"
+      ))
+    } else {
+      abort(c(
+        "Pin is versioned, but you have requested a write without versions",
+        i = "To un-version a pin, you must delete it"
+      ))
+    }
+  } else {
+    pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
+  }
+
+  delete <- !versioned && nrow(versions) == 1
+
+  new_row <- data.frame(
+    version = metadata$pin_hash,
+    created = metadata$created
+  )
+  versions <- rbind(if (!delete) versions, new_row)
+
+  list(
+    delete = delete,
+    versions = versions
+  )
+}

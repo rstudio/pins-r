@@ -182,7 +182,7 @@ pin_store.pins_board_s3 <- function(board, name, path, metadata,
                                     versioned = NULL, ...) {
   check_name(name)
 
-  ver <- record_version(board, name, metadata, versioned = versioned)
+  ver <- version_create_inform(board, name, metadata, versioned = versioned)
   if (ver$delete) {
     meta <- pin_meta(board, name)
     s3_delete_dir(board, fs::path(name, meta$local$version))
@@ -198,51 +198,6 @@ pin_store.pins_board_s3 <- function(board, name, path, metadata,
   s3_upload_yaml(board, fs::path(name, "versions.yml"), list(versions = ver$versions))
 
   invisible(board)
-}
-
-record_version <- function(board, name, metadata, versioned = NULL) {
-  if (pin_exists(board, name)) {
-    versions <- pin_versions(board, name)
-  } else {
-    versions <- data.frame(version = character(), created = .POSIXct(double()))
-  }
-
-  if (nrow(versions) > 1) {
-    versioned <- versioned %||% TRUE
-  } else {
-    versioned <- versioned %||% board$versioned
-  }
-
-  if (!versioned) {
-    if (nrow(versions) == 0) {
-      pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
-    } else if (nrow(versions) == 1) {
-      pins_inform(paste0(
-        "Replacing version '", versions$version, "'",
-        " with '", metadata$pin_hash, "'"
-      ))
-    } else {
-      abort(c(
-        "Pin is versioned, but you have requested a write without versions",
-        i = "To un-version a pin, you must delete it"
-      ))
-    }
-  } else {
-    pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
-  }
-
-  delete <- !versioned && nrow(versions) == 1
-
-  new_row <- data.frame(
-    version = metadata$pin_hash,
-    created = metadata$created
-  )
-  versions <- rbind(if (!delete) versions, new_row)
-
-  list(
-    delete = delete,
-    versions = versions
-  )
 }
 
 # Helpers -----------------------------------------------------------------

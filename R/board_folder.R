@@ -84,36 +84,11 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
-  if (pin_exists(board, name)) {
-    versions <- pin_versions(board, name)
-  } else {
-    versions <- data.frame(version = character(), created = .POSIXct(double()))
-  }
 
-  if (nrow(versions) > 1) {
-    versioned <- versioned %||% TRUE
-  } else {
-    versioned <- versioned %||% board$versioned
-  }
-
-  if (!versioned) {
-    if (nrow(versions) == 0) {
-      pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
-    } else if (nrow(versions) == 1) {
-      pins_inform(paste0(
-        "Replacing version '", versions$version, "'",
-        " with '", metadata$pin_hash, "'"
-      ))
-      fs::dir_delete(fs::path(path_pin, versions$version))
-      versions <- versions[0, , drop = FALSE]
-    } else {
-      abort(c(
-        "Pin is versioned, but you have requested a write without versions",
-        i = "To un-version a pin, you must delete it"
-      ))
-    }
-  } else {
-    pins_inform(paste0("Creating new version '", metadata$pin_hash, "'"))
+  ver <- version_create_inform(board, name, metadata, versioned = versioned)
+  if (ver$delete) {
+    meta <- pin_meta(board, name)
+    fs::dir_delete(fs::path(path_pin, meta$local$version))
   }
 
   path_version <- fs::path(path_pin, metadata$pin_hash)
@@ -122,9 +97,7 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
   write_meta(metadata, path_version)
 
   # Add to list of versions so we know which is most recent
-  versions <- rbind(versions,
-    data.frame(version = metadata$pin_hash, created = metadata$created))
-  update_cache(fs::path(path_pin, "versions.yml"), "versions", versions)
+  update_cache(fs::path(path_pin, "versions.yml"), "versions", ver$versions)
 
   invisible(board)
 }
