@@ -11,6 +11,7 @@
 #'
 #' @export
 #' @keywords internal
+#' @inheritParams pin_read
 pin_fetch <- function(board, name, version = NULL, ...) {
   ellipsis::check_dots_used()
   UseMethod("pin_fetch")

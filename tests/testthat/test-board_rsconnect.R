@@ -37,6 +37,18 @@ test_that("can find/search pins", {
   # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
 })
 
+test_that("absent pins handled consistently", {
+  board <- board_rsconnect_test()
+  pin_write(board, 1, "test-present")
+  withr::defer(pin_delete(board, "hadley/test-present"))
+
+  expect_true("hadley/test-present" %in% pin_list(board))
+  expect_equal(pin_exists(board, "hadley/test-present"), TRUE)
+  expect_equal(pin_exists(board, "hadley/test-absent"), FALSE)
+
+  expect_error(pin_meta(board, "test-absent"), class = "pins_pin_absent")
+})
+
 test_that("can upload/download multiple files", {
   path1 <- withr::local_tempfile()
   writeLines("a", path1)

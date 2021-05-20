@@ -118,6 +118,12 @@ pin_list.pins_board_s3 <- function(board, ...) {
 }
 
 #' @export
+pin_exists.pins_board_s3 <- function(board, name, ...) {
+  resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(name, "/"))
+  resp$KeyCount > 0
+}
+
+#' @export
 pin_delete.pins_board_s3 <- function(board, names, ...) {
   for (name in names) {
     s3_delete_dir(board, name)
@@ -127,9 +133,7 @@ pin_delete.pins_board_s3 <- function(board, names, ...) {
 
 #' @export
 pin_versions.pins_board_s3 <- function(board, name, ...) {
-  if (!s3_exists(board, name)) {
-    abort(glue("Can't find pin called '{name}'"))
-  }
+  check_pin_exists(board, name)
 
   path_pin <- fs::path(board$cache, name)
   fs::dir_create(path_pin)
@@ -141,16 +145,12 @@ pin_versions.pins_board_s3 <- function(board, name, ...) {
 
 #' @export
 pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
-  if (!s3_exists(board, name)) {
-    abort(glue("Can't find pin called '{name}'"))
-  }
+  check_pin_exists(board, name)
 
   if (is.null(version)) {
     version <- last(pin_versions(board, name)$version) %||% abort("No versions found")
   } else if (is_string(version)) {
-    if (!s3_exists(board, fs::path(name, version))) {
-      abort(glue("Can't find version '{version}' of '{name}' pin"))
-    }
+    # check_pin_version(board, name, version)
   } else {
     abort("`version` must be a string or `NULL`")
   }
@@ -201,7 +201,7 @@ pin_store.pins_board_s3 <- function(board, name, path, metadata,
 }
 
 record_version <- function(board, name, metadata, versioned = NULL) {
-  if (s3_exists(board, name)) {
+  if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
   } else {
     versions <- data.frame(version = character(), created = .POSIXct(double()))
@@ -279,7 +279,3 @@ s3_download <- function(board, key, immutable = FALSE) {
   path
 }
 
-s3_exists <- function(board, key) {
-  resp <- board$svc$list_objects_v2(board$bucket, Prefix = key)
-  resp$KeyCount > 0
-}

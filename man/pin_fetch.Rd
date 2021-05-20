@@ -9,6 +9,26 @@ pin_fetch(board, name, version = NULL, ...)
 
 pin_store(board, name, path, metadata, versioned = NULL, x = NULL, ...)
 }
+\arguments{
+\item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
+\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
+
+\item{name}{Pin name.}
+
+\item{version}{For boards that support versions, this allows you to retrieve
+a specific version of a pin. See \verb{vignette("versioning)"} for details.}
+
+\item{...}{Additional arguments passed on to methods for a specific board.}
+
+\item{metadata}{A list containing additional metadata to store with the pin.
+When retrieving the pin, this will be stored in the \code{user} key, to
+avoid potential clashes with the metadata that pins itself uses.}
+
+\item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
+use the default for \code{board}}
+
+\item{x}{An object (typically a data frame) to pin.}
+}
 \value{
 \code{pin_fetch()} is called primarily for its side-effect of downloading
 remote pins into the local cache. It returns the same data as \link{pin_meta}.

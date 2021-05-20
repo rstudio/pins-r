@@ -15,8 +15,9 @@
       board_url() is read only
     Code
       board %>% pin_meta("froofy", version = "x")
-    Error <rlang_error>
-      Can't find pin called froofy
+    Error <pins_pin_absent>
+      Can't find pin called 'froofy'
+      i Use `pin_list()` to see all available pins in this board
     Code
       board %>% pin_meta("x", version = "x")
     Error <rlang_error>

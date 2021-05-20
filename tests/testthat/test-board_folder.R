@@ -2,6 +2,17 @@ test_that("has useful print method", {
   expect_snapshot(board_folder("/tmp/test", name = "test"))
 })
 
+test_that("absent pins handled consistently", {
+  board <- board_temp()
+  pin_write(board, 1, "x")
+
+  expect_equal(pin_list(board), "x")
+  expect_equal(pin_exists(board, "x"), TRUE)
+  expect_equal(pin_exists(board, "y"), FALSE)
+
+  expect_error(pin_meta(board, "y"), class = "pins_pin_absent")
+})
+
 test_that("can remove a local pin", {
   board <- board_temp()
 

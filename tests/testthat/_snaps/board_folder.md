@@ -63,8 +63,9 @@
 
     Code
       pin_read(b, "x")
-    Error <simpleError>
-      attempt to select less than one element in integerOneIndex
+    Error <pins_pin_absent>
+      Can't find pin called 'x'
+      i Use `pin_list()` to see all available pins in this board
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>

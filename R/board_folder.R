@@ -58,6 +58,11 @@ pin_list.pins_board_folder <- function(board, ...) {
 }
 
 #' @export
+pin_exists.pins_board_folder <- function(board, name, ...) {
+  as.logical(fs::file_exists(fs::path(board$path, name, "versions.yml")))
+}
+
+#' @export
 pin_delete.pins_board_folder <- function(board, names, ...) {
   walk(names, check_name)
   fs::dir_delete(fs::path(board$path, names))
@@ -79,7 +84,11 @@ pin_store.pins_board_folder <- function(board, name, path, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
   path_pin <- fs::path(board$path, name)
-  versions <- pin_versions(board, name)
+  if (pin_exists(board, name)) {
+    versions <- pin_versions(board, name)
+  } else {
+    versions <- data.frame(version = character(), created = .POSIXct(double()))
+  }
 
   if (nrow(versions) > 1) {
     versioned <- versioned %||% TRUE
@@ -128,6 +137,7 @@ pin_fetch.pins_board_folder <- function(board, name, version = NULL, ...) {
 #' @export
 pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   check_name(name)
+  check_pin_exists(board, name)
 
   version <- version %||%
     last(pin_versions(board, name)$version) %||%
@@ -144,15 +154,13 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_versions.pins_board_folder <- function(board, name, ...) {
+  check_name(name)
+  check_pin_exists(board, name)
+
   path <- fs::path(board$path, name, "versions.yml")
 
-  # TODO: extract out into read_versions() and use in board_s3
   versions <- read_cache(path)$versions
-  if (is.null(versions)) {
-    data.frame(version = character(), created = .POSIXct(double()))
-  } else {
-    versions <- tibble::as_tibble(versions)
-    versions$created <- rsc_parse_time(versions$created)
-    versions
-  }
+  versions <- tibble::as_tibble(versions)
+  versions$created <- rsc_parse_time(versions$created)
+  versions
 }

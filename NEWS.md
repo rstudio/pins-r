@@ -30,6 +30,8 @@ This versions of pins brings with it a new API that is designed to be much less 
 
 * `pin_reactive_read()` and `pin_reactive_download()` replace `pin_reactive()`.
 
+* `pin_exists()` reports whether or not a pin exists.
+
 ## Modern boards
 
 Along with a new API for interacting with pins comes a new API for connecting to a board. Now, rather than "registering" a board that you later refer to either implicitly or with a string, you generate a board object which is passed to every function. This takes away the magic of which board a pin comes from and should hopefully make it easier to understand what pins is doing.

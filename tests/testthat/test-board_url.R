@@ -12,6 +12,18 @@ test_that("provides key methods", {
     expect_equal(data.frame(x = 1:10))
 })
 
+test_that("absent pins handled consistently", {
+  board <- board_url_test(c(
+    x = github_raw("rstudio/pins/master/tests/testthat/pin-rds/")
+  ))
+
+  expect_equal(pin_list(board), "x")
+  expect_equal(pin_exists(board, "x"), TRUE)
+  expect_equal(pin_exists(board, "y"), FALSE)
+
+  expect_error(pin_meta(board, "y"), class = "pins_pin_absent")
+})
+
 test_that("only downloads once", {
   board <- board_url_test(c(
     rds = github_raw("rstudio/pins/master/tests/testthat/pin-rds/")

@@ -58,11 +58,15 @@ pin_list.pins_board_url <- function(board, ...) {
 }
 
 #' @export
+pin_exists.pins_board_url <- function(board, name, ...) {
+  name %in% names(board$urls)
+}
+
+#' @export
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
-  if (!has_name(board$urls, name)) {
-    abort(glue("Can't find pin called {name}"))
-  }
+  check_pin_exists(board, name)
+
   if (!is.null(version)) {
     abort("board_url() doesn't support versions")
   }

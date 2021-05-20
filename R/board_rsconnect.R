@@ -203,6 +203,17 @@ pin_list.pins_board_rsconnect <- function(board, ...) {
 }
 
 #' @export
+pin_exists.pins_board_rsconnect <- function(board, name, ...) {
+  tryCatch(
+    {
+      rsc_content_find(board, name)
+      TRUE
+    },
+    pins_pin_absent = function(cnd) FALSE
+  )
+}
+
+#' @export
 board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
   guid <- rsc_content_find(board, name)$guid
   rsc_content_versions(board, guid)
