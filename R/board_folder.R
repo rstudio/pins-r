@@ -80,17 +80,12 @@ pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache
 pin_store.pins_board_folder <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
-  path_pin <- fs::path(board$path, name)
+  version <- version_setup(board, name, metadata, versioned = versioned)
 
-  version <- version_create_inform(board, name, metadata, versioned = versioned)
-  if (!is.null(version$delete)) {
-    fs::dir_delete(fs::path(path_pin, version$delete))
-  }
-
-  path_version <- fs::path(path_pin, version$new)
-  fs::dir_create(path_version)
-  write_meta(metadata, path_version)
-  fs::file_copy(paths, path_version, overwrite = TRUE)
+  version_dir <- fs::path(board$path, name, version)
+  fs::dir_create(version_dir)
+  write_meta(metadata, version_dir)
+  fs::file_copy(paths, version_dir, overwrite = TRUE)
 
   invisible(board)
 }
@@ -125,4 +120,9 @@ pin_versions.pins_board_folder <- function(board, name, ...) {
 
   paths <- fs::dir_ls(fs::path(board$path, name), type = "directory")
   version_from_path(fs::path_file(paths))
+}
+
+#' @export
+pin_version_delete.pins_board_folder <- function(board, name, version, ...) {
+  fs::dir_delete(fs::path(board$path, name, version))
 }

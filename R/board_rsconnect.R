@@ -222,6 +222,12 @@ board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
 pin_versions.pins_board_rsconnect <- board_pin_versions.pins_board_rsconnect
 
 #' @export
+pin_version_delete.pins_board_rsconnect <- function(board, name, version, ...) {
+  guid <- rsc_content_find(board, name, warn = FALSE)$guid
+  rsc_DELETE(board, rsc_v1("content", guid, "bundles", version))
+}
+
+#' @export
 pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {
   content <- rsc_content_find(board, name)
 
@@ -351,7 +357,7 @@ pin_store.pins_board_rsconnect <- function(
     if (length(ids) == 0) {
       # First version
     } else if (length(ids) == 1) {
-      rsc_DELETE(board, rsc_v1("content", content_guid, "bundles", ids))
+      pin_version_delete(board, name, ids)
     } else {
       abort(c(
         "Pin is versioned, but you have requested not to use versions",

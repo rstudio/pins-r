@@ -145,6 +145,11 @@ pin_versions.pins_board_s3 <- function(board, name, ...) {
 }
 
 #' @export
+pin_version_delete.pins_board_s3 <- function(board, name, version, ...) {
+  s3_delete_dir(board, fs::path(name, version))
+}
+
+#' @export
 pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
 
@@ -182,16 +187,12 @@ pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
 pin_store.pins_board_s3 <- function(board, name, paths, metadata,
                                     versioned = NULL, ...) {
   check_name(name)
+  version <- version_setup(board, name, metadata, versioned = versioned)
 
-  version <- version_create_inform(board, name, metadata, versioned = versioned)
-  if (!is.null(version$delete)) {
-    s3_delete_dir(board, fs::path(name, version$delete))
-  }
-
-  path_s3 <- fs::path(name, version$new)
-  s3_upload_yaml(board, fs::path(path_s3, "data.txt"), metadata)
+  version_dir <- fs::path(name, version)
+  s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata)
   for (path in paths) {
-    s3_upload_file(board, fs::path(path_s3, fs::path_file(path)), path)
+    s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path)
   }
 
   invisible(board)

@@ -1,6 +1,8 @@
 #' Pin versions
 #'
-#' List versions available for a pin. See `vignette("versioning)"` for details.
+#' `pin_versions()` list versions available for a pin; `pin_version_delete()`
+#' allows you to delete a single version. See `vignette("versioning)"` for
+#' more details about versioning pins.
 #'
 #' @param board,name A pair of board and pin name. For modern boards,
 #'   use `board %>% pin_versions(name)`. For backward compatibility with the
@@ -57,6 +59,19 @@ pin_versions.pins_board <- function(board, name, ...) {
   abort("board_url() doesn't support versions")
 }
 
+#' @export
+#' @rdname pin_versions
+#' @param version Version identifier.
+pin_version_delete <- function(board, name, version, ...) {
+  ellipsis::check_dots_used()
+  UseMethod("pin_version_delete")
+}
+
+#' @export
+pin_version_delete.pins_board <- function(board, name, version, ...) {
+  abort("board_url() doesn't support versions")
+}
+
 versions_template <- function(version = character()) {
   if (!is.character(version)) {
     abort("`version` must be a character vector")
@@ -75,7 +90,6 @@ version_name <- function(metadata) {
   } else {
     paste0(metadata$created, "-", substr(metadata$pin_hash, 1, 5))
   }
-
 }
 
 version_from_path <- function(x) {
@@ -89,38 +103,29 @@ version_from_path <- function(x) {
   out
 }
 
-version_create_inform <- function(board, name, metadata, versioned = NULL) {
+version_setup <- function(board, name, metadata, versioned = NULL) {
   if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
+    old_version <- versions$version[[1]]
+    n_versions <- nrow(versions)
   } else {
-    versions <- versions_template()
+    n_versions <- 0
   }
 
-  if (nrow(versions) > 1) {
-    versioned <- versioned %||% TRUE
-  } else {
-    versioned <- versioned %||% board$versioned
-  }
-
+  versioned <- versioned %||% if (n_versions > 1) TRUE else board$versioned
   new_version <- version_name(metadata)
 
-  if (!versioned) {
-    if (nrow(versions) == 0) {
-      pins_inform(glue("Creating new version '{new_version}'"))
-    } else if (nrow(versions) == 1) {
-      pins_inform(glue("Replacing version '{versions$version}' with '{new_version}'"))
-    } else {
-      abort(c(
-        "Pin is versioned, but you have requested a write without versions",
-        i = "To un-version a pin, you must delete it"
-      ))
-    }
-  } else {
+  if (versioned || n_versions == 0) {
     pins_inform(glue("Creating new version '{new_version}'"))
+  } else if (n_versions == 1) {
+    pins_inform(glue("Replacing version '{old_version}' with '{new_version}'"))
+    pin_version_delete(board, name, old_version)
+  } else {
+    abort(c(
+      "Pin is versioned, but you have requested a write without versions",
+      i = "To un-version a pin, you must delete it"
+    ))
   }
 
-  list(
-    delete = if (!versioned && nrow(versions) == 1) versions$version,
-    new = new_version
-  )
+  new_version
 }

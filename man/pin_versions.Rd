@@ -2,9 +2,12 @@
 % Please edit documentation in R/pin_versions.R
 \name{pin_versions}
 \alias{pin_versions}
+\alias{pin_version_delete}
 \title{Pin versions}
 \usage{
 pin_versions(board, name, ..., full = deprecated())
+
+pin_version_delete(board, name, version, ...)
 }
 \arguments{
 \item{board, name}{A pair of board and pin name. For modern boards,
@@ -15,13 +18,17 @@ legacy API, you can also use \code{pin_versions(name)} or
 \item{...}{Additional arguments passed on to methods for a specific board.}
 
 \item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{version}{Version identifier.}
 }
 \value{
 A data frame with at least a \code{version} column. Some boards may
 provided additional data.
 }
 \description{
-List versions available for a pin. See \verb{vignette("versioning)"} for details.
+\code{pin_versions()} list versions available for a pin; \code{pin_version_delete()}
+allows you to delete a single version. See \verb{vignette("versioning)"} for
+more details about versioning pins.
 }
 \examples{
 board <- board_temp(versioned = TRUE)
