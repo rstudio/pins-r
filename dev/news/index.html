@@ -158,6 +158,7 @@
 <li><p><code><a href="../reference/pin_search.html">pin_search()</a></code> replaces <code><a href="../reference/pin_find.html">pin_find()</a></code>. It is much more limited because the previous version was based on assumptions that are not true for many boards.</p></li>
 <li><p><code><a href="../reference/pin_reactive_read.html">pin_reactive_read()</a></code> and <code><a href="../reference/pin_reactive_read.html">pin_reactive_download()</a></code> replace <code><a href="../reference/pin_reactive.html">pin_reactive()</a></code>.</p></li>
 <li><p><code><a href="../reference/pin_exists.html">pin_exists()</a></code> reports whether or not a pin exists.</p></li>
+<li><p><code><a href="../reference/pin_versions.html">pin_version_delete()</a></code> allows you to delete a single version. <code><a href="../reference/pin_versions.html">pin_versions_prune()</a></code> (<a href='https://github.com/rstudio/pins/issues/459'>#459</a>) allows you to easily prune old versions keeping either a specified number of versions, or all versions beneath a certain age.</p></li>
 </ul>
 </div>
 <div id="modern-boards" class="section level2">
@@ -185,6 +186,7 @@
 <li><p>Pinned data frames are longer converted to tibbles.</p></li>
 <li><p><code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> will automatically connect to the current RSC pin board when run inside RSC itself (assuming you have version 1.8.8 or later) (<a href='https://github.com/rstudio/pins/issues/396'>#396</a>).</p></li>
 <li><p><code><a href="../reference/board_pin_create.html">board_browse()</a></code> now works with local boards.</p></li>
+<li><p><code><a href="../reference/cache_browse.html">cache_browse()</a></code>, <code><a href="../reference/cache_browse.html">cache_info()</a></code>, and <code><a href="../reference/cache_browse.html">cache_prune()</a></code> provide some basic tooling around the local pins cache maintained by pins (<a href='https://github.com/rstudio/pins/issues/438'>#438</a>).</p></li>
 <li><p>All board objects now have class beginning with <code>pins_board_</code> and also inherit from common superclass <code>pins_board</code>.</p></li>
 <li><p><code><a href="../reference/pin_fetch.html">pin_fetch()</a></code> has been removed</p></li>
 <li><p><code>option(pins.invisible)</code> is now defunct and ignored.</p></li>
