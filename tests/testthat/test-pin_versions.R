@@ -1,6 +1,7 @@
 test_that("can use old pin_versions() api", {
   board <- legacy_local()
   pin(x = 1:5, "x", board = board)
+  withr::defer(pin_remove("x", board))
 
   expect_snapshot({
     x <- pin_versions("x")

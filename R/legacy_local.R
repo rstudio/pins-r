@@ -24,7 +24,7 @@
 #' board %>% pin_write(data.frame(x = 1:3), "test")
 #' board %>% pin_read("test")
 legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
-  path <- path %||% rappdirs::user_data_dir("pins")
+  path <- path %||% board_cache_path(name)
   fs::dir_create(path)
 
   new_board_v0("pins_board_local",
