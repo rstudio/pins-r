@@ -79,6 +79,9 @@
     <loc>https://pins.rstudio.com/reference/pin_download.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/pin_exists.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/pin_fetch.html</loc>
   </url>
   <url>
