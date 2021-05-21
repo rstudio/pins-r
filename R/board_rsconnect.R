@@ -68,7 +68,7 @@ board_rsconnect <- function(
 
   auth <- check_auth(auth)
   if (auth == "envvar") {
-    server <- server %||% Sys.getenv("CONNECT_SERVER") %||% abort("`server` must be supplied")
+    server <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
     server_name <- httr::parse_url(server)$hostname
     # account determined below
     url <- paste0(server, "/__api__/")
@@ -282,7 +282,7 @@ pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., ca
   if (cache) {
     browse_url(meta$local$dir)
   } else {
-    browse_url(meta$url)
+    browse_url(meta$local$url)
   }
 }
 

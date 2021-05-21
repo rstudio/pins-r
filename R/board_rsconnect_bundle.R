@@ -12,14 +12,16 @@ rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tem
   rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)
 
   # * manifest.json (used for deployment)
-  manifest <- rsc_bundle_manifest(board, c(fs::path_file(paths), "data.txt", "index.html"))
+  manifest <- rsc_bundle_manifest(board, bundle_path)
   jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
 
   invisible(bundle_path)
 }
 
 # Extracted from rsconnect:::createAppManifest
-rsc_bundle_manifest <- function(board, files) {
+rsc_bundle_manifest <- function(board, path) {
+  files <- fs::path_rel(fs::dir_ls(path, recurse = TRUE, type = "file"), path)
+
   list(
     version = 1,
     locale = "en_US",

@@ -88,7 +88,7 @@ to_utf8 <- function(x) {
 }
 
 envvar_get <- function(name) {
-  null_if_na(Sys.getenv(name))
+  null_if_na(Sys.getenv(name, NA))
 }
 
 this_not_that <- function(this, that) {
