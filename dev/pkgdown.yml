@@ -3,9 +3,9 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   articles/internals: internals.html
-  articles/use-cases: use-cases.html
   pins: pins.html
-last_built: 2021-05-20T22:14Z
+  rsc: rsc.html
+last_built: 2021-05-21T12:56Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles
