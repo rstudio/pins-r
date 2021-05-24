@@ -48,6 +48,12 @@ parse_8601_compact <- function(x) {
   y
 }
 
+parse_8601 <- function(x) {
+  y <- as.POSIXct(strptime(x, "%Y-%m-%dT%H:%M", tz = "UTC"))
+  attr(y, "tzone") <- ""
+  y
+}
+
 # description -------------------------------------------------------------
 
 default_description <- function(object, path) {

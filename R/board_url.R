@@ -133,8 +133,6 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
   }
 }
 
-
-
 # Unsupported features ----------------------------------------------------
 
 #' @export
@@ -149,8 +147,7 @@ pin_store.pins_board_url <- function(board, name, paths, metadata,
 }
 
 # Helpers ------------------------------------------------------------------
-
-http_download <- function(url, path_dir, path_file, use_cache_on_failure = FALSE) {
+http_download <- function(url, path_dir, path_file, ..., use_cache_on_failure = FALSE) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
 
@@ -174,7 +171,7 @@ http_download <- function(url, path_dir, path_file, use_cache_on_failure = FALSE
   write_out <- httr::write_disk(tmp_path)
 
   req <- tryCatch(
-    httr::GET(url, headers, write_out),
+    httr::GET(url, headers, ..., write_out),
     error = function(e) {
       if (!is.null(cache) && use_cache_on_failure) {
         NULL
@@ -194,9 +191,9 @@ http_download <- function(url, path_dir, path_file, use_cache_on_failure = FALSE
     info <- httr::cache_info(req)
     if (info$cacheable) {
       update_cache(cache_path, url, list(
-        expires = info$expires,
+        expires = as.integer(info$expires),
         etag = info$etag,
-        modified = unclass(info$modified),
+        modified = as.integer(unclass(info$modified)),
         path = path
       ))
     } else {

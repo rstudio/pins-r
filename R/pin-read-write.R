@@ -144,7 +144,7 @@ object_read <- function(meta) {
       pickle = abort("'pickle' pins not supported in R"),
       csv = utils::read.csv(path, stringsAsFactors = TRUE),
       file = abort(c(
-        "Pin created with `pin_upload()`",
+        "Pin does not declare file type so can't be automatically read",
         i = "Retrieve uploaded paths with `pin_download()`"
       ))
     )

@@ -322,10 +322,11 @@ pin_store.pins_board_rsconnect <- function(
 
   # suppress warnings about "invalid uid value" / "invalid gid value"
   suppressWarnings(utils::tar(
-    bundle_file, fs::dir_ls(bundle_dir),
+    bundle_file,
     compression = "gzip",
     tar = "internal"
   ))
+  browser()
 
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
