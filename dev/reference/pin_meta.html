@@ -193,7 +193,7 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
     <pre class="examples"><span class='r-in'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='st'>"mtcars"</span>, metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Hadley"</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '20210524T142026Z-e8d9f'</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '20210602T195112Z-e8d9f'</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Get the pin</span></span>
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
@@ -212,16 +212,16 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ pin_hash   : chr "e8d9fc6ccc560fff"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ type       : chr "rds"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ description: chr "A pin containing a data frame with 6 rows and 11 columns"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ created    : chr "20210524T142026Z"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ created    : chr "20210602T195112Z"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ api_version: num 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ user       :List of 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ Hadley: logi TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ local      :List of 2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmppptXZp/pins-294e2551b22a/mtcars/20210524T142026Z-e8d9f"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ version: chr "20210524T142026Z-e8d9f"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpX2xlcq/pins-2f3248b1e6cf/mtcars/20210602T195112Z-e8d9f"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ version: chr "20210602T195112Z-e8d9f"</span>
 <span class='r-in'><span class='co'># Get path to underlying data</span></span>
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_download.html'>pin_download</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmppptXZp/pins-294e2551b22a/mtcars/20210524T142026Z-e8d9f/mtcars.rds"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpX2xlcq/pins-2f3248b1e6cf/mtcars/20210602T195112Z-e8d9f/mtcars.rds"</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

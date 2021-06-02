@@ -117,16 +117,16 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>To use the pins package, you must first create a pin board. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code> which stores pins in a directory you specific. Here I’ll use <code><a href="reference/board_folder.html">board_temp()</a></code> which because it creates a temporary board that will evaporate when your R session ends:</p>
+<p>To use the pins package, you must first create a pin board. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code>, which stores pins in a directory you specify. Here I’m using <code><a href="reference/board_folder.html">board_temp()</a></code> which creates a temporary board that will evaporate when your R session ends:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
 
 <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span>
 <span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span>
-<span class="co">#&gt; Path: '/tmp/Rtmp6kAi3y/pins-c0083ff0cffe'</span>
+<span class="co">#&gt; Path: '/tmp/RtmpcynFFc/pins-8c0254850b9'</span>
 <span class="co">#&gt; With no pins.</span></code></pre></div>
-<p>Next you can to store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>. The first argument is the object to pin (normally a data frame) , and the second argument is the name you’ll use to later retrieve it:</p>
+<p>Next, you can store some data in that board with <code><a href="reference/pin_read.html">pin_write()</a></code>. The first argument is the object to pin (normally a data frame) , and the second argument is the name you’ll use to later retrieve it:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
@@ -142,12 +142,12 @@
 <span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
 <span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
 <span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
-<p>This can be convenient when working locally, but the real power of pins comes when you use a shared board, because because the writer and reader can be different people (or automated processes). For example, you can RStudio Connect you can pin data to board that’s accessible to your team:</p>
+<p>This can be convenient when working locally, but the real power of pins comes when you use a shared board, because the writer and reader can be different people (or automated processes). For example, with RStudio Connect you can pin data to board that’s accessible to your team:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">tidy_sales_data</span>, <span class="st">"sales-summary"</span><span class="op">)</span>
 <span class="co">#&gt; Saving to hadley/sales-summary</span></code></pre></div>
-<p>Then someone else (or an automated Rmd report) can read it:</p>
+<p>Then, someone else (or an automated Rmd report) can read it:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
