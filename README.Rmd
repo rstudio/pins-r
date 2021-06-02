@@ -39,8 +39,8 @@ install.packages("pins")
 ## Usage
 
 To use the pins package, you must first create a pin board.
-A good place to start is `board_folder()` which stores pins in a directory you specific.
-Here I'll use `board_temp()` which because it creates a temporary board that will evaporate when your R session ends:
+A good place to start is `board_folder()`, which stores pins in a directory you specify.
+Here I'm using `board_temp()` which creates a temporary board that will evaporate when your R session ends:
 
 ```{r setup}
 library(pins)
@@ -49,7 +49,7 @@ b <- board_temp()
 b
 ```
 
-Next you can to store some data in that board with `pin_write()`.
+Next, you can store some data in that board with `pin_write()`.
 The first argument is the object to pin (normally a data frame) , and the second argument is the name you'll use to later retrieve it:
 
 ```{r}
@@ -64,8 +64,8 @@ Later, in a different R session, you can retrieve the data with `pin_read()`:
 b %>% pin_read("mtcars")
 ```
 
-This can be convenient when working locally, but the real power of pins comes when you use a shared board, because because the writer and reader can be different people (or automated processes).
-For example, you can RStudio Connect you can pin data to board that's accessible to your team:
+This can be convenient when working locally, but the real power of pins comes when you use a shared board, because the writer and reader can be different people (or automated processes).
+For example, with RStudio Connect you can pin data to board that's accessible to your team:
 
 ```{r, eval = FALSE}
 b <- board_rsconnect()
@@ -73,7 +73,7 @@ b %>% pin_write(tidy_sales_data, "sales-summary")
 #> Saving to hadley/sales-summary
 ```
 
-Then someone else (or an automated Rmd report) can read it:
+Then, someone else (or an automated Rmd report) can read it:
 
 ```{r, eval = FALSE}
 b <- board_rsconnect()
