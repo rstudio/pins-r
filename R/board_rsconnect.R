@@ -71,7 +71,8 @@ board_rsconnect <- function(
     server <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
     server_name <- httr::parse_url(server)$hostname
     # account determined below
-    url <- paste0(server, "/__api__/")
+    url <- paste0(server, "/__api__/") # remember to delete this line
+    url <- rsconnect::serverInfo(name = server)$url
 
     key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
     account_info <- NULL
