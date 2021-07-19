@@ -40,7 +40,6 @@ Imports:
     openssl,
     rappdirs,
     rlang,
-    rsconnect,
     tibble,
     whisker,
     withr,
@@ -53,6 +52,7 @@ Suggests:
     paws.storage,
     R.utils,
     rmarkdown,
+    rsconnect,
     shiny,
     testthat (>= 3.0.0),
     xml2
