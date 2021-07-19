@@ -69,10 +69,13 @@ board_rsconnect <- function(
   auth <- check_auth(auth)
   if (auth == "envvar") {
     server <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
-    server_name <- httr::parse_url(server)$hostname
+    url_list <- httr::parse_url(server)
+    server_name <- url_list$hostname
+    if (!is.null(url_list$path) && url_list$path != "") {
+      server_name <- paste0(url_list$hostname, "/", url_list$path)
+    }
     # account determined below
-    url <- paste0(server, "/__api__/") # remember to delete this line
-    url <- rsconnect::serverInfo(name = server)$url
+    url <- paste0(server, "/__api__/")
 
     key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
     account_info <- NULL
@@ -243,6 +246,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
     bundle_id <- version
   }
   url <- paste0(content$url, "_rev", bundle_id, "/")
+  url <- rsc_ensure_path_url(board, url)
 
   # Cache data.txt locally
   cache_path <- fs::path(board$cache, content$guid, bundle_id)
@@ -591,6 +595,16 @@ rsc_path <- function(board, path) {
   paste0("/", board_path, "/", path)
 }
 
+
+rsc_ensure_path_url <- function(board, url) {
+  server_name <- dirname(board$server_name)
+  full_name <- board$server_name
+  if (!grepl(full_name, url)) {
+    url <- sub(server_name, full_name, url)
+  }
+  url
+}
+
 rsc_GET <- function(board, path, query = NULL, ...) {
   path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "GET", NULL)
@@ -602,7 +616,12 @@ rsc_GET <- function(board, path, query = NULL, ...) {
     ...
   )
   rsc_check_status(req)
-  httr::content(req)
+  content <- httr::content(req)
+  if (is.list(content[[1]])) {
+    # ensure the full server name is in the URL
+    content[[1]][["content_url"]] <- rsc_ensure_path_url(board, content[[1]][["content_url"]])
+  }
+  content
 }
 
 rsc_download <- function(board, content_url, dest_path, name) {
