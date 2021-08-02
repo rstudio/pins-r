@@ -592,7 +592,7 @@ update_cache <- function(path, key, value) {
 
 rsc_path <- function(board, path) {
   board_path <- httr::parse_url(board$url)$path
-  paste0("/", board_path, "/", path)
+  file.path(board_path, path, fsep = "/")
 }
 
 
@@ -618,7 +618,7 @@ rsc_GET <- function(board, path, query = NULL, ...) {
   )
   rsc_check_status(req)
   content <- httr::content(req)
-  if (is.list(content[[1]])) {
+  if (length(content) && is.list(content) && is.list(content[[1]])) {
     # ensure the full server name is in the URL
     content[[1]][["content_url"]] <- rsc_ensure_path_url(board, content[[1]][["content_url"]])
   }
