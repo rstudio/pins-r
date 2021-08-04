@@ -106,10 +106,6 @@ board_rsconnect <- function(
   # Fill in account name if auth == "envvar"
   board$account <- board$account %||% rsc_GET(board, "users/current/")$username
 
-  if (rsc_version(board) < "1.7.7") {
-    abort("Pins requires RSC 1.7.7 or later")
-  }
-
   board
 }
 
