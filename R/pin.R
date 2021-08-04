@@ -235,6 +235,7 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, cach
   }
 
   if (length(x) == 1 && is_url(x)) {
+    board <- board_get(board)
     details <- as.environment(list(something_changed = TRUE))
     path <- pin_download_files(x,
       name,
