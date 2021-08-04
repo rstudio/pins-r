@@ -600,7 +600,7 @@ rsc_ensure_path_url <- function(board, url) {
   if (length(url) == 0) return(url)
   server_name <- dirname(board$server_name)
   full_name <- board$server_name
-  if (!grepl(full_name, url)) {
+  if (!grepl(full_name, url, fixed = TRUE)) {
     url <- sub(server_name, full_name, url)
   }
   url
