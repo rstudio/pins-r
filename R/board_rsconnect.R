@@ -610,12 +610,11 @@ rsc_download <- function(board, content_url, dest_path, name) {
   path <- paste0("/", httr::parse_url(content_url)$path, name)
   auth <- rsc_auth(board, path, "GET", NULL)
 
-  req <- httr::GET(content_url,
-    path = path,
-    auth,
-    httr::write_disk(dest)
-  )
+  temp <- fs::file_temp()
+  req <- httr::GET(content_url, path = path, auth, httr::write_disk(temp))
+
   rsc_check_status(req)
+  fs::file_copy(temp, dest) # only copy if request is successful
   invisible()
 }
 
