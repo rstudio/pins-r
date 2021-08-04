@@ -1,0 +1,149 @@
+---
+title: "Upgrading to pins 1.0.0"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Upgrading to pins 1.0.0}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+pins 1.0.0 introduced a completely new API designed to be more explicit and less magical.
+While the legacy API will continue to be supported for some time, it will not gain any new features, so it's good to plan to switch to the new interface.
+
+This vignette shows a couple of examples converting legacy code to the modern API, then shows the equivalences between the legacy and modern function names.
+
+```{r setup}
+library(pins)
+```
+
+## Examples
+
+A simple example of the legacy API looks something like this:
+
+```{r}
+board_register_local("example", tempfile())
+
+pin(head(mtcars), "mtcars", board = "example")
+pin_get("mtcars", board = "example")
+```
+
+You first register a board,
+
+There are three major changes:
+
+-   You create an explicit board object which you use instead of the name.
+-   You use `pin_read()` and `pin_write()` instead of `pin_get()` and `pin()`.
+-   The board object is the always the first argument.
+
+So the code above translates to:
+
+```{r}
+board <- board_local()
+
+board %>% pin_write(head(mtcars), "mtcars")
+board %>% pin_read("mtcars")
+```
+
+### Pinning files
+
+Another way to use `pin()` is with a path to a file:
+
+```{r}
+path <- tempfile()
+writeLines(letters, path)
+
+pin(path, "alphabet", board = "example")
+pin_get("alphabet", board = "example")
+```
+
+pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so instead of `pin_write()` and `pin_read()` you need to `pin_upload()` and `pin_download()`:
+
+```{r}
+board %>% pin_upload(path, "alphabet")
+board %>% pin_download("alphabet")
+```
+
+### Pinning a url
+
+You could `pin()` a url to automatically re-download it only if it changed.
+This function name was a bit confusing because it's really reading pinned data, not writing it:
+
+```{r}
+base <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"
+
+(pin(paste0(base, "pin-files/first.txt"), board = "example"))
+```
+
+This now needs to be made explicit with the new `board_url()`, and since this returns a path, not a file, you need to use `pin_download()`:
+
+```{r}
+board_github <- board_url(c(
+  raw = paste0(base, "pin-files/first.txt")
+))
+board_github %>% pin_download("raw")
+```
+
+### Implicit board
+
+It's also possible to use `pin()` and `pin_get()` without an explicit board argument, in which case it automatically uses a local board:
+
+```{r}
+pin(data.frame(x = 1:3), "test-data")
+pin_get("test-data")
+```
+
+To convert this, you just need to create an explicit board:
+
+```{r}
+board <- board_local()
+
+board %>% pin_write(data.frame(x = 1:3), "test-data")
+board %>% pin_read("test-data")
+```
+
+## Details
+
++----------------------+---------------------+------------------------------+
+|                      | Modern              | Legacy                       |
++======================+=====================+==============================+
+| Local                | `board_local()`     | `board_register_local()`     |
++----------------------+---------------------+------------------------------+
+| Folder               | `board_folder()`    |                              |
++----------------------+---------------------+------------------------------+
+| RStudio Connect      | `board_rsconnect()` | `board_register_rsconnect()` |
++----------------------+---------------------+------------------------------+
+| Amazon S3            | `board_s3()`        | `board_register_s3()`        |
++----------------------+---------------------+------------------------------+
+| Arbitrary url        | `board_url()`       | `pin()` with a URL           |
++----------------------+---------------------+------------------------------+
+| Microsoft Azure      |                     | `board_register_azure()`     |
++----------------------+---------------------+------------------------------+
+| data.txt             |                     | `board_register_datatxt()`   |
++----------------------+---------------------+------------------------------+
+| Digital Ocean spaces |                     | `board_register_dospace()`   |
++----------------------+---------------------+------------------------------+
+| Google cloud         |                     | `board_register_gcloud()`    |
++----------------------+---------------------+------------------------------+
+| GitHub               |                     | `board_register_github()`    |
++----------------------+---------------------+------------------------------+
+| Kaggle               |                     | `board_register_kaggle()`    |
++----------------------+---------------------+------------------------------+
+
+Future releases will add support for additional boards based on user feedback.
+
+| Legacy API       | Modern API                                        |
+|------------------|---------------------------------------------------|
+| `pin()`          | `pin_write()` / `pin_upload()`                    |
+| `pin_get()`      | `pin_read()` / `pin_upload()`                     |
+| `board_browse()` | `pin_browse()`                                    |
+| `pin_remote()`   | `pin_delete()`                                    |
+| `pin_info()`     | `pin_meta()`                                      |
+| `pin_reactive()` | `pin_reactive_read()` / `pin_reactive_download()` |
+| `pin_find()`     | `pin_search()`                                    |
