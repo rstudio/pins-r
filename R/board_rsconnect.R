@@ -38,8 +38,10 @@
 #'   `CONNECT_API_KEY` and `CONNECT_SERVER` or the rsconnect package. The
 #'   default is `auto`, which will use the environment variables if both are
 #'   available, and rsconnect if not.
-#' @param server For `auth = "envvar"` the full url to the server.
-#'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts.
+#' @param server For `auth = "envvar"` the full url to the server, like
+#'   `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
+#'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts,
+#'   like `server.rstudio.com` or `connect.rstudio.com`.
 #' @param account A user name used to disambiguate multiple RSC accounts
 #' @param key The RStudio Connect API key.
 #' @param output_files `r lifecycle::badge("deprecated") No longer supported.
@@ -68,10 +70,9 @@ board_rsconnect <- function(
 
   auth <- check_auth(auth)
   if (auth == "envvar") {
-    server <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
-    server_name <- httr::parse_url(server)$hostname
+    url <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
+    server_name <- httr::parse_url(url)$hostname
     # account determined below
-    url <- paste0(server, "/__api__/")
 
     key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
     account_info <- NULL
@@ -90,7 +91,7 @@ board_rsconnect <- function(
     versioned <- versions
   }
 
-  cache <- cache %||% board_cache_path(paste0("rsc-", hash(server)))
+  cache <- cache %||% board_cache_path(paste0("rsc-", hash(url)))
 
   board <- new_board("pins_board_rsconnect",
     api = c(0, 1),
@@ -103,9 +104,20 @@ board_rsconnect <- function(
     key = key,
     versioned = versioned
   )
+
+  version <- tryCatch(
+    rsc_version(board),
+    error = function(e) {
+      abort(c(
+        glue("Failed to connect to RSC instance at <{url}>"),
+        conditionMessage(e)
+      ))
+    }
+  )
+  pins_inform("Connecting to RSC {version} at <{url}>")
+
   # Fill in account name if auth == "envvar"
   board$account <- board$account %||% rsc_GET(board, "users/current/")$username
-
   board
 }
 
@@ -163,7 +175,7 @@ rsc_account_find <- function(server = NULL, name = NULL) {
   list(
     server = accounts$server,
     account = accounts$name,
-    url = info$url
+    url = sub("__api__$", "", info$url)
   )
 }
 
@@ -583,7 +595,7 @@ update_cache <- function(path, key, value) {
 
 rsc_path <- function(board, path) {
   board_path <- httr::parse_url(board$url)$path
-  paste0("/", board_path, "/", path)
+  paste0(board_path, "/__api__/", path)
 }
 
 rsc_GET <- function(board, path, query = NULL, ...) {
@@ -695,7 +707,7 @@ rsc_check_status <- function(req) {
 }
 
 rsc_version <- function(board) {
-  package_version(rsc_GET(board, "server_settings")$version)
+  rsc_GET(board, "server_settings")$version
 }
 
 rsc_v1 <- function(...) {
