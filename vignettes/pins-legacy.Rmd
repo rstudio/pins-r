@@ -28,10 +28,10 @@ library(pins)
 A simple example of the legacy API looks something like this:
 
 ```{r}
-board_register_local("example", tempfile())
+board_register_local("vignette", tempfile())
 
-pin(head(mtcars), "mtcars", board = "example")
-pin_get("mtcars", board = "example")
+pin(head(mtcars), "mtcars", board = "vignette")
+pin_get("mtcars", board = "vignette")
 ```
 
 There are three major changes:
@@ -57,8 +57,8 @@ Another way to use `pin()` is with a path to a file:
 path <- tempfile()
 writeLines(letters, path)
 
-pin(path, "alphabet", board = "example")
-pin_get("alphabet", board = "example")
+pin(path, "alphabet", board = "vignette")
+pin_get("alphabet", board = "vignette")
 ```
 
 pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so instead of `pin_write()` and `pin_read()` you need to `pin_upload()` and `pin_download()`:
@@ -75,7 +75,7 @@ Finally, you can `pin()` a url to automatically re-download it when it changes:
 ```{r}
 base <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"
 
-(pin(paste0(base, "pin-files/first.txt"), board = "example"))
+(pin(paste0(base, "pin-files/first.txt"), board = "vignette"))
 ```
 
 (It's a little confusing that this uses `pin()` rather than `pin_get()`.)
