@@ -451,6 +451,16 @@ board_pin_find.pins_board_rsconnect <- function(board,
 
 # Content -----------------------------------------------------------------
 
+rsc_ensure_path_url <- function(board, url) {
+  if (length(url) == 0) return(url)
+  server_name <- dirname(board$server_name)
+  full_name <- board$server_name
+  if (!grepl(full_name, url, fixed = TRUE)) {
+    url <- sub(server_name, full_name, url)
+  }
+  url
+}
+
 rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
   name <- rsc_parse_name(name)
 
@@ -492,6 +502,8 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
     }
     selected <- json[[name$owner %in% owner_names]]
   }
+
+  selected$content_url <- rsc_ensure_path_url(board, selected$content_url)
 
   content <- list(
     guid = selected$guid,
@@ -596,16 +608,6 @@ rsc_path <- function(board, path) {
 }
 
 
-rsc_ensure_path_url <- function(board, url) {
-  if (length(url) == 0) return(url)
-  server_name <- dirname(board$server_name)
-  full_name <- board$server_name
-  if (!grepl(full_name, url, fixed = TRUE)) {
-    url <- sub(server_name, full_name, url)
-  }
-  url
-}
-
 rsc_GET <- function(board, path, query = NULL, ...) {
   path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "GET", NULL)
@@ -617,12 +619,7 @@ rsc_GET <- function(board, path, query = NULL, ...) {
     ...
   )
   rsc_check_status(req)
-  content <- httr::content(req)
-  if (length(content) && is.list(content) && is.list(content[[1]])) {
-    # ensure the full server name is in the URL
-    content[[1]][["content_url"]] <- rsc_ensure_path_url(board, content[[1]][["content_url"]])
-  }
-  content
+  httr::content(req)
 }
 
 rsc_download <- function(board, content_url, dest_path, name) {
