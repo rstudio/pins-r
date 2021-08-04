@@ -34,8 +34,6 @@ pin(head(mtcars), "mtcars", board = "example")
 pin_get("mtcars", board = "example")
 ```
 
-You first register a board,
-
 There are three major changes:
 
 -   You create an explicit board object which you use instead of the name.
@@ -72,14 +70,15 @@ board %>% pin_download("alphabet")
 
 ### Pinning a url
 
-You could `pin()` a url to automatically re-download it only if it changed.
-This function name was a bit confusing because it's really reading pinned data, not writing it:
+Finally, you can `pin()` a url to automatically re-download it when it changes:
 
 ```{r}
 base <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"
 
 (pin(paste0(base, "pin-files/first.txt"), board = "example"))
 ```
+
+(It's a little confusing that this uses `pin()` rather than `pin_get()`.)
 
 This now needs to be made explicit with the new `board_url()`, and since this returns a path, not a file, you need to use `pin_download()`:
 
@@ -108,42 +107,34 @@ board %>% pin_write(data.frame(x = 1:3), "test-data")
 board %>% pin_read("test-data")
 ```
 
-## Details
+## Equivalents
 
-+----------------------+---------------------+------------------------------+
-|                      | Modern              | Legacy                       |
-+======================+=====================+==============================+
-| Local                | `board_local()`     | `board_register_local()`     |
-+----------------------+---------------------+------------------------------+
-| Folder               | `board_folder()`    |                              |
-+----------------------+---------------------+------------------------------+
-| RStudio Connect      | `board_rsconnect()` | `board_register_rsconnect()` |
-+----------------------+---------------------+------------------------------+
-| Amazon S3            | `board_s3()`        | `board_register_s3()`        |
-+----------------------+---------------------+------------------------------+
-| Arbitrary url        | `board_url()`       | `pin()` with a URL           |
-+----------------------+---------------------+------------------------------+
-| Microsoft Azure      |                     | `board_register_azure()`     |
-+----------------------+---------------------+------------------------------+
-| data.txt             |                     | `board_register_datatxt()`   |
-+----------------------+---------------------+------------------------------+
-| Digital Ocean spaces |                     | `board_register_dospace()`   |
-+----------------------+---------------------+------------------------------+
-| Google cloud         |                     | `board_register_gcloud()`    |
-+----------------------+---------------------+------------------------------+
-| GitHub               |                     | `board_register_github()`    |
-+----------------------+---------------------+------------------------------+
-| Kaggle               |                     | `board_register_kaggle()`    |
-+----------------------+---------------------+------------------------------+
+### Board functions
+
+| Legacy API                   | Modern API          |
+|------------------------------|---------------------|
+| `board_register_azure()`     |                     |
+| `board_register_datatxt()`   |                     |
+| `board_register_dospace()`   |                     |
+| `board_register_gcloud()`    |                     |
+| `board_register_github()`    |                     |
+| `board_register_local()`     | `board_local()`     |
+| `board_register_kaggle()`    |                     |
+| `board_register_rsconnect()` | `board_rsconnect()` |
+| `board_register_s3()`        | `board_s3()`        |
+| `pin()` with a URL           | `board_url()`       |
+|                              | `board_folder()`    |
 
 Future releases will add support for additional boards based on user feedback.
 
+### Pin functions
+
 | Legacy API       | Modern API                                        |
 |------------------|---------------------------------------------------|
+| `board_browse()` | `pin_browse()`                                    |
 | `pin()`          | `pin_write()` / `pin_upload()`                    |
 | `pin_get()`      | `pin_read()` / `pin_upload()`                     |
-| `board_browse()` | `pin_browse()`                                    |
-| `pin_remote()`   | `pin_delete()`                                    |
+| `pin_find()`     | `pin_search()`                                    |
 | `pin_info()`     | `pin_meta()`                                      |
 | `pin_reactive()` | `pin_reactive_read()` / `pin_reactive_download()` |
-| `pin_find()`     | `pin_search()`                                    |
+| `pin_remove()`   | `pin_delete()`                                    |
