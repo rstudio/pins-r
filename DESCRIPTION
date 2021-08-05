@@ -49,6 +49,7 @@ Suggests:
     data.table,
     datasets,
     knitr,
+    mockery,
     paws.storage,
     R.utils,
     rmarkdown,
