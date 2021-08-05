@@ -1,7 +1,7 @@
 # can't accidentally switch from versioned to unversioned
 
     Code
-      pin_write(board, df1, "df1", type = "rds", versioned = FALSE)
+      pin_write(board, df1, "test-df1", type = "rds", versioned = FALSE)
     Error <rlang_error>
       Pin is versioned, but you have requested not to use versions
       * To un-version this pin you will need to delete it
@@ -9,9 +9,9 @@
 # can find content by full/partial name
 
     Code
-      rsc_content_find(board, "susan/sales-by-baths")
+      rsc_content_find(board, "susan/test-partial")
     Error <rlang_error>
-      Can't find pin named 'sales-by-baths' with owner 'susan'
+      Can't find pin named 'test-partial' with owner 'susan'
 
 # can create and delete content
 

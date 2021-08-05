@@ -1,7 +1,7 @@
 # can get info with or without board
 
     Code
-      b <- board_temp()
+      b <- legacy_temp()
       pin(mtcars[1:2], "mtcars2", board = b)
       pin_info("mtcars2", b)
     Output
@@ -39,4 +39,12 @@
       pin_info("mtcars2")
     Error <rlang_error>
       Pin 'mtcars2' was found in multiple boards: test1,test2
+
+# gives informative error if used with modern board
+
+    Code
+      board <- board_temp()
+      pin_info("mtcars", board = board)
+    Error <rlang_error>
+      Use `pin_meta()` with this board, not `pin_info()`
 

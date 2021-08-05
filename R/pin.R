@@ -1,4 +1,4 @@
-#' Pin Resource
+#' Pin a resource (legacy API)
 #'
 #' Pins the given resource locally or to the given board.
 #'
@@ -27,31 +27,16 @@
 #' tools and programming languages.
 #'
 #' @examples
-#' # define temporary local board
-#' board <- board_temp()
+#' # old API
+#' board_register_local(cache = tempfile())
+#' pin(mtcars)
+#' pin_get("mtcars")
 #'
-#' # cache the mtcars dataset
-#' pin(mtcars, board = board)
+#' # new api
+#' board <- board_local()
+#' board %>% pin_write(mtcars)
+#' board %>% pin_read("mtcars")
 #'
-#' # cache computation over mtcars
-#' pin(mtcars[mtcars$mpg > 30, ], name = "mtefficient", board = board)
-#'
-#' # retrieve cached pin
-#' pin_get("mtefficient", board = board)
-#'
-#' # url to remote resource
-#' resource <- file.path(
-#'   "https://raw.githubusercontent.com/facebook/prophet",
-#'   "master/examples/example_retail_sales.csv"
-#' )
-#'
-#' # cache remote resource
-#' pin(resource, name = "example_retail_sales", board = board)
-#'
-#' # cache and read csv
-#' path <- pin(resource, board = board)
-#' path
-#' head(read.csv(path))
 #' @export
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
   UseMethod("pin")
@@ -122,7 +107,10 @@ board_pin_store <- function(board,
   ui_viewer_updated(board)
 
   if (retrieve) {
-    invisible(pin_get(name, board, ...))
+    # Hack to suppress RSC message that you need to use the full name
+    suppressMessages(
+      invisible(pin_get(name, board, ...))
+    )
   } else {
     invisible(NULL)
   }
@@ -133,7 +121,7 @@ check_store_path <- function(path) {
   if (length(path) == 1 && is_url(path) && fs::path_ext(path) == "") {
     abort(c(
       "Pin functions no longer supports direct use of data.txt sites",
-      i = paste0("Please use `board_datatxt('", path, ') instead')
+      i = paste0("Please use `legacy_datatxt('", path, ') instead')
     ))
   }
 }
@@ -231,8 +219,7 @@ pin_load.table <- function(path, ...) {
   if (file.exists(rds)) {
     readRDS(rds)
   } else if (file.exists(csv)) {
-    result <- utils::read.csv(csv, stringsAsFactors = FALSE)
-    format_tibble(result)
+    utils::read.csv(csv, stringsAsFactors = FALSE)
   } else {
     stop("A 'table' pin requires CSV or RDS files.")
   }
@@ -248,6 +235,7 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, cach
   }
 
   if (length(x) == 1 && is_url(x)) {
+    board <- board_get(board)
     details <- as.environment(list(something_changed = TRUE))
     path <- pin_download_files(x,
       name,
@@ -284,10 +272,8 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, cach
 #' @export
 pin_load.files <- function(path, ...) {
   files <- dir(path, recursive = TRUE, full.names = TRUE)
-
   result <- files[!grepl("data\\.txt$", files)]
-
-  format_tibble(result)
+  result
 }
 
 # asis --------------------------------------------------------------------
@@ -308,9 +294,7 @@ pin_load.package <- function(path, ...) {
   files <- dir(path, full.names = TRUE)
   files <- files[!grepl("data\\.txt$", files)]
 
-  result <- get(load(files))
-
-  format_tibble(result)
+  get(load(files))
 }
 
 

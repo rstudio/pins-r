@@ -5,24 +5,38 @@
 \alias{pin_upload}
 \title{Upload and download files to and from a board}
 \usage{
-pin_download(board, name, ...)
+pin_download(board, name, version = NULL, hash = NULL, ...)
 
-pin_upload(board, path, name = NULL, desc = NULL, metadata = list(), ...)
+pin_upload(board, paths, name = NULL, desc = NULL, metadata = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
 
 \item{name}{Pin name.}
 
-\item{...}{Additional arguments passed on to board pin methods.}
+\item{version}{For boards that support versions, this allows you to retrieve
+a specific version of a pin. See \verb{vignette("versioning)"} for details.}
 
-\item{path}{Path to file to upload to \code{board}.}
+\item{hash}{Specify a hash to verify that you get exactly the dataset that
+you expect. You can find the hash of an existing pin by looking for
+\code{pin_hash} in \code{\link[=pin_meta]{pin_meta()}}.}
+
+\item{...}{Additional arguments passed on to methods for a specific board.}
+
+\item{paths}{A character vector of file paths to upload to \code{board}.}
 
 \item{desc}{A text description of the pin; most important for
-shared boards so that others can understand what the pin contains.}
+shared boards so that others can understand what the pin contains.
+If omitted, pins will generate a brief description of the contents.}
 
-\item{metadata}{A list containing additional metadata to store with the pin.}
+\item{metadata}{A list containing additional metadata to store with the pin.
+When retrieving the pin, this will be stored in the \code{user} key, to
+avoid potential clashes with the metadata that pins itself uses.}
+}
+\value{
+\code{pin_download()} returns a character vector of file paths;
+\code{pin_upload()} returns \code{board}, invisibly.
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that

@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_rsconnect.R
 \name{board_rsconnect}
 \alias{board_rsconnect}
-\title{Use an RStudio Connect board}
+\title{Use RStudio Connect as board}
 \usage{
 board_rsconnect(
   auth = c("auto", "envvar", "rsconnect"),
@@ -10,10 +10,10 @@ board_rsconnect(
   account = NULL,
   key = NULL,
   output_files = FALSE,
-  cache = board_cache_path(name),
+  cache = NULL,
   name = "rsconnect",
-  versions = TRUE,
-  ...
+  versioned = TRUE,
+  versions = deprecated()
 )
 }
 \arguments{
@@ -22,8 +22,10 @@ board_rsconnect(
 default is \code{auto}, which will use the environment variables if both are
 available, and rsconnect if not.}
 
-\item{server}{For \code{auth = "envvar"} the full url to the server.
-For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts.}
+\item{server}{For \code{auth = "envvar"} the full url to the server, like
+\verb{http://server.rstudio.com/rsc} or \verb{https://connect.rstudio.com/}.
+For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts,
+like \code{server.rstudio.com} or \code{connect.rstudio.com}.}
 
 \item{account}{A user name used to disambiguate multiple RSC accounts}
 
@@ -39,37 +41,35 @@ cache location for your operating system, but you can override if needed.}
 generally needed since you should be passing around an explicit
 board object.}
 
-\item{versions}{Should this board be registered with support for versions?}
+\item{versioned}{Should this board be registered with support for versions?}
 
-\item{...}{Additional parameters required to initialize a particular board.}
+\item{versions}{Should this board be registered with support for versions?}
 }
 \description{
 To use a RStudio Connect board, you need to first authenticate. The easiest
-way to do so is by launching \strong{Tools} - \strong{Global Options} - \strong{Publishing}
-\itemize{
-\item \strong{Connect}, and follow the instructions.
-}
+way to do so is by launching \strong{Tools} - \strong{Global Options} -
+\strong{Publishing} - \strong{Connect}, and follow the instructions.
 
 You can share pins with others in RStudio Connect by changing the viewers
 of the document to specific users or groups. This is accomplished by opening
 the new published pin and then changing access under the settings tab.
 After you've shared the pin, it will be automatically available to others.
 }
-\section{Public}{
-You can also choose to share a pin publicly and avoid having to register
-the RStudio Connect board to retrieve this pin.
-
-To create a public pin, first publish a pin and navigate to RStudio Connect;
-then set the "Access" to "Anyone - no login required" -- The pin will become
-public and accessible to anyone using their content URL. The remote resource
-stored in RStudio Connect can then be cached locally with \code{pin()} as follows:\if{html}{\out{<div class="r">}}\preformatted{pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content")
+\section{Public pins}{
+If your RSC instance allows it, you can share a pin publicly by setting the
+access type to \code{all}:\if{html}{\out{<div class="r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
 }\if{html}{\out{</div>}}
 
-To avoid having to change the "Access" manually, you can also set the
-\code{access_type} to \code{acl}, \code{loggend_in} or \code{all} when creating a pin:\if{html}{\out{<div class="r">}}\preformatted{ pin("https://rstudio-connect-server/content/1234", name = "my-rsc-content",
-   access_type = "all"
- )
+(You can also do this in RSC by setting "Access" to
+"Anyone - no login required")
+
+Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:\if{html}{\out{<div class="r">}}\preformatted{board <- board_url(c(
+  my_df = "https://connect.rstudioservices.com/content/3004/"
+))
+board \%>\% pin_read("my_df")
 }\if{html}{\out{</div>}}
+
+You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}.
 }
 
 \examples{
@@ -79,14 +79,12 @@ board <- board_rsconnect()
 board \%>\% pin_write(mtcars, "mtcars")
 
 # Download a shared dataset
-board \%>\% pin_read(mtcars)
+board \%>\% pin_read("timothy/mtcars")
 }
 }
 \seealso{
 Other boards: 
-\code{\link{board_azure}()},
 \code{\link{board_folder}()},
-\code{\link{board_github}()},
-\code{\link{board_s3}()}
+\code{\link{board_url}()}
 }
 \concept{boards}

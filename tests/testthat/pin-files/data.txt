@@ -1,0 +1,11 @@
+file:
+- first.txt
+- second.txt
+file_size:
+- 8
+- 10
+pin_hash: 7bdc4d364edbe361dd14652ca8a9be4a
+type: file
+description: A pin containing 2 files
+created: 2021-04-22T20:22:33
+api_version: 1.0

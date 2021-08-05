@@ -1,28 +1,22 @@
-
-#' Remove Pin
+#' Delete a pin (legacy API)
 #'
-#' Unpins the given named pin from the given board.
+#' Deletes pins from a legacy board.
 #'
 #' @param name The name for the pin.
 #' @param board The board from where this pin will be removed.
 #'
-#' @details
-#'
-#' Notice that some boards do not support deleting pins, this is the case
-#' for the Kaggle board. For these boards, you would manually have to
-#' remote resources using the tools the board provides.
-#'
 #' @examples
-#' # define temporary board
-#' board <- board_temp()
+#' # old API
+#' board_register_local(cache = tempfile())
+#' pin(mtcars)
+#' pin_remove("mtcars")
 #'
-#' # create mtcars pin
-#' pin(mtcars, board = board)
-#'
-#' # remove mtcars pin
-#' pin_remove("mtcars", board = board)
+#' # new API
+#' board <- board_local()
+#' board %>% pin_write(mtcars)
+#' board %>% pin_delete("mtcars")
 #' @export
-pin_remove <- function(name, board) {
+pin_remove <- function(name, board = NULL) {
   board <- board_get(board)
 
   board_pin_remove(board, name)

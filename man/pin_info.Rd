@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_info.R
 \name{pin_info}
 \alias{pin_info}
-\title{Pin Info}
+\title{Retrieve pin metadata (legacy API)}
 \usage{
 pin_info(
   name,
@@ -27,13 +27,16 @@ pin_info(
 \item{...}{Additional parameters.}
 }
 \description{
-Retrieve information for a given pin.
+Retrieve metadata for pins in legacy boards.
 }
 \examples{
-# define board and cache a dataset
-board <- board_temp()
-pin(mtcars, board = board)
+# old API
+board_register_local(cache = tempfile())
+pin(mtcars)
+pin_info("mtcars", "local")
 
-# Get info
-pin_info("mtcars", board = board)
+# new API
+board <- board_temp()
+board \%>\% pin_write(mtcars)
+board \%>\% pin_meta("mtcars")
 }

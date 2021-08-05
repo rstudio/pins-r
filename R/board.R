@@ -7,20 +7,19 @@
 #' @param cache Cache path. Every board requires a local cache to avoid
 #'   downloading files multiple times. The default stores in a standard
 #'   cache location for your operating system, but you can override if needed.
-#' @param versions Should this board be registered with support for versions?
+#' @param versions,versioned Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
-new_board <- function(board, name, cache, versions = FALSE, ...) {
-  if (is.null(cache)) stop("Please specify the 'cache' parameter.")
-
-  fs::dir_create(fs::path(cache, name))
+new_board <- function(board, api, cache, ...) {
+  if (!is.na(cache)) {
+    fs::dir_create(cache)
+  }
 
   board <- structure(
     list(
       board = board,
-      name = name,
+      api = api,
       cache = cache,
-      versions = versions,
       ...
     ),
     class = c(board, "pins_board")
@@ -29,113 +28,72 @@ new_board <- function(board, name, cache, versions = FALSE, ...) {
   board
 }
 
+#' @rdname new_board
+new_board_v0 <- function(board, name, cache = NULL, versions = FALSE, ...) {
+  cache <- cache %||% board_cache_path(name)
+
+  new_board(
+    board = board,
+    api = 0L,
+    name = name,
+    cache = cache,
+    versions = versions,
+    ...
+  )
+}
+
+#' @rdname new_board
+new_board_v1 <- function(board, cache, versioned = FALSE, ...) {
+  new_board(
+    board = board,
+    api = 1L,
+    cache = cache,
+    versioned = versioned,
+    ...
+  )
+}
+
+
 #' @export
 print.pins_board <- function(x, ...) {
-  cat(paste0(crayon::bold("Pin board"), " <", class(x)[[1]], ">\n"))
-  cat(paste0(board_desc(x), "\n", collapse = ""))
-  pins <- pin_find(board = x)$name
+  cat(paste0(cli::style_bold("Pin board"), " <", class(x)[[1]], ">\n"))
+
+  desc <- board_desc(x)
+  if (length(desc) > 0) {
+    cat(paste0(desc, "\n", collapse = ""))
+  }
+  cat("Cache size: ", format(cache_size(x)), "\n", sep = "")
+
+  if (1 %in% x$api) {
+    pins <- pin_list(x)
+  } else {
+    pins <- pin_find(board = x)$name
+  }
 
   n <- length(pins)
-  if (n == 0) {
-    contents <- "With no pins."
-  } else {
+  if (n > 0) {
     if (n > 20) {
       pins <- c(pins[1:19], "...")
     }
     contents <- paste0(
-      "With ", n, " pins: ",
+      "Pins [", n, "]: ",
       paste0("'", pins, "'", collapse = ", ")
     )
+    cat(strwrap(contents, exdent = 2), sep = "\n")
   }
 
+  invisible(x)
+}
 
-  cat(strwrap(contents, exdent = 2), sep = "\n")
-
-  invisible()
+cache_size <- function(board) {
+  if (is.na(board$cache)) {
+    0
+  } else {
+    dir_size(board$cache)
+  }
 }
 
 is.board <- function(x) inherits(x, "pins_board")
-
-#' Custom Boards
-#'
-#' Family of functions meant to be used to implement custom boards extensions,
-#' not to be used by users.
-#'
-#' @param board The board to extend, retrieved with `board_get()`.
-#' @param path The path to store as a pin.
-#' @param name The name of the pin.
-#' @param metadata A list of metadata associated with this pin.
-#' @param text The text patteren to find a pin.
-#' @param ... Additional parameteres.
-#'
-#' @rdname custom-boards
-#' @keywords internal
-#' @export
-board_pin_create <- function(board, path, name, metadata, ...) {
-  UseMethod("board_pin_create")
-}
-
-#' @export
-#' @rdname custom-boards
-board_initialize <- function(board, ...) {
-  stop("`board_initialize()` is no longer used", call. = FALSE)
-}
-
-#' @export
-#' @rdname custom-boards
-board_browse <- function(board, ...) {
-  UseMethod("board_browse")
-}
-
-#' @export
-#' @rdname custom-boards
-board_desc <- function(board, ...) {
-  UseMethod("board_desc")
-}
-#' @export
-board_desc.default <- function(board, ...) {
-  character()
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_get <- function(board, name, ...) {
-  UseMethod("board_pin_get")
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_remove <- function(board, name, ...) {
-  UseMethod("board_pin_remove")
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_find <- function(board, text, ...) {
-  UseMethod("board_pin_find")
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_versions <- function(board, name, ...) {
-  UseMethod("board_pin_versions")
-}
-#' @export
-board_pin_versions.default <- function(board, name, ...) {
-  data.frame(version = character(0), stringsAsFactors = FALSE)
-}
-
-#' @export
-#' @rdname custom-boards
-board_pin_download <- function(board, name, ...) {
-  UseMethod("board_pin_download")
-}
-#' @export
-#' @rdname custom-boards
-board_pin_upload <- function(board, name, path, metadata, versioned = NULL, x = NULL, ...) {
-  UseMethod("board_pin_upload")
-}
-
 
 #' Custom Boards Utilities
 #'
@@ -165,7 +123,7 @@ board_cache_path <- function(name) {
   if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
     path <- tempfile()
   } else {
-    path <- rappdirs::user_cache_dir("pins")
+    path <- cache_dir()
   }
   fs::path(path, name)
 }

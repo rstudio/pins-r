@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+    <channel>
+        <title><![CDATA[BBC News - Home]]></title>
+        <description><![CDATA[BBC News - Home]]></description>
+        <link>https://www.bbc.co.uk/news/</link>
+        <image>
+            <url>https://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif</url>
+            <title>BBC News - Home</title>
+            <link>https://www.bbc.co.uk/news/</link>
+        </image>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Fri, 21 May 2021 12:16:04 GMT</lastBuildDate>
+        <copyright><![CDATA[Copyright: (C) British Broadcasting Corporation, see http://news.bbc.co.uk/2/hi/help/rss/4498287.stm for terms and conditions of reuse.]]></copyright>
+        <language><![CDATA[en-gb]]></language>
+        <ttl>15</ttl>
+        <item>
+            <title><![CDATA[Diana interview: PM concerned after inquiry into BBC deceit]]></title>
+            <description><![CDATA[Boris Johnson says the deception used to get an interview with the princess must never happen again.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57200207</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57200207</guid>
+            <pubDate>Fri, 21 May 2021 12:11:28 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid in Scotland: Glasgow to be only Scottish area in level three]]></title>
+            <description><![CDATA[Moray will be downgraded from level three to level two - with everywhere else remaining in their current levels.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-scotland-57200946</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-scotland-57200946</guid>
+            <pubDate>Fri, 21 May 2021 12:05:43 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Prince Harry says heavy drinking masked pain of mum Diana's death]]></title>
+            <description><![CDATA[Prince Harry also says he was willing to turn to drugs to cope with grief, and had panic attacks.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57187138</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57187138</guid>
+            <pubDate>Fri, 21 May 2021 11:17:15 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Coronavirus: Spain to lift restrictions for UK and Japanese travellers]]></title>
+            <description><![CDATA[UK tourists will be free to enter the country without a negative Covid-19 PCR test from Monday.]]></description>
+            <link>https://www.bbc.co.uk/news/world-europe-57199791</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-europe-57199791</guid>
+            <pubDate>Fri, 21 May 2021 10:18:37 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Diana interview: Whistleblower wants apology from BBC bosses]]></title>
+            <description><![CDATA[Martin Wiessler accuses the BBC of "arrogance" over the deceit surrounding the 1995 Panorama interview.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57199164</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57199164</guid>
+            <pubDate>Fri, 21 May 2021 10:06:59 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Mayhill: Swansea rioters face robust action, police vow]]></title>
+            <description><![CDATA[One man spoke of how a "mob" turned on him, throwing bricks at his family and their home in Swansea.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-wales-57197466</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-wales-57197466</guid>
+            <pubDate>Fri, 21 May 2021 11:54:58 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[UK to offer Australia tariff-free trade deal despite farmers' fears]]></title>
+            <description><![CDATA[Boris Johnson pushes for an end to import taxes, but farmers say their livelihoods are under threat.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-politics-57198607</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-politics-57198607</guid>
+            <pubDate>Fri, 21 May 2021 11:53:11 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Leonard Blavatnik named UK's richest person with £23bn fortune]]></title>
+            <description><![CDATA[Sir Leonard Blavatnik topples Sir James Dyson as the UK's richest person, according to the Sunday Times Rich List.]]></description>
+            <link>https://www.bbc.co.uk/news/business-57199171</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-57199171</guid>
+            <pubDate>Fri, 21 May 2021 11:48:10 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Lady Gaga had a 'psychotic break' after sexual assault left her pregnant]]></title>
+            <description><![CDATA[The star says she had a "psychotic break" after being attacked by a male record producer.]]></description>
+            <link>https://www.bbc.co.uk/news/entertainment-arts-57199018</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/entertainment-arts-57199018</guid>
+            <pubDate>Fri, 21 May 2021 09:05:45 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Big cats seized from park belonging to Tiger King couple]]></title>
+            <description><![CDATA[Officials seized 68 tigers, lions, hybrids and a jaguar, citing violations of animal welfare laws.]]></description>
+            <link>https://www.bbc.co.uk/news/world-us-canada-57194700</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-us-canada-57194700</guid>
+            <pubDate>Fri, 21 May 2021 06:21:16 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Papers: Princes' 'rage and sadness' at BBC 'lies' to Diana]]></title>
+            <description><![CDATA[The findings of an inquiry into a BBC interview with Princess Diana dominates Friday's front pages.]]></description>
+            <link>https://www.bbc.co.uk/news/blogs-the-papers-57195636</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/blogs-the-papers-57195636</guid>
+            <pubDate>Fri, 21 May 2021 05:02:13 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA['BBC failures contributed to paranoia and isolation']]></title>
+            <description><![CDATA[Princess Diana was failed not just by Martin Bashir but also by leaders at the BBC, says Prince William.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57192909</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57192909</guid>
+            <pubDate>Thu, 20 May 2021 21:06:21 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[George Nkencho killing: 'The door closed and then I heard the shots']]></title>
+            <description><![CDATA[George Nkencho was shot dead by police officers outside his Dublin home in December 2020.]]></description>
+            <link>https://www.bbc.co.uk/news/world-europe-57194011</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-europe-57194011</guid>
+            <pubDate>Thu, 20 May 2021 23:02:36 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Quiz of the week: Eurovision, Ariana Grande and the 99]]></title>
+            <description><![CDATA[How closely have you been paying attention to what's been going on during the past seven days?]]></description>
+            <link>https://www.bbc.co.uk/news/world-57183679</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-57183679</guid>
+            <pubDate>Thu, 20 May 2021 14:17:42 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Parkrun resumption delayed after fewer than half of venues approved return]]></title>
+            <description><![CDATA[Parkrun will not resume on 5 June after fewer than half of its venues approve the return of the 5km runs.]]></description>
+            <link>https://www.bbc.co.uk/sport/athletics/57197660</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/sport/athletics/57197660</guid>
+            <pubDate>Fri, 21 May 2021 07:15:54 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Oti Mabuse and Arlene Phillips to stage Cher musical]]></title>
+            <description><![CDATA[The Strictly dancer and ex-judge will stage the musical, which has already been a hit on Broadway.]]></description>
+            <link>https://www.bbc.co.uk/news/entertainment-arts-57188486</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/entertainment-arts-57188486</guid>
+            <pubDate>Fri, 21 May 2021 06:22:34 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[India Covid: Dying mother's final message]]></title>
+            <description><![CDATA[Dimple Arora was a 34 year-old-dentist with everything to live for when she died of Covid-19.]]></description>
+            <link>https://www.bbc.co.uk/news/world-asia-57189165</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-asia-57189165</guid>
+            <pubDate>Thu, 20 May 2021 23:03:31 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Shopping centres face demolition after Covid]]></title>
+            <description><![CDATA[Covid has worsened the crisis for shopping centres; what can be done with the spaces?]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57165171</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57165171</guid>
+            <pubDate>Thu, 20 May 2021 16:43:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Friends: 7 things the trailer reveals about the reunion]]></title>
+            <description><![CDATA[Including guest stars, emotional moments, set visits, table reads and Phoebe's singing.]]></description>
+            <link>https://www.bbc.co.uk/news/world-us-canada-57182743</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-us-canada-57182743</guid>
+            <pubDate>Thu, 20 May 2021 10:40:50 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Worcestershire detectorist finds stolen treasures on first hunt]]></title>
+            <description><![CDATA[Charles Cartwright dug up a hoard of Roman and Viking jewellery taken in a burglary four years ago.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-england-57170608</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-england-57170608</guid>
+            <pubDate>Thu, 20 May 2021 05:19:56 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Mayra Zulfiqar: Family appeal for justice]]></title>
+            <description><![CDATA[25-year-old Mayra Zulfiqar was shot in Lahore earlier this month and her family is appealing for justice.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57166303</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57166303</guid>
+            <pubDate>Wed, 19 May 2021 21:39:11 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Meet the YouTubers who stood for mayor of London]]></title>
+            <description><![CDATA[Niko Omilana and Max Fosh are two prominent YouTubers who stood for London mayor at the election.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-england-london-57177138</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-england-london-57177138</guid>
+            <pubDate>Wed, 19 May 2021 23:01:12 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[St Ives: 'Unluckiest' swan becomes a mum after raft rescue]]></title>
+            <description><![CDATA[A boatyard worker was determined the swan's eggs would hatch after watching them fail for 10 years.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-england-cambridgeshire-57156761</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-england-cambridgeshire-57156761</guid>
+            <pubDate>Thu, 20 May 2021 06:51:40 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Biden chides graduates to clap: 'You're really dull']]></title>
+            <description><![CDATA[The president prods coast guards to applaud him. But did Reagan deliver the same line better?]]></description>
+            <link>https://www.bbc.co.uk/news/world-us-canada-57180675</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-us-canada-57180675</guid>
+            <pubDate>Wed, 19 May 2021 21:45:16 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Venezuelans fleeing to Colombia to avoid fighting]]></title>
+            <description><![CDATA[Thousands have fled intense armed clashes which involve Venezuela’s army and Colombia’s rebel groups.]]></description>
+            <link>https://www.bbc.co.uk/news/world-latin-america-57178193</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-latin-america-57178193</guid>
+            <pubDate>Wed, 19 May 2021 23:01:32 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Councillors reject Bridgerton film set in Windsor park]]></title>
+            <description><![CDATA[Netflix wants to build a film set for its hit series near ancient woodland on Crown Estate land.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-england-berkshire-57162376</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-england-berkshire-57162376</guid>
+            <pubDate>Thu, 20 May 2021 06:43:41 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Butlin's resorts back open for business]]></title>
+            <description><![CDATA[Butlin's holiday resort in Skegness, Lincolnshire, welcomed back visitors and staff this week.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57165170</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57165170</guid>
+            <pubDate>Wed, 19 May 2021 23:21:37 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Sixteen-year-olds try to break into China's livestream market]]></title>
+            <description><![CDATA[Xiao Yu is hoping for a career in livestream selling, an industry expected to grow to a value of £200bn in 2021.]]></description>
+            <link>https://www.bbc.co.uk/news/world-asia-china-57170843</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-asia-china-57170843</guid>
+            <pubDate>Wed, 19 May 2021 23:00:57 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Wedding joy for Warwickshire couple amid cancer treatment]]></title>
+            <description><![CDATA[Owen Murray and Laura Dear tied the knot in front of 30 guests at a ceremony.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-england-coventry-warwickshire-57170307</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-england-coventry-warwickshire-57170307</guid>
+            <pubDate>Thu, 20 May 2021 05:43:15 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Severely ill - and still made to quarantine in a hotel]]></title>
+            <description><![CDATA[The law says some severely ill are exempt from hotel quarantine - but they don't always get a choice.]]></description>
+            <link>https://www.bbc.co.uk/news/stories-57162187</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/stories-57162187</guid>
+            <pubDate>Thu, 20 May 2021 23:55:10 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: Australia's vaccine hesitancy worries medical experts]]></title>
+            <description><![CDATA[Medical experts are concerned that low Covid infection rates may be leading to complacency.]]></description>
+            <link>https://www.bbc.co.uk/news/world-australia-57181038</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-australia-57181038</guid>
+            <pubDate>Thu, 20 May 2021 16:07:38 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Olivia Rodrigo has become pop's brightest new star - here's how]]></title>
+            <description><![CDATA[She seemingly arrived from nowhere, but the Drivers License singer has been preparing for this all her life.]]></description>
+            <link>https://www.bbc.co.uk/news/entertainment-arts-57174471</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/entertainment-arts-57174471</guid>
+            <pubDate>Thu, 20 May 2021 23:47:57 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Manchester Arena attack: Stories of hope for the future]]></title>
+            <description><![CDATA[Survivors of the Manchester attack talk about rebuilding their future four years after the atrocity.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-england-manchester-57185632</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-england-manchester-57185632</guid>
+            <pubDate>Fri, 21 May 2021 10:03:01 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Eurovision: 'The muscles in my face go bananas']]></title>
+            <description><![CDATA[Norway's Eurovision entry has come to this years competition with more than music on the agenda.]]></description>
+            <link>https://www.bbc.co.uk/news/disability-57187712</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/disability-57187712</guid>
+            <pubDate>Thu, 20 May 2021 23:48:48 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Navy sub commanded by artificial intelligence]]></title>
+            <description><![CDATA[Submarines controlled by artificial intelligence are being designed to take on military missions.]]></description>
+            <link>https://www.bbc.co.uk/news/business-56993035</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-56993035</guid>
+            <pubDate>Thu, 20 May 2021 23:00:04 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA['I pay more than £9,000 a year for my season ticket']]></title>
+            <description><![CDATA[As rail reforms loom, commuters tell the BBC about the problems they face with UK train services.]]></description>
+            <link>https://www.bbc.co.uk/news/business-57186489</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-57186489</guid>
+            <pubDate>Thu, 20 May 2021 23:00:23 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[UK-Australia trade deal: What are the arguments for and against?]]></title>
+            <description><![CDATA[The government wants to finalise negotiations by early June.]]></description>
+            <link>https://www.bbc.co.uk/news/57173498</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/57173498</guid>
+            <pubDate>Thu, 20 May 2021 13:10:56 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Rail reform: What does the shake-up mean for you?]]></title>
+            <description><![CDATA[How will a government promise to simplify the UK's "complicated" rail network impact passengers and fares.]]></description>
+            <link>https://www.bbc.co.uk/news/business-57187882</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-57187882</guid>
+            <pubDate>Thu, 20 May 2021 17:35:02 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[From 'world's worst trainer' to 'icon' - how Aguero became a Man City legend]]></title>
+            <description><![CDATA[As Sergio Aguero prepares for his final Premier League appearance as a Manchester City player, his former team-mates discuss his impact.]]></description>
+            <link>https://www.bbc.co.uk/sport/football/57111816</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/sport/football/57111816</guid>
+            <pubDate>Fri, 21 May 2021 05:18:51 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[BBC Sport and Sky Sports unite over online hate]]></title>
+            <description><![CDATA[BBC Sport and Sky Sports come together to amplify their stance on online abuse as part of the ‘Hate Won’t Win’ campaign.]]></description>
+            <link>https://www.bbc.co.uk/sport/57185970</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/sport/57185970</guid>
+            <pubDate>Fri, 21 May 2021 05:56:02 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Champions League final: Should Uefa be more flexible about host cities for environmental reasons?]]></title>
+            <description><![CDATA[Consecutive Champions League finals have now been moved because of Covid, but should environmental concerns become a key factor in the staging of major matches?]]></description>
+            <link>https://www.bbc.co.uk/sport/football/57023532</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/sport/football/57023532</guid>
+            <pubDate>Fri, 21 May 2021 05:23:10 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[What's left to be decided on the final day of the Premier League season?]]></title>
+            <description><![CDATA[Qualification for the Champions League, Europa League and Europa Conference will be decided on the final day of the Premier League season.]]></description>
+            <link>https://www.bbc.co.uk/sport/football/57162779</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/sport/football/57162779</guid>
+            <pubDate>Fri, 21 May 2021 11:36:09 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: What's the roadmap for lifting lockdown?]]></title>
+            <description><![CDATA[Lockdown restrictions will ease in Northern Ireland, following rule changes in England, Scotland and Wales]]></description>
+            <link>https://www.bbc.co.uk/news/explainers-52530518</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/explainers-52530518</guid>
+            <pubDate>Fri, 21 May 2021 11:48:48 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[What are the rules for travelling to green, amber and red list countries?]]></title>
+            <description><![CDATA[Foreign holidays are now possible, but travellers must follow strict rules on their return.]]></description>
+            <link>https://www.bbc.co.uk/news/explainers-52544307</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/explainers-52544307</guid>
+            <pubDate>Fri, 21 May 2021 10:08:13 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: How should I protect myself now?]]></title>
+            <description><![CDATA[What are the actions we can take to reduce our risk of catching the virus?]]></description>
+            <link>https://www.bbc.co.uk/news/health-57087517</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-57087517</guid>
+            <pubDate>Sun, 16 May 2021 22:57:33 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Restaurants and pubs are reopening inside, but what are the rules?]]></title>
+            <description><![CDATA[Pubs have reopened inside, but there are still Covid rules for customers to follow.]]></description>
+            <link>https://www.bbc.co.uk/news/business-52977388</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-52977388</guid>
+            <pubDate>Fri, 21 May 2021 12:10:15 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid vaccine: How many people in the UK have been vaccinated so far?]]></title>
+            <description><![CDATA[The logistics of vaccinating millions of people across the country, as more than 37 million people receive at least one dose.]]></description>
+            <link>https://www.bbc.co.uk/news/health-55274833</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-55274833</guid>
+            <pubDate>Thu, 20 May 2021 16:16:35 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Lockdown easing: Virus experts tell us what they will (and won't) be doing]]></title>
+            <description><![CDATA[How will scientists use their new-found freedoms when Covid restrictions are eased on Monday?]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57069293</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57069293</guid>
+            <pubDate>Sat, 15 May 2021 23:00:38 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: When will I get the vaccine?]]></title>
+            <description><![CDATA[People in their 20s and 30s are now being offered a Covid vaccine as the UK rollout continues.]]></description>
+            <link>https://www.bbc.co.uk/news/health-55045639</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-55045639</guid>
+            <pubDate>Thu, 20 May 2021 09:24:43 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: How do I get a lateral flow or PCR test?]]></title>
+            <description><![CDATA[Everyone in England and Scotland is being encouraged to take rapid coronavirus tests regularly.]]></description>
+            <link>https://www.bbc.co.uk/news/health-51943612</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-51943612</guid>
+            <pubDate>Wed, 19 May 2021 14:06:38 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[What are the rules for weddings and can I hold a reception?]]></title>
+            <description><![CDATA[Restrictions on weddings have been eased across the UK - so how can you now celebrate?]]></description>
+            <link>https://www.bbc.co.uk/news/explainers-52811509</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/explainers-52811509</guid>
+            <pubDate>Wed, 19 May 2021 14:42:58 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid inquiry: What is it and how will it work?]]></title>
+            <description><![CDATA[An independent public inquiry has been announced, but how will it work?]]></description>
+            <link>https://www.bbc.co.uk/news/explainers-57085964</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/explainers-57085964</guid>
+            <pubDate>Wed, 12 May 2021 15:04:14 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Can two households travel in one car? And other questions]]></title>
+            <description><![CDATA[We answer some of your questions about England's roadmap out of lockdown, and other Covid-related issues.]]></description>
+            <link>https://www.bbc.co.uk/news/world-asia-china-51176409</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-asia-china-51176409</guid>
+            <pubDate>Tue, 18 May 2021 13:47:35 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid-19 in the UK: How many coronavirus cases are there in your area?]]></title>
+            <description><![CDATA[Explore the data on coronavirus in the UK and find out how many cases there are in your area.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-51768274</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-51768274</guid>
+            <pubDate>Thu, 20 May 2021 16:41:19 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid-19 vaccines: Why some African states can't use their vaccines]]></title>
+            <description><![CDATA[African countries have struggled to get vaccines, but some now plan to throw away thousands of doses.]]></description>
+            <link>https://www.bbc.co.uk/news/56940657</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/56940657</guid>
+            <pubDate>Wed, 19 May 2021 11:56:30 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid Indian variant: Where is it, how does it spread and is it more infectious?]]></title>
+            <description><![CDATA[B.1.617.2 is dominant in some parts of the country - but it doesn't have to be cause for panic yet.]]></description>
+            <link>https://www.bbc.co.uk/news/health-57157496</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-57157496</guid>
+            <pubDate>Wed, 19 May 2021 00:05:21 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Lockdown rules: What are the restrictions in your area?]]></title>
+            <description><![CDATA[Use our search tool to find out about coronavirus rules and restrictions where you live.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-54373904</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-54373904</guid>
+            <pubDate>Mon, 17 May 2021 11:25:52 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Coronavirus: When can we stop wearing face masks or face coverings?]]></title>
+            <description><![CDATA[Rules are relaxing, but masks are still needed in some settings - here's where and why.]]></description>
+            <link>https://www.bbc.co.uk/news/health-51205344</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-51205344</guid>
+            <pubDate>Mon, 17 May 2021 14:52:18 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: Which areas are being mass tested for variants?]]></title>
+            <description><![CDATA[People who live, work or travel in various parts of the UK are being urged to get a Covid test.]]></description>
+            <link>https://www.bbc.co.uk/news/explainers-54872039</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/explainers-54872039</guid>
+            <pubDate>Wed, 19 May 2021 10:11:46 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[What are the India, Brazil, South Africa and UK variants?]]></title>
+            <description><![CDATA[In some parts of the UK coronavirus cases are rising due to a variant from India that spreads more easily.]]></description>
+            <link>https://www.bbc.co.uk/news/health-55659820</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-55659820</guid>
+            <pubDate>Sun, 16 May 2021 18:19:55 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: What refund rights are there for holidays abroad?]]></title>
+            <description><![CDATA[Quarantine-free overseas holidays will be possible after 17 May, but what rights do you have if plans or rules change?]]></description>
+            <link>https://www.bbc.co.uk/news/business-51615412</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-51615412</guid>
+            <pubDate>Mon, 17 May 2021 13:30:04 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid-19: Five ways to make hugging safer, from the experts]]></title>
+            <description><![CDATA[Millions of people will be able to hug loved ones again from Monday. But can you minimise the risk?]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57083571</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57083571</guid>
+            <pubDate>Fri, 14 May 2021 00:58:53 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[India variant: Why was India not put on the red list sooner?]]></title>
+            <description><![CDATA[India was put on the travel ban list two weeks after Pakistan and Bangladesh.]]></description>
+            <link>https://www.bbc.co.uk/news/56801288</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/56801288</guid>
+            <pubDate>Wed, 19 May 2021 16:00:36 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[UK holidays: When and where can I go.... and who with?]]></title>
+            <description><![CDATA[The rules on having a holiday in the UK have been relaxed - but restrictions remain.]]></description>
+            <link>https://www.bbc.co.uk/news/explainers-52646738</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/explainers-52646738</guid>
+            <pubDate>Fri, 21 May 2021 12:14:07 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Indian variant: What's causing the spike in Bolton?]]></title>
+            <description><![CDATA[The town has seen a sharp spike in Covid cases - driven by the emergence of the Indian variant.]]></description>
+            <link>https://www.bbc.co.uk/news/health-57094274</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/health-57094274</guid>
+            <pubDate>Fri, 14 May 2021 00:08:55 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: Should I be working from home or going back to the office?]]></title>
+            <description><![CDATA[As lockdown restrictions ease gradually across the UK, what are the rules about returning to work?]]></description>
+            <link>https://www.bbc.co.uk/news/business-52567567</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/business-52567567</guid>
+            <pubDate>Wed, 05 May 2021 16:13:36 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Covid: What are the social distancing rules and the rule of six?]]></title>
+            <description><![CDATA[Guidance on hugging close friends and family is being relaxed in England and Scotland from 17 May.]]></description>
+            <link>https://www.bbc.co.uk/news/uk-51506729</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-51506729</guid>
+            <pubDate>Wed, 12 May 2021 08:01:42 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The black children wrongly sent to 'special' schools in the 1970s]]></title>
+            <description><![CDATA[In the '60s and '70s, black children were wrongly sent to schools for the "educationally subnormal".]]></description>
+            <link>https://www.bbc.co.uk/news/uk-57099654</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/uk-57099654</guid>
+            <pubDate>Thu, 20 May 2021 07:37:20 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Uyghur imams targeted in China's Xinjiang crackdown]]></title>
+            <description><![CDATA[China has targeted Muslim religious leaders, according to a new report, charging many with extremism.]]></description>
+            <link>https://www.bbc.co.uk/news/world-asia-china-56986057</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-asia-china-56986057</guid>
+            <pubDate>Wed, 12 May 2021 23:01:12 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA['Talk to me': A train driver asking men to open up]]></title>
+            <description><![CDATA[A tragedy inspired Scotland's only woman freight train driver to get men talking about mental health.]]></description>
+            <link>https://www.bbc.co.uk/news/stories-57060971</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/stories-57060971</guid>
+            <pubDate>Wed, 12 May 2021 01:24:09 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Chinese dreams on Native American land: A tale of cannabis boom and bust]]></title>
+            <description><![CDATA[How the pandemic cannabis boom led to chaos on the Navajo Nation, pitting two minorities against each other.]]></description>
+            <link>https://www.bbc.co.uk/news/world-us-canada-56835897</link>
+            <guid isPermaLink="true">https://www.bbc.co.uk/news/world-us-canada-56835897</guid>
+            <pubDate>Sat, 08 May 2021 23:01:07 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

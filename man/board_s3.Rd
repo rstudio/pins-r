@@ -2,62 +2,85 @@
 % Please edit documentation in R/board_s3.R
 \name{board_s3}
 \alias{board_s3}
-\title{Use an S3 board}
+\title{Use an S3 bucket as a board}
 \usage{
 board_s3(
-  bucket = Sys.getenv("AWS_BUCKET"),
-  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  cache = NULL,
+  bucket,
+  versioned = TRUE,
+  access_key = NULL,
+  secret_access_key = NULL,
+  session_token = NULL,
+  credential_expiration = NULL,
+  profile = NULL,
   region = NULL,
-  host = "s3.amazonaws.com",
-  name = "s3",
-  ...
+  endpoint = NULL,
+  cache = NULL
 )
 }
 \arguments{
-\item{bucket}{The name of the Amazon S3 bucket.}
+\item{bucket}{Bucket name.}
 
-\item{key, secret}{The key and secret for your space. You can create
-a key and secret in the "Spaces access keys" in your API settings.
+\item{versioned}{Should this board be registered with support for versions?}
 
-The \code{secret} is equivalent to a password, so generally should not be stored
-in your script. The easiest alternative is to store it in the
-\code{AWS_SECRET_ACCESS_KEY} environment variable, which \code{board_s3()} will
-use by default.}
+\item{access_key, secret_access_key, session_token, credential_expiration}{Manually control authentication. See documentation below for details.}
+
+\item{profile}{Role to use from AWS shared credentials/config file.}
+
+\item{region}{AWS region. If not specified, will be read from \code{AWS_REGION},
+or AWS config file.}
+
+\item{endpoint}{AWS endpoint to use; usually generated automatically from
+\code{region}.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
-
-\item{region}{The region to use, required in some AWS regions and to
-enable V4 signatures.}
-
-\item{host}{The host to use for storage, defaults to \code{"s3.amazonaws.com"}.}
-
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
-\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
-with enough permissions to access the S3 bucket. You can sign-up and create
-those at \url{https://aws.amazon.com/}. Note that it can take a few minutes
-after you've created it before a bucket is usable.
+Pin data to a bucket on Amazon's S3 service.
 }
+\section{Authentication}{
+\code{board_s3()} is powered by the paws package which provides a wide range
+of authetication options, as documented at
+\url{https://github.com/paws-r/paws/blob/main/docs/credentials.md}.
+In brief, there are four main options that are tried in order:
+\itemize{
+\item The \code{access_key} and \code{secret_access_key} arguments to this function.
+If you have a temporary session token, you'll also need to supply
+\code{session_token} and \code{credential_expiration}.
+(Not recommended since your \code{secret_access_key} will be recorded
+in \code{.Rhistory})
+\item The \code{AWS_ACCESS_KEY_ID} and \code{AWS_SECRET_ACCESS_KEY} env vars.
+(And \code{AWS_SESSION_TOKEN} and \code{AWS_CREDENTIAL_EXPIRATION} env vars if you
+have a temporary session token)
+\item The AWS shared credential file, \verb{~/.aws/credentials}:\preformatted{[profile-name]
+aws_access_key_id=your AWS access key
+aws_secret_access_key=your AWS secret key
+}
+
+The "default" profile will be used if you don't supply the access key
+and secret access key as described above. Otherwise you can use the
+\code{profile} argument to use a profile of your choice.
+\item Automatic authentication from EC2 instance or container IAM role.
+}
+
+See the paws documentation for more unusual options including getting
+credentials from a command line process, picking a role when running inside
+an EC2 instance, using a role from another profile, and using multifactor
+authentication.
+}
+
+\section{Caveats}{
+\itemize{
+\item If you point at a bucket that's not created by pins, some functions
+like \code{pins_list()} will work, but won't return useful output.
+}
+}
+
 \examples{
 \dontrun{
-# the following example requires an Amazon S3 API key
-board <- board_s3(bucket = "s3bucket")
+board <- board_s3("pins-test-hadley", region = "us-east-2")
+board \%>\% pin_write(mtcars)
+board \%>\% pin_read("mtcars")
 }
 }
-\seealso{
-Other boards: 
-\code{\link{board_azure}()},
-\code{\link{board_folder}()},
-\code{\link{board_github}()},
-\code{\link{board_rsconnect}()}
-}
-\concept{boards}
