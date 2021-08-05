@@ -22,8 +22,10 @@ board_rsconnect(
 default is \code{auto}, which will use the environment variables if both are
 available, and rsconnect if not.}
 
-\item{server}{For \code{auth = "envvar"} the full url to the server.
-For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts.}
+\item{server}{For \code{auth = "envvar"} the full url to the server, like
+\verb{http://server.rstudio.com/rsc} or \verb{https://connect.rstudio.com/}.
+For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts,
+like \code{server.rstudio.com} or \code{connect.rstudio.com}.}
 
 \item{account}{A user name used to disambiguate multiple RSC accounts}
 
