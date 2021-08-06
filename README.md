@@ -33,8 +33,8 @@ install.packages("pins")
 
 ## Usage
 
-To use the pins package, you must first create a pin board. A good place
-to start is `board_folder()`, which stores pins in a directory you
+To use the pins package, you must first create a pin **board**. A good
+place to start is `board_folder()`, which stores pins in a directory you
 specify. Here I’ll use a special version of `board_folder()` called
 `board_temp()`; it creates a temporary board that’s automatically
 deleted when your R session ends:
@@ -45,7 +45,7 @@ library(pins)
 b <- board_temp()
 b
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpY9QpnA/pins-659a3944264c'
+#> Path: '/tmp/Rtmpgy7RFX/pins-78427a3adddc'
 #> Cache size: 0
 ```
 
@@ -56,7 +56,7 @@ argument is the name you’ll use to later retrieve it:
 ``` r
 b %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210806T174951Z-f8797'
+#> Creating new version '20210806T175343Z-f8797'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
@@ -76,10 +76,12 @@ b %>% pin_read("mtcars")
 #> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 
-A folder board is a simple place to start, but the real power of pins
-comes when you use board that’s shared with multiple people. For
-example, with RStudio Connect you can easily make data available to your
-whole team:
+A board on your computer is good place to start, but the real power of
+pins comes when you use a board that’s shared with multiple people. To
+get started, you can use `board_folder()` with a directory on a shared
+drive or in dropbox, or if you use [RStudio
+Connect](https://www.rstudio.com/products/connect/) you can use
+`board_rsconnect()`:
 
 ``` r
 b <- board_rsconnect()
@@ -87,7 +89,8 @@ b %>% pin_write(tidy_sales_data, "sales-summary")
 #> Saving to hadley/sales-summary
 ```
 
-Then, someone else (or an automated Rmd report!) can read and use it:
+Then, someone else (or an automated Rmd report!) can read and use your
+pin:
 
 ``` r
 b <- board_rsconnect()

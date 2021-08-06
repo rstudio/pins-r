@@ -42,7 +42,7 @@ install.packages("pins")
 
 ## Usage
 
-To use the pins package, you must first create a pin board.
+To use the pins package, you must first create a pin **board**.
 A good place to start is `board_folder()`, which stores pins in a directory you specify.
 Here I'll use a special version of `board_folder()` called `board_temp()`; it creates a temporary board that's automatically deleted when your R session ends:
 
@@ -68,8 +68,8 @@ You can later retrieve the pinned data with `pin_read()`:
 b %>% pin_read("mtcars")
 ```
 
-A folder board is a simple place to start, but the real power of pins comes when you use board that's shared with multiple people.
-For example, with RStudio Connect you can easily make data available to your whole team:
+A board on your computer is good place to start, but the real power of pins comes when you use a board that's shared with multiple people.
+To get started, you can use `board_folder()` with a directory on a shared drive or in dropbox, or if you use [RStudio Connect](https://www.rstudio.com/products/connect/) you can use `board_rsconnect()`:
 
 ```{r, eval = FALSE}
 b <- board_rsconnect()
@@ -77,7 +77,7 @@ b %>% pin_write(tidy_sales_data, "sales-summary")
 #> Saving to hadley/sales-summary
 ```
 
-Then, someone else (or an automated Rmd report!) can read and use it:
+Then, someone else (or an automated Rmd report!) can read and use your pin:
 
 ```{r, eval = FALSE}
 b <- board_rsconnect()
