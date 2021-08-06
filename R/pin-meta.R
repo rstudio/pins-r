@@ -45,3 +45,14 @@ print.pins_meta <- function(x, ...) {
   utils::str(unclass(x))
   invisible(x)
 }
+
+check_pin_version <- function(board, name, version) {
+  if (is.null(version)) {
+    last(pin_versions(board, name)$version) %||% abort("No versions found")
+  } else if (is_string(version)) {
+    # TODO: provide pin_version_exists() so this can return informative error
+    version
+  } else {
+    abort("`version` must be a string or `NULL`")
+  }
+}

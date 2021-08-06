@@ -152,14 +152,7 @@ pin_version_delete.pins_board_s3 <- function(board, name, version, ...) {
 #' @export
 pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
-
-  if (is.null(version)) {
-    version <- last(pin_versions(board, name)$version) %||% abort("No versions found")
-  } else if (is_string(version)) {
-    # check_pin_version(board, name, version)
-  } else {
-    abort("`version` must be a string or `NULL`")
-  }
+  version <- check_pin_version(board, name, version)
 
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
