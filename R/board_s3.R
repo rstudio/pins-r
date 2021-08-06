@@ -1,6 +1,7 @@
 #' Use an S3 bucket as a board
 #'
-#' Pin data to a bucket on Amazon's S3 service.
+#' Pin data to a bucket on Amazon's S3 service, using the paws.storage
+#' package.
 #'
 #' # Authentication
 #'

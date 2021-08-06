@@ -63,6 +63,10 @@ This version includes the following modern boards:
   [paws](https://paws-r.github.io) so supports a wide range of authentication
   options.
 
+* `board_azure()` stores data in to Azure's blob storage. It is built on top of 
+  [AzureStor](https://github.com/Azure/AzureStor) so supports a wide range of
+  authentication options (#474).
+
 * `board_url()` lets you create a manual pin board from a vector of 
   urls. This is useful because `pin_donwload()` and `pin_read()` are 
   cached, and will only re-download the data if it's changed since the
