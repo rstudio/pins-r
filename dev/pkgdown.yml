@@ -2,11 +2,10 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  articles/internals: internals.html
   pins-legacy: pins-legacy.html
   pins: pins.html
   rsc: rsc.html
-last_built: 2021-08-05T20:11Z
+last_built: 2021-08-06T17:56Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles

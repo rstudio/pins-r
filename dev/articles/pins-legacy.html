@@ -65,9 +65,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/articles/internals.html">Pins internals</a>
-    </li>
-    <li>
       <a href="../articles/pins-legacy.html">Upgrading to pins 1.0.0</a>
     </li>
     <li>
@@ -141,7 +138,7 @@
 
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210805T201210Z-e8d9f'</span>
+<span class="co">#&gt; Creating new version '20210806T175651Z-e8d9f'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
@@ -160,13 +157,13 @@
 
 <span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/Rtmpo1BpQG/file2b046bb9fcac/alphabet/file2b0420b19345"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpDoF42c/file29a852b0b3d6/alphabet/file29a82417a013"</span></code></pre></div>
 <p>pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version '20210805T201210Z-ee580'</span>
+<span class="co">#&gt; Creating new version '20210806T175651Z-ee580'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20210805T201210Z-ee580/file2b0420b19345"</span></code></pre></div>
+<span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20210806T175651Z-ee580/file29a82417a013"</span></code></pre></div>
 </div>
 <div id="pinning-a-url" class="section level3">
 <h3 class="hasAnchor">
@@ -176,7 +173,7 @@
 <code class="sourceCode R"><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"</span>
 
 <span class="op">(</span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/Rtmpo1BpQG/file2b046bb9fcac/first/first.txt"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpDoF42c/file29a852b0b3d6/first/first.txt"</span></code></pre></div>
 <p>(It’s a little confusing that this uses <code><a href="../reference/pin.html">pin()</a></code> rather than <code><a href="../reference/pin_get.html">pin_get()</a></code>.)</p>
 <p>This now needs to be made explicit with the new <code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -203,7 +200,7 @@
 
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210805T201211Z-02e71'</span>
+<span class="co">#&gt; Creating new version '20210806T175651Z-02e71'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span>
 <span class="co">#&gt;   x</span>
 <span class="co">#&gt; 1 1</span>
