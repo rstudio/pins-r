@@ -20,13 +20,14 @@
 #' board %>% pin_search()
 #' board %>% pin_search("number")
 #' board %>% pin_search("letters")
-pin_search <- function(board, pattern = NULL) {
+pin_search <- function(board, pattern = NULL, ...) {
+  ellipsis::check_dots_used()
   check_board(board, "pin_search()", "pin_find()")
   UseMethod("pin_search")
 }
 
 #' @export
-pin_search.pins_board <- function(board, pattern = NULL) {
+pin_search.pins_board <- function(board, pattern = NULL, ...) {
   names <- pin_list(board)
   out <- multi_meta(board, names)
 
