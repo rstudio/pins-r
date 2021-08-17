@@ -99,10 +99,7 @@ pin_fetch.pins_board_folder <- function(board, name, version = NULL, ...) {
 pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
-
-  version <- version %||%
-    last(pin_versions(board, name)$version) %||%
-    abort("No versions found")
+  version <- check_pin_version(board, name, version)
 
   path_version <- fs::path(board$path, name, version)
   if (!fs::dir_exists(path_version)) {

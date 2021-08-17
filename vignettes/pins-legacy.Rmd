@@ -113,7 +113,7 @@ board %>% pin_read("test-data")
 
 | Legacy API                   | Modern API          |
 |------------------------------|---------------------|
-| `board_register_azure()`     |                     |
+| `board_register_azure()`     | `board_azure()`     |
 | `board_register_datatxt()`   |                     |
 | `board_register_dospace()`   |                     |
 | `board_register_gcloud()`    |                     |
