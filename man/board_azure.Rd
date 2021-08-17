@@ -4,29 +4,13 @@
 \alias{board_azure}
 \title{Use an Azure Blob Storage Container as a board}
 \usage{
-board_azure(
-  account,
-  container,
-  versioned = TRUE,
-  key = NULL,
-  token = NULL,
-  sas = NULL,
-  url = NULL,
-  cache = NULL
-)
+board_azure(container, versioned = TRUE, cache = NULL)
 }
 \arguments{
-\item{account, container}{Account and container name.}
+\item{container}{An azure storage container created by
+\code{\link[AzureStor:blob_container]{AzureStor::blob_container()}} or similar.}
 
 \item{versioned}{Should this board be registered with support for versions?}
-
-\item{key, token, sas}{Authentication credentials: either an access \code{key}, an
-Azure Active Directory (AAD) \code{token}, or a \code{SAS}, in that order of
-priority. If no omitted, provides read access to a public (anonymous) board.}
-
-\item{url}{If omitted, \code{board_azure()} will generate a endpoint url of the
-form \code{"https://{account}.blob.core.windows.net/{container}"}. Use this argument
-to override if needed.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -38,14 +22,17 @@ Pin data to a container on Azure's blog storage using the AzureStor package.
 \examples{
 if (requireNamespace("AzureStor")) {
   # Public access board
-  board <- board_azure("pins", "public-data")
+  url <- "https://pins.blob.core.windows.net/public-data"
+  container <- AzureStor::blob_container(url)
+  board <- board_azure(container)
   board \%>\% pin_read("mtcars")
 }
 
 \dontrun{
 # To create a board that you can write to, you'll need to supply one
-# of `key`, `token`, or `sas`
-board <- board_azure("pins", "private-data", sas = "...")
+# of `key`, `token`, or `sas` to AzureStor::blob_container()
+container <- AzureStor::blob_container(url, key = "my-key")
+board <- board_azure(container)
 board \%>\% pin_write(iris)
 }
 }

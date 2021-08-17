@@ -63,7 +63,7 @@ This version includes the following modern boards:
   [paws](https://paws-r.github.io) so supports a wide range of authentication
   options.
 
-* `board_azure()` stores data in to Azure's blob storage. It is built on top of 
+* `board_azure()` stores data in Azure's blob storage. It is built on top of 
   [AzureStor](https://github.com/Azure/AzureStor) so supports a wide range of
   authentication options (#474).
 

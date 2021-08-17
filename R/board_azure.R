@@ -3,43 +3,27 @@
 #' Pin data to a container on Azure's blog storage using the AzureStor package.
 #'
 #' @inheritParams new_board
-#' @param account,container Account and container name.
-#' @param key,token,sas Authentication credentials: either an access `key`, an
-#'   Azure Active Directory (AAD) `token`, or a `SAS`, in that order of
-#'   priority. If no omitted, provides read access to a public (anonymous) board.
-#' @param url If omitted, `board_azure()` will generate a endpoint url of the
-#'   form `"https://{account}.blob.core.windows.net/{container}"`. Use this argument
-#'   to override if needed.
+#' @param container An azure storage container created by
+#'   [AzureStor::blob_container()] or similar.
 #' @export
 #' @examples
 #' if (requireNamespace("AzureStor")) {
 #'   # Public access board
-#'   board <- board_azure("pins", "public-data")
+#'   url <- "https://pins.blob.core.windows.net/public-data"
+#'   container <- AzureStor::blob_container(url)
+#'   board <- board_azure(container)
 #'   board %>% pin_read("mtcars")
 #' }
 #'
 #' \dontrun{
 #' # To create a board that you can write to, you'll need to supply one
-#' # of `key`, `token`, or `sas`
-#' board <- board_azure("pins", "private-data", sas = "...")
+#' # of `key`, `token`, or `sas` to AzureStor::blob_container()
+#' container <- AzureStor::blob_container(url, key = "my-key")
+#' board <- board_azure(container)
 #' board %>% pin_write(iris)
 #' }
-board_azure <- function(
-                        account,
-                        container,
-                        versioned = TRUE,
-                        key = NULL,
-                        token = NULL,
-                        sas = NULL,
-                        url = NULL,
-                        cache = NULL) {
-
+board_azure <- function(container, versioned = TRUE, cache = NULL) {
   check_installed("AzureStor")
-
-  url <- url %||% paste0("https://", account, ".blob.core.windows.net/", container)
-
-  # TODO: check error message when container doesn't exist
-  container <- AzureStor::blob_container(url, key = key, token = token, sas = sas)
 
   cache <- cache %||% board_cache_path(paste0("azure-", hash(url)))
   new_board_v1("pins_board_azure",
@@ -55,10 +39,11 @@ board_azure_test <- function(...) {
     testthat::skip("PINS_AZURE_TEST_SAS not set")
   }
 
-  board_azure("pins", "test-data",
-    sas = Sys.getenv("PINS_AZURE_TEST_SAS"),
-    cache = tempfile(), ...
+  container <- AzureStor::blob_container(
+    "https://pins.blob.core.windows.net/test-data",
+    sas = Sys.getenv("PINS_AZURE_TEST_SAS")
   )
+  board_azure(container, cache = tempfile(), ...)
 }
 
 #' @export
@@ -125,10 +110,9 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
 
   version_dir <- fs::path(name, version)
 
-
   # Upload metadata
   local_azure_progress(FALSE)
-  AzureStor::upload_blob(board$container,
+  AzureStor::storage_upload(board$container,
     src = textConnection(yaml::as.yaml(metadata)),
     dest = fs::path(version_dir, "data.txt")
   )
@@ -136,7 +120,7 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   # Upload files
   local_azure_progress()
   keys <- fs::path(version_dir, fs::path_file(paths))
-  AzureStor::multiupload_blob(board$container, src = paths, dest = keys)
+  AzureStor::storage_multiupload(board$container, src = paths, dest = keys)
 
   invisible(board)
 }
@@ -144,14 +128,14 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
 # Helpers -----------------------------------------------------------------
 
 azure_delete_dir <- function(board, dir) {
-  ls <- AzureStor::list_blobs(board$container, dir)
+  ls <- AzureStor::list_storage_files(board$container, dir)
   for (path in ls$name) {
-    AzureStor::delete_blob(board$container, path, confirm = FALSE)
+    AzureStor::delete_storage_file(board$container, path, confirm = FALSE)
   }
 }
 
 azure_ls <- function(board, dir = "/") {
-  ls <- AzureStor::list_blobs(
+  ls <- AzureStor::list_storage_files(
     board$container,
     dir = dir,
     recursive = FALSE
@@ -180,7 +164,7 @@ azure_download <- function(board, keys, progress = !is_testing()) {
   paths <- fs::path(board$cache, keys)
   needed <- !fs::file_exists(paths)
   if (any(needed)) {
-    AzureStor::multidownload_blob(board$container, keys[needed], paths[needed])
+    AzureStor::storage_multidownload(board$container, keys[needed], paths[needed])
   }
 
   invisible()
