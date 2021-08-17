@@ -19,12 +19,13 @@
 #' head(read.csv(paths[[1]]))
 #' head(read.csv(paths[[2]]))
 board_kaggle_competitions <- function(username = NULL, key = NULL, cache = NULL) {
-  auth <- kaggle_authenticate(username, key)
+  auth_info <- kaggle_authenticate(username, key)
   cache <- cache %||% board_cache_path("kaggle-competition")
 
   new_board_v1("pins_board_kaggle_competition",
     cache = cache,
-    auth = auth
+    auth = httr::authenticate(auth_info$username, auth_info$key),
+    username = auth_info$username
   )
 }
 
@@ -115,14 +116,18 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 #' board %>% pin_versions("rturley/pet-breed-characteristics")
 #'
 #' board %>% pin_versions("imsparsh/animal-breed-cats-and-dogs")
+#'
+#' board %>% pin_write(mtcars, "mtcars", type = "csv", desc = "mtcars")
+#' board %>% pin_read("hadleywickham1/mtcars")
 
 board_kaggle_dataset <- function(username = NULL, key = NULL, cache = NULL) {
-  auth <- kaggle_authenticate(username, key)
+  auth_info <- kaggle_authenticate(username, key)
   cache <- cache %||% board_cache_path("kaggle")
 
   new_board_v1("pins_board_kaggle_dataset",
     cache = cache,
-    auth = auth
+    auth = httr::authenticate(auth_info$username, auth_info$key),
+    username = auth_info$username
   )
 }
 
@@ -228,6 +233,72 @@ pin_versions.pins_board_kaggle_dataset <- function(board, name, ...) {
 
 }
 
+#' @export
+#' @rdname board_kaggle_dataset
+pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
+                                    versioned = NULL, ...,
+                                    private = TRUE,
+                                    license = "CC0-1.0") {
+
+  if (!is.null(versioned)) {
+    abort("`board_kaggle_dataset()` is automatically versioned")
+  }
+
+  tokens <- map_chr(paths, kaggle_upload_file, board = board)
+
+  if (!pin_exists(board, paste0(board$username, "/", name))) {
+    url <- kaggle_url("datasets/create/new")
+
+    body <- list(
+      ownerSlug = board$username,
+      slug = name,
+      files = data.frame(token = tokens),
+      convertToCsv = FALSE,
+      isPrivate = private,
+      licenseName = license,
+      title = metadata$description,
+      categories = NULL
+    )
+  } else {
+    url <- kaggle_url("datasets/create/version", board$username, name)
+    notes <- metadata$notes %||% "Uploaded by pins package"
+    body <- list(
+      convertToCsv = FALSE,
+      files = data.frame(token = tokens),
+      versionNotes = notes
+    )
+  }
+
+  resp <- httr::POST(url, board$auth,
+    body = body,
+    encode = "json"
+  )
+  kaggle_json(resp, "store pin")
+
+  invisible(board)
+}
+
+kaggle_upload_file <- function(board, path) {
+  content_length <- file.info(path)$size
+  modified <- as.integer(file.info(path)$mtime)
+
+  url <- kaggle_url("datasets/upload/file", content_length, modified)
+  resp <- httr::POST(url,
+    body = list(fileName = basename(path)),
+    board$auth,
+    encode = "form"
+  )
+  json <- kaggle_json(resp, "Upload registration failed")
+  token <- json$token
+
+  resp <- httr::PUT(json$createUrl,
+    body = httr::upload_file(path),
+    board$auth
+  )
+  json <- kaggle_json(resp, "Upload failed")
+
+  token
+}
 
 # Helpers -----------------------------------------------------------------
 
@@ -237,15 +308,31 @@ kaggle_authenticate <- function(username = NULL, key = NULL) {
   }
 
   if (!is.null(username)) {
-    httr::authenticate(username, key)
+    list(username = username, key = key)
   } else {
     path <- "~/.kaggle/kaggle.json"
     if (!fs::file_exists(path)) {
       abort(glue("Can't find {path}; you must supply `username` and `key"))
     }
-    json <- jsonlite::read_json(path)
-    httr::authenticate(json$username, json$key)
+    jsonlite::read_json(path)
   }
+}
+
+kaggle_json <- function(resp, task) {
+  json <- httr::content(resp, encoding = "UTF-8")
+
+  if (httr::http_error(resp)) {
+    if (!is.null(json$message)) {
+      abort(c(paste0("Failed to ", task), json$message))
+    } else {
+      httr::stop_for_status(resp, task)
+    }
+  }
+  if (!is.null(json$error)) {
+    abort(c(paste0("Failed to ", task), json$error))
+  }
+
+  json
 }
 
 kaggle_get <- function(board, path, ...) {
@@ -254,6 +341,10 @@ kaggle_get <- function(board, path, ...) {
   httr::stop_for_status(resp)
 
   httr::content(resp, as = "parsed")
+}
+
+kaggle_url <- function(...) {
+  file.path("https://www.kaggle.com/api/v1", ...)
 }
 
 kaggle_check_name <- function(name) {
@@ -267,10 +358,4 @@ kaggle_check_name <- function(name) {
   }
 
   name
-#
-#   list(
-#     ref = name,
-#     owner = pieces[[1]],
-#     dataset = pieces[[2]]
-#   )
 }

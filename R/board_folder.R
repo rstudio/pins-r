@@ -80,7 +80,7 @@ pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache
 pin_store.pins_board_folder <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
   check_name(name)
-  version <- version_setup(board, name, metadata, versioned = versioned)
+  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
   version_dir <- fs::path(board$path, name, version)
   fs::dir_create(version_dir)
