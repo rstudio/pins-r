@@ -4,6 +4,9 @@
     <loc>https://pins.rstudio.com/index.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/board_azure.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/board_cache_path.html</loc>
   </url>
   <url>
