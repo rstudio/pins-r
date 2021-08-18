@@ -79,11 +79,16 @@ pin_version_delete.pins_board_azure <- function(board, name, version, ...) {
 pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
+  metadata_blob <- fs::path(name, version, "data.txt")
+
+  if (!AzureStor::storage_file_exists(board$container, metadata_blob)) {
+    pin_abort_version_missing(version)
+  }
 
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
-  azure_download(board, fs::path(name, version, "data.txt"), progress = FALSE)
+  azure_download(board, metadata_blob, progress = FALSE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
     dir = path_version,
