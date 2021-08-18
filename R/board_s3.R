@@ -102,11 +102,18 @@ board_s3 <- function(
 }
 
 board_s3_test <- function(...) {
-  if (Sys.info()[["user"]] != "hadley" || !has_envvars("AWS_ACCESS_KEY_ID")) {
-    testthat::skip("S3 tests only work for Hadley")
+  envvars <- c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
+  if (Sys.info()[["user"]] != "hadley" || !has_envvars(envvars)) {
+    testthat::skip(paste0("S3 tests require env vars ", paste0(envvars, collapse = ", ")))
   }
 
-  board_s3("pins-test-hadley", region = "us-east-2", cache = tempfile(), ...)
+  board_s3("pins-test-hadley",
+    region = "us-east-2",
+    cache = tempfile(),
+    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY_ID"),
+    secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
+    ...
+  )
 }
 
 #' @export
