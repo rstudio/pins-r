@@ -1,6 +1,7 @@
 #' Use an S3 bucket as a board
 #'
-#' Pin data to a bucket on Amazon's S3 service.
+#' Pin data to a bucket on Amazon's S3 service, using the paws.storage
+#' package.
 #'
 #' # Authentication
 #'
@@ -101,11 +102,18 @@ board_s3 <- function(
 }
 
 board_s3_test <- function(...) {
-  if (Sys.info()[["user"]] != "hadley" || !has_envvars("AWS_ACCESS_KEY_ID")) {
-    testthat::skip("S3 tests only work for Hadley")
+  envvars <- c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
+  if (Sys.info()[["user"]] != "hadley" || !has_envvars(envvars)) {
+    testthat::skip(paste0("S3 tests require env vars ", paste0(envvars, collapse = ", ")))
   }
 
-  board_s3("pins-test-hadley", region = "us-east-2", cache = tempfile(), ...)
+  board_s3("pins-test-hadley",
+    region = "us-east-2",
+    cache = tempfile(),
+    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY_ID"),
+    secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
+    ...
+  )
 }
 
 #' @export
@@ -119,8 +127,7 @@ pin_list.pins_board_s3 <- function(board, ...) {
 
 #' @export
 pin_exists.pins_board_s3 <- function(board, name, ...) {
-  resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(name, "/"))
-  resp$KeyCount > 0
+  s3_file_exists(board, paste0(name, "/"))
 }
 
 #' @export
@@ -152,19 +159,17 @@ pin_version_delete.pins_board_s3 <- function(board, name, version, ...) {
 #' @export
 pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
+  version <- check_pin_version(board, name, version)
+  metadata_key <- fs::path(name, version, "data.txt")
 
-  if (is.null(version)) {
-    version <- last(pin_versions(board, name)$version) %||% abort("No versions found")
-  } else if (is_string(version)) {
-    # check_pin_version(board, name, version)
-  } else {
-    abort("`version` must be a string or `NULL`")
+  if (!s3_file_exists(board, metadata_key)) {
+    abort_pin_version_missing(version)
   }
 
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
-  s3_download(board, fs::path(name, version, "data.txt"), immutable = TRUE)
+  s3_download(board, metadata_key, immutable = TRUE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
     dir = path_version,
@@ -197,7 +202,7 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
     s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path)
   }
 
-  invisible(board)
+  name
 }
 
 # Helpers -----------------------------------------------------------------
@@ -234,3 +239,7 @@ s3_download <- function(board, key, immutable = FALSE) {
   path
 }
 
+s3_file_exists <- function(board, key) {
+  resp <- board$svc$list_objects_v2(board$bucket, Prefix = key)
+  resp$KeyCount > 0
+}

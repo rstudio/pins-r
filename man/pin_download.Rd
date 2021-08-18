@@ -36,7 +36,7 @@ avoid potential clashes with the metadata that pins itself uses.}
 }
 \value{
 \code{pin_download()} returns a character vector of file paths;
-\code{pin_upload()} returns \code{board}, invisibly.
+\code{pin_upload()} returns the fully qualified name of the new pin, invisibly.
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that

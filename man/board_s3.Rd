@@ -37,7 +37,8 @@ downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 }
 \description{
-Pin data to a bucket on Amazon's S3 service.
+Pin data to a bucket on Amazon's S3 service, using the paws.storage
+package.
 }
 \section{Authentication}{
 \code{board_s3()} is powered by the paws package which provides a wide range

@@ -1,41 +1,9 @@
+test_api_basic(board_temp())
+test_api_versioning(board_temp(versioned = TRUE))
+test_api_meta(board_temp())
+
 test_that("has useful print method", {
   expect_snapshot(board_folder("/tmp/test", name = "test"))
-})
-
-test_that("absent pins handled consistently", {
-  board <- board_temp()
-  pin_write(board, 1, "x")
-
-  expect_equal(pin_list(board), "x")
-  expect_equal(pin_exists(board, "x"), TRUE)
-  expect_equal(pin_exists(board, "y"), FALSE)
-
-  expect_error(pin_meta(board, "y"), class = "pins_pin_absent")
-})
-
-test_that("can remove a local pin", {
-  board <- board_temp()
-
-  pin_write(board, 1:10, "x")
-  expect_equal(pin_list(board), "x")
-
-  pin_delete(board, "x")
-  expect_equal(pin_list(board), character())
-})
-
-test_that("can get versions", {
-  b <- board_temp(versioned = TRUE)
-  ui_loud()
-  expect_snapshot(pin_write(b, 1:5, "x", type = "rds"))
-  expect_equal(nrow(pin_versions(b, "x")), 1)
-  first_version <- pin_versions(b, "x")$version
-
-  expect_snapshot(pin_write(b, 1:6, "x", type = "rds"))
-  expect_equal(nrow(pin_versions(b, "x")), 2)
-
-  expect_equal(pin_read(b, "x"), 1:6)
-  expect_equal(pin_read(b, "x", version = first_version), 1:5)
-  expect_snapshot(pin_read(b, "x", version = "xxx"), error = TRUE)
 })
 
 test_that("can upload/download multiple files", {
@@ -53,16 +21,6 @@ test_that("can upload/download multiple files", {
   expect_equal(readLines(out[[2]]), "b")
 })
 
-test_that("can't unversion an unversioned pin", {
-  ui_loud()
-  expect_snapshot(error = TRUE, {
-    b <- board_temp(versioned = TRUE)
-    pin_write(b, 1, "x", type = "rds")
-    pin_write(b, 2, "x", type = "rds")
-    pin_write(b, 3, "x", type = "rds", versioned = FALSE)
-  })
-})
-
 test_that("can browse", {
   b <- board_folder("/tmp/test", name = "test")
 
@@ -76,8 +34,7 @@ test_that("can browse", {
 test_that("generates useful messages", {
   ui_loud()
   b <- board_temp()
-  expect_snapshot(error = TRUE, {
-    pin_read(b, "x")
+  expect_snapshot({
     pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:6, "x", type = "rds")

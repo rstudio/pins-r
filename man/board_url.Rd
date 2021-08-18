@@ -8,7 +8,9 @@ board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }
 \arguments{
 \item{urls}{A named character vector of URLs If the URL ends in a \code{/},
-\code{board_url} will look for a \code{data.txt} that provides metadata.}
+\code{board_url} will look for a \code{data.txt} that provides metadata. The
+easiest way to generate this file is to upload a pin directory created by
+\code{\link[=board_folder]{board_folder()}}.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard

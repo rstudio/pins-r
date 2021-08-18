@@ -5,7 +5,7 @@
 #'
 #' @inheritParams pin_read
 #' @return `pin_download()` returns a character vector of file paths;
-#'   `pin_upload()` returns `board`, invisibly.
+#'   `pin_upload()` returns the fully qualified name of the new pin, invisibly.
 #' @export
 #' @examples
 #' board <- board_temp()
@@ -57,6 +57,6 @@ pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, 
   meta <- standard_meta(paths, desc = desc, type = "file")
   meta$user <- metadata
 
-  pin_store(board, name, paths, meta, ...)
+  invisible(pin_store(board, name, paths, meta, ...))
 }
 

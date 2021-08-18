@@ -35,7 +35,7 @@ use the default for \code{board}}
 \code{pin_fetch()} is called primarily for its side-effect of downloading
 remote pins into the local cache. It returns the same data as \link{pin_meta}.
 \code{pin_store()} is called for its side-effect of uploading a local file
-to a remote board. It invisibly returns the \code{board}.
+to a remote board. It invisibly returns the fully qualified pin name.
 }
 \description{
 These are low-level functions that power \code{\link[=pin_read]{pin_read()}}, \code{\link[=pin_write]{pin_write()}},
