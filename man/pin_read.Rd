@@ -50,6 +50,10 @@ avoid potential clashes with the metadata that pins itself uses.}
 \item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
 use the default for \code{board}}
 }
+\value{
+\code{pin_read()} returns an R object read from the pin;
+\code{pin_write()} returns the fully qualified name of the new pin, invisibly.
+}
 \description{
 Use \code{pin_write()} to pin an object to board, and \code{pin_read()} to retrieve
 it.

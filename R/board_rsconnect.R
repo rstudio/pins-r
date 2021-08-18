@@ -152,7 +152,7 @@ pin_exists.pins_board_rsconnect <- function(board, name, ...) {
       rsc_content_find(board, name)
       TRUE
     },
-    pins_pin_absent = function(cnd) FALSE
+    pins_pin_missing = function(cnd) FALSE
   )
 }
 
@@ -189,7 +189,13 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   # Cache data.txt locally
   cache_path <- fs::path(board$cache, content$guid, bundle_id)
   fs::dir_create(cache_path)
-  rsc_download(board, url, cache_path, "data.txt")
+
+  tryCatch(
+    rsc_download(board, url, cache_path, "data.txt"),
+    http_404 = function(e) {
+      abort_pin_version_missing(version)
+    }
+  )
 
   meta <- read_meta(cache_path)
 
@@ -254,7 +260,7 @@ pin_store.pins_board_rsconnect <- function(
       rsc_content_update(board, guid, metadata, access_type = access_type)
       guid
     },
-    pins_pin_absent = function(e) {
+    pins_pin_missing = function(e) {
       rsc_content_create(board, name, metadata, access_type = access_type)$guid
     }
   )
@@ -306,14 +312,11 @@ pin_store.pins_board_rsconnect <- function(
     } else if (length(ids) == 1) {
       pin_version_delete(board, name, ids)
     } else {
-      abort(c(
-        "Pin is versioned, but you have requested not to use versions",
-        "To un-version this pin you will need to delete it"
-      ))
+      abort_pin_versioned()
     }
   }
 
-  invisible(board)
+  paste0(board$account, "/", name)
 }
 
 #' @export
@@ -404,10 +407,7 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
   # https://docs.rstudio.com/connect/api/#get-/v1/content
   json <- rsc_GET(board, "v1/content", list(name = name$name))
   if (length(json) == 0) {
-    abort(
-      paste0("Can't find pin with name '",  name$name, "'"),
-      class = "pins_pin_absent"
-    )
+    abort_pin_missing(name$name)
   }
 
   if (is.null(name$owner)) {

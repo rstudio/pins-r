@@ -79,11 +79,16 @@ pin_version_delete.pins_board_azure <- function(board, name, version, ...) {
 pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
+  metadata_blob <- fs::path(name, version, "data.txt")
+
+  if (!AzureStor::storage_file_exists(board$container, metadata_blob)) {
+    abort_pin_version_missing(version)
+  }
 
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
-  azure_download(board, fs::path(name, version, "data.txt"), progress = FALSE)
+  azure_download(board, metadata_blob, progress = FALSE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
     dir = path_version,
@@ -120,12 +125,26 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   # Upload files
   local_azure_progress()
   keys <- fs::path(version_dir, fs::path_file(paths))
-  AzureStor::storage_multiupload(board$container, src = paths, dest = keys)
+  AzureStor::storage_multiupload(
+    board$container,
+    src = paths,
+    dest = keys,
+    max_concurrent_transfers = azure_cores()
+  )
 
-  invisible(board)
+  name
 }
 
 # Helpers -----------------------------------------------------------------
+
+# Until https://github.com/Azure/AzureStor/issues/98 is resolved
+azure_cores <- function() {
+  if (has_envvars("_R_CHECK_LIMIT_CORES_")) {
+    2
+  } else {
+    10
+  }
+}
 
 azure_delete_dir <- function(board, dir) {
   ls <- AzureStor::list_storage_files(board$container, dir)
@@ -164,7 +183,10 @@ azure_download <- function(board, keys, progress = !is_testing()) {
   paths <- fs::path(board$cache, keys)
   needed <- !fs::file_exists(paths)
   if (any(needed)) {
-    AzureStor::storage_multidownload(board$container, keys[needed], paths[needed])
+    AzureStor::storage_multidownload(
+      board$container, keys[needed], paths[needed],
+      max_concurrent_transfers = azure_cores()
+    )
   }
 
   invisible()

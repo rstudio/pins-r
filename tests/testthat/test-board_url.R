@@ -21,7 +21,7 @@ test_that("absent pins handled consistently", {
   expect_equal(pin_exists(board, "x"), TRUE)
   expect_equal(pin_exists(board, "y"), FALSE)
 
-  expect_error(pin_meta(board, "y"), class = "pins_pin_absent")
+  expect_error(pin_meta(board, "y"), class = "pins_pin_missing")
 })
 
 test_that("only downloads once", {

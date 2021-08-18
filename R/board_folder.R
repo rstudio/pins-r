@@ -87,7 +87,7 @@ pin_store.pins_board_folder <- function(board, name, paths, metadata,
   write_meta(metadata, version_dir)
   fs::file_copy(paths, version_dir, overwrite = TRUE)
 
-  invisible(board)
+  name
 }
 
 #' @export
@@ -103,7 +103,7 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
 
   path_version <- fs::path(board$path, name, version)
   if (!fs::dir_exists(path_version)) {
-    abort(paste0("Can't find version '", version, "'"))
+    abort_pin_version_missing(version)
   }
 
   meta <- read_meta(path_version)
