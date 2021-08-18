@@ -7,7 +7,7 @@
 #' @return `pin_fetch()` is called primarily for its side-effect of downloading
 #'   remote pins into the local cache. It returns the same data as [pin_meta].
 #'   `pin_store()` is called for its side-effect of uploading a local file
-#'   to a remote board. It invisibly returns the `board`.
+#'   to a remote board. It invisibly returns the fully qualified pin name.
 #'
 #' @export
 #' @keywords internal

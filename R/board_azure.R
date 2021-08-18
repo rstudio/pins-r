@@ -127,7 +127,7 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   keys <- fs::path(version_dir, fs::path_file(paths))
   AzureStor::storage_multiupload(board$container, src = paths, dest = keys)
 
-  invisible(board)
+  name
 }
 
 # Helpers -----------------------------------------------------------------

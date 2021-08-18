@@ -313,7 +313,7 @@ pin_store.pins_board_rsconnect <- function(
     }
   }
 
-  invisible(board)
+  paste0(board$account, "/", name)
 }
 
 #' @export

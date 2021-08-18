@@ -1,7 +1,5 @@
 local_pin <- function(board, value, ..., env = parent.frame()) {
-  name <- random_pin_name()
-
-  pin_write(board, value, name, ...)
+  name <- pin_write(board, value, random_pin_name(), ...)
   withr::defer(pin_delete(board, name), env)
 
   name
@@ -23,8 +21,7 @@ test_board_api <- function(board) {
   # First, ensure that enough of the API works that we can use local_pin
   # If this doesn't work, the code will error, and none of the tests will be
   # run
-  name <- random_pin_name()
-  pin_write(board, 1, name)
+  name <- pin_write(board, 1, random_pin_name())
   pin_delete(board, name)
 
   # These tests should be ordered in roughly the order you'd implement
@@ -38,8 +35,7 @@ test_board_api <- function(board) {
 
   if (!identical(pin_list(board), NA)) {
     testthat::test_that("pin_list() includes newly created pin", {
-      name <- random_pin_name()
-      pin_write(board, 1, name)
+      name <- pin_write(board, 1, random_pin_name())
       testthat::expect_true(name %in% pin_list(board))
 
       pin_delete(board, name)

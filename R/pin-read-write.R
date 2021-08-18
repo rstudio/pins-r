@@ -16,6 +16,8 @@
 #'   you expect. You can find the hash of an existing pin by looking for
 #'   `pin_hash` in [pin_meta()].
 #' @param ... Additional arguments passed on to methods for a specific board.
+#' @return `pin_read()` returns an R object read from the pin;
+#'   `pin_write()` returns the fully qualified name of the new pin, invisibly.
 #' @export
 #' @examples
 #' b <- board_temp()
@@ -80,7 +82,7 @@ pin_write <- function(board, x,
   meta <- standard_meta(path, object = x, type = type, desc = desc)
   meta$user <- metadata
 
-  pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
+  invisible(pin_store(board, name, path, meta, versioned = versioned, x = x, ...))
 }
 
 guess_type <- function(x) {

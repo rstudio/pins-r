@@ -87,7 +87,7 @@ pin_store.pins_board_folder <- function(board, name, paths, metadata,
   write_meta(metadata, version_dir)
   fs::file_copy(paths, version_dir, overwrite = TRUE)
 
-  invisible(board)
+  name
 }
 
 #' @export

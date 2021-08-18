@@ -202,7 +202,7 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
     s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path)
   }
 
-  invisible(board)
+  name
 }
 
 # Helpers -----------------------------------------------------------------

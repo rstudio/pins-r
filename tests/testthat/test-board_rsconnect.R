@@ -1,19 +1,6 @@
-# Can't currently use test_board_api() because pin_read() warns if you
-# don't use the fully qualified name. Maybe pin_write() should return the
-# correct name?
+test_board_api(board_rsconnect_test())
 
 # user facing -------------------------------------------------------------
-
-test_that("can round-trip a pin (v1)", {
-  board <- board_rsconnect_test()
-
-  df1 <- data.frame(x = 1:5)
-  pin_write(board, df1, "test-df1", type = "rds")
-  withr::defer(pin_delete(board, "hadley/test-df1"))
-
-  df2 <- pin_read(board, "hadley/test-df1")
-  expect_equal(df1, df2)
-})
 
 test_that("can round-trip a pin (v0)", {
   board <- board_rsconnect_test()
@@ -39,18 +26,6 @@ test_that("can find/search pins", {
   # RSC currently does not search descriptions
   # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
   # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
-})
-
-test_that("absent pins handled consistently", {
-  board <- board_rsconnect_test()
-  pin_write(board, 1, "test-present")
-  withr::defer(pin_delete(board, "hadley/test-present"))
-
-  expect_true("hadley/test-present" %in% pin_list(board))
-  expect_equal(pin_exists(board, "hadley/test-present"), TRUE)
-  expect_equal(pin_exists(board, "hadley/test-absent"), FALSE)
-
-  expect_error(pin_meta(board, "test-absent"), class = "pins_pin_absent")
 })
 
 test_that("can upload/download multiple files", {
