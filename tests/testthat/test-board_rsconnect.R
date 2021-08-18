@@ -1,4 +1,5 @@
 test_board_api(board_rsconnect_test())
+test_version_api(board_rsconnect_test())
 
 # user facing -------------------------------------------------------------
 
@@ -61,49 +62,6 @@ test_that("can update description/access_type", {
   # And writing again doesn't change the access_type
   pin_write(board, 1:5, "test-x")
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
-})
-
-# versioning --------------------------------------------------------------
-
-test_that("versioned by default", {
-  board <- board_rsconnect_test()
-  withr::defer(pin_delete(board, "hadley/test-df1"))
-
-  pin_write(board, data.frame(x = 1:3), "test-df1", type = "rds")
-  pin_write(board, data.frame(x = 1:4), "test-df1", type = "rds")
-  pin_write(board, data.frame(x = 1:5), "test-df1", type = "rds")
-
-  versions <- pin_versions(board, "hadley/test-df1")
-  expect_equal(nrow(versions), 3)
-
-  df2 <- pin_read(board, "hadley/test-df1", version = versions$version[[2]])
-  expect_equal(df2, data.frame(x = 1:4))
-})
-
-test_that("if unversioned, deletes last one", {
-  board <- board_rsconnect_test(versioned = FALSE)
-  withr::defer(pin_delete(board, "hadley/test-df1"))
-
-  pin_write(board, data.frame(x = 1), "test-df1", type = "rds")
-  pin_write(board, data.frame(x = 2), "test-df1", type = "rds")
-
-  guid <- rsc_content_find(board, "hadley/test-df1")$guid
-  expect_equal(nrow(pin_versions(board, "hadley/test-df1")), 1)
-
-  df2 <- pin_read(board, "hadley/test-df1")
-  expect_equal(df2$x, 2)
-})
-
-test_that("can't accidentally switch from versioned to unversioned", {
-  board <- board_rsconnect_test()
-  withr::defer(pin_delete(board, "hadley/test-df1"))
-
-  df1 <- data.frame(x = 1:3)
-  pin_write(board, df1, "test-df1", type = "rds")
-  pin_write(board, df1, "test-df1", type = "rds")
-  expect_snapshot(error = TRUE,
-    pin_write(board, df1, "test-df1", type = "rds", versioned = FALSE)
-  )
 })
 
 # content -----------------------------------------------------------------

@@ -189,7 +189,13 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   # Cache data.txt locally
   cache_path <- fs::path(board$cache, content$guid, bundle_id)
   fs::dir_create(cache_path)
-  rsc_download(board, url, cache_path, "data.txt")
+
+  tryCatch(
+    rsc_download(board, url, cache_path, "data.txt"),
+    http_404 = function(e) {
+      pin_abort_version_missing(version)
+    }
+  )
 
   meta <- read_meta(cache_path)
 
@@ -306,10 +312,7 @@ pin_store.pins_board_rsconnect <- function(
     } else if (length(ids) == 1) {
       pin_version_delete(board, name, ids)
     } else {
-      abort(c(
-        "Pin is versioned, but you have requested not to use versions",
-        "To un-version this pin you will need to delete it"
-      ))
+      pin_abort_versioned()
     }
   }
 

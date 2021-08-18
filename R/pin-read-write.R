@@ -70,15 +70,18 @@ pin_write <- function(board, x,
       abort("Must supply `name` when `x` is an expression")
     }
   }
-  check_name(name)
   check_metadata(metadata)
+  if (!is_string(name)) {
+    abort("`name` must be a string")
+  }
 
   if (is.null(type)) {
     type <- guess_type(x)
     pins_inform("Guessing `type = '{type}'`")
   }
 
-  path <- object_write(x, fs::path_temp(fs::path_ext_set(name, type)), type = type)
+  filename <- fs::path_ext_set(fs::path_file(name), type)
+  path <- object_write(x, fs::path_temp(filename), type = type)
   meta <- standard_meta(path, object = x, type = type, desc = desc)
   meta$user <- metadata
 
@@ -190,10 +193,6 @@ check_board <- function(x, v1, v0) {
   }
 }
 check_name <- function(x) {
-  if (!is_string(x)) {
-    abort("`name` must be a string")
-  }
-
   if (grepl("\\\\|/", x, perl = TRUE)) {
     abort("`name` can not contain slashes")
   }

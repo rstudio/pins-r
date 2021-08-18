@@ -1,11 +1,3 @@
-# can't accidentally switch from versioned to unversioned
-
-    Code
-      pin_write(board, df1, "test-df1", type = "rds", versioned = FALSE)
-    Error <rlang_error>
-      Pin is versioned, but you have requested not to use versions
-      * To un-version this pin you will need to delete it
-
 # can find content by full/partial name
 
     Code

@@ -118,3 +118,9 @@ pin_abort_version_missing <- function(version) {
   abort(glue("Can't find version '{version}'"), class = "pins_pin_version_missing")
 }
 
+pin_abort_versioned <- function() {
+  abort(c(
+    "Pin is versioned, but you have requested a write without versions",
+    i = "To un-version a pin, you must delete it"
+  ), class = "pins_pin_versioned")
+}

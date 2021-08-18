@@ -174,10 +174,7 @@ version_setup <- function(board, name, metadata, versioned = NULL) {
     pins_inform("Replacing version '{old_version}' with '{new_version}'")
     pin_version_delete(board, name, old_version)
   } else {
-    abort(c(
-      "Pin is versioned, but you have requested a write without versions",
-      i = "To un-version a pin, you must delete it"
-    ), class = "pins_pin_versioned")
+    pin_abort_versioned()
   }
 
   new_version
