@@ -1,3 +1,7 @@
+# Can't currently use test_board_api() because pin_read() warns if you
+# don't use the fully qualified name. Maybe pin_write() should return the
+# correct name?
+
 # user facing -------------------------------------------------------------
 
 test_that("can round-trip a pin (v1)", {

@@ -1,25 +1,4 @@
-test_that("can read and write simple pin", {
-  board <- board_azure_test()
-  name <- random_pin_name()
-
-  pin_write(board, 1:3, name)
-  expect_true(name %in% pin_list(board))
-  expect_equal(pin_read(board, name), 1:3)
-
-  pin_delete(board, name)
-  expect_false(name %in% pin_list(board))
-})
-
-test_that("absent pins handled consistently", {
-  board <- board_azure_test()
-  name <- local_pin(board, 1)
-
-  expect_true(name %in% pin_list(board))
-  expect_equal(pin_exists(board, name), TRUE)
-  expect_equal(pin_exists(board, "this_doesnt_exist"), FALSE)
-
-  expect_error(pin_meta(board, "this_doesnt_exist"), class = "pins_pin_absent")
-})
+test_board_api(board_azure_test())
 
 test_that("tracks versions as expected", {
   board <- board_azure_test()

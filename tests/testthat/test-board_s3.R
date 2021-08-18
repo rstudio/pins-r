@@ -1,25 +1,4 @@
-test_that("can read and write simple pin", {
-  board <- board_s3_test()
-
-  pin_write(board, data.frame(x = 1:3), "test-basic")
-  expect_equal(pin_list(board), "test-basic")
-  expect_equal(pin_read(board, "test-basic"), data.frame(x = 1:3))
-
-  pin_delete(board, "test-basic")
-  expect_equal(pin_list(board), character())
-})
-
-test_that("absent pins handled consistently", {
-  board <- board_s3_test()
-  pin_write(board, 1, "test-present")
-  withr::defer(pin_delete(board, "test-present"))
-
-  expect_equal(pin_list(board), "test-present")
-  expect_equal(pin_exists(board, "test-present"), TRUE)
-  expect_equal(pin_exists(board, "y"), FALSE)
-
-  expect_error(pin_meta(board, "y"), class = "pins_pin_absent")
-})
+test_board_api(board_s3_test())
 
 test_that("tracks versions as expected", {
   board <- board_s3_test()
