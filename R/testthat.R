@@ -46,8 +46,8 @@ test_api_basic <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
     name <- local_pin(board, 1, desc = "desc", metadata = list(a = "a"))
     meta <- pin_meta(board, name)
-    expect_equal(meta$description, "desc")
-    expect_equal(meta$user$a, "a")
+    testthat::expect_equal(meta$description, "desc")
+    testthat::expect_equal(meta$user$a, "a")
   })
 
   testthat::test_that("can upload/download multiple files", {
@@ -90,7 +90,7 @@ test_api_versioning <- function(board) {
     testthat::expect_equal(nrow(pin_versions(board, name)), 3)
   })
 
-  test_that("pin_read() returns latest version", {
+  testthat::test_that("pin_read() returns latest version", {
     name <- local_pin(board, 1)
     pin_write(board, 2, name)
     pin_write(board, 3, name)
@@ -98,7 +98,7 @@ test_api_versioning <- function(board) {
     testthat::expect_equal(pin_read(board, name), 3)
   })
 
-  test_that("can retrieve data from previous version", {
+  testthat::test_that("can retrieve data from previous version", {
     name <- local_pin(board, 1)
     v1 <- pin_versions(board, name)$version[[1]]
 
@@ -107,7 +107,7 @@ test_api_versioning <- function(board) {
     testthat::expect_equal(pin_read(board, name, version = v1), 1)
   })
 
-  test_that("clear error for missing version", {
+  testthat::test_that("clear error for missing version", {
     name <- local_pin(board, 1)
     testthat::expect_error(
       pin_read(board, name, version = "DOES-NOT-EXIST"),
@@ -115,7 +115,7 @@ test_api_versioning <- function(board) {
     )
   })
 
-  test_that("unversioned write overwrites single previous version", {
+  testthat::test_that("unversioned write overwrites single previous version", {
     name <- local_pin(board, 1)
     pin_write(board, 2, name, versioned = FALSE)
 
@@ -123,7 +123,7 @@ test_api_versioning <- function(board) {
     testthat::expect_equal(pin_read(board, name), 2)
   })
 
-  test_that("unversioned write errors if multiple versions", {
+  testthat::test_that("unversioned write errors if multiple versions", {
     name <- local_pin(board, 1)
     pin_write(board, 2, name)
 
