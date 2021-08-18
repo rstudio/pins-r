@@ -52,3 +52,67 @@ test_board_api <- function(board) {
     testthat::expect_equal(pin_read(board, name), 1)
   })
 }
+
+test_version_api <- function(board) {
+  # assume that test_board_api() has passed
+
+  testthat::test_that("pin_versions() returns one row per version", {
+    name <- local_pin(board, 1)
+    testthat::expect_equal(nrow(pin_versions(board, name)), 1)
+    pin_write(board, 2, name)
+    testthat::expect_equal(nrow(pin_versions(board, name)), 2)
+    pin_write(board, 3, name)
+    testthat::expect_equal(nrow(pin_versions(board, name)), 3)
+  })
+
+  test_that("pin_read() returns latest version", {
+    name <- local_pin(board, 1)
+    pin_write(board, 2, name)
+    pin_write(board, 3, name)
+
+    testthat::expect_equal(pin_read(board, name), 3)
+  })
+
+  test_that("can retrieve data from previous version", {
+    name <- local_pin(board, 1)
+    v1 <- pin_versions(board, name)$version[[1]]
+
+    pin_write(board, 2, name)
+    pin_write(board, 3, name)
+    testthat::expect_equal(pin_read(board, name, version = v1), 1)
+  })
+
+  test_that("clear error for missing version", {
+    name <- local_pin(board, 1)
+    testthat::expect_error(
+      pin_read(board, name, version = "DOES-NOT-EXIST"),
+      class = "pins_pin_version_missing"
+    )
+  })
+
+  test_that("unversioned write overwrites single previous version", {
+    name <- local_pin(board, 1)
+    pin_write(board, 2, name, versioned = FALSE)
+
+    testthat::expect_equal(nrow(pin_versions(board, name)), 1)
+    testthat::expect_equal(pin_read(board, name), 2)
+  })
+
+  test_that("unversioned write errors if multiple versions", {
+    name <- local_pin(board, 1)
+    pin_write(board, 2, name)
+
+    testthat::expect_error(
+      pin_write(board, 3, name, versioned = FALSE),
+      class = "pins_pin_versioned"
+    )
+  })
+
+}
+
+# errors live here for now since they're closely bound to the tests
+pin_abort_version_missing <- function(version) {
+  abort(glue("Can't find version '{version}'"), class = "pins_pin_version_missing")
+}
+
+

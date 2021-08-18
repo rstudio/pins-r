@@ -177,7 +177,7 @@ version_setup <- function(board, name, metadata, versioned = NULL) {
     abort(c(
       "Pin is versioned, but you have requested a write without versions",
       i = "To un-version a pin, you must delete it"
-    ))
+    ), class = "pins_pin_versioned")
   }
 
   new_version
