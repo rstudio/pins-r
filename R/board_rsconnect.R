@@ -152,7 +152,7 @@ pin_exists.pins_board_rsconnect <- function(board, name, ...) {
       rsc_content_find(board, name)
       TRUE
     },
-    pins_pin_absent = function(cnd) FALSE
+    pins_pin_missing = function(cnd) FALSE
   )
 }
 
@@ -260,7 +260,7 @@ pin_store.pins_board_rsconnect <- function(
       rsc_content_update(board, guid, metadata, access_type = access_type)
       guid
     },
-    pins_pin_absent = function(e) {
+    pins_pin_missing = function(e) {
       rsc_content_create(board, name, metadata, access_type = access_type)$guid
     }
   )
@@ -407,10 +407,7 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
   # https://docs.rstudio.com/connect/api/#get-/v1/content
   json <- rsc_GET(board, "v1/content", list(name = name$name))
   if (length(json) == 0) {
-    abort(
-      paste0("Can't find pin with name '",  name$name, "'"),
-      class = "pins_pin_absent"
-    )
+    abort_pin_missing(name$name)
   }
 
   if (is.null(name$owner)) {

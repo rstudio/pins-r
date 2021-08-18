@@ -15,7 +15,7 @@
       board_url() is read only
     Code
       board %>% pin_meta("froofy", version = "x")
-    Error <pins_pin_absent>
+    Error <pins_pin_missing>
       Can't find pin called 'froofy'
       i Use `pin_list()` to see all available pins in this board
     Code

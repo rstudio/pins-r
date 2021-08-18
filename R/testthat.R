@@ -54,6 +54,13 @@ test_api_basic <- function(board) {
     name <- local_pin(board, 1)
     testthat::expect_equal(pin_read(board, name), 1)
   })
+
+  testthat::test_that("pin_meta fails cleanly if pin is missing", {
+    testthat::expect_error(
+      pin_read(board, "DOES-NOT-EXIST"),
+      class = "pins_pin_missing"
+    )
+  })
 }
 
 test_api_versioning <- function(board) {
@@ -114,6 +121,14 @@ test_api_versioning <- function(board) {
 }
 
 # errors live here for now since they're closely bound to the tests
+
+abort_pin_missing <- function(name) {
+  abort(c(
+    glue("Can't find pin called '{name}'"),
+    i = "Use `pin_list()` to see all available pins in this board"
+  ), class = "pins_pin_missing")
+}
+
 abort_pin_version_missing <- function(version) {
   abort(glue("Can't find version '{version}'"), class = "pins_pin_version_missing")
 }

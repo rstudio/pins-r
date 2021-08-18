@@ -17,6 +17,7 @@
 
     Code
       rsc_content_delete(board, "test-1")
-    Error <pins_pin_absent>
-      Can't find pin with name 'test-1'
+    Error <pins_pin_missing>
+      Can't find pin called 'test-1'
+      i Use `pin_list()` to see all available pins in this board
 

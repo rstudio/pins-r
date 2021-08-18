@@ -33,8 +33,7 @@ test_that("can browse", {
 test_that("generates useful messages", {
   ui_loud()
   b <- board_temp()
-  expect_snapshot(error = TRUE, {
-    pin_read(b, "x")
+  expect_snapshot({
     pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:6, "x", type = "rds")

@@ -24,11 +24,6 @@
 # generates useful messages
 
     Code
-      pin_read(b, "x")
-    Error <pins_pin_absent>
-      Can't find pin called 'x'
-      i Use `pin_list()` to see all available pins in this board
-    Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
       Creating new version '20120304T050607Z-ab444'
