@@ -12,6 +12,13 @@ random_pin_name <- function() {
   paste0("test-", paste(rand, collapse = ""))
 }
 
+
+# Will eventually need to export these functions so folks outside of pins
+# can more easily test their own boards. But that will enforce the API
+# in a fairly strict way, so will need to full think through consequences -
+# i.e. what happens if I add new invariant that causes existing CRAN packages
+# to fail R CMD check? How does the release process work?
+
 test_board_api <- function(board) {
   # First, ensure that enough of the API works that we can use local_pin
   # If this doesn't work, the code will error, and none of the tests will be
