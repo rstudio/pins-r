@@ -132,6 +132,8 @@ write_rds <- function(x, path) {
   invisible(path)
 }
 
+object_types <- c("rds", "json", "arrow", "pickle", "csv", "file")
+
 object_read <- function(meta) {
   path <- fs::path(meta$local$dir, meta$file)
   missing <- !fs::file_exists(path)
@@ -140,7 +142,7 @@ object_read <- function(meta) {
   }
 
   if (meta$api_version == 1) {
-    type <- arg_match0(meta$type, c("rds", "json", "arrow", "pickle", "csv", "file"))
+    type <- arg_match0(meta$type, object_types)
 
     switch(type,
       rds = readRDS(path),

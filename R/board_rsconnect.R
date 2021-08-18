@@ -320,9 +320,9 @@ pin_store.pins_board_rsconnect <- function(
 }
 
 #' @export
-pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
+pin_search.pins_board_rsconnect <- function(board, search, ...) {
   params <- list(
-    search = pattern,
+    search = search,
     filter = "content_type:pin",
     count = 1000
   )
@@ -477,7 +477,7 @@ rsc_content_versions <- function(board, guid) {
 
   tibble::tibble(
     version = map_chr(json, ~ .x$id),
-    created = rsc_parse_time(map_chr(json, ~ .x$created_time)),
+    created = parse_8601_compact(map_chr(json, ~ .x$created_time)),
     active = map_lgl(json, ~ .x$active),
     size = map_dbl(json, ~ .x$size),
   )
@@ -647,10 +647,4 @@ rsc_version <- function(board) {
 
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
-}
-
-rsc_parse_time <- function(x) {
-  y <- as.POSIXct(strptime(x, "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
-  attr(y, "tzone") <- NULL
-  y
 }
