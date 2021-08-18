@@ -12,7 +12,7 @@ test_that("empty search returns empty columns", {
   board <- board_temp()
   out <- board %>% pin_search()
   expect_s3_class(out, "tbl_df")
-  expect_equal(dim(out), c(0, 7))
+  expect_equal(dim(out), c(0, 6))
 })
 
 test_that("informative error for legacy boards", {

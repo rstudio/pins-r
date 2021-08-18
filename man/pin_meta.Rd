@@ -23,8 +23,19 @@ A list.
 \description{
 Pin metadata comes from three sources:
 \itemize{
-\item Standard metadata added by \code{pin_upload()}/\code{pin_write()}.
-\item Metadata supplied by the user, stored in \verb{$user}.
+\item Standard metadata added by \code{pin_upload()}/\code{pin_write()}. This includes:
+\itemize{
+\item \verb{$file} - names of files stored in the pin.
+\item \verb{$file_size} - size of each file.
+\item \verb{$pin_hash} - hash of pin contents.
+\item \verb{$type} - type of pin, "rds", "csv", etc
+\item \verb{$description} - pin description
+\item \verb{$created} - date this (version of the pin) was created
+\item \verb{$api_version} - API version used by pin
+}
+\item Metadata supplied by the user, stored in \verb{$user}. This is untouched
+from what is supplied in \code{\link[=pin_write]{pin_write()}}/\code{\link[=pin_upload]{pin_upload()}} except for being
+converted to and from to YAML.
 \item Local metadata generated when caching the pin, stored in \verb{$local}.
 This includes information like the version of the pin, and the path
 its local cache.

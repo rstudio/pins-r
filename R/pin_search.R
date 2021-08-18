@@ -38,17 +38,3 @@ pin_search.pins_board <- function(board, pattern = NULL) {
 
   out
 }
-
-multi_meta <- function(board, names) {
-  meta <- map(names, pin_meta, board = board)
-
-  tibble::tibble(
-    name = names,
-    version = as.integer(map_dbl(meta, ~ .x$api_version %||% NA_real_)),
-    type = map_chr(meta, ~ .x$type %||% NA_character_),
-    description = map_chr(meta, ~ .x$description %||% ""),
-    created = rsc_parse_time(map_chr(meta, ~ .x$created %||% NA_character_)),
-    file_size = fs::as_fs_bytes(map_int(meta, ~ sum(.x$file_size))),
-    meta = meta
-  )
-}

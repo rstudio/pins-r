@@ -43,13 +43,6 @@ test_api_basic <- function(board) {
     })
   }
 
-  testthat::test_that("can round-trip pin metadata", {
-    name <- local_pin(board, 1, desc = "desc", metadata = list(a = "a"))
-    meta <- pin_meta(board, name)
-    testthat::expect_equal(meta$description, "desc")
-    testthat::expect_equal(meta$user$a, "a")
-  })
-
   testthat::test_that("can upload/download multiple files", {
     path1 <- withr::local_tempfile()
     writeLines("a", path1)
@@ -70,12 +63,6 @@ test_api_basic <- function(board) {
     testthat::expect_equal(pin_read(board, name), 1)
   })
 
-  testthat::test_that("pin_meta fails cleanly if pin is missing", {
-    testthat::expect_error(
-      pin_read(board, "DOES-NOT-EXIST"),
-      class = "pins_pin_missing"
-    )
-  })
 }
 
 test_api_versioning <- function(board) {

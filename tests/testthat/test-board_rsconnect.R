@@ -1,5 +1,6 @@
 test_api_basic(board_rsconnect_test())
 test_api_versioning(board_rsconnect_test())
+test_api_meta(board_rsconnect_test())
 
 # user facing -------------------------------------------------------------
 
