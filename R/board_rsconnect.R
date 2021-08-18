@@ -320,9 +320,9 @@ pin_store.pins_board_rsconnect <- function(
 }
 
 #' @export
-pin_search.pins_board_rsconnect <- function(board, pattern = NULL) {
+pin_search.pins_board_rsconnect <- function(board, search, ...) {
   params <- list(
-    search = pattern,
+    search = search,
     filter = "content_type:pin",
     count = 1000
   )
