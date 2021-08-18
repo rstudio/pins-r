@@ -29,22 +29,6 @@ test_that("can find/search pins", {
   # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
 })
 
-test_that("can upload/download multiple files", {
-  path1 <- withr::local_tempfile()
-  writeLines("a", path1)
-  path2 <- withr::local_tempfile()
-  writeLines("b", path2)
-
-  board <- board_rsconnect_test()
-  suppressMessages(pin_upload(board, c(path1, path2), "test-multi-file"))
-  withr::defer(pin_delete(board, "hadley/test-multi-file"))
-
-  out <- pin_download(board, "hadley/test-multi-file")
-  expect_equal(length(out), 2)
-  expect_equal(readLines(out[[1]]), "a")
-  expect_equal(readLines(out[[2]]), "b")
-})
-
 test_that("can update description/access_type", {
   board <- board_rsconnect_test()
   withr::defer(pin_delete(board, "hadley/test-x"))

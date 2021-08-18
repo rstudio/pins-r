@@ -50,6 +50,21 @@ test_api_basic <- function(board) {
     expect_equal(meta$user$a, "a")
   })
 
+  testthat::test_that("can upload/download multiple files", {
+    path1 <- withr::local_tempfile()
+    writeLines("a", path1)
+    path2 <- withr::local_tempfile()
+    writeLines("b", path2)
+
+    name <- pin_upload(board, c(path1, path2), random_pin_name())
+    withr::defer(pin_delete(board, name))
+
+    out <- pin_download(board, name)
+    testthat::expect_equal(length(out), 2)
+    testthat::expect_equal(readLines(out[[1]]), "a")
+    testthat::expect_equal(readLines(out[[2]]), "b")
+  })
+
   testthat::test_that("can round-trip pin data", {
     name <- local_pin(board, 1)
     testthat::expect_equal(pin_read(board, name), 1)
