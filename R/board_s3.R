@@ -163,7 +163,7 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   metadata_key <- fs::path(name, version, "data.txt")
 
   if (!s3_file_exists(board, metadata_key)) {
-    pin_abort_version_missing(version)
+    abort_pin_version_missing(version)
   }
 
   path_version <- fs::path(board$cache, name, version)

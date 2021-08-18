@@ -174,7 +174,7 @@ version_setup <- function(board, name, metadata, versioned = NULL) {
     pins_inform("Replacing version '{old_version}' with '{new_version}'")
     pin_version_delete(board, name, old_version)
   } else {
-    pin_abort_versioned()
+    abort_pin_versioned()
   }
 
   new_version

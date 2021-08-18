@@ -10,23 +10,23 @@ random_pin_name <- function() {
   paste0("test-", paste(rand, collapse = ""))
 }
 
-
-# Will eventually need to export these functions so folks outside of pins
-# can more easily test their own boards. But that will enforce the API
-# in a fairly strict way, so will need to full think through consequences -
-# i.e. what happens if I add new invariant that causes existing CRAN packages
+# These functions are used to test families of invariants that apply to the
+# behaviour or multiple generics. They are broken up into rough familes to
+# guide the process of implementing a board, and making it a little easier
+# to debug when things go wrong.
+#
+# These will eventually be exported so folks outside of pins can more easily
+# test their own boards. But need to first fully think through consequences -
+# what happens if I add new invariant that causes existing CRAN packages
 # to fail R CMD check? How does the release process work?
 
-test_board_api <- function(board) {
+test_api_basic <- function(board) {
   # First, ensure that enough of the API works that we can use local_pin
   # If this doesn't work, the code will error, and none of the tests will be
   # run
   name <- pin_write(board, 1, random_pin_name())
   pin_delete(board, name)
 
-  # These tests should be ordered in roughly the order you'd implement
-  # when creating a new board - probably should live next to the generic
-  # so that the function and it's interface are defined nearby.
   testthat::test_that("pin_exists() returns TRUE for pin that exists and FALSE otherwise", {
     name <- local_pin(board, 1)
     testthat::expect_true(pin_exists(board, name))
@@ -56,8 +56,8 @@ test_board_api <- function(board) {
   })
 }
 
-test_version_api <- function(board) {
-  # assume that test_board_api() has passed
+test_api_versioning <- function(board) {
+  # assume that test_api_basic() has passed
 
   testthat::test_that("pin_versions() returns one row per version", {
     name <- local_pin(board, 1)
@@ -114,11 +114,11 @@ test_version_api <- function(board) {
 }
 
 # errors live here for now since they're closely bound to the tests
-pin_abort_version_missing <- function(version) {
+abort_pin_version_missing <- function(version) {
   abort(glue("Can't find version '{version}'"), class = "pins_pin_version_missing")
 }
 
-pin_abort_versioned <- function() {
+abort_pin_versioned <- function() {
   abort(c(
     "Pin is versioned, but you have requested a write without versions",
     i = "To un-version a pin, you must delete it"

@@ -193,7 +193,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   tryCatch(
     rsc_download(board, url, cache_path, "data.txt"),
     http_404 = function(e) {
-      pin_abort_version_missing(version)
+      abort_pin_version_missing(version)
     }
   )
 
@@ -312,7 +312,7 @@ pin_store.pins_board_rsconnect <- function(
     } else if (length(ids) == 1) {
       pin_version_delete(board, name, ids)
     } else {
-      pin_abort_versioned()
+      abort_pin_versioned()
     }
   }
 

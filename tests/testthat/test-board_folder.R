@@ -1,5 +1,5 @@
-test_board_api(board_temp())
-test_version_api(board_temp(versioned = TRUE))
+test_api_basic(board_temp())
+test_api_versioning(board_temp(versioned = TRUE))
 
 test_that("has useful print method", {
   expect_snapshot(board_folder("/tmp/test", name = "test"))

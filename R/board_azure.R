@@ -82,7 +82,7 @@ pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   metadata_blob <- fs::path(name, version, "data.txt")
 
   if (!AzureStor::storage_file_exists(board$container, metadata_blob)) {
-    pin_abort_version_missing(version)
+    abort_pin_version_missing(version)
   }
 
   path_version <- fs::path(board$cache, name, version)
