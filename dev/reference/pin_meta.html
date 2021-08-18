@@ -48,8 +48,18 @@
 
 <meta property="og:title" content="Retrieve metadata for a pin — pin_meta" />
 <meta property="og:description" content="Pin metadata comes from three sources:
-Standard metadata added by pin_upload()/pin_write().
-Metadata supplied by the user, stored in $user.
+Standard metadata added by pin_upload()/pin_write(). This includes:
+$file - names of files stored in the pin.
+$file_size - size of each file.
+$pin_hash - hash of pin contents.
+$type - type of pin, &quot;rds&quot;, &quot;csv&quot;, etc
+$description - pin description
+$created - date this (version of the pin) was created
+$api_version - API version used by pin
+
+Metadata supplied by the user, stored in $user. This is untouched
+from what is supplied in pin_write()/pin_upload() except for being
+converted to and from to YAML.
 Local metadata generated when caching the pin, stored in $local.
 This includes information like the version of the pin, and the path
 its local cache.
@@ -151,8 +161,18 @@ its local cache.
 
     <div class="ref-description">
     <p>Pin metadata comes from three sources:</p><ul>
-<li><p>Standard metadata added by <code><a href='pin_download.html'>pin_upload()</a></code>/<code><a href='pin_read.html'>pin_write()</a></code>.</p></li>
-<li><p>Metadata supplied by the user, stored in <code>$user</code>.</p></li>
+<li><p>Standard metadata added by <code><a href='pin_download.html'>pin_upload()</a></code>/<code><a href='pin_read.html'>pin_write()</a></code>. This includes:</p><ul>
+<li><p><code>$file</code> - names of files stored in the pin.</p></li>
+<li><p><code>$file_size</code> - size of each file.</p></li>
+<li><p><code>$pin_hash</code> - hash of pin contents.</p></li>
+<li><p><code>$type</code> - type of pin, "rds", "csv", etc</p></li>
+<li><p><code>$description</code> - pin description</p></li>
+<li><p><code>$created</code> - date this (version of the pin) was created</p></li>
+<li><p><code>$api_version</code> - API version used by pin</p></li>
+</ul></li>
+<li><p>Metadata supplied by the user, stored in <code>$user</code>. This is untouched
+from what is supplied in <code><a href='pin_read.html'>pin_write()</a></code>/<code><a href='pin_download.html'>pin_upload()</a></code> except for being
+converted to and from to YAML.</p></li>
 <li><p>Local metadata generated when caching the pin, stored in <code>$local</code>.
 This includes information like the version of the pin, and the path
 its local cache.</p></li>
@@ -193,7 +213,7 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
     <pre class="examples"><span class='r-in'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='board_folder.html'>board_temp</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_write</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='st'>"mtcars"</span>, metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Hadley"</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `type = 'rds'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '20210818T222936Z-3e025'</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '20210818T223843Z-3e025'</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Get the pin</span></span>
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_read.html'>pin_read</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
@@ -208,20 +228,20 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_meta</span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> List of 9</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ file_size  : int 425</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ file_size  : 'fs_bytes' int 425</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ pin_hash   : chr "3e0253462eb15a44"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ type       : chr "rds"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ description: chr "A pin containing a data frame with 6 rows and 11 columns"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ created    : chr "20210818T222936Z"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-08-18 22:38:00"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ api_version: num 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ user       :List of 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ Hadley: logi TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  $ local      :List of 2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpbaeEc1/pins-6faf6ea1df82/mtcars/20210818T222936Z-3e025"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ version: chr "20210818T222936Z-3e025"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp9zICNZ/pins-294df5eb8cd/mtcars/20210818T223843Z-3e025"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ version: chr "20210818T223843Z-3e025"</span>
 <span class='r-in'><span class='co'># Get path to underlying data</span></span>
 <span class='r-in'><span class='va'>b</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='pin_download.html'>pin_download</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpbaeEc1/pins-6faf6ea1df82/mtcars/20210818T222936Z-3e025/mtcars.rds"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmp9zICNZ/pins-294df5eb8cd/mtcars/20210818T223843Z-3e025/mtcars.rds"</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
