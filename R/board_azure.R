@@ -125,12 +125,26 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   # Upload files
   local_azure_progress()
   keys <- fs::path(version_dir, fs::path_file(paths))
-  AzureStor::storage_multiupload(board$container, src = paths, dest = keys)
+  AzureStor::storage_multiupload(
+    board$container,
+    src = paths,
+    dest = keys,
+    max_concurrent_transfers = azure_cores()
+  )
 
   name
 }
 
 # Helpers -----------------------------------------------------------------
+
+# Until https://github.com/Azure/AzureStor/issues/98 is resolved
+azure_cores <- function() {
+  if (has_envvars("_R_CHECK_LIMIT_CORES_")) {
+    2
+  } else {
+    10
+  }
+}
 
 azure_delete_dir <- function(board, dir) {
   ls <- AzureStor::list_storage_files(board$container, dir)
@@ -169,7 +183,10 @@ azure_download <- function(board, keys, progress = !is_testing()) {
   paths <- fs::path(board$cache, keys)
   needed <- !fs::file_exists(paths)
   if (any(needed)) {
-    AzureStor::storage_multidownload(board$container, keys[needed], paths[needed])
+    AzureStor::storage_multidownload(
+      board$container, keys[needed], paths[needed],
+      max_concurrent_transfers = azure_cores()
+    )
   }
 
   invisible()
