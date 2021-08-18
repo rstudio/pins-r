@@ -122,4 +122,3 @@ pin_abort_version_missing <- function(version) {
   abort(glue("Can't find version '{version}'"), class = "pins_pin_version_missing")
 }
 
-

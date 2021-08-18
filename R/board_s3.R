@@ -127,8 +127,7 @@ pin_list.pins_board_s3 <- function(board, ...) {
 
 #' @export
 pin_exists.pins_board_s3 <- function(board, name, ...) {
-  resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(name, "/"))
-  resp$KeyCount > 0
+  s3_file_exists(board, paste0(name, "/"))
 }
 
 #' @export
@@ -161,11 +160,16 @@ pin_version_delete.pins_board_s3 <- function(board, name, version, ...) {
 pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
+  metadata_key <- fs::path(name, version, "data.txt")
+
+  if (!s3_file_exists(board, metadata_key)) {
+    pin_abort_version_missing(version)
+  }
 
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
-  s3_download(board, fs::path(name, version, "data.txt"), immutable = TRUE)
+  s3_download(board, metadata_key, immutable = TRUE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
     dir = path_version,
@@ -235,3 +239,7 @@ s3_download <- function(board, key, immutable = FALSE) {
   path
 }
 
+s3_file_exists <- function(board, key) {
+  resp <- board$svc$list_objects_v2(board$bucket, Prefix = key)
+  resp$KeyCount > 0
+}
