@@ -60,12 +60,13 @@ test_that("can retrieve data and metadata from dataset", {
 
 test_that("can update and retrieve versions", {
   board <- board_kaggle_dataset_test()
-  n_versions <- nrow(pin_versions(board, "hadleywickham1/version-test"))
 
-  pin_write(board, 2, "version-test")
-  versions <- pin_versions(board, "hadleywickham1/version-test")
-  expect_equal(nrow(versions), n_versions + 1)
+  # pin_write(board, 1, "version-test2")
+  v_old <- pin_versions(board, "hadleywickham1/version-test2")
+  pin_write(board, 2, "version-test2")
+  v_new <- pin_versions(board, "hadleywickham1/version-test2")
+  expect_equal(v_new$version[[1]], v_old$version[[1]] + 1)
 
-  path <- pin_download(board, "hadleywickham1/version-test", version = 1)
+  path <- pin_download(board, "hadleywickham1/version-test2", version = 1)
   expect_equal(readRDS(path), 1)
 })
