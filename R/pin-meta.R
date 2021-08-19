@@ -51,12 +51,14 @@ multi_meta <- function(board, names) {
       meta = list()
     )
   } else {
+    # Need defaults here because can be applied to pins metadata created with
+    # api version 0.
     tibble::tibble(
       name = names,
-      type = map_chr(meta, ~ .x$type),
-      description = map_chr(meta, ~ .x$description),
-      created = .POSIXct(map_dbl(meta, ~ .x$created)),
-      file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size))),
+      type = map_chr(meta, ~ .x$type %||% NA_character_),
+      description = map_chr(meta, ~ .x$description %||% NA_character_),
+      created = .POSIXct(map_dbl(meta, ~ .x$created %||% NA_real_)),
+      file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size) %||% NA_real_)),
       meta = meta
     )
   }
