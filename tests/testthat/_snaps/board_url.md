@@ -1,17 +1,17 @@
 # raw pins can only be downloaded
 
-    Pin created with `pin_upload()`
+    Pin does not declare file type so can't be automatically read
     i Retrieve uploaded paths with `pin_download()`
 
 # useful errors for unsupported methods
 
     Code
       board %>% pin_write(1:5, "x")
-    Error <rlang_error>
+    Error <pins_board_read_only>
       board_url() is read only
     Code
       board %>% pin_delete("x")
-    Error <rlang_error>
+    Error <pins_board_read_only>
       board_url() is read only
     Code
       board %>% pin_meta("froofy", version = "x")
