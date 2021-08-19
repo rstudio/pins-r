@@ -156,7 +156,7 @@ version_from_path <- function(x) {
   out
 }
 
-version_setup <- function(board, name, metadata, versioned = NULL) {
+version_setup <- function(board, name, new_version, versioned = NULL) {
   if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
     old_version <- versions$version[[1]]
@@ -166,7 +166,6 @@ version_setup <- function(board, name, metadata, versioned = NULL) {
   }
 
   versioned <- versioned %||% if (n_versions > 1) TRUE else board$versioned
-  new_version <- version_name(metadata)
 
   if (versioned || n_versions == 0) {
     pins_inform("Creating new version '{new_version}'")
