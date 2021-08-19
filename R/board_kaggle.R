@@ -24,6 +24,7 @@ NULL
 #' @rdname board_kaggle
 #' @export
 #' @examples
+#' \dontrun{
 #' board <- board_kaggle_competitions()
 #' board
 #'
@@ -32,6 +33,7 @@ NULL
 #' paths
 #' head(read.csv(paths[[1]]))
 #' head(read.csv(paths[[2]]))
+#' }
 board_kaggle_competitions <- function(username = NULL, key = NULL, cache = NULL) {
   auth_info <- kaggle_authenticate(username, key)
   cache <- cache %||% board_cache_path("kaggle-competition")
@@ -162,7 +164,8 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
   meta <- pin_meta(board, name)
 
   for (file in meta$file) {
-    url <- kaggle_url("competitions", "data", "download", name, URLencode(file, reserved = TRUE))
+    file_url <- utils::URLencode(file, reserved = TRUE)
+    url <- kaggle_url("competitions", "data", "download", name, file_url)
 
     fs::dir_create(fs::path_dir(fs::path(meta$local$dir, file)))
     http_download(url, path_dir = meta$local$dir, path_file = file, board$auth, on_failure = kaggle_json)
@@ -179,8 +182,8 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 #' @rdname board_kaggle
 #' @export
 #' @examples
+#' \dontrun{
 #' board <- board_kaggle_dataset()
-#' test_api_basic(board)
 #'
 #' board %>% pin_search("cats")
 #' board %>% pin_exists("rturley/pet-breed-characteristics")
@@ -188,9 +191,7 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 #' board %>% pin_versions("rturley/pet-breed-characteristics")
 #'
 #' board %>% pin_versions("imsparsh/animal-breed-cats-and-dogs")
-#'
-#' board %>% pin_write(mtcars, "mtcars", type = "csv", desc = "mtcars")
-#' board %>% pin_read("hadleywickham1/mtcars")
+#' }
 board_kaggle_dataset <- function(username = NULL, key = NULL, cache = NULL) {
   auth_info <- kaggle_authenticate(username, key)
   cache <- cache %||% board_cache_path("kaggle")

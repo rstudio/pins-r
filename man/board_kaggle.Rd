@@ -96,6 +96,7 @@ client.
 }
 }
 \examples{
+\dontrun{
 board <- board_kaggle_competitions()
 board
 
@@ -104,8 +105,9 @@ paths <- board \%>\% pin_download("titanic")
 paths
 head(read.csv(paths[[1]]))
 head(read.csv(paths[[2]]))
+}
+\dontrun{
 board <- board_kaggle_dataset()
-test_api_basic(board)
 
 board \%>\% pin_search("cats")
 board \%>\% pin_exists("rturley/pet-breed-characteristics")
@@ -113,7 +115,5 @@ board \%>\% pin_meta("rturley/pet-breed-characteristics")
 board \%>\% pin_versions("rturley/pet-breed-characteristics")
 
 board \%>\% pin_versions("imsparsh/animal-breed-cats-and-dogs")
-
-board \%>\% pin_write(mtcars, "mtcars", type = "csv", desc = "mtcars")
-board \%>\% pin_read("hadleywickham1/mtcars")
+}
 }
