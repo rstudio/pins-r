@@ -1,15 +1,27 @@
-# competitions ------------------------------------------------------------
-
-#' Retrieve data from kaggle competition
+#' Use kaggle datasets/competitions as a board
 #'
 #' @description
-#' * Data is only re-downloaded when it changes.
-#' * Auth with `"~/.kaggle/kaggle.json"`
-#' * Will almost always need to use `pin_download()` rather than `pin_read()`
+#' `board_kaggle_competition()` allows you to treat a Kaggle competition like
+#' a read-only board, making it easy get the data on to your computer.
+#' `board_kaggle_dataset()` lets you upload files to a kaggle dataset.
 #'
+#' These boards work best with `pin_download()` and `pin_upload()` since
+#' `pin_read()` and `pin_write()` are not a good fit to the kaggle model.
+#'
+#' Useful features:
+#' * Data is only re-downloaded when it changes.
+#' * Authenticate with `"~/.kaggle/kaggle.json"`, just like the command line
+#'   client.
+#'
+#' @name board_kaggle
 #' @param username,key Your kaggle username and key, if you choose not to use
 #'   `"~/.kaggle/kaggle.json"`.
 #' @inheritParams new_board
+NULL
+
+# competitions ------------------------------------------------------------
+
+#' @rdname board_kaggle
 #' @export
 #' @examples
 #' board <- board_kaggle_competitions()
@@ -45,7 +57,7 @@ board_kaggle_competitions_test <- function() {
 }
 
 
-#' @rdname board_kaggle_dataset
+#' @rdname board_kaggle
 #' @export
 pin_search.pins_board_kaggle_competition <- function(
                                                  board,
@@ -164,6 +176,8 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 
 # https://github.com/Kaggle/kaggle-api/blob/master/KaggleSwagger.yaml
 
+#' @rdname board_kaggle
+#' @export
 #' @examples
 #' board <- board_kaggle_dataset()
 #' test_api_basic(board)
@@ -177,8 +191,6 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 #'
 #' board %>% pin_write(mtcars, "mtcars", type = "csv", desc = "mtcars")
 #' board %>% pin_read("hadleywickham1/mtcars")
-
-#' @export
 board_kaggle_dataset <- function(username = NULL, key = NULL, cache = NULL) {
   auth_info <- kaggle_authenticate(username, key)
   cache <- cache %||% board_cache_path("kaggle")
@@ -209,7 +221,11 @@ pin_list.pins_board_kaggle_dataset <- function(board, ...) {
 }
 
 
-#' @rdname board_kaggle_dataset
+#' @rdname board_kaggle
+#' @inheritParams pin_search
+#' @param sort_by How to sort the results.
+#' @param page Which page of results to retrieve.
+#' @param user If non-`NULL` filter to specified user.
 #' @export
 pin_search.pins_board_kaggle_dataset <- function(
                                                  board,
@@ -305,7 +321,11 @@ pin_versions.pins_board_kaggle_dataset <- function(board, name, ...) {
 }
 
 #' @export
-#' @rdname board_kaggle_dataset
+#' @rdname board_kaggle
+#' @inheritParams pin_store
+#' @param private Should the dataset be private (`TRUE`, the default)
+#'   or public (`FALSE`)?
+#' @param license How should the data be licensed?
 pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
                                     versioned = NULL, ...,
                                     private = TRUE,
