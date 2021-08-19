@@ -66,11 +66,24 @@ jobs:
         run: |
           curl -s --retry 10 --retry-connrefused http://localhost:3939
 
-      - name: initialize Connect user "admin"
+      - name: initialize Connect users
         shell: Rscript {0}
         run: |
-          key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com", provider = "pam")
-          connectapi:::update_renviron_creds(host = key$host, api_key = key$api_key, prefix = "CONNECT")
+          admin_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com", provider = "pam")
+          # connectapi:::update_renviron_creds(host = key$host, api_key = key$api_key, prefix = "CONNECT")
+
+          susan_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "susan", password = "susan", email = "susan@example.com", provider = "pam")
+          derek_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "derek", password = "derek", email = "derek@example.com", provider = "pam")
+
+          saveRDS(
+            list(
+              admin_key = admin_key$api_key,
+              susan_key = susan_key$api_key,
+              derek_key = derek_key$api_key
+            ),
+            "creds.rds"
+          )
+
 
       - name: Check
         env:
