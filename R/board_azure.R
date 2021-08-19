@@ -5,6 +5,8 @@
 #' @inheritParams new_board
 #' @param container An azure storage container created by
 #'   [AzureStor::blob_container()] or similar.
+#' @param n_processes Maximum number of processes used for parallel
+#'   uploads/downloads.
 #' @export
 #' @examples
 #' if (requireNamespace("AzureStor")) {
@@ -22,13 +24,14 @@
 #' board <- board_azure(container)
 #' board %>% pin_write(iris)
 #' }
-board_azure <- function(container, versioned = TRUE, cache = NULL) {
+board_azure <- function(container, n_processes = 10, versioned = TRUE, cache = NULL) {
   check_installed("AzureStor")
 
   cache <- cache %||% board_cache_path(paste0("azure-", hash(url)))
   new_board_v1("pins_board_azure",
     name = "azure",
     container = container,
+    n_processes = n_processes,
     cache = cache,
     versioned = versioned
   )
@@ -43,7 +46,7 @@ board_azure_test <- function(...) {
     "https://pins.blob.core.windows.net/test-data",
     sas = Sys.getenv("PINS_AZURE_TEST_SAS")
   )
-  board_azure(container, cache = tempfile(), ...)
+  board_azure(container, cache = tempfile(), n_processes = 2, ...)
 }
 
 #' @export
@@ -129,22 +132,13 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
     board$container,
     src = paths,
     dest = keys,
-    max_concurrent_transfers = azure_cores()
+    max_concurrent_transfers = board$n_processes
   )
 
   name
 }
 
 # Helpers -----------------------------------------------------------------
-
-# Until https://github.com/Azure/AzureStor/issues/98 is resolved
-azure_cores <- function() {
-  if (has_envvars("_R_CHECK_LIMIT_CORES_")) {
-    2
-  } else {
-    10
-  }
-}
 
 azure_delete_dir <- function(board, dir) {
   ls <- AzureStor::list_storage_files(board$container, dir)
@@ -185,7 +179,7 @@ azure_download <- function(board, keys, progress = !is_testing()) {
   if (any(needed)) {
     AzureStor::storage_multidownload(
       board$container, keys[needed], paths[needed],
-      max_concurrent_transfers = azure_cores()
+      max_concurrent_transfers = board$n_processes
     )
   }
 

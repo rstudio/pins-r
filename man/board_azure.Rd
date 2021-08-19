@@ -4,11 +4,14 @@
 \alias{board_azure}
 \title{Use an Azure Blob Storage Container as a board}
 \usage{
-board_azure(container, versioned = TRUE, cache = NULL)
+board_azure(container, n_processes = 10, versioned = TRUE, cache = NULL)
 }
 \arguments{
 \item{container}{An azure storage container created by
 \code{\link[AzureStor:blob_container]{AzureStor::blob_container()}} or similar.}
+
+\item{n_processes}{Maximum number of processes used for parallel
+uploads/downloads.}
 
 \item{versioned}{Should this board be registered with support for versions?}
 
