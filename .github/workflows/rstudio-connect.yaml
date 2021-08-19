@@ -70,7 +70,6 @@ jobs:
         shell: Rscript {0}
         run: |
           admin_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com", provider = "pam")
-          # connectapi:::update_renviron_creds(host = key$host, api_key = key$api_key, prefix = "CONNECT")
 
           susan_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "susan", password = "susan", email = "susan@example.com", provider = "pam")
           derek_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "derek", password = "derek", email = "derek@example.com", provider = "pam")
