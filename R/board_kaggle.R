@@ -220,6 +220,30 @@ pin_list.pins_board_kaggle_dataset <- function(board, ...) {
   NA
 }
 
+#' @export
+pin_delete.pins_board_kaggle_dataset <- function(board, names, ...) {
+  check_pin_exists(board, names[[1]])
+
+  meta <- pin_meta(board, names[[1]])
+
+  abort(c(
+    "Kaggle datasets can only be deleted from the web interface",
+    i = glue("Click 'Delete Dataset' on <{meta$url}/settings>")
+  ))
+}
+
+#' @export
+pin_browse.pins_board_kaggle_dataset <- function(board, name, ..., cache = FALSE) {
+  meta <- pin_meta(board, name)
+
+  if (cache) {
+    browse_url(meta$local$dir)
+  } else {
+    browse_url(meta$url)
+  }
+}
+
+
 
 #' @rdname board_kaggle
 #' @inheritParams pin_search
@@ -332,9 +356,7 @@ pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
                                     license = "CC0-1.0") {
 
   check_name(name)
-  if (!is.null(versioned)) {
-    abort("`board_kaggle_dataset()` is automatically versioned")
-  }
+  versioned <- versioned %||% TRUE
 
   tokens <- map_chr(paths, kaggle_upload_file, board = board)
 
@@ -357,7 +379,8 @@ pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
     body <- list(
       convertToCsv = FALSE,
       files = data.frame(token = tokens),
-      versionNotes = notes
+      versionNotes = notes,
+      deleteOldVersions = !versioned
     )
   }
 
