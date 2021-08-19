@@ -178,6 +178,7 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 #' board %>% pin_write(mtcars, "mtcars", type = "csv", desc = "mtcars")
 #' board %>% pin_read("hadleywickham1/mtcars")
 
+#' @export
 board_kaggle_dataset <- function(username = NULL, key = NULL, cache = NULL) {
   auth_info <- kaggle_authenticate(username, key)
   cache <- cache %||% board_cache_path("kaggle")
