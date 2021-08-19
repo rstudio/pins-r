@@ -1,104 +1,193 @@
-#' Use an Azure board
+#' Use an Azure Blob Storage Container as a board
 #'
-#' @description
-#' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
-#' account, an Azure Storage container, and an Azure Storage key.
-#' You can sign-up and create those at [portal.azure.com](https://portal.azure.com).
-#' @inheritParams board_datatxt
-#' @param container The name of the Azure Storage container.
-#' @param account The name of the Azure Storage account.
-#' @param key The access key for the Azure Storage container. You can find
-#'  this under "Access keys" in your storage account settings.
+#' Pin data to a container on Azure's blog storage using the AzureStor package.
 #'
-#'  The `key` is equivalent to a password, so generally should not be stored
-#'  in your script. The easiest alternative is to store it in the
-#'  `AZURE_STORAGE_KEY` environment variable, which `board_azure()` will
-#'  use by default.
-#' @family boards
-#' @examples
-#' \dontrun{
-#' # the following example requires an Azure Storage key
-#' board_register_azure(
-#'   container = "pinscontainer",
-#'   account = "pinsstorage",
-#'   key = "abcabcabcabcabcabcabcabcabcab=="
-#' )
-#' }
+#' @inheritParams new_board
+#' @param container An azure storage container created by
+#'   [AzureStor::blob_container()] or similar.
 #' @export
-board_azure <- function(
-                        container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
-                        account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
-                        key = Sys.getenv("AZURE_STORAGE_KEY"),
-                        cache = NULL,
-                        name = "azure",
-                        ...) {
-  if (nchar(container) == 0) stop("The 'azure' board requires a 'container' parameter.")
-  if (nchar(account) == 0) stop("The 'azure' board requires an 'account' parameter.")
-  if (nchar(key) == 0) stop("The 'azure' board requires a 'key' parameter.")
+#' @examples
+#' if (requireNamespace("AzureStor")) {
+#'   # Public access board
+#'   url <- "https://pins.blob.core.windows.net/public-data"
+#'   container <- AzureStor::blob_container(url)
+#'   board <- board_azure(container)
+#'   board %>% pin_read("mtcars")
+#' }
+#'
+#' \dontrun{
+#' # To create a board that you can write to, you'll need to supply one
+#' # of `key`, `token`, or `sas` to AzureStor::blob_container()
+#' container <- AzureStor::blob_container(url, key = "my-key")
+#' board <- board_azure(container)
+#' board %>% pin_write(iris)
+#' }
+board_azure <- function(container, versioned = TRUE, cache = NULL) {
+  check_installed("AzureStor")
 
-  azure_url <- paste0("https://", account, ".blob.core.windows.net/", container)
-
-  board_datatxt(
-    name = name,
-    url = azure_url,
-    cache = cache,
-    headers = azure_headers,
-    needs_index = FALSE,
+  cache <- cache %||% board_cache_path(paste0("azure-", hash(url)))
+  new_board_v1("pins_board_azure",
+    name = "azure",
     container = container,
-    account = account,
-    key = key,
-    connect = FALSE,
-    browse_url = "https://portal.azure.com",
-    ...
+    cache = cache,
+    versioned = versioned
   )
 }
 
-azure_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %Z", tz = "GMT")
-  azure_version <- "2015-04-05"
-
-  # allow full urls to allow arbitrary file downloads
-  container <- board$container
-  account <- board$account
-  if (grepl("^https?://", path)) {
-    path_nohttp <- gsub("^https?://", "", path)
-    sub_path <- gsub("^[^/]+/", "", path_nohttp)
-    account <- gsub("\\..*", "", path_nohttp)
-    path <- gsub("^[^/]+/", "", sub_path)
-    container <- sub("/.*", "", sub_path)
+board_azure_test <- function(...) {
+  if (!has_envvars("PINS_AZURE_TEST_SAS")) {
+    testthat::skip("PINS_AZURE_TEST_SAS not set")
   }
 
-  content_length <- ""
-  content_type <- ""
+  container <- AzureStor::blob_container(
+    "https://pins.blob.core.windows.net/test-data",
+    sas = Sys.getenv("PINS_AZURE_TEST_SAS")
+  )
+  board_azure(container, cache = tempfile(), ...)
+}
 
-  if (!is.null(file)) {
-    content_length <- as.integer(file.info(file)$size)
-    content_type <- mime::guess_type(file)
+#' @export
+pin_list.pins_board_azure <- function(board, ...) {
+  azure_ls(board)
+}
+
+#' @export
+pin_exists.pins_board_azure <- function(board, name, ...) {
+  length(azure_ls(board, name)) > 0
+}
+
+#' @export
+pin_delete.pins_board_azure <- function(board, names, ...) {
+  for (name in names) {
+    azure_delete_dir(board, name)
+  }
+  invisible(board)
+}
+
+#' @export
+pin_versions.pins_board_azure <- function(board, name, ...) {
+  check_pin_exists(board, name)
+  version_from_path(azure_ls(board, name))
+}
+
+#' @export
+pin_version_delete.pins_board_azure <- function(board, name, version, ...) {
+  azure_delete_dir(board, fs::path(name, version))
+}
+
+#' @export
+pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
+  check_pin_exists(board, name)
+  version <- check_pin_version(board, name, version)
+  metadata_blob <- fs::path(name, version, "data.txt")
+
+  if (!AzureStor::storage_file_exists(board$container, metadata_blob)) {
+    abort_pin_version_missing(version)
   }
 
-  content <- paste(
-    verb,
-    "\n",
-    content_length,
-    "",
-    content_type,
-    "\n\n\n\n\n",
-    paste("x-ms-blob-type", "BlockBlob", sep = ":"),
-    paste("x-ms-date", date, sep = ":"),
-    paste("x-ms-version", azure_version, sep = ":"),
-    paste0("/", account, "/", container, "/", path),
-    sep = "\n"
+  path_version <- fs::path(board$cache, name, version)
+  fs::dir_create(path_version)
+
+  azure_download(board, metadata_blob, progress = FALSE)
+  local_meta(
+    read_meta(fs::path(board$cache, name, version)),
+    dir = path_version,
+    version = version
+  )
+}
+
+#' @export
+pin_fetch.pins_board_azure <- function(board, name, version = NULL, ...) {
+  meta <- pin_meta(board, name, version = version)
+  cache_touch(board, meta)
+
+  keys <- map_chr(meta$file, ~ fs::path(name, meta$local$version, .x))
+  azure_download(board, keys)
+
+  meta
+}
+
+#' @export
+pin_store.pins_board_azure <- function(board, name, paths, metadata,
+                                       versioned = NULL, ...) {
+  check_name(name)
+  version <- version_setup(board, name, metadata, versioned = versioned)
+
+  version_dir <- fs::path(name, version)
+
+  # Upload metadata
+  local_azure_progress(FALSE)
+  AzureStor::storage_upload(board$container,
+    src = textConnection(yaml::as.yaml(metadata)),
+    dest = fs::path(version_dir, "data.txt")
   )
 
-  signature <- openssl::sha256(charToRaw(content), key = base64enc::base64decode(board$key)) %>%
-    base64enc::base64encode()
-
-  headers <- httr::add_headers(
-    `x-ms-date` = date,
-    `x-ms-version` = azure_version,
-    `x-ms-blob-type` = "BlockBlob",
-    Authorization = paste0("SharedKey ", account, ":", signature)
+  # Upload files
+  local_azure_progress()
+  keys <- fs::path(version_dir, fs::path_file(paths))
+  AzureStor::storage_multiupload(
+    board$container,
+    src = paths,
+    dest = keys,
+    max_concurrent_transfers = azure_cores()
   )
 
-  headers
+  name
+}
+
+# Helpers -----------------------------------------------------------------
+
+# Until https://github.com/Azure/AzureStor/issues/98 is resolved
+azure_cores <- function() {
+  if (has_envvars("_R_CHECK_LIMIT_CORES_")) {
+    2
+  } else {
+    10
+  }
+}
+
+azure_delete_dir <- function(board, dir) {
+  ls <- AzureStor::list_storage_files(board$container, dir)
+  for (path in ls$name) {
+    AzureStor::delete_storage_file(board$container, path, confirm = FALSE)
+  }
+}
+
+azure_ls <- function(board, dir = "/") {
+  ls <- AzureStor::list_storage_files(
+    board$container,
+    dir = dir,
+    recursive = FALSE
+  )
+  paths <- ls$name
+
+  if (dir != "/") {
+    # trim off name/ prefix
+    paths <- substr(paths, nchar(dir) + 2, nchar(paths))
+  }
+  # trim / suffix off directories
+  paths <- sub("/$", "", paths)
+
+  paths
+}
+
+
+
+local_azure_progress <- function(progress = !is_testing(), env = parent.frame()) {
+  withr::local_options(azure_storage_progress_bar = progress, .local_envir = env)
+}
+
+azure_download <- function(board, keys, progress = !is_testing()) {
+  local_azure_progress(progress)
+
+  paths <- fs::path(board$cache, keys)
+  needed <- !fs::file_exists(paths)
+  if (any(needed)) {
+    AzureStor::storage_multidownload(
+      board$container, keys[needed], paths[needed],
+      max_concurrent_transfers = azure_cores()
+    )
+  }
+
+  invisible()
 }

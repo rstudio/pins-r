@@ -1,206 +1,245 @@
-#' Use an S3 board
+#' Use an S3 bucket as a board
 #'
-#' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
-#' with enough permissions to access the S3 bucket. You can sign-up and create
-#' those at <https://aws.amazon.com/>. Note that it can take a few minutes
-#' after you've created it before a bucket is usable.
+#' Pin data to a bucket on Amazon's S3 service, using the paws.storage
+#' package.
 #'
-#' @inheritParams board_datatxt
-#' @param bucket The name of the Amazon S3 bucket.
-#' @param key,secret The key and secret for your space. You can create
-#'   a key and secret in the "Spaces access keys" in your API settings.
+#' # Authentication
 #'
-#'  The `secret` is equivalent to a password, so generally should not be stored
-#'  in your script. The easiest alternative is to store it in the
-#'  `AWS_SECRET_ACCESS_KEY` environment variable, which `board_s3()` will
-#'  use by default.
-#' @param host The host to use for storage, defaults to `"s3.amazonaws.com"`.
-#' @param region The region to use, required in some AWS regions and to
-#'   enable V4 signatures.
-#' @family boards
+#' `board_s3()` is powered by the paws package which provides a wide range
+#' of authetication options, as documented at
+#' <https://github.com/paws-r/paws/blob/main/docs/credentials.md>.
+#' In brief, there are four main options that are tried in order:
+#'
+#' * The `access_key` and `secret_access_key` arguments to this function.
+#'   If you have a temporary session token, you'll also need to supply
+#'   `session_token` and `credential_expiration`.
+#'   (Not recommended since your `secret_access_key` will be recorded
+#'   in `.Rhistory`)
+#'
+#' * The `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` env vars.
+#'   (And `AWS_SESSION_TOKEN` and `AWS_CREDENTIAL_EXPIRATION` env vars if you
+#'   have a temporary session token)
+#'
+#' * The AWS shared credential file, `~/.aws/credentials`:
+#'
+#'     ```
+#'     [profile-name]
+#'     aws_access_key_id=your AWS access key
+#'     aws_secret_access_key=your AWS secret key
+#'     ```
+#'
+#'     The "default" profile will be used if you don't supply the access key
+#'     and secret access key as described above. Otherwise you can use the
+#'     `profile` argument to use a profile of your choice.
+#'
+#' * Automatic authentication from EC2 instance or container IAM role.
+#'
+#' See the paws documentation for more unusual options including getting
+#' credentials from a command line process, picking a role when running inside
+#' an EC2 instance, using a role from another profile, and using multifactor
+#' authentication.
+#'
+#' # Caveats
+#'
+#' * If you point at a bucket that's not created by pins, some functions
+#'   like `pins_list()` will work, but won't return useful output.
+#'
+#' @inheritParams new_board
+#' @param bucket Bucket name.
+#' @param access_key,secret_access_key,session_token,credential_expiration
+#'   Manually control authentication. See documentation below for details.
+#' @param region AWS region. If not specified, will be read from `AWS_REGION`,
+#'   or AWS config file.
+#' @param endpoint AWS endpoint to use; usually generated automatically from
+#'   `region`.
+#' @param profile Role to use from AWS shared credentials/config file.
+#' @export
 #' @examples
 #' \dontrun{
-#' # the following example requires an Amazon S3 API key
-#' board <- board_s3(bucket = "s3bucket")
+#' board <- board_s3("pins-test-hadley", region = "us-east-2")
+#' board %>% pin_write(mtcars)
+#' board %>% pin_read("mtcars")
 #' }
-#' @export
 board_s3 <- function(
-                     bucket = Sys.getenv("AWS_BUCKET"),
-                     key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-                     secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                     cache = NULL,
-                     region = NULL,
-                     host = "s3.amazonaws.com",
-                     name = "s3",
-                     ...) {
-  if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
-  if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
-  if (nchar(secret) == 0) stop("The 's3' board requires a 'secret' parameter.")
+                    bucket,
+                    versioned = TRUE,
+                    access_key = NULL,
+                    secret_access_key = NULL,
+                    session_token = NULL,
+                    credential_expiration = NULL,
+                    profile = NULL,
+                    region = NULL,
+                    endpoint = NULL,
+                    cache = NULL) {
 
-  board_datatxt(
-    name = name,
-    url = paste0("https://", bucket, ".", host),
-    cache = cache,
-    headers = s3_headers,
-    needs_index = FALSE,
-    key = key,
-    secret = secret,
+  check_installed("paws.storage")
+
+  config <- compact(list(
+    credentials = compact(list(
+      creds = compact(list(
+        access_key_id = access_key,
+        secret_access_key = secret_access_key,
+        session_token = session_token
+      )),
+      profile = profile
+    )),
+    endpoint = endpoint,
+    region = region
+  ))
+  svc <- paws.storage::s3(config = config)
+
+  # Check that have access to the bucket
+  svc$head_bucket(bucket)
+
+  cache <- cache %||% board_cache_path(paste0("s3-", bucket))
+  new_board_v1("pins_board_s3",
+    name = "s3",
     bucket = bucket,
-    region = region,
-    connect = FALSE,
-    browse_url = paste0("https://s3.console.aws.amazon.com/s3/buckets/", bucket, "/"),
-    host = host,
+    svc = svc,
+    cache = cache,
+    versioned = versioned
+  )
+}
+
+board_s3_test <- function(...) {
+  envvars <- c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
+  if (Sys.info()[["user"]] != "hadley" || !has_envvars(envvars)) {
+    testthat::skip(paste0("S3 tests require env vars ", paste0(envvars, collapse = ", ")))
+  }
+
+  board_s3("pins-test-hadley",
+    region = "us-east-2",
+    cache = tempfile(),
+    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY_ID"),
+    secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
     ...
   )
 }
 
-# See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
-# httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) %>% httr::text_content()
-s3_headers_v4 <- function(board, verb, path, filepath) {
-  service <- "s3"
-  method <- verb
-  bucket <- board$bucket
-  host <- paste0(bucket, ".", board$host)
-  region <- board$region
-  request_parameters <- ""
-  amz_storage_class <- "REDUCED_REDUNDANCY"
-  if (!is.null(filepath)) {
-    amz_content_sha256 <- digest::digest(filepath, file = TRUE, algo = "sha256")
-  } else {
-    amz_content_sha256 <- digest::digest(enc2utf8(""), serialize = FALSE, algo = "sha256")
-  }
-  content_type <- "application/octet-stream"
+#' @export
+pin_list.pins_board_s3 <- function(board, ...) {
+  # TODO: implement pagination
+  resp <- board$svc$list_objects_v2(board$bucket, Delimiter = "/")
 
-  # Key derivation functions. See:
-  # http://docs.aws.amazon.com/general/latest/gr/signature-v4-examples.html#signature-v4-examples-python
-  sign <- function(key, msg) {
-    openssl::sha256(charToRaw(enc2utf8(msg)), key = key)
-  }
-
-  getSignatureKey <- function(key, dateStamp, regionName, serviceName) {
-    kDate <- sign(paste0("AWS4", key), dateStamp)
-    kRegion <- sign(kDate, regionName)
-    kService <- sign(kRegion, serviceName)
-    kSigning <- sign(kService, "aws4_request")
-    kSigning
-  }
-
-  # Read AWS access key from env. variables or configuration file. Best practice is NOT
-  # to embed credentials in code.
-  access_key <- board$key
-  secret_key <- board$secret
-
-  # Create a date for headers and the credential string
-  amzdate <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "GMT")
-  datestamp <- format(Sys.time(), "%Y%m%d", tz = "GMT")
-
-  # ************* TASK 1: CREATE A CANONICAL REQUEST *************
-  # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
-
-  # Step 1 is to define the verb (GET, POST, etc.)--already done.
-
-  # Step 2: Create canonical URI--the part of the URI from domain to query
-  # string (use "/" if no path)
-  canonical_uri <- file.path("", path)
-
-  # Step 3: Create the canonical query string. In this example (a GET request),
-  # request parameters are in the query string. Query string values must
-  # be URL-encoded (space=%20). The parameters must be sorted by name.
-  # For this example, the query string is pre-formatted in the request_parameters variable.
-  canonical_querystring <- request_parameters
-
-  # Step 4: Create the canonical headers. Header names must be trimmed
-  # and lowercase, and sorted in code point order from low to high.
-  # Note that there is a trailing \n.
-  canonical_headers <- paste0(
-    # "content-type:", content_type, "\n",
-    "host:", host, "\n",
-    "x-amz-content-sha256:", amz_content_sha256, "\n",
-    "x-amz-date:", amzdate, "\n",
-    # "x-amz-storage-class:", amz_storage_class, "\n",
-    ""
-  )
-
-  # Step 5: Create the list of signed headers. This lists the headers
-  # signed_headers <- "content-type;host;x-amz-content-sha256;x-amz-date;x-amz-storage-class"
-  signed_headers <- "host;x-amz-content-sha256;x-amz-date"
-
-  # Step 6: Create payload hash. In this example, the payload (body of
-  # the request) contains the request parameters.
-  payload_hash <- amz_content_sha256
-
-  # Step 7: Combine elements to create canonical request
-  canonical_request <- paste0(method, "\n", canonical_uri, "\n", canonical_querystring, "\n", canonical_headers, "\n", signed_headers, "\n", payload_hash)
-
-  # ************* TASK 2: CREATE THE STRING TO SIGN*************
-  # Match the algorithm to the hashing algorithm you use, either SHA-1 or
-  # SHA-256 (recommended)
-  algorithm <- "AWS4-HMAC-SHA256"
-  credential_scope <- paste0(datestamp, "/", board$region, "/", service, "/", "aws4_request")
-  string_to_sign <- paste0(algorithm, "\n", amzdate, "\n", credential_scope, "\n", digest::digest(enc2utf8(canonical_request), serialize = FALSE, algo = "sha256"))
-
-  # ************* TASK 3: CALCULATE THE SIGNATURE *************
-  # Create the signing key using the function defined above.
-  signing_key <- getSignatureKey(secret_key, datestamp, region, service)
-
-  # Sign the string_to_sign using the signing_key
-  signature <- openssl::sha256(string_to_sign, key = signing_key) %>% as.character()
-
-  # ************* TASK 4: ADD SIGNING INFORMATION TO THE REQUEST *************
-  # Put the signature information in a header named Authorization.
-  authorization_header <- paste0(
-    algorithm, " ",
-    "Credential=", board$key, "/", credential_scope, ", ",
-    "SignedHeaders=", signed_headers, ", ",
-    "Signature=", signature
-  )
-
-  headers <- httr::add_headers(
-    # "Host" = host,
-    # "Content-Type" = content_type,
-    "x-amz-content-sha256" = amz_content_sha256,
-    "x-amz-date" = amzdate,
-    # "x-amz-storage-class" = amz_storage_class,
-    "Authorization" = authorization_header
-  )
-
-  headers
+  prefixes <- map_chr(resp$CommonPrefixes, ~ .x$Prefix)
+  sub("/$", "", prefixes)
 }
 
-s3_headers <- function(board, verb, path, file) {
-  date <- format(Sys.time(), "%a, %d %b %Y %H:%M:%S %z")
+#' @export
+pin_exists.pins_board_s3 <- function(board, name, ...) {
+  s3_file_exists(board, paste0(name, "/"))
+}
 
-  # allow full urls to allow arbitrary file downloads
-  bucket <- board$bucket
-  if (grepl("^https?://", path)) {
-    path_nohttp <- gsub("^https?://", "", path)
-    path <- gsub("^[^/]+/", "", path_nohttp)
-    bucket <- gsub("\\..*", "", path_nohttp)
+#' @export
+pin_delete.pins_board_s3 <- function(board, names, ...) {
+  for (name in names) {
+    s3_delete_dir(board, name)
+  }
+  invisible(board)
+}
+
+#' @export
+pin_versions.pins_board_s3 <- function(board, name, ...) {
+  check_pin_exists(board, name)
+
+  resp <- board$svc$list_objects_v2(
+    Bucket = board$bucket,
+    Prefix = paste0(name, "/"),
+    Delimiter = "/"
+  )
+  paths <- fs::path_file(map_chr(resp$CommonPrefixes, ~ .$Prefix))
+  version_from_path(paths)
+}
+
+#' @export
+pin_version_delete.pins_board_s3 <- function(board, name, version, ...) {
+  s3_delete_dir(board, fs::path(name, version))
+}
+
+#' @export
+pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
+  check_pin_exists(board, name)
+  version <- check_pin_version(board, name, version)
+  metadata_key <- fs::path(name, version, "data.txt")
+
+  if (!s3_file_exists(board, metadata_key)) {
+    abort_pin_version_missing(version)
   }
 
-  if (!identical(board$region, NULL)) {
-    headers <- s3_headers_v4(board, verb, path, file)
-  }
-  else {
-    content <- paste(
-      verb,
-      "",
-      "application/octet-stream",
-      date,
-      file.path("", bucket, path),
-      sep = "\n"
-    )
+  path_version <- fs::path(board$cache, name, version)
+  fs::dir_create(path_version)
 
-    signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
-      base64enc::base64encode()
+  s3_download(board, metadata_key, immutable = TRUE)
+  local_meta(
+    read_meta(fs::path(board$cache, name, version)),
+    dir = path_version,
+    version = version
+  )
+}
 
-    headers <- httr::add_headers(
-      Host = paste0(bucket, ".", board$host),
-      Date = date,
-      `Content-Type` = "application/octet-stream",
-      Authorization = paste0("AWS ", board$key, ":", signature)
-    )
+#' @export
+pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
+  meta <- pin_meta(board, name, version = version)
+  cache_touch(board, meta)
+
+  for (file in meta$file) {
+    key <- fs::path(name, meta$local$version, file)
+    s3_download(board, key, immutable = TRUE)
   }
 
-  headers
+  meta
+}
+
+#' @export
+pin_store.pins_board_s3 <- function(board, name, paths, metadata,
+                                    versioned = NULL, ...) {
+  check_name(name)
+  version <- version_setup(board, name, metadata, versioned = versioned)
+
+  version_dir <- fs::path(name, version)
+  s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata)
+  for (path in paths) {
+    s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path)
+  }
+
+  name
+}
+
+# Helpers -----------------------------------------------------------------
+
+s3_delete_dir <- function(board, dir) {
+  resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(dir, "/"))
+  if (resp$KeyCount == 0) {
+    return(invisible())
+  }
+
+  delete <- list(Objects = map(resp$Contents, "[", "Key"))
+  board$svc$delete_objects(board$bucket, Delete = delete)
+  invisible()
+}
+
+s3_upload_yaml <- function(board, key, yaml) {
+  body <- charToRaw(yaml::as.yaml(yaml))
+  board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
+}
+
+s3_upload_file <- function(board, key, path) {
+  body <- readBin(path, "raw", file.size(path))
+  board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
+}
+
+s3_download <- function(board, key, immutable = FALSE) {
+  path <- fs::path(board$cache, key)
+
+  if (!immutable || !fs::file_exists(path)) {
+    resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
+    writeBin(resp$Body, path)
+  }
+
+  path
+}
+
+s3_file_exists <- function(board, key) {
+  resp <- board$svc$list_objects_v2(board$bucket, Prefix = key)
+  resp$KeyCount > 0
 }

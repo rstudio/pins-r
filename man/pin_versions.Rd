@@ -2,39 +2,62 @@
 % Please edit documentation in R/pin_versions.R
 \name{pin_versions}
 \alias{pin_versions}
-\title{Pin Versions}
+\alias{pin_version_delete}
+\alias{pin_versions_prune}
+\title{Pin versions}
 \usage{
-pin_versions(name, board = NULL, full = FALSE, ...)
+pin_versions(board, name, ..., full = deprecated())
+
+pin_version_delete(board, name, version, ...)
+
+pin_versions_prune(board, name, n = NULL, days = NULL)
 }
 \arguments{
-\item{name}{The exact name of the pin to match when searching.}
+\item{board, name}{A pair of board and pin name. For modern boards,
+use \code{board \%>\% pin_versions(name)}. For backward compatibility with the
+legacy API, you can also use \code{pin_versions(name)} or
+\code{pin_version(name, board)}.}
 
-\item{board}{The board name used to find the pin.}
+\item{...}{Additional arguments passed on to methods for a specific board.}
 
-\item{full}{Should the full versioned paths be shown? Defaults to \code{FALSE}.}
+\item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
-\item{...}{Additional parameters.}
+\item{version}{Version identifier.}
+
+\item{n, days}{Pick one of \code{n} or \code{days} to choose how many versions to
+keep. \code{n = 3} will keep the last three versions, \code{days = 14} will
+keep all the versions in the 14 days. Regardless of what values you
+set, \code{pin_versions_prune()} will never delete the most recent version.}
+}
+\value{
+A data frame with at least a \code{version} column. Some boards may
+provided additional data.
 }
 \description{
-Retrieve versions available for a given pin.
+\itemize{
+\item \code{pin_versions()} lists available versions a pin.
+\item \code{pin_versions_prune()} deletes old versions.
+\item \code{pin_version_delete()} deletes a single version.
+}
+
+See \verb{vignette("versioning)"} for more details about versioning pins.
 }
 \examples{
-# define temporary board with versioning enabled
-board <- board_temp(versions = TRUE)
+board <- board_temp(versioned = TRUE)
 
-# cache the mtcars dataset
-pin(mtcars, name = "mtcars", board = board)
+board \%>\% pin_write(data.frame(x = 1:5), name = "df")
+board \%>\% pin_write(data.frame(x = 2:6), name = "df")
+board \%>\% pin_write(data.frame(x = 3:7), name = "df")
 
-# cache variation of the mtcars dataset
-pin(mtcars * 10, name = "mtcars", board = board)
+# pin_read() returns the latest version by default
+board \%>\% pin_read("df")
 
-# print the mtcars versions
-versions <- pin_versions("mtcars", board = board)
-versions
+# but you can return earlier versions if needed
+board \%>\% pin_versions("df")
 
-# retrieve the original version
-pin_get("mtcars", version = versions$version[[1]], board = board)
+ver <- pin_versions(board, "df")$version[[1]]
+board \%>\% pin_read("df", version = ver)
 
-# retrieve the variation version
-pin_get("mtcars", version = versions$version[[2]], board = board)
+# delete all versions created more than 30 days ago
+board \%>\% pin_versions_prune("df", days = 30)
 }

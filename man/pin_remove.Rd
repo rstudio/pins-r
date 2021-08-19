@@ -2,9 +2,9 @@
 % Please edit documentation in R/pin_remove.R
 \name{pin_remove}
 \alias{pin_remove}
-\title{Remove Pin}
+\title{Delete a pin (legacy API)}
 \usage{
-pin_remove(name, board)
+pin_remove(name, board = NULL)
 }
 \arguments{
 \item{name}{The name for the pin.}
@@ -12,20 +12,16 @@ pin_remove(name, board)
 \item{board}{The board from where this pin will be removed.}
 }
 \description{
-Unpins the given named pin from the given board.
-}
-\details{
-Notice that some boards do not support deleting pins, this is the case
-for the Kaggle board. For these boards, you would manually have to
-remote resources using the tools the board provides.
+Deletes pins from a legacy board.
 }
 \examples{
-# define temporary board
-board <- board_temp()
+# old API
+board_register_local(cache = tempfile())
+pin(mtcars)
+pin_remove("mtcars")
 
-# create mtcars pin
-pin(mtcars, board = board)
-
-# remove mtcars pin
-pin_remove("mtcars", board = board)
+# new API
+board <- board_local()
+board \%>\% pin_write(mtcars)
+board \%>\% pin_delete("mtcars")
 }

@@ -1,0 +1,106 @@
+---
+title: "RStudio Connect"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RStudio Connect}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette highlights a few ways in which you can use pins and [RStudio Connect](https://www.rstudio.com/products/connect/) together.
+
+```{r setup}
+library(pins)
+```
+
+## Sharing tidied data
+
+Imagine you're interested in what's going on in the news, so you've written a little code to scrape the BBC world news feed and turn it into a tidy dataset:
+
+```{r}
+library(xml2)
+
+if (interactive()) {
+  xml <- read_xml("http://feeds.bbci.co.uk/news/rss.xml")  
+} else {
+  # Read a saved version of the data to keep this vignette reproducible
+  xml <- read_xml("bbc-news.xml")  
+}
+
+items <- xml %>% xml_find_all("//item")
+
+bbc_news <- tibble::tibble(
+  title = items %>% xml_find_first("./title") %>% xml_text(),
+  date = items %>% xml_find_first("./pubDate") %>% xml_text(),
+  url = items %>% xml_find_first("./guid") %>% xml_text()
+)
+bbc_news
+```
+
+Wouldn't it be nice to spare your colleagues the work of reproducing this data, and provide them directly with the tidy tibble?
+That's easy to do with pins:
+
+```{r eval = FALSE}
+board_rsc <- board_rsconnect()
+board_rsc %>% pin_write(bbc_news)
+```
+
+If you open the pin on RSC (e.g. by running `board_rsc %>% pin_browse("news_total")`), you'll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data.
+Assuming you've given your colleagues access, they can now easily pull down the data for their own analysis:
+
+```{r eval=FALSE}
+board_rsc <- board_rsconnect()
+board_rsc %>% pin_read("your_name/bbc_news")
+```
+
+## Automating
+
+Here the underlying data will be changing regularly, pinned data will only change when you run `pin_write()`.
+Wouldn't it be great if we could automate that process?
+One way to do is with RSC's [scheduled reports](https://docs.rstudio.com/connect/user/scheduling/).
+First, take your code and put it in an Rmd:
+
+```{r echo = FALSE, comment = ""}
+cat(readLines("rsc-automate.txt"), sep = "\n")
+```
+
+Then publish it to RSC, and schedule it to run as often as you like.
+Assuming that you have RSC 1.8.8 or later you don't need to provide any arguments to `board_rsconnect()`; pins will automatically publish to the same Connect instance that's running the report.
+
+## Shiny apps
+
+If you're using automatically updated data in a [Shiny](http://shiny.rstudio.com) app, you can use `pin_reactive_read()` to create a reactive dependency so that your app will automatically update shortly after the data changes:
+
+```{r eval=FALSE}
+library(shiny)
+library(pins)
+
+board <- board_rsconnect()
+
+ui <- fluidPage(
+  titlePanel("News from the BBC"),
+  htmlOutput("news")
+)
+
+server <- function(input, output, session) {
+  news <- board %>% pin_reactive_read("hadley/bbc_news")
+  
+  output$news <- renderUI({
+    title <- htmltools::htmlEscape(news()$title)
+    links <- paste0("<a href='", news()$url, "'>", title, "</a>")
+    bullets <- paste0("  <li>", links, "</li>", collapse = "\n")
+    HTML(paste0("<ul>", bullets, "</ul>"))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+If you deploy this app and watch it while your scheduled reported runs, you'll see the data update automatically.

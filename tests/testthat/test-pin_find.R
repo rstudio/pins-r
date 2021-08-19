@@ -1,6 +1,8 @@
 test_that("can pin_find() entries across all boards", {
-  local_register(board_temp("test1"))
-  local_register(board_temp("test2"))
+  withr::local_options(lifecycle_verbosity = "quiet")
+
+  local_register(legacy_temp("test1"))
+  local_register(legacy_temp("test2"))
   pin(list(x = 1), "one", board = "test1")
   pin(list(x = 2), "two", board = "test2")
 

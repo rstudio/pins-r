@@ -1,200 +1,236 @@
 ---
-title: "Getting Started"
+title: "Get started with pins"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started}
+  %\VignetteIndexEntry{Get started with pins}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 
-A [typical Data Science project](https://r4ds.had.co.nz/introduction.html) starts with importing data and finishes with communicating your results with others; however, some projects have a few additional steps that we will refer as: **Discover**, **Cache** and **Share**. While these steps might not deserve to be part of the official Data Science diagram, they can help us understand where the `pins` package can help.
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+) 
 
-Conceptually, the modified Data Science diagram looks as follows:
-
-```{r eval=FALSE, echo=FALSE}
-nomnoml::nomnoml("
-#direction: right
-#edgeMargin: 4
-#padding: 25
-#fontSize: 18
-#.dashed: dashed
-[<dashed>Discover] --> [<dashed>Cache]
-[<dashed>Cache] --> [Import]
-[Import] -> [Understand]
-[Understand |
-  [Wrangle] -> [Visualize] 
-  [Visualize] -> [Model]
-  [Model] -> [Wrangle]
-]
-[Understand] -> [Communicate]
-[Communicate] --> [<dashed>Share]", "images/pins-starting-overview.png")
-```
-![](images/pins-starting-overview.png){width=100%}
-
-The `pins` package refers to arbitrary resources as pins, and refers to the action of caching a resource as pinning. A pin is something useful to have but not terrible to lose -- you should always have reproducible code to regenerate a pin.
-
-Let's now introduce each operation the `pins` package supports.
-
-Discover
-: In some Data Science projects, it might not be obvious which dataset you should use; therefore, a first step might be to search online for specific datasets. For instance, suppose that you are trying to figure out what kind of house remodel could increase your home property value the most, where do you get such data from? You can search online but is often hard to filter results to contain only datasets, it also requires you to have some knowledge of which data sources are trustworthy and so on. This is obviously a hard problem and we can't expect a single tool to magically fix this for us; instead, the `pins` package gives you a few tools to search well known data repositories through the `pin_find()` function. In addition, even though most projects have well-defined datasets to import from, you might also want to consider enhancing them with additional data sources; for example, while analyzing a well-known ice-cream sales dataset, you might want also want to find resources with historical weather to properly adjust the existing data.
-
-Cache
-: Once you identify which datasets to import, it is often the case that they are manually downloaded. It is common to give explicit instructions to download datasets before actually importing the dataset. However, manual steps make it hard to reproduce your code -- we can no longer just copy-paste and run code. One easy solution is to use `download.file()`; however, this would cause the file to be re-downloaded each time the code runs, so you can then try to check if the file already exists, and keep adding complexity to try to reliably download and cache files. Quoting Phil Karlton, "There are only two hard things in Computer Science: cache invalidation and naming things". So instead of worrying when to invalidate and cache online resources, you can use `pin()` to cache any resource with ease.
-
-Share
-: There are cases where you might want to not only communicate with others your results, but also allow others to reuse your results. For instance, once you finish analyzing house remodel projects, you might also want to share your final dataset for others to reuse. The `pins` package allows you to share resources in [GitHub](boards-github.html), [Kaggle](boards-kaggle.html), [RStudio Connect](boards-rsconnect.html) and allows you to create extensions to support many other services and technologies.
-
-Before we present code examples on how to discover datasets, install the `pins` package as follows:
-
-``` r
-install.packages("pins")
+# Fake testing environment to get consistent hashes
+Sys.setenv("TESTTHAT" = "true")
+options(pins.quiet = FALSE)
 ```
 
-## Discovering
+The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues.
+You can pin objects to a variety of "boards", including local folders (to share on a networked drive or with dropbox), RStudio connect, Amazon S3, and more.
+This vignette will introduce you to the basics of pins.
 
-You can discover datasets with `pin_find()`, which by default will search for data inside CRAN packages. The places where `pins` can find or store resources are referred to as 'boards'. There are multiple boards available but they require you to configure them so we will leave those for later on.
-
-As a quick example, let's search for resources that may contain 'boston housing':
-
-```{r eval=FALSE}
+```{r}
 library(pins)
-pin_find("boston housing")
-```
-```
-# A tibble: 8 x 4
-  name                  description                                            type  board  
-  <chr>                 <chr>                                                  <chr> <chr>  
-1 A3/housing            Boston Housing Prices from A3 package.                 table packag…
-2 BiDAG/Boston          Boston housing data from BiDAG package.                table packag…
-3 GSE/boston            Boston Housing Data from GSE package.                  table packag…
-4 KernelKnn/Boston      Boston Housing Data (Regression) from KernelKnn packa… table packag…
-5 mlbench/BostonHousing Boston Housing Data from mlbench package.              table packag…
-6 pdp/boston            Boston Housing Data from pdp package.                  table packag…
-7 spData/boston         Corrected Boston Housing Data from spData package.     table packag…
-8 spikeslab/housingI    Boston Housing Interaction Data from spikeslab packag… table packag…
 ```
 
-We've found out that the `BSDA` package contains a `Housing` dataset, you can then retrieve this dataset using `pin_get()` as follows:
+## Getting started
 
-```{r eval=FALSE}
-pin_get("BSDA/Housing")
-```
-```
-# A tibble: 74 x 3
-   city       year   price
-   <chr>      <fct>  <int>
- 1 Albany     1984   52400
- 2 Anaheim    1984  134900
- 3 Atlanta    1984   64600
- 4 Baltimore  1984   65200
- 5 Birmingham 1984   66600
- 6 Boston     1984  102000
- 7 Chicago    1984   77500
- 8 Cincinnati 1984   59600
- 9 Cleveland  1984   65600
-10 Columbus   1984   60400
-# … with 64 more rows
+Every pin lives in a pin board, so you have to start by creating a pin board.
+In this vignette I'm going to use a temporary board which is automatically deleted when your R session is over:
+
+```{r}
+board <- board_temp()
 ```
 
-Most datasets in CRAN contain rectangular data, which `pins` knows to load as a data frame. Other boards might contain non-rectangular datasets which `pin_get()` also supports. More on this later on, but first, lets introduce caching.
+But in real-life, you'd pick another board depending on where you want the pins data to live.
+Here are a few options:
+
+```{r, eval = FALSE}
+board <- board_local() # share data across R sessions on the same computer
+board <- board_folder("~/Dropbox") # share data with others using dropbox
+board <- board_folder("Z:\\my-team\pins") # share data using a shared network drive
+board <- board_rsconnect() # share data with RStudio connect
+```
+
+## Reading and writing data
+
+Once you have a pin board, you can save data to it with `pin_write()`:
+
+```{r}
+mtcars <- tibble::as_tibble(mtcars)
+board %>% pin_write(mtcars, "mtcars")
+```
+
+The first argument is the object to save (usually a data frame, but it can be any R object), and the second argument defines the "name" of pin.
+The name is important and is basically equivalent to a file name: you'll use it when you later want to read the data from the pin.
+The only rule for a pin name is that it can't contain slashes.
+
+As you can see, pins has chosen to save this data to a `.rds` file.
+But you can choose from a variety of other options depending on your goals:
+
+-   `type = "rds"` uses `writeRDS()` to save a binary R data file. It can save any R object but it's only readable from R, not other languages.
+-   `type = "csv"` uses `write.csv()` to write a `.csv` file. CSVs can read by any application, but only support a simple columns (e.g. numbers, strings, dates) and are largely large and slow.
+-   `type = "arrow"` uses `arrow::write_feather()` to create an arrow/feather file. [Arrow](https://arrow.apache.org) is a modern, language-independent, high-performance, file format for design for data science. Not every tool can read arrow files, but support is growing rapidly.
+-   `type = "json"` uses `jsonlite::write_json()` to create a `.json` file. Pretty much every programming language can read json files, but they only work well for nested lists.
+
+In a future session, you can read that data back with `pin_read()`:
+
+```{r}
+board %>% pin_read("mtcars")
+```
+
+You don't need to supply the file type when reading data from a pin because pins automatically stores that in the metadata, the topic of the next section.
+
+Note that when the data lives elsewhere, pins takes care of downloading and caching so that it's only re-downloaded when needed.
+That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins.
+As a general rule of thumb, we don't recommend using pins with files over 500 MB.
+If you find yourself routinely pinning data larger that this, you might need to reconsider your data engineering pipeline.
+
+## Metadata
+
+Every pin is accompanied by some metadata that you can access with `pin_meta()`:
+
+```{r}
+board %>% pin_meta("mtcars")
+```
+
+This shows you the metadata that's generated by default.
+This includes:
+
+-   `description`, a brief textual description of the dataset.
+
+-   `created`, the date-time when the pin was created.
+
+-   `file_size`, the size (in bytes) of the underlying file.
+
+-   `pin_hash`, a unique hash that you can supply to `pin_read()` to ensure that you're reading exactly the data that you expect.
+
+When creating the pin, you can override the default description and provide additional metadata that is stored with the data:
+
+```{r}
+board %>% pin_write(mtcars, 
+  desc = "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).",
+  metadata = list(
+    source = "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."
+  )
+)
+board %>% pin_meta("mtcars")
+```
+
+While we'll do our best to keep the automatically generated metadata consistent over time, I'd recommend manually capturing anything you really care about in `metadata`.
+
+## Versioning
+
+In many situations it's useful to version pins, so that writing to an existing pin does not replace the existing data, but instead adds a new copy.
+There are two ways to turn versioning on:
+
+-   When you create a board you can turn versioning on for every pin in that board:
+
+    ```{r, eval = FALSE}
+    board2 <- board_temp(versioned = TRUE)
+    ```
+
+-   When you write a pin, you can specifically request that versioning be turned on for that pin:
+
+    ```{r, eval = FALSE}
+    board2 <- board_temp()
+    board2 %>% pin_write(mtcars, versioned = TRUE)
+    ```
+
+Some boards, like `board_rsconnect()`, have versioning on by default, because it's automatically supported by the underlying storage engine.
+In most cases, however, you'll need to explicitly enable it.
+
+Once you have turned versioning on, every `pin_write()` will create a new version:
+
+```{r}
+board2 <- board_temp(versioned = TRUE)
+
+board2 %>% pin_write(1:5, name = "x", type = "rds")
+board2 %>% pin_write(2:6, name = "x", type = "rds")
+board2 %>% pin_write(3:7, name = "x", type = "rds")
+```
+
+You can list all the available versions with `pin_versions()`:
+
+```{r}
+board2 %>% pin_versions("x")
+```
+
+(Pins does not currently provide any tool to remove old versions, but this is likely to be implemented in the future.)
+
+By default, `pin_read()` will return the most recent version:
+
+```{r}
+board2 %>% pin_read("x")
+```
+
+But you can request an older version by supplying the `version` argument:
+
+```{r, eval = FALSE}
+board2 %>% pin_read("x", version = "20210520T173110Z-49519")
+```
+
+## Reading and writing files
+
+So far we've focussed on `pin_write()` and `pin_read()` which work with R objects.
+pins also provides the lower-level `pin_upload()` and `pin_download()` which work with files on disk.
+You can use them to share data that's otherwise unsupported by pins.
+
+`pin_upload()` works like `pin_write()` but instead of an R object you give it a vector of paths.
+I'll start by creating a few files in the temp directory:
+
+```{r}
+paths <- file.path(tempdir(), c("mtcars.csv", "alphabet.txt"))
+write.csv(mtcars, paths[[1]])
+writeLines(letters, paths[[2]])
+```
+
+Now I can upload those to the board:
+
+```{r}
+board %>% pin_upload(paths, "example")
+```
+
+`pin_download()` returns a vector of paths:
+
+```{r}
+board %>% pin_download("example")
+```
+
+It's now your job to handle them.
+You should treat these paths as internal implementation details --- never modify them and never save them for use outside of pins.
+
+Note that you can't `pin_read()` something you pinned with `pin_upload()`:
+
+```{r, error = TRUE}
+board %>% pin_read("example")
+```
+
+But you can `pin_download()` something that you've pinned with `pin_write()`:
+
+```{r}
+board %>% pin_download("mtcars")
+```
 
 ## Caching
 
-Let's suppose that the 'home prices' dataset is not exactly what we are looking for, we can try to search online for 'home prices' and find out that [catalog.data.gov](https://catalog.data.gov/) contains a more suitable [FHFA House Price Indexes](https://catalog.data.gov/dataset/fhfa-house-price-indexes-hpis) dataset. Instead of giving users explicit instructions to download the CSV file, we can instead use `pin()` to cache this dataset locally:
+The primary purpose of pins is to make it easy to share data.
+But pins is also designed to help you spend as little time as possible downloading data.
+`pin_read()` and `pin_download()` automatically cache remote pins: they maintain a local copy of the data (so it's fast) but always check that it's up to date (so your analysis doesn't use stale data).
 
-```{r eval=FALSE}
-pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv")
-```
-```
-[1] "/Users/username/Library/Caches/pins/local/HPI_master/HPI_master.csv"
-```
+Wouldn't it be nice if you could take advantage of this feature for any dataset on the internet?
+That's the idea behind `board_url()` --- you can assemble your own board from datasets, wherever they live on the internet.
+For example, this code create a board containing a single pin, `penguins`, that refers to some data I found on GitHub:
 
-Notice that the pin returns a path to a local CSV file, which you are free to load with your favorite package.
-
-```{r eval=FALSE}
-library(readr)
-pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv") %>%
-  read_csv(col_types = cols())
-```
-```
-# A tibble: 108,826 x 10
-   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
-   <chr>    <chr>      <chr>     <chr> <chr>      <chr>    <dbl>  <dbl>     <dbl>
- 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
- 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
- 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
- 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
- 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
- 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
- 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
- 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
- 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
-10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
-# … with 108,816 more rows, and 1 more variable: index_sa <dbl>
+```{r}
+my_data <- board_url(c(
+  "penguins" = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins_raw.csv"
+))
 ```
 
-The `pins` package tries to be smart about downloading files only when the file has changed using headers like [cache-control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) and [ETag](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) to avoid downloading files when they have not changed or when the cache has not expired.
+You can read this data by combining `pin_download()` with `read.csv()`[^1]:
 
-Notice that `pin()` assigned a name automatically, `HPI_master` for the previous example; however, you can choose your own name and be explicit about retrieving a pin with `pin_get()`:
+[^1]: Here I'm using `read.csv()` to the reduce the dependencies of the pins package.
+    For real code I'd recommend using `data.table::fread()` or `readr::read_csv().`
 
-```{r eval=FALSE}
-pin("http://www.fhfa.gov/datatools/downloads/documents/hpi/hpi_master.csv",
-    name = "home_price_indexes")
-
-pin_get("home_price_indexes") %>%
-  read_csv(col_types = cols())
-```
-```
-# A tibble: 108,826 x 10
-   hpi_type hpi_flavor frequency level place_name place_id    yr period index_nsa
-   <chr>    <chr>      <chr>     <chr> <chr>      <chr>    <dbl>  <dbl>     <dbl>
- 1 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      1      100 
- 2 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      2      101.
- 3 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      3      101.
- 4 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      4      102.
- 5 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      5      102.
- 6 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      6      103.
- 7 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      7      103.
- 8 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      8      103.
- 9 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991      9      103.
-10 traditi… purchase-… monthly   USA … East Nort… DV_ENC    1991     10      103.
-# … with 108,816 more rows, and 1 more variable: index_sa <dbl>
+```{r}
+my_data %>%
+  pin_download("penguins") %>% 
+  read.csv(check.names = FALSE) %>% 
+  tibble::as_tibble()
 ```
 
-You can enable download progress with the `pins.progress` option and print additional caching information using the `pins.verebose` option:
-
-```
-# print verbose upload and download progress
-options(pins.progress = TRUE)
-
-# print verbose pins info
-options(pins.verbose = TRUE)
-```
-
-## Boards
-
-By default, pin uses a "local" board which is stored on your computer.  
-
-Where does it live?
-
-The following example stores a simple data analysis over home prices as 'home_price_analysis' in the 'local' board.
-
-```{r eval=FALSE}
-pin_get("home_price_indexes") %>%
-  read_csv(col_types = cols()) %>%
-  dplyr::group_by(yr) %>%
-  dplyr::count() %>%
-  pin("home_price_analysis")
-```
-
-The local board allows you to share pins with other R sessions. 
-
-## Sharing
-
-This is useful because it saves time downloading or processing data, but it doesn't help get your data into the hands of other people. To take full advantage of pins, you probably want to also storing pins in shared locations that others can access:
-
-* Shared folders, `board_folder()`.
-* GitHub, `board_github()`.
-* RStudio Connect, `board_rsconnect()`
-* Azure, `board_azure()`
-* S3, `board_s3()`
+`board_url()` requires a bit of work compared to using `download.file()` or similar but it has a big payoff: the data is cached locally (so it's fast to read) and will be re-downloaded when it changes (so it's never stale).

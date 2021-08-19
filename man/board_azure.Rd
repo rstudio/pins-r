@@ -2,60 +2,37 @@
 % Please edit documentation in R/board_azure.R
 \name{board_azure}
 \alias{board_azure}
-\title{Use an Azure board}
+\title{Use an Azure Blob Storage Container as a board}
 \usage{
-board_azure(
-  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
-  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
-  key = Sys.getenv("AZURE_STORAGE_KEY"),
-  cache = NULL,
-  name = "azure",
-  ...
-)
+board_azure(container, versioned = TRUE, cache = NULL)
 }
 \arguments{
-\item{container}{The name of the Azure Storage container.}
+\item{container}{An azure storage container created by
+\code{\link[AzureStor:blob_container]{AzureStor::blob_container()}} or similar.}
 
-\item{account}{The name of the Azure Storage account.}
-
-\item{key}{The access key for the Azure Storage container. You can find
-this under "Access keys" in your storage account settings.
-
-The \code{key} is equivalent to a password, so generally should not be stored
-in your script. The easiest alternative is to store it in the
-\code{AZURE_STORAGE_KEY} environment variable, which \code{board_azure()} will
-use by default.}
+\item{versioned}{Should this board be registered with support for versions?}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
-
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
-
-\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-To use Microsoft Azure Storage as a board, you'll need an Azure Storage
-account, an Azure Storage container, and an Azure Storage key.
-You can sign-up and create those at \href{https://portal.azure.com}{portal.azure.com}.
+Pin data to a container on Azure's blog storage using the AzureStor package.
 }
 \examples{
+if (requireNamespace("AzureStor")) {
+  # Public access board
+  url <- "https://pins.blob.core.windows.net/public-data"
+  container <- AzureStor::blob_container(url)
+  board <- board_azure(container)
+  board \%>\% pin_read("mtcars")
+}
+
 \dontrun{
-# the following example requires an Azure Storage key
-board_register_azure(
-  container = "pinscontainer",
-  account = "pinsstorage",
-  key = "abcabcabcabcabcabcabcabcabcab=="
-)
+# To create a board that you can write to, you'll need to supply one
+# of `key`, `token`, or `sas` to AzureStor::blob_container()
+container <- AzureStor::blob_container(url, key = "my-key")
+board <- board_azure(container)
+board \%>\% pin_write(iris)
 }
 }
-\seealso{
-Other boards: 
-\code{\link{board_folder}()},
-\code{\link{board_github}()},
-\code{\link{board_rsconnect}()},
-\code{\link{board_s3}()}
-}
-\concept{boards}

@@ -1,26 +1,27 @@
-rsc_bundle <- function(board, name, path, metadata, x = NULL, bundle_path = tempfile()) {
+rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tempfile()) {
   fs::dir_create(bundle_path)
 
   # Bundle contains:
   # * pin
-  fs::file_copy(path, fs::path(bundle_path, fs::path_file(path)))
+  fs::file_copy(paths, fs::path(bundle_path, fs::path_file(paths)))
 
   # * data.txt (used to retrieve pins)
-  metadata$path <- fs::path_file(path)
-  yaml::write_yaml(metadata, fs::path(bundle_path, "data.txt"))
+  write_yaml(metadata, fs::path(bundle_path, "data.txt"))
 
   # * index.html
   rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)
 
   # * manifest.json (used for deployment)
-  manifest <- rsc_bundle_manifest(board, c(path, "data.txt", "index.html"))
+  manifest <- rsc_bundle_manifest(board, bundle_path)
   jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
 
   invisible(bundle_path)
 }
 
 # Extracted from rsconnect:::createAppManifest
-rsc_bundle_manifest <- function(board, files) {
+rsc_bundle_manifest <- function(board, path) {
+  files <- fs::path_rel(fs::dir_ls(path, recurse = TRUE, type = "file"), path)
+
   list(
     version = 1,
     locale = "en_US",
@@ -54,12 +55,12 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
   data_preview <- rsc_bundle_preview_data(x)
 
   data <- list(
-    pin_files = paste0("<a href=\"", metadata$path, "\">", metadata$path, "</a>", collapse = ", "),
+    pin_files = paste0("<a href=\"", metadata$file, "\">", metadata$file, "</a>", collapse = ", "),
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
     pin_name = paste0(board$account, "/", name),
     pin_metadata = jsonlite::toJSON(metadata, auto_unbox = TRUE, pretty = TRUE),
-    server_name = board$server
+    server_name = board$server_name
   )
 
   template <- readLines(fs::path_package("pins", "preview", "index.html"))

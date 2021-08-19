@@ -39,36 +39,6 @@ pin_log <- function(...) {
   }
 }
 
-format_tibble <- function(data) {
-  if (!is.data.frame(data)) {
-    return(data)
-  }
-
-  if (is_installed("tibble") > 0 && !identical(getOption("pins.tibble"), FALSE)) {
-    tibble::as_tibble(data)
-  } else {
-    data
-  }
-}
-
-wibble <- function(...) {
-  if (is_installed("tibble")) {
-    tibble::tibble(...)
-  } else {
-    data.frame(...)
-  }
-}
-
-map_chr <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
-}
-map_lgl <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = logical(1), USE.NAMES = FALSE)
-}
-map_num <- function(x, f, ...) {
-  vapply(x, as_function(f), ..., FUN.VALUE = double(1), USE.NAMES = FALSE)
-}
-
 modifyList <- function(x, y) {
   if (is.null(x)) {
     y
@@ -80,3 +50,55 @@ modifyList <- function(x, y) {
 }
 
 last <- function(x) x[[length(x)]]
+
+pins_inform <- function(...) {
+  opt <- getOption("pins.quiet", NA)
+  if (identical(opt, FALSE) || (identical(opt, NA) && !is_testing())) {
+    inform(glue(..., .envir = caller_env()))
+  }
+}
+
+ui_quiet <- function() {
+  withr::local_options("pins.quiet" = TRUE, .local_envir = parent.frame())
+}
+ui_loud <- function() {
+  withr::local_options("pins.quiet" = FALSE, .local_envir = parent.frame())
+}
+
+github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
+
+write_yaml <- function(x, path) {
+  x <- to_utf8(x)
+  yaml::write_yaml(x, path)
+}
+
+# On Windows, yaml::write_yaml() crashes with Latin1 data
+# https://github.com/viking/r-yaml/issues/90
+to_utf8 <- function(x) {
+  if (is.list(x)) {
+    if (!is.null(names(x))) {
+      names(x) <- enc2utf8(names(x))
+    }
+    lapply(x, to_utf8)
+  } else if (is.character(x)) {
+    enc2utf8(x)
+  } else {
+    x
+  }
+}
+
+envvar_get <- function(name) {
+  null_if_na(Sys.getenv(name, NA))
+}
+
+this_not_that <- function(this, that) {
+  abort(glue("Use `{this}` with this board, not `{that}`"))
+}
+
+null_if_na <- function(x) {
+  if (length(x) == 1 && is.na(x)) {
+    NULL
+  } else {
+    x
+  }
+}

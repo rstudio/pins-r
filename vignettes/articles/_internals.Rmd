@@ -1,0 +1,71 @@
+---
+title: "Pins internals"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pins)
+```
+
+# Big picture
+
+Key concepts:
+
+* pin version: one or more files accompanied by metadata
+* pin: a collection of pin versions 
+* pin board: a collection of pins
+
+These a realised differently for different backends:
+
+* Folder: each pin is a directory; each version is a subdirectory. Version id is content hash.
+* RSC: each pin is a content item; each version is a bundle. Version id is bundle ids
+* Github: each pin is a directory; each version is commit. Version id is sha1. 
+
+## Main API
+
+### v1.0.0
+
+* `pin_list()`
+* `pin_find()`
+* `pin_browse()`
+* `pin_meta()`
+* `pin_store()` powers `pin_upload()` and `pin_write()`. 
+* `pin_fetch()` powers `pin_read()` and `pin_download()`
+
+Still not sure how to connect user facing `pin_write()`/`pin_read()` docs with underlying `pin_store()`/`pin_fetch()` generics.
+
+### Transitional
+
+These are from v0, but are close enough to v1 semantics that I haven't touched yet.
+
+* `board_pin_versions()`
+* `board_pin_remove()`
+
+Probably should define `pin_versions()` and `pin_delete()` and have default method fall back.
+
+## Metadata
+
+There are two versions of pins metadata:
+
+* version 0: used in pins 0.4.5 and earlier
+* version 1: used in pins 1.0.0 and later (including 0.99.9000)
+
+Metadata versions are backward compatible, e.g. pins 1.0.0 can read versions 0 and 1. pins 1.0.0 and later will automatically throw an error recommending that you upgrade if it encounters a new metadata version.
+
+In version 1 and greater you can identify the metadata version by consulting the "api_version" key. If it is absent, you can assume that you have version 0. `read_meta()` adds this automatically, and gives an informative error if you're reading a newer version than what is supported.
+
+There are two major differences between version 0 and version 1:
+
+* In version 0, type refers to the type of object (e.g. `table`, `default`, `files`).
+  In version 1, type refers to the storage mechanism (e.g. `arrow`, `csv`, `rds`, `pickle`).
+
+* In version 0, user supplied metadata is intermingled with pins metadata.
+  In version 1, user supplied metadata is stored under a `user` key.
+
+`pin_meta()` retrieves metadata from the remote board and adds to it any additional data needed to manage the local cache, stored in the `local` element.

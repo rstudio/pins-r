@@ -4,7 +4,8 @@
 #' you can use to pin any file.
 #'
 #' @inheritParams pin_read
-#' @param ... Additional arguments passed on to board pin methods.
+#' @return `pin_download()` returns a character vector of file paths;
+#'   `pin_upload()` returns the fully qualified name of the new pin, invisibly.
 #' @export
 #' @examples
 #' board <- board_temp()
@@ -13,31 +14,49 @@
 #' path <- board %>% pin_download("CITATION")
 #' path
 #' readLines(path)[1:5]
-pin_download <- function(board, name, ...) {
-  check_board(board)
-  check_name(name)
+pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
+  check_board(board, "pin_download()", "pin_get()")
 
-  board_pin_download(board, name, ...)$path
+  meta <- pin_fetch(board, name, version = version, ...)
+  check_hash(meta, hash)
+
+  as.character(fs::path(meta$local$dir, meta$file))
 }
 
 #' @export
 #' @rdname pin_download
-#' @param path Path to file to upload to `board`.
-pin_upload <- function(board, path, name = NULL, desc = NULL, metadata = list(), ...) {
-  check_board(board)
-  if (!is_string(path)) {
-    abort("`path` must be a string")
-  } else if (!fs::file_exists(path)) {
-    abort("`path` must exist")
+#' @param paths A character vector of file paths to upload to `board`.
+pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, ...) {
+  check_board(board, "pin_upload()", "pin()")
+
+  if (!is.character(paths)) {
+    abort("`path` must be a character vector")
   }
-  if (is.null(name)) {
-    name <- fs::path_file(path)
+  if (!all(fs::file_exists(paths))) {
+    abort("All elements of `path` must exist")
+  }
+  if (any(fs::path_file(paths) == "data.txt")) {
+    abort("Can pin file called `data.txt`")
+  }
+
+  if (is.null(name) && length(paths) == 1) {
+    name <- fs::path_file(paths)
     inform(paste0("Guessing `name = '", name, "'`"))
   } else {
     check_name(name)
   }
 
-  metadata <- utils::modifyList(metadata, standard_meta(path, NULL, desc))
-  board_pin_upload(board, name, path, metadata, ...)
+  # Expand any directories
+  is_dir <- fs::is_dir(paths)
+  if (any(is_dir)) {
+    paths <- as.list(paths)
+    paths[is_dir] <- map(paths[is_dir], fs::dir_ls, recurse = TRUE, type = c("file", "symlink"))
+    paths <- as.character(unlist(paths, use.names = FALSE))
+  }
+
+  meta <- standard_meta(paths, desc = desc, type = "file")
+  meta$user <- metadata
+
+  invisible(pin_store(board, name, paths, meta, ...))
 }
 

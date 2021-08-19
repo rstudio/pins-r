@@ -1,6 +1,6 @@
-#' Pin Info
+#' Retrieve pin metadata (legacy API)
 #'
-#' Retrieve information for a given pin.
+#' Retrieve metadata for pins in legacy boards.
 #'
 #' @param name The exact name of the pin to match when searching.
 #' @param board The board name used to find the pin.
@@ -10,12 +10,15 @@
 #' @param ... Additional parameters.
 #'
 #' @examples
-#' # define board and cache a dataset
-#' board <- board_temp()
-#' pin(mtcars, board = board)
+#' # old API
+#' board_register_local(cache = tempfile())
+#' pin(mtcars)
+#' pin_info("mtcars", "local")
 #'
-#' # Get info
-#' pin_info("mtcars", board = board)
+#' # new API
+#' board <- board_temp()
+#' board %>% pin_write(mtcars)
+#' board %>% pin_meta("mtcars")
 #' @export
 pin_info <- function(name,
                      board = NULL,
@@ -24,6 +27,11 @@ pin_info <- function(name,
                      signature = FALSE,
                      ...) {
 
+  if (is.board(board) && !0 %in% board$api) {
+    this_not_that("pin_meta()", "pin_info()")
+  }
+
+  lifecycle::deprecate_warn("1.0.0", "pin_info()", "pin_meta()")
   entry <- pin_find(
     name = name,
     board = board,
@@ -66,14 +74,14 @@ pin_info <- function(name,
 print.pin_info <- function(x, ...) {
   info <- x
 
-  cat(crayon::silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
-  if (nchar(info$description) > 0) cat(crayon::silver(paste0("# Description: ", info$description, "\n")))
-  if (!is.null(info$signature)) cat(crayon::silver(paste0("# Signature: ", info$signature, "\n")))
+  cat(cli::col_silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
+  if (nchar(info$description) > 0) cat(cli::col_silver(paste0("# Description: ", info$description, "\n")))
+  if (!is.null(info$signature)) cat(cli::col_silver(paste0("# Signature: ", info$signature, "\n")))
 
   info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
   if (length(names(info)) > 0) {
-    cat(crayon::silver(paste0("# Properties:", "\n")))
+    cat(cli::col_silver(paste0("# Properties:", "\n")))
 
     for (i in names(info)) {
       entry <- info[[i]]
@@ -88,6 +96,6 @@ print.pin_info <- function(x, ...) {
       strsplit("\n") %>%
       sapply(function(e) paste("#  ", e)) %>%
       paste0(collapse = "\n")
-    cat(crayon::silver(yaml_str))
+    cat(cli::col_silver(yaml_str))
   }
 }

@@ -5,7 +5,7 @@
 \alias{pin_write}
 \title{Read and write pins}
 \usage{
-pin_read(board, name, version = NULL, hash = NULL)
+pin_read(board, name, version = NULL, hash = NULL, ...)
 
 pin_write(
   board,
@@ -14,21 +14,24 @@ pin_write(
   type = NULL,
   desc = NULL,
   metadata = NULL,
-  versioned = NULL
+  versioned = NULL,
+  ...
 )
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_github]{board_github()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
 
 \item{name}{Pin name.}
 
 \item{version}{For boards that support versions, this allows you to retrieve
-a specific version of a pin.}
+a specific version of a pin. See \verb{vignette("versioning)"} for details.}
 
 \item{hash}{Specify a hash to verify that you get exactly the dataset that
-you expect. You can find the hash of an existing pin by inspecting the
-pin metadata.}
+you expect. You can find the hash of an existing pin by looking for
+\code{pin_hash} in \code{\link[=pin_meta]{pin_meta()}}.}
+
+\item{...}{Additional arguments passed on to methods for a specific board.}
 
 \item{x}{An object (typically a data frame) to pin.}
 
@@ -37,12 +40,19 @@ pin metadata.}
 lists and rds for everything else.}
 
 \item{desc}{A text description of the pin; most important for
-shared boards so that others can understand what the pin contains.}
+shared boards so that others can understand what the pin contains.
+If omitted, pins will generate a brief description of the contents.}
 
-\item{metadata}{A list containing additional metadata to store with the pin.}
+\item{metadata}{A list containing additional metadata to store with the pin.
+When retrieving the pin, this will be stored in the \code{user} key, to
+avoid potential clashes with the metadata that pins itself uses.}
 
 \item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
 use the default for \code{board}}
+}
+\value{
+\code{pin_read()} returns an R object read from the pin;
+\code{pin_write()} returns the fully qualified name of the new pin, invisibly.
 }
 \description{
 Use \code{pin_write()} to pin an object to board, and \code{pin_read()} to retrieve
@@ -59,5 +69,6 @@ b <- board_temp()
 b \%>\% pin_write(mtcars, "mtcars")
 b
 
+b \%>\% pin_meta("mtcars")
 b \%>\% pin_read("mtcars")
 }

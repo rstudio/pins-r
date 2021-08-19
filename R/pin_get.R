@@ -1,4 +1,4 @@
-#' Retrieve Pin
+#' Retrieve a pin (legacy API)
 #'
 #' Retrieves a pin by name from the local or given board.
 #'
@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' # define temporary board
-#' board <- board_temp()
+#' board <- legacy_temp()
 #' pin(mtcars, board = board)
 #'
 #' # retrieve the mtcars pin
