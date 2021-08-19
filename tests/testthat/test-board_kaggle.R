@@ -25,7 +25,9 @@ test_that("can get data and metadata", {
   expect_equal(meta$type, "file")
 
   paths <- pin_download(board, "house-prices-advanced-regression-techniques")
-  expect_match(readLines(paths[[4]])[[1]], "MSSubClass")
+
+  data_dict <- paths[grepl("data_description", paths)]
+  expect_match(readLines(data_dict)[[1]], "MSSubClass")
 })
 
 test_that("is write only", {
