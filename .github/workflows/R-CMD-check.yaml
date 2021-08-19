@@ -40,6 +40,8 @@ jobs:
       TEST_AWS_SECRET: ${{ secrets.TEST_AWS_SECRET }}
       TEST_KAGGLE_API: ${{ secrets.TEST_KAGGLE_API }}
       PINS_AZURE_TEST_SAS: ${{ secrets.TEST_AZURE_SAS }}
+      PINS_KAGGLE_USERNAME: ${{ secrets.PINS_KAGGLE_USERNAME }}
+      PINS_KAGGLE_KEY: ${{ secrets.PINS_KAGGLE_KEY }}
 
     steps:
       - uses: actions/checkout@v2

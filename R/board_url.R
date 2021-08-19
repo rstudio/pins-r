@@ -139,17 +139,19 @@ pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = 
 
 #' @export
 pin_delete.pins_board_url <- function(board, names, ...) {
-  abort("board_url() is read only")
+  abort_board_read_only("board_url")
 }
 
 #' @export
 pin_store.pins_board_url <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
-  abort("board_url() is read only")
+  abort_board_read_only("board_url")
 }
 
 # Helpers ------------------------------------------------------------------
-http_download <- function(url, path_dir, path_file, ..., use_cache_on_failure = FALSE) {
+http_download <- function(url, path_dir, path_file, ...,
+                          use_cache_on_failure = FALSE,
+                          on_failure = NULL) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
 
@@ -212,7 +214,11 @@ http_download <- function(url, path_dir, path_file, ..., use_cache_on_failure = 
       httr::warn_for_status(req)
       cache$path
     } else {
-      httr::stop_for_status(req)
+      if (is.null(on_failure)) {
+        httr::stop_for_status(req)
+      } else {
+        on_failure(req)
+      }
     }
   }
 }

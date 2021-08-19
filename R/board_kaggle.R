@@ -1,3 +1,5 @@
+# competitions ------------------------------------------------------------
+
 #' Retrieve data from kaggle competition
 #'
 #' @description
@@ -29,18 +31,71 @@ board_kaggle_competitions <- function(username = NULL, key = NULL, cache = NULL)
   )
 }
 
+board_kaggle_competitions_test <- function() {
+  envvars <- c("PINS_KAGGLE_USERNAME", "PINS_KAGGLE_KEY")
+  if (!has_envvars(envvars)) {
+    testthat::skip(paste0("Kaggle tests require env vars ", paste0(envvars, collapse = ", ")))
+  }
 
-# competitions ------------------------------------------------------------
+  board_kaggle_competitions(
+    username = Sys.getenv(envvars[[1]]),
+    key = Sys.getenv(envvars[[2]]),
+    cache = tempfile()
+  )
+}
+
+
+#' @rdname board_kaggle_dataset
+#' @export
+pin_search.pins_board_kaggle_competition <- function(
+                                                 board,
+                                                 search,
+                                                 sort_by = c("grouped", "prize", "earliestDeadline", "latestDeadline", "numberOfTeams", "recentlyCreated"),
+                                                 page = 1,
+                                                 user = NULL,
+                                                 ...) {
+  sort_by <- arg_match(sort_by)
+  json <- kaggle_get(board, "competitions/list",
+    query = list(
+      search = search,
+      sortBy = sort_by,
+      user = user,
+      page = page
+    )
+  )
+  tibble::tibble(
+    name = map_chr(json, ~ .$ref),
+    type = "file",
+    description = map_chr(json, ~ .$title),
+    created = parse_8601(map_chr(json, ~ .$enabledDate)),
+    deadline = parse_8601(map_chr(json, ~ .$deadline)),
+  )
+}
+
+
+#' @export
+pin_exists.pins_board_kaggle_competition <- function(board, name, ...) {
+  check_name(name)
+
+  tryCatch(
+    {
+      kaggle_get(board, paste0("competitions/data/list/", name))
+      TRUE
+    },
+    http_404 = function(e) FALSE
+  )
+}
+
 
 #' @export
 pin_delete.pins_board_kaggle_competition <- function(board, names, ...) {
-  abort("board_kaggle_competitions() is read only")
+  abort_board_read_only("board_kaggle_competitions")
 }
 
 #' @export
 pin_store.pins_board_kaggle_competition <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
-  abort("board_kaggle_competitions() is read only")
+  abort_board_read_only("board_kaggle_competitions")
 }
 
 #' @export
@@ -95,9 +150,10 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
   meta <- pin_meta(board, name)
 
   for (file in meta$file) {
-    url <- glue("https://www.kaggle.com/api/v1/competitions/data/download/{name}/{file}")
+    url <- kaggle_url("competitions", "data", "download", name, URLencode(file, reserved = TRUE))
+
     fs::dir_create(fs::path_dir(fs::path(meta$local$dir, file)))
-    http_download(url, meta$local$dir, file, board$auth)
+    http_download(url, path_dir = meta$local$dir, path_file = file, board$auth, on_failure = kaggle_json)
   }
 
   meta
@@ -110,6 +166,8 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
 
 #' @examples
 #' board <- board_kaggle_dataset()
+#' test_api_basic(board)
+#'
 #' board %>% pin_search("cats")
 #' board %>% pin_exists("rturley/pet-breed-characteristics")
 #' board %>% pin_meta("rturley/pet-breed-characteristics")
@@ -131,6 +189,19 @@ board_kaggle_dataset <- function(username = NULL, key = NULL, cache = NULL) {
   )
 }
 
+board_kaggle_dataset_test <- function() {
+  envvars <- c("PINS_KAGGLE_USERNAME", "PINS_KAGGLE_KEY")
+  if (!has_envvars(envvars)) {
+    testthat::skip(paste0("Kaggle tests require env vars ", paste0(envvars, collapse = ", ")))
+  }
+
+  board_kaggle_dataset(
+    username = Sys.getenv(envvars[[1]]),
+    key = Sys.getenv(envvars[[2]]),
+    cache = tempfile()
+  )
+}
+
 #' @export
 pin_list.pins_board_kaggle_dataset <- function(board, ...) {
   NA
@@ -141,7 +212,7 @@ pin_list.pins_board_kaggle_dataset <- function(board, ...) {
 #' @export
 pin_search.pins_board_kaggle_dataset <- function(
                                                  board,
-                                                 pattern = NULL,
+                                                 search,
                                                  sort_by = c("hottest", "votes", "updated", "active"),
                                                  page = 1,
                                                  user = NULL,
@@ -149,7 +220,7 @@ pin_search.pins_board_kaggle_dataset <- function(
   sort_by <- arg_match(sort_by)
   json <- kaggle_get(board, "datasets/list",
     query = list(
-      search = pattern,
+      search = search,
       sortBy = sort_by,
       user = user,
       page = page
@@ -158,7 +229,6 @@ pin_search.pins_board_kaggle_dataset <- function(
 
   tibble::tibble(
     name = map_chr(json, ~ .$ref),
-    version = map_int(json, ~ .$currentVersionNumber),
     type = "file",
     description = map_chr(json, ~ .$title),
     created = parse_8601(map_chr(json, ~ .$lastUpdated)),
@@ -209,7 +279,7 @@ pin_fetch.pins_board_kaggle_dataset <- function(board, name, version = NULL, ...
   for (file in meta$file) {
     url <- glue("https://www.kaggle.com/api/v1/datasets/download/{name}/{file}")
     if (!is.null(version)) {
-      url <- paste0("?datasetVersionNumber=", version)
+      url <- paste0(url, "?datasetVersionNumber=", version)
     }
     fs::dir_create(fs::path_dir(fs::path(meta$local$dir, file)))
     http_download(url, meta$local$dir, file, board$auth)
@@ -240,6 +310,7 @@ pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
                                     private = TRUE,
                                     license = "CC0-1.0") {
 
+  check_name(name)
   if (!is.null(versioned)) {
     abort("`board_kaggle_dataset()` is automatically versioned")
   }
@@ -275,7 +346,7 @@ pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
   )
   kaggle_json(resp, "store pin")
 
-  invisible(board)
+  paste0(board$username, "/", name)
 }
 
 kaggle_upload_file <- function(board, path) {
@@ -318,7 +389,7 @@ kaggle_authenticate <- function(username = NULL, key = NULL) {
   }
 }
 
-kaggle_json <- function(resp, task) {
+kaggle_json <- function(resp, task = "retrieve data") {
   json <- httr::content(resp, encoding = "UTF-8")
 
   if (httr::http_error(resp)) {

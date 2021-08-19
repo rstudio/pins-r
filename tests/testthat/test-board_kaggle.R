@@ -1,3 +1,71 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+# Kaggle API doesn't provide a way to delete datasets so we can't make
+# use of the existing automated tests. Instead we test the reading as
+# much as possible
+
+# competitions ----------------------------------------------------------------
+
+test_that("can list and search datasets", {
+  board <- board_kaggle_competitions_test()
+  expect_equal(pin_list(board), NA)
+
+  search <- pin_search(board, "cats")
+  expect_s3_class(search, "tbl_df")
+  expect_named(search, c("name", "type", "description", "created", "deadline"))
+
+  expect_true(pin_exists(board, "dogs-vs-cats"))
+  expect_false(pin_exists(board, "doesntexist"))
+})
+
+test_that("can get data and metadata", {
+  skip_on_cran()
+
+  board <- board_kaggle_competitions_test()
+  meta <- pin_meta(board, "house-prices-advanced-regression-techniques")
+  expect_s3_class(meta, "pins_meta")
+  expect_equal(meta$type, "file")
+
+  paths <- pin_download(board, "house-prices-advanced-regression-techniques")
+  expect_match(readLines(paths[[4]])[[1]], "MSSubClass")
+})
+
+test_that("is write only", {
+  board <- board_kaggle_competitions_test()
+  expect_error(pin_write(board, 1, "test"), class = "pins_board_read_only")
+  expect_error(pin_delete(board, "test"), class = "pins_board_read_only")
+})
+
+# datasets ----------------------------------------------------------------
+
+test_that("can list and search datasets", {
+  board <- board_kaggle_dataset_test()
+  expect_equal(pin_list(board), NA)
+
+  search <- pin_search(board, "cats")
+  expect_s3_class(search, "tbl_df")
+  expect_named(search, c("name", "type", "description", "created", "file_size", "license"))
+
+  expect_true(pin_exists(board, search$name[[1]]))
+  expect_false(pin_exists(board, "doesntexist/doesntexist"))
+})
+
+test_that("can retrieve data and metadata from dataset", {
+  board <- board_kaggle_dataset_test()
+  meta <- pin_meta(board, "hadleywickham1/mtcars")
+  expect_s3_class(meta, "pins_meta")
+  expect_equal(meta$file, "mtcars.csv")
+
+  path <- pin_download(board, "hadleywickham1/mtcars")
+  expect_equal(read.csv(path), `rownames<-`(mtcars, NULL))
+})
+
+test_that("can update and retrieve versions", {
+  board <- board_kaggle_dataset_test()
+  n_versions <- nrow(pin_versions(board, "hadleywickham1/version-test"))
+
+  pin_write(board, 2, "version-test")
+  versions <- pin_versions(board, "hadleywickham1/version-test")
+  expect_equal(nrow(versions), n_versions + 1)
+
+  path <- pin_download(board, "hadleywickham1/version-test", version = 1)
+  expect_equal(readRDS(path), 1)
 })
