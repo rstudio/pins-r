@@ -195,9 +195,9 @@ http_download <- function(url, path_dir, path_file, ...,
     info <- httr::cache_info(req)
     if (info$cacheable) {
       update_cache(cache_path, url, list(
-        expires = as.integer(info$expires),
+        expires = info$expires,
         etag = info$etag,
-        modified = as.integer(unclass(info$modified)),
+        modified = unclass(info$modified),
         path = path
       ))
     } else {
