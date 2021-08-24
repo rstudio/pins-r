@@ -31,48 +31,50 @@ test_that("can find/search pins", {
 })
 
 test_that("can update description/access_type", {
-  board <- board_rsconnect_hadley()
-  withr::defer(pin_delete(board, "hadley/test-x"))
+  board <- board_rsconnect_test()
 
-  pin_write(board, 1:5, "test-x", desc = "one")
-  guid <- rsc_content_find(board, "hadley/test-x")$guid
+  name <- pin_write(board, 1:5, random_pin_name(), desc = "one")
+  withr::defer(pin_delete(board, name))
+  pin_name <- strsplit(name, "/")[[1]][[2]]
+
+  guid <- rsc_content_find(board, name)$guid
   expect_equal(rsc_content_info(board, guid)$description, "one")
 
-  pin_write(board, 1:5, "test-x", desc = "two")
+  pin_write(board, 1:5, pin_name, desc = "two")
   expect_equal(rsc_content_info(board, guid)$description, "two")
 
-  pin_write(board, 1:5, "test-x", access_type = "logged_in")
+  pin_write(board, 1:5, pin_name, access_type = "logged_in")
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 
   # And writing again doesn't change the access_type
-  pin_write(board, 1:5, "test-x")
+  pin_write(board, 1:5, pin_name)
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 })
 
 # content -----------------------------------------------------------------
 
 test_that("can find content by full/partial name", {
-  board <- board_rsconnect_hadley()
+  board <- board_rsconnect_test()
 
-  pin_write(board, 1:3, "test-partial", type = "rds")
-  withr::defer(pin_delete(board, "hadley/test-partial"))
+  name <- pin_write(board, 1:3, "test-partial", type = "rds")
+  withr::defer(pin_delete(board, name))
 
   expect_message(json1 <- rsc_content_find(board, "test-partial"))
-  json2 <- rsc_content_find(board, "hadley/test-partial")
+  json2 <- rsc_content_find(board, name)
   expect_equal(json1$guid, json2$guid)
 
   expect_snapshot(rsc_content_find(board, "susan/test-partial"), error = TRUE)
 })
 
 test_that("can create and delete content", {
-  board <- board_rsconnect_hadley()
+  board <- board_rsconnect_test()
 
   rsc_content_create(board, "test-1", list())
   expect_snapshot(error = TRUE,
     rsc_content_create(board, "test-1", list())
   )
 
-  rsc_content_delete(board, "hadley/test-1")
+  rsc_content_delete(board, paste0(board$account, "/test-1"))
   expect_snapshot(error = TRUE,
     rsc_content_delete(board, "test-1")
   )
