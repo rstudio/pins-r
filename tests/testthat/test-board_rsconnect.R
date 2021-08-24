@@ -63,7 +63,7 @@ test_that("can find content by full/partial name", {
   json2 <- rsc_content_find(board, name)
   expect_equal(json1$guid, json2$guid)
 
-  expect_snapshot(rsc_content_find(board, "susan/test-partial"), error = TRUE)
+  expect_snapshot(rsc_content_find(board, "marjory/test-partial"), error = TRUE)
 })
 
 test_that("can create and delete content", {
