@@ -95,6 +95,12 @@ jobs:
         run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
         shell: bash
 
+      - name: Upload package
+        uses: actions/upload-artifact@main
+        with:
+          name: rsconnect-results
+          path: .
+
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@main
