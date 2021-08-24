@@ -5,7 +5,7 @@ test_api_meta(board_rsconnect_test())
 # user facing -------------------------------------------------------------
 
 test_that("can round-trip a pin (v0)", {
-  board <- board_rsconnect_test()
+  board <- board_rsconnect_hadley()
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "test-df1", board = board)
@@ -16,7 +16,7 @@ test_that("can round-trip a pin (v0)", {
 })
 
 test_that("can find/search pins", {
-  board <- board_rsconnect_test()
+  board <- board_rsconnect_hadley()
   board %>% pin_write(1:5, "test-xyzxyzxyzxyz", desc = "defdefdef")
   withr::defer(pin_delete(board, "hadley/test-xyzxyzxyzxyz"))
 
@@ -31,7 +31,7 @@ test_that("can find/search pins", {
 })
 
 test_that("can update description/access_type", {
-  board <- board_rsconnect_test()
+  board <- board_rsconnect_hadley()
   withr::defer(pin_delete(board, "hadley/test-x"))
 
   pin_write(board, 1:5, "test-x", desc = "one")
@@ -52,7 +52,7 @@ test_that("can update description/access_type", {
 # content -----------------------------------------------------------------
 
 test_that("can find content by full/partial name", {
-  board <- board_rsconnect_test()
+  board <- board_rsconnect_hadley()
 
   pin_write(board, 1:3, "test-partial", type = "rds")
   withr::defer(pin_delete(board, "hadley/test-partial"))
@@ -65,7 +65,7 @@ test_that("can find content by full/partial name", {
 })
 
 test_that("can create and delete content", {
-  board <- board_rsconnect_test()
+  board <- board_rsconnect_hadley()
 
   rsc_content_create(board, "test-1", list())
   expect_snapshot(error = TRUE,
