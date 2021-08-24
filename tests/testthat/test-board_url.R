@@ -125,3 +125,10 @@ test_that("no request if cache-control set", {
     class = "pins_cache_cached"
   )
 })
+
+test_that("http_download saves read-only file", {
+  skip_on_cran()
+  path <- fs::dir_create(withr::local_tempdir())
+  cached <- http_download("https://httpbin.org/cache", path, "test")
+  expect_false(fs::file_access(cached, "write"))
+})

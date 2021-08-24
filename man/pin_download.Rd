@@ -40,7 +40,9 @@ avoid potential clashes with the metadata that pins itself uses.}
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that
-you can use to pin any file.
+you can use to pin any file, as opposed to any R object. The path returned
+by \code{pin_download()} is a read-only path to a cached file: you should never
+attempt to modify this file.
 }
 \examples{
 board <- board_temp()

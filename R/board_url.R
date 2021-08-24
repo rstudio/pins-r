@@ -192,6 +192,7 @@ http_download <- function(url, path_dir, path_file, use_cache_on_failure = FALSE
   } else if (httr::status_code(req) <= 200) {
     signal("", "pins_cache_downloaded")
     fs::file_copy(tmp_path, path, overwrite = TRUE)
+    fs::file_chmod(path, "u=r")
 
     info <- httr::cache_info(req)
     if (info$cacheable) {
