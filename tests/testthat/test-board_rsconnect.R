@@ -16,9 +16,9 @@ test_that("can round-trip a pin (v0)", {
 })
 
 test_that("can find/search pins", {
-  board <- board_rsconnect_hadley()
-  board %>% pin_write(1:5, "test-xyzxyzxyzxyz", desc = "defdefdef")
-  withr::defer(pin_delete(board, "hadley/test-xyzxyzxyzxyz"))
+  board <- board_rsconnect_test()
+  name <- pin_write(board, 1:5, "test-xyzxyzxyzxyz", desc = "defdefdef")
+  withr::defer(pin_delete(board, name))
 
   expect_equal(nrow(board_pin_find(board, "xyzxyzxyzxyz")), 1)
   expect_equal(nrow(board_pin_find(board, "abcabcabc")), 0)
