@@ -48,7 +48,9 @@
 
 <meta property="og:title" content="Upload and download files to and from a board — pin_download" />
 <meta property="og:description" content="This is a lower-level interface than pin_read() and pin_write() that
-you can use to pin any file." />
+you can use to pin any file, as opposed to any R object. The path returned
+by pin_download() is a read-only path to a cached file: you should never
+attempt to modify this file." />
 <meta property="og:image" content="https://pins.rstudio.com/logo.png" />
 
 
@@ -145,7 +147,9 @@ you can use to pin any file." />
 
     <div class="ref-description">
     <p>This is a lower-level interface than <code><a href='pin_read.html'>pin_read()</a></code> and <code><a href='pin_read.html'>pin_write()</a></code> that
-you can use to pin any file.</p>
+you can use to pin any file, as opposed to any R object. The path returned
+by <code>pin_download()</code> is a read-only path to a cached file: you should never
+attempt to modify this file.</p>
     </div>
 
     <pre class="usage"><span class='fu'>pin_download</span><span class='op'>(</span><span class='va'>board</span>, <span class='va'>name</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, hash <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -207,10 +211,10 @@ avoid potential clashes with the metadata that pins itself uses.</p></td>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_upload</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"CITATION"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Guessing `name = 'CITATION'`</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '20210819T222147Z-dec01'</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating new version '20210824T184919Z-dec01'</span>
 <span class='r-in'><span class='va'>path</span> <span class='op'>&lt;-</span> <span class='va'>board</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pin_download</span><span class='op'>(</span><span class='st'>"CITATION"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>path</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpMmPOvr/pins-296a320eba31/CITATION/20210819T222147Z-dec01/CITATION"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpph9cf4/pins-28ff4d21cc29/CITATION/20210824T184919Z-dec01/CITATION"</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "bibentry(\"Manual\","                                                         </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "         title = \"R: A Language and Environment for Statistical Computing\","</span>
