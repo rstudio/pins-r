@@ -80,7 +80,7 @@ jobs:
               susan_key = susan_key$api_key,
               derek_key = derek_key$api_key
             ),
-            "creds.rds"
+            "tests/testthat/creds.rds"
           )
 
 
