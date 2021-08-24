@@ -7,3 +7,4 @@ rsconnect
 packages
 docs
 inst/doc
+creds.rds

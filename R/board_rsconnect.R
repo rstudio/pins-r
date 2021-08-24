@@ -678,7 +678,7 @@ board_rsconnect_derek <- function(...) {
   )
 }
 read_creds <- function() {
-  path <- ".github/cred.rds"
+  path <- "cred.rds"
   if (!file.exists(path)) {
     testthat::skip(glue("No RSC testing config detected (can't find `{path}`"))
   }
