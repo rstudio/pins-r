@@ -64,6 +64,16 @@ test_api_basic <- function(board) {
     testthat::expect_false(fs::file_access(path, "write"))
   })
 
+  testthat::test_that("reading a pin touches data.txt", {
+    # this ensures that we can prune unused pins from the cache
+    name <- local_pin(board, 1)
+    meta <- pin_meta(board, name)
+    cache_touch(board, meta, as.POSIXct("2010-01-01"))
+
+    path <- pin_download(board, name)
+    testthat::expect_gt(fs::file_info(path)$modification_time, Sys.time() - 10)
+  })
+
   testthat::test_that("can round-trip pin data", {
     name <- local_pin(board, 1)
     testthat::expect_equal(pin_read(board, name), 1)
