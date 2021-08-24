@@ -90,7 +90,9 @@ dir_size <- function(x) {
 cache_touch <- function(board, meta) {
   path <- fs::path(meta$local$dir, "data.txt")
   if (fs::file_exists(path)) {
+    fs::file_chmod(path, "u+w")
     fs::file_touch(path)
+    fs::file_chmod(path, "u=r")
   } else {
     fs::file_create(path)
   }

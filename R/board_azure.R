@@ -181,6 +181,7 @@ azure_download <- function(board, keys, progress = !is_testing()) {
       board$container, keys[needed], paths[needed],
       max_concurrent_transfers = board$n_processes
     )
+    fs::file_chmod(paths[needed], "u=r")
   }
 
   invisible()
