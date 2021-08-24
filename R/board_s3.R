@@ -234,6 +234,7 @@ s3_download <- function(board, key, immutable = FALSE) {
   if (!immutable || !fs::file_exists(path)) {
     resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
     writeBin(resp$Body, path)
+    fs::file_chmod(path, "u=r")
   }
 
   path

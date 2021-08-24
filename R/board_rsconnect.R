@@ -562,6 +562,7 @@ rsc_download <- function(board, content_url, dest_path, name) {
 
   rsc_check_status(req)
   fs::file_copy(temp, dest) # only copy if request is successful
+  fs::file_chmod(dest, "u=r")
   invisible()
 }
 

@@ -85,7 +85,8 @@ pin_store.pins_board_folder <- function(board, name, paths, metadata,
   version_dir <- fs::path(board$path, name, version)
   fs::dir_create(version_dir)
   write_meta(metadata, version_dir)
-  fs::file_copy(paths, version_dir, overwrite = TRUE)
+  out_paths <- fs::file_copy(paths, version_dir, overwrite = TRUE)
+  fs::file_chmod(out_paths, "u=r")
 
   name
 }

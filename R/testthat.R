@@ -58,6 +58,12 @@ test_api_basic <- function(board) {
     testthat::expect_equal(readLines(out[[2]]), "b")
   })
 
+  testthat::test_that("cached data is read-only", {
+    name <- local_pin(board, 1)
+    path <- pin_download(board, name)
+    testthat::expect_false(fs::file_access(path, "write"))
+  })
+
   testthat::test_that("can round-trip pin data", {
     name <- local_pin(board, 1)
     testthat::expect_equal(pin_read(board, name), 1)

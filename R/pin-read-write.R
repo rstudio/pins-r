@@ -82,6 +82,8 @@ pin_write <- function(board, x,
 
   filename <- fs::path_ext_set(fs::path_file(name), type)
   path <- object_write(x, fs::path_temp(filename), type = type)
+  withr::defer(fs::file_delete(path))
+
   meta <- standard_meta(path, object = x, type = type, desc = desc)
   meta$user <- metadata
 

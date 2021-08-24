@@ -1,7 +1,9 @@
 #' Upload and download files to and from a board
 #'
 #' This is a lower-level interface than `pin_read()` and `pin_write()` that
-#' you can use to pin any file.
+#' you can use to pin any file, as opposed to any R object. The path returned
+#' by `pin_download()` is a read-only path to a cached file: you should never
+#' attempt to modify this file.
 #'
 #' @inheritParams pin_read
 #' @return `pin_download()` returns a character vector of file paths;
