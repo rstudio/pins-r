@@ -80,8 +80,8 @@ pin_write <- function(board, x,
     pins_inform("Guessing `type = '{type}'`")
   }
 
-  filename <- fs::path_ext_set(fs::path_file(name), type)
-  path <- object_write(x, fs::path_temp(filename), type = type)
+  path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
+  object_write(x, path, type = type)
   withr::defer(fs::file_delete(path))
 
   meta <- standard_meta(path, object = x, type = type, desc = desc)
@@ -198,7 +198,7 @@ check_board <- function(x, v1, v0) {
 }
 check_name <- function(x) {
   if (grepl("\\\\|/", x, perl = TRUE)) {
-    abort("`name` can not contain slashes")
+    abort("`name` must not contain slashes", class = "pins_check_name")
   }
 }
 check_metadata <- function(x) {

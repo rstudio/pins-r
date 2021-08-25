@@ -79,6 +79,13 @@ test_api_basic <- function(board) {
     testthat::expect_equal(pin_read(board, name), 1)
   })
 
+  # Extra slash added for boards that allow pins in the form user/name
+  testthat::test_that("can't use slashes in pin names", {
+    expect_error(
+      pin_write(board, 1, "abc/def/ghijkl"),
+      class = "pins_check_name"
+    )
+  })
 }
 
 test_api_versioning <- function(board) {

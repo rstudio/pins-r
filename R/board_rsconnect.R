@@ -239,6 +239,8 @@ pin_store.pins_board_rsconnect <- function(
 {
   # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
 
+  check_name(rsc_parse_name(name)$name)
+
   versioned <- versioned %||% board$versioned
   if (!is.null(access_type)) {
     access_type <- arg_match0(access_type, c("acl", "logged_in", "all"))
