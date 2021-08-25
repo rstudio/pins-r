@@ -17,7 +17,7 @@ test_that("can round-trip a pin (v0)", {
 
 test_that("can find/search pins", {
   board <- board_rsconnect_test()
-  name <- pin_write(board, 1:5, "test-xyzxyzxyzxyz", desc = "defdefdef")
+  name <- pin_write(board, 1:5, "test-xyzxyzxyzxyz", title = "defdefdef")
   withr::defer(pin_delete(board, name))
 
   expect_equal(nrow(board_pin_find(board, "xyzxyzxyzxyz")), 1)
@@ -25,29 +25,24 @@ test_that("can find/search pins", {
   expect_equal(nrow(pin_search(board, "xyzxyzxyzxyz")), 1)
   expect_equal(nrow(pin_search(board, "abcabcabc")), 0)
 
-  # RSC currently does not search descriptions
-  # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
-  # expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
+  expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
+  expect_equal(nrow(board_pin_find(board, "defdefdef")), 1)
 })
 
-test_that("can update description/access_type", {
+test_that("can update access_type", {
   board <- board_rsconnect_test()
 
-  name <- pin_write(board, 1:5, random_pin_name(), desc = "one")
-  withr::defer(pin_delete(board, name))
-  pin_name <- strsplit(name, "/")[[1]][[2]]
+  name <- local_pin(board, 1:5)
+  guid <- pin_meta(board, name)$local$content_id
 
-  guid <- rsc_content_find(board, name)$guid
-  expect_equal(rsc_content_info(board, guid)$description, "one")
+  # default is acl
+  expect_equal(rsc_content_info(board, guid)$access_type, "acl")
 
-  pin_write(board, 1:5, pin_name, desc = "two")
-  expect_equal(rsc_content_info(board, guid)$description, "two")
-
-  pin_write(board, 1:5, pin_name, access_type = "logged_in")
+  pin_write(board, 1:5, name, access_type = "logged_in")
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 
-  # And writing again doesn't change the access_type
-  pin_write(board, 1:5, pin_name)
+  # writing again doesn't change the access_type
+  pin_write(board, 1:5, name)
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 })
 

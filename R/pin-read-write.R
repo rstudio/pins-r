@@ -38,9 +38,10 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 }
 
 #' @param x An object (typically a data frame) to pin.
-#' @param desc A text description of the pin; most important for
-#'   shared boards so that others can understand what the pin contains.
-#'   If omitted, pins will generate a brief description of the contents.
+#' @param title A title for the pin; most important for shared boards so that
+#'   others can understand what the pin contains. If omitted, a brief
+#'   description of the contents will be automatically generated.
+#' @param description A detailed description of the pin contents.
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
@@ -54,7 +55,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 pin_write <- function(board, x,
                       name = NULL,
                       type = NULL,
-                      desc = NULL,
+                      title = NULL,
+                      description = NULL,
                       metadata = NULL,
                       versioned = NULL,
                       ...) {
@@ -84,7 +86,13 @@ pin_write <- function(board, x,
   object_write(x, path, type = type)
   withr::defer(fs::file_delete(path))
 
-  meta <- standard_meta(path, object = x, type = type, desc = desc)
+  meta <- standard_meta(
+    paths = path,
+    type = type,
+    object = x,
+    title = title,
+    description = description
+  )
   meta$user <- metadata
 
   invisible(pin_store(board, name, path, meta, versioned = versioned, x = x, ...))

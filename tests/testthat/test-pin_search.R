@@ -1,7 +1,7 @@
 test_that("default search looks in name and description", {
   board <- board_temp()
   board %>% pin_write(1:5, "ax")
-  board %>% pin_write(1:5, "ay", desc = "z")
+  board %>% pin_write(1:5, "ay", title = "z")
 
   expect_equal(board %>% pin_search("a") %>% nrow(), 2)
   expect_equal(board %>% pin_search("x") %>% .$name, "ax")

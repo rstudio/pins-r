@@ -20,11 +20,11 @@ test_that("newer version triggers error", {
   expect_snapshot_error(read_meta(path))
 })
 
-test_that("produces reasonable default descriptions", {
+test_that("produces reasonable default title", {
   expect_snapshot({
-    default_description(NULL, c("data.csv"))
-    default_description(NULL, c("data.csv", "foo.csv"))
-    default_description(mtcars, "data.csv")
-    default_description(1:10, "data.csv")
+    default_title(NULL, c("data.csv"))
+    default_title(NULL, c("data.csv", "foo.csv"))
+    default_title(mtcars, "data.csv")
+    default_title(1:10, "data.csv")
   })
 })

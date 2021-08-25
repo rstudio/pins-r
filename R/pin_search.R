@@ -1,14 +1,14 @@
 #' Search for pins
 #'
 #' The underlying search method depends on the `board`, but most will search
-#' for text in the pin name and description.
+#' for text in the pin name and title.
 #'
 #' @returns A data frame that summarises the metadata for each pin.
 #'   Key attributes (`name`, `type`, `description`, `created`, and `file_size`)
 #'   are pulled out into columns; everything else can be found in the `meta`
 #'   list-column.
 #' @inheritParams pin_read
-#' @param search A string to search for in pin name and description.
+#' @param search A string to search for in pin name and title.
 #' @param ... Additional arguments passed on to methods.
 #' @export
 #' @examples
@@ -32,7 +32,7 @@ pin_search.pins_board <- function(board, search, ...) {
   out <- multi_meta(board, names)
 
   match <- grepl(search, out$name, fixed = TRUE) |
-    grepl(search, out$description, fixed = TRUE)
+    grepl(search, out$title, fixed = TRUE)
   out <- out[match, , drop = FALSE]
 
   out

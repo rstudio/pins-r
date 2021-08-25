@@ -31,13 +31,14 @@ write_meta <- function(x, path) {
 
 # pin metadata ------------------------------------------------------------
 
-standard_meta <- function(path, type, object = NULL, desc = NULL) {
+standard_meta <- function(paths, type, object = NULL, title = NULL, description = NULL) {
   list(
-    file = fs::path_file(path),
-    file_size = as.integer(fs::file_size(path)),
-    pin_hash = pin_hash(path),
+    file = fs::path_file(paths),
+    file_size = as.integer(fs::file_size(paths)),
+    pin_hash = pin_hash(paths),
     type = type,
-    description = desc %||% default_description(object, path),
+    title = title %||% default_title(object, paths),
+    description = description,
     created = format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
     api_version = 1
   )
@@ -52,9 +53,7 @@ parse_8601_compact <- function(x) {
   y
 }
 
-# description -------------------------------------------------------------
-
-default_description <- function(object, path) {
+default_title <- function(object, path) {
   if (is.null(object)) {
     n <- length(path)
     if (n == 1) {
@@ -70,7 +69,6 @@ default_description <- function(object, path) {
 
   paste0("A pinned ", desc)
 }
-
 friendly_type <- function(x) {
   switch(typeof(x),
     logical = "logical vector",
