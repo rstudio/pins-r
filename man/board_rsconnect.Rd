@@ -13,6 +13,7 @@ board_rsconnect(
   cache = NULL,
   name = "rsconnect",
   versioned = TRUE,
+  use_cache_on_failure = is_interactive(),
   versions = deprecated()
 )
 }
@@ -42,6 +43,11 @@ generally needed since you should be passing around an explicit
 board object.}
 
 \item{versioned}{Should this board be registered with support for versions?}
+
+\item{use_cache_on_failure}{If the pin fails to download, is it ok to
+use the last cached version? Defaults to \code{is_interactive()} so you'll
+be robust to poor internet connectivity when exploring interactively,
+but you'll get clear errors when the code is deployed.}
 
 \item{versions}{Should this board be registered with support for versions?}
 }
