@@ -34,6 +34,7 @@
 #' You can find the URL of a pin with [pin_browse()].
 #'
 #' @inheritParams new_board
+#' @inheritParams board_url
 #' @param auth There are two approaches to auth: you can either use `"envvars"`
 #'   `CONNECT_API_KEY` and `CONNECT_SERVER` or the rsconnect package. The
 #'   default is `auto`, which will use the environment variables if both are
@@ -65,6 +66,7 @@ board_rsconnect <- function(
                             cache = NULL,
                             name = "rsconnect",
                             versioned = TRUE,
+                            use_cache_on_failure = is_interactive(),
                             versions = deprecated()) {
 
   server <- rsc_server(auth, server, account, key)
@@ -84,16 +86,22 @@ board_rsconnect <- function(
     account = server$account,         # for full name of pin
     server_name = server$server_name, # for board_rsconnect(server = "...") in template
     auth = server$auth,
-    versioned = versioned
+    versioned = versioned,
+    use_cache_on_failure = use_cache_on_failure
   )
 
   version <- tryCatch(
     rsc_version(board),
     error = function(e) {
-      abort(c(
-        glue("Failed to connect to RSC instance at <{server$url}>"),
-        conditionMessage(e)
-      ))
+      if (length(fs::dir_ls(cache)) == 0) {
+        # We've never successfully connected
+        abort(c(
+          glue("Failed to connect to RSC instance at <{server$url}>"),
+          conditionMessage(e)
+        ))
+      } else {
+        "???"
+      }
     }
   )
   pins_inform("Connecting to RSC {version} at <{server$url}>")
@@ -160,16 +168,11 @@ pin_version_delete.pins_board_rsconnect <- function(board, name, version, ...) {
 }
 
 #' @export
-pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {
+pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   content <- rsc_content_find(board, name)
 
   if (is.null(version)) {
-    if (offline) {
-      pins_inform("Using cached")
-      bundle_id <- content$bundle_id
-    } else {
-      bundle_id <- rsc_GET(board, rsc_v1("content", content$guid))$bundle_id
-    }
+    bundle_id <- rsc_content_version(board, content$guid)
   } else {
     bundle_id <- version
   }
@@ -187,7 +190,6 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   )
 
   meta <- read_meta(cache_path)
-
   if (meta$api_version == 0) {
     meta$file <- meta$path %||% meta$file
   }
@@ -422,7 +424,6 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
 
   content <- list(
     guid = selected$guid,
-    bundle_id = selected$bundle_id,
     url = selected$content_url
   )
   update_cache(cache_path, name$full, content)
@@ -470,6 +471,41 @@ rsc_content_versions <- function(board, guid) {
     active = map_lgl(json, ~ .x$active),
     size = map_dbl(json, ~ .x$size),
   )
+}
+
+rsc_content_version <- function(board, guid) {
+  if (!board$use_cache_on_failure) {
+    return(rsc_content_version_live(board, guid))
+  }
+
+  tryCatch(
+    rsc_content_version_live(board, guid),
+    error = function(cnd) {
+      rsc_content_version_cached(board, guid)
+    }
+  )
+}
+
+rsc_content_version_live <- function(board, guid) {
+  rsc_GET(board, rsc_v1("content", guid))$bundle_id
+}
+
+rsc_content_version_cached <- function(board, guid) {
+  bundles <- fs::dir_ls(fs::path(board$cache, guid))
+  # Should really check that all files also exist, but using only
+  # pin_meta() and not pin_read() should be relatively unusual
+  meta <- fs::path(bundles, "data.txt")
+  meta <- meta[fs::file_exists(meta)]
+
+  if (length(meta) == 0) {
+    abort("Failed to connect to RSC ")
+  } else {
+    cli::cli_alert_danger("Failed to connect to RSC; using cached version")
+
+    info <- fs::file_info(meta)
+    meta <- meta[order(info$modification_time, decreasing = TRUE)]
+    fs::path_file(fs::path_dir(meta[[1]]))
+  }
 }
 
 rsc_content_delete <- function(board, name) {

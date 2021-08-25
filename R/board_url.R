@@ -15,8 +15,8 @@
 #'   `board_url` will look for a `data.txt` that provides metadata. The
 #'   easiest way to generate this file is to upload a pin directory created by
 #'   [board_folder()].
-#' @param use_cache_on_failure If the url fails to download, is it ok to
-#'   use the last cached failure? Defaults to `is_interactive()` so you'll
+#' @param use_cache_on_failure If the pin fails to download, is it ok to
+#'   use the last cached version? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
 #' @family boards

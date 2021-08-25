@@ -16,8 +16,8 @@ easiest way to generate this file is to upload a pin directory created by
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 
-\item{use_cache_on_failure}{If the url fails to download, is it ok to
-use the last cached failure? Defaults to \code{is_interactive()} so you'll
+\item{use_cache_on_failure}{If the pin fails to download, is it ok to
+use the last cached version? Defaults to \code{is_interactive()} so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
 }

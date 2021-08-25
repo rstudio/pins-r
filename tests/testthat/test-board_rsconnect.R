@@ -84,3 +84,17 @@ test_that("can parse user & pin name", {
   expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x", full = NULL))
   expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x", full = "y/x"))
 })
+
+test_that("can find cached versions", {
+  board <- board_rsconnect_test()
+  name <- local_pin(board, 1)
+  pin_read(board, name)
+
+  guid <- rsc_content_find(board, name)$guid
+  expect_message(cached_v <- rsc_content_version_cached(board, guid), "cached")
+  expect_equal(cached_v, rsc_content_version_live(board, guid))
+
+  pin_write(board, 2, name)
+  # Cached version hasn't changed since we haven't read
+  expect_message(expect_equal(rsc_content_version_cached(board, guid), cached_v))
+})
