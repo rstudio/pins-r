@@ -10,6 +10,7 @@ read_meta <- function(path) {
   yaml <- yaml::read_yaml(path, eval.expr = FALSE)
   if (is.null(yaml$api_version)) {
     yaml$api_version <- 0L
+    yaml$file <- yaml$path %||% yaml$file
   } else if (yaml$api_version == 1) {
     yaml$file_size <- fs::as_fs_bytes(yaml$file_size)
     yaml$created <- parse_8601_compact(yaml$created)

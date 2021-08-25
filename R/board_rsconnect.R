@@ -190,10 +190,6 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   )
 
   meta <- read_meta(cache_path)
-  if (meta$api_version == 0) {
-    meta$file <- meta$path %||% meta$file
-  }
-
   local_meta(meta,
     dir = cache_path,
     version = bundle_id,
