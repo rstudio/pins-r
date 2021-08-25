@@ -1,0 +1,23 @@
+
+[Server]
+DataDir = /data
+Address = http://localhost:3939
+
+[HTTP]
+Listen = :3939
+
+[Authentication]
+Provider = pam
+
+[Authorization]
+DefaultUserRole = publisher
+
+[Python]
+Enabled = true
+Executable = /opt/python/3.6.5/bin/python
+
+[RPackageRepository "CRAN"]
+URL = https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
+
+[RPackageRepository "RSPM"]
+URL = https://packagemanager.rstudio.com/cran/__linux__/bionic/latest

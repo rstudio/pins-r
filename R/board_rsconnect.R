@@ -103,17 +103,6 @@ board_rsconnect <- function(
   board
 }
 
-board_rsconnect_test <- function(...) {
-  if (!is.null(rsconnect::accounts())) {
-    board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
-  } else if (!has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
-    testthat::skip("No RSC env vars set up")
-  } else {
-    board_rsconnect(..., auth = "envvar", cache = fs::file_temp())
-  }
-}
-
-
 #' @export
 board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
   rsc_content_delete(board, name)
@@ -649,3 +638,50 @@ rsc_version <- function(board) {
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
 }
+
+# Testing setup -----------------------------------------------------------
+
+board_rsconnect_test <- function(...) {
+  if (rsc_has_hadley_account()) {
+    board_rsconnect_hadley(...)
+  } else {
+    board_rsconnect_susan(...)
+  }
+}
+
+# My real live RSC account which we obviously want to move away from
+rsc_has_hadley_account <- function() {
+  accounts <- rsconnect::accounts()
+  "hadley" %in% accounts$name
+}
+board_rsconnect_hadley <- function(...) {
+  if (!rsc_has_hadley_account()) {
+    testthat::skip("board_rsconnect_hadley() only works on Hadley's computer")
+  }
+  board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
+}
+
+board_rsconnect_susan <- function(...) {
+  creds <- read_creds()
+  board_rsconnect("envvar",
+    server = "http://localhost:3939",
+    account = "susan",
+    key = creds$susan_key
+  )
+}
+board_rsconnect_derek <- function(...) {
+  creds <- read_creds()
+  board_rsconnect("envvar",
+    server = "http://localhost:3939",
+    account = "derek",
+    key = creds$derek_key
+  )
+}
+read_creds <- function() {
+  path <- testthat::test_path("creds.rds")
+  if (!file.exists(path)) {
+    testthat::skip(glue("No RSC testing config detected (can't find `{path}`)"))
+  }
+  readRDS(path)
+}
+
