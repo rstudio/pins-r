@@ -58,16 +58,29 @@ default_description <- function(object, path) {
   if (is.null(object)) {
     n <- length(path)
     if (n == 1) {
-      desc <- glue("a .{fs::path_ext(path)} file")
+      desc <- glue(".{fs::path_ext(path)} file")
     } else {
       desc <- glue("{n} files")
     }
   } else if (is.data.frame(object)) {
-    desc <- glue("a data frame with {nrow(object)} rows and {ncol(object)} columns")
+    desc <- glue("{nrow(object)} x {ncol(object)} data frame")
   } else {
-    desc <- friendly_type(typeof(object))
+    desc <- friendly_type(object)
   }
 
-  paste0("A pin containing ", desc)
+  paste0("A pinned ", desc)
 }
 
+friendly_type <- function(x) {
+  switch(typeof(x),
+    logical = "logical vector",
+    integer = "integer vector",
+    numeric = ,
+    double = "double vector",
+    complex = "complex vector",
+    character = "character vector",
+    raw = "raw vector",
+    list = "list",
+    typeof(x)
+  )
+}

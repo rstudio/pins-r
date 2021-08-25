@@ -5,7 +5,7 @@
      $ file_size  : int 200
      $ pin_hash   : chr "db696042be80dbb4"
      $ type       : chr "arrow"
-     $ description: chr "A pin containing a data frame with 10 rows and 1 columns"
+     $ description: chr "A pinned 10 x 1 data frame"
      $ created    : chr "<TODAY>"
      $ api_version: num 1
 
@@ -19,17 +19,17 @@
     Code
       default_description(NULL, c("data.csv"))
     Output
-      [1] "A pin containing a .csv file"
+      [1] "A pinned .csv file"
     Code
       default_description(NULL, c("data.csv", "foo.csv"))
     Output
-      [1] "A pin containing 2 files"
+      [1] "A pinned 2 files"
     Code
       default_description(mtcars, "data.csv")
     Output
-      [1] "A pin containing a data frame with 32 rows and 11 columns"
+      [1] "A pinned 32 x 11 data frame"
     Code
       default_description(1:10, "data.csv")
     Output
-      [1] "A pin containing an integer vector"
+      [1] "A pinned integer vector"
 
