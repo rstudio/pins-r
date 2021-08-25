@@ -167,6 +167,7 @@ After you've shared the pin, it will be automatically available to others.</p>
   cache <span class='op'>=</span> <span class='cn'>NULL</span>,
   name <span class='op'>=</span> <span class='st'>"rsconnect"</span>,
   versioned <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  use_cache_on_failure <span class='op'>=</span> <span class='fu'>is_interactive</span><span class='op'>(</span><span class='op'>)</span>,
   versions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -214,6 +215,13 @@ board object.</p></td>
     <tr>
       <th>versioned</th>
       <td><p>Should this board be registered with support for versions?</p></td>
+    </tr>
+    <tr>
+      <th>use_cache_on_failure</th>
+      <td><p>If the pin fails to download, is it ok to
+use the last cached version? Defaults to <code>is_interactive()</code> so you'll
+be robust to poor internet connectivity when exploring interactively,
+but you'll get clear errors when the code is deployed.</p></td>
     </tr>
     <tr>
       <th>versions</th>
