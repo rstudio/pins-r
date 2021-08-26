@@ -18,19 +18,19 @@
 # produces reasonable default title
 
     Code
-      default_title(NULL, "name", c("data.csv"))
+      default_title("name", path = c("data.csv"))
     Output
       [1] "name: a pinned .csv file"
     Code
-      default_title(NULL, "name", c("data.csv", "foo.csv"))
+      default_title("name", path = c("data.csv", "foo.csv"))
     Output
       [1] "name: 2 pinned files"
     Code
-      default_title(mtcars, "name", "data.csv")
+      default_title("name", data = mtcars)
     Output
       [1] "name: a pinned 32 x 11 data frame"
     Code
-      default_title(1:10, "name", "data.csv")
+      default_title("name", data = 1:10)
     Output
       [1] "name: a pinned integer vector"
 

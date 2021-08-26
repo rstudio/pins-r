@@ -54,18 +54,22 @@ parse_8601_compact <- function(x) {
   y
 }
 
-default_title <- function(object, name, path) {
-  if (is.null(object)) {
+default_title <- function(name, data = NULL, path = NULL) {
+  if (!xor(is.null(data), is.null(path))) {
+    abort("Must supply exactly one of `path` and `data`")
+  }
+
+  if (is.null(data)) {
     n <- length(path)
     if (n == 1) {
       desc <- glue("a pinned .{fs::path_ext(path)} file")
     } else {
       desc <- glue("{n} pinned files")
     }
-  } else if (is.data.frame(object)) {
-    desc <- glue("a pinned {nrow(object)} x {ncol(object)} data frame")
+  } else if (is.data.frame(data)) {
+    desc <- glue("a pinned {nrow(data)} x {ncol(data)} data frame")
   } else {
-    desc <- paste0("a pinned ", friendly_type(object))
+    desc <- paste0("a pinned ", friendly_type(data))
   }
 
   paste0(name, ": ", desc)

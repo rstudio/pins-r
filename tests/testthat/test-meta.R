@@ -22,9 +22,9 @@ test_that("newer version triggers error", {
 
 test_that("produces reasonable default title", {
   expect_snapshot({
-    default_title(NULL, "name", c("data.csv"))
-    default_title(NULL, "name", c("data.csv", "foo.csv"))
-    default_title(mtcars, "name", "data.csv")
-    default_title(1:10, "name", "data.csv")
+    default_title("name", path = c("data.csv"))
+    default_title("name", path = c("data.csv", "foo.csv"))
+    default_title("name", data = mtcars)
+    default_title("name", data = 1:10)
   })
 })
