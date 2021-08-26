@@ -14,8 +14,8 @@ coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](htt
 The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
-networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob
-storage, and more. Pins can be automatically versioned, making it
+networked drive or with services like DropBox), RStudio Connect, Amazon
+S3, Azure blob storage. Pins can be automatically versioned, making it
 straightforward to track changes, re-run analyses on historical data,
 and undo mistakes.
 
@@ -58,7 +58,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpWB9Jkr/pins-f33032eaee0c'
+#> Path: '/tmp/RtmpnTsA83/pins-fb066b65d1e'
 #> Cache size: 0
 ```
 
@@ -68,7 +68,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210826T173653Z-f8797'
+#> Creating new version '20210826T183040Z-f8797'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
