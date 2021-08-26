@@ -16,8 +16,7 @@ knitr::opts_chunk$set(
 
 pins 1.0.0 introduced a completely new API designed to be more explicit and less magical.
 While the legacy API will continue to be supported for some time, it will not gain any new features, so it's good to plan to switch to the new interface.
-
-This vignette shows a couple of examples converting legacy code to the modern API, then shows the equivalences between the legacy and modern function names.
+This vignette shows a couple of examples converting legacy code to the modern API, then provides a full set of equivalences between the legacy and modern function names.
 
 ```{r setup}
 library(pins)
@@ -34,13 +33,19 @@ pin(head(mtcars), "mtcars", board = "vignette")
 pin_get("mtcars", board = "vignette")
 ```
 
-There are three major changes:
+To convert to the modern API you need to make two: major changes:
 
--   You create an explicit board object which you use instead of the name.
+-   Instead of registering a named board, you create an explicit board object.
 -   You use `pin_read()` and `pin_write()` instead of `pin_get()` and `pin()`.
--   The board object is the always the first argument.
 
-So the code above translates to:
+```{r}
+board <- board_local()
+
+pin_write(board, head(mtcars), "mtcars")
+pin_read(board, "mtcars")
+```
+
+Since the board object is always the first argument, you might also want to use the pipe:
 
 ```{r}
 board <- board_local()
@@ -61,7 +66,7 @@ pin(path, "alphabet", board = "vignette")
 pin_get("alphabet", board = "vignette")
 ```
 
-pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so instead of `pin_write()` and `pin_read()` you need to `pin_upload()` and `pin_download()`:
+pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so here instead of `pin_write()` and `pin_read()` you need to `pin_upload()` and `pin_download()`:
 
 ```{r}
 board %>% pin_upload(path, "alphabet")
@@ -78,7 +83,7 @@ base <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"
 (pin(paste0(base, "pin-files/first.txt"), board = "vignette"))
 ```
 
-(It's a little confusing that this uses `pin()` rather than `pin_get()`.)
+(I find it a little confusing that this uses `pin()` rather than `pin_get()`.)
 
 This now needs to be made explicit with the new `board_url()`, and since this returns a path, not a file, you need to use `pin_download()`:
 
@@ -98,7 +103,7 @@ pin(data.frame(x = 1:3), "test-data")
 pin_get("test-data")
 ```
 
-To convert this, you just need to create an explicit board:
+To convert this code, you need to create an explicit `board_local()`:
 
 ```{r}
 board <- board_local()
@@ -114,16 +119,15 @@ board %>% pin_read("test-data")
 | Legacy API                   | Modern API          |
 |------------------------------|---------------------|
 | `board_register_azure()`     | `board_azure()`     |
-| `board_register_datatxt()`   |                     |
-| `board_register_dospace()`   |                     |
-| `board_register_gcloud()`    |                     |
-| `board_register_github()`    |                     |
+| `board_register_datatxt()`   | Not implemented     |
+| `board_register_dospace()`   | Not implemented     |
+| `board_register_gcloud()`    | Not implemented     |
+| `board_register_github()`    | Not implemented     |
 | `board_register_local()`     | `board_local()`     |
-| `board_register_kaggle()`    |                     |
+| `board_register_kaggle()`    | Not implemented     |
 | `board_register_rsconnect()` | `board_rsconnect()` |
 | `board_register_s3()`        | `board_s3()`        |
 | `pin()` with a URL           | `board_url()`       |
-|                              | `board_folder()`    |
 
 Future releases will add support for additional boards based on user feedback.
 

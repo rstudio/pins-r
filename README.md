@@ -11,52 +11,62 @@ coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](htt
 
 <!-- badges: end -->
 
-The pins package helps you publish data sets, models, and other R
-objects, making it easy to share them across projects and with your
-colleagues. You can pin objects to a variety of “boards”, including
-local folders (to share on a networked drive or with dropbox), RStudio
-Connect, Amazon S3, and more.
+The pins package publishes data, models, and other R objects, making it
+easy to share them across projects and with your colleagues. You can pin
+objects to a variety of pin *boards*, including folders (to share on a
+networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob
+storage, and more.
 
 pins 1.0.0 includes a new API that is designed to be more explicit and
-less magical, as well as providing much more robust versioning. The
-legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue
-to work, but new features will only be implemented with the new API, so
-we encourage you to switch to the modern API as quickly as possible.
-Learn more in `vignette("pins-legacy")`.
+less magical, as well as robust support for versioning. The legacy API
+(`pin()`, `pin_get()`, and `board_register()`) will continue to work,
+but new features will only be implemented with the new API, so we
+encourage you to switch to the modern API as quickly as possible. Learn
+more in `vignette("pins-legacy")`.
 
 ## Installation
 
+To try out the development version of pins (which will become pins 1.0.0
+when released), you’ll need to install from GitHub:
+
 ``` r
-# Install the released version from CRAN:
+remotes::install_github("rstudio/pins")
+```
+
+If you discover this breaks any of your existing code, please [let us
+know](https://github.com/rstudio/pins/issues) then revert to the
+released version:
+
+``` r
 install.packages("pins")
 ```
 
 ## Usage
 
-To use the pins package, you must first create a pin **board**. A good
-place to start is `board_folder()`, which stores pins in a directory you
+To use the pins package, you must first create a pin board. A good place
+to start is `board_folder()`, which stores pins in a directory you
 specify. Here I’ll use a special version of `board_folder()` called
-`board_temp()`; it creates a temporary board that’s automatically
-deleted when your R session ends:
+`board_temp()` which creates a temporary board that’s automatically
+deleted when your R session ends. This is great for examples, but
+obviously you shouldn’t use it for real work!
 
 ``` r
 library(pins)
 
-b <- board_temp()
-b
+board <- board_temp()
+board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/Rtmpgy7RFX/pins-78427a3adddc'
+#> Path: '/tmp/RtmpYbKpT8/pins-de207df32915'
 #> Cache size: 0
 ```
 
-You can “pin” (save) data to that board with `pin_write()`. The first
-argument is the object to pin (normally a data frame), and the second
-argument is the name you’ll use to later retrieve it:
+You can “pin” (save) data to a board with `pin_write()`. It takes three
+arguments: the board to pin to, an object, and a name:
 
 ``` r
-b %>% pin_write(head(mtcars), "mtcars")
+board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210806T175343Z-f8797'
+#> Creating new version '20210826T132817Z-f8797'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
@@ -66,7 +76,7 @@ what you’re saving and who else you want to read it, you might use the
 You can later retrieve the pinned data with `pin_read()`:
 
 ``` r
-b %>% pin_read("mtcars")
+board %>% pin_read("mtcars")
 #>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
@@ -84,22 +94,23 @@ Connect](https://www.rstudio.com/products/connect/) you can use
 `board_rsconnect()`:
 
 ``` r
-b <- board_rsconnect()
-b %>% pin_write(tidy_sales_data, "sales-summary")
-#> Saving to hadley/sales-summary
+board <- board_rsconnect()
+#> Connecting to RSC 1.9.0.1 at <https://connect.rstudioservices.com>
+board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
+#> Writing to pin 'hadley/sales-summary'
 ```
 
-Then, someone else (or an automated Rmd report!) can read and use your
+Then, someone else (or an automated Rmd report) can read and use your
 pin:
 
 ``` r
-b <- board_rsconnect()
-b %>% pin_read("hadley/sales-summary")
+board <- board_rsconnect()
+board %>% pin_read("hadley/sales-summary")
 ```
 
 You can easily control who gets to access the data using the RStudio
 Connection permissions pane.
 
-The pins package also includes boards that allow you to share data on S3
-(`board_s3()`), Azure (`board_azure()`), and more. Learn more in
-`vignette("pins")`.
+The pins package also includes boards that allow you to share data on
+services like Amazon’s S3 (`board_s3()`) and Azure’s blob storage
+(`board_azure()`). Learn more in `vignette("pins")`.

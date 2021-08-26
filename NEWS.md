@@ -1,6 +1,8 @@
 # pins (development version)
 
-This versions of pins brings with it a new API that is designed to be much less magical and more explicit. Now, rather than "registering" a board that you later refer to either implicitly or with a string, you generate a board object which is passed to every `pin_` function. This takes away the magic of which board a pin comes from and should hopefully make it easier to understand what pins is doing.
+pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning. The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in vignette("pins-legacy").
+
+In the modern API, you create a board object which is passed to every `pin_` function instead of "registering" a board that is later refereed to with a string,. This takes away the magic of which board a pin comes from, and leads to code like looks this:
 
 ```R
 board <- board_local()
@@ -8,7 +10,6 @@ board %>% pin_write(mtcars, "mtcars")
 board %>% pin_read("mtcars")
 ```
 
-Existing pins code will continue to work, but we now consider this to be a legacy API that is provided only for backward compatibility. Learn more about upgrading `vignette("pins-legacy")`.
 
 ## Modern pin functions
 
