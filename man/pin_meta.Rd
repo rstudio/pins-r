@@ -29,6 +29,7 @@ Pin metadata comes from three sources:
 \item \verb{$file_size} - size of each file.
 \item \verb{$pin_hash} - hash of pin contents.
 \item \verb{$type} - type of pin, "rds", "csv", etc
+\item \verb{$title} - pin title
 \item \verb{$description} - pin description
 \item \verb{$created} - date this (version of the pin) was created
 \item \verb{$api_version} - API version used by pin

@@ -8,6 +8,7 @@
 #'   * `$file_size` - size of each file.
 #'   * `$pin_hash` - hash of pin contents.
 #'   * `$type` - type of pin, "rds", "csv", etc
+#'   * `$title` - pin title
 #'   * `$description` - pin description
 #'   * `$created` - date this (version of the pin) was created
 #'   * `$api_version` - API version used by pin
@@ -45,7 +46,7 @@ multi_meta <- function(board, names) {
     tibble::tibble(
       name = character(),
       type = character(),
-      description = character(),
+      title = character(),
       created = .POSIXct(double()),
       file_size = fs::fs_bytes(),
       meta = list()
@@ -56,7 +57,7 @@ multi_meta <- function(board, names) {
     tibble::tibble(
       name = names,
       type = map_chr(meta, ~ .x$type %||% NA_character_),
-      description = map_chr(meta, ~ .x$description %||% NA_character_),
+      title = map_chr(meta, ~ .x$title %||% NA_character_),
       created = .POSIXct(map_dbl(meta, ~ .x$created %||% NA_real_)),
       file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size) %||% NA_real_)),
       meta = meta
@@ -77,10 +78,21 @@ local_meta <- function(x, dir, version, ...) {
 
 test_api_meta <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
-    name <- local_pin(board, 1, desc = "desc", metadata = list(a = "a"))
+    name <- local_pin(board, 1, title = "title", description = "desc", metadata = list(a = "a"))
     meta <- pin_meta(board, name)
+    testthat::expect_equal(meta$title, "title")
     testthat::expect_equal(meta$description, "desc")
     testthat::expect_equal(meta$user$a, "a")
+  })
+
+  testthat::test_that("can update pin metadata", {
+    # RSC requires at least 3 characters
+    name <- local_pin(board, 1, title = "xxx-a1", description = "xxx-a2")
+    pin_write(board, 1, name, title = "xxx-b1", description = "xxx-b2")
+
+    meta <- pin_meta(board, name)
+    testthat::expect_equal(meta$title, "xxx-b1")
+    testthat::expect_equal(meta$description, "xxx-b2")
   })
 
   testthat::test_that("pin_meta fails cleanly if pin is missing", {
@@ -100,7 +112,7 @@ test_api_meta <- function(board) {
     testthat::expect_s3_class(meta$file_size, "fs_bytes")
     testthat::expect_vector(meta$pin_hash, character(), 1)
     testthat::expect_true(meta$type %in% object_types)
-    testthat::expect_vector(meta$description, character(), 1)
+    testthat::expect_vector(meta$title, character(), 1)
     testthat::expect_vector(meta$created, .POSIXct(double()), 1)
     testthat::expect_vector(meta$api_version, double(), 1)
 

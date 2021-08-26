@@ -10,6 +10,7 @@ read_meta <- function(path) {
   yaml <- yaml::read_yaml(path, eval.expr = FALSE)
   if (is.null(yaml$api_version)) {
     yaml$api_version <- 0L
+    yaml$file <- yaml$path %||% yaml$file
   } else if (yaml$api_version == 1) {
     yaml$file_size <- fs::as_fs_bytes(yaml$file_size)
     yaml$created <- parse_8601_compact(yaml$created)
@@ -31,13 +32,14 @@ write_meta <- function(x, path) {
 
 # pin metadata ------------------------------------------------------------
 
-standard_meta <- function(path, type, object = NULL, desc = NULL) {
+standard_meta <- function(paths, type, title = NULL, description = NULL) {
   list(
-    file = fs::path_file(path),
-    file_size = as.integer(fs::file_size(path)),
-    pin_hash = pin_hash(path),
+    file = fs::path_file(paths),
+    file_size = as.integer(fs::file_size(paths)),
+    pin_hash = pin_hash(paths),
     type = type,
-    description = desc %||% default_description(object, path),
+    title = title,
+    description = description,
     created = format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
     api_version = 1
   )
@@ -52,22 +54,32 @@ parse_8601_compact <- function(x) {
   y
 }
 
-# description -------------------------------------------------------------
-
-default_description <- function(object, path) {
+default_title <- function(object, name, path) {
   if (is.null(object)) {
     n <- length(path)
     if (n == 1) {
-      desc <- glue("a .{fs::path_ext(path)} file")
+      desc <- glue("a pinned .{fs::path_ext(path)} file")
     } else {
-      desc <- glue("{n} files")
+      desc <- glue("{n} pinned files")
     }
   } else if (is.data.frame(object)) {
-    desc <- glue("a data frame with {nrow(object)} rows and {ncol(object)} columns")
+    desc <- glue("a pinned {nrow(object)} x {ncol(object)} data frame")
   } else {
-    desc <- friendly_type(typeof(object))
+    desc <- paste0("a pinned ", friendly_type(object))
   }
 
-  paste0("A pin containing ", desc)
+  paste0(name, ": ", desc)
 }
-
+friendly_type <- function(x) {
+  switch(typeof(x),
+    logical = "logical vector",
+    integer = "integer vector",
+    numeric = ,
+    double = "double vector",
+    complex = "complex vector",
+    character = "character vector",
+    raw = "raw vector",
+    list = "list",
+    typeof(x)
+  )
+}

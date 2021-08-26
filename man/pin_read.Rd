@@ -12,7 +12,8 @@ pin_write(
   x,
   name = NULL,
   type = NULL,
-  desc = NULL,
+  title = NULL,
+  description = NULL,
   metadata = NULL,
   versioned = NULL,
   ...
@@ -39,9 +40,11 @@ you expect. You can find the hash of an existing pin by looking for
 "csv", "rds", "json", or "arrow". If not supplied will use json for bare
 lists and rds for everything else.}
 
-\item{desc}{A text description of the pin; most important for
-shared boards so that others can understand what the pin contains.
-If omitted, pins will generate a brief description of the contents.}
+\item{title}{A title for the pin; most important for shared boards so that
+others can understand what the pin contains. If omitted, a brief
+description of the contents will be automatically generated.}
+
+\item{description}{A detailed description of the pin contents.}
 
 \item{metadata}{A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the \code{user} key, to

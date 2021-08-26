@@ -190,10 +190,6 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   )
 
   meta <- read_meta(cache_path)
-  if (meta$api_version == 0) {
-    meta$file <- meta$path %||% meta$file
-  }
-
   local_meta(meta,
     dir = cache_path,
     version = bundle_id,
@@ -379,7 +375,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
   tibble::tibble(
     name = paste0(user, "/", name),
     title = map_chr(pins, ~ .x$title %||% ""),
-    description = map_chr(pins, ~ .x$description)
+    description = map_chr(pins, ~ .x$description %||% "")
   )
 }
 
@@ -439,8 +435,8 @@ rsc_content_create <- function(board, name, metadata, access_type = "acl") {
 
   body <- list(
     name = name$name,
-    title = name$name,
     access_type = access_type %||% "acl",
+    title = metadata$title %||% name$name, # fallback for legacy board
     description = metadata$description %||% ""
   )
 
@@ -451,7 +447,8 @@ rsc_content_create <- function(board, name, metadata, access_type = "acl") {
 rsc_content_update <- function(board, guid, metadata, access_type = NULL) {
   body <- compact(list(
     access_type = access_type,
-    description = metadata$description
+    title = metadata$title,
+    description = metadata$description %||% ""
   ))
 
   # https://docs.rstudio.com/connect/api/#patch-/v1/content/{guid}

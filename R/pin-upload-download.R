@@ -28,7 +28,7 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @export
 #' @rdname pin_download
 #' @param paths A character vector of file paths to upload to `board`.
-pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, ...) {
+pin_upload <- function(board, paths, name = NULL, title = NULL, description = NULL, metadata = NULL, ...) {
   check_board(board, "pin_upload()", "pin()")
 
   if (!is.character(paths)) {
@@ -56,7 +56,12 @@ pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, 
     paths <- as.character(unlist(paths, use.names = FALSE))
   }
 
-  meta <- standard_meta(paths, desc = desc, type = "file")
+  meta <- standard_meta(
+    paths = paths,
+    type = "file",
+    title = title %||% default_title(NULL, name, paths),
+    description = description
+  )
   meta$user <- metadata
 
   invisible(pin_store(board, name, paths, meta, ...))
