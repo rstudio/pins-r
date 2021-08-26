@@ -5,7 +5,7 @@
      $ file_size  : int 200
      $ pin_hash   : chr "db696042be80dbb4"
      $ type       : chr "arrow"
-     $ title      : chr "A pinned 10 x 1 data frame"
+     $ title      : chr "title"
      $ description: NULL
      $ created    : chr "<TODAY>"
      $ api_version: num 1
@@ -18,19 +18,19 @@
 # produces reasonable default title
 
     Code
-      default_title(NULL, c("data.csv"))
+      default_title(NULL, "name", c("data.csv"))
     Output
-      [1] "A pinned .csv file"
+      [1] "name: a pinned .csv file"
     Code
-      default_title(NULL, c("data.csv", "foo.csv"))
+      default_title(NULL, "name", c("data.csv", "foo.csv"))
     Output
-      [1] "A pinned 2 files"
+      [1] "name: 2 pinned files"
     Code
-      default_title(mtcars, "data.csv")
+      default_title(mtcars, "name", "data.csv")
     Output
-      [1] "A pinned 32 x 11 data frame"
+      [1] "name: a pinned 32 x 11 data frame"
     Code
-      default_title(1:10, "data.csv")
+      default_title(1:10, "name", "data.csv")
     Output
-      [1] "A pinned integer vector"
+      [1] "name: a pinned integer vector"
 

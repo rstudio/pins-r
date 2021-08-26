@@ -89,8 +89,7 @@ pin_write <- function(board, x,
   meta <- standard_meta(
     paths = path,
     type = type,
-    object = x,
-    title = title,
+    title = title %||% default_title(x, name, paths),
     description = description
   )
   meta$user <- metadata

@@ -59,7 +59,7 @@ pin_upload <- function(board, paths, name = NULL, title = NULL, description = NU
   meta <- standard_meta(
     paths = paths,
     type = "file",
-    title = title,
+    title = title %||% default_title(NULL, name, paths),
     description = description
   )
   meta$user <- metadata
