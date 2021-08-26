@@ -25,10 +25,15 @@ reference:
     Boards abstract over different storage backends, making it easy to
     share data in a vareity of ways.
   contents:
+  - board_azure
   - board_local
   - board_rsconnect
   - board_s3
   - board_url
+
+- title: Other functions
+  contents:
+  - cache_browse
 
 - title: Legacy API
   desc: >
