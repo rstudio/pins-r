@@ -91,8 +91,8 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of pin <em>boards</em>, including folders (to share on a networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob storage, and more.</p>
-<p>pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning. The legacy API (<code><a href="reference/pin.html">pin()</a></code>, <code><a href="reference/pin_get.html">pin_get()</a></code>, and <code><a href="reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="articles/pins-legacy.html">vignette("pins-legacy")</a></code>.</p>
+<p>The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of pin <em>boards</em>, including folders (to share on a networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob storage, and more. Pins can be automatically versioned, making it straightforward to track changes, re-run analyses on historical data, and undo mistakes.</p>
+<p>pins 1.0.0 includes a new more explicit API and greater support for versioning. The legacy API (<code><a href="reference/pin.html">pin()</a></code>, <code><a href="reference/pin_get.html">pin_get()</a></code>, and <code><a href="reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="articles/pins-legacy.html">vignette("pins-legacy")</a></code>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
@@ -113,13 +113,13 @@
 <span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">board</span>
 <span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpYbKpT8/pins-de207df32915'</span>
+<span class="co">#&gt; Path: '/tmp/RtmpWB9Jkr/pins-f33032eaee0c'</span>
 <span class="co">#&gt; Cache size: 0</span></code></pre></div>
 <p>You can “pin” (save) data to a board with <code><a href="reference/pin_read.html">pin_write()</a></code>. It takes three arguments: the board to pin to, an object, and a name:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210826T132817Z-f8797'</span></code></pre></div>
+<span class="co">#&gt; Creating new version '20210826T173653Z-f8797'</span></code></pre></div>
 <p>As you can see, the data saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might use the <code>type</code> argument to instead save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
 <p>You can later retrieve the pinned data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
