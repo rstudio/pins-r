@@ -59,6 +59,7 @@ jobs:
         shell: Rscript {0}
 
       - name: output docker logs
+        if: always()
         run: |
           docker logs pins-connect
 
