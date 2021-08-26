@@ -21,7 +21,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@master
         with:
-          extra-packages: pkgdown
+          extra-packages: r-lib/pkgdown
           needs: website
 
       - name: Build and deploy pkgdown site

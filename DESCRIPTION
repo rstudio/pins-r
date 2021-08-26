@@ -61,7 +61,6 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
-Config/Needs/website: r-lib/pkgdown
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
