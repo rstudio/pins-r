@@ -133,6 +133,7 @@ pin_exists.pins_board_s3 <- function(board, name, ...) {
 #' @export
 pin_delete.pins_board_s3 <- function(board, names, ...) {
   for (name in names) {
+    check_pin_exists(board, name)
     s3_delete_dir(board, name)
   }
   invisible(board)

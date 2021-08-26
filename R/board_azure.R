@@ -62,6 +62,7 @@ pin_exists.pins_board_azure <- function(board, name, ...) {
 #' @export
 pin_delete.pins_board_azure <- function(board, names, ...) {
   for (name in names) {
+    check_pin_exists(board, name)
     azure_delete_dir(board, name)
   }
   invisible(board)

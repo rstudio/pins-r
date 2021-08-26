@@ -119,8 +119,10 @@ board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
 #' @export
 pin_delete.pins_board_rsconnect <- function(board, names, ...) {
   for (name in names) {
+    check_pin_exists(board, name)
     rsc_content_delete(board, name)
   }
+  invisible(board)
 }
 
 #' @export
@@ -510,6 +512,9 @@ rsc_content_version_cached <- function(board, guid) {
 rsc_content_delete <- function(board, name) {
   content <- rsc_content_find(board, name)
   rsc_DELETE(board, rsc_v1("content", content$guid))
+
+  cache_path <- fs::path(board$cache, "content-cache.yml")
+  update_cache(cache_path, name, NULL)
 }
 
 rsc_parse_name <- function(x) {

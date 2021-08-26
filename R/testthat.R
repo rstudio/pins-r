@@ -1,6 +1,6 @@
 local_pin <- function(board, value, ..., env = parent.frame()) {
   name <- pin_write(board, value, random_pin_name(), ...)
-  withr::defer(pin_delete(board, name), env)
+  withr::defer(if (pin_exists(board, name)) pin_delete(board, name), env)
 
   name
 }
@@ -84,6 +84,22 @@ test_api_basic <- function(board) {
     testthat::expect_error(
       pin_write(board, 1, "abc/def/ghijkl"),
       class = "pins_check_name"
+    )
+  })
+
+  testthat::test_that("can delete multiple files", {
+    name1 <- local_pin(board, 1)
+    name2 <- local_pin(board, 2)
+
+    pin_delete(board, c(name1, name2))
+    testthat::expect_false(pin_exists(board, name1))
+    testthat::expect_false(pin_exists(board, name2))
+  })
+
+  testthat::test_that("deleting non-extistant file errors", {
+    testthat::expect_error(
+      pin_delete(board, "DOES-NOT-EXIST"),
+      class = "pins_pin_missing"
     )
   })
 }

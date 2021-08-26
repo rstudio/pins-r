@@ -61,9 +61,10 @@ pin_exists.pins_board_folder <- function(board, name, ...) {
 
 #' @export
 pin_delete.pins_board_folder <- function(board, names, ...) {
-  walk(names, check_name)
-  fs::dir_delete(fs::path(board$path, names))
-
+  for (name in names) {
+    check_pin_exists(board, name)
+    fs::dir_delete(fs::path(board$path, name))
+  }
   invisible(board)
 }
 
