@@ -112,37 +112,38 @@
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p>Every pin lives in a pin board, so you have to start by creating a pin board. In this vignette I’m going to use a temporary board which is automatically deleted when your R session is over:</p>
+<p>Every pin lives in a pin <em>board</em>, so you must start by creating a pin board. In this vignette I’ll use a temporary board which is automatically deleted when your R session is over:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>But in real-life, you’d pick another board depending on where you want the pins data to live. Here are a few options:</p>
+<p>In real-life, you’d pick a board depending on how you want to share the data. Here are a few options:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>board &lt;-<span class="st"> </span><span class="kw">board_local</span>() <span class="co"># share data across R sessions on the same computer</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>board &lt;-<span class="st"> </span><span class="kw">board_folder</span>(<span class="st">"~/Dropbox"</span>) <span class="co"># share data with others using dropbox</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>board &lt;-<span class="st"> </span><span class="kw">board_folder</span>(<span class="st">"Z:</span><span class="ch">\\</span><span class="st">my-team\pins"</span>) <span class="co"># share data using a shared network drive</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>board &lt;-<span class="st"> </span><span class="kw">board_rsconnect</span>() <span class="co"># share data with RStudio connect</span></span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a>board &lt;-<span class="st"> </span><span class="kw">board_rsconnect</span>() <span class="co"># share data with RStudio Connect</span></span></code></pre></div>
 </div>
 <div id="reading-and-writing-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reading-and-writing-data" class="anchor"></a>Reading and writing data</h2>
-<p>Once you have a pin board, you can save data to it with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
+<p>Once you have a pin board, you can write data to it with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20120304T050607Z-2f9b5'</span></code></pre></div>
-<p>The first argument is the object to save (usually a data frame, but it can be any R object), and the second argument defines the “name” of pin. The name is important and is basically equivalent to a file name: you’ll use it when you later want to read the data from the pin. The only rule for a pin name is that it can’t contain slashes.</p>
-<p>As you can see, pins has chosen to save this data to a <code>.rds</code> file. But you can choose from a variety of other options depending on your goals:</p>
+<span class="co">#&gt; Creating new version '20120304T050607Z-2f9b5'</span>
+<span class="co">#&gt; Writing to pin 'mtcars'</span></code></pre></div>
+<p>The first argument is the object to save (usually a data frame, but it can be any R object), and the second argument gives the “name” of pin. The name is basically equivalent to a file name: you’ll use it when you later want to read the data from the pin. The only rule for a pin name is that it can’t contain slashes.</p>
+<p>As you can see from the output, pins has chosen to save this data to a <code>.rds</code> file. But you can choose another option depending on your goals:</p>
 <ul>
 <li>
-<code>type = "rds"</code> uses <code>writeRDS()</code> to save a binary R data file. It can save any R object but it’s only readable from R, not other languages.</li>
+<code>type = "rds"</code> uses <code>writeRDS()</code> to create a binary R data file. It can save any R object but it’s only readable from R, not other languages.</li>
 <li>
-<code>type = "csv"</code> uses <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code> to write a <code>.csv</code> file. CSVs can read by any application, but only support a simple columns (e.g. numbers, strings, dates) and are largely large and slow.</li>
+<code>type = "csv"</code> uses <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code> to create a <code>.csv</code> file. CSVs can read by any application, but only support simple columns (e.g. numbers, strings, dates), can take up a lot of disk space, and can slow to read.</li>
 <li>
-<code>type = "arrow"</code> uses <code><a href="https://arrow.apache.org/docs/r//reference/write_feather.html">arrow::write_feather()</a></code> to create an arrow/feather file. <a href="https://arrow.apache.org">Arrow</a> is a modern, language-independent, high-performance, file format for design for data science. Not every tool can read arrow files, but support is growing rapidly.</li>
+<code>type = "arrow"</code> uses <code><a href="https://arrow.apache.org/docs/r//reference/write_feather.html">arrow::write_feather()</a></code> to create an arrow/feather file. <a href="https://arrow.apache.org">Arrow</a> is a modern, language-independent, high-performance file format designed for data science. Not every tool can read arrow files, but support is growing rapidly.</li>
 <li>
 <code>type = "json"</code> uses <code><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html">jsonlite::write_json()</a></code> to create a <code>.json</code> file. Pretty much every programming language can read json files, but they only work well for nested lists.</li>
 </ul>
-<p>In a future session, you can read that data back with <code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
+<p>After you’ve pinned an object, you can read it back with <code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 32 × 11</span>
@@ -159,7 +160,7 @@
 <span class="co">#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
 <span class="co">#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
 <span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
-<p>You don’t need to supply the file type when reading data from a pin because pins automatically stores that in the metadata, the topic of the next section.</p>
+<p>You don’t need to supply the file type when reading data from a pin because pins automatically stores the file type in the metadata, the topic of the next section.</p>
 <p>Note that when the data lives elsewhere, pins takes care of downloading and caching so that it’s only re-downloaded when needed. That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don’t recommend using pins with files over 500 MB. If you find yourself routinely pinning data larger that this, you might need to reconsider your data engineering pipeline.</p>
 </div>
 <div id="metadata" class="section level2">
@@ -175,23 +176,24 @@
 <span class="co">#&gt;  $ type       : chr "rds"</span>
 <span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="co">#&gt;  $ description: NULL</span>
-<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 12:31:00"</span>
+<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 13:31:00"</span>
 <span class="co">#&gt;  $ api_version: num 1</span>
 <span class="co">#&gt;  $ user       : list()</span>
 <span class="co">#&gt;  $ local      :List of 2</span>
-<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmplZKIMF/pins-298518981325/mtcars/20120304T050607Z-2f9b5"</span>
+<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpsthUpE/pins-29cd3a90c788/mtcars/20120304T050607Z-2f9b5"</span>
 <span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This includes:</p>
 <ul>
-<li><p><code>description</code>, a brief textual description of the dataset.</p></li>
-<li><p><code>created</code>, the date-time when the pin was created.</p></li>
-<li><p><code>file_size</code>, the size (in bytes) of the underlying file.</p></li>
-<li><p><code>pin_hash</code>, a unique hash that you can supply to <code><a href="../reference/pin_read.html">pin_read()</a></code> to ensure that you’re reading exactly the data that you expect.</p></li>
+<li><p><code>title</code>, a brief textual description of the dataset.</p></li>
+<li><p>an optional <code>description</code>, where you can provide more details.</p></li>
+<li><p>the date-time when the pin was <code>created</code>.</p></li>
+<li><p>the <code>file_size</code>, in bytes, of the underlying files.</p></li>
+<li><p>a unique <code>pin_hash</code> that you can supply to <code><a href="../reference/pin_read.html">pin_read()</a></code> to ensure that you’re reading exactly the data that you expect.</p></li>
 </ul>
-<p>When creating the pin, you can override the default description and provide additional metadata that is stored with the data:</p>
+<p>When creating the pin, you can override the default description or provide additional metadata that is stored with the data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, 
-  desc <span class="op">=</span> <span class="st">"Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span>,
+  description <span class="op">=</span> <span class="st">"Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span>,
   metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     source <span class="op">=</span> <span class="st">"Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
   <span class="op">)</span>
@@ -199,6 +201,7 @@
 <span class="co">#&gt; Using `name = 'mtcars'`</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
 <span class="co">#&gt; Replacing version '20120304T050607Z-2f9b5' with '20120304T050607Z-2f9b5'</span>
+<span class="co">#&gt; Writing to pin 'mtcars'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; List of 10</span>
 <span class="co">#&gt;  $ file       : chr "mtcars.rds"</span>
@@ -207,12 +210,12 @@
 <span class="co">#&gt;  $ type       : chr "rds"</span>
 <span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span>
-<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 12:31:00"</span>
+<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 13:31:00"</span>
 <span class="co">#&gt;  $ api_version: num 1</span>
 <span class="co">#&gt;  $ user       :List of 1</span>
 <span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
 <span class="co">#&gt;  $ local      :List of 2</span>
-<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmplZKIMF/pins-298518981325/mtcars/20120304T050607Z-2f9b5"</span>
+<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpsthUpE/pins-29cd3a90c788/mtcars/20120304T050607Z-2f9b5"</span>
 <span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata consistent over time, I’d recommend manually capturing anything you really care about in <code>metadata</code>.</p>
 </div>
@@ -233,17 +236,20 @@
 <span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </li>
 </ul>
-<p>Some boards, like <code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code>, have versioning on by default, because it’s automatically supported by the underlying storage engine. In most cases, however, you’ll need to explicitly enable it.</p>
+<p>Most boards have versioning on by default. The primary exception is <code><a href="../reference/board_folder.html">board_folder()</a></code> since that stores data on your computer, and there’s no automated way to clean up the data your saving.</p>
 <p>Once you have turned versioning on, every <code><a href="../reference/pin_read.html">pin_write()</a></code> will create a new version:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-ab444'</span>
+<span class="co">#&gt; Writing to pin 'x'</span>
 <span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-a077a'</span>
+<span class="co">#&gt; Writing to pin 'x'</span>
 <span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version '20120304T050607Z-0a284'</span></code></pre></div>
+<span class="co">#&gt; Creating new version '20120304T050607Z-0a284'</span>
+<span class="co">#&gt; Writing to pin 'x'</span></code></pre></div>
 <p>You can list all the available versions with <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
@@ -265,7 +271,7 @@
 <div id="reading-and-writing-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reading-and-writing-files" class="anchor"></a>Reading and writing files</h2>
-<p>So far we’ve focussed on <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> which work with R objects. pins also provides the lower-level <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> which work with files on disk. You can use them to share data that’s otherwise unsupported by pins.</p>
+<p>So far we’ve focussed on <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> which work with R objects. pins also provides the lower-level <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> which work with files on disk. You can use them to share types of data that are otherwise unsupported by pins.</p>
 <p><code><a href="../reference/pin_download.html">pin_upload()</a></code> works like <code><a href="../reference/pin_read.html">pin_write()</a></code> but instead of an R object you give it a vector of paths. I’ll start by creating a few files in the temp directory:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mtcars.csv"</span>, <span class="st">"alphabet.txt"</span><span class="op">)</span><span class="op">)</span>
@@ -278,9 +284,9 @@
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmplZKIMF/pins-298518981325/example/20120304T050607Z-e9d42/mtcars.csv"  </span>
-<span class="co">#&gt; [2] "/tmp/RtmplZKIMF/pins-298518981325/example/20120304T050607Z-e9d42/alphabet.txt"</span></code></pre></div>
-<p>It’s now your job to handle them. You should treat these paths as internal implementation details — never modify them and never save them for use outside of pins.</p>
+<span class="co">#&gt; [1] "/tmp/RtmpsthUpE/pins-29cd3a90c788/example/20120304T050607Z-e9d42/mtcars.csv"  </span>
+<span class="co">#&gt; [2] "/tmp/RtmpsthUpE/pins-29cd3a90c788/example/20120304T050607Z-e9d42/alphabet.txt"</span></code></pre></div>
+<p>It’s now your job to handle them. You should treat these paths as an internal implementation details — never modify them and never save them for use outside of pins.</p>
 <p>Note that you can’t <code><a href="../reference/pin_read.html">pin_read()</a></code> something you pinned with <code><a href="../reference/pin_download.html">pin_upload()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
@@ -289,13 +295,13 @@
 <p>But you can <code><a href="../reference/pin_download.html">pin_download()</a></code> something that you’ve pinned with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmplZKIMF/pins-298518981325/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpsthUpE/pins-29cd3a90c788/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></code></pre></div>
 </div>
 <div id="caching" class="section level2">
 <h2 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h2>
-<p>The primary purpose of pins is to make it easy to share data. But pins is also designed to help you spend as little time as possible downloading data. <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> automatically cache remote pins: they maintain a local copy of the data (so it’s fast) but always check that it’s up to date (so your analysis doesn’t use stale data).</p>
-<p>Wouldn’t it be nice if you could take advantage of this feature for any dataset on the internet? That’s the idea behind <code><a href="../reference/board_url.html">board_url()</a></code> — you can assemble your own board from datasets, wherever they live on the internet. For example, this code create a board containing a single pin, <code>penguins</code>, that refers to some data I found on GitHub:</p>
+<p>The primary purpose of pins is to make it easy to share data. But pins is also designed to help you spend as little time as possible downloading data. <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> automatically cache remote pins: they maintain a local copy of the data (so it’s fast) but always check that it’s up-to-date (so your analysis doesn’t use stale data).</p>
+<p>Wouldn’t it be nice if you could take advantage of this feature for any dataset on the internet? That’s the idea behind <code><a href="../reference/board_url.html">board_url()</a></code> — you can assemble your own board from datasets, wherever they live on the internet. For example, this code create a board containing a single pin, <code>penguins</code>, that refers to some fun data I found on GitHub:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"penguins"</span> <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins_raw.csv"</span>
@@ -323,7 +329,7 @@
 <span class="co">#&gt; #   Date Egg &lt;chr&gt;, Culmen Length (mm) &lt;dbl&gt;, Culmen Depth (mm) &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   Flipper Length (mm) &lt;int&gt;, Body Mass (g) &lt;int&gt;, Sex &lt;chr&gt;,</span>
 <span class="co">#&gt; #   Delta 15 N (o/oo) &lt;dbl&gt;, Delta 13 C (o/oo) &lt;dbl&gt;, Comments &lt;chr&gt;</span></code></pre></div>
-<p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> or similar but it has a big payoff: the data is cached locally (so it’s fast to read) and will be re-downloaded when it changes (so it’s never stale).</p>
+<p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> or similar but it has a big payoff: the data will only be re-downloaded when it changes.</p>
 </div>
 <div class="footnotes">
 <hr>

@@ -106,36 +106,39 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of “boards”, including local folders (to share on a networked drive or with dropbox), RStudio Connect, Amazon S3, and more.</p>
-<p>pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as providing much more robust versioning. The legacy API (<code><a href="reference/pin.html">pin()</a></code>, <code><a href="reference/pin_get.html">pin_get()</a></code>, and <code><a href="reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="articles/pins-legacy.html">vignette("pins-legacy")</a></code>.</p>
+<p>The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of pin <em>boards</em>, including folders (to share on a networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob storage, and more.</p>
+<p>pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning. The legacy API (<code><a href="reference/pin.html">pin()</a></code>, <code><a href="reference/pin_get.html">pin_get()</a></code>, and <code><a href="reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="articles/pins-legacy.html">vignette("pins-legacy")</a></code>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
+<p>To try out the development version of pins (which will become pins 1.0.0 when released), you’ll need to install from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Install the released version from CRAN:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pins"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rstudio/pins"</span><span class="op">)</span></code></pre></div>
+<p>If you discover this breaks any of your existing code, please <a href="https://github.com/rstudio/pins/issues">let us know</a> then revert to the released version:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pins"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>To use the pins package, you must first create a pin <strong>board</strong>. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code>, which stores pins in a directory you specify. Here I’ll use a special version of <code><a href="reference/board_folder.html">board_folder()</a></code> called <code><a href="reference/board_folder.html">board_temp()</a></code>; it creates a temporary board that’s automatically deleted when your R session ends:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>To use the pins package, you must first create a pin board. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code>, which stores pins in a directory you specify. Here I’ll use a special version of <code><a href="reference/board_folder.html">board_folder()</a></code> called <code><a href="reference/board_folder.html">board_temp()</a></code> which creates a temporary board that’s automatically deleted when your R session ends. This is great for examples, but obviously you shouldn’t use it for real work!</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span>
 
-<span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">b</span>
+<span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">board</span>
 <span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span>
-<span class="co">#&gt; Path: '/tmp/Rtmpgy7RFX/pins-78427a3adddc'</span>
+<span class="co">#&gt; Path: '/tmp/RtmpYbKpT8/pins-de207df32915'</span>
 <span class="co">#&gt; Cache size: 0</span></code></pre></div>
-<p>You can “pin” (save) data to that board with <code><a href="reference/pin_read.html">pin_write()</a></code>. The first argument is the object to pin (normally a data frame), and the second argument is the name you’ll use to later retrieve it:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
+<p>You can “pin” (save) data to a board with <code><a href="reference/pin_read.html">pin_write()</a></code>. It takes three arguments: the board to pin to, an object, and a name:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210806T175343Z-f8797'</span></code></pre></div>
+<span class="co">#&gt; Creating new version '20210826T132817Z-f8797'</span></code></pre></div>
 <p>As you can see, the data saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might use the <code>type</code> argument to instead save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
 <p>You can later retrieve the pinned data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -144,16 +147,17 @@
 <span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
 <span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
 <p>A board on your computer is good place to start, but the real power of pins comes when you use a board that’s shared with multiple people. To get started, you can use <code><a href="reference/board_folder.html">board_folder()</a></code> with a directory on a shared drive or in dropbox, or if you use <a href="https://www.rstudio.com/products/connect/">RStudio Connect</a> you can use <code><a href="reference/board_rsconnect.html">board_rsconnect()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">tidy_sales_data</span>, <span class="st">"sales-summary"</span><span class="op">)</span>
-<span class="co">#&gt; Saving to hadley/sales-summary</span></code></pre></div>
-<p>Then, someone else (or an automated Rmd report!) can read and use your pin:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Connecting to RSC 1.9.0.1 at &lt;https://connect.rstudioservices.com&gt;</span>
+<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">tidy_sales_data</span>, <span class="st">"sales-summary"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
+<span class="co">#&gt; Writing to pin 'hadley/sales-summary'</span></code></pre></div>
+<p>Then, someone else (or an automated Rmd report) can read and use your pin:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
 <p>You can easily control who gets to access the data using the RStudio Connection permissions pane.</p>
-<p>The pins package also includes boards that allow you to share data on S3 (<code><a href="reference/board_s3.html">board_s3()</a></code>), Azure (<code><a href="reference/board_azure.html">board_azure()</a></code>), and more. Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
+<p>The pins package also includes boards that allow you to share data on services like Amazon’s S3 (<code><a href="reference/board_s3.html">board_s3()</a></code>) and Azure’s blob storage (<code><a href="reference/board_azure.html">board_azure()</a></code>). Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
 </div>
 </div>
   </div>
