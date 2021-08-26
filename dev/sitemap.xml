@@ -1,150 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pins.rstudio.com/index.html</loc>
+    <loc>https://pins.rstudio.com/dev/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_azure.html</loc>
+    <loc>https://pins.rstudio.com/dev/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_cache_path.html</loc>
+    <loc>https://pins.rstudio.com/dev/articles/pins-legacy.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_connect.html</loc>
+    <loc>https://pins.rstudio.com/dev/articles/pins.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_folder.html</loc>
+    <loc>https://pins.rstudio.com/dev/articles/rsc.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_register.html</loc>
+    <loc>https://pins.rstudio.com/dev/authors.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_rsconnect.html</loc>
+    <loc>https://pins.rstudio.com/dev/index.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_s3.html</loc>
+    <loc>https://pins.rstudio.com/dev/news/index.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_test.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_azure.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/board_url.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_cache_path.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/cache_browse.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_connect.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/custom-boards-utils.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_folder.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/custom-boards.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_register.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/custom-pins.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_rsconnect.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_azure.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_s3.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_datatxt.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_test.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_dospace.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/board_url.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_gcloud.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/cache_browse.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_github.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/custom-boards-utils.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_kaggle.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/custom-boards.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_local.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/custom-pins.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/legacy_s3.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/new_board.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_azure.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_datatxt.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_browse.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_dospace.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_default_name.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_gcloud.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_delete.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_github.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_download.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_kaggle.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_exists.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_local.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_fetch.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/legacy_s3.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_find.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/new_board.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_get.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_info.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_browse.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_list.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_default_name.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_log.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_delete.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_meta.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_download.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_reactive.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_exists.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_reactive_read.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_fetch.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_read.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_find.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_remove.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_get.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_search.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_info.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pin_versions.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_list.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/pins-package.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_log.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/reexports.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_meta.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/ui_addin_pin_find.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_reactive.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/ui_connection_create.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_reactive_read.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/pins-legacy.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_read.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/pins.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_remove.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/rsc.html</loc>
+    <loc>https://pins.rstudio.com/dev/reference/pin_search.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/pin_versions.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/pins-package.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/ui_addin_pin_find.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/ui_connection_create.html</loc>
   </url>
 </urlset>

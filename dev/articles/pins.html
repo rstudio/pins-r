@@ -4,7 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="pins">
 <title>Get started with pins • pins</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -12,11 +13,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="../deps/bs3compat-0.2.5.1/tabs.js"></script><script src="../deps/bs3compat-0.2.5.1/bs3compat.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<link href="../syntax-highlighting.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Get started with pins">
 <meta property="og:description" content="pins">
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
@@ -26,81 +28,60 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">pins</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.99.9000</span>
-      </span>
-    </div>
+<body data-spy="scroll" data-target="#toc" data-headroom>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
+      <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <a class="navbar-brand mb-0 h1" href="../index.html">pins</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <button type="button" id="version-badge" class="badge badge-danger d-none d-lg-block" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="In-development version">0.99.9000</button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto ml-3">
+<li class="active nav-item">
+  <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
-<li>
-  <a href="../articles/pins.html">Get started</a>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/pins-legacy.html">Upgrading to pins 1.0.0</a>
-    </li>
-    <li>
-      <a href="../articles/rsc.html">RStudio Connect</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/rstudio/pins/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/pins-legacy.html">Upgrading to pins 1.0.0</a>
+    <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control mr-sm-2" aria-label="Search" name="search-input" data-search-index="/dev/search.json" id="search-input" placeholder="Search..." autocomplete="off">
+</form>
+
+      <ul class="navbar-nav ml-1">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/rstudio/pins/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
-
-      
-
-      </header><script src="pins_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+  </div>
+</nav><div class="container template-article">
+<script src="pins_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Get started with pins</h1>
+    <img src="../package-logo.png" class="pkg-logo" alt=""><div class="page-header pb-2 mt-4 mb-2 border-bottom toc-ignore">
+      <h1 class="display-4" data-toc-skip>Get started with pins</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/pins.Rmd"><code>vignettes/pins.Rmd</code></a></small>
-      <div class="hidden name"><code>pins.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/pins.Rmd" class="external-link"><code>vignettes/pins.Rmd</code></a></small>
+      <div class="d-none name"><code>pins.Rmd</code></div>
 
     </div>
 
@@ -108,10 +89,10 @@
     
 <p>The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of “boards”, including local folders (to share on a networked drive or with dropbox), RStudio connect, Amazon S3, and more. This vignette will introduce you to the basics of pins.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins">pins</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins" class="external-link">pins</a></span><span class="op">)</span></code></pre></div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h2>
+<a href="#getting-started" class="anchor" aria-hidden="true"></a>Getting started</h2>
 <p>Every pin lives in a pin <em>board</em>, so you must start by creating a pin board. In this vignette I’ll use a temporary board which is automatically deleted when your R session is over:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -123,11 +104,11 @@
 </div>
 <div id="reading-and-writing-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reading-and-writing-data" class="anchor"></a>Reading and writing data</h2>
+<a href="#reading-and-writing-data" class="anchor" aria-hidden="true"></a>Reading and writing data</h2>
 <p>Once you have a pin board, you can write data to it with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
-<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
+<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-2f9b5'</span>
 <span class="co">#&gt; Writing to pin 'mtcars'</span></code></pre></div>
@@ -137,15 +118,15 @@
 <li>
 <code>type = "rds"</code> uses <code>writeRDS()</code> to create a binary R data file. It can save any R object but it’s only readable from R, not other languages.</li>
 <li>
-<code>type = "csv"</code> uses <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code> to create a <code>.csv</code> file. CSVs can read by any application, but only support simple columns (e.g. numbers, strings, dates), can take up a lot of disk space, and can slow to read.</li>
+<code>type = "csv"</code> uses <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv()</a></code> to create a <code>.csv</code> file. CSVs can read by any application, but only support simple columns (e.g. numbers, strings, dates), can take up a lot of disk space, and can slow to read.</li>
 <li>
-<code>type = "arrow"</code> uses <code><a href="https://arrow.apache.org/docs/r//reference/write_feather.html">arrow::write_feather()</a></code> to create an arrow/feather file. <a href="https://arrow.apache.org">Arrow</a> is a modern, language-independent, high-performance file format designed for data science. Not every tool can read arrow files, but support is growing rapidly.</li>
+<code>type = "arrow"</code> uses <code><a href="https://arrow.apache.org/docs/r//reference/write_feather.html" class="external-link">arrow::write_feather()</a></code> to create an arrow/feather file. <a href="https://arrow.apache.org" class="external-link">Arrow</a> is a modern, language-independent, high-performance file format designed for data science. Not every tool can read arrow files, but support is growing rapidly.</li>
 <li>
-<code>type = "json"</code> uses <code><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html">jsonlite::write_json()</a></code> to create a <code>.json</code> file. Pretty much every programming language can read json files, but they only work well for nested lists.</li>
+<code>type = "json"</code> uses <code><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html" class="external-link">jsonlite::write_json()</a></code> to create a <code>.json</code> file. Pretty much every programming language can read json files, but they only work well for nested lists.</li>
 </ul>
 <p>After you’ve pinned an object, you can read it back with <code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 32 × 11</span>
 <span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -165,10 +146,10 @@
 </div>
 <div id="metadata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#metadata" class="anchor"></a>Metadata</h2>
+<a href="#metadata" class="anchor" aria-hidden="true"></a>Metadata</h2>
 <p>Every pin is accompanied by some metadata that you can access with <code><a href="../reference/pin_meta.html">pin_meta()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; List of 10</span>
 <span class="co">#&gt;  $ file       : chr "mtcars.rds"</span>
 <span class="co">#&gt;  $ file_size  : 'fs_bytes' int 3.12K</span>
@@ -176,11 +157,11 @@
 <span class="co">#&gt;  $ type       : chr "rds"</span>
 <span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="co">#&gt;  $ description: NULL</span>
-<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 13:31:00"</span>
+<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 13:42:00"</span>
 <span class="co">#&gt;  $ api_version: num 1</span>
 <span class="co">#&gt;  $ user       : list()</span>
 <span class="co">#&gt;  $ local      :List of 2</span>
-<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpsthUpE/pins-29cd3a90c788/mtcars/20120304T050607Z-2f9b5"</span>
+<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/Rtmpey5pGK/pins-3538573e08b7/mtcars/20120304T050607Z-2f9b5"</span>
 <span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This includes:</p>
 <ul>
@@ -192,9 +173,9 @@
 </ul>
 <p>When creating the pin, you can override the default description or provide additional metadata that is stored with the data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, 
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, 
   description <span class="op">=</span> <span class="st">"Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span>,
-  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     source <span class="op">=</span> <span class="st">"Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
   <span class="op">)</span>
 <span class="op">)</span>
@@ -202,7 +183,7 @@
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
 <span class="co">#&gt; Replacing version '20120304T050607Z-2f9b5' with '20120304T050607Z-2f9b5'</span>
 <span class="co">#&gt; Writing to pin 'mtcars'</span>
-<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; List of 10</span>
 <span class="co">#&gt;  $ file       : chr "mtcars.rds"</span>
 <span class="co">#&gt;  $ file_size  : 'fs_bytes' int 3.12K</span>
@@ -210,18 +191,18 @@
 <span class="co">#&gt;  $ type       : chr "rds"</span>
 <span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span>
-<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 13:31:00"</span>
+<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-08-26 13:42:00"</span>
 <span class="co">#&gt;  $ api_version: num 1</span>
 <span class="co">#&gt;  $ user       :List of 1</span>
 <span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
 <span class="co">#&gt;  $ local      :List of 2</span>
-<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpsthUpE/pins-29cd3a90c788/mtcars/20120304T050607Z-2f9b5"</span>
+<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/Rtmpey5pGK/pins-3538573e08b7/mtcars/20120304T050607Z-2f9b5"</span>
 <span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata consistent over time, I’d recommend manually capturing anything you really care about in <code>metadata</code>.</p>
 </div>
 <div id="versioning" class="section level2">
 <h2 class="hasAnchor">
-<a href="#versioning" class="anchor"></a>Versioning</h2>
+<a href="#versioning" class="anchor" aria-hidden="true"></a>Versioning</h2>
 <p>In many situations it’s useful to version pins, so that writing to an existing pin does not replace the existing data, but instead adds a new copy. There are two ways to turn versioning on:</p>
 <ul>
 <li>
@@ -233,7 +214,7 @@
 <p>When you write a pin, you can specifically request that versioning be turned on for that pin:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </li>
 </ul>
 <p>Most boards have versioning on by default. The primary exception is <code><a href="../reference/board_folder.html">board_folder()</a></code> since that stores data on your computer, and there’s no automated way to clean up the data your saving.</p>
@@ -241,18 +222,18 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
+<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-ab444'</span>
 <span class="co">#&gt; Writing to pin 'x'</span>
-<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
+<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-a077a'</span>
 <span class="co">#&gt; Writing to pin 'x'</span>
-<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
+<span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-0a284'</span>
 <span class="co">#&gt; Writing to pin 'x'</span></code></pre></div>
 <p>You can list all the available versions with <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 × 3</span>
 <span class="co">#&gt;   version                created             hash </span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;dttm&gt;              &lt;chr&gt;</span>
@@ -262,56 +243,56 @@
 <p>(Pins does not currently provide any tool to remove old versions, but this is likely to be implemented in the future.)</p>
 <p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent version:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1 2 3 4 5</span></code></pre></div>
 <p>But you can request an older version by supplying the <code>version</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="st">"20210520T173110Z-49519"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="st">"20210520T173110Z-49519"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="reading-and-writing-files" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reading-and-writing-files" class="anchor"></a>Reading and writing files</h2>
+<a href="#reading-and-writing-files" class="anchor" aria-hidden="true"></a>Reading and writing files</h2>
 <p>So far we’ve focussed on <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> which work with R objects. pins also provides the lower-level <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> which work with files on disk. You can use them to share types of data that are otherwise unsupported by pins.</p>
 <p><code><a href="../reference/pin_download.html">pin_upload()</a></code> works like <code><a href="../reference/pin_read.html">pin_write()</a></code> but instead of an R object you give it a vector of paths. I’ll start by creating a few files in the temp directory:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mtcars.csv"</span>, <span class="st">"alphabet.txt"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span><span class="op">(</span><span class="va">letters</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mtcars.csv"</span>, <span class="st">"alphabet.txt"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">letters</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>Now I can upload those to the board:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span>
 <span class="co">#&gt; Creating new version '20120304T050607Z-e9d42'</span></code></pre></div>
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpsthUpE/pins-29cd3a90c788/example/20120304T050607Z-e9d42/mtcars.csv"  </span>
-<span class="co">#&gt; [2] "/tmp/RtmpsthUpE/pins-29cd3a90c788/example/20120304T050607Z-e9d42/alphabet.txt"</span></code></pre></div>
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/tmp/Rtmpey5pGK/pins-3538573e08b7/example/20120304T050607Z-e9d42/mtcars.csv"  </span>
+<span class="co">#&gt; [2] "/tmp/Rtmpey5pGK/pins-3538573e08b7/example/20120304T050607Z-e9d42/alphabet.txt"</span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as an internal implementation details — never modify them and never save them for use outside of pins.</p>
 <p>Note that you can’t <code><a href="../reference/pin_read.html">pin_read()</a></code> something you pinned with <code><a href="../reference/pin_download.html">pin_upload()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
 <span class="co">#&gt; Error: Pin created with `pin_upload()`</span>
 <span class="co">#&gt; ℹ Retrieve uploaded paths with `pin_download()`</span></code></pre></div>
 <p>But you can <code><a href="../reference/pin_download.html">pin_download()</a></code> something that you’ve pinned with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpsthUpE/pins-29cd3a90c788/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></code></pre></div>
+<code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/tmp/Rtmpey5pGK/pins-3538573e08b7/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></code></pre></div>
 </div>
 <div id="caching" class="section level2">
 <h2 class="hasAnchor">
-<a href="#caching" class="anchor"></a>Caching</h2>
+<a href="#caching" class="anchor" aria-hidden="true"></a>Caching</h2>
 <p>The primary purpose of pins is to make it easy to share data. But pins is also designed to help you spend as little time as possible downloading data. <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code> automatically cache remote pins: they maintain a local copy of the data (so it’s fast) but always check that it’s up-to-date (so your analysis doesn’t use stale data).</p>
 <p>Wouldn’t it be nice if you could take advantage of this feature for any dataset on the internet? That’s the idea behind <code><a href="../reference/board_url.html">board_url()</a></code> — you can assemble your own board from datasets, wherever they live on the internet. For example, this code create a board containing a single pin, <code>penguins</code>, that refers to some fun data I found on GitHub:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
   <span class="st">"penguins"</span> <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins_raw.csv"</span>
 <span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>You can read this data by combining <code><a href="../reference/pin_download.html">pin_download()</a></code> with <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
+<p>You can read this data by combining <code><a href="../reference/pin_download.html">pin_download()</a></code> with <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Here I’m using &lt;code&gt;&lt;a href="https://rdrr.io/r/utils/read.table.html" class="external-link"&gt;read.csv()&lt;/a&gt;&lt;/code&gt; to the reduce the dependencies of the pins package. For real code I’d recommend using &lt;code&gt;&lt;a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link"&gt;data.table::fread()&lt;/a&gt;&lt;/code&gt; or &lt;code&gt;readr::read_csv().&lt;/code&gt;&lt;/p&gt;'><sup>1</sup></a>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">my_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 344 × 17</span>
 <span class="co">#&gt;    studyName `Sample Number` Species       Region Island Stage   `Individual ID`</span>
 <span class="co">#&gt;    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;          </span>
@@ -329,32 +310,30 @@
 <span class="co">#&gt; #   Date Egg &lt;chr&gt;, Culmen Length (mm) &lt;dbl&gt;, Culmen Depth (mm) &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   Flipper Length (mm) &lt;int&gt;, Body Mass (g) &lt;int&gt;, Sex &lt;chr&gt;,</span>
 <span class="co">#&gt; #   Delta 15 N (o/oo) &lt;dbl&gt;, Delta 13 C (o/oo) &lt;dbl&gt;, Comments &lt;chr&gt;</span></code></pre></div>
-<p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> or similar but it has a big payoff: the data will only be re-downloaded when it changes.</p>
+<p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> or similar but it has a big payoff: the data will only be re-downloaded when it changes.</p>
 </div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Here I’m using <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> to the reduce the dependencies of the pins package. For real code I’d recommend using <code><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">data.table::fread()</a></code> or <code>readr::read_csv().</code><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
+
   </div>
+ <div class="col-md-3 d-none d-md-block" id="pkgdown-sidebar">
+        <div class="sticky-top">
+    <nav id="toc"><h2 data-toc-skip>Contents</h2>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
     </nav>
 </div>
+      </div>
 
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Javier Luraschi.</p>
+      <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -362,6 +341,7 @@
 
   
 
+  
 
   </body>
 </html>
