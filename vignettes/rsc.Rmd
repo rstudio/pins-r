@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette highlights a few ways in which you can use pins and [RStudio Connect](https://www.rstudio.com/products/connect/) together.
+This vignette demonstrates how you might use pins and [RStudio Connect](https://www.rstudio.com/products/connect/) together to automate ETL for a Shiny app.
+Pulling expensive data manipulation out of your Shiny app is a great way to [improve performance](https://mastering-shiny.org/performance.html#schedule-data-munging), and pins makes it easy to schedule data updates in a way that automatically flows into your app.
 
 ```{r setup}
 library(pins)
@@ -62,9 +63,10 @@ board_rsc %>% pin_read("your_name/bbc_news")
 
 ## Automating
 
-Here the underlying data will be changing regularly, pinned data will only change when you run `pin_write()`.
+Here the underlying data will be changing regularly, but the pinned data will only change when you run `pin_write()`.
 Wouldn't it be great if we could automate that process?
-One way to do is with RSC's [scheduled reports](https://docs.rstudio.com/connect/user/scheduling/).
+One way to do so is with RSC's [scheduled reports](https://docs.rstudio.com/connect/user/scheduling/).
+
 First, take your code and put it in an Rmd:
 
 ```{r echo = FALSE, comment = ""}

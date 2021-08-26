@@ -15,14 +15,16 @@ The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
 networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob
-storage, and more.
+storage, and more. Pins can be automatically versioned, making it
+straightforward to track changes, re-run analyses on historical data,
+and undo mistakes.
 
-pins 1.0.0 includes a new API that is designed to be more explicit and
-less magical, as well as robust support for versioning. The legacy API
-(`pin()`, `pin_get()`, and `board_register()`) will continue to work,
-but new features will only be implemented with the new API, so we
-encourage you to switch to the modern API as quickly as possible. Learn
-more in `vignette("pins-legacy")`.
+pins 1.0.0 includes a new more explicit API and greater support for
+versioning. The legacy API (`pin()`, `pin_get()`, and
+`board_register()`) will continue to work, but new features will only be
+implemented with the new API, so we encourage you to switch to the
+modern API as quickly as possible. Learn more in
+`vignette("pins-legacy")`.
 
 ## Installation
 
@@ -56,7 +58,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpYbKpT8/pins-de207df32915'
+#> Path: '/tmp/RtmpWB9Jkr/pins-f33032eaee0c'
 #> Cache size: 0
 ```
 
@@ -66,7 +68,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210826T132817Z-f8797'
+#> Creating new version '20210826T173653Z-f8797'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on

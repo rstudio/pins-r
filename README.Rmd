@@ -25,8 +25,9 @@ knitr::opts_chunk$set(
 
 The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues.
 You can pin objects to a variety of pin *boards*, including folders (to share on a networked drive or with DropBox), RStudio Connect, Amazon S3, Azure blob storage, and more.
+Pins can be automatically versioned, making it straightforward to track changes, re-run analyses on historical data, and undo mistakes.
 
-pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning.
+pins 1.0.0 includes a new more explicit API and greater support for versioning.
 The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible.
 Learn more in `vignette("pins-legacy")`.
 

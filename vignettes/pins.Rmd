@@ -62,7 +62,7 @@ As you can see from the output, pins has chosen to save this data to a `.rds` fi
 But you can choose another option depending on your goals:
 
 -   `type = "rds"` uses `writeRDS()` to create a binary R data file. It can save any R object but it's only readable from R, not other languages.
--   `type = "csv"` uses `write.csv()` to create a `.csv` file. CSVs can read by any application, but only support simple columns (e.g. numbers, strings, dates), can take up a lot of disk space, and can slow to read.
+-   `type = "csv"` uses `write.csv()` to create a `.csv` file. CSVs can read by any application, but only support simple columns (e.g. numbers, strings, dates), can take up a lot of disk space, and can be slow to read.
 -   `type = "arrow"` uses `arrow::write_feather()` to create an arrow/feather file. [Arrow](https://arrow.apache.org) is a modern, language-independent, high-performance file format designed for data science. Not every tool can read arrow files, but support is growing rapidly.
 -   `type = "json"` uses `jsonlite::write_json()` to create a `.json` file. Pretty much every programming language can read json files, but they only work well for nested lists.
 
