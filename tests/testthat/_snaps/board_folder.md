@@ -27,12 +27,15 @@
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
       Creating new version '20120304T050607Z-ab444'
+      Writing to pin 'x'
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message <message>
       Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab444'
+      Writing to pin 'x'
     Code
       pin_write(b, 1:6, "x", type = "rds")
     Message <message>
       Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab6b5'
+      Writing to pin 'x'
 

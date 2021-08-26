@@ -94,7 +94,9 @@ pin_write <- function(board, x,
   )
   meta$user <- metadata
 
-  invisible(pin_store(board, name, path, meta, versioned = versioned, x = x, ...))
+  name <- pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
+  pins_inform("Writing to pin '{name}'")
+  invisible(name)
 }
 
 guess_type <- function(x) {
