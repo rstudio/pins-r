@@ -69,15 +69,6 @@ pin_delete.pins_board_folder <- function(board, names, ...) {
 }
 
 #' @export
-pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache = FALSE) {
-  if (cache) {
-    abort("board_local() does not have a cache")
-  }
-  meta <- pin_meta(board, name, version = version)
-  browse_url(meta$local$dir)
-}
-
-#' @export
 pin_store.pins_board_folder <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
   check_name(name)

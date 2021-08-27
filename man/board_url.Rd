@@ -41,6 +41,7 @@ board <- board_url(c(
 ))
 
 board \%>\% pin_read("rds")
+board \%>\% pin_browse("rds", local = TRUE)
 
 board \%>\% pin_download("files")
 board \%>\% pin_download("raw")

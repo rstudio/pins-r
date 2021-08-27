@@ -67,9 +67,14 @@ multi_meta <- function(board, names) {
 
 # All pin_meta() methods should use `local_meta()` to ensure that results
 # are stored in a consistent way
-local_meta <- function(x, dir, version, ...) {
+#
+#' @noRd
+#' @param dir Path to local cache directory
+#' @param url Remote url to pin; used `pin_browser()`
+local_meta <- function(x, dir, url = NULL, version = NULL, ...) {
   x$local <- list(
     dir = dir,
+    url = url,
     version = version,
     ...
   )

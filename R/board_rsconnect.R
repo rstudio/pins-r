@@ -194,9 +194,9 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   meta <- read_meta(cache_path)
   local_meta(meta,
     dir = cache_path,
+    url = url,
     version = bundle_id,
-    content_id = content$guid,
-    url = url
+    content_id = content$guid
   )
 }
 
@@ -212,16 +212,6 @@ pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   }
 
   meta
-}
-
-#' @export
-pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., cache = FALSE) {
-  meta <- pin_meta(board, name, version = version)
-  if (cache) {
-    browse_url(meta$local$dir)
-  } else {
-    browse_url(meta$local$url)
-  }
 }
 
 #' @export

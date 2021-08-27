@@ -31,6 +31,7 @@
 #' ))
 #'
 #' board %>% pin_read("rds")
+#' board %>% pin_browse("rds", local = TRUE)
 #'
 #' board %>% pin_download("files")
 #' board %>% pin_download("raw")
@@ -90,8 +91,8 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
     meta <- read_meta(cache_dir)
     local_meta(meta,
       dir = cache_dir,
-      version = NULL,
-      url = paste0(url, meta$file)
+      url = url,
+      file_url = paste0(url, meta$file)
     )
   } else {
     # Otherwise assume it's a single file with no metadata
@@ -102,8 +103,8 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
     )
     local_meta(meta,
       dir = cache_dir,
-      version = NULL,
-      url = url
+      url = url,
+      file_url = url
     )
   }
 }
@@ -113,7 +114,7 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   cache_touch(board, meta)
 
-  path <- map2_chr(meta$local$url, meta$file, function(url, file) {
+  path <- map2_chr(meta$local$file_url, meta$file, function(url, file) {
     http_download(
       url = url,
       path_dir = meta$local$dir,
@@ -124,18 +125,6 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
 
   meta
 }
-
-#' @export
-pin_browse.pins_board_url <- function(board, name, version = NULL, ..., cache = FALSE) {
-  meta <- pin_meta(board, name, version = version)
-  if (cache) {
-    browse_url(meta$local$dir)
-  } else {
-    browse_url(meta$url)
-  }
-}
-
-
 
 # Unsupported features ----------------------------------------------------
 

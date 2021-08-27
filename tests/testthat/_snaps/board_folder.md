@@ -10,16 +10,16 @@
 # can browse
 
     Code
-      b %>% pin_browse("x")
+      b %>% pin_browse("x", local = TRUE)
     Message <cliMessage>
       i Pin at </tmp/test/x/20120304T050607Z-afd4b>
 
 ---
 
     Code
-      b %>% pin_browse("x", cache = TRUE)
+      b %>% pin_browse("x")
     Error <rlang_error>
-      board_local() does not have a cache
+      pin doesn't have remote url
 
 # generates useful messages
 
