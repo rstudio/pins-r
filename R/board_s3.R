@@ -104,13 +104,13 @@ board_s3 <- function(
 board_s3_test <- function(...) {
   skip_if_missing_envvars(
     test = "board_s3()",
-    envvars = c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
+    envvars = c("PINS_AWS_ACCESS_KEY", "PINS_AWS_SECRET_ACCESS_KEY")
   )
 
   board_s3("pins-test-hadley",
     region = "us-east-2",
     cache = tempfile(),
-    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY_ID"),
+    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
     secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
     ...
   )

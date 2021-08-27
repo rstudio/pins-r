@@ -34,6 +34,8 @@ jobs:
 
       # needed for modern board tests
       PINS_AZURE_SAS: ${{ secrets.PINS_AZURE_SAS }}
+      PINS_AWS_ACCESS_KEY: ${{ secrets.PINS_AWS_ACCESS_KEY}}
+      PINS_AWS_SECRET_ACCESS_KEY: ${{ secrets.PINS_AWS_SECRET_ACCESS_KEY}}
 
       # needed for legacy board tests
       TEST_RSCONNECT_APIS: ${{ secrets.TEST_RSCONNECT_APIS }}
