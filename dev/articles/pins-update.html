@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="pins">
-<title>Upgrading to pins 1.0.0 • pins</title>
+<title>Updating to pins 1.0.0 • pins</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <link href="../syntax-highlighting.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Upgrading to pins 1.0.0">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Updating to pins 1.0.0">
 <meta property="og:description" content="pins">
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <meta name="robots" content="noindex">
@@ -51,7 +51,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/pins-legacy.html">Upgrading to pins 1.0.0</a>
+    <a class="dropdown-item" href="../articles/pins-update.html">Updating to pins 1.0.0</a>
     <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
   </div>
 </li>
@@ -74,20 +74,20 @@
 </div>
   </div>
 </nav><div class="container template-article">
-<script src="pins-legacy_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="pins-update_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <img src="../package-logo.png" class="pkg-logo" alt=""><div class="page-header pb-2 mt-4 mb-2 border-bottom toc-ignore">
-      <h1 class="display-4" data-toc-skip>Upgrading to pins 1.0.0</h1>
+      <h1 class="display-4" data-toc-skip>Updating to pins 1.0.0</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/pins-legacy.Rmd" class="external-link"><code>vignettes/pins-legacy.Rmd</code></a></small>
-      <div class="d-none name"><code>pins-legacy.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/vignettes/pins-update.Rmd" class="external-link"><code>vignettes/pins-update.Rmd</code></a></small>
+      <div class="d-none name"><code>pins-update.Rmd</code></div>
 
     </div>
 
     
     
-<p>pins 1.0.0 introduced a completely new API. While the legacy API will continue to be supported for some time, it will not gain any new features, so it’s good to plan to switch to the new interface. This vignette shows a couple of examples converting legacy code to the modern API, then provides a full set of equivalences between the legacy and modern function names.</p>
+<p>pins 1.0.0 introduced a completely new API. While the legacy API will continue to be supported for some time, it will not gain any new features, so it’s good to plan to switch to the new interface. This vignette shows a couple of examples of updating legacy code to the modern API, then provides a full set of equivalences between the legacy and modern function names.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins" class="external-link">pins</a></span><span class="op">)</span></code></pre></div>
 <div id="examples" class="section level2">
@@ -118,7 +118,7 @@
 
 <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210826T183433Z-3e025'</span>
+<span class="co">#&gt; Creating new version '20210827T150217Z-3e025'</span>
 <span class="co">#&gt; Writing to pin 'mtcars'</span>
 <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="va">board</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
@@ -135,7 +135,7 @@
 
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Replacing version '20210826T183433Z-3e025' with '20210826T183433Z-3e025'</span>
+<span class="co">#&gt; Replacing version '20210827T150217Z-3e025' with '20210827T150218Z-3e025'</span>
 <span class="co">#&gt; Writing to pin 'mtcars'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
@@ -156,14 +156,14 @@
 
 <span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpEgtcL1/file2ebb1283e996/alphabet/file2ebb590acdc5"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpjmysBk/file2759221a6f67/alphabet/file27595da5071f"</span></code></pre></div>
 <p>pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so here instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Modern API</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version '20210826T183433Z-ee580'</span>
+<span class="co">#&gt; Creating new version '20210827T150218Z-ee580'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20210826T183433Z-ee580/file2ebb590acdc5"</span></code></pre></div>
+<span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20210827T150218Z-ee580/file27595da5071f"</span></code></pre></div>
 </div>
 <div id="pinning-a-url" class="section level3">
 <h3 class="hasAnchor">
@@ -174,7 +174,7 @@
 <span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"</span>
 
 <span class="op">(</span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpEgtcL1/file2ebb1283e996/first/first.txt"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpjmysBk/file2759221a6f67/first/first.txt"</span></code></pre></div>
 <p>This now needs to be made explicit with the new <code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Modern API</span>
@@ -203,7 +203,7 @@
 
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210826T183434Z-73dc1'</span>
+<span class="co">#&gt; Creating new version '20210827T150218Z-73dc1'</span>
 <span class="co">#&gt; Writing to pin 'test-data'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span>
 <span class="co">#&gt;   x</span>
