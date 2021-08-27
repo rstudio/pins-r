@@ -102,10 +102,10 @@ board_s3 <- function(
 }
 
 board_s3_test <- function(...) {
-  envvars <- c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
-  if (Sys.info()[["user"]] != "hadley" || !has_envvars(envvars)) {
-    testthat::skip(paste0("S3 tests require env vars ", paste0(envvars, collapse = ", ")))
-  }
+  skip_if_missing_envvars(
+    test = "board_s3()",
+    envvars = c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
+  )
 
   board_s3("pins-test-hadley",
     region = "us-east-2",
