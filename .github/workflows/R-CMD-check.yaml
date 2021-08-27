@@ -33,7 +33,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       # needed for modern board tests
-      PINS_AZURE_TEST_SAS: ${{ secrets.TEST_AZURE_SAS }}
+      PINS_AZURE_SAS: ${{ secrets.PINS_AZURE_SAS }}
 
       # needed for legacy board tests
       TEST_RSCONNECT_APIS: ${{ secrets.TEST_RSCONNECT_APIS }}

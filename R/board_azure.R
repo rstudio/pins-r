@@ -38,11 +38,11 @@ board_azure <- function(container, n_processes = 10, versioned = TRUE, cache = N
 }
 
 board_azure_test <- function(...) {
-  skip_if_missing_envvars("board_s3", "PINS_AZURE_TEST_SAS")
+  skip_if_missing_envvars("board_s3", "PINS_AZURE_SAS")
 
   container <- AzureStor::blob_container(
     "https://pins.blob.core.windows.net/test-data",
-    sas = Sys.getenv("PINS_AZURE_TEST_SAS")
+    sas = Sys.getenv("PINS_AZURE_SAS")
   )
   board_azure(container, cache = tempfile(), n_processes = 2, ...)
 }
