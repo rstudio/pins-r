@@ -32,6 +32,10 @@ jobs:
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
+      # needed for modern board tests
+      PINS_AZURE_TEST_SAS: ${{ secrets.TEST_AZURE_SAS }}
+
+      # needed for legacy board tests
       TEST_RSCONNECT_APIS: ${{ secrets.TEST_RSCONNECT_APIS }}
       TEST_RSCONNECT_SERVERS: ${{ secrets.TEST_RSCONNECT_SERVERS }}
       TEST_AWS_BUCKET: "pins-github-tests"
@@ -39,7 +43,6 @@ jobs:
       TEST_AWS_REGION: "us-east-2"
       TEST_AWS_SECRET: ${{ secrets.TEST_AWS_SECRET }}
       TEST_KAGGLE_API: ${{ secrets.TEST_KAGGLE_API }}
-      PINS_AZURE_TEST_SAS: ${{ secrets.TEST_AZURE_SAS }}
 
     steps:
       - uses: actions/checkout@v2
