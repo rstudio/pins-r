@@ -40,7 +40,7 @@ reference:
     These functions implement the legacy pins API. They will continue to exist
     for some time so your existing code will continue to work, but we recommend
     you move to the modern API and modern boards where possible. Learn
-    more in `vignettes("pins-legacy")`.
+    more in `vignettes("pins-update")`.
   contents:
   - starts_with("legacy_")
   - pin

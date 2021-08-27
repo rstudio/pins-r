@@ -1,5 +1,5 @@
 ---
-title: "Upgrading to pins 1.0.0"
+title: "Updating to pins 1.0.0"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Upgrading to pins 1.0.0}
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 pins 1.0.0 introduced a completely new API.
 While the legacy API will continue to be supported for some time, it will not gain any new features, so it's good to plan to switch to the new interface.
-This vignette shows a couple of examples converting legacy code to the modern API, then provides a full set of equivalences between the legacy and modern function names.
+This vignette shows a couple of examples of updating legacy code to the modern API, then provides a full set of equivalences between the legacy and modern function names.
 
 ```{r setup}
 library(pins)

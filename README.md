@@ -24,7 +24,7 @@ versioning. The legacy API (`pin()`, `pin_get()`, and
 `board_register()`) will continue to work, but new features will only be
 implemented with the new API, so we encourage you to switch to the
 modern API as quickly as possible. Learn more in
-`vignette("pins-legacy")`.
+`vignette("pins-update")`.
 
 ## Installation
 

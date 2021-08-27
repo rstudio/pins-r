@@ -29,7 +29,7 @@ Pins can be automatically versioned, making it straightforward to track changes,
 
 pins 1.0.0 includes a new more explicit API and greater support for versioning.
 The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible.
-Learn more in `vignette("pins-legacy")`.
+Learn more in `vignette("pins-update")`.
 
 ## Installation
 

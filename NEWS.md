@@ -1,6 +1,6 @@
 # pins (development version)
 
-pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning. The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in vignette("pins-legacy").
+pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning. The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in vignette("pins-update").
 
 In the modern API, you create a board object which is passed to every `pin_` function instead of "registering" a board that is later refereed to with a string,. This takes away the magic of which board a pin comes from, and leads to code like looks this:
 
