@@ -52,7 +52,7 @@ board_test_default <- function(board, exclude) {
   testthat::test_that(paste("can pin_find() in", name), {
     results <- pin_find(pin_name, board = board)
 
-    testthat::expect_true(grepl(pin_name, results$name))
+    testthat::expect_true(any(grepl(pin_name, results$name)))
   })
 
   testthat::test_that(paste("can pin_info() in", name), {
