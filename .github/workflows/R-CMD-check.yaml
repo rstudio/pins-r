@@ -39,8 +39,6 @@ jobs:
       PINS_AWS_SECRET_ACCESS_KEY: ${{ secrets.PINS_AWS_SECRET_ACCESS_KEY}}
 
       # needed for legacy board tests
-      TEST_RSCONNECT_APIS: ${{ secrets.TEST_RSCONNECT_APIS }}
-      TEST_RSCONNECT_SERVERS: ${{ secrets.TEST_RSCONNECT_SERVERS }}
       TEST_AWS_BUCKET: "pins-github-tests"
       TEST_AWS_KEY: "AKIAWDFKE5M2ZHDUORMW"
       TEST_AWS_REGION: "us-east-2"
