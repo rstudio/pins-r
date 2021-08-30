@@ -10,6 +10,12 @@ test_that("can use old pin_versions() api", {
   })
 })
 
+test_that("can't swap arguments with modern api", {
+  board <- board_temp()
+  name <- local_pin(board, 1)
+  expect_snapshot(pin_versions(name, board), error = TRUE)
+})
+
 test_that("`full` is deprecated", {
   board <- board_temp()
   board %>% pin_write(x = 1:5, "x")

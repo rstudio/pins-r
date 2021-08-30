@@ -25,7 +25,7 @@
     Code
       board %>% pin_versions("x")
     Error <rlang_error>
-      board_url() doesn't support versions
+      This board doesn't support versions
     Code
       pin(1:5, name = "x", board = board)
     Error <rlang_error>
