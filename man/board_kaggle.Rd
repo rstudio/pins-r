@@ -44,8 +44,10 @@ board_kaggle_dataset(username = NULL, key = NULL, cache = NULL)
 )
 }
 \arguments{
-\item{username, key}{Your kaggle username and key, if you choose not to use
-\code{"~/.kaggle/kaggle.json"}.}
+\item{username, key}{Typically you'll authenticate using the
+\code{"~/.kaggle/kaggle.json"} file downloaded from your account page
+(by clicking "Create New API Token". However, if necessary you can supply
+the \code{username} and \code{key} arguments here; this can be useful for testing.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -83,17 +85,11 @@ or public (\code{FALSE})?}
 \description{
 \code{board_kaggle_competition()} allows you to treat a Kaggle competition like
 a read-only board, making it easy get the data on to your computer.
-\code{board_kaggle_dataset()} lets you upload files to a kaggle dataset.
+\code{board_kaggle_dataset()} lets you upload and download files to and from a
+kaggle dataset. Data is only re-downloaded when it changes.
 
 These boards work best with \code{pin_download()} and \code{pin_upload()} since
 \code{pin_read()} and \code{pin_write()} are not a good fit to the kaggle model.
-
-Useful features:
-\itemize{
-\item Data is only re-downloaded when it changes.
-\item Authenticate with \code{"~/.kaggle/kaggle.json"}, just like the command line
-client.
-}
 }
 \examples{
 \dontrun{

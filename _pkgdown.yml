@@ -27,6 +27,7 @@ reference:
   contents:
   - board_azure
   - board_local
+  - board_kaggle_dataset
   - board_rsconnect
   - board_s3
   - board_url

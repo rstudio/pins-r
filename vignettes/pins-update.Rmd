@@ -123,18 +123,18 @@ board %>% pin_read("test-data")
 
 ### Board functions
 
-| Legacy API                   | Modern API                |
-|------------------------------|---------------------------|
-| `board_register_azure()`     | `board_azure()`           |
-| `board_register_datatxt()`   | Not currently implemented |
-| `board_register_dospace()`   | Not currently implemented |
-| `board_register_gcloud()`    | Not currently implemented |
-| `board_register_github()`    | Not currently implemented |
-| `board_register_local()`     | `board_local()`           |
-| `board_register_kaggle()`    | Not implemented           |
-| `board_register_rsconnect()` | `board_rsconnect()`       |
-| `board_register_s3()`        | `board_s3()`              |
-| `pin()` with a URL           | `board_url()`             |
+| Legacy API                   | Modern API                                              |
+|------------------------------|---------------------------------------------------------|
+| `board_register_azure()`     | `board_azure()`                                         |
+| `board_register_datatxt()`   | Not currently implemented                               |
+| `board_register_dospace()`   | Not currently implemented                               |
+| `board_register_gcloud()`    | Not currently implemented                               |
+| `board_register_github()`    | Not currently implemented                               |
+| `board_register_local()`     | `board_local()`                                         |
+| `board_register_kaggle()`    | `board_kaggle_dataset()` / `board_kaggle_competition()` |
+| `board_register_rsconnect()` | `board_rsconnect()`                                     |
+| `board_register_s3()`        | `board_s3()`                                            |
+| `pin()` with a URL           | `board_url()`                                           |
 
 Future releases will add support for additional boards based on user feedback.
 

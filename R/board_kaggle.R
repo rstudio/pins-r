@@ -3,19 +3,17 @@
 #' @description
 #' `board_kaggle_competition()` allows you to treat a Kaggle competition like
 #' a read-only board, making it easy get the data on to your computer.
-#' `board_kaggle_dataset()` lets you upload files to a kaggle dataset.
+#' `board_kaggle_dataset()` lets you upload and download files to and from a
+#' kaggle dataset. Data is only re-downloaded when it changes.
 #'
 #' These boards work best with `pin_download()` and `pin_upload()` since
 #' `pin_read()` and `pin_write()` are not a good fit to the kaggle model.
 #'
-#' Useful features:
-#' * Data is only re-downloaded when it changes.
-#' * Authenticate with `"~/.kaggle/kaggle.json"`, just like the command line
-#'   client.
-#'
 #' @name board_kaggle
-#' @param username,key Your kaggle username and key, if you choose not to use
-#'   `"~/.kaggle/kaggle.json"`.
+#' @param username,key Typically you'll authenticate using the
+#'   `"~/.kaggle/kaggle.json"` file downloaded from your account page
+#'   (by clicking "Create New API Token". However, if necessary you can supply
+#'   the `username` and `key` arguments here; this can be useful for testing.
 #' @inheritParams new_board
 NULL
 
@@ -134,7 +132,6 @@ pin_meta.pins_board_kaggle_competition <- function(board, name, ...) {
   size <- map_int(data, "[[", "totalBytes")
 
   meta <- list(
-    url = competition$url,
     description = competition$title,
     file = files,
     file_size = sum(size),
@@ -144,20 +141,11 @@ pin_meta.pins_board_kaggle_competition <- function(board, name, ...) {
   )
   local_meta(meta,
     version = NA_character_,
-    dir = fs::path(board$cache, name)
+    dir = fs::path(board$cache, name),
+    url = competition$url
   )
 }
 
-#' @export
-pin_browse.pins_board_kaggle_competition <- function(board, name, ..., cache = FALSE) {
-  meta <- pin_meta(board, name)
-
-  if (cache) {
-    browse_url(meta$local$dir)
-  } else {
-    browse_url(meta$url)
-  }
-}
 
 #' @export
 pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
@@ -233,19 +221,6 @@ pin_delete.pins_board_kaggle_dataset <- function(board, names, ...) {
   ))
 }
 
-#' @export
-pin_browse.pins_board_kaggle_dataset <- function(board, name, ..., cache = FALSE) {
-  meta <- pin_meta(board, name)
-
-  if (cache) {
-    browse_url(meta$local$dir)
-  } else {
-    browse_url(meta$url)
-  }
-}
-
-
-
 #' @rdname board_kaggle
 #' @inheritParams pin_search
 #' @param sort_by How to sort the results.
@@ -299,7 +274,6 @@ pin_meta.pins_board_kaggle_dataset <- function(board, name, version = NULL, ...)
   list <- kaggle_get(board, paste0("datasets/list/", name))
 
   meta <- list(
-    url = view$url,
     description = view$title,
     license = view$licenseName,
     file = map_chr(list$datasetFiles, ~ .$name),
@@ -310,7 +284,8 @@ pin_meta.pins_board_kaggle_dataset <- function(board, name, version = NULL, ...)
   )
   local_meta(meta,
     version = view$currentVersionNumber,
-    dir = fs::path(board$cache, name)
+    dir = fs::path(board$cache, name),
+    url = view$url
   )
 }
 
