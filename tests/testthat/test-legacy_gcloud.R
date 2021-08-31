@@ -7,9 +7,7 @@ test_that("board contains proper gcloud headers", {
 
 # Live API ---------------------------------------------------------------------
 
-if (!has_envvars("TEST_GOOGLE_BUCKET")) {
-  skip("requires TEST_GOOGLE_BUCKET env var")
-}
+skip_if_missing_envvars("legacy_gcloud()", "TEST_GOOGLE_BUCKET")
 
 board <- legacy_gcloud(
   bucket = Sys.getenv("TEST_GOOGLE_BUCKET"),

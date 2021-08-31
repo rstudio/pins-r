@@ -31,7 +31,6 @@ pin_info <- function(name,
     this_not_that("pin_meta()", "pin_info()")
   }
 
-  lifecycle::deprecate_warn("1.0.0", "pin_info()", "pin_meta()")
   entry <- pin_find(
     name = name,
     board = board,

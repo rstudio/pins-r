@@ -45,24 +45,30 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
     board <- if (missing(name)) NULL else name
     board <- board_get(board)
     name <- swap
+    swapped <- TRUE
+  } else {
+    swapped <- FALSE
+  }
 
-    if (!0 %in% board$api) {
-      abort("Please supply `board` then `name` when working with modern boards")
-    }
-
+  if (0 %in% board$api) {
     board_pin_versions(board, name)
   } else {
-    if (!1 %in% board$api) {
-      abort("Please supply `name` then `board` when working with legacy boards")
+    if (swapped) {
+      abort("Please supply `board` then `name` when working with modern boards")
     }
-
-    UseMethod("pin_versions")
+    # Can't inline UseMethod() call because it looks at arguments in
+    # call, not in local env
+    pin_versions_modern(board, name, ...)
   }
+}
+
+pin_versions_modern <- function(board, name, ...) {
+  UseMethod("pin_versions")
 }
 
 #' @export
 pin_versions.pins_board <- function(board, name, ...) {
-  abort("board_url() doesn't support versions")
+  abort("This board doesn't support versions")
 }
 
 #' @export
@@ -75,7 +81,7 @@ pin_version_delete <- function(board, name, version, ...) {
 
 #' @export
 pin_version_delete.pins_board <- function(board, name, version, ...) {
-  abort("board_url() doesn't support versions")
+  abort("This board doesn't support versions")
 }
 
 #' @export

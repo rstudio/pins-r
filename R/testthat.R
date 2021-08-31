@@ -10,6 +10,14 @@ random_pin_name <- function() {
   paste0("test-", paste(rand, collapse = ""))
 }
 
+skip_if_missing_envvars <- function(tests, envvars) {
+  if (has_envvars(envvars)) {
+    return()
+  }
+
+  testthat::skip(paste0(tests, " tests require ", paste0(envvars, collapse = ", ")))
+}
+
 # These functions are used to test families of invariants that apply to the
 # behaviour or multiple generics. They are broken up into rough familes to
 # guide the process of implementing a board, and making it a little easier

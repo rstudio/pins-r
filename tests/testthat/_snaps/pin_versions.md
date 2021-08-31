@@ -5,6 +5,13 @@
       x <- pin_versions("x", "local")
       x <- pin_versions("x", board)
 
+# can't swap arguments with modern api
+
+    Code
+      pin_versions(name, board)
+    Error <rlang_error>
+      Please supply `board` then `name` when working with modern boards
+
 # `full` is deprecated
 
     Code

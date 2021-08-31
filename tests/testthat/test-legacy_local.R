@@ -1,3 +1,6 @@
+board_test(legacy_temp(), suite = "default")
+board_test(legacy_temp(versions = TRUE), suite = "versions")
+
 test_that("local board registered by default", {
   expect_true("local" %in% board_list())
 })
