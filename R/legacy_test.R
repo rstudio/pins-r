@@ -22,8 +22,8 @@ board_test <- function(board,
 board_test_default <- function(board, exclude) {
   name <- paste0("board_", board$name)
 
-  pin_name <- paste0("afile", round(stats::runif(1, 1, 1000)))
-  dataset_name <- paste0("adataset", round(stats::runif(1, 1, 1000)))
+  pin_name <- random_pin_name()
+  dataset_name <- random_pin_name()
 
   old_progress <- options(pins.progress = FALSE)
   on.exit(options(pins.progress = old_progress))
@@ -83,7 +83,7 @@ board_test_default <- function(board, exclude) {
 
 board_test_versions <- function(board, exclude, name) {
   name <- paste0("board_", board$name)
-  pin_name <- paste0("aversion", round(stats::runif(1, 1, 1000)))
+  pin_name <- random_pin_name()
 
   old_progress <- options(pins.progress = FALSE)
   on.exit(options(pins.progress = old_progress))
