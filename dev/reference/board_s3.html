@@ -61,6 +61,7 @@ package.</p>
     <div id="ref-usage" class="ref-usage section level2 sourceCode">
     <pre class="sourceCode r"><code><span class="fu">board_s3</span><span class="op">(</span>
   <span class="va">bucket</span>,
+  prefix <span class="op">=</span> <span class="cn">NULL</span>,
   versioned <span class="op">=</span> <span class="cn">TRUE</span>,
   access_key <span class="op">=</span> <span class="cn">NULL</span>,
   secret_access_key <span class="op">=</span> <span class="cn">NULL</span>,
@@ -76,6 +77,11 @@ package.</p>
     <h2>Arguments</h2>
     <dl class="row" id="ref-arguments"><dt class="col-sm-3 section level2" id="pkg-arg-bucket">bucket</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Bucket name.</p></dd>
+    <dt class="col-sm-3 section level2" id="pkg-arg-prefix">prefix</dt>
+      <dd class="col-sm-9" id="ref-arguments desc"><p>Prefix within this bucket that this board will occupy.
+You can use this to maintain multiple independent pin boards within
+a single S3 bucket. Will typically end with <code>/</code> to take advantage of
+S3's directory-like handling.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-versioned">versioned</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Should this board be registered with support for versions?</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-access_key, secret_access_key, session_token, credential_expiration">access_key, secret_access_key, session_token, credential_expiration</dt>
@@ -133,6 +139,11 @@ like <code>pins_list()</code> will work, but won't return useful output.</p></li
 <span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"pins-test-hadley"</span>, region <span class="op">=</span> <span class="st">"us-east-2"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># A prefix allows you to have multiple independent boards in the same pin.</span></span>
+<span class="r-in"><span class="va">board_sales</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"sales/"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">board_marketing</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"marketing/"</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># You can make the hierarchy arbitrarily deep.</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
   </div>
