@@ -30,7 +30,9 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@master
         with:
-          extra-packages: rcmdcheck
+          extra-packages: |
+            rcmdcheck
+            rstudio/connectapi
 
       - name: wait for connect to start
         run: |
