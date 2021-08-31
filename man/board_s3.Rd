@@ -6,6 +6,7 @@
 \usage{
 board_s3(
   bucket,
+  prefix = NULL,
   versioned = TRUE,
   access_key = NULL,
   secret_access_key = NULL,
@@ -19,6 +20,11 @@ board_s3(
 }
 \arguments{
 \item{bucket}{Bucket name.}
+
+\item{prefix}{Prefix within this bucket that this board will occupy.
+You can use this to maintain multiple independent pin boards within
+a single S3 bucket. Will typically end with \code{/} to take advantage of
+S3's directory-like handling.}
 
 \item{versioned}{Should this board be registered with support for versions?}
 
@@ -83,5 +89,10 @@ like \code{pins_list()} will work, but won't return useful output.
 board <- board_s3("pins-test-hadley", region = "us-east-2")
 board \%>\% pin_write(mtcars)
 board \%>\% pin_read("mtcars")
+
+# A prefix allows you to have multiple independent boards in the same pin.
+board_sales <- board_s3("company-pins", prefix = "sales/")
+board_marketing <- board_s3("company-pins", prefix = "marketing/")
+# You can make the hierarchy arbitrarily deep.
 }
 }
