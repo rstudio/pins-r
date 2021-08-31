@@ -58,7 +58,9 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
     }
     # Can't inline UseMethod() call because it looks at arguments in
     # call, not in local env
-    pin_versions_modern(board, name, ...)
+    return(pin_versions_modern(board, name, ...))
+    # But need to keep it here so roxygen2 detects its a generic
+    UseMethod("pin_versions")
   }
 }
 
