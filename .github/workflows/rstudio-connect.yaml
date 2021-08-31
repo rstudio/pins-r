@@ -1,18 +1,14 @@
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [main, master]
 
-name: RStudio Connect
+name: rstudio-connect
 
 jobs:
-  R-CMD-check:
-    runs-on: ubuntu-18.04
+  rstudio-connect:
+    runs-on: ubuntu-latest
     env:
       RSC_VERSION: 1.8.6.2
       RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
@@ -29,39 +25,12 @@ jobs:
           docker exec pins-connect awk ' { system("useradd -m -s /bin/bash "$1); system("echo \""$1":"$2"\" | chpasswd"); system("id "$1) } ' /etc/users.txt
 
       - uses: r-lib/actions/setup-r@v1
-        id: install-r
-
-      - name: Install pak and query dependencies
-        run: |
-          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
-        shell: Rscript {0}
-
-      - name: Restore R package cache
-        uses: actions/cache@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-
+          use-public-rspm: true
 
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
-        run: |
-          pak::local_system_requirements(execute = TRUE)
-          pak::pkg_system_requirements("covr", execute = TRUE)
-        shell: Rscript {0}
-
-      - name: Install dependencies
-        run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::pkg_install("rstudio/connectapi")
-          pak::pkg_install("rcmdcheck")
-        shell: Rscript {0}
-
-      - name: output docker logs
-        if: always()
-        run: |
-          docker logs pins-connect
+      - uses: r-lib/actions/setup-r-dependencies@master
+        with:
+          extra-packages: rcmdcheck
 
       - name: wait for connect to start
         run: |
@@ -103,9 +72,13 @@ jobs:
           name: rsconnect-results
           path: check
 
-      - name: clean up RStudio Connect
+      - name: Show docker logs
         if: always()
         run: |
           docker logs pins-connect
+
+      - name: clean up RStudio Connect
+        if: always()
+        run: |
           docker stop pins-connect
           docker rm pins-connect
