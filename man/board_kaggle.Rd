@@ -53,7 +53,7 @@ cache location for your operating system, but you can override if needed.}
 
 \item{board}{The name of the board to register.}
 
-\item{search}{A string to search for in pin name and description.}
+\item{search}{A string to search for in pin name and title.}
 
 \item{sort_by}{How to sort the results.}
 

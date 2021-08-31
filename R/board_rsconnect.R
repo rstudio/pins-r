@@ -34,6 +34,7 @@
 #' You can find the URL of a pin with [pin_browse()].
 #'
 #' @inheritParams new_board
+#' @inheritParams board_url
 #' @param auth There are two approaches to auth: you can either use `"envvars"`
 #'   `CONNECT_API_KEY` and `CONNECT_SERVER` or the rsconnect package. The
 #'   default is `auto`, which will use the environment variables if both are
@@ -65,6 +66,7 @@ board_rsconnect <- function(
                             cache = NULL,
                             name = "rsconnect",
                             versioned = TRUE,
+                            use_cache_on_failure = is_interactive(),
                             versions = deprecated()) {
 
   server <- rsc_server(auth, server, account, key)
@@ -84,16 +86,22 @@ board_rsconnect <- function(
     account = server$account,         # for full name of pin
     server_name = server$server_name, # for board_rsconnect(server = "...") in template
     auth = server$auth,
-    versioned = versioned
+    versioned = versioned,
+    use_cache_on_failure = use_cache_on_failure
   )
 
   version <- tryCatch(
     rsc_version(board),
     error = function(e) {
-      abort(c(
-        glue("Failed to connect to RSC instance at <{server$url}>"),
-        conditionMessage(e)
-      ))
+      if (length(fs::dir_ls(cache)) == 0) {
+        # We've never successfully connected
+        abort(c(
+          glue("Failed to connect to RSC instance at <{server$url}>"),
+          conditionMessage(e)
+        ))
+      } else {
+        "???"
+      }
     }
   )
   pins_inform("Connecting to RSC {version} at <{server$url}>")
@@ -103,17 +111,6 @@ board_rsconnect <- function(
   board
 }
 
-board_rsconnect_test <- function(...) {
-  if (!is.null(rsconnect::accounts())) {
-    board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
-  } else if (!has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
-    testthat::skip("No RSC env vars set up")
-  } else {
-    board_rsconnect(..., auth = "envvar", cache = fs::file_temp())
-  }
-}
-
-
 #' @export
 board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
   rsc_content_delete(board, name)
@@ -122,8 +119,10 @@ board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
 #' @export
 pin_delete.pins_board_rsconnect <- function(board, names, ...) {
   for (name in names) {
+    check_pin_exists(board, name)
     rsc_content_delete(board, name)
   }
+  invisible(board)
 }
 
 #' @export
@@ -171,16 +170,11 @@ pin_version_delete.pins_board_rsconnect <- function(board, name, version, ...) {
 }
 
 #' @export
-pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offline = FALSE) {
+pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   content <- rsc_content_find(board, name)
 
   if (is.null(version)) {
-    if (offline) {
-      pins_inform("Using cached")
-      bundle_id <- content$bundle_id
-    } else {
-      bundle_id <- rsc_GET(board, rsc_v1("content", content$guid))$bundle_id
-    }
+    bundle_id <- rsc_content_version(board, content$guid)
   } else {
     bundle_id <- version
   }
@@ -198,16 +192,11 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ..., offl
   )
 
   meta <- read_meta(cache_path)
-
-  if (meta$api_version == 0) {
-    meta$file <- meta$path %||% meta$file
-  }
-
   local_meta(meta,
     dir = cache_path,
+    url = url,
     version = bundle_id,
-    content_id = content$guid,
-    url = url
+    content_id = content$guid
   )
 }
 
@@ -226,16 +215,6 @@ pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_browse.pins_board_rsconnect <- function(board, name, version = NULL, ..., cache = FALSE) {
-  meta <- pin_meta(board, name, version = version)
-  if (cache) {
-    browse_url(meta$local$dir)
-  } else {
-    browse_url(meta$local$url)
-  }
-}
-
-#' @export
 pin_store.pins_board_rsconnect <- function(
     board,
     name,
@@ -247,6 +226,8 @@ pin_store.pins_board_rsconnect <- function(
     access_type = NULL)
 {
   # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
+
+  check_name(rsc_parse_name(name)$name)
 
   versioned <- versioned %||% board$versioned
   if (!is.null(access_type)) {
@@ -386,7 +367,7 @@ board_pin_find.pins_board_rsconnect <- function(board,
   tibble::tibble(
     name = paste0(user, "/", name),
     title = map_chr(pins, ~ .x$title %||% ""),
-    description = map_chr(pins, ~ .x$description)
+    description = map_chr(pins, ~ .x$description %||% "")
   )
 }
 
@@ -433,7 +414,6 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
 
   content <- list(
     guid = selected$guid,
-    bundle_id = selected$bundle_id,
     url = selected$content_url
   )
   update_cache(cache_path, name$full, content)
@@ -447,8 +427,8 @@ rsc_content_create <- function(board, name, metadata, access_type = "acl") {
 
   body <- list(
     name = name$name,
-    title = name$name,
     access_type = access_type %||% "acl",
+    title = metadata$title %||% name$name, # fallback for legacy board
     description = metadata$description %||% ""
   )
 
@@ -459,7 +439,8 @@ rsc_content_create <- function(board, name, metadata, access_type = "acl") {
 rsc_content_update <- function(board, guid, metadata, access_type = NULL) {
   body <- compact(list(
     access_type = access_type,
-    description = metadata$description
+    title = metadata$title,
+    description = metadata$description %||% ""
   ))
 
   # https://docs.rstudio.com/connect/api/#patch-/v1/content/{guid}
@@ -483,9 +464,47 @@ rsc_content_versions <- function(board, guid) {
   )
 }
 
+rsc_content_version <- function(board, guid) {
+  if (!board$use_cache_on_failure) {
+    return(rsc_content_version_live(board, guid))
+  }
+
+  tryCatch(
+    rsc_content_version_live(board, guid),
+    error = function(cnd) {
+      rsc_content_version_cached(board, guid)
+    }
+  )
+}
+
+rsc_content_version_live <- function(board, guid) {
+  rsc_GET(board, rsc_v1("content", guid))$bundle_id
+}
+
+rsc_content_version_cached <- function(board, guid) {
+  bundles <- fs::dir_ls(fs::path(board$cache, guid))
+  # Should really check that all files also exist, but using only
+  # pin_meta() and not pin_read() should be relatively unusual
+  meta <- fs::path(bundles, "data.txt")
+  meta <- meta[fs::file_exists(meta)]
+
+  if (length(meta) == 0) {
+    abort("Failed to connect to RSC ")
+  } else {
+    cli::cli_alert_danger("Failed to connect to RSC; using cached version")
+
+    info <- fs::file_info(meta)
+    meta <- meta[order(info$modification_time, decreasing = TRUE)]
+    fs::path_file(fs::path_dir(meta[[1]]))
+  }
+}
+
 rsc_content_delete <- function(board, name) {
   content <- rsc_content_find(board, name)
   rsc_DELETE(board, rsc_v1("content", content$guid))
+
+  cache_path <- fs::path(board$cache, "content-cache.yml")
+  update_cache(cache_path, name, NULL)
 }
 
 rsc_parse_name <- function(x) {
@@ -562,6 +581,7 @@ rsc_download <- function(board, content_url, dest_path, name) {
 
   rsc_check_status(req)
   fs::file_copy(temp, dest) # only copy if request is successful
+  fs::file_chmod(dest, "u=r")
   invisible()
 }
 
@@ -648,3 +668,50 @@ rsc_version <- function(board) {
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
 }
+
+# Testing setup -----------------------------------------------------------
+
+board_rsconnect_test <- function(...) {
+  if (rsc_has_hadley_account()) {
+    board_rsconnect_hadley(...)
+  } else {
+    board_rsconnect_susan(...)
+  }
+}
+
+# My real live RSC account which we obviously want to move away from
+rsc_has_hadley_account <- function() {
+  accounts <- rsconnect::accounts()
+  "hadley" %in% accounts$name
+}
+board_rsconnect_hadley <- function(...) {
+  if (!rsc_has_hadley_account()) {
+    testthat::skip("board_rsconnect_hadley() only works on Hadley's computer")
+  }
+  board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
+}
+
+board_rsconnect_susan <- function(...) {
+  creds <- read_creds()
+  board_rsconnect("envvar",
+    server = "http://localhost:3939",
+    account = "susan",
+    key = creds$susan_key
+  )
+}
+board_rsconnect_derek <- function(...) {
+  creds <- read_creds()
+  board_rsconnect("envvar",
+    server = "http://localhost:3939",
+    account = "derek",
+    key = creds$derek_key
+  )
+}
+read_creds <- function() {
+  path <- testthat::test_path("creds.rds")
+  if (!file.exists(path)) {
+    testthat::skip(glue("board_rsconnect() tests requires `{path}`"))
+  }
+  readRDS(path)
+}
+

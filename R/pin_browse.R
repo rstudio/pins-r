@@ -4,9 +4,8 @@
 #' internet or on your local file system.
 #'
 #' @inheritParams pin_read
-#' @param ... Other arguments passed on to methods.
-#' @param cache If `TRUE`, will open the directory on your computer used
-#'   to cache pin files.
+#' @param local If `TRUE`, will open the local copy of the pin; otherwise
+#'   will show you the home of the pin on the internet.
 #' @export
 #' @examples
 #' board <- board_temp(versioned = TRUE)
@@ -14,10 +13,22 @@
 #' board %>% pin_write(1:11, "x")
 #' board %>% pin_write(1:12, "x")
 #'
-#' board %>% pin_browse("x")
-pin_browse <- function(board, name, version = NULL, ..., cache = FALSE) {
-  ellipsis::check_dots_used()
-  UseMethod("pin_browse")
+#' board %>% pin_browse("x", local = TRUE)
+pin_browse <- function(board, name, version = NULL, local = FALSE) {
+  meta <- pin_meta(board, name, version = version)
+
+  if (local) {
+    url <- meta$local$dir
+    if (is.null(url)) {
+      abort("pin doesn't have local cache")
+    }
+  } else {
+    url <- meta$local$url
+    if (is.null(url)) {
+      abort("pin doesn't have remote url")
+    }
+  }
+  browse_url(url)
 }
 
 browse_url <- function(x) {

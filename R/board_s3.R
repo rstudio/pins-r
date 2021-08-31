@@ -102,15 +102,15 @@ board_s3 <- function(
 }
 
 board_s3_test <- function(...) {
-  envvars <- c("PINS_AWS_ACCESS_KEY_ID", "PINS_AWS_SECRET_ACCESS_KEY")
-  if (Sys.info()[["user"]] != "hadley" || !has_envvars(envvars)) {
-    testthat::skip(paste0("S3 tests require env vars ", paste0(envvars, collapse = ", ")))
-  }
+  skip_if_missing_envvars(
+    tests = "board_s3()",
+    envvars = c("PINS_AWS_ACCESS_KEY", "PINS_AWS_SECRET_ACCESS_KEY")
+  )
 
   board_s3("pins-test-hadley",
     region = "us-east-2",
     cache = tempfile(),
-    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY_ID"),
+    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
     secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
     ...
   )
@@ -133,6 +133,7 @@ pin_exists.pins_board_s3 <- function(board, name, ...) {
 #' @export
 pin_delete.pins_board_s3 <- function(board, names, ...) {
   for (name in names) {
+    check_pin_exists(board, name)
     s3_delete_dir(board, name)
   }
   invisible(board)
@@ -234,6 +235,7 @@ s3_download <- function(board, key, immutable = FALSE) {
   if (!immutable || !fs::file_exists(path)) {
     resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
     writeBin(resp$Body, path)
+    fs::file_chmod(path, "u=r")
   }
 
   path

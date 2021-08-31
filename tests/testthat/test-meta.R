@@ -7,7 +7,7 @@ test_that("standard metadata is useful", {
   path <- withr::local_tempfile()
   write_rds(df, path)
 
-  meta <- standard_meta(path, "arrow", df)
+  meta <- standard_meta(path, "arrow", title = "title")
   meta$file <- "df.rds"
   meta$created <- "<TODAY>"
   expect_snapshot_output(str(meta))
@@ -20,11 +20,11 @@ test_that("newer version triggers error", {
   expect_snapshot_error(read_meta(path))
 })
 
-test_that("produces reasonable default descriptions", {
+test_that("produces reasonable default title", {
   expect_snapshot({
-    default_description(NULL, c("data.csv"))
-    default_description(NULL, c("data.csv", "foo.csv"))
-    default_description(mtcars, "data.csv")
-    default_description(1:10, "data.csv")
+    default_title("name", path = c("data.csv"))
+    default_title("name", path = c("data.csv", "foo.csv"))
+    default_title("name", data = mtcars)
+    default_title("name", data = 1:10)
   })
 })

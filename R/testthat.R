@@ -1,6 +1,6 @@
 local_pin <- function(board, value, ..., env = parent.frame()) {
   name <- pin_write(board, value, random_pin_name(), ...)
-  withr::defer(pin_delete(board, name), env)
+  withr::defer(if (pin_exists(board, name)) pin_delete(board, name), env)
 
   name
 }
@@ -8,6 +8,14 @@ local_pin <- function(board, value, ..., env = parent.frame()) {
 random_pin_name <- function() {
   rand <- sample(c(letters, LETTERS, 0:9), 10, replace = TRUE)
   paste0("test-", paste(rand, collapse = ""))
+}
+
+skip_if_missing_envvars <- function(tests, envvars) {
+  if (has_envvars(envvars)) {
+    return()
+  }
+
+  testthat::skip(paste0(tests, " tests require ", paste0(envvars, collapse = ", ")))
 }
 
 # These functions are used to test families of invariants that apply to the
@@ -58,11 +66,50 @@ test_api_basic <- function(board) {
     testthat::expect_equal(readLines(out[[2]]), "b")
   })
 
+  testthat::test_that("cached data is read-only", {
+    name <- local_pin(board, 1)
+    path <- pin_download(board, name)
+    testthat::expect_false(fs::file_access(path, "write"))
+  })
+
+  testthat::test_that("reading a pin touches data.txt", {
+    # this ensures that we can prune unused pins from the cache
+    name <- local_pin(board, 1)
+    meta <- pin_meta(board, name)
+    cache_touch(board, meta, as.POSIXct("2010-01-01"))
+
+    path <- pin_download(board, name)
+    testthat::expect_gt(fs::file_info(path)$modification_time, Sys.time() - 10)
+  })
+
   testthat::test_that("can round-trip pin data", {
     name <- local_pin(board, 1)
     testthat::expect_equal(pin_read(board, name), 1)
   })
 
+  # Extra slash added for boards that allow pins in the form user/name
+  testthat::test_that("can't use slashes in pin names", {
+    testthat::expect_error(
+      pin_write(board, 1, "abc/def/ghijkl"),
+      class = "pins_check_name"
+    )
+  })
+
+  testthat::test_that("can delete multiple files", {
+    name1 <- local_pin(board, 1)
+    name2 <- local_pin(board, 2)
+
+    pin_delete(board, c(name1, name2))
+    testthat::expect_false(pin_exists(board, name1))
+    testthat::expect_false(pin_exists(board, name2))
+  })
+
+  testthat::test_that("deleting non-extistant file errors", {
+    testthat::expect_error(
+      pin_delete(board, "DOES-NOT-EXIST"),
+      class = "pins_pin_missing"
+    )
+  })
 }
 
 test_api_versioning <- function(board) {

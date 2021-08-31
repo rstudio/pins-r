@@ -87,12 +87,13 @@ dir_size <- function(x) {
   sum(fs::file_size(paths))
 }
 
-cache_touch <- function(board, meta) {
+cache_touch <- function(board, meta, time = Sys.time()) {
   path <- fs::path(meta$local$dir, "data.txt")
   if (fs::file_exists(path)) {
-    fs::file_touch(path)
+    fs::file_chmod(path, "u+w")
+    fs::file_touch(path, access_time = time)
+    fs::file_chmod(path, "u=r")
   } else {
     fs::file_create(path)
   }
-
 }

@@ -7,7 +7,15 @@
 \usage{
 pin_download(board, name, version = NULL, hash = NULL, ...)
 
-pin_upload(board, paths, name = NULL, desc = NULL, metadata = NULL, ...)
+pin_upload(
+  board,
+  paths,
+  name = NULL,
+  title = NULL,
+  description = NULL,
+  metadata = NULL,
+  ...
+)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -26,9 +34,11 @@ you expect. You can find the hash of an existing pin by looking for
 
 \item{paths}{A character vector of file paths to upload to \code{board}.}
 
-\item{desc}{A text description of the pin; most important for
-shared boards so that others can understand what the pin contains.
-If omitted, pins will generate a brief description of the contents.}
+\item{title}{A title for the pin; most important for shared boards so that
+others can understand what the pin contains. If omitted, a brief
+description of the contents will be automatically generated.}
+
+\item{description}{A detailed description of the pin contents.}
 
 \item{metadata}{A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the \code{user} key, to
@@ -40,7 +50,9 @@ avoid potential clashes with the metadata that pins itself uses.}
 }
 \description{
 This is a lower-level interface than \code{pin_read()} and \code{pin_write()} that
-you can use to pin any file.
+you can use to pin any file, as opposed to any R object. The path returned
+by \code{pin_download()} is a read-only path to a cached file: you should never
+attempt to modify this file.
 }
 \examples{
 board <- board_temp()

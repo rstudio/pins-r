@@ -17,10 +17,6 @@
     Error <rlang_error>
       `name` must be a string
     Code
-      pin_write(board, mtcars, name = "x/y")
-    Error <rlang_error>
-      `name` can not contain slashes
-    Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Error <rlang_error>
       `type` must be one of "rds", "json", "arrow", "pickle", or "csv".
@@ -38,6 +34,7 @@
       Using `name = 'mtcars'`
       Guessing `type = 'rds'`
       Creating new version '20120304T050607Z-dfa6c'
+      Writing to pin 'mtcars'
     Code
       pin_write(b, data.frame(x = 1))
     Error <rlang_error>
@@ -50,6 +47,7 @@
       pin_write(b, mtcars, name = "mtcars", type = "rds")
     Message <message>
       Creating new version '20120304T050607Z-dfa6c'
+      Writing to pin 'mtcars'
     Code
       pin_read(b, "mtcars", hash = "ABCD")
     Error <rlang_error>

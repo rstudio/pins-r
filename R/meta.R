@@ -10,6 +10,7 @@ read_meta <- function(path) {
   yaml <- yaml::read_yaml(path, eval.expr = FALSE)
   if (is.null(yaml$api_version)) {
     yaml$api_version <- 0L
+    yaml$file <- yaml$path %||% yaml$file
   } else if (yaml$api_version == 1) {
     yaml$file_size <- fs::as_fs_bytes(yaml$file_size)
     yaml$created <- parse_8601_compact(yaml$created)
@@ -31,13 +32,14 @@ write_meta <- function(x, path) {
 
 # pin metadata ------------------------------------------------------------
 
-standard_meta <- function(path, type, object = NULL, desc = NULL) {
+standard_meta <- function(paths, type, title = NULL, description = NULL) {
   list(
-    file = fs::path_file(path),
-    file_size = as.integer(fs::file_size(path)),
-    pin_hash = pin_hash(path),
+    file = fs::path_file(paths),
+    file_size = as.integer(fs::file_size(paths)),
+    pin_hash = pin_hash(paths),
     type = type,
-    description = desc %||% default_description(object, path),
+    title = title,
+    description = description,
     created = format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
     api_version = 1
   )
@@ -58,22 +60,36 @@ parse_8601 <- function(x) {
   y
 }
 
-# description -------------------------------------------------------------
-
-default_description <- function(object, path) {
-  if (is.null(object)) {
-    n <- length(path)
-    if (n == 1) {
-      desc <- glue("a .{fs::path_ext(path)} file")
-    } else {
-      desc <- glue("{n} files")
-    }
-  } else if (is.data.frame(object)) {
-    desc <- glue("a data frame with {nrow(object)} rows and {ncol(object)} columns")
-  } else {
-    desc <- friendly_type(typeof(object))
+default_title <- function(name, data = NULL, path = NULL) {
+  if (!xor(is.null(data), is.null(path))) {
+    abort("Must supply exactly one of `path` and `data`")
   }
 
-  paste0("A pin containing ", desc)
-}
+  if (is.null(data)) {
+    n <- length(path)
+    if (n == 1) {
+      desc <- glue("a pinned .{fs::path_ext(path)} file")
+    } else {
+      desc <- glue("{n} pinned files")
+    }
+  } else if (is.data.frame(data)) {
+    desc <- glue("a pinned {nrow(data)} x {ncol(data)} data frame")
+  } else {
+    desc <- paste0("a pinned ", friendly_type(data))
+  }
 
+  paste0(name, ": ", desc)
+}
+friendly_type <- function(x) {
+  switch(typeof(x),
+    logical = "logical vector",
+    integer = "integer vector",
+    numeric = ,
+    double = "double vector",
+    complex = "complex vector",
+    character = "character vector",
+    raw = "raw vector",
+    list = "list",
+    typeof(x)
+  )
+}

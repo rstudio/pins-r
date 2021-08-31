@@ -27,8 +27,8 @@ test_that("can browse", {
   b %>% pin_write(1:10, "x")
   withr::defer(b %>% pin_delete("x"))
 
-  expect_snapshot(b %>% pin_browse("x"))
-  expect_snapshot(b %>% pin_browse("x", cache = TRUE), error = TRUE)
+  expect_snapshot(b %>% pin_browse("x", local = TRUE))
+  expect_snapshot(b %>% pin_browse("x"), error = TRUE)
 })
 
 test_that("generates useful messages", {

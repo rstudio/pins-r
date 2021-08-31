@@ -1,6 +1,4 @@
-if (!has_envvars("TEST_KAGGLE_API")) {
-  skip("requires env var TEST_KAGGLE_API")
-}
+skip_if_missing_envvars("legacy_kaggle()", "TEST_KAGGLE_API")
 
 path <- tempfile()
 writeLines(Sys.getenv("TEST_KAGGLE_API"), path)

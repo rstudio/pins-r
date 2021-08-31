@@ -61,19 +61,11 @@ pin_exists.pins_board_folder <- function(board, name, ...) {
 
 #' @export
 pin_delete.pins_board_folder <- function(board, names, ...) {
-  walk(names, check_name)
-  fs::dir_delete(fs::path(board$path, names))
-
-  invisible(board)
-}
-
-#' @export
-pin_browse.pins_board_folder <- function(board, name, version = NULL, ..., cache = FALSE) {
-  if (cache) {
-    abort("board_local() does not have a cache")
+  for (name in names) {
+    check_pin_exists(board, name)
+    fs::dir_delete(fs::path(board$path, name))
   }
-  meta <- pin_meta(board, name, version = version)
-  browse_url(meta$local$dir)
+  invisible(board)
 }
 
 #' @export
@@ -85,7 +77,8 @@ pin_store.pins_board_folder <- function(board, name, paths, metadata,
   version_dir <- fs::path(board$path, name, version)
   fs::dir_create(version_dir)
   write_meta(metadata, version_dir)
-  fs::file_copy(paths, version_dir, overwrite = TRUE)
+  out_paths <- fs::file_copy(paths, version_dir, overwrite = TRUE)
+  fs::file_chmod(out_paths, "u=r")
 
   name
 }

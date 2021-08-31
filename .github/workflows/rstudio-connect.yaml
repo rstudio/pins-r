@@ -1,0 +1,86 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: rstudio-connect
+
+jobs:
+  rstudio-connect:
+    runs-on: ubuntu-latest
+    env:
+      RSC_VERSION: 1.8.6.2
+      RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      # TODO: should use a real action to make sure that cleanup happens on error...
+      - name: run RStudio Connect
+        run: |
+          docker run -d -v $PWD/.github/users.txt:/etc/users.txt -v $PWD/.github/rstudio-connect.gcfg:/etc/rstudio-connect/rstudio-connect.gcfg --name=pins-connect -p 3939:3939 --privileged -e RSC_LICENSE -e RSTUDIO_CONNECT_HASTE=enabled rstudio/rstudio-connect:${RSC_VERSION}
+      - name: create RStudio Connect users
+        run: |
+          docker exec pins-connect awk ' { system("useradd -m -s /bin/bash "$1); system("echo \""$1":"$2"\" | chpasswd"); system("id "$1) } ' /etc/users.txt
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@master
+        with:
+          extra-packages: |
+            rcmdcheck
+            rstudio/connectapi
+
+      - name: wait for connect to start
+        run: |
+          curl -s --retry 10 --retry-connrefused http://localhost:3939
+
+      - name: initialize Connect users
+        shell: Rscript {0}
+        run: |
+          admin_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com", provider = "pam")
+
+          susan_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "susan", password = "susan", email = "susan@example.com", provider = "pam")
+          derek_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "derek", password = "derek", email = "derek@example.com", provider = "pam")
+
+          saveRDS(
+            list(
+              admin_key = admin_key$api_key,
+              susan_key = susan_key$api_key,
+              derek_key = derek_key$api_key
+            ),
+            "tests/testthat/creds.rds"
+          )
+
+
+      - name: Check
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@main
+        with:
+          name: rsconnect-results
+          path: check
+
+      - name: Show docker logs
+        if: always()
+        run: |
+          docker logs pins-connect
+
+      - name: clean up RStudio Connect
+        if: always()
+        run: |
+          docker stop pins-connect
+          docker rm pins-connect

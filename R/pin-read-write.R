@@ -38,9 +38,10 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 }
 
 #' @param x An object (typically a data frame) to pin.
-#' @param desc A text description of the pin; most important for
-#'   shared boards so that others can understand what the pin contains.
-#'   If omitted, pins will generate a brief description of the contents.
+#' @param title A title for the pin; most important for shared boards so that
+#'   others can understand what the pin contains. If omitted, a brief
+#'   description of the contents will be automatically generated.
+#' @param description A detailed description of the pin contents.
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
@@ -54,7 +55,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 pin_write <- function(board, x,
                       name = NULL,
                       type = NULL,
-                      desc = NULL,
+                      title = NULL,
+                      description = NULL,
                       metadata = NULL,
                       versioned = NULL,
                       ...) {
@@ -80,12 +82,21 @@ pin_write <- function(board, x,
     pins_inform("Guessing `type = '{type}'`")
   }
 
-  filename <- fs::path_ext_set(fs::path_file(name), type)
-  path <- object_write(x, fs::path_temp(filename), type = type)
-  meta <- standard_meta(path, object = x, type = type, desc = desc)
+  path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
+  object_write(x, path, type = type)
+  withr::defer(fs::file_delete(path))
+
+  meta <- standard_meta(
+    paths = path,
+    type = type,
+    title = title %||% default_title(name, data = x),
+    description = description
+  )
   meta$user <- metadata
 
-  invisible(pin_store(board, name, path, meta, versioned = versioned, x = x, ...))
+  name <- pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
+  pins_inform("Writing to pin '{name}'")
+  invisible(name)
 }
 
 guess_type <- function(x) {
@@ -196,7 +207,7 @@ check_board <- function(x, v1, v0) {
 }
 check_name <- function(x) {
   if (grepl("\\\\|/", x, perl = TRUE)) {
-    abort("`name` can not contain slashes")
+    abort("`name` must not contain slashes", class = "pins_check_name")
   }
 }
 check_metadata <- function(x) {

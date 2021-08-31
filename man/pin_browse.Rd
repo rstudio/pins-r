@@ -4,7 +4,7 @@
 \alias{pin_browse}
 \title{Browse source of a pin}
 \usage{
-pin_browse(board, name, version = NULL, ..., cache = FALSE)
+pin_browse(board, name, version = NULL, local = FALSE)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
@@ -15,10 +15,8 @@ pin_browse(board, name, version = NULL, ..., cache = FALSE)
 \item{version}{For boards that support versions, this allows you to retrieve
 a specific version of a pin. See \verb{vignette("versioning)"} for details.}
 
-\item{...}{Other arguments passed on to methods.}
-
-\item{cache}{If \code{TRUE}, will open the directory on your computer used
-to cache pin files.}
+\item{local}{If \code{TRUE}, will open the local copy of the pin; otherwise
+will show you the home of the pin on the internet.}
 }
 \description{
 \code{pin_browse()} navigates you to the home of a pin, either on the
@@ -30,5 +28,5 @@ board \%>\% pin_write(1:10, "x")
 board \%>\% pin_write(1:11, "x")
 board \%>\% pin_write(1:12, "x")
 
-board \%>\% pin_browse("x")
+board \%>\% pin_browse("x", local = TRUE)
 }

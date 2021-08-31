@@ -1,9 +1,9 @@
 # can find content by full/partial name
 
     Code
-      rsc_content_find(board, "susan/test-partial")
+      rsc_content_find(board, "marjory/test-partial")
     Error <rlang_error>
-      Can't find pin named 'test-partial' with owner 'susan'
+      Can't find pin named 'test-partial' with owner 'marjory'
 
 # can create and delete content
 

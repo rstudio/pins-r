@@ -1,7 +1,9 @@
 #' Upload and download files to and from a board
 #'
 #' This is a lower-level interface than `pin_read()` and `pin_write()` that
-#' you can use to pin any file.
+#' you can use to pin any file, as opposed to any R object. The path returned
+#' by `pin_download()` is a read-only path to a cached file: you should never
+#' attempt to modify this file.
 #'
 #' @inheritParams pin_read
 #' @return `pin_download()` returns a character vector of file paths;
@@ -26,7 +28,7 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @export
 #' @rdname pin_download
 #' @param paths A character vector of file paths to upload to `board`.
-pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, ...) {
+pin_upload <- function(board, paths, name = NULL, title = NULL, description = NULL, metadata = NULL, ...) {
   check_board(board, "pin_upload()", "pin()")
 
   if (!is.character(paths)) {
@@ -54,7 +56,12 @@ pin_upload <- function(board, paths, name = NULL, desc = NULL, metadata = NULL, 
     paths <- as.character(unlist(paths, use.names = FALSE))
   }
 
-  meta <- standard_meta(paths, desc = desc, type = "file")
+  meta <- standard_meta(
+    paths = paths,
+    type = "file",
+    title = title %||% default_title(name, path = paths),
+    description = description
+  )
   meta$user <- metadata
 
   invisible(pin_store(board, name, paths, meta, ...))
