@@ -188,3 +188,7 @@ abort_pin_versioned <- function() {
     i = "To un-version a pin, you must delete it"
   ), class = "pins_pin_versioned")
 }
+
+abort_board_read_only <- function(board) {
+  abort(glue("{board}() is read only"), class = "pins_board_read_only")
+}

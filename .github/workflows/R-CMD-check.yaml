@@ -32,6 +32,8 @@ jobs:
       PINS_AZURE_SAS: ${{ secrets.PINS_AZURE_SAS }}
       PINS_AWS_ACCESS_KEY: ${{ secrets.PINS_AWS_ACCESS_KEY}}
       PINS_AWS_SECRET_ACCESS_KEY: ${{ secrets.PINS_AWS_SECRET_ACCESS_KEY}}
+      PINS_KAGGLE_USERNAME: ${{ secrets.PINS_KAGGLE_USERNAME }}
+      PINS_KAGGLE_KEY: ${{ secrets.PINS_KAGGLE_KEY }}
 
       # needed for legacy board tests
       TEST_AWS_BUCKET: "pins-github-tests"

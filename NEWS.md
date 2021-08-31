@@ -69,6 +69,10 @@ This version includes the following modern boards:
 * `board_azure()` stores data in Azure's blob storage. It is built on top of 
   [AzureStor](https://github.com/Azure/AzureStor) (#474).
 
+* `board_kaggle_dataset()` and `board_kaggle_competition()` allow you to
+  download data from Kaggle. The data is automatically cached so that it's
+  only downloaded when it changes.
+
 * `board_url()` lets you create a manual board from a vector of URLs. This is 
   useful because `pin_donwload()` and `pin_read()` are cached, so they only 
   re-download the data if it has changed since the last time you used it (#409). 

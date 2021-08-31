@@ -70,16 +70,20 @@ print.pins_board <- function(x, ...) {
     pins <- pin_find(board = x)$name
   }
 
-  n <- length(pins)
-  if (n > 0) {
-    if (n > 20) {
-      pins <- c(pins[1:19], "...")
+  # Some boards (e.g. kaggle_competitions have an infeasibly large number
+  # and there's no point in listing them all)
+  if (!identical(pins, NA)) {
+    n <- length(pins)
+    if (n > 0) {
+      if (n > 20) {
+        pins <- c(pins[1:19], "...")
+      }
+      contents <- paste0(
+        "Pins [", n, "]: ",
+        paste0("'", pins, "'", collapse = ", ")
+      )
+      cat(strwrap(contents, exdent = 2), sep = "\n")
     }
-    contents <- paste0(
-      "Pins [", n, "]: ",
-      paste0("'", pins, "'", collapse = ", ")
-    )
-    cat(strwrap(contents, exdent = 2), sep = "\n")
   }
 
   invisible(x)
