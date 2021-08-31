@@ -46,6 +46,10 @@
 #'
 #' @inheritParams new_board
 #' @param bucket Bucket name.
+#' @param prefix Prefix within this bucket that this board will occupy.
+#'   You can use this to maintain multiple independent pin boards within
+#'   a single S3 bucket. Will typically end with `/` to take advantage of
+#'   S3's directory-like handling.
 #' @param access_key,secret_access_key,session_token,credential_expiration
 #'   Manually control authentication. See documentation below for details.
 #' @param region AWS region. If not specified, will be read from `AWS_REGION`,
@@ -59,9 +63,15 @@
 #' board <- board_s3("pins-test-hadley", region = "us-east-2")
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
+#'
+#' # A prefix allows you to have multiple independent boards in the same pin.
+#' board_sales <- board_s3("company-pins", prefix = "sales/")
+#' board_marketing <- board_s3("company-pins", prefix = "marketing/")
+#' # You can make the hierarchy arbitrarily deep.
 #' }
 board_s3 <- function(
                     bucket,
+                    prefix = NULL,
                     versioned = TRUE,
                     access_key = NULL,
                     secret_access_key = NULL,
@@ -95,6 +105,7 @@ board_s3 <- function(
   new_board_v1("pins_board_s3",
     name = "s3",
     bucket = bucket,
+    prefix = prefix,
     svc = svc,
     cache = cache,
     versioned = versioned
@@ -119,10 +130,14 @@ board_s3_test <- function(...) {
 #' @export
 pin_list.pins_board_s3 <- function(board, ...) {
   # TODO: implement pagination
-  resp <- board$svc$list_objects_v2(board$bucket, Delimiter = "/")
+  resp <- board$svc$list_objects_v2(
+    Bucket = board$bucket,
+    Prefix = board$prefix,
+    Delimiter = "/"
+  )
 
   prefixes <- map_chr(resp$CommonPrefixes, ~ .x$Prefix)
-  sub("/$", "", prefixes)
+  strip_prefix(sub("/$", "", prefixes), board$prefix)
 }
 
 #' @export
@@ -145,7 +160,7 @@ pin_versions.pins_board_s3 <- function(board, name, ...) {
 
   resp <- board$svc$list_objects_v2(
     Bucket = board$bucket,
-    Prefix = paste0(name, "/"),
+    Prefix = paste0(board$prefix, name, "/"),
     Delimiter = "/"
   )
   paths <- fs::path_file(map_chr(resp$CommonPrefixes, ~ .$Prefix))
@@ -209,7 +224,10 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
 # Helpers -----------------------------------------------------------------
 
 s3_delete_dir <- function(board, dir) {
-  resp <- board$svc$list_objects_v2(board$bucket, Prefix = paste0(dir, "/"))
+  resp <- board$svc$list_objects_v2(
+    Bucket = board$bucket,
+    Prefix = paste0(board$prefix, dir, "/")
+  )
   if (resp$KeyCount == 0) {
     return(invisible())
   }
@@ -221,19 +239,30 @@ s3_delete_dir <- function(board, dir) {
 
 s3_upload_yaml <- function(board, key, yaml) {
   body <- charToRaw(yaml::as.yaml(yaml))
-  board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
+  board$svc$put_object(
+    Bucket = board$bucket,
+    Key = paste0(board$prefix, key),
+    Body = body
+  )
 }
 
 s3_upload_file <- function(board, key, path) {
   body <- readBin(path, "raw", file.size(path))
-  board$svc$put_object(Bucket = board$bucket, Body = body, Key = key)
+  board$svc$put_object(
+    Bucket = board$bucket,
+    Key = paste0(board$prefix, key),
+    Body = body
+  )
 }
 
 s3_download <- function(board, key, immutable = FALSE) {
   path <- fs::path(board$cache, key)
 
   if (!immutable || !fs::file_exists(path)) {
-    resp <- board$svc$get_object(Bucket = board$bucket, Key = key)
+    resp <- board$svc$get_object(
+      Bucket = board$bucket,
+      Key = paste0(board$prefix, key)
+    )
     writeBin(resp$Body, path)
     fs::file_chmod(path, "u=r")
   }
@@ -242,6 +271,19 @@ s3_download <- function(board, key, immutable = FALSE) {
 }
 
 s3_file_exists <- function(board, key) {
-  resp <- board$svc$list_objects_v2(board$bucket, Prefix = key)
+  resp <- board$svc$list_objects_v2(
+    Bucket = board$bucket,
+    Prefix = paste0(board$prefix, key)
+  )
   resp$KeyCount > 0
+}
+
+strip_prefix <- function(x, prefix) {
+  if (is.null(prefix)) {
+    return(x)
+  }
+
+  to_strip <- startsWith(x, prefix)
+  x[to_strip] <- substr(x[to_strip], nchar(prefix) + 1, nchar(x[to_strip]))
+  x
 }
