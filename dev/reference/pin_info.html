@@ -84,10 +84,6 @@
 <span class="r-in"><span class="fu"><a href="legacy_local.html">board_register_local</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="pin.html">pin</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">pin_info</span><span class="op">(</span><span class="st">"mtcars"</span>, <span class="st">"local"</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`pin_info()` was deprecated in pins 1.0.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please use `pin_meta()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">Call `lifecycle::last_warnings()` to see where this warning was generated.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Source: local&lt;mtcars&gt; [table]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Properties:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#   rows: 32</span></span>
@@ -110,7 +106,7 @@
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using `name = 'mtcars'`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210827T151946Z-5a338'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210831T125241Z-5a338'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 10</span>
@@ -120,13 +116,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-08-27 15:19:00"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-08-31 12:52:00"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpaAmGbt/pins-24d639b039d2/mtcars/20210827T151946Z-5a338"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp23J9lL/pins-24d8c3cbc73/mtcars/20210831T125241Z-5a338"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20210827T151946Z-5a338"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20210831T125241Z-5a338"</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
