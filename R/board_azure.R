@@ -27,7 +27,7 @@
 board_azure <- function(container, n_processes = 10, versioned = TRUE, cache = NULL) {
   check_installed("AzureStor")
 
-  cache <- cache %||% board_cache_path(paste0("azure-", hash(url)))
+  cache <- cache %||% board_cache_path(paste0("azure-", hash(container$endpoint$url)))
   new_board_v1("pins_board_azure",
     name = "azure",
     container = container,
