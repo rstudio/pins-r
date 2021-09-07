@@ -89,21 +89,17 @@ the current R session ends. It's useful for examples and tests.</p></li>
 </ul></div>
 
     <div id="ref-usage" class="ref-usage section level2 sourceCode">
-    <pre class="sourceCode r"><code><span class="fu">board_folder</span><span class="op">(</span><span class="va">path</span>, name <span class="op">=</span> <span class="st">"folder"</span>, versioned <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <pre class="sourceCode r"><code><span class="fu">board_folder</span><span class="op">(</span><span class="va">path</span>, versioned <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="fu">board_local</span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu">board_temp</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"temp"</span>, versioned <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre>
+<span class="fu">board_temp</span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre>
     </div>
 
     <h2>Arguments</h2>
     <dl class="row" id="ref-arguments"><dt class="col-sm-3 section level2" id="pkg-arg-path">path</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Path to directory to store pins. Will be created if it
 doesn't already exist.</p></dd>
-    <dt class="col-sm-3 section level2" id="pkg-arg-name">name</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p>An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-versioned">versioned</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Should this board be registered with support for versions?</p></dd>
     </dl><div class="ref-section section level2" id="section-see-also">
