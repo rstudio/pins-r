@@ -6,19 +6,15 @@
 \alias{board_temp}
 \title{Use a local folder as board}
 \usage{
-board_folder(path, name = "folder", versioned = FALSE)
+board_folder(path, versioned = FALSE)
 
 board_local(versioned = FALSE)
 
-board_temp(name = "temp", versioned = FALSE)
+board_temp(versioned = FALSE)
 }
 \arguments{
 \item{path}{Path to directory to store pins. Will be created if it
 doesn't already exist.}
-
-\item{name}{An optional name used identify the board. This is no longer
-generally needed since you should be passing around an explicit
-board object.}
 
 \item{versioned}{Should this board be registered with support for versions?}
 }
