@@ -3,7 +3,7 @@ test_api_versioning(board_temp(versioned = TRUE))
 test_api_meta(board_temp())
 
 test_that("has useful print method", {
-  expect_snapshot(board_folder("/tmp/test", name = "test"))
+  expect_snapshot(board_folder("/tmp/test"))
 })
 
 test_that("can upload/download multiple files", {
@@ -22,7 +22,7 @@ test_that("can upload/download multiple files", {
 })
 
 test_that("can browse", {
-  b <- board_folder("/tmp/test", name = "test")
+  b <- board_folder("/tmp/test")
 
   b %>% pin_write(1:10, "x")
   withr::defer(b %>% pin_delete("x"))

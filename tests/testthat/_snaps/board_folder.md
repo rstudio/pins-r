@@ -1,7 +1,7 @@
 # has useful print method
 
     Code
-      board_folder("/tmp/test", name = "test")
+      board_folder("/tmp/test")
     Output
       Pin board <pins_board_folder>
       Path: '/tmp/test'

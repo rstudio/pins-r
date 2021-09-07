@@ -21,7 +21,7 @@
 #' # session-specific local board
 #' board <- board_temp()
 #' @export
-board_folder <- function(path, name = "folder", versioned = FALSE) {
+board_folder <- function(path, versioned = FALSE) {
   fs::dir_create(path)
 
   new_board_v1("pins_board_folder",
@@ -38,13 +38,13 @@ board_desc.pins_board_folder <- function(board, ...) {
 #' @export
 #' @rdname board_folder
 board_local <- function(versioned = FALSE) {
-  board_folder(rappdirs::user_data_dir("pins"), name = "local", versioned = versioned)
+  board_folder(rappdirs::user_data_dir("pins"), versioned = versioned)
 }
 
 #' @rdname board_folder
 #' @export
-board_temp <- function(name = "temp", versioned = FALSE) {
-  board_folder(fs::file_temp("pins-"), name = name, versioned = versioned)
+board_temp <- function(versioned = FALSE) {
+  board_folder(fs::file_temp("pins-"), versioned = versioned)
 }
 
 # Methods -----------------------------------------------------------------
