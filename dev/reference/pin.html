@@ -81,8 +81,8 @@ download resources before running your R script.</p>
 <p>In addition, <code>pin()</code> still works when working offline or when the remote resource
 becomes unavailable; when this happens, a warning will be triggered but your code will
 continue to work.</p>
-<p><code>pin()</code> will stores data frames in two files, an R native file and a 'CSV' file. To
-force saving a pin only using R's native (RDS) format, you can use <code>pin(I(data))</code>.
+<p><code>pin()</code> stores data frames in two files, an R native file (RDS) and a 'CSV' file. To
+force saving a pin in R's native format only, you can use <code>pin(I(data))</code>.
 This can improve performance and size at the cost of making the pin unreadable from other
 tools and programming languages.</p>
     </div>
@@ -131,7 +131,7 @@ tools and programming languages.</p>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using `name = 'mtcars'`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210907T124515Z-5a338'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210909T125423Z-5a338'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
