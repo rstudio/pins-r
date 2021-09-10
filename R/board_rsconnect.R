@@ -35,12 +35,12 @@
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
-#' @param auth There are two approaches to auth: you can either use `"envvars"`
-#'   `CONNECT_API_KEY` and `CONNECT_SERVER` or the rsconnect package. The
-#'   default is `auto`, which will use the environment variables if both are
-#'   available, and rsconnect if not.
-#' @param server For `auth = "envvar"` the full url to the server, like
-#'   `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
+#' @param auth There are three approaches to auth: you can manually provide `server` and `key`,
+#'   use `"envvars"`  `CONNECT_API_KEY` and `CONNECT_SERVER`, or the rsconnect package. The
+#'   default is `auto`, which will use the manually provided values if present, then 
+#'   environment variables if both are available, and rsconnect if not.
+#' @param server For `auth = "envvar"` or a directly provided value, the full url to the server,
+#'   like `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
 #'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts,
 #'   like `server.rstudio.com` or `connect.rstudio.com`.
 #' @param account A user name used to disambiguate multiple RSC accounts
