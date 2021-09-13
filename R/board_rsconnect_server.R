@@ -34,7 +34,7 @@ check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server
 
 rsc_server_manual <- function(server, key) {
   url <- server %||% abort("`server` must be supplied")
-  url <- rsc_normalize_server_url(server)
+  url <- rsc_normalize_server_url(url)
   server_name <- httr::parse_url(url)$hostname
 
   key <- key %||% abort("`key` must be supplied")
