@@ -27,7 +27,7 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL) {
 
   try(drive$create_folder(path), silent=TRUE)
   folder <- drive$get_item(path)
-  if(!folder$is_folder()) {
+  if (!folder$is_folder()) {
     abort("Invalid path specified")
   }
 
@@ -101,7 +101,7 @@ pin_meta.pins_board_ms365 <- function(board, name, version = NULL, ...) {
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
-  ms365_download(board, metadata_key, immutable = TRUE)
+  ms365_download(board, metadata_key)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
     dir = path_version,
@@ -116,7 +116,7 @@ pin_fetch.pins_board_ms365 <- function(board, name, version = NULL, ...) {
 
   for (file in meta$file) {
     key <- fs::path(name, meta$local$version, file)
-    ms365_download(board, key, immutable = TRUE)
+    ms365_download(board, key)
   }
 
   meta
@@ -129,9 +129,19 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
   version_dir <- fs::path(name, version)
-  ms365_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata)
+
+  # Upload metadata
+  board$folder$upload(
+    src = textConnection(yaml::as.yaml(metadata)),
+    dest = fs::path(version_dir, "data.txt")
+  )
+
+  # Upload files
   for (path in paths) {
-    ms365_upload_file(board, fs::path(version_dir, fs::path_file(path)), path)
+    board$folder$upload(
+      src = path,
+      dest = fs::path(version_dir, fs::path_file(path))
+    )
   }
 
   name
@@ -185,4 +195,16 @@ ms365_list_dirs <- function(board, path="") {
 ms365_delete_dir <- function(board, path="", by_item=FALSE) {
   child <- board$folder$get_item(path)
   child$delete(confirm=FALSE, by_item=by_item)
+}
+
+# download a specific file from the board, as given by the 'key' path
+ms365_download <- function(board, key) {
+  path <- fs::path(board$cache, key)
+
+  if (!fs::file_exists(path)) {
+    board$folder$get_item(key)$download(dest=path)
+    fs::file_chmod(path, "u=r")
+  }
+
+  path
 }
