@@ -35,9 +35,11 @@
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
-#' @param auth There are three approaches to auth: use `"manual"` and provide `server` and `key`,
-#'   use `"envvars"`  `CONNECT_API_KEY` and `CONNECT_SERVER`, or the rsconnect package. The
-#'   default is `auto`, which will use the manually provided values if present, then
+#' @param auth There are three approaches to auth:
+#'  * Use `"manual"` along with arguments `server` and `key`.
+#'  * Use `"envvars"` with environment variables `CONNECT_API_KEY` and `CONNECT_SERVER`.
+#'  * Use the `"rsconnect"` package.
+#'  * The default is `auto`, which will use the manually provided values if present, then
 #'   environment variables if both are available, and rsconnect if not.
 #' @param server For `auth = "manual"` or `auth = 'envvar'`, the full url to the server,
 #'   like `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.

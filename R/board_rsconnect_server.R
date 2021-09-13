@@ -1,14 +1,16 @@
 rsc_server <- function(auth = "auto", server = NULL, account = NULL, key = NULL) {
   auth <- check_auth(auth, server, key)
 
-  if (auth %in%  c("manual", "envvar")) {
-    rsc_server_envvar(server, key)
+  if (auth == "manual") {
+    rsc_server_manual(server, key)
+  } else if (auth == "envvar") {
+    rsc_server_manual(envvar_get("CONNECT_SERVER"), envvar_get("CONNECT_API_KEY"))
   } else {
     rsc_server_rsconnect(server, account)
   }
 }
 
-check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server, key) {
+check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server = NULL, key = NULL) {
   auth <- arg_match(auth)
   if (auth == "auto") {
     if (!is.null(server) && !is.null(key)) {
@@ -30,12 +32,12 @@ check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server
   }
 }
 
-rsc_server_envvar <- function(server = NULL, key = NULL) {
-  url <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
-  url <- rsc_normalize_server_url(url)
+rsc_server_manual <- function(server, key) {
+  url <- server %||% abort("`server` must be supplied")
+  url <- rsc_normalize_server_url(server)
   server_name <- httr::parse_url(url)$hostname
 
-  key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
+  key <- key %||% abort("`key` must be supplied")
 
   list(
     url = url,
