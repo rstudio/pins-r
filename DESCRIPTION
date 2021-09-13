@@ -52,6 +52,7 @@ Suggests:
     knitr,
     mockery,
     paws.storage,
+    qs,
     R.utils,
     rmarkdown,
     rsconnect,
