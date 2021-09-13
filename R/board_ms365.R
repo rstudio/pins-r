@@ -31,9 +31,8 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL) {
     abort("Invalid path specified")
   }
 
-  cache <- cache %||% board_cache_path(paste0("ms365-", hash(drive$properties$id)))
+  cache <- cache %||% board_cache_path(paste0("ms365-", hash(folder$properties$id)))
   new_board_v1("pins_board_ms365",
-    drive = drive,
     folder = folder,
     path = path,
     cache = cache,
