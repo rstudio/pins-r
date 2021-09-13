@@ -131,17 +131,14 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
   version_dir <- fs::path(name, version)
 
   # Upload metadata
-  board$folder$upload(
-    src = textConnection(yaml::as.yaml(metadata)),
-    dest = fs::path(version_dir, "data.txt")
-  )
+  meta_tmpfile <- tempfile(fileext=".yml")
+  on.exit(unlink(meta_tmpfile))
+  yaml::write_yaml(metadata, meta_tmpfile)
+  board$folder$upload(meta_tmpfile, fs::path(version_dir, "data.txt"))
 
   # Upload files
   for (path in paths) {
-    board$folder$upload(
-      src = path,
-      dest = fs::path(version_dir, fs::path_file(path))
-    )
+    board$folder$upload(path, fs::path(version_dir, fs::path_file(path)))
   }
 
   name
