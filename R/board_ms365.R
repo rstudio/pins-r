@@ -144,41 +144,6 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
   name
 }
 
-#' @export
-pin_fetch.pins_board_ms365 <- function(board, name, version = NULL, ...) {
-  pin_meta(board, name, version = version)
-}
-
-#' @export
-pin_meta.pins_board_ms365 <- function(board, name, version = NULL, ...) {
-  check_name(name)
-  check_pin_exists(board, name)
-  version <- check_pin_version(board, name, version)
-
-  path_version <- fs::path(board$path, name, version)
-  if (!fs::dir_exists(path_version)) {
-    abort_pin_version_missing(version)
-  }
-
-  meta <- read_meta(path_version)
-  local_meta(meta, dir = path_version, version = version)
-}
-
-#' @export
-pin_versions.pins_board_ms365 <- function(board, name, ...) {
-  check_name(name)
-  check_pin_exists(board, name)
-
-  paths <- ms365_list_dirs(board, name)
-  version_from_path(fs::path_file(paths))
-}
-
-#' @export
-pin_version_delete.pins_board_ms365 <- function(board, name, version, ...) {
-  fs::dir_delete(fs::path(board$path, name, version))
-}
-
-
 
 # helpers
 
@@ -193,6 +158,13 @@ ms365_delete_dir <- function(board, path="", by_item=FALSE) {
   child <- board$folder$get_item(path)
   child$delete(confirm=FALSE, by_item=by_item)
 }
+
+# check if a file exists and is not a directory
+ms365_file_exists <- function(board, key) {
+  item <- try(board$folder$get_item(key), silent=TRUE)
+  inherits(item, "ms_drive_item") && !item$is_folder()
+}
+
 
 # download a specific file from the board, as given by the 'key' path
 ms365_download <- function(board, key) {
