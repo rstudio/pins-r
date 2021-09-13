@@ -34,7 +34,7 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL) {
   cache <- cache %||% board_cache_path(paste0("ms365-", hash(folder$properties$id)))
   new_board_v1("pins_board_ms365",
     folder = folder,
-    path = path,
+    # path = path,
     cache = cache,
     versioned = versioned
   )
