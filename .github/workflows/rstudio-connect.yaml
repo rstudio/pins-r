@@ -9,6 +9,7 @@ name: rstudio-connect
 jobs:
   rstudio-connect:
     runs-on: ubuntu-latest
+    if: ${{ secrets.RSC_LICENSE != "" }}
     env:
       RSC_VERSION: 1.8.6.2
       RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
