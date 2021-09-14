@@ -38,15 +38,15 @@ test_that("delivers useful messages if can't find RSC account", {
 
 test_that("server url is normalised", {
   ref <- "http://example.com/test"
-  expect_equal(rsc_server_envvar("http://example.com/test", "")$url, ref)
-  expect_equal(rsc_server_envvar("http://example.com/test/", "")$url, ref)
-  expect_equal(rsc_server_envvar("http://example.com/test/__api__", "")$url, ref)
-  expect_equal(rsc_server_envvar("http://example.com/test/__api__/", "")$url, ref)
+  expect_equal(rsc_server_manual("http://example.com/test", "")$url, ref)
+  expect_equal(rsc_server_manual("http://example.com/test/", "")$url, ref)
+  expect_equal(rsc_server_manual("http://example.com/test/__api__", "")$url, ref)
+  expect_equal(rsc_server_manual("http://example.com/test/__api__/", "")$url, ref)
 })
 
 test_that("auth is hidden", {
   expect_snapshot({
-    server <- rsc_server_envvar("http://example.com", "SECRET")
+    server <- rsc_server_manual("http://example.com", "SECRET")
     server$auth
     str(list(1, server$auth, 2))
   })
