@@ -46,6 +46,7 @@ Imports:
     yaml,
     zip
 Suggests:
+    Microsoft365R,
     AzureStor,
     data.table,
     datasets,
