@@ -9,7 +9,7 @@ name: rstudio-connect
 jobs:
   rstudio-connect:
     runs-on: ubuntu-latest
-    if: github.repository == "rstudio/pins"
+    if: github.repository == 'rstudio/pins'
     env:
       RSC_VERSION: 1.8.6.2
       RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
