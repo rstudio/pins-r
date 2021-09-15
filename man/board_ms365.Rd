@@ -13,7 +13,10 @@ board_sharepoint(drive, path, versioned = TRUE, cache = NULL)
 board_onedrive(drive, path, versioned = TRUE, cache = NULL)
 }
 \arguments{
-\item{drive}{A OneDrive or SharePoint document library object.}
+\item{drive}{A OneDrive or SharePoint document library object, as obtained from Microsoft365. See the examples.}
+
+\item{path}{Path to directory to store pins. Will be created if it
+doesn't already exist.}
 
 \item{versioned}{Should this board be registered with support for versions?}
 
@@ -26,19 +29,19 @@ Pin data to a folder in Onedrive or a SharePoint Online document library
 using the Microsoft365R package.
 }
 \examples{
-if (requireNamespace("AzureStor")) {
-  # Public access board
-  url <- "https://pins.blob.core.windows.net/public-data"
-  container <- AzureStor::blob_container(url)
-  board <- board_azure(container)
-  board \%>\% pin_read("mtcars")
-}
-
 \dontrun{
-# To create a board that you can write to, you'll need to supply one
-# of `key`, `token`, or `sas` to AzureStor::blob_container()
-container <- AzureStor::blob_container(url, key = "my-key")
-board <- board_azure(container)
-board \%>\% pin_write(iris)
+# a board in your personal OneDrive
+od <- get_personal_onedrive()
+odboard <- board_onedrive(od, "myboard")
+odboard \%>\% pin_write(iris)
+
+# a board in OneDrive for Business
+odb <- get_business_onedrive(tenant="mytenant")
+odbboard <- board_onedrive(odb, "myproject/board")
+
+# a board in a SharePoint Online document library
+sp <- get_sharepoint_site("my site", tenant="mytenant")
+doclib <- sp$get_drive()
+spboard <- board_sharepoint(doclib, "general/project1/board")
 }
 }

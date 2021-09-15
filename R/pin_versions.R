@@ -13,6 +13,8 @@
 #'   `pin_version(name, board)`.
 #' @param full `r lifecycle::badge("deprecated")`
 #' @param ... Additional arguments passed on to methods for a specific board.
+#' @details
+#' Some boards require additional arguments when deleting pins. In particular, deleting/pruning pins in OneDrive and SharePoint Online (`board_onedrive`, `board_sharepoint` and `board_ms365`) may require passing `by_item=TRUE` to work around document protection policies that prohibit deleting non-empty folders.
 #' @return A data frame with at least a `version` column. Some boards may
 #'   provided additional data.
 #' @examples
@@ -92,7 +94,7 @@ pin_version_delete.pins_board <- function(board, name, version, ...) {
 #'   keep. `n = 3` will keep the last three versions, `days = 14` will
 #'   keep all the versions in the 14 days. Regardless of what values you
 #'   set, `pin_versions_prune()` will never delete the most recent version.
-pin_versions_prune <- function(board, name, n = NULL, days = NULL) {
+pin_versions_prune <- function(board, name, n = NULL, days = NULL, ...) {
   versions <- pin_versions(board, name)
   keep <- versions_keep(versions$created, n = n, days = days)
 
@@ -101,7 +103,7 @@ pin_versions_prune <- function(board, name, n = NULL, days = NULL) {
 
     pins_inform(paste0("Deleting versions: ", paste0(to_delete, collapse = ", ")))
     for (version in to_delete) {
-      pin_version_delete(board, name, version)
+      pin_version_delete(board, name, version, ...)
     }
   } else {
     pins_inform("No old versions to delete")
