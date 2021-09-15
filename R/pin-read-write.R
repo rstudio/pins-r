@@ -46,7 +46,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "rds", "json", or "arrow". If not supplied will use json for bare
+#'   "csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
 #'   lists and rds for everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
@@ -111,7 +111,7 @@ guess_type <- function(x) {
 }
 
 object_write <- function(x, path, type = "rds") {
-  type <- arg_match0(type, c("rds", "json", "arrow", "pickle", "csv", "qs"))
+  type <- arg_match0(type, setdiff(object_types, "file"))
 
   switch(type,
     rds = write_rds(x, path),
