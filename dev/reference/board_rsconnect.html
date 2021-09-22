@@ -44,7 +44,7 @@ After you've shared the pin, it will be automatically available to others."><met
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control mr-sm-2" aria-label="Search" name="search-input" data-search-index="/dev/search.json" id="search-input" placeholder="Search..." autocomplete="off"></form>
+        <input type="search" class="form-control mr-sm-2" aria-label="Search" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search..." autocomplete="off"></form>
 
       <ul class="navbar-nav ml-1"><li class="nav-item">
   <a class="nav-link" href="https://github.com/rstudio/pins/" aria-label="github">
@@ -75,7 +75,7 @@ After you've shared the pin, it will be automatically available to others.</p>
 
     <div id="ref-usage" class="ref-usage section level2 sourceCode">
     <pre class="sourceCode r"><code><span class="fu">board_rsconnect</span><span class="op">(</span>
-  auth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"envvar"</span>, <span class="st">"rsconnect"</span><span class="op">)</span>,
+  auth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"manual"</span>, <span class="st">"envvar"</span>, <span class="st">"rsconnect"</span><span class="op">)</span>,
   server <span class="op">=</span> <span class="cn">NULL</span>,
   account <span class="op">=</span> <span class="cn">NULL</span>,
   key <span class="op">=</span> <span class="cn">NULL</span>,
@@ -90,17 +90,21 @@ After you've shared the pin, it will be automatically available to others.</p>
 
     <h2>Arguments</h2>
     <dl class="row" id="ref-arguments"><dt class="col-sm-3 section level2" id="pkg-arg-auth">auth</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p>There are two approaches to auth: you can either use <code>"envvars"</code>
-<code>CONNECT_API_KEY</code> and <code>CONNECT_SERVER</code> or the rsconnect package. The
-default is <code>auto</code>, which will use the environment variables if both are
-available, and rsconnect if not.</p></dd>
+      <dd class="col-sm-9" id="ref-arguments desc"><p>There are three ways to authenticate:</p><ul><li><p><code>auth = "manual"</code> uses arguments <code>server</code> and <code>key</code>.</p></li>
+<li><p><code>auth = "envvars"</code> uses environment variables <code>CONNECT_API_KEY</code>
+and <code>CONNECT_SERVER</code>.</p></li>
+<li><p><code>auth = "rsconnect"</code> uses servers registered with the rsconnect
+package (filtered by <code>server</code> and <code>account</code>, if provided)</p></li>
+</ul><p>The default, <code>auth = "auto"</code>, automatically picks between the three options,
+using <code>"manual"</code> if <code>server</code> and <code>key</code> are provided, <code>"envvar"</code> if both
+environment variables are set, and <code>"rsconnect"</code> otherwise.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-server">server</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p>For <code>auth = "envvar"</code> the full url to the server, like
-<code>http://server.rstudio.com/rsc</code> or <code>https://connect.rstudio.com/</code>.
+      <dd class="col-sm-9" id="ref-arguments desc"><p>For <code>auth = "manual"</code> or <code>auth = 'envvar'</code>, the full url to the server,
+like <code>http://server.rstudio.com/rsc</code> or <code>https://connect.rstudio.com/</code>.
 For <code>auth = 'rsconnect'</code> a host name used to disambiguate RSC accounts,
 like <code>server.rstudio.com</code> or <code>connect.rstudio.com</code>.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-account">account</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p>A user name used to disambiguate multiple RSC accounts</p></dd>
+      <dd class="col-sm-9" id="ref-arguments desc"><p>A user name used to disambiguate multiple RSC accounts.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-key">key</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>The RStudio Connect API key.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-output_files">output_files</dt>

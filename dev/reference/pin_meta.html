@@ -68,7 +68,7 @@ its local cache.
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control mr-sm-2" aria-label="Search" name="search-input" data-search-index="/dev/search.json" id="search-input" placeholder="Search..." autocomplete="off"></form>
+        <input type="search" class="form-control mr-sm-2" aria-label="Search" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search..." autocomplete="off"></form>
 
       <ul class="navbar-nav ml-1"><li class="nav-item">
   <a class="nav-link" href="https://github.com/rstudio/pins/" aria-label="github">
@@ -130,7 +130,7 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Hadley"</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210914T122154Z-3e025'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210922T123050Z-3e025'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Get the pin</span></span>
@@ -151,17 +151,17 @@ a specific version of a pin. See <code>vignette("versioning)"</code> for details
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-09-14 12:21:00"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-09-22 12:30:00"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       :List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Hadley: logi TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpbpJcyr/pins-271163467e1c/mtcars/20210914T122154Z-3e025"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp31BtTG/pins-27142327096/mtcars/20210922T123050Z-3e025"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20210914T122154Z-3e025"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20210922T123050Z-3e025"</span>
 <span class="r-in"><span class="co"># Get path to underlying data</span></span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpbpJcyr/pins-271163467e1c/mtcars/20210914T122154Z-3e025/mtcars.rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp31BtTG/pins-27142327096/mtcars/20210922T123050Z-3e025/mtcars.rds"</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
