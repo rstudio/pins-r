@@ -699,7 +699,7 @@ board_rsconnect_hadley <- function(...) {
 
 board_rsconnect_susan <- function(...) {
   creds <- read_creds()
-  board_rsconnect("envvar",
+  board_rsconnect(
     server = "http://localhost:3939",
     account = "susan",
     key = creds$susan_key
@@ -707,7 +707,7 @@ board_rsconnect_susan <- function(...) {
 }
 board_rsconnect_derek <- function(...) {
   creds <- read_creds()
-  board_rsconnect("envvar",
+  board_rsconnect(
     server = "http://localhost:3939",
     account = "derek",
     key = creds$derek_key

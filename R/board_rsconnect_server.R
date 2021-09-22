@@ -4,7 +4,10 @@ rsc_server <- function(auth, server = NULL, account = NULL, key = NULL) {
   if (auth == "manual") {
     rsc_server_manual(server, key)
   } else if (auth == "envvar") {
-    rsc_server_manual(envvar_get("CONNECT_SERVER"), envvar_get("CONNECT_API_KEY"))
+    rsc_server_manual(
+      envvar_get("CONNECT_SERVER") %||% abort("Can't find CONNECT_SERVER env var"),
+      envvar_get("CONNECT_API_KEY") %||% abort("Can't find CONNECT_API_KEY env var")
+    )
   } else {
     rsc_server_rsconnect(server, account)
   }

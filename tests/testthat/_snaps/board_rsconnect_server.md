@@ -38,3 +38,17 @@
        $ : <hidden>
        $ : num 2
 
+# clearly errors if env vars missing
+
+    Code
+      rsc_server("envvar")
+    Error <rlang_error>
+      Can't find CONNECT_SERVER env var
+
+---
+
+    Code
+      rsc_server("envvar")
+    Error <rlang_error>
+      Can't find CONNECT_API_KEY env var
+

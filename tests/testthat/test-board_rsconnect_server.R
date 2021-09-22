@@ -51,3 +51,11 @@ test_that("auth is hidden", {
     str(list(1, server$auth, 2))
   })
 })
+
+test_that("clearly errors if env vars missing", {
+  withr::local_envvar("CONNECT_API_KEY" = NA, "CONNECT_SERVER" = NA)
+  expect_snapshot(rsc_server("envvar"), error = TRUE)
+  withr::local_envvar("CONNECT_API_KEY" = NA, "CONNECT_SERVER" = 1)
+  expect_snapshot(rsc_server("envvar"), error = TRUE)
+})
+
