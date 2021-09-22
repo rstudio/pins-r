@@ -35,12 +35,16 @@
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
-#' @param auth There are three approaches to auth:
-#'  * Use `"manual"` along with arguments `server` and `key`.
-#'  * Use `"envvars"` with environment variables `CONNECT_API_KEY` and `CONNECT_SERVER`.
-#'  * Use the `"rsconnect"` package.
-#'  * The default is `auto`, which will use the manually provided values if present, then
-#'   environment variables if both are available, and rsconnect if not.
+#' @param auth There are three ways to authenticate:
+#'  * `auth = "manual"` uses arguments `server` and `key`.
+#'  * `auth = "envvars"` uses environment variables `CONNECT_API_KEY`
+#'     and `CONNECT_SERVER`.
+#'  * `auth = "rsconnect"` uses servers registered with the rsconnect
+#'    package (filtered by `server` and `account`, if provided)
+#'
+#'  The default, `auth = "auto"`, automatically picks between the three options,
+#'  using `"manual"` if `server` and `key` are provided, `"envvar"` if both
+#'  environment variables are set, and `"rsconnect"` otherwise.
 #' @param server For `auth = "manual"` or `auth = 'envvar'`, the full url to the server,
 #'   like `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
 #'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts,
@@ -60,7 +64,7 @@
 #' board %>% pin_read("timothy/mtcars")
 #' }
 board_rsconnect <- function(
-                            auth = c("auto", "envvar", "rsconnect"),
+                            auth = c("auto", "manual", "envvar", "rsconnect"),
                             server = NULL,
                             account = NULL,
                             key = NULL,

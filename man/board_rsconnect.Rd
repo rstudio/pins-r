@@ -5,7 +5,7 @@
 \title{Use RStudio Connect as board}
 \usage{
 board_rsconnect(
-  auth = c("auto", "envvar", "rsconnect"),
+  auth = c("auto", "manual", "envvar", "rsconnect"),
   server = NULL,
   account = NULL,
   key = NULL,
@@ -18,17 +18,25 @@ board_rsconnect(
 )
 }
 \arguments{
-\item{auth}{There are two approaches to auth: you can either use \code{"envvars"}
-\code{CONNECT_API_KEY} and \code{CONNECT_SERVER} or the rsconnect package. The
-default is \code{auto}, which will use the environment variables if both are
-available, and rsconnect if not.}
+\item{auth}{There are three ways to authenticate:
+\itemize{
+\item \code{auth = "manual"} uses arguments \code{server} and \code{key}.
+\item \code{auth = "envvars"} uses environment variables \code{CONNECT_API_KEY}
+and \code{CONNECT_SERVER}.
+\item \code{auth = "rsconnect"} uses servers registered with the rsconnect
+package (filtered by \code{server} and \code{account}, if provided)
+}
 
-\item{server}{For \code{auth = "envvar"} the full url to the server, like
-\verb{http://server.rstudio.com/rsc} or \verb{https://connect.rstudio.com/}.
+The default, \code{auth = "auto"}, automatically picks between the three options,
+using \code{"manual"} if \code{server} and \code{key} are provided, \code{"envvar"} if both
+environment variables are set, and \code{"rsconnect"} otherwise.}
+
+\item{server}{For \code{auth = "manual"} or \code{auth = 'envvar'}, the full url to the server,
+like \verb{http://server.rstudio.com/rsc} or \verb{https://connect.rstudio.com/}.
 For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts,
 like \code{server.rstudio.com} or \code{connect.rstudio.com}.}
 
-\item{account}{A user name used to disambiguate multiple RSC accounts}
+\item{account}{A user name used to disambiguate multiple RSC accounts.}
 
 \item{key}{The RStudio Connect API key.}
 

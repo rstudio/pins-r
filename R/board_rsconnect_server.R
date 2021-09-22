@@ -1,4 +1,4 @@
-rsc_server <- function(auth = "auto", server = NULL, account = NULL, key = NULL) {
+rsc_server <- function(auth, server = NULL, account = NULL, key = NULL) {
   auth <- check_auth(auth, server, key)
 
   if (auth == "manual") {
