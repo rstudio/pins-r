@@ -15,8 +15,8 @@ pin_store(board, name, paths, metadata, versioned = NULL, x = NULL, ...)
 
 \item{name}{Pin name.}
 
-\item{version}{For boards that support versions, this allows you to retrieve
-a specific version of a pin. See \verb{vignette("versioning)"} for details.}
+\item{version}{Retrieve a specific version of a pin. Use \code{\link[=pin_versions]{pin_versions()}} to
+find out which versions are available and when they were created.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 

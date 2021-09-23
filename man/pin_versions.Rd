@@ -39,8 +39,6 @@ provided additional data.
 \item \code{pin_versions_prune()} deletes old versions.
 \item \code{pin_version_delete()} deletes a single version.
 }
-
-See \verb{vignette("versioning)"} for more details about versioning pins.
 }
 \examples{
 board <- board_temp(versioned = TRUE)

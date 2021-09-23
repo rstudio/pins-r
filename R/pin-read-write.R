@@ -10,8 +10,8 @@
 #' @param board A pin board, created by [board_folder()], [board_rsconnect()],
 #'   [board_url()] or other other `board_` function.
 #' @param name Pin name.
-#' @param version For boards that support versions, this allows you to retrieve
-#'   a specific version of a pin. See `vignette("versioning)"` for details.
+#' @param version Retrieve a specific version of a pin. Use [pin_versions()] to
+#'   find out which versions are available and when they were created.
 #' @param hash Specify a hash to verify that you get exactly the dataset that
 #'   you expect. You can find the hash of an existing pin by looking for
 #'   `pin_hash` in [pin_meta()].
@@ -20,13 +20,23 @@
 #'   `pin_write()` returns the fully qualified name of the new pin, invisibly.
 #' @export
 #' @examples
-#' b <- board_temp()
+#' b <- board_temp(versioned = TRUE)
 #'
-#' b %>% pin_write(mtcars, "mtcars")
+#' b %>% pin_write(1:10, "x", description = "10 numbers")
 #' b
 #'
-#' b %>% pin_meta("mtcars")
-#' b %>% pin_read("mtcars")
+#' b %>% pin_meta("x")
+#' b %>% pin_read("x")
+#'
+#' # Add a new version
+#' b %>% pin_write(2:11, "x")
+#' b %>% pin_read("x")
+#'
+#' # Retrieve an older version
+#' b %>% pin_versions("x")
+#' b %>% pin_read("x", version = .Last.value$version[[1]])
+#' # (Normally you'd specify the version with a string, but since the
+#' # version includes the date-time I can't do that in an example)
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   ellipsis::check_dots_used()
   check_board(board, "pin_read()", "pin_get()")
