@@ -37,7 +37,7 @@ you expect. You can find the hash of an existing pin by looking for
 \item{x}{An object (typically a data frame) to pin.}
 
 \item{type}{File type used to save \code{x} to disk. Must be one of
-"csv", "rds", "json", or "arrow". If not supplied will use json for bare
+"csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
 lists and rds for everything else.}
 
 \item{title}{A title for the pin; most important for shared boards so that
