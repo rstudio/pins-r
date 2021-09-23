@@ -12,8 +12,8 @@ pin_browse(board, name, version = NULL, local = FALSE)
 
 \item{name}{Pin name.}
 
-\item{version}{For boards that support versions, this allows you to retrieve
-a specific version of a pin. See \verb{vignette("versioning)"} for details.}
+\item{version}{Retrieve a specific version of a pin. Use \code{\link[=pin_versions]{pin_versions()}} to
+find out which versions are available and when they were created.}
 
 \item{local}{If \code{TRUE}, will open the local copy of the pin; otherwise
 will show you the home of the pin on the internet.}

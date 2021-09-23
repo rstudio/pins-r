@@ -25,8 +25,8 @@ pin_write(
 
 \item{name}{Pin name.}
 
-\item{version}{For boards that support versions, this allows you to retrieve
-a specific version of a pin. See \verb{vignette("versioning)"} for details.}
+\item{version}{Retrieve a specific version of a pin. Use \code{\link[=pin_versions]{pin_versions()}} to
+find out which versions are available and when they were created.}
 
 \item{hash}{Specify a hash to verify that you get exactly the dataset that
 you expect. You can find the hash of an existing pin by looking for
@@ -37,7 +37,7 @@ you expect. You can find the hash of an existing pin by looking for
 \item{x}{An object (typically a data frame) to pin.}
 
 \item{type}{File type used to save \code{x} to disk. Must be one of
-"csv", "rds", "json", or "arrow". If not supplied will use json for bare
+"csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
 lists and rds for everything else.}
 
 \item{title}{A title for the pin; most important for shared boards so that
@@ -67,11 +67,21 @@ disk, controlled by the \code{type} argument. See \code{\link[=pin_download]{pin
 if you want to perform the serialisation yourself and work just with files.
 }
 \examples{
-b <- board_temp()
+b <- board_temp(versioned = TRUE)
 
-b \%>\% pin_write(mtcars, "mtcars")
+b \%>\% pin_write(1:10, "x", description = "10 numbers")
 b
 
-b \%>\% pin_meta("mtcars")
-b \%>\% pin_read("mtcars")
+b \%>\% pin_meta("x")
+b \%>\% pin_read("x")
+
+# Add a new version
+b \%>\% pin_write(2:11, "x")
+b \%>\% pin_read("x")
+
+# Retrieve an older version
+b \%>\% pin_versions("x")
+b \%>\% pin_read("x", version = .Last.value$version[[1]])
+# (Normally you'd specify the version with a string, but since the
+# version includes the date-time I can't do that in an example)
 }

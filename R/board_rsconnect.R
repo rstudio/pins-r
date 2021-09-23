@@ -35,15 +35,21 @@
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
-#' @param auth There are two approaches to auth: you can either use `"envvars"`
-#'   `CONNECT_API_KEY` and `CONNECT_SERVER` or the rsconnect package. The
-#'   default is `auto`, which will use the environment variables if both are
-#'   available, and rsconnect if not.
-#' @param server For `auth = "envvar"` the full url to the server, like
-#'   `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
+#' @param auth There are three ways to authenticate:
+#'  * `auth = "manual"` uses arguments `server` and `key`.
+#'  * `auth = "envvars"` uses environment variables `CONNECT_API_KEY`
+#'     and `CONNECT_SERVER`.
+#'  * `auth = "rsconnect"` uses servers registered with the rsconnect
+#'    package (filtered by `server` and `account`, if provided)
+#'
+#'  The default, `auth = "auto"`, automatically picks between the three options,
+#'  using `"manual"` if `server` and `key` are provided, `"envvar"` if both
+#'  environment variables are set, and `"rsconnect"` otherwise.
+#' @param server For `auth = "manual"` or `auth = 'envvar'`, the full url to the server,
+#'   like `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
 #'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts,
 #'   like `server.rstudio.com` or `connect.rstudio.com`.
-#' @param account A user name used to disambiguate multiple RSC accounts
+#' @param account A user name used to disambiguate multiple RSC accounts.
 #' @param key The RStudio Connect API key.
 #' @param output_files `r lifecycle::badge("deprecated") No longer supported.
 #' @family boards
@@ -58,7 +64,7 @@
 #' board %>% pin_read("timothy/mtcars")
 #' }
 board_rsconnect <- function(
-                            auth = c("auto", "envvar", "rsconnect"),
+                            auth = c("auto", "manual", "envvar", "rsconnect"),
                             server = NULL,
                             account = NULL,
                             key = NULL,
@@ -301,7 +307,7 @@ pin_store.pins_board_rsconnect <- function(
 }
 
 #' @export
-pin_search.pins_board_rsconnect <- function(board, search, ...) {
+pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
   params <- list(
     search = search,
     filter = "content_type:pin",
@@ -693,7 +699,7 @@ board_rsconnect_hadley <- function(...) {
 
 board_rsconnect_susan <- function(...) {
   creds <- read_creds()
-  board_rsconnect("envvar",
+  board_rsconnect(
     server = "http://localhost:3939",
     account = "susan",
     key = creds$susan_key
@@ -701,7 +707,7 @@ board_rsconnect_susan <- function(...) {
 }
 board_rsconnect_derek <- function(...) {
   creds <- read_creds()
-  board_rsconnect("envvar",
+  board_rsconnect(
     server = "http://localhost:3939",
     account = "derek",
     key = creds$derek_key

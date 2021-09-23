@@ -82,6 +82,7 @@ rsc_bundle_preview_data <- function(df, n = 100) {
   })
 
   rows <- utils::head(df, n = n)
+  rows[] <- lapply(rows, sanitise_col)
 
   # https://github.com/mlverse/pagedtablejs
   list(
@@ -92,4 +93,21 @@ rsc_bundle_preview_data <- function(df, n = 100) {
       rows = list(min = 1, total = nrow(rows))
     )
   )
+}
+
+sanitise_col <- function(x) {
+  # Basic classes can be left as is
+  if (is_bare_atomic(x) || is.factor(x) || inherits(x, "Date") || inherits(x, "POSIXt")) {
+    return(x)
+  }
+
+  # Otherwise attempt to convert to a string, making trying to protect against
+  # columns where the format() method doesn't adhere to my expectation
+  fmt <- format(x, digits = 3)
+
+  if (is.character(fmt) && length(fmt) == NROW(x)) {
+    fmt
+  } else {
+    rep("No preview available", NROW(x))
+  }
 }

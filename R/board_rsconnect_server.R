@@ -1,23 +1,31 @@
-rsc_server <- function(auth = "auto", server = NULL, account = NULL, key = NULL) {
-  auth <- check_auth(auth)
+rsc_server <- function(auth, server = NULL, account = NULL, key = NULL) {
+  auth <- check_auth(auth, server, key)
 
-  if (auth == "envvar") {
-    rsc_server_envvar(server, key)
+  if (auth == "manual") {
+    rsc_server_manual(server, key)
+  } else if (auth == "envvar") {
+    rsc_server_manual(
+      envvar_get("CONNECT_SERVER") %||% abort("Can't find CONNECT_SERVER env var"),
+      envvar_get("CONNECT_API_KEY") %||% abort("Can't find CONNECT_API_KEY env var")
+    )
   } else {
     rsc_server_rsconnect(server, account)
   }
 }
 
-check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
+check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server = NULL, key = NULL) {
   auth <- arg_match(auth)
   if (auth == "auto") {
-    if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
+    if (!is.null(server) && !is.null(key)) {
+      "manual"
+    } else if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
       "envvar"
     } else if (rsc_rsconnect_is_configured()) {
       "rsconnect"
     } else {
       abort(c(
         "auth = `auto` has failed to find a way to authenticate",
+        "`server` and `key` not provided for `auth = 'manual'`",
         "Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`",
         "Can't find any rsconnect::accounts() for `auth = 'rsconnect'`"
       ))
@@ -27,12 +35,12 @@ check_auth <- function(auth = c("auto", "envvar", "rsconnect")) {
   }
 }
 
-rsc_server_envvar <- function(server = NULL, key = NULL) {
-  url <- server %||% envvar_get("CONNECT_SERVER") %||% abort("`server` must be supplied")
+rsc_server_manual <- function(server, key) {
+  url <- server %||% abort("`server` must be supplied")
   url <- rsc_normalize_server_url(url)
   server_name <- httr::parse_url(url)$hostname
 
-  key <- key %||% envvar_get("CONNECT_API_KEY") %||% abort("`key` must be supplied")
+  key <- key %||% abort("`key` must be supplied")
 
   list(
     url = url,

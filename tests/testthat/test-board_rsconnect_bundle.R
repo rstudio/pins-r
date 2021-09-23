@@ -39,3 +39,32 @@ test_that("generates preview data", {
     str(rsc_bundle_preview_data(NULL))
   })
 })
+
+
+# santise -----------------------------------------------------------------
+
+test_that("rsc_bundle_preview_data() sanitisies columns", {
+  df <- data.frame(x = as.difftime(1, units = "secs"))
+  preview <- rsc_bundle_preview_data(df)
+  expect_equal(preview$data$x, "1 secs")
+})
+
+test_that("simple types remain as is", {
+  expect_equal(sanitise_col(TRUE), TRUE)
+  expect_equal(sanitise_col(1.5), 1.5)
+  expect_equal(sanitise_col("x"), "x")
+
+  expect_equal(sanitise_col(factor("a")), factor("a"))
+  expect_equal(sanitise_col(as.Date("2010-01-01")), as.Date("2010-01-01"))
+  expect_equal(sanitise_col(as.POSIXct("2010-01-01")), as.POSIXct("2010-01-01"))
+})
+
+test_that("other base types convert with format", {
+  expect_equal(sanitise_col(as.difftime(1, units = "secs")), "1 secs")
+})
+
+test_that("unless their format method isn't designed for columns", {
+  df <- data.frame(x = 1:2)
+  expect_equal(sanitise_col(df), rep("No preview available", 2))
+  expect_equal(sanitise_col(mean), "No preview available")
+})

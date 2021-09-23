@@ -4,13 +4,14 @@
 \alias{pin_search}
 \title{Search for pins}
 \usage{
-pin_search(board, search, ...)
+pin_search(board, search = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
 \code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
 
-\item{search}{A string to search for in pin name and title.}
+\item{search}{A string to search for in pin name and title.
+Use \code{NULL} to return all pins.}
 
 \item{...}{Additional arguments passed on to methods.}
 }
@@ -27,10 +28,11 @@ for text in the pin name and title.
 \examples{
 board <- board_temp()
 
-board \%>\% pin_write(1:5, "x", desc = "Some numbers")
-board \%>\% pin_write(letters[c(1, 5, 10, 15, 21)], "y", desc = "My favourite letters")
-board \%>\% pin_write(runif(20), "z", desc = "Random numbers")
+board \%>\% pin_write(1:5, "x", title = "Some numbers")
+board \%>\% pin_write(letters[c(1, 5, 10, 15, 21)], "y", title = "My favourite letters")
+board \%>\% pin_write(runif(20), "z", title = "Random numbers")
 
+board \%>\% pin_search()
 board \%>\% pin_search("number")
 board \%>\% pin_search("letters")
 }

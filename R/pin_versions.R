@@ -5,8 +5,6 @@
 #' * `pin_versions_prune()` deletes old versions.
 #' * `pin_version_delete()` deletes a single version.
 #'
-#' See `vignette("versioning)"` for more details about versioning pins.
-#'
 #' @param board,name A pair of board and pin name. For modern boards,
 #'   use `board %>% pin_versions(name)`. For backward compatibility with the
 #'   legacy API, you can also use `pin_versions(name)` or

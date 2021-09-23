@@ -8,6 +8,14 @@ test_that("default search looks in name and description", {
   expect_equal(board %>% pin_search("z") %>% .$name, "ay")
 })
 
+test_that("empty search returns all pins", {
+  board <- board_temp()
+  board %>% pin_write(1:5, "ax")
+  board %>% pin_write(1:5, "ay", title = "z")
+
+  expect_equal(board %>% pin_search() %>% nrow(), 2)
+})
+
 test_that("empty search returns empty columns", {
   board <- board_temp()
   out <- board %>% pin_search("x")
