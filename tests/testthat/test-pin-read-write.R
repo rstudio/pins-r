@@ -12,6 +12,9 @@ test_that("can round trip all types", {
   pin_write(board, df, "df-3", type = "csv")
   expect_equal(pin_read(board, "df-3"), df)
 
+  pin_write(board, df, "df-4", type = "qs")
+  expect_equal(pin_read(board, "df-4"), df)
+
   # List
   x <- list(a = 1:5, b = 1:10)
   pin_write(board, x, "x-1", type = "json")

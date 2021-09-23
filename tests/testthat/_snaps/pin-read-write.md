@@ -19,7 +19,7 @@
     Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Error <rlang_error>
-      `type` must be one of "rds", "json", "arrow", "pickle", or "csv".
+      `type` must be one of "rds", "json", "arrow", "pickle", "csv", or "qs".
     Code
       pin_write(board, mtcars, name = "mtcars", metadata = 1)
     Error <rlang_error>

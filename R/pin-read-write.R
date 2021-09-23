@@ -56,7 +56,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "rds", "json", or "arrow". If not supplied will use json for bare
+#'   "csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
 #'   lists and rds for everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
@@ -121,14 +121,15 @@ guess_type <- function(x) {
 }
 
 object_write <- function(x, path, type = "rds") {
-  type <- arg_match0(type, c("rds", "json", "arrow", "pickle", "csv"))
+  type <- arg_match0(type, setdiff(object_types, "file"))
 
   switch(type,
     rds = write_rds(x, path),
     json = jsonlite::write_json(x, path, auto_unbox = TRUE),
     arrow = arrow::write_feather(x, path),
     pickle = abort("'pickle' pins not supported in R"),
-    csv = utils::write.csv(x, path, row.names = FALSE)
+    csv = utils::write.csv(x, path, row.names = FALSE),
+    qs = write_qs(x, path)
   )
 
   path
@@ -153,7 +154,13 @@ write_rds <- function(x, path) {
   invisible(path)
 }
 
-object_types <- c("rds", "json", "arrow", "pickle", "csv", "file")
+write_qs <- function(x, path) {
+  check_installed("qs")
+  qs::qsave(x, path)
+  invisible(path)
+}
+
+object_types <- c("rds", "json", "arrow", "pickle", "csv", "qs", "file")
 
 object_read <- function(meta) {
   path <- fs::path(meta$local$dir, meta$file)
@@ -171,6 +178,7 @@ object_read <- function(meta) {
       arrow = arrow::read_feather(path),
       pickle = abort("'pickle' pins not supported in R"),
       csv = utils::read.csv(path, stringsAsFactors = TRUE),
+      qs = read_qs(path),
       file = abort(c(
         "Pin does not declare file type so can't be automatically read",
         i = "Retrieve uploaded paths with `pin_download()`"
@@ -187,6 +195,11 @@ object_read <- function(meta) {
       files = pin_load.files(path)
     )
   }
+}
+
+read_qs <- function(path) {
+  check_installed("qs")
+  qs::qread(path, strict = TRUE)
 }
 
 is_prefix <- function(prefix, string) {
