@@ -28,9 +28,9 @@ for text in the pin name and title.
 \examples{
 board <- board_temp()
 
-board \%>\% pin_write(1:5, "x", description = "Some numbers")
-board \%>\% pin_write(letters[c(1, 5, 10, 15, 21)], "y", description = "My favourite letters")
-board \%>\% pin_write(runif(20), "z", description = "Random numbers")
+board \%>\% pin_write(1:5, "x", title = "Some numbers")
+board \%>\% pin_write(letters[c(1, 5, 10, 15, 21)], "y", title = "My favourite letters")
+board \%>\% pin_write(runif(20), "z", title = "Random numbers")
 
 board \%>\% pin_search()
 board \%>\% pin_search("number")
