@@ -4,13 +4,14 @@
 \alias{pin_search}
 \title{Search for pins}
 \usage{
-pin_search(board, search, ...)
+pin_search(board, search = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
 \code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
 
-\item{search}{A string to search for in pin name and title.}
+\item{search}{A string to search for in pin name and title.
+Use \code{NULL} to return all pins.}
 
 \item{...}{Additional arguments passed on to methods.}
 }

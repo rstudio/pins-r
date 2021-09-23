@@ -9,6 +9,7 @@
 #'   list-column.
 #' @inheritParams pin_read
 #' @param search A string to search for in pin name and title.
+#'   Use `NULL` to return all pins.
 #' @param ... Additional arguments passed on to methods.
 #' @export
 #' @examples
@@ -20,20 +21,22 @@
 #'
 #' board %>% pin_search("number")
 #' board %>% pin_search("letters")
-pin_search <- function(board, search, ...) {
+pin_search <- function(board, search = NULL, ...) {
   check_board(board, "pin_search()", "pin_find()")
   ellipsis::check_dots_used()
   UseMethod("pin_search")
 }
 
 #' @export
-pin_search.pins_board <- function(board, search, ...) {
+pin_search.pins_board <- function(board, search = NULL, ...) {
   names <- pin_list(board)
   out <- multi_meta(board, names)
 
-  match <- grepl(search, out$name, fixed = TRUE) |
-    grepl(search, out$title, fixed = TRUE)
-  out <- out[match, , drop = FALSE]
+  if (!is.null(search)) {
+    match <- grepl(search, out$name, fixed = TRUE) |
+      grepl(search, out$title, fixed = TRUE)
+    out <- out[match, , drop = FALSE]
+  }
 
   out
 }
