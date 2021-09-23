@@ -84,7 +84,7 @@ kaggle dataset. Data is only re-downloaded when it changes.</p>
 <span class="co"># S3 method for pins_board_kaggle_competition</span>
 <span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span>
   <span class="va">board</span>,
-  <span class="va">search</span>,
+  search <span class="op">=</span> <span class="cn">NULL</span>,
   sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"grouped"</span>, <span class="st">"prize"</span>, <span class="st">"earliestDeadline"</span>, <span class="st">"latestDeadline"</span>,
     <span class="st">"numberOfTeams"</span>, <span class="st">"recentlyCreated"</span><span class="op">)</span>,
   page <span class="op">=</span> <span class="fl">1</span>,
@@ -97,7 +97,7 @@ kaggle dataset. Data is only re-downloaded when it changes.</p>
 <span class="co"># S3 method for pins_board_kaggle_dataset</span>
 <span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span>
   <span class="va">board</span>,
-  <span class="va">search</span>,
+  search <span class="op">=</span> <span class="cn">NULL</span>,
   sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"hottest"</span>, <span class="st">"votes"</span>, <span class="st">"updated"</span>, <span class="st">"active"</span><span class="op">)</span>,
   page <span class="op">=</span> <span class="fl">1</span>,
   user <span class="op">=</span> <span class="cn">NULL</span>,
@@ -130,7 +130,8 @@ cache location for your operating system, but you can override if needed.</p></d
     <dt class="col-sm-3 section level2" id="pkg-arg-board">board</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>The name of the board to register.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-search">search</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p>A string to search for in pin name and title.</p></dd>
+      <dd class="col-sm-9" id="ref-arguments desc"><p>A string to search for in pin name and title.
+Use <code>NULL</code> to return all pins.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-sort_by">sort_by</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>How to sort the results.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-page">page</dt>
