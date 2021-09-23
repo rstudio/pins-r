@@ -61,7 +61,7 @@ board_kaggle_competitions_test <- function() {
 #' @export
 pin_search.pins_board_kaggle_competition <- function(
                                                  board,
-                                                 search,
+                                                 search = NULL,
                                                  sort_by = c("grouped", "prize", "earliestDeadline", "latestDeadline", "numberOfTeams", "recentlyCreated"),
                                                  page = 1,
                                                  user = NULL,
@@ -229,7 +229,7 @@ pin_delete.pins_board_kaggle_dataset <- function(board, names, ...) {
 #' @export
 pin_search.pins_board_kaggle_dataset <- function(
                                                  board,
-                                                 search,
+                                                 search = NULL,
                                                  sort_by = c("hottest", "votes", "updated", "active"),
                                                  page = 1,
                                                  user = NULL,

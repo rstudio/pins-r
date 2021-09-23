@@ -13,7 +13,7 @@ board_kaggle_competitions(username = NULL, key = NULL, cache = NULL)
 
 \method{pin_search}{pins_board_kaggle_competition}(
   board,
-  search,
+  search = NULL,
   sort_by = c("grouped", "prize", "earliestDeadline", "latestDeadline",
     "numberOfTeams", "recentlyCreated"),
   page = 1,
@@ -25,7 +25,7 @@ board_kaggle_dataset(username = NULL, key = NULL, cache = NULL)
 
 \method{pin_search}{pins_board_kaggle_dataset}(
   board,
-  search,
+  search = NULL,
   sort_by = c("hottest", "votes", "updated", "active"),
   page = 1,
   user = NULL,
@@ -55,7 +55,8 @@ cache location for your operating system, but you can override if needed.}
 
 \item{board}{The name of the board to register.}
 
-\item{search}{A string to search for in pin name and title.}
+\item{search}{A string to search for in pin name and title.
+Use \code{NULL} to return all pins.}
 
 \item{sort_by}{How to sort the results.}
 
