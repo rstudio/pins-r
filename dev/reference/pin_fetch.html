@@ -82,8 +82,8 @@ developing new board types, and should not generally be called directly.</p>
     <dt class="col-sm-3 section level2" id="pkg-arg-name">name</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Pin name.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-version">version</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p>For boards that support versions, this allows you to retrieve
-a specific version of a pin. See <code>vignette("versioning)"</code> for details.</p></dd>
+      <dd class="col-sm-9" id="ref-arguments desc"><p>Retrieve a specific version of a pin. Use <code><a href="pin_versions.html">pin_versions()</a></code> to
+find out which versions are available and when they were created.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-...">...</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Additional arguments passed on to methods for a specific board.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-paths">paths</dt>
@@ -111,10 +111,10 @@ to a remote board. It invisibly returns the fully qualified pin name.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_upload</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `name = 'CITATION'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210923T130212Z-dec01'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210923T131534Z-dec01'</span>
 <span class="r-in"><span class="va">path</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">path</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpTNTaWo/pins-2f205b3b0669/CITATION/20210923T130212Z-dec01/CITATION"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpF0kQd7/pins-2f3645aade93/CITATION/20210923T131534Z-dec01/CITATION"</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bibentry(\"Manual\","                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] "         title = \"R: A Language and Environment for Statistical Computing\","</span>
