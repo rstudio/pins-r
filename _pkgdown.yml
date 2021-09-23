@@ -50,3 +50,12 @@ reference:
   - pin_find
   - pin_remove
   - pin_reactive
+
+news:
+  releases:
+  - text: pins 0.4.0
+    href: https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/
+  - text: pins 0.3.0
+    href: https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/
+  - text: pins 0.2.0
+    href: https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/
