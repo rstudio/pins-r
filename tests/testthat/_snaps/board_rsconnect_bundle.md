@@ -37,7 +37,7 @@
           <section>
           <h3>Code</h3>
             <pre id="pin-r" class="pin-code"><code class="r">library(pins)
-      board <- board_rsconnect(server = "example.com"))
+      board <- board_rsconnect(server = "example.com")
       pin_read(board, "TEST/test")</code></pre>
           <script type="text/javascript">
             hljs.registerLanguage("r", highlight_r);
