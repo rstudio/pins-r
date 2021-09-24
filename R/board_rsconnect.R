@@ -324,6 +324,12 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
   multi_meta(board, paste0(user, "/", name))
 }
 
+
+#' @export
+board_deparse.pins_board_rsconnect <- function(board, ...) {
+  glue('board_rsconnect(server = "{board$server}")')
+}
+
 # v0 ----------------------------------------------------------------------
 
 #' @export
