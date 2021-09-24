@@ -110,6 +110,13 @@ test_api_basic <- function(board) {
       class = "pins_pin_missing"
     )
   })
+
+  testthat::test_that("deparse board", {
+    testthat::expect_snapshot(
+      board_deparse(board)
+    )
+  })
+
 }
 
 test_api_versioning <- function(board) {

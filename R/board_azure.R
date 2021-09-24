@@ -137,6 +137,14 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   name
 }
 
+
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_azure <- function(board, ...) {
+  glue('board_azure(container = "TODO")')
+}
+
+
 # Helpers -----------------------------------------------------------------
 
 azure_delete_dir <- function(board, dir) {
