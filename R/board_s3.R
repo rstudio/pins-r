@@ -6,7 +6,7 @@
 #' # Authentication
 #'
 #' `board_s3()` is powered by the paws package which provides a wide range
-#' of authetication options, as documented at
+#' of authentication options, as documented at
 #' <https://github.com/paws-r/paws/blob/main/docs/credentials.md>.
 #' In brief, there are four main options that are tried in order:
 #'
@@ -220,6 +220,34 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
 
   name
 }
+
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_s3 <- function(board, ...) {
+  bucket <- check_board_deparse(board, "bucket")
+  if ("prefix" %in% names(board)) {
+    prefix <- board[["prefix"]]
+  } else {
+    prefix <- NULL
+  }
+
+  ## non-auth config
+  config <- board$svc$.internal$config
+  region <- config$region
+  if (nchar(region) == 0) region <- NULL
+  endpoint <- config$endpoint
+  if (nchar(endpoint) == 0) endpoint <- NULL
+  profile <- config$credentials$profile
+  if (nchar(profile) == 0) profile <- NULL
+
+  board_args <- c(bucket = bucket, prefix = prefix, region = region,
+                  endpoint = endpoint, profile = profile)
+  board_args <- glue('{names(board_args)} = "{board_args}"')
+  board_args <- glue_collapse(board_args, sep = ", ")
+
+  glue('board_s3({board_args})')
+}
+
 
 # Helpers -----------------------------------------------------------------
 
