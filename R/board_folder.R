@@ -118,13 +118,9 @@ pin_version_delete.pins_board_folder <- function(board, name, version, ...) {
   fs::dir_delete(fs::path(board$path, name, version))
 }
 
-
+#' @rdname board_deparse
 #' @export
 board_deparse.pins_board_folder <- function(board, ...) {
-  if ("path" %in% names(board)) {
-    path <- board$path
-  } else {
-    abort("No path found for this board")
-  }
+  path <- check_board_deparse(board, "path")
   glue('board_folder(path = "{path}")')
 }

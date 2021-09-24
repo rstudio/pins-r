@@ -325,6 +325,7 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
 }
 
 
+#' @rdname board_deparse
 #' @export
 board_deparse.pins_board_rsconnect <- function(board, ...) {
   if ("url" %in% names(board)) {
