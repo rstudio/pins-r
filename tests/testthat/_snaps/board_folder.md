@@ -21,6 +21,13 @@
     Error <rlang_error>
       pin doesn't have remote url
 
+# can deparse
+
+    Code
+      board_deparse(b)
+    Output
+      board_folder(path = "/tmp/test")
+
 # generates useful messages
 
     Code

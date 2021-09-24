@@ -111,12 +111,6 @@ test_api_basic <- function(board) {
     )
   })
 
-  testthat::test_that("deparse board", {
-    testthat::expect_snapshot(
-      board_deparse(board)
-    )
-  })
-
 }
 
 test_api_versioning <- function(board) {
