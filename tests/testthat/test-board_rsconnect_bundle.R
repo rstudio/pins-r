@@ -4,7 +4,7 @@ test_that("bundle contains expected files", {
   df <- data.frame(x = 1:2, y = 2:1)
   saveRDS(df, fs::path(path, "test.rds"))
 
-  board <- list(account = "TEST", server = "example.com")
+  board <- list(account = "TEST", server_name = "example.com")
   metadata <- list(file = "test.rds")
   class(board) <- c("pins_board_rsconnect", "pins_board")
 
