@@ -1,11 +1,11 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1.9001
-pkgdown_sha: aac98c389188c22dfa3d8de78462e19e8b8da0cc
+pkgdown_sha: 881756d85bcfb914f97aba0e49631936cb240892
 articles:
   pins-update: pins-update.html
   pins: pins.html
   rsc: rsc.html
-last_built: 2021-09-23T17:50Z
+last_built: 2021-09-24T11:35Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles
