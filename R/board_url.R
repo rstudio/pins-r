@@ -139,6 +139,11 @@ pin_store.pins_board_url <- function(board, name, paths, metadata,
   abort_board_read_only("board_url")
 }
 
+#' @export
+board_deparse.pins_board_url <- function(board, ...) {
+  abort_board_read_only("board_url")
+}
+
 # Helpers ------------------------------------------------------------------
 http_download <- function(url, path_dir, path_file, ...,
                           use_cache_on_failure = FALSE,
