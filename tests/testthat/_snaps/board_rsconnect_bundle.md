@@ -2,6 +2,7 @@
 
     Code
       board <- list(account = "TEST", server_name = "example.com")
+      class(board) <- c("pins_board_rsconnect", "pins_board")
       df <- data.frame(x = 1:2, y = 2:1)
       metadata <- list(file = "test.csv")
       cat(rsc_bundle_preview_index(board, "test", df, metadata))
@@ -36,7 +37,7 @@
           <section>
           <h3>Code</h3>
             <pre id="pin-r" class="pin-code"><code class="r">library(pins)
-      board <- board_rsconnect(server = "example.com")
+      board <- board_rsconnect(server = &quot;example.com&quot;))
       pin_read(board, "TEST/test")</code></pre>
           <script type="text/javascript">
             hljs.registerLanguage("r", highlight_r);
