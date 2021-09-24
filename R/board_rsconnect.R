@@ -327,7 +327,14 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
 
 #' @export
 board_deparse.pins_board_rsconnect <- function(board, ...) {
-  glue('board_rsconnect(server = "{board$server}")')
+  if ("url" %in% names(board)) {
+    server <- board$url
+  } else if ("server_name" %in% names(board)) {
+    server <- board$server_name
+  } else {
+    abort("No URL or server name found for this board")
+  }
+  glue('board_rsconnect(server = "{server}")')
 }
 
 # v0 ----------------------------------------------------------------------
