@@ -40,9 +40,6 @@ provided additional data.
 \item \code{pin_version_delete()} deletes a single version.
 }
 }
-\details{
-Some boards require additional arguments when deleting pins. In particular, deleting/pruning pins in OneDrive and SharePoint Online (\code{board_onedrive}, \code{board_sharepoint} and \code{board_ms365}) may require passing \code{by_item=TRUE} to work around document protection policies that prohibit deleting non-empty folders.
-}
 \examples{
 board <- board_temp(versioned = TRUE)
 

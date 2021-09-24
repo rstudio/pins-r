@@ -11,8 +11,6 @@
 #'   `pin_version(name, board)`.
 #' @param full `r lifecycle::badge("deprecated")`
 #' @param ... Additional arguments passed on to methods for a specific board.
-#' @details
-#' Some boards require additional arguments when deleting pins. In particular, deleting/pruning pins in OneDrive and SharePoint Online (`board_onedrive`, `board_sharepoint` and `board_ms365`) may require passing `by_item=TRUE` to work around document protection policies that prohibit deleting non-empty folders.
 #' @return A data frame with at least a `version` column. Some boards may
 #'   provided additional data.
 #' @examples

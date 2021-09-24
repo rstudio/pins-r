@@ -6,11 +6,29 @@
 \alias{board_onedrive}
 \title{Use a OneDrive or Sharepoint document library as a board}
 \usage{
-board_ms365(drive, path, versioned = TRUE, cache = NULL)
+board_ms365(
+  drive,
+  path,
+  versioned = TRUE,
+  cache = NULL,
+  delete_by_item = FALSE
+)
 
-board_sharepoint(drive, path, versioned = TRUE, cache = NULL)
+board_sharepoint(
+  drive,
+  path,
+  versioned = TRUE,
+  cache = NULL,
+  delete_by_item = FALSE
+)
 
-board_onedrive(drive, path, versioned = TRUE, cache = NULL)
+board_onedrive(
+  drive,
+  path,
+  versioned = TRUE,
+  cache = NULL,
+  delete_by_item = FALSE
+)
 }
 \arguments{
 \item{drive}{A OneDrive or SharePoint document library object, as obtained from Microsoft365. See the examples.}
@@ -23,6 +41,8 @@ doesn't already exist.}
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{delete_by_item}{Whether to handle folder deletions on an item-by-item basis, rather than deleting the entire folder at once. You may need to set this to \code{TRUE} for a board in SharePoint Online or OneDrive for Business, due to document protection policies that prohibit deleting non-empty folders.}
 }
 \description{
 Pin data to a folder in Onedrive or a SharePoint Online document library

@@ -7,6 +7,7 @@
 #' @param drive A OneDrive or SharePoint document library object, as obtained from Microsoft365. See the examples.
 #' @param path Path to directory to store pins. Will be created if it
 #'   doesn't already exist.
+#' @param delete_by_item Whether to handle folder deletions on an item-by-item basis, rather than deleting the entire folder at once. You may need to set this to `TRUE` for a board in SharePoint Online or OneDrive for Business, due to document protection policies that prohibit deleting non-empty folders.
 #' @export
 #' @examples
 #' \dontrun{
@@ -24,7 +25,7 @@
 #' doclib <- sp$get_drive()
 #' spboard <- board_sharepoint(doclib, "general/project1/board")
 #' }
-board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL) {
+board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_item = FALSE) {
   check_installed("Microsoft365R")
 
   if (!inherits(drive, "ms_drive")) {
@@ -42,7 +43,8 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL) {
   new_board_v1("pins_board_ms365",
     folder = folder,
     cache = cache,
-    versioned = versioned
+    versioned = versioned,
+    delete_by_item = delete_by_item
   )
 }
 
@@ -72,10 +74,10 @@ pin_exists.pins_board_ms365 <- function(board, name, ...) {
 }
 
 #' @export
-pin_delete.pins_board_ms365 <- function(board, names, by_item = FALSE, ...) {
+pin_delete.pins_board_ms365 <- function(board, names, ...) {
   for (name in names) {
     check_pin_exists(board, name)
-    ms365_delete_dir(board, name, by_item = by_item)
+    ms365_delete_dir(board, name, by_item = board$delete_by_item)
   }
   invisible(board)
 }
@@ -87,9 +89,8 @@ pin_versions.pins_board_ms365 <- function(board, name, ...) {
 }
 
 #' @export
-pin_version_delete.pins_board_ms365 <- function(board, name, version,
-                                                by_item = FALSE, ...) {
-  ms365_delete_dir(board, fs::path(name, version), by_item = by_item)
+pin_version_delete.pins_board_ms365 <- function(board, name, version, ...) {
+  ms365_delete_dir(board, fs::path(name, version), by_item = board$delete_by_item)
 }
 
 #' @export

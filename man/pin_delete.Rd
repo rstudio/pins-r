@@ -17,9 +17,6 @@ pin_delete(board, names, ...)
 \description{
 Delete a pin (or pins), removing it from the board
 }
-\details{
-Some boards require additional arguments when deleting pins. In particular, deleting pins in OneDrive and SharePoint Online (\code{board_onedrive}, \code{board_sharepoint} and \code{board_ms365}) may require passing \code{by_item=TRUE} to work around document protection policies that prohibit deleting non-empty folders.
-}
 \examples{
 board <- board_temp()
 board \%>\% pin_write(1:5, "x")
