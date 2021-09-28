@@ -55,7 +55,7 @@ it."><meta property="og:image" content="https://pins.rstudio.com/logo.png"><meta
 </nav><div class="container template-reference-topic">
 <div class="row">
   <div class="col-md-9 contents">
-    <img src="../package-logo.png" class="pkg-logo" alt=""><div class="page-header pb-2 mt-4 mb-2 border-bottom toc-ignore">
+    <img src="../logo.png" class="pkg-logo" alt=""><div class="page-header pb-2 mt-4 mb-2 border-bottom toc-ignore">
     <h1 class="display-4">Read and write pins</h1>
     <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/master/R/pin-read-write.R"><code>R/pin-read-write.R</code></a></small>
     <div class="d-none name"><code>pin_read.Rd</code></div>
@@ -135,11 +135,11 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"x"</span>, description <span class="op">=</span> <span class="st">"10 numbers"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210924T113539Z-f06bf'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210928T183805Z-f06bf'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span class="va">b</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Pin board</span> &lt;pins_board_folder&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/Rtmp90eco4/pins-2f367f221f61'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/RtmpRXmxBH/pins-3135461edf44'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cache size: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pins [1]: 'x'</span>
 <span class="r-in"></span>
@@ -151,20 +151,20 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "x: a pinned integer vector"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: chr "10 numbers"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-09-24 11:35:00"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2021-09-28 18:38:00"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp90eco4/pins-2f367f221f61/x/20210924T113539Z-f06bf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpRXmxBH/pins-3135461edf44/x/20210928T183805Z-f06bf"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20210924T113539Z-f06bf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20210928T183805Z-f06bf"</span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Add a new version</span></span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210924T113539Z-c7a17'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210928T183805Z-c7a17'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
@@ -174,8 +174,8 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20210924T113539Z-c7a17 2021-09-24 <span style="color: #949494;">11:35:00</span> c7a17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20210924T113539Z-f06bf 2021-09-24 <span style="color: #949494;">11:35:00</span> f06bf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20210928T183805Z-c7a17 2021-09-28 <span style="color: #949494;">18:38:00</span> c7a17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20210928T183805Z-f06bf 2021-09-28 <span style="color: #949494;">18:38:00</span> f06bf</span>
 <span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="va">.Last.value</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
 <span class="r-in"><span class="co"># (Normally you'd specify the version with a string, but since the</span></span>
