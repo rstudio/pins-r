@@ -142,12 +142,10 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
 #' @export
 board_deparse.pins_board_azure <- function(board, ...) {
   container <- check_board_deparse(board, "container")
-  blob_url <- container$endpoint$url
-  blob_name <- container$name
+  url <- paste0(container$endpoint$url, container$name)
 
-  endpoint <- expr(AzureStor::storage_endpoint(!!blob_url))
-  container <- expr(AzureStor::blob_container(endpoint = !!endpoint, name = !!blob_name))
-  expr(board_azure(container = !!container))
+  container <- expr(AzureStor::storage_container(!!url))
+  expr(board_azure(!!container))
 }
 
 
