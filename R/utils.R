@@ -96,7 +96,7 @@ this_not_that <- function(this, that) {
 }
 
 check_board_deparse <- function(board, arg) {
-  if (arg %in% names(board)) {
+  if (has_name(board, arg)) {
     return(board[[arg]])
   } else {
     abort(glue("No {arg} found for this board"))
