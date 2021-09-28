@@ -47,7 +47,11 @@ test_that("can update access_type", {
 })
 
 test_that("can deparse", {
-  board <- board_rsconnect_test()
+  board <- new_board_v1(
+    "pins_board_rsconnect",
+    url = "https://connect.rstudioservices.com",
+    cache = tempdir()
+  )
   expect_snapshot(board_deparse(board))
 })
 
