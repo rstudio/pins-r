@@ -30,7 +30,7 @@ cache location for your operating system, but you can override if needed.}
 }
 \description{
 To use a Kaggle board, you need to first download a token file from
-\url{https://www.kaggle.com/me/account}.
+your account.
 }
 \section{Sharing}{
 When working in teams, you might want to share your pins with others. For

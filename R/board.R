@@ -99,15 +99,15 @@ cache_size <- function(board) {
 
 is.board <- function(x) inherits(x, "pins_board")
 
-#' Custom Boards Utilities
+#' Local storage path
 #'
-#' A set of utilities used when implementing custom boards.
+#' Deprecated: please use [board_cache_path()] instead.
 #'
 #' @export
 #' @rdname custom-boards-utils
 #' @keywords internal
 board_local_storage <- function(...) {
-  stop("board_local_storage() is deprecated", call. = FALSE)
+  lifecycle::deprecate_stop("1.0.0", "board_local_storage()", "board_cache_path()")
 }
 
 #' Retrieve Default Cache Path

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_exists.R
 \name{pin_exists}
 \alias{pin_exists}
-\title{Does a pin exist in a board?}
+\title{Determine if a pin exists}
 \usage{
 pin_exists(board, name, ...)
 }
@@ -15,5 +15,5 @@ pin_exists(board, name, ...)
 \item{...}{Additional arguments passed on to methods for a specific board.}
 }
 \description{
-Does a pin exist in a board?
+Determine if a pin exists
 }

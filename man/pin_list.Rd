@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin_list.R
 \name{pin_list}
 \alias{pin_list}
-\title{List all pins in a board}
+\title{List all pins}
 \usage{
 pin_list(board, ...)
 }

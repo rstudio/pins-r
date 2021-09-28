@@ -3,6 +3,9 @@ test_api_versioning(board_temp(versioned = TRUE))
 test_api_meta(board_temp())
 
 test_that("has useful print method", {
+  skip_on_cran()
+  skip_on_os("windows")
+
   expect_snapshot(board_folder("/tmp/test"))
 })
 
@@ -22,6 +25,9 @@ test_that("can upload/download multiple files", {
 })
 
 test_that("can browse", {
+  skip_on_cran()
+  skip_on_os("windows")
+
   b <- board_folder("/tmp/test")
 
   b %>% pin_write(1:10, "x")

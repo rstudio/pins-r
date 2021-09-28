@@ -56,7 +56,7 @@ board object.}
 \item{path}{Subdirectory within \code{url}}
 }
 \description{
-To use DigitalOcean Spaces as a \href{boards-understanding.html}{board}, you first
+To use DigitalOcean Spaces as a board, you first
 need an DigitalOcean space and a storage key. You can sign-up and create
 those at \href{https://www.digitalocean.com/}{digitalocean.com}.
 }
