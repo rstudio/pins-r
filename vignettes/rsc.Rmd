@@ -78,7 +78,7 @@ Assuming that you have RSC 1.8.8 or later you don't need to provide any argument
 
 ## Shiny apps
 
-If you're using automatically updated data in a [Shiny](http://shiny.rstudio.com) app, you can use `pin_reactive_read()` to create a reactive dependency so that your app will automatically update shortly after the data changes:
+If you're using automatically updated data in a [Shiny](https://shiny.rstudio.com) app, you can use `pin_reactive_read()` to create a reactive dependency so that your app will automatically update shortly after the data changes:
 
 ```{r eval=FALSE}
 library(shiny)
