@@ -144,8 +144,10 @@ board_deparse.pins_board_azure <- function(board, ...) {
   container <- check_board_deparse(board, "container")
   blob_url <- container$endpoint$url
   blob_name <- container$name
-  container <- glue('AzureStor::blob_container(endpoint = AzureStor::storage_endpoint("{blob_url}"), name = "{blob_name}")')
-  glue('board_azure(container = {container})')
+
+  endpoint <- expr(AzureStor::storage_endpoint(!!blob_url))
+  container <- expr(AzureStor::blob_container(endpoint = !!endpoint, name = !!blob_name))
+  expr(board_azure(container = !!container))
 }
 
 

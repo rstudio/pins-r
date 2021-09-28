@@ -225,34 +225,21 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
 #' @export
 board_deparse.pins_board_s3 <- function(board, ...) {
   bucket <- check_board_deparse(board, "bucket")
-  if (has_name(board, "prefix")) {
-    prefix <- board[["prefix"]]
-  } else {
-    prefix <- NULL
-  }
 
-  ## non-auth config
   config <- board$svc$.internal$config
-  region <- config$region
-  region <- if (nchar(region) == 0) NULL else region
-  endpoint <- config$endpoint
-  endpoint <- if (nchar(endpoint) == 0) NULL else endpoint
-  profile <- config$credentials$profile
-  profile <- if (nchar(profile) == 0) NULL else profile
-
-  board_args <- c(
+  board_args <- compact(list(
     bucket = bucket,
-    prefix = prefix,
-    region = region,
-    endpoint = endpoint,
-    profile = profile
-  )
-  board_args <- glue('{names(board_args)} = "{board_args}"')
-  board_args <- glue_collapse(board_args, sep = ", ")
-
-  glue('board_s3({board_args})')
+    prefix = board[["prefix"]],
+    region = empty_string_to_null(config$region),
+    endpoint = empty_string_to_null(config$endpoint),
+    profile = empty_string_to_null(config$credentials$profile)
+  ))
+  expr(board_s3(!!!board_args))
 }
 
+empty_string_to_null <- function(x) {
+  if (nchar(x) == 0) NULL else x
+}
 
 # Helpers -----------------------------------------------------------------
 

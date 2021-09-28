@@ -122,5 +122,5 @@ pin_version_delete.pins_board_folder <- function(board, name, version, ...) {
 #' @export
 board_deparse.pins_board_folder <- function(board, ...) {
   path <- check_board_deparse(board, "path")
-  glue('board_folder(path = "{path}")')
+  expr(board_folder(path = !!as.character(path)))
 }

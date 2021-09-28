@@ -134,10 +134,12 @@ board_cache_path <- function(name) {
 
 #' Deparse a board object
 #'
-#' Create a character string of R code for a board object. Board
-#' characteristics like a URL, server, region, etc. are included but
-#' authentication details are *not* included. This function is useful for
-#' generating code to access a specific board from a remote server.
+#' Returns the R code that would recreate the board is re-run on another
+#' computer. Goal is to capture the location of the board, but not the
+#' authorisation, since (a) that leak would leak credentials and (b) in
+#' most deployment scenarios board auth will be read from env vars.
+#'
+#' @returns A call.
 #' @examples
 #' \dontrun{
 #' board <- board_rsconnect()

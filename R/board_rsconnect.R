@@ -335,7 +335,7 @@ board_deparse.pins_board_rsconnect <- function(board, ...) {
   } else {
     abort("No URL or server name found for this board")
   }
-  glue('board_rsconnect(server = "{server}")')
+  expr(board_rsconnect(server = !!server))
 }
 
 # v0 ----------------------------------------------------------------------
