@@ -14,6 +14,7 @@ test_that("can list and search datasets", {
 
   expect_true(pin_exists(board, "dogs-vs-cats"))
   expect_false(pin_exists(board, "doesntexist"))
+  expect_snapshot(board_deparse(board))
 })
 
 test_that("can get data and metadata", {
@@ -48,6 +49,7 @@ test_that("can list and search datasets", {
 
   expect_true(pin_exists(board, search$name[[1]]))
   expect_false(pin_exists(board, "doesntexist/doesntexist"))
+  expect_snapshot(board_deparse(board))
 })
 
 test_that("can retrieve data and metadata from dataset", {

@@ -162,6 +162,12 @@ pin_fetch.pins_board_kaggle_competition <- function(board, name, ...) {
   meta
 }
 
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_kaggle_competition <- function(board, ...) {
+  'board_kaggle_competitions()'
+}
+
 
 # datasets ----------------------------------------------------------------
 
@@ -367,6 +373,12 @@ pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
   kaggle_json(resp, "store pin")
 
   paste0(board$username, "/", name)
+}
+
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_kaggle_dataset <- function(board, ...) {
+  'board_kaggle_dataset()'
 }
 
 kaggle_upload_file <- function(board, path) {
