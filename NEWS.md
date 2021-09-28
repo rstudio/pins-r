@@ -73,6 +73,10 @@ This version includes the following modern boards:
   download data from Kaggle. The data is automatically cached so that it's
   only downloaded when it changes.
 
+* `board_ms365()` stores data in OneDrive and SharePoint Online (both of which
+  are part of the Microsoft 365 suite of services). It is built on top of
+  [Microsoft365R](https://github.com/Azure/Microsoft365R) (#498).
+
 * `board_url()` lets you create a manual board from a vector of URLs. This is 
   useful because `pin_donwload()` and `pin_read()` are cached, so they only 
   re-download the data if it has changed since the last time you used it (#409). 
