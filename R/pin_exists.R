@@ -1,4 +1,4 @@
-#' Does a pin exist in a board?
+#' Determine if a pin exists
 #'
 #' @inheritParams pin_read
 #' @export
