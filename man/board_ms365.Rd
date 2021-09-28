@@ -31,7 +31,8 @@ board_onedrive(
 )
 }
 \arguments{
-\item{drive}{A OneDrive or SharePoint document library object, as obtained from Microsoft365. See the examples.}
+\item{drive}{A OneDrive or SharePoint document library object, as obtained
+from Microsoft365.}
 
 \item{path}{Path to directory to store pins. Will be created if it
 doesn't already exist.}
@@ -42,7 +43,11 @@ doesn't already exist.}
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 
-\item{delete_by_item}{Whether to handle folder deletions on an item-by-item basis, rather than deleting the entire folder at once. You may need to set this to \code{TRUE} for a board in SharePoint Online or OneDrive for Business, due to document protection policies that prohibit deleting non-empty folders.}
+\item{delete_by_item}{Whether to handle folder deletions on an item-by-item
+basis, rather than deleting the entire folder at once. You may need to set
+this to \code{TRUE} for a board in SharePoint Online or OneDrive for Business,
+due to document protection policies that prohibit deleting non-empty
+folders.}
 }
 \description{
 Pin data to a folder in Onedrive or a SharePoint Online document library
@@ -50,18 +55,18 @@ using the Microsoft365R package.
 }
 \examples{
 \dontrun{
-# a board in your personal OneDrive
-od <- get_personal_onedrive()
-odboard <- board_onedrive(od, "myboard")
-odboard \%>\% pin_write(iris)
+# A board in your personal OneDrive
+od <- Microsoft365R::get_personal_onedrive()
+board <- board_onedrive(od, "myboard")
+board \%>\% pin_write(iris)
 
-# a board in OneDrive for Business
-odb <- get_business_onedrive(tenant="mytenant")
-odbboard <- board_onedrive(odb, "myproject/board")
+# A board in OneDrive for Business
+odb <- Microsoft365R::get_business_onedrive(tenant = "mytenant")
+board <- board_onedrive(odb, "myproject/board")
 
-# a board in a SharePoint Online document library
-sp <- get_sharepoint_site("my site", tenant="mytenant")
+# A board in a SharePoint Online document library
+sp <- Microsoft365R::get_sharepoint_site("my site", tenant = "mytenant")
 doclib <- sp$get_drive()
-spboard <- board_sharepoint(doclib, "general/project1/board")
+board <- board_sharepoint(doclib, "general/project1/board")
 }
 }
