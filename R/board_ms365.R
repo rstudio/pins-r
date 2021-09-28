@@ -5,7 +5,7 @@
 #'
 #' @inheritParams new_board
 #' @param drive A OneDrive or SharePoint document library object, as obtained
-#'   from Microsoft365.
+#'   from Microsoft365R.
 #' @param path Path to directory to store pins. Will be created if it
 #'   doesn't already exist.
 #' @param delete_by_item Whether to handle folder deletions on an item-by-item
@@ -18,17 +18,17 @@
 #' \dontrun{
 #' # A board in your personal OneDrive
 #' od <- Microsoft365R::get_personal_onedrive()
-#' board <- board_onedrive(od, "myboard")
+#' board <- board_ms365(od, "myboard")
 #' board %>% pin_write(iris)
 #'
 #' # A board in OneDrive for Business
 #' odb <- Microsoft365R::get_business_onedrive(tenant = "mytenant")
-#' board <- board_onedrive(odb, "myproject/board")
+#' board <- board_ms365(odb, "myproject/board")
 #'
 #' # A board in a SharePoint Online document library
 #' sp <- Microsoft365R::get_sharepoint_site("my site", tenant = "mytenant")
 #' doclib <- sp$get_drive()
-#' board <- board_sharepoint(doclib, "general/project1/board")
+#' board <- board_ms365(doclib, "general/project1/board")
 #' }
 board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_item = FALSE) {
   check_installed("Microsoft365R")
@@ -53,14 +53,6 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
   )
 }
 
-#' @export
-#' @rdname board_ms365
-board_sharepoint <- board_ms365
-
-#' @export
-#' @rdname board_ms365
-board_onedrive <- board_ms365
-
 board_ms365_test <- function(...) {
   skip_if_missing_envvars("board_ms365()", "PINS_MS365_TEST_DRIVE")
 
@@ -82,7 +74,7 @@ pin_exists.pins_board_ms365 <- function(board, name, ...) {
 pin_delete.pins_board_ms365 <- function(board, names, ...) {
   for (name in names) {
     check_pin_exists(board, name)
-    ms365_delete_dir(board, name, by_item = board$delete_by_item)
+    ms365_delete_dir(board, name)
   }
   invisible(board)
 }
@@ -95,7 +87,7 @@ pin_versions.pins_board_ms365 <- function(board, name, ...) {
 
 #' @export
 pin_version_delete.pins_board_ms365 <- function(board, name, version, ...) {
-  ms365_delete_dir(board, fs::path(name, version), by_item = board$delete_by_item)
+  ms365_delete_dir(board, fs::path(name, version))
 }
 
 #' @export
@@ -164,9 +156,9 @@ ms365_list_dirs <- function(board, path = "") {
 }
 
 # delete directory 'path', which is assumed to live in the board folder
-ms365_delete_dir <- function(board, path = "", by_item = FALSE) {
+ms365_delete_dir <- function(board, path = "") {
   child <- board$folder$get_item(path)
-  child$delete(confirm = FALSE, by_item = by_item)
+  child$delete(confirm = FALSE, by_item = board$delete_by_item)
 }
 
 # check if a file exists and is not a directory

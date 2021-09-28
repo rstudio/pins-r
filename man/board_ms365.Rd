@@ -2,8 +2,6 @@
 % Please edit documentation in R/board_ms365.R
 \name{board_ms365}
 \alias{board_ms365}
-\alias{board_sharepoint}
-\alias{board_onedrive}
 \title{Use a OneDrive or Sharepoint document library as a board}
 \usage{
 board_ms365(
@@ -13,26 +11,10 @@ board_ms365(
   cache = NULL,
   delete_by_item = FALSE
 )
-
-board_sharepoint(
-  drive,
-  path,
-  versioned = TRUE,
-  cache = NULL,
-  delete_by_item = FALSE
-)
-
-board_onedrive(
-  drive,
-  path,
-  versioned = TRUE,
-  cache = NULL,
-  delete_by_item = FALSE
-)
 }
 \arguments{
 \item{drive}{A OneDrive or SharePoint document library object, as obtained
-from Microsoft365.}
+from Microsoft365R.}
 
 \item{path}{Path to directory to store pins. Will be created if it
 doesn't already exist.}
@@ -57,16 +39,16 @@ using the Microsoft365R package.
 \dontrun{
 # A board in your personal OneDrive
 od <- Microsoft365R::get_personal_onedrive()
-board <- board_onedrive(od, "myboard")
+board <- board_ms365(od, "myboard")
 board \%>\% pin_write(iris)
 
 # A board in OneDrive for Business
 odb <- Microsoft365R::get_business_onedrive(tenant = "mytenant")
-board <- board_onedrive(odb, "myproject/board")
+board <- board_ms365(odb, "myproject/board")
 
 # A board in a SharePoint Online document library
 sp <- Microsoft365R::get_sharepoint_site("my site", tenant = "mytenant")
 doclib <- sp$get_drive()
-board <- board_sharepoint(doclib, "general/project1/board")
+board <- board_ms365(doclib, "general/project1/board")
 }
 }
