@@ -134,9 +134,9 @@ board_cache_path <- function(name) {
 
 #' Deparse a board object
 #'
-#' Returns the R code that would recreate the board is re-run on another
+#' Returns the R code that would recreate the board when re-run on another
 #' computer. Goal is to capture the location of the board, but not the
-#' authorisation, since (a) that leak would leak credentials and (b) in
+#' authorisation, since (a) that would leak credentials and (b) in
 #' most deployment scenarios board auth will be read from env vars.
 #'
 #' @returns A call.
