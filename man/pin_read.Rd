@@ -3,7 +3,7 @@
 \name{pin_read}
 \alias{pin_read}
 \alias{pin_write}
-\title{Read and write pins}
+\title{Read and write objects to and from a board}
 \usage{
 pin_read(board, name, version = NULL, hash = NULL, ...)
 

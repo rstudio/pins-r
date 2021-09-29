@@ -1,6 +1,6 @@
 #' DigitalOcean board (legacy API)
 #'
-#' To use DigitalOcean Spaces as a [board](boards-understanding.html), you first
+#' To use DigitalOcean Spaces as a board, you first
 #' need an DigitalOcean space and a storage key. You can sign-up and create
 #' those at [digitalocean.com](https://www.digitalocean.com/).
 #'

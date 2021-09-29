@@ -23,6 +23,7 @@
 #' @export
 board_folder <- function(path, versioned = FALSE) {
   fs::dir_create(path)
+  path <- fs::path_norm(path)
 
   new_board_v1("pins_board_folder",
     cache = NA_character_,

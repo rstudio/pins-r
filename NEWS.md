@@ -1,8 +1,6 @@
 # pins (development version)
 
-pins 1.0.0 includes a new API that is designed to be more explicit and less magical, as well as robust support for versioning. The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in vignette("pins-update").
-
-In the modern API, you create a board object which is passed to every `pin_` function instead of "registering" a board that is later refereed to with a string,. This takes away the magic of which board a pin comes from, and leads to code like looks this:
+pins 1.0.0 includes a new, more explicit, API that includes robust support for versioning. In the modern API, you create a board object which is passed to every `pin_` function instead of "registering" a board that is later refereed to with a string. This leads to code like this:
 
 ```R
 board <- board_local()
@@ -10,6 +8,7 @@ board %>% pin_write(mtcars, "mtcars")
 board %>% pin_read("mtcars")
 ```
 
+The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in `vignette("pins-update")`.
 
 ## Modern pin functions
 
@@ -21,7 +20,7 @@ board %>% pin_read("mtcars")
   
 * `pin_download()` and `pin_upload()` are lower-level versions of `pin_read()` 
   and `pin_write()` that work with file paths rather than R objects. They
-  replace the use of `pin()` with a path and eliminate the ambiguity implicit
+  replace the use of `pin()` with a path and eliminate the type-instability
   in `pin_get()`, which can return either an R object or a character vector of
   paths.
 
@@ -50,12 +49,19 @@ board %>% pin_read("mtcars")
 
 This version includes the following modern boards:
 
-* `board_folder()` is a generalised replacement for the old local board.
+* `board_azure()` stores data in Azure's blob storage. It is built on top of 
+  [AzureStor](https://github.com/Azure/AzureStor) (#474).
+
+* `board_folder()` is a generalised replacement for the legacy local board.
   `board_folder()` can store data in any directory, making it possible to 
   share boards using shared network drives or on dropbox or similar. If you
   using pins casually and don't want to pick a directory, `board_local()` 
   is a variant of `board_folder()` that stores data in a system data directory.
   
+* `board_kaggle_dataset()` and `board_kaggle_competition()` allow you to
+  download data from Kaggle. The data is automatically cached so that it's
+  only downloaded when it changes.
+
 * `board_rsconnect()` shares data on 
   [RStudio connect](https://www.rstudio.com/products/connect/). This board 
   supports both modern and legacy APIs, so that you and your colleagues can use 
@@ -65,17 +71,6 @@ This version includes the following modern boards:
   
 * `board_s3()` stores data in Amazon's S3 service. It is built on top of 
   [paws](https://paws-r.github.io).
-
-* `board_azure()` stores data in Azure's blob storage. It is built on top of 
-  [AzureStor](https://github.com/Azure/AzureStor) (#474).
-
-* `board_kaggle_dataset()` and `board_kaggle_competition()` allow you to
-  download data from Kaggle. The data is automatically cached so that it's
-  only downloaded when it changes.
-
-* `board_ms365()` stores data in OneDrive and SharePoint Online (both of which
-  are part of the Microsoft 365 suite of services). It is built on top of
-  [Microsoft365R](https://github.com/Azure/Microsoft365R) (#498).
 
 * `board_url()` lets you create a manual board from a vector of URLs. This is 
   useful because `pin_donwload()` and `pin_read()` are cached, so they only 
@@ -91,7 +86,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 * Pins no longer works with the connections pane. This automatically registered
   code tended to be either dangerous (because it's easy to accidentally leak 
-  credentials) or useless (becasue it relied on variables that the connection 
+  credentials) or useless (because it relied on variables that the connection 
   pane doesn't capture).
 
 * Pinned data frames are longer converted to tibbles.
