@@ -31,11 +31,14 @@ board_deparse(board, ...)
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 }
+\value{
+A call.
+}
 \description{
-Create a character string of R code for a board object. Board
-characteristics like a URL, server, region, etc. are included but
-authentication details are \emph{not} included. This function is useful for
-generating code to access a specific board from a remote server.
+Returns the R code that would recreate the board when re-run on another
+computer. Goal is to capture the location of the board, but not the
+authorisation, since (a) that would leak credentials and (b) in
+most deployment scenarios board auth will be read from env vars.
 }
 \examples{
 \dontrun{
@@ -43,5 +46,5 @@ board <- board_rsconnect()
 # Generate code to access this board from elsewhere
 board_deparse(board)
 }
-
 }
+\keyword{internal}

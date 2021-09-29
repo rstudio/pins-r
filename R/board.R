@@ -140,13 +140,13 @@ board_cache_path <- function(name) {
 #' most deployment scenarios board auth will be read from env vars.
 #'
 #' @returns A call.
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' board <- board_rsconnect()
 #' # Generate code to access this board from elsewhere
 #' board_deparse(board)
 #' }
-#'
 #' @export
 #' @inheritParams pin_read
 board_deparse <- function(board, ...) {
