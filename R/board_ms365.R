@@ -4,15 +4,20 @@
 #' using the Microsoft365R package.
 #'
 #' @inheritParams new_board
-#' @param drive A OneDrive or SharePoint document library object, as obtained
-#'   from Microsoft365R.
-#' @param path Path to directory to store pins. Will be created if it
-#'   doesn't already exist.
+#' @param drive A OneDrive or SharePoint document library object, of class
+#'   [`Microsoft365R::ms_drive`].
+#' @param path Path to directory to store pins. This can be either a string
+#'   containing the pathname like `"path/to/board"`, or a
+#'   [`Microsoft365R::ms_drive_item`] object pointing to the board path.
 #' @param delete_by_item Whether to handle folder deletions on an item-by-item
 #'   basis, rather than deleting the entire folder at once. You may need to set
 #'   this to `TRUE` for a board in SharePoint Online or OneDrive for Business,
 #'   due to document protection policies that prohibit deleting non-empty
 #'   folders.
+#' @details
+#' Sharing a board in OneDrive (personal or business) is a bit complicated, as OneDrive normally allows only the person who owns the drive to access files and folders. First, the drive owner has to set the board folder as shared with other users, using either the OneDrive web interface or Microsoft365R's `ms_drive_item$create_share_link()` method. The other users then call `board_ms365` with a _drive item object_ in the `path` argument, pointing to the shared folder. See the examples below.
+#'
+#' Sharing a board in SharePoint Online is much more straightforward, assuming all users have access to the document library: in this case, everyone can use the same call `board_ms365(doclib, "path/to/board")`. If you want to share a board with users outside your team, follow the same steps for sharing a board in OneDrive.
 #' @export
 #' @examples
 #' \dontrun{
@@ -29,6 +34,20 @@
 #' sp <- Microsoft365R::get_sharepoint_site("my site", tenant = "mytenant")
 #' doclib <- sp$get_drive()
 #' board <- board_ms365(doclib, "general/project1/board")
+#'
+#'
+#' ## Sharing a board in OneDrive:
+#' # First, create the board on the drive owner's side
+#' board <- board_ms365(od, "myboard")
+#'
+#' # Next, let other users write to the folder
+#' # - set the expiry to NULL if you want the folder to be permanently available
+#' od$get_item("myboard")$create_share_link("edit", expiry="30 days")
+#'
+#' # On the recipient's side: find the shared folder item, then pass it to board_ms365
+#' shared_items <- od$list_shared_items()
+#' board_folder <- shared_items$remoteItem[[which(shared_items$name == "myboard")]]
+#' board <- board_ms365(od, board_folder)
 #' }
 board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_item = FALSE) {
   check_installed("Microsoft365R")
@@ -36,10 +55,20 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
   if (!inherits(drive, "ms_drive")) {
     abort("`drive` must be a OneDrive or SharePoint document library object")
   }
+  if (!inherits(path, c("character", "ms_drive_item"))) {
+    abort("`path` must be either a string or a drive item object")
+  }
 
-  # try to create the board folder: ignore error if folder already exists
-  try(drive$create_folder(path), silent = TRUE)
-  folder <- drive$get_item(path)
+  if (!inherits(path, "ms_drive_item")) {
+    # try to create the board folder: ignore error if folder already exists
+    try(drive$create_folder(path), silent = TRUE)
+    folder <- drive$get_item(path)
+  }
+  else {
+    folder <- path
+    path <- NULL
+  }
+
   if (!folder$is_folder()) {
     abort("Invalid path specified")
   }
