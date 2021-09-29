@@ -1,4 +1,4 @@
-#' List all pins in a board
+#' List all pins
 #'
 #' List names of all pins in a board. This is a low-level function; use
 #' [pin_search()] to get more data about each pin in a convenient form.

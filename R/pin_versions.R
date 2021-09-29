@@ -1,4 +1,4 @@
-#' Pin versions
+#' List, delete, and prune pin versions
 #'
 #' @description
 #' * `pin_versions()` lists available versions a pin.

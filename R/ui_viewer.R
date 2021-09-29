@@ -24,6 +24,12 @@ board_disconnect <- function(name, ...) {
 }
 
 
+#' Preview a pin (legacy API)
+#'
+#' `pin_preview()` is no longer used and only exists for legacy compatibility.
+#'
+#' @export
+#' @keywords internal
 pin_preview <- function(x, board = NULL, ...) {
   UseMethod("pin_preview")
 }

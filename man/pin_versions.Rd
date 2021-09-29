@@ -4,7 +4,7 @@
 \alias{pin_versions}
 \alias{pin_version_delete}
 \alias{pin_versions_prune}
-\title{Pin versions}
+\title{List, delete, and prune pin versions}
 \usage{
 pin_versions(board, name, ..., full = deprecated())
 

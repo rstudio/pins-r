@@ -11,7 +11,7 @@
 Publish data sets, models, and other R objects, making it
     easy to share them across projects and with your colleagues. You can
     pin objects to a variety of "boards", including local folders (to
-    share on a networked drive or with dropbox), RStudio connect, Amazon
+    share on a networked drive or with 'DropBox'), 'RStudio' connect, Amazon
     S3, and more.
 }
 \seealso{

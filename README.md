@@ -58,7 +58,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpnTsA83/pins-fb066b65d1e'
+#> Path: '/tmp/RtmpSqglFq/pins-c3fc3a89fa55'
 #> Cache size: 0
 ```
 
@@ -68,7 +68,8 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210826T183040Z-f8797'
+#> Creating new version '20210928T182507Z-f8797'
+#> Writing to pin 'mtcars'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on

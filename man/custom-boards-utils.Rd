@@ -2,11 +2,11 @@
 % Please edit documentation in R/board.R
 \name{board_local_storage}
 \alias{board_local_storage}
-\title{Custom Boards Utilities}
+\title{Local storage path}
 \usage{
 board_local_storage(...)
 }
 \description{
-A set of utilities used when implementing custom boards.
+Deprecated: please use \code{\link[=board_cache_path]{board_cache_path()}} instead.
 }
 \keyword{internal}

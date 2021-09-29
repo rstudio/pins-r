@@ -1,4 +1,4 @@
-#' Read and write pins
+#' Read and write objects to and from a board
 #'
 #' Use `pin_write()` to pin an object to board, and `pin_read()` to retrieve
 #' it.
