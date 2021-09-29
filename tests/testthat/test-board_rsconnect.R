@@ -46,6 +46,16 @@ test_that("can update access_type", {
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 })
 
+test_that("can deparse", {
+  board <- new_board_v1(
+    "pins_board_rsconnect",
+    url = "https://connect.rstudioservices.com",
+    cache = tempdir()
+  )
+  expect_snapshot(board_deparse(board))
+})
+
+
 # content -----------------------------------------------------------------
 
 test_that("can find content by full/partial name", {

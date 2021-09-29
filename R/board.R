@@ -132,6 +132,34 @@ board_cache_path <- function(name) {
   fs::path(path, name)
 }
 
+#' Deparse a board object
+#'
+#' Returns the R code that would recreate the board when re-run on another
+#' computer. Goal is to capture the location of the board, but not the
+#' authorisation, since (a) that would leak credentials and (b) in
+#' most deployment scenarios board auth will be read from env vars.
+#'
+#' @returns A call.
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' board <- board_rsconnect()
+#' # Generate code to access this board from elsewhere
+#' board_deparse(board)
+#' }
+#' @export
+#' @inheritParams pin_read
+board_deparse <- function(board, ...) {
+  ellipsis::check_dots_used()
+  UseMethod("board_deparse")
+}
+
+#' @export
+board_deparse.pins_board <- function(board, ...) {
+  abort("This board doesn't support deparsing")
+}
+
+
 # helpers -----------------------------------------------------------------
 
 board_empty_results <- function() {

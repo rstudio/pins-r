@@ -37,6 +37,11 @@ test_that("can browse", {
   expect_snapshot(b %>% pin_browse("x"), error = TRUE)
 })
 
+test_that("can deparse", {
+  b <- board_folder("/tmp/test")
+  expect_snapshot(board_deparse(b))
+})
+
 test_that("generates useful messages", {
   ui_loud()
   b <- board_temp()

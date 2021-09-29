@@ -137,6 +137,18 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   name
 }
 
+
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_azure <- function(board, ...) {
+  container <- check_board_deparse(board, "container")
+  url <- paste0(container$endpoint$url, container$name)
+
+  container <- expr(AzureStor::storage_container(!!url))
+  expr(board_azure(!!container))
+}
+
+
 # Helpers -----------------------------------------------------------------
 
 azure_delete_dir <- function(board, dir) {

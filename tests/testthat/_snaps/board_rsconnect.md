@@ -1,3 +1,10 @@
+# can deparse
+
+    Code
+      board_deparse(board)
+    Output
+      board_rsconnect(server = "https://connect.rstudioservices.com")
+
 # can find content by full/partial name
 
     Code

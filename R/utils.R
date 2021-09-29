@@ -95,6 +95,14 @@ this_not_that <- function(this, that) {
   abort(glue("Use `{this}` with this board, not `{that}`"))
 }
 
+check_board_deparse <- function(board, arg) {
+  if (has_name(board, arg)) {
+    return(board[[arg]])
+  } else {
+    abort(glue("No {arg} found for this board"))
+  }
+}
+
 null_if_na <- function(x) {
   if (length(x) == 1 && is.na(x)) {
     NULL

@@ -117,3 +117,10 @@ pin_versions.pins_board_folder <- function(board, name, ...) {
 pin_version_delete.pins_board_folder <- function(board, name, version, ...) {
   fs::dir_delete(fs::path(board$path, name, version))
 }
+
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_folder <- function(board, ...) {
+  path <- check_board_deparse(board, "path")
+  expr(board_folder(path = !!as.character(path)))
+}

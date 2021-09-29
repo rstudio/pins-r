@@ -4,8 +4,9 @@ test_that("bundle contains expected files", {
   df <- data.frame(x = 1:2, y = 2:1)
   saveRDS(df, fs::path(path, "test.rds"))
 
-  board <- list(account = "TEST", server = "example.com")
+  board <- list(account = "TEST", server_name = "example.com")
   metadata <- list(file = "test.rds")
+  class(board) <- c("pins_board_rsconnect", "pins_board")
 
   out <- rsc_bundle(board, "test", fs::path(path, "test.rds"), list(), df)
 
@@ -20,6 +21,7 @@ test_that("bundle contains expected files", {
 test_that("generates index files", {
   expect_snapshot({
     board <- list(account = "TEST", server_name = "example.com")
+    class(board) <- c("pins_board_rsconnect", "pins_board")
     df <- data.frame(x = 1:2, y = 2:1)
     metadata <- list(file = "test.csv")
 

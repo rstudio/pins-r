@@ -110,6 +110,7 @@ test_api_basic <- function(board) {
       class = "pins_pin_missing"
     )
   })
+
 }
 
 test_api_versioning <- function(board) {

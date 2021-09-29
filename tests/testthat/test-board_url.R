@@ -62,6 +62,7 @@ test_that("useful errors for unsupported methods", {
     board %>% pin_meta("froofy", version = "x")
     board %>% pin_meta("x", version = "x")
     board %>% pin_versions("x")
+    board %>% board_deparse()
     pin(1:5, name = "x", board = board)
     pin_get(name = "x", board = board)
   })

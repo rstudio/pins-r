@@ -27,6 +27,10 @@
     Error <rlang_error>
       This board doesn't support versions
     Code
+      board %>% board_deparse()
+    Error <rlang_error>
+      This board doesn't support deparsing
+    Code
       pin(1:5, name = "x", board = board)
     Error <rlang_error>
       Use `pin_write()` with this board, not `pin()`

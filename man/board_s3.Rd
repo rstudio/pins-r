@@ -48,7 +48,7 @@ package.
 }
 \section{Authentication}{
 \code{board_s3()} is powered by the paws package which provides a wide range
-of authetication options, as documented at
+of authentication options, as documented at
 \url{https://github.com/paws-r/paws/blob/main/docs/credentials.md}.
 In brief, there are four main options that are tried in order:
 \itemize{
