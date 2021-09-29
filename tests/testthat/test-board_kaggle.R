@@ -4,7 +4,7 @@
 
 # competitions ----------------------------------------------------------------
 
-test_that("can list and search datasets", {
+test_that("can list and search competitions", {
   board <- board_kaggle_competitions_test()
   expect_equal(pin_list(board), NA)
 
