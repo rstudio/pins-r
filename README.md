@@ -15,9 +15,9 @@ The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
 networked drive or with services like DropBox), RStudio Connect, Amazon
-S3, Azure blob storage. Pins can be automatically versioned, making it
-straightforward to track changes, re-run analyses on historical data,
-and undo mistakes.
+S3, Azure storage and Microsoft 365 (OneDrive and SharePoint). Pins can
+be automatically versioned, making it straightforward to track changes,
+re-run analyses on historical data, and undo mistakes.
 
 pins 1.0.0 includes a new more explicit API and greater support for
 versioning. The legacy API (`pin()`, `pin_get()`, and
@@ -58,7 +58,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpSqglFq/pins-c3fc3a89fa55'
+#> Path: '/tmp/RtmpxQu94x/pins-15f1d4a0c4d71'
 #> Cache size: 0
 ```
 
@@ -68,8 +68,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210928T182507Z-f8797'
-#> Writing to pin 'mtcars'
+#> Creating new version '20210929T184444Z-f8797'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
@@ -115,5 +114,6 @@ You can easily control who gets to access the data using the RStudio
 Connection permissions pane.
 
 The pins package also includes boards that allow you to share data on
-services like Amazon’s S3 (`board_s3()`) and Azure’s blob storage
-(`board_azure()`). Learn more in `vignette("pins")`.
+services like Amazon’s S3 (`board_s3()`), Azure’s blob storage
+(`board_azure()`), and Microsoft SharePoint (`board_ms365()`). Learn
+more in `vignette("pins")`.

@@ -62,6 +62,9 @@ This version includes the following modern boards:
   download data from Kaggle. The data is automatically cached so that it's
   only downloaded when it changes.
 
+* `board_ms365()` allow to pin data to MS One Drive and Sharpoint
+   (#498, @hongooi73).
+
 * `board_rsconnect()` shares data on 
   [RStudio connect](https://www.rstudio.com/products/connect/). This board 
   supports both modern and legacy APIs, so that you and your colleagues can use 
