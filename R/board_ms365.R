@@ -66,6 +66,8 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
   }
   else {
     folder <- path
+    # ensure we have the correct properties for a shared item in OneDrive
+    folder$sync_fields()
     path <- NULL
   }
 
