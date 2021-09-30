@@ -90,7 +90,7 @@ pin_version_delete.pins_board <- function(board, name, version, ...) {
 #'   keep. `n = 3` will keep the last three versions, `days = 14` will
 #'   keep all the versions in the 14 days. Regardless of what values you
 #'   set, `pin_versions_prune()` will never delete the most recent version.
-pin_versions_prune <- function(board, name, n = NULL, days = NULL) {
+pin_versions_prune <- function(board, name, n = NULL, days = NULL, ...) {
   versions <- pin_versions(board, name)
   keep <- versions_keep(versions$created, n = n, days = days)
 
@@ -99,7 +99,7 @@ pin_versions_prune <- function(board, name, n = NULL, days = NULL) {
 
     pins_inform(paste0("Deleting versions: ", paste0(to_delete, collapse = ", ")))
     for (version in to_delete) {
-      pin_version_delete(board, name, version)
+      pin_version_delete(board, name, version, ...)
     }
   } else {
     pins_inform("No old versions to delete")

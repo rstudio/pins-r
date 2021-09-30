@@ -10,7 +10,7 @@ pin_versions(board, name, ..., full = deprecated())
 
 pin_version_delete(board, name, version, ...)
 
-pin_versions_prune(board, name, n = NULL, days = NULL)
+pin_versions_prune(board, name, n = NULL, days = NULL, ...)
 }
 \arguments{
 \item{board, name}{A pair of board and pin name. For modern boards,
@@ -20,7 +20,7 @@ legacy API, you can also use \code{pin_versions(name)} or
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 
-\item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{full}{\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}}
 
 \item{version}{Version identifier.}
 

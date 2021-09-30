@@ -39,13 +39,14 @@ Imports:
     mime,
     openssl,
     rappdirs,
-    rlang,
+    rlang (>= 0.4.10),
     tibble,
     whisker,
     withr,
     yaml,
     zip
 Suggests:
+    Microsoft365R,
     AzureStor,
     data.table,
     datasets,
