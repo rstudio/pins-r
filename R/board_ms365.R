@@ -85,7 +85,7 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
   )
 }
 
-board_ms365_test <- function(...) {
+board_ms365_test_charpath <- function(...) {
   if (identical(Sys.getenv("PINS_MS365_USE_PERSONAL"), "true")) {
     drv <- Microsoft365R::get_personal_onedrive()
   } else {
@@ -93,6 +93,17 @@ board_ms365_test <- function(...) {
     drv <- readRDS(Sys.getenv("PINS_MS365_TEST_DRIVE"))
   }
   board_ms365(drv, path = "pin_testing", cache = tempfile(), ...)
+}
+
+board_ms365_test_driveitem <- function(...) {
+  if (identical(Sys.getenv("PINS_MS365_USE_PERSONAL"), "true")) {
+    drv <- Microsoft365R::get_personal_onedrive()
+  } else {
+    skip_if_missing_envvars("board_ms365()", "PINS_MS365_TEST_DRIVE")
+    drv <- readRDS(Sys.getenv("PINS_MS365_TEST_DRIVE"))
+  }
+  folder <- try(drv$create_folder("pin_testing_2"), silent = TRUE)
+  board_ms365(drv, path = folder, cache = tempfile(), ...)
 }
 
 #' @export
