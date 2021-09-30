@@ -83,7 +83,7 @@ pin_version_delete() deletes a single version.
 
 <span class="fu">pin_version_delete</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, <span class="va">version</span>, <span class="va">...</span><span class="op">)</span>
 
-<span class="fu">pin_versions_prune</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, n <span class="op">=</span> <span class="cn">NULL</span>, days <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre>
+<span class="fu">pin_versions_prune</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, n <span class="op">=</span> <span class="cn">NULL</span>, days <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre>
     </div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments" aria-hidden="true"></a>Arguments</h2>
@@ -95,7 +95,7 @@ legacy API, you can also use <code>pin_versions(name)</code> or
     <dt class="col-sm-3 section level2" id="pkg-arg-...">...</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Additional arguments passed on to methods for a specific board.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-full">full</dt>
-      <dd class="col-sm-9" id="ref-arguments desc"><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p></dd>
+      <dd class="col-sm-9" id="ref-arguments desc"><p><img src="figures/lifecycle-deprecated.svg" alt="Deprecated lifecycle"></p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-version">version</dt>
       <dd class="col-sm-9" id="ref-arguments desc"><p>Version identifier.</p></dd>
     <dt class="col-sm-3 section level2" id="pkg-arg-n, days">n, days</dt>
@@ -115,15 +115,15 @@ provided additional data.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210929T174927Z-5b8ae'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210930T122957Z-5b8ae'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210929T174927Z-40caf'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210930T122957Z-40caf'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210929T174927Z-5c9d4'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20210930T122957Z-5c9d4'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># pin_read() returns the latest version by default</span></span>
@@ -140,9 +140,9 @@ provided additional data.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20210929T174927Z-40caf 2021-09-29 <span style="color: #949494;">17:49:00</span> 40caf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20210929T174927Z-5b8ae 2021-09-29 <span style="color: #949494;">17:49:00</span> 5b8ae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20210929T174927Z-5c9d4 2021-09-29 <span style="color: #949494;">17:49:00</span> 5c9d4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20210930T122957Z-40caf 2021-09-30 <span style="color: #949494;">12:29:00</span> 40caf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20210930T122957Z-5b8ae 2021-09-30 <span style="color: #949494;">12:29:00</span> 5b8ae</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20210930T122957Z-5c9d4 2021-09-30 <span style="color: #949494;">12:29:00</span> 5c9d4</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span>
