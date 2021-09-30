@@ -13,11 +13,12 @@ board_ms365(
 )
 }
 \arguments{
-\item{drive}{A OneDrive or SharePoint document library object, as obtained
-from Microsoft365R.}
+\item{drive}{A OneDrive or SharePoint document library object, of class
+\code{\link[Microsoft365R:ms_drive]{Microsoft365R::ms_drive}}.}
 
-\item{path}{Path to directory to store pins. Will be created if it
-doesn't already exist.}
+\item{path}{Path to directory to store pins. This can be either a string
+containing the pathname like \code{"path/to/board"}, or a
+\code{\link[Microsoft365R:ms_drive_item]{Microsoft365R::ms_drive_item}} object pointing to the board path.}
 
 \item{versioned}{Should this board be registered with support for versions?}
 
@@ -35,6 +36,11 @@ folders.}
 Pin data to a folder in Onedrive or a SharePoint Online document library
 using the Microsoft365R package.
 }
+\details{
+Sharing a board in OneDrive (personal or business) is a bit complicated, as OneDrive normally allows only the person who owns the drive to access files and folders. First, the drive owner has to set the board folder as shared with other users, using either the OneDrive web interface or Microsoft365R's \code{ms_drive_item$create_share_link()} method. The other users then call \code{board_ms365} with a \emph{drive item object} in the \code{path} argument, pointing to the shared folder. See the examples below.
+
+Sharing a board in SharePoint Online is much more straightforward, assuming all users have access to the document library: in this case, everyone can use the same call \code{board_ms365(doclib, "path/to/board")}. If you want to share a board with users outside your team, follow the same steps for sharing a board in OneDrive.
+}
 \examples{
 \dontrun{
 # A board in your personal OneDrive
@@ -50,5 +56,19 @@ board <- board_ms365(odb, "myproject/board")
 sp <- Microsoft365R::get_sharepoint_site("my site", tenant = "mytenant")
 doclib <- sp$get_drive()
 board <- board_ms365(doclib, "general/project1/board")
+
+
+## Sharing a board in OneDrive:
+# First, create the board on the drive owner's side
+board <- board_ms365(od, "myboard")
+
+# Next, let other users write to the folder
+# - set the expiry to NULL if you want the folder to be permanently available
+od$get_item("myboard")$create_share_link("edit", expiry="30 days")
+
+# On the recipient's side: find the shared folder item, then pass it to board_ms365
+shared_items <- od$list_shared_items()
+board_folder <- shared_items$remoteItem[[which(shared_items$name == "myboard")]]
+board <- board_ms365(od, board_folder)
 }
 }
