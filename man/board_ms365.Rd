@@ -13,12 +13,11 @@ board_ms365(
 )
 }
 \arguments{
-\item{drive}{A OneDrive or SharePoint document library object, of class
-\code{\link[Microsoft365R:ms_drive]{Microsoft365R::ms_drive}}.}
+\item{drive}{A OneDrive or SharePoint document library object, as obtained
+from Microsoft365R.}
 
-\item{path}{Path to directory to store pins. This can be either a string
-containing the pathname like \code{"path/to/board"}, or a
-\code{\link[Microsoft365R:ms_drive_item]{Microsoft365R::ms_drive_item}} object pointing to the board path.}
+\item{path}{Path to directory to store pins. Will be created if it
+doesn't already exist.}
 
 \item{versioned}{Should this board be registered with support for versions?}
 
