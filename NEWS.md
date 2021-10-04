@@ -1,3 +1,5 @@
+# pins (development version)
+
 # pins 1.0.0
 
 pins 1.0.0 includes a new, more explicit, API that includes robust support for versioning. In the modern API, you create a board object which is passed to every `pin_` function instead of "registering" a board that is later refereed to with a string. This leads to code like this:
