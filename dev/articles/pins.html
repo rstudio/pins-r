@@ -38,7 +38,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <button type="button" id="version-badge" class="badge badge-danger d-none d-lg-block" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="In-development version">0.99.9000</button>
+    <button type="button" id="version-badge" class="badge badge-danger d-none d-lg-block" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="In-development version">1.0.0.9000</button>
 
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto ml-3">
@@ -137,20 +137,20 @@
 <p>After you’ve pinned an object, you can read it back with <code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 32 × 11</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 11</span></span>
 <span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-<span class="co">#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-<span class="co">#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-<span class="co">#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-<span class="co">#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-<span class="co">#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-<span class="co">#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-<span class="co">#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-<span class="co">#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-<span class="co">#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-<span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></code></pre></div>
 <p>You don’t need to supply the file type when reading data from a pin because pins automatically stores the file type in the metadata, the topic of the next section.</p>
 <p>Note that when the data lives elsewhere, pins takes care of downloading and caching so that it’s only re-downloaded when needed. That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don’t recommend using pins with files over 500 MB. If you find yourself routinely pinning data larger that this, you might need to reconsider your data engineering pipeline.</p>
 </div>
@@ -167,11 +167,11 @@
 <span class="co">#&gt;  $ type       : chr "rds"</span>
 <span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="co">#&gt;  $ description: NULL</span>
-<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-09-30 12:48:00"</span>
+<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-10-04 11:50:00"</span>
 <span class="co">#&gt;  $ api_version: num 1</span>
 <span class="co">#&gt;  $ user       : list()</span>
 <span class="co">#&gt;  $ local      :List of 3</span>
-<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpifnWlO/pins-315e6d6afa85/mtcars/20120304T050607Z-2f9b5"</span>
+<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpWn63U7/pins-37a248f3012d/mtcars/20120304T050607Z-2f9b5"</span>
 <span class="co">#&gt;   ..$ url    : NULL</span>
 <span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This includes:</p>
@@ -202,12 +202,12 @@
 <span class="co">#&gt;  $ type       : chr "rds"</span>
 <span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span>
-<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-09-30 12:48:00"</span>
+<span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2021-10-04 11:50:00"</span>
 <span class="co">#&gt;  $ api_version: num 1</span>
 <span class="co">#&gt;  $ user       :List of 1</span>
 <span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span>
 <span class="co">#&gt;  $ local      :List of 3</span>
-<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpifnWlO/pins-315e6d6afa85/mtcars/20120304T050607Z-2f9b5"</span>
+<span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpWn63U7/pins-37a248f3012d/mtcars/20120304T050607Z-2f9b5"</span>
 <span class="co">#&gt;   ..$ url    : NULL</span>
 <span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata consistent over time, I’d recommend manually capturing anything you really care about in <code>metadata</code>.</p>
@@ -246,12 +246,12 @@
 <p>You can list all the available versions with <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 × 3</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="co">#&gt;   version                created             hash </span>
-<span class="co">#&gt;   &lt;chr&gt;                  &lt;dttm&gt;              &lt;chr&gt;</span>
-<span class="co">#&gt; 1 20120304T050607Z-0a284 2012-03-04 05:06:00 0a284</span>
-<span class="co">#&gt; 2 20120304T050607Z-a077a 2012-03-04 05:06:00 a077a</span>
-<span class="co">#&gt; 3 20120304T050607Z-ab444 2012-03-04 05:06:00 ab444</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20120304T050607Z-0a284 2012-03-04 <span style="color: #949494;">05:06:00</span> 0a284</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20120304T050607Z-a077a 2012-03-04 <span style="color: #949494;">05:06:00</span> a077a</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20120304T050607Z-ab444 2012-03-04 <span style="color: #949494;">05:06:00</span> ab444</span></code></pre></div>
 <p>(Pins does not currently provide any tool to remove old versions, but this is likely to be implemented in the future.)</p>
 <p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent version:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -277,18 +277,18 @@
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpifnWlO/pins-315e6d6afa85/example/20120304T050607Z-e9d42/mtcars.csv"  </span>
-<span class="co">#&gt; [2] "/tmp/RtmpifnWlO/pins-315e6d6afa85/example/20120304T050607Z-e9d42/alphabet.txt"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpWn63U7/pins-37a248f3012d/example/20120304T050607Z-e9d42/mtcars.csv"  </span>
+<span class="co">#&gt; [2] "/tmp/RtmpWn63U7/pins-37a248f3012d/example/20120304T050607Z-e9d42/alphabet.txt"</span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as an internal implementation details — never modify them and never save them for use outside of pins.</p>
 <p>Note that you can’t <code><a href="../reference/pin_read.html">pin_read()</a></code> something you pinned with <code><a href="../reference/pin_download.html">pin_upload()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span>
 <span class="co">#&gt; Error: Pin does not declare file type so can't be automatically read</span>
-<span class="co">#&gt; ℹ Retrieve uploaded paths with `pin_download()`</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Retrieve uploaded paths with `pin_download()`</span></code></pre></div>
 <p>But you can <code><a href="../reference/pin_download.html">pin_download()</a></code> something that you’ve pinned with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpifnWlO/pins-315e6d6afa85/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpWn63U7/pins-37a248f3012d/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></code></pre></div>
 </div>
 <div id="caching" class="section level2">
 <h2 class="hasAnchor">
@@ -305,23 +305,23 @@
   <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 344 × 17</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 344 × 17</span></span>
 <span class="co">#&gt;    studyName `Sample Number` Species       Region Island Stage   `Individual ID`</span>
-<span class="co">#&gt;    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;          </span>
-<span class="co">#&gt;  1 PAL0708                 1 Adelie Pengu… Anvers Torge… Adult,… N1A1           </span>
-<span class="co">#&gt;  2 PAL0708                 2 Adelie Pengu… Anvers Torge… Adult,… N1A2           </span>
-<span class="co">#&gt;  3 PAL0708                 3 Adelie Pengu… Anvers Torge… Adult,… N2A1           </span>
-<span class="co">#&gt;  4 PAL0708                 4 Adelie Pengu… Anvers Torge… Adult,… N2A2           </span>
-<span class="co">#&gt;  5 PAL0708                 5 Adelie Pengu… Anvers Torge… Adult,… N3A1           </span>
-<span class="co">#&gt;  6 PAL0708                 6 Adelie Pengu… Anvers Torge… Adult,… N3A2           </span>
-<span class="co">#&gt;  7 PAL0708                 7 Adelie Pengu… Anvers Torge… Adult,… N4A1           </span>
-<span class="co">#&gt;  8 PAL0708                 8 Adelie Pengu… Anvers Torge… Adult,… N4A2           </span>
-<span class="co">#&gt;  9 PAL0708                 9 Adelie Pengu… Anvers Torge… Adult,… N5A1           </span>
-<span class="co">#&gt; 10 PAL0708                10 Adelie Pengu… Anvers Torge… Adult,… N5A2           </span>
-<span class="co">#&gt; # … with 334 more rows, and 10 more variables: Clutch Completion &lt;chr&gt;,</span>
-<span class="co">#&gt; #   Date Egg &lt;chr&gt;, Culmen Length (mm) &lt;dbl&gt;, Culmen Depth (mm) &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   Flipper Length (mm) &lt;int&gt;, Body Mass (g) &lt;int&gt;, Sex &lt;chr&gt;,</span>
-<span class="co">#&gt; #   Delta 15 N (o/oo) &lt;dbl&gt;, Delta 13 C (o/oo) &lt;dbl&gt;, Comments &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708                 1 Adelie Pengu… Anvers Torge… Adult,… N1A1           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708                 2 Adelie Pengu… Anvers Torge… Adult,… N1A2           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708                 3 Adelie Pengu… Anvers Torge… Adult,… N2A1           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708                 4 Adelie Pengu… Anvers Torge… Adult,… N2A2           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708                 5 Adelie Pengu… Anvers Torge… Adult,… N3A1           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708                 6 Adelie Pengu… Anvers Torge… Adult,… N3A2           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708                 7 Adelie Pengu… Anvers Torge… Adult,… N4A1           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708                 8 Adelie Pengu… Anvers Torge… Adult,… N4A2           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708                 9 Adelie Pengu… Anvers Torge… Adult,… N5A1           </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708                10 Adelie Pengu… Anvers Torge… Adult,… N5A2           </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 334 more rows, and 10 more variables: Clutch Completion &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   Date Egg &lt;chr&gt;, Culmen Length (mm) &lt;dbl&gt;, Culmen Depth (mm) &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   Flipper Length (mm) &lt;int&gt;, Body Mass (g) &lt;int&gt;, Sex &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   Delta 15 N (o/oo) &lt;dbl&gt;, Delta 13 C (o/oo) &lt;dbl&gt;, Comments &lt;chr&gt;</span></span></code></pre></div>
 <p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> or similar but it has a big payoff: the data will only be re-downloaded when it changes.</p>
 </div>
 
@@ -345,7 +345,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
