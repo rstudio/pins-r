@@ -1,26 +1,12 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
-pkgdown_sha: ~
+pkgdown: 1.9000.9000.9000
+pkgdown_sha: 3593f80b9a782b9d9dae1d2bff2306d728158854
 articles:
-  advanced-too-big: advanced-too-big.html
-  advanced-versions: advanced-versions.html
-  boards-azure: boards-azure.html
-  boards-dospace: boards-dospace.html
-  boards-extending: boards-extending.html
-  boards-gcloud: boards-gcloud.html
-  boards-github: boards-github.html
-  boards-kaggle: boards-kaggle.html
-  boards-rsconnect: boards-rsconnect.html
-  boards-s3: boards-s3.html
-  boards-understanding: boards-understanding.html
-  boards-websites: boards-websites.html
-  pins-extending: pins-extending.html
-  pins-rstudio: pins-rstudio.html
-  pins-starting: pins-starting.html
-  use-cases/automate-dataset-updates: automate-dataset-updates.html
-  use-cases/create-data-pipelines: create-data-pipelines.html
-  use-cases/reuse-tidy-datasets: reuse-tidy-datasets.html
-  use-cases/update-plumber-and-shiny-apps: update-plumber-and-shiny-apps.html
-  use-cases: use-cases.html
-last_built: 2021-03-15T13:27Z
+  pins-update: pins-update.html
+  pins: pins.html
+  rsc: rsc.html
+last_built: 2021-10-04T11:49Z
+urls:
+  reference: https://pins.rstudio.com/reference
+  article: https://pins.rstudio.com/articles
 
