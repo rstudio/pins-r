@@ -34,6 +34,7 @@ for text in the pin name and title."><meta property="og:image" content="https://
   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="dropdown-item" href="https://blog.rstudio.com/2021/10/04/pins-1-0-0/">pins 1.0.0</a>
     <a class="dropdown-item" href="https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/">pins 0.4.0</a>
     <a class="dropdown-item" href="https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/">pins 0.3.0</a>
     <a class="dropdown-item" href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/">pins 0.2.0</a>
@@ -93,35 +94,35 @@ list-column.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"x"</span>, title <span class="op">=</span> <span class="st">"Some numbers"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T115038Z-e4733'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T171534Z-e4733'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">21</span><span class="op">)</span><span class="op">]</span>, <span class="st">"y"</span>, title <span class="op">=</span> <span class="st">"My favourite letters"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T115038Z-ea42d'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T171534Z-ea42d'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'y'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, <span class="st">"z"</span>, title <span class="op">=</span> <span class="st">"Random numbers"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T115038Z-b1d8a'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T171534Z-3e830'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'z'</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_search</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  type  title                created               file_size meta      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;fs::bytes&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> x     rds   Some numbers         2021-10-04 <span style="color: #949494;">11:50:00</span>          50 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> y     rds   My favourite letters 2021-10-04 <span style="color: #949494;">11:50:00</span>          58 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> z     rds   Random numbers       2021-10-04 <span style="color: #949494;">11:50:00</span>         170 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> x     rds   Some numbers         2021-10-04 <span style="color: #949494;">17:15:00</span>          50 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> y     rds   My favourite letters 2021-10-04 <span style="color: #949494;">17:15:00</span>          58 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> z     rds   Random numbers       2021-10-04 <span style="color: #949494;">17:15:00</span>         169 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_search</span><span class="op">(</span><span class="st">"number"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  type  title          created               file_size meta      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;fs::bytes&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> x     rds   Some numbers   2021-10-04 <span style="color: #949494;">11:50:00</span>          50 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> z     rds   Random numbers 2021-10-04 <span style="color: #949494;">11:50:00</span>         170 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> x     rds   Some numbers   2021-10-04 <span style="color: #949494;">17:15:00</span>          50 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> z     rds   Random numbers 2021-10-04 <span style="color: #949494;">17:15:00</span>         169 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_search</span><span class="op">(</span><span class="st">"letters"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  type  title                created               file_size meta      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;fs::bytes&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> y     rds   My favourite letters 2021-10-04 <span style="color: #949494;">11:50:00</span>          58 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> y     rds   My favourite letters 2021-10-04 <span style="color: #949494;">17:15:00</span>          58 <span style="color: #949494;">&lt;pins_met&gt;</span></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

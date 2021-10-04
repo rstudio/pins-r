@@ -38,6 +38,7 @@ attempt to modify this file."><meta property="og:image" content="https://pins.rs
   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="dropdown-item" href="https://blog.rstudio.com/2021/10/04/pins-1-0-0/">pins 1.0.0</a>
     <a class="dropdown-item" href="https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/">pins 0.4.0</a>
     <a class="dropdown-item" href="https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/">pins 0.3.0</a>
     <a class="dropdown-item" href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/">pins 0.2.0</a>
@@ -125,10 +126,10 @@ avoid potential clashes with the metadata that pins itself uses.</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_upload</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `name = 'CITATION'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T115031Z-dec01'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211004T171529Z-dec01'</span>
 <span class="r-in"><span class="va">path</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pin_download</span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">path</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmphZPZDw/pins-34741e70a7a1/CITATION/20211004T115031Z-dec01/CITATION"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpeFIUkS/pins-2ee4251387d9/CITATION/20211004T171529Z-dec01/CITATION"</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bibentry(\"Manual\","                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] "         title = \"R: A Language and Environment for Statistical Computing\","</span>
