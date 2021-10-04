@@ -54,6 +54,8 @@ reference:
 
 news:
   releases:
+  - text: pins 1.0.0
+    href: https://blog.rstudio.com/2021/10/04/pins-1-0-0/
   - text: pins 0.4.0
     href: https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/
   - text: pins 0.3.0
