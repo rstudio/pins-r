@@ -4,11 +4,20 @@
 \alias{board_azure}
 \title{Use an Azure Blob Storage Container as a board}
 \usage{
-board_azure(container, n_processes = 10, versioned = TRUE, cache = NULL)
+board_azure(
+  container,
+  path = "/",
+  n_processes = 10,
+  versioned = TRUE,
+  cache = NULL
+)
 }
 \arguments{
 \item{container}{An azure storage container created by
 \code{\link[AzureStor:blob_container]{AzureStor::blob_container()}} or similar.}
+
+\item{path}{Path to directory to store pins. Will be created if it
+doesn't already exist.}
 
 \item{n_processes}{Maximum number of processes used for parallel
 uploads/downloads.}
@@ -35,7 +44,7 @@ if (requireNamespace("AzureStor")) {
 # To create a board that you can write to, you'll need to supply one
 # of `key`, `token`, or `sas` to AzureStor::blob_container()
 container <- AzureStor::blob_container(url, key = "my-key")
-board <- board_azure(container)
+board <- board_azure(container, "path/to/board")
 board \%>\% pin_write(iris)
 }
 }
