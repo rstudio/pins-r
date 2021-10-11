@@ -31,7 +31,7 @@ board_azure <- function(container, path = "/", n_processes = 10, versioned = TRU
 
   cache <- cache %||% board_cache_path(paste0("azure-", hash(container$endpoint$url)))
   if(path != "/") {
-    create_storage_dir(container, path)
+    AzureStor::create_storage_dir(container, path)
   }
 
   new_board_v1("pins_board_azure",
