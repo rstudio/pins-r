@@ -6,7 +6,7 @@
 \usage{
 board_azure(
   container,
-  path = "/",
+  path = "",
   n_processes = 10,
   versioned = TRUE,
   cache = NULL
