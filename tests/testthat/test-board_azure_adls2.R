@@ -1,4 +1,4 @@
-board_adls <- board_azure_test(path = "/", type = "dfs")
+board_adls <- board_azure_test(path = "", type = "dfs")
 test_api_basic(board_adls)
 test_api_versioning(board_adls)
 test_api_meta(board_adls)

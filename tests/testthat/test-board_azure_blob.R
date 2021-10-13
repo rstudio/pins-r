@@ -1,4 +1,4 @@
-board_blob <- board_azure_test(path = "/", type = "blob")
+board_blob <- board_azure_test(path = "", type = "blob")
 test_api_basic(board_blob)
 test_api_versioning(board_blob)
 test_api_meta(board_blob)

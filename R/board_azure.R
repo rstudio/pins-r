@@ -44,6 +44,9 @@
 board_azure <- function(container, path = "", n_processes = 10, versioned = TRUE, cache = NULL) {
   check_installed("AzureStor")
 
+  if (path == "/") {
+    path <- ""
+  }
   board_path <- fs::path(container$endpoint$url, container$name, path)
   cache <- cache %||% board_cache_path(paste0("azure-", hash(board_path)))
   if (!(path %in% c("", "/"))) {
