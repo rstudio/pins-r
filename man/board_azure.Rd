@@ -2,7 +2,7 @@
 % Please edit documentation in R/board_azure.R
 \name{board_azure}
 \alias{board_azure}
-\title{Use an Azure Blob Storage Container as a board}
+\title{Use an Azure storage container as a board}
 \usage{
 board_azure(
   container,
@@ -29,7 +29,12 @@ downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 }
 \description{
-Pin data to a container on Azure's blog storage using the AzureStor package.
+Pin data to a container in Azure storage using the AzureStor package.
+}
+\details{
+You can create a board in any of the services that AzureStor supports: blob storage, file storage and Azure Data Lake Storage Gen2 (ADLSgen2).
+
+Blob storage is the classic storage service that is most familiar to people, but is relatively old and inefficient. ADLSgen2 is a modern replacement API for working with blobs that is much faster when working with directories. You should consider using this rather than the classic blob API where possible; see the examples below.
 }
 \examples{
 if (requireNamespace("AzureStor")) {
@@ -43,8 +48,19 @@ if (requireNamespace("AzureStor")) {
 \dontrun{
 # To create a board that you can write to, you'll need to supply one
 # of `key`, `token`, or `sas` to AzureStor::blob_container()
-container <- AzureStor::blob_container(url, key = "my-key")
+# First, we create a board using the classic Azure blob API
+url <- "https://myaccount.blob.core.windows.net/mycontainer"
+container <- AzureStor::blob_container(url, sas = "my-sas")
 board <- board_azure(container, "path/to/board")
 board \%>\% pin_write(iris)
+
+# ADLSgen2 is a modern, efficient way to access blobs
+# - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API
+# - We reuse the board created via the blob API above
+adls_url <- "https://myaccount.dfs.core.windows.net/mycontainer"
+container <- AzureStor::storage_container(adls_url, sas = "my-sas")
+board <- board_azure(container, "path/to/board")
+board \%>\% pin_list()
+board \%>\% pin_read("iris")
 }
 }
