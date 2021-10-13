@@ -41,10 +41,11 @@
 #' board %>% pin_list()
 #' board %>% pin_read("iris")
 #' }
-board_azure <- function(container, path = "/", n_processes = 10, versioned = TRUE, cache = NULL) {
+board_azure <- function(container, path = "", n_processes = 10, versioned = TRUE, cache = NULL) {
   check_installed("AzureStor")
 
-  cache <- cache %||% board_cache_path(paste0("azure-", hash(container$endpoint$url)))
+  board_path <- fs::path(container$endpoint$url, container$name, path)
+  cache <- cache %||% board_cache_path(paste0("azure-", hash(board_path)))
   if (path != "/") {
     if(inherits(container, "file_share")) {
       try(AzureStor::create_storage_dir(container, path, recursive = TRUE), silent = TRUE)
@@ -63,7 +64,7 @@ board_azure <- function(container, path = "/", n_processes = 10, versioned = TRU
   )
 }
 
-board_azure_test <- function(type = c("blob", "file", "dfs"), ...) {
+board_azure_test <- function(path, type = c("blob", "file", "dfs"), ...) {
   skip_if_missing_envvars("board_azure()", "PINS_AZURE_SAS")
 
   type <- arg_match(type)
@@ -74,7 +75,7 @@ board_azure_test <- function(type = c("blob", "file", "dfs"), ...) {
     acct_url,
     sas = Sys.getenv("PINS_AZURE_SAS")
   )
-  board_azure(container, path = "test/path", cache = tempfile(), n_processes = 2, ...)
+  board_azure(container, path = path, cache = tempfile(), n_processes = 2, ...)
 }
 
 #' @export
@@ -113,7 +114,7 @@ pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   version <- check_pin_version(board, name, version)
   metadata_blob <- fs::path(name, version, "data.txt")
 
-  metadata_absolute_path <- fs::path(board$path, metadata_blob)
+  metadata_absolute_path <- azure_normalize_path(board, metadata_blob)
   if (!AzureStor::storage_file_exists(board$container, metadata_absolute_path)) {
     abort_pin_version_missing(version)
   }
@@ -145,7 +146,7 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
   check_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
-  version_dir <- fs::path(board$path, name, version)
+  version_dir <- azure_normalize_path(board, name, version)
 
   # Upload metadata
   local_azure_progress(FALSE)
@@ -182,9 +183,9 @@ board_deparse.pins_board_azure <- function(board, ...) {
 # Helpers -----------------------------------------------------------------
 
 azure_delete_dir <- function(board, dir) {
-  dir <- fs::path(board$path, dir)
+  dir <- azure_normalize_path(board, dir)
 
-  # need 3 different ways of deleting a dir
+  # need 3 different ways of deleting a non-empty dir
   # - blob storage: delete all files in dir and subdirs
   # - file storage: delete files/dirs in reverse order, using correct function for each
   # - adlsgen2: deleting dir will delete contents automatically
@@ -203,18 +204,23 @@ azure_delete_dir <- function(board, dir) {
         AzureStor::delete_storage_file(board$container, ls$name[i], confirm = FALSE)
       }
     }
-    AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE)
+    if(dir != "/") {
+      AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE)
+    }
 
   } else if (inherits(board$container, "adls_filesystem")) {
-    AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE, recursive = TRUE)
+    if (dir != "/") {
+      AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE,
+                                    recursive = TRUE)
+    }
 
   } else {
     abort("Unknown Azure storage container type")
   }
 }
 
-azure_ls <- function(board, dir = "/") {
-  dir <- fs::path(board$path, dir)
+azure_ls <- function(board, dir = "") {
+  dir <- azure_normalize_path(board, dir)
 
   paths <- AzureStor::list_storage_files(
     board$container,
@@ -222,9 +228,8 @@ azure_ls <- function(board, dir = "/") {
     recursive = FALSE,
     info = "name"
   )
-  fs::path_file(paths)
+  unique(fs::path_file(paths))
 }
-
 
 azure_dir_exists <- function(board, path) {
 
@@ -239,7 +244,7 @@ azure_dir_exists <- function(board, path) {
     !inherits(try(azure_ls(board, path), silent = TRUE), "try-error")
 
   } else if (inherits(board$container, "adls_filesystem")) {
-    path <- fs::path(board$path, path)
+    path <- azure_normalize_path(board, path)
     AzureStor::storage_file_exists(board$container, path)
 
   } else {
@@ -255,7 +260,7 @@ azure_download <- function(board, keys, progress = !is_testing()) {
   local_azure_progress(progress)
 
   paths <- fs::path(board$cache, keys)
-  keys <- fs::path(board$path, keys)
+  keys <- azure_normalize_path(board, keys)
   needed <- !fs::file_exists(paths)
   if (any(needed)) {
     AzureStor::storage_multidownload(
@@ -274,4 +279,13 @@ azure_upload_file <- function(board, src, dest) {
   } else {
     AzureStor::storage_upload(board$container, src, dest)
   }
+}
+
+azure_normalize_path <- function(board, ...) {
+  path <- fs::path(board$path, ...)
+  # blob storage doesn't like '/foo' paths with leading '/' and non-empty 'foo'
+
+  bads <- nchar(path) > 1 & grepl("^/", path)
+  path[bads] <- substr(path[bads], 2, nchar(path[bads]))
+  path
 }
