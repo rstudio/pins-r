@@ -1,6 +1,6 @@
-#' Use an Azure Blob Storage Container as a board
+#' Use an Azure storage container as a board
 #'
-#' Pin data to a container on Azure's blog storage using the AzureStor package.
+#' Pin data to a container in Azure storage using the AzureStor package.
 #'
 #' @inheritParams new_board
 #' @param container An azure storage container created by
@@ -9,6 +9,10 @@
 #'   doesn't already exist.
 #' @param n_processes Maximum number of processes used for parallel
 #'   uploads/downloads.
+#' @param hierarchical_namespace_enabled (Blob storage only.) Whether the storage account has the
+#'   [hierarchical namespace](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace)
+#'   feature, which enables fast and efficient processing of data that is
+#'   organised into directories.
 #' @export
 #' @examples
 #' if (requireNamespace("AzureStor")) {
@@ -30,8 +34,12 @@ board_azure <- function(container, path = "/", n_processes = 10, versioned = TRU
   check_installed("AzureStor")
 
   cache <- cache %||% board_cache_path(paste0("azure-", hash(container$endpoint$url)))
-  if(path != "/") {
-    AzureStor::create_storage_dir(container, path)
+  if (path != "/") {
+    if(inherits(container, "file_share")) {
+      try(AzureStor::create_storage_dir(container, path, recursive = TRUE), silent = TRUE)
+    } else {
+      AzureStor::create_storage_dir(container, path)
+    }
   }
 
   new_board_v1("pins_board_azure",
@@ -44,11 +52,15 @@ board_azure <- function(container, path = "/", n_processes = 10, versioned = TRU
   )
 }
 
-board_azure_test <- function(...) {
+board_azure_test <- function(type = c("blob", "file", "dfs"), ...) {
   skip_if_missing_envvars("board_azure()", "PINS_AZURE_SAS")
 
-  container <- AzureStor::blob_container(
-    "https://pins.blob.core.windows.net/test-data",
+  type <- arg_match(type)
+  acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT", "pins")
+  acct_url <- sprintf("https://%s.%s.core.windows.net/test-data", acct_name, type)
+
+  container <- AzureStor::storage_container(
+    acct_url,
     sas = Sys.getenv("PINS_AZURE_SAS")
   )
   board_azure(container, path = "test/path", cache = tempfile(), n_processes = 2, ...)
@@ -61,7 +73,7 @@ pin_list.pins_board_azure <- function(board, ...) {
 
 #' @export
 pin_exists.pins_board_azure <- function(board, name, ...) {
-  length(azure_ls(board, name)) > 0
+  azure_dir_exists(board, name)
 }
 
 #' @export
@@ -88,12 +100,12 @@ pin_version_delete.pins_board_azure <- function(board, name, version, ...) {
 pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
-  metadata_blob <- fs::path(board$path, name, version, "data.txt")
+  metadata_blob <- fs::path(name, version, "data.txt")
 
-  if (!AzureStor::storage_file_exists(board$container, metadata_blob)) {
+  metadata_absolute_path <- fs::path(board$path, metadata_blob)
+  if (!AzureStor::storage_file_exists(board$container, metadata_absolute_path)) {
     abort_pin_version_missing(version)
   }
-
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
 
@@ -111,7 +123,7 @@ pin_fetch.pins_board_azure <- function(board, name, version = NULL, ...) {
   cache_touch(board, meta)
 
   keys <- map_chr(meta$file, ~ fs::path(name, meta$local$version, .x))
-  azure_download(board, fs::path(board$path, keys))
+  azure_download(board, keys)
 
   meta
 }
@@ -126,7 +138,7 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
 
   # Upload metadata
   local_azure_progress(FALSE)
-  AzureStor::storage_upload(board$container,
+  azure_upload_file(board,
     src = textConnection(yaml::as.yaml(metadata)),
     dest = fs::path(version_dir, "data.txt")
   )
@@ -160,33 +172,68 @@ board_deparse.pins_board_azure <- function(board, ...) {
 
 azure_delete_dir <- function(board, dir) {
   dir <- fs::path(board$path, dir)
-  ls <- AzureStor::list_storage_files(board$container, dir)
-  for (path in ls$name) {
-    AzureStor::delete_storage_file(board$container, path, confirm = FALSE)
+
+  # need 3 different ways of deleting a dir
+  # - blob storage: delete all files in dir and subdirs
+  # - file storage: delete files/dirs in reverse order, using correct function for each
+  # - adlsgen2: deleting dir will delete contents automatically
+  if (inherits(board$container, "blob_container")) {
+    ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
+    for (path in ls$name) {
+      AzureStor::delete_storage_file(board$container, path, confirm = FALSE)
+    }
+
+  } else if (inherits(board$container, "file_share")) {
+    ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
+    for (i in rev(seq_len(nrow(ls)))) {
+      if(ls$isdir[i]) {
+        AzureStor::delete_storage_dir(board$container, ls$name[i], confirm = FALSE)
+      } else {
+        AzureStor::delete_storage_file(board$container, ls$name[i], confirm = FALSE)
+      }
+    }
+
+  } else if (inherits(board$container, "adls_filesystem")) {
+    AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE, recursive = TRUE)
+
+  } else {
+    abort("Unknown Azure storage container type")
   }
 }
 
 azure_ls <- function(board, dir = "/") {
   dir <- fs::path(board$path, dir)
 
-  ls <- AzureStor::list_storage_files(
+  paths <- AzureStor::list_storage_files(
     board$container,
     dir = dir,
-    recursive = FALSE
+    recursive = FALSE,
+    info = "name"
   )
-  paths <- ls$name
-
-  if (dir != "/") {
-    # trim off name/ prefix
-    paths <- substr(paths, nchar(dir) + 2, nchar(paths))
-  }
-  # trim / suffix off directories
-  paths <- sub("/$", "", paths)
-
-  paths
+  fs::path_file(paths)
 }
 
 
+azure_dir_exists <- function(board, path) {
+
+  # need 3 different ways of testing if a dir exists (!)
+  # - blob storage: test if file list is non-empty
+  # - file storage: test if trying to get file list throws error
+  # - adlsgen2: use storage_file_exists()
+  if (inherits(board$container, "blob_container")) {
+    length(azure_ls(board, path)) > 0
+
+  } else if (inherits(board$container, "file_share")) {
+    !inherits(try(azure_ls(board, path), silent = TRUE), "try-error")
+
+  } else if (inherits(board$container, "adls_filesystem")) {
+    path <- fs::path(board$path, path)
+    AzureStor::storage_file_exists(board$container, path)
+
+  } else {
+    abort("Unknown Azure storage container type")
+  }
+}
 
 local_azure_progress <- function(progress = !is_testing(), env = parent.frame()) {
   withr::local_options(azure_storage_progress_bar = progress, .local_envir = env)
@@ -207,4 +254,12 @@ azure_download <- function(board, keys, progress = !is_testing()) {
   }
 
   invisible()
+}
+
+azure_upload_file <- function(board, src, dest) {
+  if(inherits(board$container, "file_share")) {
+    AzureStor::storage_upload(board$container, src, dest, create_dir = TRUE)
+  } else {
+    AzureStor::storage_upload(board$container, src, dest)
+  }
 }
