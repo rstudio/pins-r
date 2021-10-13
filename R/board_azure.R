@@ -192,6 +192,7 @@ azure_delete_dir <- function(board, dir) {
         AzureStor::delete_storage_file(board$container, ls$name[i], confirm = FALSE)
       }
     }
+    AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE)
 
   } else if (inherits(board$container, "adls_filesystem")) {
     AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE, recursive = TRUE)
