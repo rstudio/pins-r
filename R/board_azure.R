@@ -194,9 +194,11 @@ azure_delete_dir <- function(board, dir) {
   # - adlsgen2: deleting dir will delete contents automatically
   if (inherits(board$container, "blob_container")) {
     ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
-    for (path in ls$name) {
+    for (path in rev(ls$name)) {
       AzureStor::delete_storage_file(board$container, path, confirm = FALSE)
     }
+    try(AzureStor::delete_storage_file(board$container, dir, confirm = FALSE),
+        silent = TRUE)
 
   } else if (inherits(board$container, "file_share")) {
     ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
