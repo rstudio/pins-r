@@ -181,6 +181,7 @@ http_download <- function(url, path_dir, path_file, ...,
     cache$path
   } else if (httr::status_code(req) <= 200) {
     signal("", "pins_cache_downloaded")
+    if (fs::file_exists(path)) fs::file_chmod(path, "u+w")
     fs::file_copy(tmp_path, path, overwrite = TRUE)
     fs::file_chmod(path, "u=r")
 
