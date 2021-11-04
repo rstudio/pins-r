@@ -51,7 +51,7 @@
 #'   like `server.rstudio.com` or `connect.rstudio.com`.
 #' @param account A user name used to disambiguate multiple RSC accounts.
 #' @param key The RStudio Connect API key.
-#' @param output_files `r lifecycle::badge("deprecated") No longer supported.
+#' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
 #' @family boards
 #' @export
 #' @examples
