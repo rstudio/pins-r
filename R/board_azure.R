@@ -1,6 +1,6 @@
 #' Use an Azure Blob Storage Container as a board
 #'
-#' Pin data to a container on Azure's blog storage using the AzureStor package.
+#' Pin data to a container on Azure's blob storage using the AzureStor package.
 #'
 #' @inheritParams new_board
 #' @param container An azure storage container created by
