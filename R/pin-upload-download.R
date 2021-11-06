@@ -38,7 +38,7 @@ pin_upload <- function(board, paths, name = NULL, title = NULL, description = NU
     abort("All elements of `path` must exist")
   }
   if (any(fs::path_file(paths) == "data.txt")) {
-    abort("Can pin file called `data.txt`")
+    abort("Can't pin file called `data.txt`")
   }
 
   if (is.null(name) && length(paths) == 1) {
