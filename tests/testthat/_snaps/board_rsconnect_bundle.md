@@ -34,6 +34,23 @@
           </style>
         </head>
         <body>
+      
+          <section>
+             <h3>TEST/test</h3>
+             <p>
+               Last updated:  •
+               Format:  •
+               API: v
+             </p>
+             <p></p>
+             <p>Download data: <a href="test.csv">test.csv</a></p>
+             <details>
+               <summary>Raw metadata</summary>
+               <pre>file: test.csv
+      </pre>
+             </details>
+           </section>
+      
           <section>
           <h3>Code</h3>
             <pre id="pin-r" class="pin-code"><code class="r">library(pins)
@@ -43,20 +60,6 @@
             hljs.registerLanguage("r", highlight_r);
             hljs.initHighlightingOnLoad();
           </script>
-          </section>
-      
-          <section>
-            <h3>Raw data</h3>
-            <div class="pin-download">
-              <a href="test.csv">test.csv</a>
-            </div>
-          </section>
-      
-          <section>
-            <h3>Metadata</h3>
-            <pre>{
-        "file": "test.csv"
-      }</pre>
           </section>
       
           <section style="">
