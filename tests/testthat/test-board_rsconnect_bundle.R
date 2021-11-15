@@ -23,7 +23,15 @@ test_that("generates index files", {
     board <- list(account = "TEST", server_name = "example.com")
     class(board) <- c("pins_board_rsconnect", "pins_board")
     df <- data.frame(x = 1:2, y = 2:1)
-    metadata <- list(file = "test.csv")
+    metadata <- list(file = "test.csv",
+                     file_size = 2908,
+                     pin_hash = "77fee172a9275a62",
+                     type = "rds",
+                     title = "test: a pinned 2 x 2 data frame",
+                     desctiption = "Some simple data to test with",
+                     created = "20211111T113956Z",
+                     api_version = "1.0",
+                     user = list(my_meta = "User defined metadata"))
 
     cat(rsc_bundle_preview_index(board, "test", df, metadata))
   })

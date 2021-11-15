@@ -4,7 +4,9 @@
       board <- list(account = "TEST", server_name = "example.com")
       class(board) <- c("pins_board_rsconnect", "pins_board")
       df <- data.frame(x = 1:2, y = 2:1)
-      metadata <- list(file = "test.csv")
+      metadata <- list(file = "test.csv", file_size = 2908, pin_hash = "77fee172a9275a62",
+        type = "rds", title = "test: a pinned 2 x 2 data frame", desctiption = "Some simple data to test with",
+        created = "20211111T113956Z", api_version = "1.0", user = list(my_meta = "User defined metadata"))
       cat(rsc_bundle_preview_index(board, "test", df, metadata))
     Output
       <!doctype html>
@@ -38,15 +40,24 @@
           <section>
              <h3>TEST/test</h3>
              <p>
-               Last updated:  •
-               Format:  •
-               API: v
+               Last updated: 2021-11-11 11:39:00 •
+               Format: rds •
+               API: v1.0
              </p>
              <p></p>
              <p>Download data: <a href="test.csv">test.csv</a></p>
              <details>
                <summary>Raw metadata</summary>
                <pre>file: test.csv
+      file_size: 2908.0
+      pin_hash: 77fee172a9275a62
+      type: rds
+      title: 'test: a pinned 2 x 2 data frame'
+      desctiption: Some simple data to test with
+      created: 20211111T113956Z
+      api_version: '1.0'
+      user:
+        my_meta: User defined metadata
       </pre>
              </details>
            </section>
