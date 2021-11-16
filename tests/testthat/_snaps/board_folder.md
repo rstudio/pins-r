@@ -1,7 +1,7 @@
 # has useful print method
 
     Code
-      board_folder(tempfile())
+      board_folder(path)
     Output
       Pin board <pins_board_folder>
       Path: '<redacted>'
@@ -10,23 +10,20 @@
 # can browse
 
     Code
-      b %>% pin_browse("x", local = TRUE)
-    Message <cliMessage>
-      i Pin at </tmp/test/x/20120304T050607Z-afd4b>
-
----
-
-    Code
       b %>% pin_browse("x")
     Error <rlang_error>
       pin doesn't have remote url
+    Code
+      b %>% pin_browse("x", local = TRUE)
+    Message <cliMessage>
+      i Pin at <redacted>
 
 # can deparse
 
     Code
       board_deparse(b)
     Output
-      board_folder(path = "/tmp/test")
+      board_folder(path = "<redacted>")
 
 # generates useful messages
 
