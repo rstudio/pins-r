@@ -24,7 +24,7 @@ check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server
       "rsconnect"
     } else {
       if (is_installed("rsconnect")) {
-        auth_rsc <- "Can't find any rsconnect::accounts() for `auth = 'rsconnect'"
+        auth_rsc <- "Can't find any rsconnect::accounts() for `auth = 'rsconnect'`"
       } else {
         auth_rsc <- "rsconnect package not installed for `auth = 'rsconnect'`"
       }
