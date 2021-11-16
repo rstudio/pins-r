@@ -1,7 +1,7 @@
 #' Fetch/store a pin
 #'
 #' These are low-level functions that power [pin_read()], [pin_write()],
-#' [pin_upload()], and [pin_download]. They are needed primarily for folks
+#' [pin_upload()], and [pin_download()]. They are needed primarily for folks
 #' developing new board types, and should not generally be called directly.
 #'
 #' @return `pin_fetch()` is called primarily for its side-effect of downloading
