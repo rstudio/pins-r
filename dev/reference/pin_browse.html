@@ -78,7 +78,7 @@ internet or on your local file system.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>board</dt>
 <dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_rsconnect.html">board_rsconnect()</a></code>,
-<code><a href="board_url.html">board_url()</a></code> or other other <code>board_</code> function.</p></dd>
+<code><a href="board_url.html">board_url()</a></code> or another <code>board_</code> function.</p></dd>
 <dt>name</dt>
 <dd><p>Pin name.</p></dd>
 <dt>version</dt>
@@ -95,19 +95,19 @@ will show you the home of the pin on the internet.</p></dd>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211116T162010Z-56bc4'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211116T163229Z-56bc4'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">11</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211116T162010Z-86e7b'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211116T163229Z-86e7b'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211116T162010Z-36fab'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211116T163229Z-36fab'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_browse</span><span class="op">(</span><span class="st">"x"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Pin at <span style="color: #0000BB; font-style: italic;">&lt;/tmp/RtmpJLAxPu/pins-26dd9467252/x/20211116T162010Z-86e7b&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Pin at <span style="color: #0000BB; font-style: italic;">&lt;/tmp/RtmpQhblzT/pins-273f7fcef0b0/x/20211116T163229Z-86e7b&gt;</span></span>
 </code></pre></div>
     </div>
   </div>
