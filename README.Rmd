@@ -91,7 +91,7 @@ board <- board_rsconnect()
 board %>% pin_read("hadley/sales-summary")
 ```
 
-You can easily control who gets to access the data using the RStudio Connection permissions pane.
+You can easily control who gets to access the data using the RStudio Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on services like Amazon's S3 (`board_s3()`), Azure's blob storage (`board_azure()`), and Microsoft SharePoint (`board_ms365()`). 
 Learn more in `vignette("pins")`.
