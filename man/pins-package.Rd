@@ -8,15 +8,12 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Publish data sets, models, and other R objects, making it
-    easy to share them across projects and with your colleagues. You can
-    pin objects to a variety of "boards", including local folders (to
-    share on a networked drive or with 'DropBox'), 'RStudio' connect, Amazon
-    S3, and more.
+Publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of "boards", including local folders (to share on a networked drive or with 'DropBox'), 'RStudio' connect, Amazon S3, and more.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://pins.rstudio.com/}
   \item \url{https://github.com/rstudio/pins}
   \item Report bugs at \url{https://github.com/rstudio/pins/issues}
 }
