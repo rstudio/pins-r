@@ -104,7 +104,7 @@ After you've shared the pin, it will be automatically available to others.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>auth</dt>
 <dd><p>There are three ways to authenticate:</p><ul><li><p><code>auth = "manual"</code> uses arguments <code>server</code> and <code>key</code>.</p></li>
-<li><p><code>auth = "envvars"</code> uses environment variables <code>CONNECT_API_KEY</code>
+<li><p><code>auth = "envvar"</code> uses environment variables <code>CONNECT_API_KEY</code>
 and <code>CONNECT_SERVER</code>.</p></li>
 <li><p><code>auth = "rsconnect"</code> uses servers registered with the rsconnect
 package (filtered by <code>server</code> and <code>account</code>, if provided)</p></li>
@@ -121,7 +121,7 @@ like <code>server.rstudio.com</code> or <code>connect.rstudio.com</code>.</p></d
 <dt>key</dt>
 <dd><p>The RStudio Connect API key.</p></dd>
 <dt>output_files</dt>
-<dd><p>`r lifecycle::badge("deprecated") No longer supported.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> No longer supported.</p></dd>
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -143,10 +143,10 @@ but you'll get clear errors when the code is deployed.</p></dd>
     <div class="section level2">
     <h2 id="public-pins">Public pins<a class="anchor" aria-label="anchor" href="#public-pins"></a></h2>
     <p>If your RSC instance allows it, you can share a pin publicly by setting the
-access type to <code>all</code>:</p><div class="r"><pre><code><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">my_df</span>, access_type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></code></pre><p></p></div>
+access type to <code>all</code>:</p><div class="sourceCode r"><pre><code><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">my_df</span>, access_type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></code></pre><p></p></div>
 <p>(You can also do this in RSC by setting "Access" to
 "Anyone - no login required")</p>
-<p>Now anyone can read your pin through <code><a href="board_url.html">board_url()</a></code>:</p><div class="r"><pre><code><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
+<p>Now anyone can read your pin through <code><a href="board_url.html">board_url()</a></code>:</p><div class="sourceCode r"><pre><code><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
   my_df <span class="op">=</span> <span class="st">"https://connect.rstudioservices.com/content/3004/"</span>
 <span class="op">)</span><span class="op">)</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"my_df"</span><span class="op">)</span></code></pre><p></p></div>
