@@ -8,7 +8,7 @@ pin_browse(board, name, version = NULL, local = FALSE)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or another \code{board_} function.}
 
 \item{name}{Pin name.}
 
