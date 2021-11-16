@@ -17,6 +17,9 @@ check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server
   auth <- arg_match(auth)
   if (auth == "auto") {
     if (!is.null(server) && !is.null(key)) {
+      if (key == "") {
+        warning("`key` supplied but is blank")
+      }
       "manual"
     } else if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
       "envvar"
