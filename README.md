@@ -7,7 +7,7 @@
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Codecov test
-coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+coverage](https://codecov.io/gh/rstudio/pins/branch/main/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=main)
 
 <!-- badges: end -->
 
@@ -58,7 +58,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpxQu94x/pins-15f1d4a0c4d71'
+#> Path: '/tmp/RtmpAYa45m/pins-6cce258ca9cf'
 #> Cache size: 0
 ```
 
@@ -68,7 +68,8 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210929T184444Z-f8797'
+#> Creating new version '20211116T161305Z-e8160'
+#> Writing to pin 'mtcars'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
@@ -111,7 +112,7 @@ board %>% pin_read("hadley/sales-summary")
 ```
 
 You can easily control who gets to access the data using the RStudio
-Connection permissions pane.
+Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on
 services like Amazon’s S3 (`board_s3()`), Azure’s blob storage
