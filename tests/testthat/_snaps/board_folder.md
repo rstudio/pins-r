@@ -1,10 +1,10 @@
 # has useful print method
 
     Code
-      board_folder("/tmp/test")
+      board_folder(tempfile())
     Output
       Pin board <pins_board_folder>
-      Path: '/tmp/test'
+      Path: '<redacted>'
       Cache size: 0
 
 # can browse

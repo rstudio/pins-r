@@ -3,10 +3,8 @@ test_api_versioning(board_temp(versioned = TRUE))
 test_api_meta(board_temp())
 
 test_that("has useful print method", {
-  skip_on_cran()
-  skip_on_os("windows")
-
-  expect_snapshot(board_folder("/tmp/test"))
+  expect_snapshot(board_folder(tempfile()),
+    transform = ~ gsub("Path: .*", "Path: '<redacted>'", .x))
 })
 
 test_that("can upload/download multiple files", {
