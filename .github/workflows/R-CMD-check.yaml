@@ -19,7 +19,6 @@ jobs:
       matrix:
         config:
           - {os: macOS-latest,   r: 'release'}
-          - {os: macOS-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,  r: 'release'}
@@ -28,6 +27,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      LOGNAME: runner
 
     steps:
       - uses: actions/checkout@v2
@@ -44,24 +44,15 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
-      - name: Show debugging info
-        run: |
-          if (.Platform$OS.type != "windows") Sys.getenv("LOGNAME") else Sys.info()[["login"]]
-        shell: Rscript {0}
-
       - name: Check
+        env:
+          _R_CHECK_CRAN_INCOMING_: false
         run: |
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note", check_dir = "check")
         shell: Rscript {0}
         env:
           LOGNAME: runner
-
-      - name: Show what's in pins data dir
-        run: |
-          options(width = 200)
-          file.info(dir(rappdirs::user_data_dir("pins"), full.names = TRUE))
-        shell: Rscript {0}
 
       - name: Show testthat output
         if: always()
