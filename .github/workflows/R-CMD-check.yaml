@@ -46,18 +46,7 @@ jobs:
 
       - name: Show debugging info
         run: |
-          rappdirs::user_data_dir("pins")
-
           if (.Platform$OS.type != "windows") Sys.getenv("LOGNAME") else Sys.info()[["login"]]
-
-          Sys.getenv("_R_CHECK_THINGS_IN_OTHER_DIRS_XTRA_", "")
-
-          # 3rd component of dirs
-          {if (.Platform$OS.type == "windows")
-            file.path(Sys.getenv("APPDATA"), "R", "data")
-          else if (Sys.info()["sysname"] == "Darwin")
-            file.path("~", "Library", "Application Support", "org.R-project.R")
-          else file.path("~", ".local", "share")}
         shell: Rscript {0}
 
       - name: Check
@@ -65,6 +54,8 @@ jobs:
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note", check_dir = "check")
         shell: Rscript {0}
+        env:
+          LOGNAME: runner
 
       - name: Show what's in pins data dir
         run: |
