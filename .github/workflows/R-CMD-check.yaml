@@ -44,6 +44,11 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
+      - name: Show pins data dir
+        run: |
+          rappdirs::user_data_dir("pins")
+        shell: Rscript {0}
+
       - name: Check
         run: |
           options(crayon.enabled = TRUE)
