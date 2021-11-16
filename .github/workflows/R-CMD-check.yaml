@@ -44,9 +44,20 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
-      - name: Show pins data dir
+      - name: Show debugging info
         run: |
           rappdirs::user_data_dir("pins")
+
+          if (.Platform$OS.type != "windows") Sys.getenv("LOGNAME") else Sys.info()[["login"]]
+
+          Sys.getenv("_R_CHECK_THINGS_IN_OTHER_DIRS_XTRA_", "")
+
+          # 3rd component of dirs
+          {if (.Platform$OS.type == "windows")
+            file.path(Sys.getenv("APPDATA"), "R", "data")
+          else if (Sys.info()["sysname"] == "Darwin")
+            file.path(home, "Library", "Application Support", "org.R-project.R")
+          else file.path(home, ".local", "share")}
         shell: Rscript {0}
 
       - name: Check
@@ -57,7 +68,8 @@ jobs:
 
       - name: Show what's in pins data dir
         run: |
-          dir(rappdirs::user_data_dir("pins"))
+          options(width = 200)
+          file.info(dir(rappdirs::user_data_dir("pins"), full.names = TRUE))
         shell: Rscript {0}
 
       - name: Show testthat output
