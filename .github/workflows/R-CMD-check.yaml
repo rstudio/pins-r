@@ -56,8 +56,8 @@ jobs:
           {if (.Platform$OS.type == "windows")
             file.path(Sys.getenv("APPDATA"), "R", "data")
           else if (Sys.info()["sysname"] == "Darwin")
-            file.path(home, "Library", "Application Support", "org.R-project.R")
-          else file.path(home, ".local", "share")}
+            file.path("~", "Library", "Application Support", "org.R-project.R")
+          else file.path("~", ".local", "share")}
         shell: Rscript {0}
 
       - name: Check
