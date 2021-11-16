@@ -27,7 +27,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      LOGNAME: runner
+      LOGNAME: ${{ env.GITHUB_ACTOR }}
 
     steps:
       - uses: actions/checkout@v2
