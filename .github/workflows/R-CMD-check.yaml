@@ -55,6 +55,11 @@ jobs:
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note", check_dir = "check")
         shell: Rscript {0}
 
+      - name: Show what's in pins data dir
+        run: |
+          dir(rappdirs::user_data_dir("pins"))
+        shell: Rscript {0}
+
       - name: Show testthat output
         if: always()
         run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
