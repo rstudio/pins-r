@@ -33,7 +33,7 @@ check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server
         "auth = `auto` has failed to find a way to authenticate:",
         "`server` and `key` not provided for `auth = 'manual'`",
         "Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`",
-        auth_rsc,
+        auth_rsc
       ))
     }
   } else {
