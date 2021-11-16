@@ -27,6 +27,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      LOGNAME: ${GITHUB_ACTOR}
 
     steps:
       - uses: actions/checkout@v2
@@ -46,8 +47,10 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
-          LOGNAME: ${{ env.GITHUB_ACTOR }}
         run: |
+          Sys.getenv("LOGNAME")
+          str(as.list(Sys.info()))
+
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note", check_dir = "check")
         shell: Rscript {0}
