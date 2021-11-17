@@ -27,7 +27,10 @@
               padding: 0.5em 0 0.5em 10px;
               margin-bottom: 1em;
             }
-            pre { margin: 0 }
+            pre {
+              margin: 0;
+              padding: 1em;
+            }
             h3 {
               font-weight: normal;
               color: #888;
@@ -40,9 +43,9 @@
           <section>
              <h3>TEST/test</h3>
              <p>
-               Last updated: 2021-11-11 11:39:00 •
-               Format: rds •
-               API: v1.0
+               <b>Last updated:</b> 2021-11-11 11:39:00 •
+               <b>Format:</b> rds •
+               <b>API:</b> v1.0
              </p>
              <p></p>
              <p>Download data: <a href="test.csv">test.csv</a></p>

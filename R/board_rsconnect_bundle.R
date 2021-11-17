@@ -59,11 +59,13 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
     pin_name = paste0(board$account, "/", name),
-    pin_metadata = yaml::as.yaml(metadata),
-    pin_metadata_date = parse_8601_compact(metadata$created),
-    pin_metadata_format = metadata$type,
-    pin_metadata_api_version = metadata$api_version,
-    pin_metadata_description = metadata$description,
+    pin_metadata = list(
+      as_yaml = yaml::as.yaml(metadata),
+      date = parse_8601_compact(metadata$created),
+      format = metadata$type,
+      api_version = metadata$api_version,
+      description = metadata$description
+    ),
     board_deparse = paste0(expr_deparse(board_deparse(board)), collapse = "\n")
   )
 
