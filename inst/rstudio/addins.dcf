@@ -1,4 +1,0 @@
-Name: Find Pins
-Description: Find pins in all the registered boards
-Binding: ui_addin_pin_find
-Interactive: true
