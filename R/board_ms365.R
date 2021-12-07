@@ -102,7 +102,11 @@ board_ms365_test_driveitem <- function(...) {
     skip_if_missing_envvars("board_ms365()", "PINS_MS365_TEST_DRIVE")
     drv <- readRDS(Sys.getenv("PINS_MS365_TEST_DRIVE"))
   }
+  # try to create the folder, get it if it already exists
   folder <- try(drv$create_folder("pin_testing_2"), silent = TRUE)
+  if (inherits(folder, "try-error")) {
+    folder <- drv$get_item("pin_testing_2")
+  }
   board_ms365(drv, path = folder, cache = tempfile(), ...)
 }
 
