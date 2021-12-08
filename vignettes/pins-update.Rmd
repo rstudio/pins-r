@@ -144,7 +144,7 @@ Future releases will add support for additional boards based on user feedback.
 |------------------|---------------------------------------------------|
 | `board_browse()` | `pin_browse()`                                    |
 | `pin()`          | `pin_write()` / `pin_upload()`                    |
-| `pin_get()`      | `pin_read()` / `pin_upload()`                     |
+| `pin_get()`      | `pin_read()` / `pin_download()`                   |
 | `pin_find()`     | `pin_search()`                                    |
 | `pin_info()`     | `pin_meta()`                                      |
 | `pin_reactive()` | `pin_reactive_read()` / `pin_reactive_download()` |

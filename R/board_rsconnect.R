@@ -37,7 +37,7 @@
 #' @inheritParams board_url
 #' @param auth There are three ways to authenticate:
 #'  * `auth = "manual"` uses arguments `server` and `key`.
-#'  * `auth = "envvars"` uses environment variables `CONNECT_API_KEY`
+#'  * `auth = "envvar"` uses environment variables `CONNECT_API_KEY`
 #'     and `CONNECT_SERVER`.
 #'  * `auth = "rsconnect"` uses servers registered with the rsconnect
 #'    package (filtered by `server` and `account`, if provided)
@@ -51,7 +51,7 @@
 #'   like `server.rstudio.com` or `connect.rstudio.com`.
 #' @param account A user name used to disambiguate multiple RSC accounts.
 #' @param key The RStudio Connect API key.
-#' @param output_files `r lifecycle::badge("deprecated") No longer supported.
+#' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
 #' @family boards
 #' @export
 #' @examples

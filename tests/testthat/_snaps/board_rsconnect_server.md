@@ -3,7 +3,7 @@
     Code
       check_auth()
     Error <rlang_error>
-      auth = `auto` has failed to find a way to authenticate
+      auth = `auto` has failed to find a way to authenticate:
       * `server` and `key` not provided for `auth = 'manual'`
       * Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`
       * Can't find any rsconnect::accounts() for `auth = 'rsconnect'`

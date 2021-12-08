@@ -23,11 +23,17 @@ check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server
     } else if (rsc_rsconnect_is_configured()) {
       "rsconnect"
     } else {
+      if (is_installed("rsconnect")) {
+        auth_rsc <- "Can't find any rsconnect::accounts() for `auth = 'rsconnect'`"
+      } else {
+        auth_rsc <- "rsconnect package not installed for `auth = 'rsconnect'`"
+      }
+
       abort(c(
-        "auth = `auto` has failed to find a way to authenticate",
+        "auth = `auto` has failed to find a way to authenticate:",
         "`server` and `key` not provided for `auth = 'manual'`",
         "Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`",
-        "Can't find any rsconnect::accounts() for `auth = 'rsconnect'`"
+        auth_rsc
       ))
     }
   } else {

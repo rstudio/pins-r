@@ -54,11 +54,11 @@ mtcars <- tibble::as_tibble(mtcars)
 board %>% pin_write(mtcars, "mtcars")
 ```
 
-The first argument is the object to save (usually a data frame, but it can be any R object), and the second argument gives the "name" of pin.
+The first argument is the object to save (usually a data frame, but it can be any R object), and the second argument gives the "name" of the pin.
 The name is basically equivalent to a file name: you'll use it when you later want to read the data from the pin.
 The only rule for a pin name is that it can't contain slashes.
 
-As you can see from the output, pins has chosen to save this data to a `.rds` file.
+As you can see from the output, pins has chosen to save this data to an `.rds` file.
 But you can choose another option depending on your goals:
 
 -   `type = "rds"` uses `writeRDS()` to create a binary R data file. It can save any R object but it's only readable from R, not other languages.
@@ -194,7 +194,7 @@ board %>% pin_download("example")
 ```
 
 It's now your job to handle them.
-You should treat these paths as an internal implementation details --- never modify them and never save them for use outside of pins.
+You should treat these paths as internal implementation details --- never modify them and never save them for use outside of pins.
 
 Note that you can't `pin_read()` something you pinned with `pin_upload()`:
 
@@ -216,7 +216,7 @@ But pins is also designed to help you spend as little time as possible downloadi
 
 Wouldn't it be nice if you could take advantage of this feature for any dataset on the internet?
 That's the idea behind `board_url()` --- you can assemble your own board from datasets, wherever they live on the internet.
-For example, this code create a board containing a single pin, `penguins`, that refers to some fun data I found on GitHub:
+For example, this code creates a board containing a single pin, `penguins`, that refers to some fun data I found on GitHub:
 
 ```{r}
 my_data <- board_url(c(

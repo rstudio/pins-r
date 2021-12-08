@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions) [![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) [![Codecov test coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+[![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions) [![CRAN Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins) [![Codecov test coverage](https://codecov.io/gh/rstudio/pins/branch/main/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=main)
 
 <!-- badges: end -->
 
@@ -91,7 +91,7 @@ board <- board_rsconnect()
 board %>% pin_read("hadley/sales-summary")
 ```
 
-You can easily control who gets to access the data using the RStudio Connection permissions pane.
+You can easily control who gets to access the data using the RStudio Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on services like Amazon's S3 (`board_s3()`), Azure's blob storage (`board_azure()`), and Microsoft SharePoint (`board_ms365()`). 
 Learn more in `vignette("pins")`.

@@ -20,7 +20,7 @@
     Code
       pin_upload(board, fs::path(path, "data.txt"))
     Error <rlang_error>
-      Can pin file called `data.txt`
+      Can't pin file called `data.txt`
 
 # informative error for legacy boards
 

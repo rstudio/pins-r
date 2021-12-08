@@ -13,6 +13,7 @@ Publish data sets, models, and other R objects, making it easy to share them acr
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://pins.rstudio.com/}
   \item \url{https://github.com/rstudio/pins}
   \item Report bugs at \url{https://github.com/rstudio/pins/issues}
 }
