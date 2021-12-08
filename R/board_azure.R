@@ -5,14 +5,20 @@
 #' @inheritParams new_board
 #' @param container An azure storage container created by
 #'   [AzureStor::blob_container()] or similar.
-#' @param path Path to directory to store pins. Will be created if it
-#'   doesn't already exist.
+#' @param path Path to the directory in the container to store pins. Will be
+#'   created if it doesn't already exist. The equivalent of a `prefix` for AWS
+#'   S3 storage.
 #' @param n_processes Maximum number of processes used for parallel
 #'   uploads/downloads.
 #' @details
-#' You can create a board in any of the services that AzureStor supports: blob storage, file storage and Azure Data Lake Storage Gen2 (ADLSgen2).
+#' You can create a board in any of the services that AzureStor supports: blob
+#' storage, file storage and Azure Data Lake Storage Gen2 (ADLSgen2).
 #'
-#' Blob storage is the classic storage service that is most familiar to people, but is relatively old and inefficient. ADLSgen2 is a modern replacement API for working with blobs that is much faster when working with directories. You should consider using this rather than the classic blob API where possible; see the examples below.
+#' Blob storage is the classic storage service that is most familiar to people,
+#' but is relatively old and inefficient. ADLSgen2 is a modern replacement API
+#' for working with blobs that is much faster when working with directories.
+#' You should consider using this rather than the classic blob API where
+#' possible; see the examples below.
 #' @export
 #' @examples
 #' if (requireNamespace("AzureStor")) {
@@ -34,6 +40,8 @@
 #'
 #' # ADLSgen2 is a modern, efficient way to access blobs
 #' # - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API
+#' # - Use the 'storage_container' generic instead of the service-specific
+#' #   'blob_container'
 #' # - We reuse the board created via the blob API above
 #' adls_url <- "https://myaccount.dfs.core.windows.net/mycontainer"
 #' container <- AzureStor::storage_container(adls_url, sas = "my-sas")
@@ -50,7 +58,7 @@ board_azure <- function(container, path = "", n_processes = 10, versioned = TRUE
   board_path <- fs::path(container$endpoint$url, container$name, path)
   cache <- cache %||% board_cache_path(paste0("azure-", hash(board_path)))
   if (path != "") {
-    if(inherits(container, "file_share")) {
+    if (inherits(container, "file_share")) {
       try(AzureStor::create_storage_dir(container, path, recursive = TRUE), silent = TRUE)
     } else {
       AzureStor::create_storage_dir(container, path)
@@ -203,13 +211,13 @@ azure_delete_dir <- function(board, dir) {
   } else if (inherits(board$container, "file_share")) {
     ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
     for (i in rev(seq_len(nrow(ls)))) {
-      if(ls$isdir[i]) {
+      if (ls$isdir[i]) {
         AzureStor::delete_storage_dir(board$container, ls$name[i], confirm = FALSE)
       } else {
         AzureStor::delete_storage_file(board$container, ls$name[i], confirm = FALSE)
       }
     }
-    if(dir != "/") {
+    if (dir != "/") {
       AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE)
     }
 
@@ -279,7 +287,7 @@ azure_download <- function(board, keys, progress = !is_testing()) {
 }
 
 azure_upload_file <- function(board, src, dest) {
-  if(inherits(board$container, "file_share")) {
+  if (inherits(board$container, "file_share")) {
     AzureStor::storage_upload(board$container, src, dest, create_dir = TRUE)
   } else {
     AzureStor::storage_upload(board$container, src, dest)

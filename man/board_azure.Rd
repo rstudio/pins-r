@@ -16,8 +16,9 @@ board_azure(
 \item{container}{An azure storage container created by
 \code{\link[AzureStor:blob_container]{AzureStor::blob_container()}} or similar.}
 
-\item{path}{Path to directory to store pins. Will be created if it
-doesn't already exist.}
+\item{path}{Path to the directory in the container to store pins. Will be
+created if it doesn't already exist. The equivalent of a \code{prefix} for AWS
+S3 storage.}
 
 \item{n_processes}{Maximum number of processes used for parallel
 uploads/downloads.}
@@ -32,9 +33,14 @@ cache location for your operating system, but you can override if needed.}
 Pin data to a container in Azure storage using the AzureStor package.
 }
 \details{
-You can create a board in any of the services that AzureStor supports: blob storage, file storage and Azure Data Lake Storage Gen2 (ADLSgen2).
+You can create a board in any of the services that AzureStor supports: blob
+storage, file storage and Azure Data Lake Storage Gen2 (ADLSgen2).
 
-Blob storage is the classic storage service that is most familiar to people, but is relatively old and inefficient. ADLSgen2 is a modern replacement API for working with blobs that is much faster when working with directories. You should consider using this rather than the classic blob API where possible; see the examples below.
+Blob storage is the classic storage service that is most familiar to people,
+but is relatively old and inefficient. ADLSgen2 is a modern replacement API
+for working with blobs that is much faster when working with directories.
+You should consider using this rather than the classic blob API where
+possible; see the examples below.
 }
 \examples{
 if (requireNamespace("AzureStor")) {
@@ -56,6 +62,8 @@ board \%>\% pin_write(iris)
 
 # ADLSgen2 is a modern, efficient way to access blobs
 # - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API
+# - Use the 'storage_container' generic instead of the service-specific
+#   'blob_container'
 # - We reuse the board created via the blob API above
 adls_url <- "https://myaccount.dfs.core.windows.net/mycontainer"
 container <- AzureStor::storage_container(adls_url, sas = "my-sas")
