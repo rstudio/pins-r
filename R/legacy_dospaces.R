@@ -60,7 +60,7 @@ board_register_dospace <- function(name = "dospace",
                                    key = Sys.getenv("DO_ACCESS_KEY_ID"),
                                    secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
                                    datacenter = Sys.getenv("DO_DATACENTER"),
-                                   cache = board_cache_path(name),
+                                   cache = NULL,
                                    host = "digitaloceanspaces.com",
                                    path = NULL,
                                    ...) {
