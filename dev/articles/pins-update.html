@@ -128,7 +128,7 @@
 
 <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20211209T223756Z-e8160'</span>
+<span class="co">#&gt; Creating new version '20211209T234046Z-e8160'</span>
 <span class="co">#&gt; Writing to pin 'mtcars'</span>
 <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="va">board</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
@@ -145,7 +145,7 @@
 
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Replacing version '20211209T223756Z-e8160' with '20211209T223756Z-e8160'</span>
+<span class="co">#&gt; Replacing version '20211209T234046Z-e8160' with '20211209T234046Z-e8160'</span>
 <span class="co">#&gt; Writing to pin 'mtcars'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
@@ -166,14 +166,14 @@
 
 <span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpgdHG5c/file2be9681e152d/alphabet/file2be94eaeb45b"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpWDemAZ/file2b6f15ac91b5/alphabet/file2b6f49702e17"</span></code></pre></div>
 <p>pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so here instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Modern API</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span>
-<span class="co">#&gt; Creating new version '20211209T223756Z-ee580'</span>
+<span class="co">#&gt; Creating new version '20211209T234046Z-ee580'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20211209T223756Z-ee580/file2be94eaeb45b"</span></code></pre></div>
+<span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20211209T234046Z-ee580/file2b6f49702e17"</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pinning-a-url">Pinning a url<a class="anchor" aria-label="anchor" href="#pinning-a-url"></a>
@@ -184,7 +184,7 @@
 <span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"</span>
 
 <span class="op">(</span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpgdHG5c/file2be9681e152d/first/first.txt"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpWDemAZ/file2b6f15ac91b5/first/first.txt"</span></code></pre></div>
 <p>This now needs to be made explicit with the new <code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Modern API</span>
@@ -213,7 +213,7 @@
 
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20211209T223757Z-ec2a9'</span>
+<span class="co">#&gt; Creating new version '20211209T234047Z-ec2a9'</span>
 <span class="co">#&gt; Writing to pin 'test-data'</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span>
 <span class="co">#&gt;   x</span>
