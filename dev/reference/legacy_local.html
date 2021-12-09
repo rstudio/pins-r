@@ -87,7 +87,7 @@ in tests and examples.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">legacy_local</span><span class="op">(</span>path <span class="op">=</span> <span class="cn">NULL</span>, name <span class="op">=</span> <span class="st">"local"</span>, versions <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu">board_register_local</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"local"</span>, cache <span class="op">=</span> <span class="fu"><a href="board_cache_path.html">board_cache_path</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
+<span class="fu">board_register_local</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"local"</span>, cache <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="fu">legacy_temp</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"temp"</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
@@ -126,7 +126,7 @@ cache location for your operating system, but you can override if needed.</p></d
 <span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211209T204222Z-ec2a9'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20211209T205308Z-ec2a9'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'test'</span>
 <span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x</span>

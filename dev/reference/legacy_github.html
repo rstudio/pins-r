@@ -89,6 +89,7 @@ get set up.</p>
   path <span class="op">=</span> <span class="st">""</span>,
   host <span class="op">=</span> <span class="st">"https://api.github.com"</span>,
   name <span class="op">=</span> <span class="st">"github"</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
@@ -99,7 +100,7 @@ get set up.</p>
   token <span class="op">=</span> <span class="cn">NULL</span>,
   path <span class="op">=</span> <span class="st">""</span>,
   host <span class="op">=</span> <span class="st">"https://api.github.com"</span>,
-  cache <span class="op">=</span> <span class="fu"><a href="board_cache_path.html">board_cache_path</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -123,12 +124,12 @@ this to use GitHub enterprise, e.g. <code>"https://yourhostname/api/v3"</code>.<
 <dd><p>An optional name used identify the board. This is no longer
 generally needed since you should be passing around an explicit
 board object.</p></dd>
-<dt>...</dt>
-<dd><p>Additional parameters required to initialize a particular board.</p></dd>
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+<dt>...</dt>
+<dd><p>Additional parameters required to initialize a particular board.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="large-files">Large Files<a class="anchor" aria-label="anchor" href="#large-files"></a></h2>

@@ -79,7 +79,7 @@ about a directory of files.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">legacy_datatxt</span><span class="op">(</span>
   <span class="va">url</span>,
   headers <span class="op">=</span> <span class="cn">NULL</span>,
-  cache <span class="op">=</span> <span class="fu"><a href="board_cache_path.html">board_cache_path</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="cn">NULL</span>,
   needs_index <span class="op">=</span> <span class="cn">TRUE</span>,
   browse_url <span class="op">=</span> <span class="va">url</span>,
   index_updated <span class="op">=</span> <span class="cn">NULL</span>,
@@ -90,13 +90,7 @@ about a directory of files.</p>
   <span class="va">...</span>
 <span class="op">)</span>
 
-<span class="fu">board_register_datatxt</span><span class="op">(</span>
-  <span class="va">url</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  headers <span class="op">=</span> <span class="cn">NULL</span>,
-  cache <span class="op">=</span> <span class="fu"><a href="board_cache_path.html">board_cache_path</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+<span class="fu">board_register_datatxt</span><span class="op">(</span><span class="va">url</span>, name <span class="op">=</span> <span class="cn">NULL</span>, headers <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
