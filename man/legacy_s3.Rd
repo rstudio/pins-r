@@ -21,7 +21,7 @@ board_register_s3(
   bucket = Sys.getenv("AWS_BUCKET"),
   key = Sys.getenv("AWS_ACCESS_KEY_ID"),
   secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  cache = board_cache_path(name),
+  cache = NULL,
   host = "s3.amazonaws.com",
   region = NULL,
   path = NULL,

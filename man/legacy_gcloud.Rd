@@ -17,7 +17,7 @@ board_register_gcloud(
   name = "gcloud",
   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
   token = NULL,
-  cache = board_cache_path(name),
+  cache = NULL,
   path = NULL,
   ...
 )

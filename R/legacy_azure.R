@@ -58,7 +58,7 @@ board_register_azure <- function(name = "azure",
                                  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                                  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
                                  key = Sys.getenv("AZURE_STORAGE_KEY"),
-                                 cache = board_cache_path(name),
+                                 cache = NULL,
                                  path = NULL,
                                  ...) {
   board <- legacy_azure(
