@@ -61,9 +61,9 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
     pin_name = paste0(board$account, "/", name),
     pin_metadata = list(
       as_yaml = yaml::as.yaml(metadata),
-      date = parse_8601_compact(metadata$created),
+      date = format(parse_8601_compact(metadata$created), tz = "UTC"),
       format = metadata$type,
-      api_version = metadata$api_version,
+      api_version = metadata$api_version %||% "0",
       description = metadata$description
     ),
     board_deparse = paste0(expr_deparse(board_deparse(board)), collapse = "\n")

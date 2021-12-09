@@ -31,30 +31,19 @@
 
     <section>
        <h3>{{{pin_name}}}</h3>
-       <p>
-         {{#pin_metadata}}
-         {{#date}}
-         <b>Last updated:</b> {{{date}}} •
-         {{/date}}
-         <b>Format:</b> {{{format}}} •
-         {{#api_version}}
-         <b>API:</b> v{{{api_version}}}
-         {{/api_version}}
-         {{^api_version}}
-         <b>API:</b> v0
-         {{/api_version}}
-         {{/pin_metadata}}
-       </p>
        {{#pin_metadata}}
+       <p>
+         {{#date}}<b>Last updated:</b> {{{.}}} •{{/date}}
+         <b>Format:</b> {{{format}}} •
+         <b>API:</b> v{{{api_version}}}
+       </p>
        <p>{{{description}}}</p>
-       {{/pin_metadata}}
        <p>Download data: {{{pin_files}}}</p>
        <details>
          <summary>Raw metadata</summary>
-         {{#pin_metadata}}
          <pre>{{{as_yaml}}}</pre>
-         {{/pin_metadata}}
        </details>
+       {{/pin_metadata}}
      </section>
 
     <section>
