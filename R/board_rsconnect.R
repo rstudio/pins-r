@@ -708,7 +708,7 @@ board_rsconnect_hadley <- function(...) {
   if (!rsc_has_hadley_account()) {
     testthat::skip("board_rsconnect_hadley() only works on Hadley's computer")
   }
-  board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
+  board_rsconnect(..., server = "connect.rstudioservices.com", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_rsconnect_susan <- function(...) {
