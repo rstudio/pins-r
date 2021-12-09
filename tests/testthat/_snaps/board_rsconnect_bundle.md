@@ -34,8 +34,8 @@
         <section>
            <h3>TEST/test</h3>
            <p>
-             <b>Last updated:</b> 2021-11-11 11:39:00 •
-             <b>Format:</b> rds •
+             <b>Last updated:</b> 2021-11-11 11:39:00 &bull;
+             <b>Format:</b> rds &bull;
              <b>API:</b> v1.0
            </p>
            <p></p>
