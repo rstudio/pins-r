@@ -21,8 +21,8 @@
 #' @param repo The GitHub repository formatted as 'owner/repo'.
 #' @param branch The branch to use to commit pins. Default, `NULL`, will
 #'   use `main` or `master` if present.
-#' @param token GitHub personal acess token. Defaults to env var `GITHUB_PAT`
-#'   if not set.
+#' @param token GitHub personal access token.
+#'   Uses [gitcreds](https://gitcreds.r-lib.org) if not set.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
@@ -40,9 +40,6 @@ legacy_github <- function(
                          host = "https://api.github.com",
                          name = "github",
                          ...) {
-
-  token <- token %||% envvar_get("GITHUB_PAT") %||%
-    abort("Specify GitHub PAT with `token` or 'GITHUB_PAT' env var")
 
   board <- new_board_v0("pins_board_github",
     name = name,
@@ -116,7 +113,8 @@ github_auth <- function(board) {
   if (!is.null(board$token)) {
     board$token
   } else {
-    Sys.getenv("GITHUB_PAT")
+    check_installed("gitcreds")
+    gitcreds::gitcreds_get()$password
   }
 }
 
