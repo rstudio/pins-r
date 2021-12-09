@@ -569,6 +569,8 @@ update_cache <- function(path, key, value) {
 
 rsc_path <- function(board, path) {
   board_path <- httr::parse_url(board$url)$path
+  # parse_url() strips leading / from paths
+  if (board_path != "") board_path <- paste0("/", board_path)
   paste0(board_path, "/__api__/", path)
 }
 
