@@ -1,4 +1,7 @@
 rsc_server <- function(auth, server = NULL, account = NULL, key = NULL) {
+  key <- empty_string_to_null(key)
+  server <- empty_string_to_null(server)
+
   auth <- check_auth(auth, server, key)
 
   if (auth == "manual") {
@@ -15,23 +18,29 @@ rsc_server <- function(auth, server = NULL, account = NULL, key = NULL) {
 
 check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server = NULL, key = NULL) {
   auth <- arg_match(auth)
-  if (auth == "auto") {
-    if (!is.null(server) && !is.null(key)) {
-      "manual"
-    } else if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
-      "envvar"
-    } else if (rsc_rsconnect_is_configured()) {
-      "rsconnect"
-    } else {
-      abort(c(
-        "auth = `auto` has failed to find a way to authenticate",
-        "`server` and `key` not provided for `auth = 'manual'`",
-        "Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`",
-        "Can't find any rsconnect::accounts() for `auth = 'rsconnect'`"
-      ))
-    }
+  if (auth != "auto") {
+    return(auth)
+  }
+
+  if (!is.null(server) && !is.null(key)) {
+    "manual"
+  } else if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))) {
+    "envvar"
+  } else if (rsc_rsconnect_is_configured()) {
+    "rsconnect"
   } else {
-    auth
+    if (is_installed("rsconnect")) {
+      auth_rsc <- "Can't find any rsconnect::accounts() for `auth = 'rsconnect'`"
+    } else {
+      auth_rsc <- "rsconnect package not installed for `auth = 'rsconnect'`"
+    }
+
+    abort(c(
+      "auth = `auto` has failed to find a way to authenticate:",
+      "`server` and `key` not provided for `auth = 'manual'`",
+      "Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`",
+      auth_rsc
+    ))
   }
 }
 

@@ -11,7 +11,7 @@ pin_store(board, name, paths, metadata, versioned = NULL, x = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or another \code{board_} function.}
 
 \item{name}{Pin name.}
 
@@ -39,7 +39,7 @@ to a remote board. It invisibly returns the fully qualified pin name.
 }
 \description{
 These are low-level functions that power \code{\link[=pin_read]{pin_read()}}, \code{\link[=pin_write]{pin_write()}},
-\code{\link[=pin_upload]{pin_upload()}}, and \link{pin_download}. They are needed primarily for folks
+\code{\link[=pin_upload]{pin_upload()}}, and \code{\link[=pin_download]{pin_download()}}. They are needed primarily for folks
 developing new board types, and should not generally be called directly.
 }
 \examples{

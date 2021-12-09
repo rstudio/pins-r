@@ -21,7 +21,7 @@ board_rsconnect(
 \item{auth}{There are three ways to authenticate:
 \itemize{
 \item \code{auth = "manual"} uses arguments \code{server} and \code{key}.
-\item \code{auth = "envvars"} uses environment variables \code{CONNECT_API_KEY}
+\item \code{auth = "envvar"} uses environment variables \code{CONNECT_API_KEY}
 and \code{CONNECT_SERVER}.
 \item \code{auth = "rsconnect"} uses servers registered with the rsconnect
 package (filtered by \code{server} and \code{account}, if provided)
@@ -40,7 +40,7 @@ like \code{server.rstudio.com} or \code{connect.rstudio.com}.}
 
 \item{key}{The RStudio Connect API key.}
 
-\item{output_files}{`r lifecycle::badge("deprecated") No longer supported.}
+\item{output_files}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} No longer supported.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -71,13 +71,13 @@ After you've shared the pin, it will be automatically available to others.
 }
 \section{Public pins}{
 If your RSC instance allows it, you can share a pin publicly by setting the
-access type to \code{all}:\if{html}{\out{<div class="r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
+access type to \code{all}:\if{html}{\out{<div class="sourceCode r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
 }\if{html}{\out{</div>}}
 
 (You can also do this in RSC by setting "Access" to
 "Anyone - no login required")
 
-Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:\if{html}{\out{<div class="r">}}\preformatted{board <- board_url(c(
+Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:\if{html}{\out{<div class="sourceCode r">}}\preformatted{board <- board_url(c(
   my_df = "https://connect.rstudioservices.com/content/3004/"
 ))
 board \%>\% pin_read("my_df")

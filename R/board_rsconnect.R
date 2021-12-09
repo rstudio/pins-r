@@ -193,7 +193,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   tryCatch(
     rsc_download(board, url, cache_path, "data.txt"),
     http_404 = function(e) {
-      abort_pin_version_missing(version)
+      abort_pin_version_missing(bundle_id)
     }
   )
 

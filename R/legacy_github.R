@@ -39,8 +39,10 @@ legacy_github <- function(
                          path = "",
                          host = "https://api.github.com",
                          name = "github",
+                         cache = NULL,
                          ...) {
 
+  cache <- cache %||% board_cache_path(name)
   token <- token %||% envvar_get("GITHUB_PAT") %||%
     abort("Specify GitHub PAT with `token` or 'GITHUB_PAT' env var")
 
@@ -50,6 +52,7 @@ legacy_github <- function(
     repo = repo,
     path = if (!is.null(path) && nchar(path) > 0) paste0(path, "/") else "",
     host = host,
+    cache = cache,
     ...
   )
 
@@ -97,7 +100,7 @@ board_register_github <- function(name = "github",
                                   token = NULL,
                                   path = "",
                                   host = "https://api.github.com",
-                                  cache = board_cache_path(name),
+                                  cache = NULL,
                                   ...) {
   board <- legacy_github(
     name = name,
