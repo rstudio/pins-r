@@ -5,7 +5,7 @@ test_that("auth allows manual, envvar and rsconnect values", {
 })
 
 test_that("auth='auto' picks appropriate method and error if none found", {
-  expect_equal(check_auth(server = "", key = ""), "manual")
+  expect_equal(check_auth(server = "x", key = "y"), "manual")
 
   withr::local_envvar("CONNECT_API_KEY" = "", "CONNECT_SERVER" = "")
   mockery::stub(check_auth, "rsc_rsconnect_is_configured", TRUE)
@@ -57,5 +57,6 @@ test_that("clearly errors if env vars missing", {
   expect_snapshot(rsc_server("envvar"), error = TRUE)
   withr::local_envvar("CONNECT_API_KEY" = NA, "CONNECT_SERVER" = 1)
   expect_snapshot(rsc_server("envvar"), error = TRUE)
+  expect_snapshot(rsc_server("envvar", server = "", key = ""), error = TRUE)
 })
 

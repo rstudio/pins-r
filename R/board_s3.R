@@ -238,7 +238,7 @@ board_deparse.pins_board_s3 <- function(board, ...) {
 }
 
 empty_string_to_null <- function(x) {
-  if (nchar(x) == 0) NULL else x
+  if (is.null(x) || nchar(x) == 0) NULL else x
 }
 
 # Helpers -----------------------------------------------------------------
