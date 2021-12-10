@@ -183,7 +183,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
   file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
-  base64 <- jsonlite::base64_enc(index_file)
+  base64 <- base64enc_file(index_file)
   response <- httr::PUT(file_url,
     body = list(
       message = commit,
@@ -271,7 +271,7 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
   file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
   pin_log("uploading ", file_url)
 
-  base64 <- jsonlite::base64_enc(file_path)
+  base64 <- base64enc_file(file_path)
   response <- httr::PUT(file_url,
     body = list(
       message = commit,
@@ -294,7 +294,7 @@ github_upload_blob <- function(board, file, file_path, commit) {
   blob_url <- github_url(board, branch = NULL, "/git/blobs")
   pin_log("uploading ", file)
 
-  base64 <- jsonlite::base64_enc(file_path)
+  base64 <- base64enc_file(file_path)
   response <- httr::POST(blob_url,
     body = list(
       content = base64,
@@ -777,4 +777,9 @@ board_pin_versions.pins_board_github <- function(board, name, ...) {
     author = sapply(commits, function(e) e$author$login),
     message = sapply(commits, function(e) e$commit$message)
   )
+}
+
+base64enc_file <- function(path) {
+  r <- readBin(path, raw(), file.size(path))
+  jsonlite::base64_enc(r)
 }
