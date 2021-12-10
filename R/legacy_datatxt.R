@@ -28,7 +28,7 @@
 #' @export
 legacy_datatxt <- function(url,
                           headers = NULL,
-                          cache = board_cache_path(name),
+                          cache = NULL,
                           needs_index = TRUE,
                           browse_url = url,
                           index_updated = NULL,
@@ -40,6 +40,7 @@ legacy_datatxt <- function(url,
 
   # use only subdomain as friendly name which is also used as cache folder
   name <- name %||% gsub("https?://|\\..*", "", url)
+  cache <- cache %||% board_cache_path(name)
 
   board <- new_board_v0("pins_board_datatxt",
     name = name,
@@ -64,7 +65,7 @@ legacy_datatxt <- function(url,
 board_register_datatxt <- function(url,
                                    name = NULL,
                                    headers = NULL,
-                                   cache = board_cache_path(name),
+                                   cache = NULL,
                                    ...) {
   board <- legacy_datatxt(
     name = name,

@@ -18,7 +18,7 @@
 #' @export
 board_register <- function(board,
                            name = NULL,
-                           cache = board_cache_path(name),
+                           cache = NULL,
                            versions = NULL,
                            ...) {
   if (is_url(board)) {
@@ -50,7 +50,7 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      account = NULL,
                                      key = NULL,
                                      output_files = FALSE,
-                                     cache = board_cache_path(name),
+                                     cache = NULL,
                                      ...) {
   board <- board_rsconnect(
     name = name,

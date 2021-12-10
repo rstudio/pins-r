@@ -193,7 +193,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   tryCatch(
     rsc_download(board, url, cache_path, "data.txt"),
     http_404 = function(e) {
-      abort_pin_version_missing(version)
+      abort_pin_version_missing(bundle_id)
     }
   )
 
@@ -569,7 +569,10 @@ update_cache <- function(path, key, value) {
 
 rsc_path <- function(board, path) {
   board_path <- httr::parse_url(board$url)$path
-  paste0(board_path, "/__api__/", path)
+  if (board_path != "" && !endsWith(board_path, "/")) {
+    board_path <- paste0(board_path, "/")
+  }
+  paste0("/", board_path, "__api__/", path)
 }
 
 rsc_GET <- function(board, path, query = NULL, ...) {
@@ -708,7 +711,7 @@ board_rsconnect_hadley <- function(...) {
   if (!rsc_has_hadley_account()) {
     testthat::skip("board_rsconnect_hadley() only works on Hadley's computer")
   }
-  board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
+  board_rsconnect(..., server = "connect.rstudioservices.com", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_rsconnect_susan <- function(...) {
