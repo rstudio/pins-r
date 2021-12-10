@@ -103,3 +103,22 @@ test_that("can find cached versions", {
   # Cached version hasn't changed since we haven't read
   expect_message(expect_equal(rsc_content_version_cached(board, guid), cached_v))
 })
+
+test_that("rsc_path() always includes leading /", {
+  expect_equal(
+    rsc_path(list(url = "https://example.com/"), "x"),
+    "/__api__/x"
+  )
+  expect_equal(
+    rsc_path(list(url = "https://example.com"), "x"),
+    "/__api__/x"
+  )
+  expect_equal(
+    rsc_path(list(url = "https://example.com/foo"), "x"),
+    "/foo/__api__/x"
+  )
+  expect_equal(
+    rsc_path(list(url = "https://example.com/foo/"), "x"),
+    "/foo/__api__/x"
+  )
+})
