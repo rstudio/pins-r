@@ -49,7 +49,7 @@ test_that("can pin a file", {
   pin(test_path("files/hello.txt"), "hello", board = board)
   expect_equal(
     pin_get("hello", board = board),
-    normalizePath(as.character(pin_registry_path(board, "hello", "hello.txt")))
+    as.character(pin_registry_path(board, "hello", "hello.txt"))
   )
 })
 
