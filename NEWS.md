@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `legacy_github()` works once again (#549).
+
 * Drop add ins since they're not tested or documented (#525)
 
 # pins 1.0.0
