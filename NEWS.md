@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `legacy_github()` works once again (#549).
+
 * Cache paths all computed in the same way, avoiding inconsistency and an
   error when calling `board_register()` directly (#529).
 

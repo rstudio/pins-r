@@ -21,8 +21,8 @@
 #' @param repo The GitHub repository formatted as 'owner/repo'.
 #' @param branch The branch to use to commit pins. Default, `NULL`, will
 #'   use `main` or `master` if present.
-#' @param token GitHub personal acess token. Defaults to env var `GITHUB_PAT`
-#'   if not set.
+#' @param token GitHub personal access token.
+#'   Uses [gitcreds](https://gitcreds.r-lib.org) if not set.
 #' @param path The subdirectory in the repo where the pins will be stored.
 #' @param host The URL of the GitHub API. You'll need to customise
 #'   this to use GitHub enterprise, e.g. `"https://yourhostname/api/v3"`.
@@ -43,8 +43,6 @@ legacy_github <- function(
                          ...) {
 
   cache <- cache %||% board_cache_path(name)
-  token <- token %||% envvar_get("GITHUB_PAT") %||%
-    abort("Specify GitHub PAT with `token` or 'GITHUB_PAT' env var")
 
   board <- new_board_v0("pins_board_github",
     name = name,
@@ -119,7 +117,8 @@ github_auth <- function(board) {
   if (!is.null(board$token)) {
     board$token
   } else {
-    Sys.getenv("GITHUB_PAT")
+    check_installed("gitcreds")
+    gitcreds::gitcreds_get()$password
   }
 }
 
@@ -188,7 +187,7 @@ github_update_index <- function(board, path, commit, operation, name = NULL, met
 
   file_url <- github_url(board, branch = branch, "/contents/", board$path, "data.txt")
 
-  base64 <- jsonlite::base64_enc(index_file)
+  base64 <- base64enc_file(index_file)
   response <- httr::PUT(file_url,
     body = list(
       message = commit,
@@ -276,7 +275,7 @@ github_upload_content <- function(board, name, file, file_path, commit, sha, bra
   file_url <- github_url(board, branch = branch, "/contents/", board$path, name, "/", file)
   pin_log("uploading ", file_url)
 
-  base64 <- jsonlite::base64_enc(file_path)
+  base64 <- base64enc_file(file_path)
   response <- httr::PUT(file_url,
     body = list(
       message = commit,
@@ -299,7 +298,7 @@ github_upload_blob <- function(board, file, file_path, commit) {
   blob_url <- github_url(board, branch = NULL, "/git/blobs")
   pin_log("uploading ", file)
 
-  base64 <- jsonlite::base64_enc(file_path)
+  base64 <- base64enc_file(file_path)
   response <- httr::POST(blob_url,
     body = list(
       content = base64,
@@ -782,4 +781,9 @@ board_pin_versions.pins_board_github <- function(board, name, ...) {
     author = sapply(commits, function(e) e$author$login),
     message = sapply(commits, function(e) e$commit$message)
   )
+}
+
+base64enc_file <- function(path) {
+  r <- readBin(path, raw(), file.size(path))
+  jsonlite::base64_enc(r)
 }

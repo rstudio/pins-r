@@ -33,8 +33,8 @@ board_register_github(
 \item{branch}{The branch to use to commit pins. Default, \code{NULL}, will
 use \code{main} or \code{master} if present.}
 
-\item{token}{GitHub personal acess token. Defaults to env var \code{GITHUB_PAT}
-if not set.}
+\item{token}{GitHub personal access token.
+Uses \href{https://gitcreds.r-lib.org}{gitcreds} if not set.}
 
 \item{path}{The subdirectory in the repo where the pins will be stored.}
 
