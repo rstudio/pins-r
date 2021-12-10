@@ -7,12 +7,7 @@
 \usage{
 legacy_kaggle(token = NULL, name = "kaggle", ...)
 
-board_register_kaggle(
-  name = "kaggle",
-  token = NULL,
-  cache = board_cache_path(name),
-  ...
-)
+board_register_kaggle(name = "kaggle", token = NULL, cache = NULL, ...)
 }
 \arguments{
 \item{token}{The Kaggle token as a path to the \code{kaggle.json} file, can

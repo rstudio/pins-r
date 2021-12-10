@@ -52,3 +52,10 @@
     Error <rlang_error>
       Can't find CONNECT_API_KEY env var
 
+---
+
+    Code
+      rsc_server("envvar", server = "", key = "")
+    Error <rlang_error>
+      Can't find CONNECT_API_KEY env var
+

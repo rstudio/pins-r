@@ -2,6 +2,9 @@
 
 * `legacy_github()` works once again (#549).
 
+* Cache paths all computed in the same way, avoiding inconsistency and an
+  error when calling `board_register()` directly (#529).
+
 * Drop add ins since they're not tested or documented (#525)
 
 # pins 1.0.0

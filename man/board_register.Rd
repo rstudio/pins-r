@@ -9,13 +9,7 @@
 \alias{board_get}
 \title{Board registry (legacy API)}
 \usage{
-board_register(
-  board,
-  name = NULL,
-  cache = board_cache_path(name),
-  versions = NULL,
-  ...
-)
+board_register(board, name = NULL, cache = NULL, versions = NULL, ...)
 
 board_register_rsconnect(
   name = "rsconnect",
@@ -23,7 +17,7 @@ board_register_rsconnect(
   account = NULL,
   key = NULL,
   output_files = FALSE,
-  cache = board_cache_path(name),
+  cache = NULL,
   ...
 )
 

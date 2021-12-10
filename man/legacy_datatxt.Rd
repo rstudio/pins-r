@@ -8,7 +8,7 @@
 legacy_datatxt(
   url,
   headers = NULL,
-  cache = board_cache_path(name),
+  cache = NULL,
   needs_index = TRUE,
   browse_url = url,
   index_updated = NULL,
@@ -19,13 +19,7 @@ legacy_datatxt(
   ...
 )
 
-board_register_datatxt(
-  url,
-  name = NULL,
-  headers = NULL,
-  cache = board_cache_path(name),
-  ...
-)
+board_register_datatxt(url, name = NULL, headers = NULL, cache = NULL, ...)
 }
 \arguments{
 \item{url}{Path to the \code{data.txt} file or directory containing it.}
