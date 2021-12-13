@@ -1,5 +1,8 @@
 # pins (development version)
 
+* `board_deparse()` is more likely to generate runnable code when used
+  with `board_rsconnect()` (#553).
+
 * `legazy_azure()` works once again (#527).
 
 * `legacy_github()` works once again (#549).

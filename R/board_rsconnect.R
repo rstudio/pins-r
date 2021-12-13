@@ -328,14 +328,7 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
 #' @rdname board_deparse
 #' @export
 board_deparse.pins_board_rsconnect <- function(board, ...) {
-  if (has_name(board, "url")) {
-    server <- board$url
-  } else if (has_name(board, "server_name")) {
-    server <- board$server_name
-  } else {
-    abort("No URL or server name found for this board")
-  }
-  expr(board_rsconnect(server = !!server))
+  expr(board_rsconnect("envvar", server = !!board$url))
 }
 
 # v0 ----------------------------------------------------------------------
