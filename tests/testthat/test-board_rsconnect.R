@@ -74,15 +74,14 @@ test_that("can find content by full/partial name", {
 test_that("can create and delete content", {
   board <- board_rsconnect_test()
 
-  name <- random_pin_name()
-  rsc_content_create(board, name, list())
+  rsc_content_create(board, "test-1", list())
   expect_snapshot(error = TRUE,
-    rsc_content_create(board, name, list())
+    rsc_content_create(board, "test-1", list())
   )
 
-  rsc_content_delete(board, paste0(board$account, paste0("/", name)))
+  rsc_content_delete(board, paste0(board$account, "/test-1"))
   expect_snapshot(error = TRUE,
-    rsc_content_delete(board, name)
+    rsc_content_delete(board, "test-1")
   )
 })
 
