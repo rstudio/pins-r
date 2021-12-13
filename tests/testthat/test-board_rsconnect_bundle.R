@@ -19,7 +19,7 @@ test_that("bundle contains expected files", {
 })
 
 test_that("generates index files", {
-  board <- list(account = "TEST", server_name = "example.com")
+  board <- list(account = "TEST", url = "http://example.com")
   class(board) <- c("pins_board_rsconnect", "pins_board")
   df <- data.frame(x = 1:2, y = 2:1)
   metadata <- list(
