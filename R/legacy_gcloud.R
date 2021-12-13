@@ -65,7 +65,7 @@ legacy_gcloud <- function(
 board_register_gcloud <- function(name = "gcloud",
                                   bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                                   token = NULL,
-                                  cache = board_cache_path(name),
+                                  cache = NULL,
                                   path = NULL,
                                   ...) {
   board <- legacy_gcloud(

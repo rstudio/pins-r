@@ -4,6 +4,7 @@
 #' Pin metadata comes from three sources:
 #'
 #' * Standard metadata added by `pin_upload()`/`pin_write()`. This includes:
+#'   * `$name` - the pin's name.
 #'   * `$file` - names of files stored in the pin.
 #'   * `$file_size` - size of each file.
 #'   * `$pin_hash` - hash of pin contents.
@@ -71,7 +72,8 @@ multi_meta <- function(board, names) {
 #' @noRd
 #' @param dir Path to local cache directory
 #' @param url Remote url to pin; used `pin_browser()`
-local_meta <- function(x, dir, url = NULL, version = NULL, ...) {
+local_meta <- function(x, name, dir, url = NULL, version = NULL, ...) {
+  x$name <- name
   x$local <- list(
     dir = dir,
     url = url,
@@ -85,6 +87,7 @@ test_api_meta <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
     name <- local_pin(board, 1, title = "title", description = "desc", metadata = list(a = "a"))
     meta <- pin_meta(board, name)
+    testthat::expect_equal(meta$name, name)
     testthat::expect_equal(meta$title, "title")
     testthat::expect_equal(meta$description, "desc")
     testthat::expect_equal(meta$user$a, "a")

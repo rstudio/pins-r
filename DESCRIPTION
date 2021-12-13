@@ -43,6 +43,7 @@ Suggests:
     AzureStor,
     data.table,
     datasets,
+    gitcreds,
     knitr,
     Microsoft365R,
     mockery,

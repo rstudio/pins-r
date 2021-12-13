@@ -101,7 +101,7 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
   }
 
   meta <- read_meta(path_version)
-  local_meta(meta, dir = path_version, version = version)
+  local_meta(meta, name = name, dir = path_version, version = version)
 }
 
 #' @export

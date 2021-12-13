@@ -12,6 +12,7 @@ legacy_github(
   path = "",
   host = "https://api.github.com",
   name = "github",
+  cache = NULL,
   ...
 )
 
@@ -22,7 +23,7 @@ board_register_github(
   token = NULL,
   path = "",
   host = "https://api.github.com",
-  cache = board_cache_path(name),
+  cache = NULL,
   ...
 )
 }
@@ -32,8 +33,8 @@ board_register_github(
 \item{branch}{The branch to use to commit pins. Default, \code{NULL}, will
 use \code{main} or \code{master} if present.}
 
-\item{token}{GitHub personal acess token. Defaults to env var \code{GITHUB_PAT}
-if not set.}
+\item{token}{GitHub personal access token.
+Uses \href{https://gitcreds.r-lib.org}{gitcreds} if not set.}
 
 \item{path}{The subdirectory in the repo where the pins will be stored.}
 
@@ -44,11 +45,11 @@ this to use GitHub enterprise, e.g. \code{"https://yourhostname/api/v3"}.}
 generally needed since you should be passing around an explicit
 board object.}
 
-\item{...}{Additional parameters required to initialize a particular board.}
-
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 To use a GitHub board, you'll need to set up authentication. This is likely

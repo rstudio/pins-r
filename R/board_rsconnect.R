@@ -193,12 +193,13 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   tryCatch(
     rsc_download(board, url, cache_path, "data.txt"),
     http_404 = function(e) {
-      abort_pin_version_missing(version)
+      abort_pin_version_missing(bundle_id)
     }
   )
 
   meta <- read_meta(cache_path)
   local_meta(meta,
+    name = name,
     dir = cache_path,
     url = url,
     version = bundle_id,
@@ -328,14 +329,7 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
 #' @rdname board_deparse
 #' @export
 board_deparse.pins_board_rsconnect <- function(board, ...) {
-  if (has_name(board, "url")) {
-    server <- board$url
-  } else if (has_name(board, "server_name")) {
-    server <- board$server_name
-  } else {
-    abort("No URL or server name found for this board")
-  }
-  expr(board_rsconnect(server = !!server))
+  expr(board_rsconnect("envvar", server = !!board$url))
 }
 
 # v0 ----------------------------------------------------------------------
@@ -569,7 +563,10 @@ update_cache <- function(path, key, value) {
 
 rsc_path <- function(board, path) {
   board_path <- httr::parse_url(board$url)$path
-  paste0(board_path, "/__api__/", path)
+  if (board_path != "" && !endsWith(board_path, "/")) {
+    board_path <- paste0(board_path, "/")
+  }
+  paste0("/", board_path, "__api__/", path)
 }
 
 rsc_GET <- function(board, path, query = NULL, ...) {
@@ -708,7 +705,7 @@ board_rsconnect_hadley <- function(...) {
   if (!rsc_has_hadley_account()) {
     testthat::skip("board_rsconnect_hadley() only works on Hadley's computer")
   }
-  board_rsconnect(..., auth = "rsconnect", cache = fs::file_temp())
+  board_rsconnect(..., server = "connect.rstudioservices.com", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_rsconnect_susan <- function(...) {

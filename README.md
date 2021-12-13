@@ -7,7 +7,7 @@
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Codecov test
-coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+coverage](https://codecov.io/gh/rstudio/pins/branch/main/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=main)
 
 <!-- badges: end -->
 
@@ -58,7 +58,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/var/folders/6z/v3fvlmzj4xbdl21288ykkw200000gn/T/RtmprnH9Na/pins-69fa1067ac9d'
+#> Path: '/tmp/RtmpAYa45m/pins-6cce258ca9cf'
 #> Cache size: 0
 ```
 
@@ -68,7 +68,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20211111T103659Z-e8160'
+#> Creating new version '20211116T161305Z-e8160'
 #> Writing to pin 'mtcars'
 ```
 

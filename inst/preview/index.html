@@ -16,7 +16,10 @@
         padding: 0.5em 0 0.5em 10px;
         margin-bottom: 1em;
       }
-      pre { margin: 0 }
+      pre {
+        margin: 0;
+        padding: 1em;
+      }
       h3 {
         font-weight: normal;
         color: #888;
@@ -25,6 +28,24 @@
     </style>
   </head>
   <body>
+
+    <section>
+       <h3>{{{pin_name}}}</h3>
+       {{#pin_metadata}}
+       <p>
+         {{#date}}<b>Last updated:</b> {{{.}}} &bull;{{/date}}
+         <b>Format:</b> {{{format}}} &bull;
+         <b>API:</b> v{{{api_version}}}
+       </p>
+       <p>{{{description}}}</p>
+       <p>Download data: {{{pin_files}}}</p>
+       <details>
+         <summary>Raw metadata</summary>
+         <pre>{{{as_yaml}}}</pre>
+       </details>
+       {{/pin_metadata}}
+     </section>
+
     <section>
     <h3>Code</h3>
       <pre id="pin-r" class="pin-code"><code class="r">library(pins)
@@ -34,18 +55,6 @@ pin_read(board, "{{pin_name}}")</code></pre>
       hljs.registerLanguage("r", highlight_r);
       hljs.initHighlightingOnLoad();
     </script>
-    </section>
-
-    <section>
-      <h3>Raw data</h3>
-      <div class="pin-download">
-        {{{pin_files}}}
-      </div>
-    </section>
-
-    <section>
-      <h3>Metadata</h3>
-      <pre>{{{pin_metadata}}}</pre>
     </section>
 
     <section style="{{data_preview_style}}">
