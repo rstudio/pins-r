@@ -156,6 +156,7 @@ pin_meta.pins_board_ms365 <- function(board, name, version = NULL, ...) {
   ms365_download(board, metadata_key)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
+    name = name,
     dir = path_version,
     version = version
   )

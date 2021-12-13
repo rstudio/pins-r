@@ -137,6 +137,7 @@ pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   azure_download(board, metadata_blob, progress = FALSE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
+    name = name,
     dir = path_version,
     version = version
   )

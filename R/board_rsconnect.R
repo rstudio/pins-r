@@ -199,6 +199,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
 
   meta <- read_meta(cache_path)
   local_meta(meta,
+    name = name,
     dir = cache_path,
     url = url,
     version = bundle_id,

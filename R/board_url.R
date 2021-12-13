@@ -90,6 +90,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
     )
     meta <- read_meta(cache_dir)
     local_meta(meta,
+      name = name,
       dir = cache_dir,
       url = url,
       file_url = paste0(url, meta$file)
@@ -102,6 +103,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       api_version = 1
     )
     local_meta(meta,
+      name = name,
       dir = cache_dir,
       url = url,
       file_url = url

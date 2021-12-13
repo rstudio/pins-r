@@ -188,6 +188,7 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   s3_download(board, metadata_key, immutable = TRUE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
+    name = name,
     dir = path_version,
     version = version
   )

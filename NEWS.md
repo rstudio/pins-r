@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `pin_meta()` now includes pin `name` (#544).
+
 * `board_deparse()` is more likely to generate runnable code when used
   with `board_rsconnect()` (#553).
 
