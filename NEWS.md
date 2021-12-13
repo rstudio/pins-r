@@ -1,5 +1,8 @@
 # pins (development version)
 
+* `board_azure()` now allows you to set a `path` so that multiple boards can
+  share the same container (#528, @hongooi73).
+
 * `pin_meta()` now includes pin `name` (#544).
 
 * `board_deparse()` is more likely to generate runnable code when used
