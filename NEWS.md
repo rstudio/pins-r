@@ -1,5 +1,7 @@
 # pins (development version)
 
+* `legazy_azure()` works once again (#527).
+
 * `legacy_github()` works once again (#549).
 
 * Cache paths all computed in the same way, avoiding inconsistency and an

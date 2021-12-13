@@ -228,11 +228,11 @@ has_expired <- function(x) {
   }
 }
 
-http_date <- function(x = Sys.time()) {
+http_date <- function(x = Sys.time(), tz = "UTC") {
   if (is.null(x)) {
     return(NULL)
   }
 
   withr::local_locale(LC_TIME = "C")
-  strftime(.POSIXct(x), "%a, %d %b %Y %H:%M:%S", tz = "UTC", usetz = TRUE)
+  strftime(.POSIXct(x), "%a, %d %b %Y %H:%M:%S", tz = tz, usetz = TRUE)
 }
