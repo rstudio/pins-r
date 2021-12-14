@@ -1,4 +1,4 @@
-# pins (development version)
+# pins 1.0.1
 
 * `board_azure()` now allows you to set a `path` so that multiple boards can
   share the same container (#528, @hongooi73).
