@@ -7,7 +7,7 @@
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Codecov test
-coverage](https://codecov.io/gh/rstudio/pins/branch/main/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=main)
+coverage](https://codecov.io/gh/rstudio/pins/branch/main/graph/badge.svg)]( https://app.codecov.io/gh/rstudio/pins?branch=main)
 
 <!-- badges: end -->
 
