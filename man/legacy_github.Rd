@@ -52,11 +52,8 @@ cache location for your operating system, but you can override if needed.}
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
-To use a GitHub board, you'll need to set up authentication. This is likely
-to just work if you already use GitHub for other purposes since pins will
-inspect your  \code{GITHUB_PAT} environment variable. Otherwise, you can follow
-the instructions at \url{https://happygitwithr.com/credential-caching.html} to
-get set up.
+To use a GitHub board, you'll need to set up authentication, following
+the instructions at \url{https://happygitwithr.com/https-pat.html#https-pat}.
 }
 \section{Large Files}{
 A GitHub repo only supports files under 25MB in size (100MB in theory but
