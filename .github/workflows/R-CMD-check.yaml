@@ -47,8 +47,11 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_: false
         run: |
+          # Hack to get _R_CHECK_THINGS_IN_OTHER_DIRS_ to work
+          Sys.setenv("LOGNAME" = Sys.info()[["user"]])
+
           options(crayon.enabled = TRUE)
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note", check_dir = "check")
         shell: Rscript {0}
 
       - name: Show testthat output
