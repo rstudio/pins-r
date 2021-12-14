@@ -3,8 +3,6 @@
 * `board_azure()` now allows you to set a `path` so that multiple boards can
   share the same container (#528, @hongooi73).
 
-* `pin_meta()` now includes pin `name` (#544).
-
 * `board_deparse()` is more likely to generate runnable code when used
   with `board_rsconnect()` (#553).
 
@@ -12,10 +10,12 @@
 
 * `legacy_github()` works once again (#549).
 
-* Cache paths all computed in the same way, avoiding inconsistency and an
-  error when calling `board_register()` directly (#529).
+* `pin_meta()` now includes pin `name` (#544).
 
-* Drop add ins since they're not tested or documented (#525)
+* `board_register()` works better when called directly, due to standardisation 
+  of cache paths all computation (#529).
+
+* Drop add-ins since they're not tested or documented (#525)
 
 # pins 1.0.0
 
