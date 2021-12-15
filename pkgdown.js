@@ -6,16 +6,16 @@
 
     Toc.init({
       $nav: $("#toc"),
-      $scope: $("h2, h3, h4, h5, h6")
+      $scope: $("main h2, main h3, main h4, main h5, main h6")
     });
 
     $('body').scrollspy({
-      target: '#pkgdown-sidebar',
-      offset: 60
+      target: '#toc',
+      offset: 56 // headroom height
     });
 
     // Activate popovers
-    $('[data-toggle="popover"]').popover({
+    $('[data-bs-toggle="popover"]').popover({
       container: 'body',
       html: true,
       trigger: 'focus',
@@ -23,7 +23,7 @@
       sanitize: false,
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-bs-toggle="tooltip"]').tooltip();
 
   /* Clipboard --------------------------*/
 
@@ -49,7 +49,7 @@
       // Initialize clipboard:
       var clipboard = new ClipboardJS('[data-clipboard-copy]', {
         text: function(trigger) {
-          return trigger.parentNode.textContent;
+          return trigger.parentNode.textContent.replace(/\n#>[^\n]*/g, "");
         }
       });
 

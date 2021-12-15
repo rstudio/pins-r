@@ -8,8 +8,8 @@
 <meta name="description" content='Publish data sets, models, and other R objects, making it
     easy to share them across projects and with your colleagues. You can
     pin objects to a variety of "boards", including local folders (to
-    share on a networked drive or with DropBox), RStudio connect, Amazon
-    S3, and more.'>
+    share on a networked drive or with DropBox), RStudio connect,
+    Amazon S3, and more.'>
 <title>Pin, Discover and Share Resources • pins</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -18,37 +18,38 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="deps/bs3compat-0.3.0/transition.js"></script><script src="deps/bs3compat-0.3.0/tabs.js"></script><script src="deps/bs3compat-0.3.0/bs3compat.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<link href="syntax-highlighting.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Pin, Discover and Share Resources">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Pin, Discover and Share Resources">
 <meta property="og:description" content='Publish data sets, models, and other R objects, making it
     easy to share them across projects and with your colleagues. You can
     pin objects to a variety of "boards", including local folders (to
-    share on a networked drive or with DropBox), RStudio connect, Amazon
-    S3, and more.'>
+    share on a networked drive or with DropBox), RStudio connect,
+    Amazon S3, and more.'>
 <meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc" data-headroom>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-      <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
-    <a class="navbar-brand mb-0 h1" href="index.html">pins</a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">pins</a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <button type="button" id="version-badge" class="badge badge-default d-none d-lg-block" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Released version">1.0.0</button>
-
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto ml-3">
+    <div id="navbar" class="collapse navbar-collapse ms-2">
+      <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="articles/pins.html">Get started</a>
 </li>
@@ -56,78 +57,83 @@
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/pins-update.html">Updating to pins 1.0.0</a>
     <a class="dropdown-item" href="articles/rsc.html">RStudio Connect</a>
   </div>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
-    <a class="dropdown-item" href="https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/">pins 0.4.0</a>
-    <a class="dropdown-item" href="https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/">pins 0.3.0</a>
-    <a class="dropdown-item" href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/">pins 0.2.0</a>
+    <a class="external-link dropdown-item" href="https://blog.rstudio.com/2021/10/04/pins-1-0-0/">pins 1.0.0</a>
+    <a class="external-link dropdown-item" href="https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/">pins 0.4.0</a>
+    <a class="external-link dropdown-item" href="https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/">pins 0.3.0</a>
+    <a class="external-link dropdown-item" href="https://blog.rstudio.com/2019/09/09/pin-discover-and-share-resources/">pins 0.2.0</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="news/index.html">Changelog</a>
   </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control mr-sm-2" aria-label="Search" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search..." autocomplete="off">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav ml-1">
+      <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="nav-link" href="https://github.com/rstudio/pins/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/rstudio/pins/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
+
+    
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <div class="contents col-md-9">
-<img src="logo.png" class="pkg-logo" alt="" width="120"><div id="pins-" class="section level1">
-<div class="pb-2 mt-4 mb-2 border-bottom"><h1 class="hasAnchor">
-<a href="#pins-" class="anchor" aria-hidden="true"></a>pins 
-</h1></div>
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="pins-">pins 
+<a class="anchor" aria-label="anchor" href="#pins-"></a>
+</h1>
+</div>
 <!-- badges: start -->
 
 <!-- badges: end -->
 <p>The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues. You can pin objects to a variety of pin <em>boards</em>, including folders (to share on a networked drive or with services like DropBox), RStudio Connect, Amazon S3, Azure storage and Microsoft 365 (OneDrive and SharePoint). Pins can be automatically versioned, making it straightforward to track changes, re-run analyses on historical data, and undo mistakes.</p>
 <p>pins 1.0.0 includes a new more explicit API and greater support for versioning. The legacy API (<code><a href="reference/pin.html">pin()</a></code>, <code><a href="reference/pin_get.html">pin_get()</a></code>, and <code><a href="reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="articles/pins-update.html">vignette("pins-update")</a></code>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
-<p>To try out the development version of pins (which will become pins 1.0.0 when released), youâll need to install from GitHub:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>To try out the development version of pins (which will become pins 1.0.0 when released), you’ll need to install from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rstudio/pins"</span><span class="op">)</span></code></pre></div>
 <p>If you discover this breaks any of your existing code, please <a href="https://github.com/rstudio/pins/issues" class="external-link">let us know</a> then revert to the released version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pins"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor" aria-hidden="true"></a>Usage</h2>
-<p>To use the pins package, you must first create a pin board. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code>, which stores pins in a directory you specify. Here Iâll use a special version of <code><a href="reference/board_folder.html">board_folder()</a></code> called <code><a href="reference/board_folder.html">board_temp()</a></code> which creates a temporary board thatâs automatically deleted when your R session ends. This is great for examples, but obviously you shouldnât use it for real work!</p>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>To use the pins package, you must first create a pin board. A good place to start is <code><a href="reference/board_folder.html">board_folder()</a></code>, which stores pins in a directory you specify. Here I’ll use a special version of <code><a href="reference/board_folder.html">board_folder()</a></code> called <code><a href="reference/board_folder.html">board_temp()</a></code> which creates a temporary board that’s automatically deleted when your R session ends. This is great for examples, but obviously you shouldn’t use it for real work!</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/pins" class="external-link">pins</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span>
 
 <span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">board</span>
 <span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span>
-<span class="co">#&gt; Path: '/tmp/RtmpxQu94x/pins-15f1d4a0c4d71'</span>
+<span class="co">#&gt; Path: '/tmp/RtmpAYa45m/pins-6cce258ca9cf'</span>
 <span class="co">#&gt; Cache size: 0</span></code></pre></div>
-<p>You can âpinâ (save) data to a board with <code><a href="reference/pin_read.html">pin_write()</a></code>. It takes three arguments: the board to pin to, an object, and a name:</p>
+<p>You can “pin” (save) data to a board with <code><a href="reference/pin_read.html">pin_write()</a></code>. It takes three arguments: the board to pin to, an object, and a name:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span>
 <span class="co">#&gt; Guessing `type = 'rds'`</span>
-<span class="co">#&gt; Creating new version '20210929T184444Z-f8797'</span></code></pre></div>
-<p>As you can see, the data saved as an <code>.rds</code> by default, but depending on what youâre saving and who else you want to read it, you might use the <code>type</code> argument to instead save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
+<span class="co">#&gt; Creating new version '20211116T161305Z-e8160'</span>
+<span class="co">#&gt; Writing to pin 'mtcars'</span></code></pre></div>
+<p>As you can see, the data saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might use the <code>type</code> argument to instead save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
 <p>You can later retrieve the pinned data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span>
@@ -138,7 +144,7 @@
 <span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
 <span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
 <span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
-<p>A board on your computer is good place to start, but the real power of pins comes when you use a board thatâs shared with multiple people. To get started, you can use <code><a href="reference/board_folder.html">board_folder()</a></code> with a directory on a shared drive or in dropbox, or if you use <a href="https://www.rstudio.com/products/connect/" class="external-link">RStudio Connect</a> you can use <code><a href="reference/board_rsconnect.html">board_rsconnect()</a></code>:</p>
+<p>A board on your computer is good place to start, but the real power of pins comes when you use a board that’s shared with multiple people. To get started, you can use <code><a href="reference/board_folder.html">board_folder()</a></code> with a directory on a shared drive or in dropbox, or if you use <a href="https://www.rstudio.com/products/connect/" class="external-link">RStudio Connect</a> you can use <code><a href="reference/board_rsconnect.html">board_rsconnect()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Connecting to RSC 1.9.0.1 at &lt;https://connect.rstudioservices.com&gt;</span>
@@ -148,23 +154,16 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"hadley/sales-summary"</span><span class="op">)</span></code></pre></div>
-<p>You can easily control who gets to access the data using the RStudio Connection permissions pane.</p>
-<p>The pins package also includes boards that allow you to share data on services like Amazonâs S3 (<code><a href="reference/board_s3.html">board_s3()</a></code>), Azureâs blob storage (<code><a href="reference/board_azure.html">board_azure()</a></code>), and Microsoft SharePoint (<code><a href="reference/board_ms365.html">board_ms365()</a></code>). Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
+<p>You can easily control who gets to access the data using the RStudio Connect permissions pane.</p>
+<p>The pins package also includes boards that allow you to share data on services like Amazon’s S3 (<code><a href="reference/board_s3.html">board_s3()</a></code>), Azure’s blob storage (<code><a href="reference/board_azure.html">board_azure()</a></code>), and Microsoft SharePoint (<code><a href="reference/board_ms365.html">board_ms365()</a></code>). Learn more in <code><a href="articles/pins.html">vignette("pins")</a></code>.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 d-none d-md-block" id="pkgdown-sidebar">
-      <div class="sticky-top">
-        <div class="links">
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=pins">https://​cloud.r-project.org/​package=pins</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/rstudio/pins/">https://​github.com/​rstudio/​pins/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/rstudio/pins/issues">https://​github.com/​rstudio/​pins/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=pins" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/rstudio/pins/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/rstudio/pins/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -177,13 +176,20 @@
 </div>
 
 
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing pins</a></li>
+</ul>
+</div>
+
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="http://hadley.nz" class="external-link">Hadley Wickham</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Javier Luraschi <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">More on authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -192,26 +198,25 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/rstudio/pins/actions" class="external-link"><img src="https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://cran.r-project.org/package=pins" class="external-link"><img src="https://www.r-pkg.org/badges/version/pins" alt="CRAN Status"></a></li>
-<li><a href="https://codecov.io/gh/rstudio/pins?branch=master" class="external-link"><img src="https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/rstudio/pins?branch=main" class="external-link"><img src="https://codecov.io/gh/rstudio/pins/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
-      </div>
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="pkgdown-footer-left">
+    <footer><div class="pkgdown-footer-left">
   <p></p>
 <p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
