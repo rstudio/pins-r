@@ -36,7 +36,7 @@ Imports:
     rlang (>= 0.4.10),
     tibble,
     whisker,
-    withr,
+    withr (>= 2.4.3),
     yaml,
     zip
 Suggests:
