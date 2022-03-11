@@ -74,7 +74,7 @@ cat(readLines("rsc-automate.txt"), sep = "\n")
 ```
 
 Then publish it to RSC, and schedule it to run as often as you like.
-Assuming that you have RSC 1.8.8 or later you don't need to provide any arguments to `board_rsconnect()`; pins will automatically publish to the same Connect instance that's running the report.
+Assuming that you have RSC 1.9.0 or later you don't need to provide any arguments to `board_rsconnect()`; pins will automatically publish to the same Connect instance that's running the report.
 
 ## Shiny apps
 
