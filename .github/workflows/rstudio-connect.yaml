@@ -25,15 +25,16 @@ jobs:
         run: |
           docker exec pins-connect awk ' { system("useradd -m -s /bin/bash "$1); system("echo \""$1":"$2"\" | chpasswd"); system("id "$1) } ' /etc/users.txt
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@master
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
-            rcmdcheck
+            any::rcmdcheck
             rstudio/connectapi
+          needs: check
 
       - name: wait for connect to start
         run: |
@@ -57,23 +58,27 @@ jobs:
           )
 
 
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
-
-      - name: Show testthat output
-        if: always()
-        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
+      - uses: r-lib/actions/check-r-package@v2
         with:
-          name: rsconnect-results
-          path: check
+          upload-snapshots: true
+
+      # - name: Check
+      #   env:
+      #     _R_CHECK_CRAN_INCOMING_REMOTE_: false
+      #   run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+      #   shell: Rscript {0}
+      #
+      # - name: Show testthat output
+      #   if: always()
+      #   run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+      #   shell: bash
+      #
+      # - name: Upload check results
+      #   if: failure()
+      #   uses: actions/upload-artifact@main
+      #   with:
+      #     name: rsconnect-results
+      #     path: check
 
       - name: Show docker logs
         if: always()
