@@ -60,10 +60,12 @@ in \code{.Rhistory})
 \item The \code{AWS_ACCESS_KEY_ID} and \code{AWS_SECRET_ACCESS_KEY} env vars.
 (And \code{AWS_SESSION_TOKEN} and \code{AWS_CREDENTIAL_EXPIRATION} env vars if you
 have a temporary session token)
-\item The AWS shared credential file, \verb{~/.aws/credentials}:\preformatted{[profile-name]
+\item The AWS shared credential file, \verb{~/.aws/credentials}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{[profile-name]
 aws_access_key_id=your AWS access key
 aws_secret_access_key=your AWS secret key
-}
+}\if{html}{\out{</div>}}
 
 The "default" profile will be used if you don't supply the access key
 and secret access key as described above. Otherwise you can use the
