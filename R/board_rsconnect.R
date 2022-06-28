@@ -472,7 +472,7 @@ rsc_content_versions <- function(board, guid) {
 
   tibble::tibble(
     version = map_chr(json, ~ .x$id),
-    created = parse_8601_compact(map_chr(json, ~ .x$created_time)),
+    created = parse_8601(map_chr(json, ~ .x$created_time)),
     active = map_lgl(json, ~ .x$active),
     size = map_dbl(json, ~ .x$size),
   )
