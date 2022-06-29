@@ -62,24 +62,6 @@ jobs:
         with:
           upload-snapshots: true
 
-      # - name: Check
-      #   env:
-      #     _R_CHECK_CRAN_INCOMING_REMOTE_: false
-      #   run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
-      #   shell: Rscript {0}
-      #
-      # - name: Show testthat output
-      #   if: always()
-      #   run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-      #   shell: bash
-      #
-      # - name: Upload check results
-      #   if: failure()
-      #   uses: actions/upload-artifact@main
-      #   with:
-      #     name: rsconnect-results
-      #     path: check
-
       - name: Show docker logs
         if: always()
         run: |
