@@ -31,20 +31,23 @@
 
     Code
       pin_info("mtcars2")
-    Error <rlang_error>
-      Pin 'mtcars2' was not found.
+    Condition
+      Error in `pin_info()`:
+      ! Pin 'mtcars2' was not found.
     Code
       pin(mtcars[1:2], "mtcars2", board = "test1")
       pin(mtcars[1:2], "mtcars2", board = "test2")
       pin_info("mtcars2")
-    Error <rlang_error>
-      Pin 'mtcars2' was found in multiple boards: test1,test2
+    Condition
+      Error in `pin_info()`:
+      ! Pin 'mtcars2' was found in multiple boards: test1,test2
 
 # gives informative error if used with modern board
 
     Code
       board <- board_temp()
       pin_info("mtcars", board = board)
-    Error <rlang_error>
-      Use `pin_meta()` with this board, not `pin_info()`
+    Condition
+      Error in `this_not_that()`:
+      ! Use `pin_meta()` with this board, not `pin_info()`
 

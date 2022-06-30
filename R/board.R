@@ -7,7 +7,8 @@
 #' @param cache Cache path. Every board requires a local cache to avoid
 #'   downloading files multiple times. The default stores in a standard
 #'   cache location for your operating system, but you can override if needed.
-#' @param versions,versioned Should this board be registered with support for versions?
+#' @param versions Should this board be registered with support for versions?
+#' @param versioned Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
 new_board <- function(board, api, cache, ...) {

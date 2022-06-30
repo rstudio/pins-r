@@ -3,6 +3,7 @@
     Code
       board <- legacy_temp()
       pin_meta(board, "x")
-    Error <rlang_error>
-      Use `pin_info()` with this board, not `pin_meta()`
+    Condition
+      Error in `this_not_that()`:
+      ! Use `pin_info()` with this board, not `pin_meta()`
 
