@@ -19,7 +19,7 @@ package."><meta property="og:image" content="https://pins.rstudio.com/logo.png">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -73,46 +73,61 @@ package.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">board_s3</span><span class="op">(</span>
-  <span class="va">bucket</span>,
-  prefix <span class="op">=</span> <span class="cn">NULL</span>,
-  versioned <span class="op">=</span> <span class="cn">TRUE</span>,
-  access_key <span class="op">=</span> <span class="cn">NULL</span>,
-  secret_access_key <span class="op">=</span> <span class="cn">NULL</span>,
-  session_token <span class="op">=</span> <span class="cn">NULL</span>,
-  credential_expiration <span class="op">=</span> <span class="cn">NULL</span>,
-  profile <span class="op">=</span> <span class="cn">NULL</span>,
-  region <span class="op">=</span> <span class="cn">NULL</span>,
-  endpoint <span class="op">=</span> <span class="cn">NULL</span>,
-  cache <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">board_s3</span><span class="op">(</span></span>
+<span>  <span class="va">bucket</span>,</span>
+<span>  prefix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  versioned <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  access_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  secret_access_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  session_token <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  credential_expiration <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  profile <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  endpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>bucket</dt>
 <dd><p>Bucket name.</p></dd>
+
+
 <dt>prefix</dt>
 <dd><p>Prefix within this bucket that this board will occupy.
 You can use this to maintain multiple independent pin boards within
 a single S3 bucket. Will typically end with <code>/</code> to take advantage of
 S3's directory-like handling.</p></dd>
+
+
 <dt>versioned</dt>
 <dd><p>Should this board be registered with support for versions?</p></dd>
+
+
 <dt>access_key, secret_access_key, session_token, credential_expiration</dt>
 <dd><p>Manually control authentication. See documentation below for details.</p></dd>
+
+
 <dt>profile</dt>
 <dd><p>Role to use from AWS shared credentials/config file.</p></dd>
+
+
 <dt>region</dt>
 <dd><p>AWS region. If not specified, will be read from <code>AWS_REGION</code>,
 or AWS config file.</p></dd>
+
+
 <dt>endpoint</dt>
 <dd><p>AWS endpoint to use; usually generated automatically from
 <code>region</code>.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a></h2>
@@ -127,11 +142,10 @@ in <code>.Rhistory</code>)</p></li>
 <li><p>The <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code> env vars.
 (And <code>AWS_SESSION_TOKEN</code> and <code>AWS_CREDENTIAL_EXPIRATION</code> env vars if you
 have a temporary session token)</p></li>
-<li><p>The AWS shared credential file, <code>~/.aws/credentials</code>:</p><div class="sourceCode"><pre><code>[profile-name]
-aws_access_key_id=your AWS access key
-aws_secret_access_key=your AWS secret key
-</code></pre></div>
-
+<li><p>The AWS shared credential file, <code>~/.aws/credentials</code>:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>[profile<span class="op">-</span>name]</span>
+<span id="cb1-2"><a href="#cb1-2"></a>aws_access_key_id=your AWS access key</span>
+<span id="cb1-3"><a href="#cb1-3"></a>aws_secret_access_key=your AWS secret key</span></code></pre><p></p></div>
 <p>The "default" profile will be used if you don't supply the access key
 and secret access key as described above. Otherwise you can use the
 <code>profile</code> argument to use a profile of your choice.</p></li>
@@ -150,16 +164,16 @@ like <code>pins_list()</code> will work, but won't return useful output.</p></li
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"pins-test-hadley"</span>, region <span class="op">=</span> <span class="st">"us-east-2"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># A prefix allows you to have multiple independent boards in the same pin.</span></span>
-<span class="r-in"><span class="va">board_sales</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"sales/"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board_marketing</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"marketing/"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># You can make the hierarchy arbitrarily deep.</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"pins-test-hadley"</span>, region <span class="op">=</span> <span class="st">"us-east-2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A prefix allows you to have multiple independent boards in the same pin.</span></span></span>
+<span class="r-in"><span><span class="va">board_sales</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"sales/"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board_marketing</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"marketing/"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># You can make the hierarchy arbitrarily deep.</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -167,11 +181,11 @@ like <code>pins_list()</code> will work, but won't return useful output.</p></li
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

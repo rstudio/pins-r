@@ -19,7 +19,7 @@ your account."><meta property="og:image" content="https://pins.rstudio.com/logo.
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -73,9 +73,9 @@ your account.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">legacy_kaggle</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, name <span class="op">=</span> <span class="st">"kaggle"</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">board_register_kaggle</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"kaggle"</span>, token <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">legacy_kaggle</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, name <span class="op">=</span> <span class="st">"kaggle"</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">board_register_kaggle</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"kaggle"</span>, token <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -83,16 +83,23 @@ your account.</p>
     <dl><dt>token</dt>
 <dd><p>The Kaggle token as a path to the <code>kaggle.json</code> file, can
 be <code>NULL</code> if the <code>~/.kaggle/kaggle.json</code> file already exists.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>An optional name used identify the board. This is no longer
 generally needed since you should be passing around an explicit
 board object.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters required to initialize a particular board.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="sharing">Sharing<a class="anchor" aria-label="anchor" href="#sharing"></a></h2>
@@ -104,15 +111,15 @@ register a Kaggle board which allows them to download and upload pins</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># the following example requires a Kaggle API token</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">legacy_kaggle</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"path/to/kaggle.json"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="pin_find.html">pin_find</a></span><span class="op">(</span><span class="st">"crowdflower"</span>, board <span class="op">=</span> <span class="va">board</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># names starting with c/ are competitions</span></span>
-<span class="r-in"><span class="fu"><a href="pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"c/crowdflower-weather-twitter"</span>, board <span class="op">=</span> <span class="va">board</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># the following example requires a Kaggle API token</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">legacy_kaggle</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"path/to/kaggle.json"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pin_find.html">pin_find</a></span><span class="op">(</span><span class="st">"crowdflower"</span>, board <span class="op">=</span> <span class="va">board</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># names starting with c/ are competitions</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"c/crowdflower-weather-twitter"</span>, board <span class="op">=</span> <span class="va">board</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -120,11 +127,11 @@ register a Kaggle board which allows them to download and upload pins</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

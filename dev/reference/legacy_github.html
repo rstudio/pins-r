@@ -19,7 +19,7 @@ the instructions at https://happygitwithr.com/https-pat.html#https-pat."><meta p
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -73,54 +73,69 @@ the instructions at <a href="https://happygitwithr.com/https-pat.html#https-pat"
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">legacy_github</span><span class="op">(</span>
-  <span class="va">repo</span>,
-  branch <span class="op">=</span> <span class="cn">NULL</span>,
-  token <span class="op">=</span> <span class="cn">NULL</span>,
-  path <span class="op">=</span> <span class="st">""</span>,
-  host <span class="op">=</span> <span class="st">"https://api.github.com"</span>,
-  name <span class="op">=</span> <span class="st">"github"</span>,
-  cache <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">board_register_github</span><span class="op">(</span>
-  name <span class="op">=</span> <span class="st">"github"</span>,
-  repo <span class="op">=</span> <span class="cn">NULL</span>,
-  branch <span class="op">=</span> <span class="cn">NULL</span>,
-  token <span class="op">=</span> <span class="cn">NULL</span>,
-  path <span class="op">=</span> <span class="st">""</span>,
-  host <span class="op">=</span> <span class="st">"https://api.github.com"</span>,
-  cache <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">legacy_github</span><span class="op">(</span></span>
+<span>  <span class="va">repo</span>,</span>
+<span>  branch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  token <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  path <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  host <span class="op">=</span> <span class="st">"https://api.github.com"</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"github"</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">board_register_github</span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="st">"github"</span>,</span>
+<span>  repo <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  branch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  token <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  path <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  host <span class="op">=</span> <span class="st">"https://api.github.com"</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>repo</dt>
 <dd><p>The GitHub repository formatted as 'owner/repo'.</p></dd>
+
+
 <dt>branch</dt>
 <dd><p>The branch to use to commit pins. Default, <code>NULL</code>, will
 use <code>main</code> or <code>master</code> if present.</p></dd>
+
+
 <dt>token</dt>
 <dd><p>GitHub personal access token.
 Uses <a href="https://gitcreds.r-lib.org" class="external-link">gitcreds</a> if not set.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>The subdirectory in the repo where the pins will be stored.</p></dd>
+
+
 <dt>host</dt>
 <dd><p>The URL of the GitHub API. You'll need to customise
 this to use GitHub enterprise, e.g. <code>"https://yourhostname/api/v3"</code>.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>An optional name used identify the board. This is no longer
 generally needed since you should be passing around an explicit
 board object.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters required to initialize a particular board.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="large-files">Large Files<a class="anchor" aria-label="anchor" href="#large-files"></a></h2>
@@ -136,10 +151,10 @@ repo.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># the following example requires a GitHub API key</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">legacy_github</span><span class="op">(</span><span class="st">"owner/repo"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># the following example requires a GitHub API key</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">legacy_github</span><span class="op">(</span><span class="st">"owner/repo"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -147,11 +162,11 @@ repo.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

@@ -41,7 +41,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
@@ -86,8 +86,11 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="rsc_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>RStudio Connect</h1>
             
       
@@ -99,51 +102,51 @@
     
 <p>This vignette demonstrates how you might use pins and <a href="https://www.rstudio.com/products/connect/" class="external-link">RStudio Connect</a> together to automate ETL for a Shiny app. Pulling expensive data manipulation out of your Shiny app is a great way to <a href="https://mastering-shiny.org/performance.html#schedule-data-munging" class="external-link">improve performance</a>, and pins makes it easy to schedule data updates in a way that automatically flows into your app.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="sharing-tidied-data">Sharing tidied data<a class="anchor" aria-label="anchor" href="#sharing-tidied-data"></a>
 </h2>
 <p>Imagine you’re interested in what’s going on in the news, so you’ve written a little code to scrape the BBC world news feed and turn it into a tidy dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span>
-
-<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"http://feeds.bbci.co.uk/news/rss.xml"</span><span class="op">)</span>  
-<span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
-  <span class="co"># Read a saved version of the data to keep this vignette reproducible</span>
-  <span class="va">xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"bbc-news.xml"</span><span class="op">)</span>  
-<span class="op">}</span>
-
-<span class="va">items</span> <span class="op">&lt;-</span> <span class="va">xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="st">"//item"</span><span class="op">)</span>
-
-<span class="va">bbc_news</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
-  title <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./title"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,
-  date <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./pubDate"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,
-  url <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./guid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="va">bbc_news</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 71 × 3</span></span>
-<span class="co">#&gt;    title                              date            url                       </span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Diana interview: PM concerned aft… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Covid in Scotland: Glasgow to be … Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Prince Harry says heavy drinking … Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Coronavirus: Spain to lift restri… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Diana interview: Whistleblower wa… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Mayhill: Swansea rioters face rob… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> UK to offer Australia tariff-free… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Leonard Blavatnik named UK's rich… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Lady Gaga had a 'psychotic break'… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Big cats seized from park belongi… Fri, 21 May 20… https://www.bbc.co.uk/new…</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 61 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"http://feeds.bbci.co.uk/news/rss.xml"</span><span class="op">)</span>  </span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="co"># Read a saved version of the data to keep this vignette reproducible</span></span>
+<span>  <span class="va">xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"bbc-news.xml"</span><span class="op">)</span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">items</span> <span class="op">&lt;-</span> <span class="va">xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="st">"//item"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">bbc_news</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./title"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  date <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./pubDate"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  url <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./guid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">bbc_news</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 71 × 3</span></span></span>
+<span><span class="co">#&gt;    title                                                             date  url  </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Diana interview: PM concerned after inquiry into BBC deceit       Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Covid in Scotland: Glasgow to be only Scottish area in level thr… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Prince Harry says heavy drinking masked pain of mum Diana's death Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Coronavirus: Spain to lift restrictions for UK and Japanese trav… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Diana interview: Whistleblower wants apology from BBC bosses      Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Mayhill: Swansea rioters face robust action, police vow           Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> UK to offer Australia tariff-free trade deal despite farmers' fe… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Leonard Blavatnik named UK's richest person with £23bn fortune    Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Lady Gaga had a 'psychotic break' after sexual assault left her … Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Big cats seized from park belonging to Tiger King couple          Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 61 more rows</span></span></span></code></pre></div>
 <p>Wouldn’t it be nice to spare your colleagues the work of reproducing this data, and provide them directly with the tidy tibble? That’s easy to do with pins:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board_rsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">board_rsc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">bbc_news</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board_rsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">board_rsc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">bbc_news</span><span class="op">)</span></span></code></pre></div>
 <p>If you open the pin on RSC (e.g. by running <code>board_rsc %&gt;% pin_browse("news_total")</code>), you’ll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data. Assuming you’ve given your colleagues access, they can now easily pull down the data for their own analysis:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">board_rsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">board_rsc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"your_name/bbc_news"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board_rsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">board_rsc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"your_name/bbc_news"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="automating">Automating<a class="anchor" aria-label="anchor" href="#automating"></a>
@@ -181,28 +184,28 @@ bbc_news
 </h2>
 <p>If you’re using automatically updated data in a <a href="https://shiny.rstudio.com" class="external-link">Shiny</a> app, you can use <code><a href="../reference/pin_reactive_read.html">pin_reactive_read()</a></code> to create a reactive dependency so that your app will automatically update shortly after the data changes:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span>
-
-<span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/titlePanel.html" class="external-link">titlePanel</a></span><span class="op">(</span><span class="st">"News from the BBC"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">htmlOutput</a></span><span class="op">(</span><span class="st">"news"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">news</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_reactive_read.html">pin_reactive_read</a></span><span class="op">(</span><span class="st">"hadley/bbc_news"</span><span class="op">)</span>
-  
-  <span class="va">output</span><span class="op">$</span><span class="va">news</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI</a></span><span class="op">(</span><span class="op">{</span>
-    <span class="va">title</span> <span class="op">&lt;-</span> <span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/htmlEscape.html" class="external-link">htmlEscape</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/news.html" class="external-link">news</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">title</span><span class="op">)</span>
-    <span class="va">links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"&lt;a href='"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/news.html" class="external-link">news</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">url</span>, <span class="st">"'&gt;"</span>, <span class="va">title</span>, <span class="st">"&lt;/a&gt;"</span><span class="op">)</span>
-    <span class="va">bullets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"  &lt;li&gt;"</span>, <span class="va">links</span>, <span class="st">"&lt;/li&gt;"</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">HTML</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"&lt;ul&gt;"</span>, <span class="va">bullets</span>, <span class="st">"&lt;/ul&gt;"</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">}</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/titlePanel.html" class="external-link">titlePanel</a></span><span class="op">(</span><span class="st">"News from the BBC"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">htmlOutput</a></span><span class="op">(</span><span class="st">"news"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">news</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_reactive_read.html">pin_reactive_read</a></span><span class="op">(</span><span class="st">"hadley/bbc_news"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">news</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="va">title</span> <span class="op">&lt;-</span> <span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/htmlEscape.html" class="external-link">htmlEscape</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/news.html" class="external-link">news</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">title</span><span class="op">)</span></span>
+<span>    <span class="va">links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"&lt;a href='"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/news.html" class="external-link">news</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">url</span>, <span class="st">"'&gt;"</span>, <span class="va">title</span>, <span class="st">"&lt;/a&gt;"</span><span class="op">)</span></span>
+<span>    <span class="va">bullets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"  &lt;li&gt;"</span>, <span class="va">links</span>, <span class="st">"&lt;/li&gt;"</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">HTML</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"&lt;ul&gt;"</span>, <span class="va">bullets</span>, <span class="st">"&lt;/ul&gt;"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p>If you deploy this app and watch it while your scheduled reported runs, you’ll see the data update automatically.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -213,12 +216,12 @@ bbc_news
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+<p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>

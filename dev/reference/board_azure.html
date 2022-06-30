@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -70,13 +70,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">board_azure</span><span class="op">(</span>
-  <span class="va">container</span>,
-  path <span class="op">=</span> <span class="st">""</span>,
-  n_processes <span class="op">=</span> <span class="fl">10</span>,
-  versioned <span class="op">=</span> <span class="cn">TRUE</span>,
-  cache <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">board_azure</span><span class="op">(</span></span>
+<span>  <span class="va">container</span>,</span>
+<span>  path <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  n_processes <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  versioned <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -84,19 +84,28 @@
     <dl><dt>container</dt>
 <dd><p>An azure storage container created by
 <code><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">AzureStor::blob_container()</a></code> or similar.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Path to the directory in the container to store pins. Will be
 created if it doesn't already exist. The equivalent of a <code>prefix</code> for AWS
 S3 storage.</p></dd>
+
+
 <dt>n_processes</dt>
 <dd><p>Maximum number of processes used for parallel
 uploads/downloads.</p></dd>
+
+
 <dt>versioned</dt>
 <dd><p>Should this board be registered with support for versions?</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -111,13 +120,13 @@ possible; see the examples below.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"AzureStor"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="co"># Public access board</span></span>
-<span class="r-in">  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pins.blob.core.windows.net/public-data"</span></span>
-<span class="r-in">  <span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">blob_container</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"AzureStor"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Public access board</span></span></span>
+<span class="r-in"><span>  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pins.blob.core.windows.net/public-data"</span></span></span>
+<span class="r-in"><span>  <span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">blob_container</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: AzureStor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
@@ -152,27 +161,27 @@ possible; see the examples below.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># To create a board that you can write to, you'll need to supply one</span></span>
-<span class="r-in"><span class="co"># of `key`, `token`, or `sas` to AzureStor::blob_container()</span></span>
-<span class="r-in"><span class="co"># First, we create a board using the classic Azure blob API</span></span>
-<span class="r-in"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://myaccount.blob.core.windows.net/mycontainer"</span></span>
-<span class="r-in"><span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">blob_container</a></span><span class="op">(</span><span class="va">url</span>, sas <span class="op">=</span> <span class="st">"my-sas"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span>, <span class="st">"path/to/board"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ADLSgen2 is a modern, efficient way to access blobs</span></span>
-<span class="r-in"><span class="co"># - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API</span></span>
-<span class="r-in"><span class="co"># - Use the 'storage_container' generic instead of the service-specific</span></span>
-<span class="r-in"><span class="co">#   'blob_container'</span></span>
-<span class="r-in"><span class="co"># - We reuse the board created via the blob API above</span></span>
-<span class="r-in"><span class="va">adls_url</span> <span class="op">&lt;-</span> <span class="st">"https://myaccount.dfs.core.windows.net/mycontainer"</span></span>
-<span class="r-in"><span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/generics.html" class="external-link">storage_container</a></span><span class="op">(</span><span class="va">adls_url</span>, sas <span class="op">=</span> <span class="st">"my-sas"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span>, <span class="st">"path/to/board"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># To create a board that you can write to, you'll need to supply one</span></span></span>
+<span class="r-in"><span><span class="co"># of `key`, `token`, or `sas` to AzureStor::blob_container()</span></span></span>
+<span class="r-in"><span><span class="co"># First, we create a board using the classic Azure blob API</span></span></span>
+<span class="r-in"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://myaccount.blob.core.windows.net/mycontainer"</span></span></span>
+<span class="r-in"><span><span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">blob_container</a></span><span class="op">(</span><span class="va">url</span>, sas <span class="op">=</span> <span class="st">"my-sas"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span>, <span class="st">"path/to/board"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ADLSgen2 is a modern, efficient way to access blobs</span></span></span>
+<span class="r-in"><span><span class="co"># - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API</span></span></span>
+<span class="r-in"><span><span class="co"># - Use the 'storage_container' generic instead of the service-specific</span></span></span>
+<span class="r-in"><span><span class="co">#   'blob_container'</span></span></span>
+<span class="r-in"><span><span class="co"># - We reuse the board created via the blob API above</span></span></span>
+<span class="r-in"><span><span class="va">adls_url</span> <span class="op">&lt;-</span> <span class="st">"https://myaccount.dfs.core.windows.net/mycontainer"</span></span></span>
+<span class="r-in"><span><span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/generics.html" class="external-link">storage_container</a></span><span class="op">(</span><span class="va">adls_url</span>, sas <span class="op">=</span> <span class="st">"my-sas"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span>, <span class="st">"path/to/board"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -180,11 +189,11 @@ possible; see the examples below.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

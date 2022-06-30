@@ -29,7 +29,7 @@ After you've shared the pin, it will be automatically available to others."><met
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -88,18 +88,18 @@ After you've shared the pin, it will be automatically available to others.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">board_rsconnect</span><span class="op">(</span>
-  auth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"manual"</span>, <span class="st">"envvar"</span>, <span class="st">"rsconnect"</span><span class="op">)</span>,
-  server <span class="op">=</span> <span class="cn">NULL</span>,
-  account <span class="op">=</span> <span class="cn">NULL</span>,
-  key <span class="op">=</span> <span class="cn">NULL</span>,
-  output_files <span class="op">=</span> <span class="cn">FALSE</span>,
-  cache <span class="op">=</span> <span class="cn">NULL</span>,
-  name <span class="op">=</span> <span class="st">"rsconnect"</span>,
-  versioned <span class="op">=</span> <span class="cn">TRUE</span>,
-  use_cache_on_failure <span class="op">=</span> <span class="fu">is_interactive</span><span class="op">(</span><span class="op">)</span>,
-  versions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">board_rsconnect</span><span class="op">(</span></span>
+<span>  auth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"manual"</span>, <span class="st">"envvar"</span>, <span class="st">"rsconnect"</span><span class="op">)</span>,</span>
+<span>  server <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  account <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  output_files <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"rsconnect"</span>,</span>
+<span>  versioned <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_cache_on_failure <span class="op">=</span> <span class="fu">is_interactive</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  versions <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -113,45 +113,66 @@ package (filtered by <code>server</code> and <code>account</code>, if provided)<
 </ul><p>The default, <code>auth = "auto"</code>, automatically picks between the three options,
 using <code>"manual"</code> if <code>server</code> and <code>key</code> are provided, <code>"envvar"</code> if both
 environment variables are set, and <code>"rsconnect"</code> otherwise.</p></dd>
+
+
 <dt>server</dt>
 <dd><p>For <code>auth = "manual"</code> or <code>auth = 'envvar'</code>, the full url to the server,
 like <code>http://server.rstudio.com/rsc</code> or <code>https://connect.rstudio.com/</code>.
 For <code>auth = 'rsconnect'</code> a host name used to disambiguate RSC accounts,
 like <code>server.rstudio.com</code> or <code>connect.rstudio.com</code>.</p></dd>
+
+
 <dt>account</dt>
 <dd><p>A user name used to disambiguate multiple RSC accounts.</p></dd>
+
+
 <dt>key</dt>
 <dd><p>The RStudio Connect API key.</p></dd>
+
+
 <dt>output_files</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> No longer supported.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>An optional name used identify the board. This is no longer
 generally needed since you should be passing around an explicit
 board object.</p></dd>
+
+
 <dt>versioned</dt>
 <dd><p>Should this board be registered with support for versions?</p></dd>
+
+
 <dt>use_cache_on_failure</dt>
 <dd><p>If the pin fails to download, is it ok to
 use the last cached version? Defaults to <code>is_interactive()</code> so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.</p></dd>
+
+
 <dt>versions</dt>
 <dd><p>Should this board be registered with support for versions?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="public-pins">Public pins<a class="anchor" aria-label="anchor" href="#public-pins"></a></h2>
     <p>If your RSC instance allows it, you can share a pin publicly by setting the
-access type to <code>all</code>:</p><div class="sourceCode r"><pre><code><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">my_df</span>, access_type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></code></pre><p></p></div>
+access type to <code>all</code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">my_df</span>, access_type <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>(You can also do this in RSC by setting "Access" to
 "Anyone - no login required")</p>
-<p>Now anyone can read your pin through <code><a href="board_url.html">board_url()</a></code>:</p><div class="sourceCode r"><pre><code><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
-  my_df <span class="op">=</span> <span class="st">"https://connect.rstudioservices.com/content/3004/"</span>
-<span class="op">)</span><span class="op">)</span>
-<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"my_df"</span><span class="op">)</span></code></pre><p></p></div>
+<p>Now anyone can read your pin through <code><a href="board_url.html">board_url()</a></code>:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  my_df <span class="op">=</span> <span class="st">"https://connect.rstudioservices.com/content/3004/"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"my_df"</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>You can find the URL of a pin with <code><a href="pin_browse.html">pin_browse()</a></code>.</p>
     </div>
     <div class="section level2">
@@ -163,14 +184,14 @@ access type to <code>all</code>:</p><div class="sourceCode r"><pre><code><span c
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_rsconnect</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Share the mtcars with your team</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Download a shared dataset</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"timothy/mtcars"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_rsconnect</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Share the mtcars with your team</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Download a shared dataset</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"timothy/mtcars"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -178,11 +199,11 @@ access type to <code>all</code>:</p><div class="sourceCode r"><pre><code><span c
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

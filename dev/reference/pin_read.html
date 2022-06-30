@@ -19,7 +19,7 @@ it."><meta property="og:image" content="https://pins.rstudio.com/logo.png"><meta
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -73,19 +73,19 @@ it.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pin_read</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, version <span class="op">=</span> <span class="cn">NULL</span>, hash <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">pin_write</span><span class="op">(</span>
-  <span class="va">board</span>,
-  <span class="va">x</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="cn">NULL</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  description <span class="op">=</span> <span class="cn">NULL</span>,
-  metadata <span class="op">=</span> <span class="cn">NULL</span>,
-  versioned <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pin_read</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, version <span class="op">=</span> <span class="cn">NULL</span>, hash <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">pin_write</span><span class="op">(</span></span>
+<span>  <span class="va">board</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  description <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  versioned <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -93,40 +93,63 @@ it.</p>
     <dl><dt>board</dt>
 <dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_rsconnect.html">board_rsconnect()</a></code>,
 <code><a href="board_url.html">board_url()</a></code> or another <code>board_</code> function.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Pin name.</p></dd>
+
+
 <dt>version</dt>
 <dd><p>Retrieve a specific version of a pin. Use <code><a href="pin_versions.html">pin_versions()</a></code> to
 find out which versions are available and when they were created.</p></dd>
+
+
 <dt>hash</dt>
 <dd><p>Specify a hash to verify that you get exactly the dataset that
 you expect. You can find the hash of an existing pin by looking for
 <code>pin_hash</code> in <code><a href="pin_meta.html">pin_meta()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed on to methods for a specific board.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>An object (typically a data frame) to pin.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>File type used to save <code>x</code> to disk. Must be one of
 "csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
 lists and rds for everything else.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>A title for the pin; most important for shared boards so that
 others can understand what the pin contains. If omitted, a brief
 description of the contents will be automatically generated.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>A detailed description of the pin contents.</p></dd>
+
+
 <dt>metadata</dt>
 <dd><p>A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the <code>user</code> key, to
 avoid potential clashes with the metadata that pins itself uses.</p></dd>
+
+
 <dt>versioned</dt>
 <dd><p>Should the pin be versioned? The default, <code>NULL</code>, will
 use the default for <code>board</code></p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>pin_read()</code> returns an R object read from the pin;
+    
+
+<p><code>pin_read()</code> returns an R object read from the pin;
 <code>pin_write()</code> returns the fully qualified name of the new pin, invisibly.</p>
     </div>
     <div class="section level2">
@@ -138,56 +161,56 @@ if you want to perform the serialisation yourself and work just with files.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"x"</span>, description <span class="op">=</span> <span class="st">"10 numbers"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"x"</span>, description <span class="op">=</span> <span class="st">"10 numbers"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220103T180735Z-56bc4'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220630T203906Z-4d1eb'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
-<span class="r-in"><span class="va">b</span></span>
+<span class="r-in"><span><span class="va">b</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Pin board</span> &lt;pins_board_folder&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/RtmpCTnaQI/pins-32653a96db04'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/RtmpRUMKVT/pins-3778e462f52'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cache size: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pins [1]: 'x'</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "x.rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "56bc449aae2b395d"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "4d1eb93dc2188114"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "x: a pinned integer vector"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: chr "10 numbers"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2022-01-03 18:07:00"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2022-06-30 20:39:00"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpCTnaQI/pins-32653a96db04/x/20220103T180735Z-56bc4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpRUMKVT/pins-3778e462f52/x/20220630T203906Z-4d1eb"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20220103T180735Z-56bc4"</span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20220630T203906Z-4d1eb"</span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add a new version</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span>, <span class="st">"x"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a new version</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span>, <span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220103T180735Z-0e79a'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220630T203906Z-ce5a1'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Retrieve an older version</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  2  3  4  5  6  7  8  9 10 11</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Retrieve an older version</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20220103T180735Z-0e79a 2022-01-03 <span style="color: #949494;">18:07:00</span> 0e79a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20220103T180735Z-56bc4 2022-01-03 <span style="color: #949494;">18:07:00</span> 56bc4</span>
-<span class="r-in"><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="va">.Last.value</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
-<span class="r-in"><span class="co"># (Normally you'd specify the version with a string, but since the</span></span>
-<span class="r-in"><span class="co"># version includes the date-time I can't do that in an example)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20220630T203906Z-4d1eb 2022-06-30 <span style="color: #949494;">20:39:00</span> 4d1eb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20220630T203906Z-ce5a1 2022-06-30 <span style="color: #949494;">20:39:00</span> ce5a1</span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="va">.Last.value</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  2  3  4  5  6  7  8  9 10 11</span>
+<span class="r-in"><span><span class="co"># (Normally you'd specify the version with a string, but since the</span></span></span>
+<span class="r-in"><span><span class="co"># version includes the date-time I can't do that in an example)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -195,11 +218,11 @@ if you want to perform the serialisation yourself and work just with files.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

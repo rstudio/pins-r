@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -70,38 +70,49 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pin_info</span><span class="op">(</span>
-  <span class="va">name</span>,
-  board <span class="op">=</span> <span class="cn">NULL</span>,
-  extended <span class="op">=</span> <span class="cn">TRUE</span>,
-  metadata <span class="op">=</span> <span class="cn">TRUE</span>,
-  signature <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pin_info</span><span class="op">(</span></span>
+<span>  <span class="va">name</span>,</span>
+<span>  board <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extended <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  metadata <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  signature <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>name</dt>
 <dd><p>The exact name of the pin to match when searching.</p></dd>
+
+
 <dt>board</dt>
 <dd><p>The board name used to find the pin.</p></dd>
+
+
 <dt>extended</dt>
 <dd><p>Should additional board-specific information be shown?</p></dd>
+
+
 <dt>metadata</dt>
 <dd><p>Should additional pin-specific information be shown?</p></dd>
+
+
 <dt>signature</dt>
 <dd><p>Should a signature to identify this pin be shown?</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters.</p></dd>
+
 </dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># old API</span></span>
-<span class="r-in"><span class="fu"><a href="legacy_local.html">board_register_local</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="pin.html">pin</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pin_info</span><span class="op">(</span><span class="st">"mtcars"</span>, <span class="st">"local"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># old API</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="legacy_local.html">board_register_local</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pin.html">pin</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pin_info</span><span class="op">(</span><span class="st">"mtcars"</span>, <span class="st">"local"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Source: local&lt;mtcars&gt; [table]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Properties:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#   rows: 32</span></span>
@@ -118,30 +129,30 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     am: numeric</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     gear: numeric</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     carb: numeric</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># new API</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># new API</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using `name = 'mtcars'`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220103T180733Z-bfb57'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220630T203905Z-66143'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 1.19K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "bfb5703155b2ee0a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "66143b23339a01d9"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2022-01-03 18:07:00"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2022-06-30 20:39:00"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpCTnaQI/pins-32654476bcc5/mtcars/20220103T180733Z-bfb57"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpRUMKVT/pins-377898b1e1c/mtcars/20220630T203905Z-66143"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20220103T180733Z-bfb57"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20220630T203905Z-66143"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -149,11 +160,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

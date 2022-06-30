@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -63,9 +63,7 @@
       <small>Source: <a href="https://github.com/rstudio/pins/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="pins-development-version">pins (development version)<a class="anchor" aria-label="anchor" href="#pins-development-version"></a></h2>
-</div>
+    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="pins-development-version">pins (development version)<a class="anchor" aria-label="anchor" href="#pins-development-version"></a></h2></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="pins-101">pins 1.0.1<a class="anchor" aria-label="anchor" href="#pins-101"></a></h2><p class="text-muted">CRAN release: 2021-12-15</p>
 <ul><li><p><code><a href="../reference/board_azure.html">board_azure()</a></code> now allows you to set a <code>path</code> so that multiple boards can share the same container (<a href="https://github.com/rstudio/pins/issues/528" class="external-link">#528</a>, <a href="https://github.com/hongooi73" class="external-link">@hongooi73</a>).</p></li>
@@ -80,10 +78,10 @@
 <h2 class="pkg-version" data-toc-text="1.0.0" id="pins-100">pins 1.0.0<a class="anchor" aria-label="anchor" href="#pins-100"></a></h2><p class="text-muted">CRAN release: 2021-10-02</p>
 <p>pins 1.0.0 includes a new, more explicit, API that includes robust support for versioning. In the modern API, you create a board object which is passed to every <code>pin_</code> function instead of “registering” a board that is later refereed to with a string. This leads to code like this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span>
-<span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></code></pre></div>
 <p>The legacy API (<code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code>, and <code><a href="../reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="../articles/pins-update.html">vignette("pins-update")</a></code>.</p>
 <div class="section level3">
 <h3 id="modern-pin-functions-1-0-0">Modern pin functions<a class="anchor" aria-label="anchor" href="#modern-pin-functions-1-0-0"></a></h3>
@@ -134,13 +132,11 @@
 </ul></div>
 <div class="section level3">
 <h3 id="boards-0-4-5">Boards<a class="anchor" aria-label="anchor" href="#boards-0-4-5"></a></h3>
-<ul><li>Silenced ‘no encoding supplied’ warning (<a href="https://github.com/rstudio/pins/issues/330" class="external-link">#330</a>).</li>
-</ul></div>
+<ul><li>Silenced ‘no encoding supplied’ warning (<a href="https://github.com/rstudio/pins/issues/330" class="external-link">#330</a>).</li></ul></div>
 <div class="section level3">
 <h3 id="local-0-4-5">Local<a class="anchor" aria-label="anchor" href="#local-0-4-5"></a></h3>
 <ul><li>
-<code><a href="../reference/pin_find.html">pin_find()</a></code> no longer searches text with an undocumented regular expression syntax (<a href="https://github.com/rstudio/pins/issues/270" class="external-link">#270</a>).</li>
-</ul></div>
+<code><a href="../reference/pin_find.html">pin_find()</a></code> no longer searches text with an undocumented regular expression syntax (<a href="https://github.com/rstudio/pins/issues/270" class="external-link">#270</a>).</li></ul></div>
 <div class="section level3">
 <h3 id="s3-0-4-5">S3<a class="anchor" aria-label="anchor" href="#s3-0-4-5"></a></h3>
 <ul><li><p>Default to using HTTPS in S3 boards (<a href="https://github.com/rstudio/pins/issues/304" class="external-link">#304</a>).</p></li>
@@ -179,16 +175,13 @@
 </ul></div>
 <div class="section level3">
 <h3 id="google-cloud-0-4-4">Google Cloud<a class="anchor" aria-label="anchor" href="#google-cloud-0-4-4"></a></h3>
-<ul><li>Disable caching on <code>data.txt</code> to support creating multiple pins at once (<a href="https://github.com/rstudio/pins/issues/275" class="external-link">#275</a>).</li>
-</ul></div>
+<ul><li>Disable caching on <code>data.txt</code> to support creating multiple pins at once (<a href="https://github.com/rstudio/pins/issues/275" class="external-link">#275</a>).</li></ul></div>
 <div class="section level3">
 <h3 id="rstudio-0-4-4">RStudio<a class="anchor" aria-label="anchor" href="#rstudio-0-4-4"></a></h3>
-<ul><li>Prevent connections pane from hanging when multiple pins are updated at once (<a href="https://github.com/rstudio/pins/issues/280" class="external-link">#280</a>).</li>
-</ul></div>
+<ul><li>Prevent connections pane from hanging when multiple pins are updated at once (<a href="https://github.com/rstudio/pins/issues/280" class="external-link">#280</a>).</li></ul></div>
 <div class="section level3">
 <h3 id="website-0-4-4">Website<a class="anchor" aria-label="anchor" href="#website-0-4-4"></a></h3>
-<ul><li>Support for <code>pin_get(download = FALSE)</code> to avoid checking for updates.</li>
-</ul></div>
+<ul><li>Support for <code>pin_get(download = FALSE)</code> to avoid checking for updates.</li></ul></div>
 <div class="section level3">
 <h3 id="rstudio-connect-0-4-4">RStudio Connect<a class="anchor" aria-label="anchor" href="#rstudio-connect-0-4-4"></a></h3>
 <ul><li><p>Support for servers with mismatched <code>http</code> vs <code>https</code> protocols.</p></li>
@@ -199,12 +192,10 @@
 <h2 class="pkg-version" data-toc-text="0.4.3" id="pins-043">pins 0.4.3<a class="anchor" aria-label="anchor" href="#pins-043"></a></h2><p class="text-muted">CRAN release: 2020-07-10</p>
 <div class="section level3">
 <h3 id="boards-0-4-3">Boards<a class="anchor" aria-label="anchor" href="#boards-0-4-3"></a></h3>
-<ul><li>Properly export <code>board_pin_versions</code> to allow custom boards extending versions (<a href="https://github.com/rstudio/pins/issues/265" class="external-link">#265</a>).</li>
-</ul></div>
+<ul><li>Properly export <code>board_pin_versions</code> to allow custom boards extending versions (<a href="https://github.com/rstudio/pins/issues/265" class="external-link">#265</a>).</li></ul></div>
 <div class="section level3">
 <h3 id="website-0-4-3">Website<a class="anchor" aria-label="anchor" href="#website-0-4-3"></a></h3>
-<ul><li>Fix regression creating pins when using a brand new cloud board (<a href="https://github.com/rstudio/pins/issues/268" class="external-link">#268</a>).</li>
-</ul></div>
+<ul><li>Fix regression creating pins when using a brand new cloud board (<a href="https://github.com/rstudio/pins/issues/268" class="external-link">#268</a>).</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.2" id="pins-042">pins 0.4.2<a class="anchor" aria-label="anchor" href="#pins-042"></a></h2><p class="text-muted">CRAN release: 2020-07-05</p>
@@ -242,8 +233,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="kaggle-0-4-1">Kaggle<a class="anchor" aria-label="anchor" href="#kaggle-0-4-1"></a></h3>
-<ul><li>Support to find and download competition datasets.</li>
-</ul></div>
+<ul><li>Support to find and download competition datasets.</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="pins-040">pins 0.4.0<a class="anchor" aria-label="anchor" href="#pins-040"></a></h2><p class="text-muted">CRAN release: 2020-04-07</p>
@@ -279,24 +269,20 @@
 </ul></div>
 <div class="section level3">
 <h3 id="websites-0-4-0">Websites<a class="anchor" aria-label="anchor" href="#websites-0-4-0"></a></h3>
-<ul><li>Using <code><a href="../reference/pin.html">pin()</a></code> now searches for <code>data.txt</code> files in URLs when the URL contains no file extension, behavior can be turnned off with the <code>pins.search.datatxt</code> option.</li>
-</ul></div>
+<ul><li>Using <code><a href="../reference/pin.html">pin()</a></code> now searches for <code>data.txt</code> files in URLs when the URL contains no file extension, behavior can be turnned off with the <code>pins.search.datatxt</code> option.</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.2" id="pins-032">pins 0.3.2<a class="anchor" aria-label="anchor" href="#pins-032"></a></h2><p class="text-muted">CRAN release: 2020-02-06</p>
 <div class="section level3">
 <h3 id="pins-0-3-2">Pins<a class="anchor" aria-label="anchor" href="#pins-0-3-2"></a></h3>
 <ul><li>
-<code><a href="../reference/pin_info.html">pin_info()</a></code> adds support for <code>metadata</code> parameter to avoid retrieving pin contents.</li>
-</ul></div>
+<code><a href="../reference/pin_info.html">pin_info()</a></code> adds support for <code>metadata</code> parameter to avoid retrieving pin contents.</li></ul></div>
 <div class="section level3">
 <h3 id="s3-0-3-2">S3<a class="anchor" aria-label="anchor" href="#s3-0-3-2"></a></h3>
-<ul><li>Added support for <code>host</code> parameter to configure “s3.amazonaws.com” to custom locations.</li>
-</ul></div>
+<ul><li>Added support for <code>host</code> parameter to configure “s3.amazonaws.com” to custom locations.</li></ul></div>
 <div class="section level3">
 <h3 id="github-0-3-2">GitHub<a class="anchor" aria-label="anchor" href="#github-0-3-2"></a></h3>
-<ul><li>Fix regression uploading large datasets as release files.</li>
-</ul></div>
+<ul><li>Fix regression uploading large datasets as release files.</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.1" id="pins-031">pins 0.3.1<a class="anchor" aria-label="anchor" href="#pins-031"></a></h2><p class="text-muted">CRAN release: 2020-01-10</p>
@@ -308,8 +294,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="azure-0-3-1">Azure<a class="anchor" aria-label="anchor" href="#azure-0-3-1"></a></h3>
-<ul><li>Added missing <code>key</code> parameter in <code><a href="../reference/legacy_azure.html">board_register_azure()</a></code>.</li>
-</ul></div>
+<ul><li>Added missing <code>key</code> parameter in <code><a href="../reference/legacy_azure.html">board_register_azure()</a></code>.</li></ul></div>
 <div class="section level3">
 <h3 id="rstudio-0-3-1">RStudio<a class="anchor" aria-label="anchor" href="#rstudio-0-3-1"></a></h3>
 <ul><li><p>Fixed connection suggested code when caused by <code><a href="../reference/pin_find.html">pin_find()</a></code> (<a href="https://github.com/rstudio/pins/issues/137" class="external-link">#137</a>).</p></li>
@@ -343,8 +328,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="boards-0-3-0">Boards<a class="anchor" aria-label="anchor" href="#boards-0-3-0"></a></h3>
-<ul><li>Avoid “cannot create dir” warning in systems with an empty cache folder.</li>
-</ul></div>
+<ul><li>Avoid “cannot create dir” warning in systems with an empty cache folder.</li></ul></div>
 <div class="section level3">
 <h3 id="rstudio-0-3-0">RStudio<a class="anchor" aria-label="anchor" href="#rstudio-0-3-0"></a></h3>
 <ul><li><p>Gracefully handle errors when a pin’s preview can’t be created.</p></li>
@@ -364,8 +348,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="python-0-3-0">Python<a class="anchor" aria-label="anchor" href="#python-0-3-0"></a></h3>
-<ul><li>Support for Python 3.</li>
-</ul></div>
+<ul><li>Support for Python 3.</li></ul></div>
 <div class="section level3">
 <h3 id="websites-0-3-0">Websites<a class="anchor" aria-label="anchor" href="#websites-0-3-0"></a></h3>
 <ul><li><p>The <code>name</code> parameter in <code><a href="../reference/legacy_datatxt.html">board_register_datatxt()</a></code> is now optional.</p></li>
@@ -373,8 +356,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="github-0-3-0">GitHub<a class="anchor" aria-label="anchor" href="#github-0-3-0"></a></h3>
-<ul><li>Various fixes for GitHub boards using the <code>path</code> parameter when registering the board (<a href="https://github.com/rstudio/pins/issues/121" class="external-link">#121</a>).</li>
-</ul></div>
+<ul><li>Various fixes for GitHub boards using the <code>path</code> parameter when registering the board (<a href="https://github.com/rstudio/pins/issues/121" class="external-link">#121</a>).</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="pins-020">pins 0.2.0<a class="anchor" aria-label="anchor" href="#pins-020"></a></h2><p class="text-muted">CRAN release: 2019-10-01</p>
@@ -401,13 +383,11 @@
 </ul></div>
 <div class="section level3">
 <h3 id="websites-0-2-0">Websites<a class="anchor" aria-label="anchor" href="#websites-0-2-0"></a></h3>
-<ul><li>Fix for data.txt boards created from GitHub boards using large files.</li>
-</ul></div>
+<ul><li>Fix for data.txt boards created from GitHub boards using large files.</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="pins-012">pins 0.1.2<a class="anchor" aria-label="anchor" href="#pins-012"></a></h2><p class="text-muted">CRAN release: 2019-09-04</p>
-<ul><li>Support to upload files larger than 50mb in GitHub boards as release files.</li>
-</ul></div>
+<ul><li>Support to upload files larger than 50mb in GitHub boards as release files.</li></ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="pins-011">pins 0.1.1<a class="anchor" aria-label="anchor" href="#pins-011"></a></h2><p class="text-muted">CRAN release: 2019-08-30</p>
 <ul><li><p>Fix CRAN request to explicitly opt-in to use local home path as cache by running <code><a href="../reference/legacy_local.html">board_register_local()</a></code>.</p></li>
@@ -428,11 +408,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

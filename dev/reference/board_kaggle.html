@@ -27,7 +27,7 @@ pin_read() and pin_write() are not a good fit to the kaggle model."><meta proper
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/pins.html">Get started</a>
 </li>
@@ -85,42 +85,42 @@ kaggle dataset. Data is only re-downloaded when it changes.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">board_kaggle_competitions</span><span class="op">(</span>username <span class="op">=</span> <span class="cn">NULL</span>, key <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="co"># S3 method for pins_board_kaggle_competition</span>
-<span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span>
-  <span class="va">board</span>,
-  search <span class="op">=</span> <span class="cn">NULL</span>,
-  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grouped"</span>, <span class="st">"prize"</span>, <span class="st">"earliestDeadline"</span>, <span class="st">"latestDeadline"</span>,
-    <span class="st">"numberOfTeams"</span>, <span class="st">"recentlyCreated"</span><span class="op">)</span>,
-  page <span class="op">=</span> <span class="fl">1</span>,
-  user <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">board_kaggle_dataset</span><span class="op">(</span>username <span class="op">=</span> <span class="cn">NULL</span>, key <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="co"># S3 method for pins_board_kaggle_dataset</span>
-<span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span>
-  <span class="va">board</span>,
-  search <span class="op">=</span> <span class="cn">NULL</span>,
-  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hottest"</span>, <span class="st">"votes"</span>, <span class="st">"updated"</span>, <span class="st">"active"</span><span class="op">)</span>,
-  page <span class="op">=</span> <span class="fl">1</span>,
-  user <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for pins_board_kaggle_dataset</span>
-<span class="fu"><a href="pin_fetch.html">pin_store</a></span><span class="op">(</span>
-  <span class="va">board</span>,
-  <span class="va">name</span>,
-  <span class="va">paths</span>,
-  <span class="va">metadata</span>,
-  versioned <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  private <span class="op">=</span> <span class="cn">TRUE</span>,
-  license <span class="op">=</span> <span class="st">"CC0-1.0"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">board_kaggle_competitions</span><span class="op">(</span>username <span class="op">=</span> <span class="cn">NULL</span>, key <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for pins_board_kaggle_competition</span></span>
+<span><span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span></span>
+<span>  <span class="va">board</span>,</span>
+<span>  search <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grouped"</span>, <span class="st">"prize"</span>, <span class="st">"earliestDeadline"</span>, <span class="st">"latestDeadline"</span>,</span>
+<span>    <span class="st">"numberOfTeams"</span>, <span class="st">"recentlyCreated"</span><span class="op">)</span>,</span>
+<span>  page <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  user <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">board_kaggle_dataset</span><span class="op">(</span>username <span class="op">=</span> <span class="cn">NULL</span>, key <span class="op">=</span> <span class="cn">NULL</span>, cache <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for pins_board_kaggle_dataset</span></span>
+<span><span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span></span>
+<span>  <span class="va">board</span>,</span>
+<span>  search <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hottest"</span>, <span class="st">"votes"</span>, <span class="st">"updated"</span>, <span class="st">"active"</span><span class="op">)</span>,</span>
+<span>  page <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  user <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for pins_board_kaggle_dataset</span></span>
+<span><span class="fu"><a href="pin_fetch.html">pin_store</a></span><span class="op">(</span></span>
+<span>  <span class="va">board</span>,</span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">paths</span>,</span>
+<span>  <span class="va">metadata</span>,</span>
+<span>  versioned <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  private <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  license <span class="op">=</span> <span class="st">"CC0-1.0"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -130,64 +130,91 @@ kaggle dataset. Data is only re-downloaded when it changes.</p>
 <code>"~/.kaggle/kaggle.json"</code> file downloaded from your account page
 (by clicking "Create New API Token". However, if necessary you can supply
 the <code>username</code> and <code>key</code> arguments here; this can be useful for testing.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.</p></dd>
+
+
 <dt>board</dt>
 <dd><p>The name of the board to register.</p></dd>
+
+
 <dt>search</dt>
 <dd><p>A string to search for in pin name and title.
 Use <code>NULL</code> to return all pins.</p></dd>
+
+
 <dt>sort_by</dt>
 <dd><p>How to sort the results.</p></dd>
+
+
 <dt>page</dt>
 <dd><p>Which page of results to retrieve.</p></dd>
+
+
 <dt>user</dt>
 <dd><p>If non-<code>NULL</code> filter to specified user.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters required to initialize a particular board.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>An optional name used identify the board. This is no longer
 generally needed since you should be passing around an explicit
 board object.</p></dd>
+
+
 <dt>paths</dt>
 <dd><p>A character vector of file paths to upload to <code>board</code>.</p></dd>
+
+
 <dt>metadata</dt>
 <dd><p>A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the <code>user</code> key, to
 avoid potential clashes with the metadata that pins itself uses.</p></dd>
+
+
 <dt>versioned</dt>
 <dd><p>Should this board be registered with support for versions?</p></dd>
+
+
 <dt>private</dt>
 <dd><p>Should the dataset be private (<code>TRUE</code>, the default)
 or public (<code>FALSE</code>)?</p></dd>
+
+
 <dt>license</dt>
 <dd><p>How should the data be licensed?</p></dd>
+
 </dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_kaggle_competitions</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"titanic"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"titanic"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">paths</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_kaggle_dataset</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span><span class="st">"cats"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_exists.html">pin_exists</a></span><span class="op">(</span><span class="st">"rturley/pet-breed-characteristics"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"rturley/pet-breed-characteristics"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"rturley/pet-breed-characteristics"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"imsparsh/animal-breed-cats-and-dogs"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_kaggle_competitions</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"titanic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"titanic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">paths</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_kaggle_dataset</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_search.html">pin_search</a></span><span class="op">(</span><span class="st">"cats"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_exists.html">pin_exists</a></span><span class="op">(</span><span class="st">"rturley/pet-breed-characteristics"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"rturley/pet-breed-characteristics"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"rturley/pet-breed-characteristics"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"imsparsh/animal-breed-cats-and-dogs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -195,11 +222,11 @@ or public (<code>FALSE</code>)?</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
