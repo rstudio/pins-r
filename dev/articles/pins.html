@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started with pins">
 <meta property="og:description" content="pins">
@@ -75,7 +75,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/rstudio/pins/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/rstudio/pins-r/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -94,7 +94,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Get started with pins</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins/blob/HEAD/vignettes/pins.Rmd" class="external-link"><code>vignettes/pins.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/vignettes/pins.Rmd" class="external-link"><code>vignettes/pins.Rmd</code></a></small>
       <div class="d-none name"><code>pins.Rmd</code></div>
     </div>
 
@@ -155,7 +155,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>You don’t need to supply the file type when reading data from a pin because pins automatically stores the file type in the metadata, the topic of the next section.</p>
 <p>Note that when the data lives elsewhere, pins takes care of downloading and caching so that it’s only re-downloaded when needed. That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins. As a general rule of thumb, we don’t recommend using pins with files over 500 MB. If you find yourself routinely pinning data larger that this, you might need to reconsider your data engineering pipeline.</p>
 </div>
@@ -172,12 +173,12 @@
 <span><span class="co">#&gt;  $ type       : chr "rds"</span></span>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2022-06-30 20:39:00"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2022-08-08 23:15:00"</span></span>
 <span><span class="co">#&gt;  $ api_version: num 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/Rtmp0VZcx3/pins-3b4c105ec3d7/mtcars/20120304T050607Z-2f9b5"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpGjgzal/pins-3f657e52bfdf/mtcars/20120304T050607Z-2f9b5"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
 <span><span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This includes:</p>
@@ -208,13 +209,13 @@
 <span><span class="co">#&gt;  $ type       : chr "rds"</span></span>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2022-06-30 20:39:00"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2022-08-08 23:15:00"</span></span>
 <span><span class="co">#&gt;  $ api_version: num 1</span></span>
 <span><span class="co">#&gt;  $ user       :List of 1</span></span>
 <span><span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/Rtmp0VZcx3/pins-3b4c105ec3d7/mtcars/20120304T050607Z-2f9b5"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpGjgzal/pins-3f657e52bfdf/mtcars/20120304T050607Z-2f9b5"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
 <span><span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata consistent over time, I’d recommend manually capturing anything you really care about in <code>metadata</code>.</p>
@@ -284,8 +285,8 @@
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp0VZcx3/pins-3b4c105ec3d7/example/20120304T050607Z-e9d42/mtcars.csv"  </span></span>
-<span><span class="co">#&gt; [2] "/tmp/Rtmp0VZcx3/pins-3b4c105ec3d7/example/20120304T050607Z-e9d42/alphabet.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpGjgzal/pins-3f657e52bfdf/example/20120304T050607Z-e9d42/mtcars.csv"  </span></span>
+<span><span class="co">#&gt; [2] "/tmp/RtmpGjgzal/pins-3f657e52bfdf/example/20120304T050607Z-e9d42/alphabet.txt"</span></span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as internal implementation details — never modify them and never save them for use outside of pins.</p>
 <p>Note that you can’t <code><a href="../reference/pin_read.html">pin_read()</a></code> something you pinned with <code><a href="../reference/pin_download.html">pin_upload()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -296,7 +297,7 @@
 <p>But you can <code><a href="../reference/pin_download.html">pin_download()</a></code> something that you’ve pinned with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp0VZcx3/pins-3b4c105ec3d7/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpGjgzal/pins-3f657e52bfdf/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
@@ -314,22 +315,24 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 344 × 17</span></span></span>
-<span><span class="co">#&gt;    studyName `Sample Number` Species         Region Island Stage `Individual ID`</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708                 1 Adelie Penguin… Anvers Torge… Adul… N1A1           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708                 2 Adelie Penguin… Anvers Torge… Adul… N1A2           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708                 3 Adelie Penguin… Anvers Torge… Adul… N2A1           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708                 4 Adelie Penguin… Anvers Torge… Adul… N2A2           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708                 5 Adelie Penguin… Anvers Torge… Adul… N3A1           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708                 6 Adelie Penguin… Anvers Torge… Adul… N3A2           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708                 7 Adelie Penguin… Anvers Torge… Adul… N4A1           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708                 8 Adelie Penguin… Anvers Torge… Adul… N4A2           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708                 9 Adelie Penguin… Anvers Torge… Adul… N5A1           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708                10 Adelie Penguin… Anvers Torge… Adul… N5A2           </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 334 more rows, and 10 more variables: `Clutch Completion` &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Date Egg` &lt;chr&gt;, `Culmen Length (mm)` &lt;dbl&gt;, `Culmen Depth (mm)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt;    studyName Sampl…¹ Species Region Island Stage Indiv…² Clutc…³ Date …⁴ Culme…⁵</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708         1 Adelie… Anvers Torge… Adul… N1A1    Yes     2007-1…    39.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708         2 Adelie… Anvers Torge… Adul… N1A2    Yes     2007-1…    39.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708         3 Adelie… Anvers Torge… Adul… N2A1    Yes     2007-1…    40.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708         4 Adelie… Anvers Torge… Adul… N2A2    Yes     2007-1…    <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708         5 Adelie… Anvers Torge… Adul… N3A1    Yes     2007-1…    36.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708         6 Adelie… Anvers Torge… Adul… N3A2    Yes     2007-1…    39.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708         7 Adelie… Anvers Torge… Adul… N4A1    No      2007-1…    38.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708         8 Adelie… Anvers Torge… Adul… N4A2    No      2007-1…    39.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708         9 Adelie… Anvers Torge… Adul… N5A1    Yes     2007-1…    34.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708        10 Adelie… Anvers Torge… Adul… N5A2    Yes     2007-1…    42  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 334 more rows, 7 more variables: `Culmen Depth (mm)` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   `Flipper Length (mm)` &lt;int&gt;, `Body Mass (g)` &lt;int&gt;, Sex &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;, and</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​`Sample Number`, ²​`Individual ID`,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ³​`Clutch Completion`, ⁴​`Date Egg`, ⁵​`Culmen Length (mm)`</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> or similar but it has a big payoff: the data will only be re-downloaded when it changes.</p>
 </div>
 
@@ -346,7 +349,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
