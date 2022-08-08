@@ -502,7 +502,7 @@ local_legacy_datatxt <- function(..., env = parent.frame()) {
 
   board_register_datatxt(
     ...,
-    url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    url = "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/datatxt/data.txt",
     cache = path
   )
 }
