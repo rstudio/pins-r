@@ -3,7 +3,7 @@ test_that("can board_register() a data.txt board", {
 
   board_register_datatxt(
     name = "simpletxt",
-    url = "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    url = "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/datatxt/data.txt",
     cache = tempfile()
   )
 
@@ -33,7 +33,7 @@ test_that("can board_register() with URL", {
   skip_on_cran()
 
   board_name <- board_register(
-    "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/datatxt/data.txt",
     name = "simpletxt",
     cache = tempfile()
   )
@@ -41,7 +41,7 @@ test_that("can board_register() with URL", {
   expect_equal(board_name, "simpletxt")
 
   board_name <- board_register(
-    "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/data.txt",
+    "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/datatxt/data.txt",
     cache = tempfile()
   )
   withr::defer(board_deregister("raw"))

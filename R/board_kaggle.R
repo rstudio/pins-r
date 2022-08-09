@@ -433,7 +433,7 @@ kaggle_json <- function(resp, task = "retrieve data") {
       httr::stop_for_status(resp, task)
     }
   }
-  if (!is.null(json$error)) {
+  if (!is.null(json$hasError) && json$hasError) {
     abort(c(paste0("Failed to ", task), json$error))
   }
 
