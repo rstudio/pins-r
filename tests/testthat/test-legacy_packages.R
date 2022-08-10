@@ -1,3 +1,5 @@
+skip_on_ci()
+
 test_that("can pin_find() package data", {
   board <- board_packages()
 
@@ -5,10 +7,10 @@ test_that("can pin_find() package data", {
   expect_gt(nrow(results), 0)
 
   results <- pin_find(text = "Passenger Numbers", board = board)
-  expect_equal(results$name, "datasets/AirPassengers")
+  expect_equal(as.character(results$name), "datasets/AirPassengers")
 
   results <- pin_find(name = "AirPassengers", board = board)
-  expect_equal(results$name, "datasets/AirPassengers")
+  expect_equal(as.character(results$name), "datasets/AirPassengers")
 })
 
 test_that("can retrieve data from a package", {
