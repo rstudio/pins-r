@@ -23,7 +23,7 @@ but you'll get clear errors when the code is deployed.}
 }
 \description{
 \code{board_url()} lets you build up a board from individual urls. This is
-useful because \code{\link[=pin_download]{pin_download()}} and \code{\link[=pin_get]{pin_get()}} will be cached - they'll
+useful because \code{\link[=pin_download]{pin_download()}} and \code{\link[=pin_read]{pin_read()}} will be cached - they'll
 only re-download the data if it's changed from the last time you downloaded
 it (using the tools of
 \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching}{HTTP caching}).
