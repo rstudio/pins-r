@@ -1,5 +1,3 @@
-skip_on_ci()
-
 test_that("can pin_find() package data", {
   board <- board_packages()
 
