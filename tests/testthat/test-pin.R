@@ -56,7 +56,7 @@ test_that("can pin a file", {
 test_that("can pin() remote CSV with URL and name", {
   board <- legacy_temp()
 
-  url <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/datatxt/iris/data.csv"
+  url <- "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/datatxt/iris/data.csv"
   pin <- pin(url, "iris", board = board)
 
   expect_equal(dim(read.csv(pin)), c(150, 5))
