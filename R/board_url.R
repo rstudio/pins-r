@@ -2,7 +2,7 @@
 #'
 #' @description
 #' `board_url()` lets you build up a board from individual urls. This is
-#' useful because [pin_download()] and [pin_get()] will be cached - they'll
+#' useful because [pin_download()] and [pin_read()] will be cached - they'll
 #' only re-download the data if it's changed from the last time you downloaded
 #' it (using the tools of
 #' [HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)).
