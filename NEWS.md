@@ -2,6 +2,8 @@
 
 * `board_rsconnect()` now correctly finds the created date for pins (#623, 
   @bjfletcher).
+  
+* `pin_upload()` now better handles path expansion (#585, @sellorm).
 
 # pins 1.0.1
 
