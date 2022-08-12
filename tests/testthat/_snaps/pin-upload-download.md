@@ -9,7 +9,7 @@
       pin_upload(board, "this-path-doesn't-exist")
     Condition
       Error in `pin_upload()`:
-      ! All elements of `path` must exist
+      ! All elements of `paths` must exist
     Code
       path <- fs::file_touch(fs::path_temp("test.txt"))
       pin_upload(board, path)
