@@ -45,8 +45,11 @@ legacy_kaggle <- function(token = NULL, name = "kaggle", ...) {
 #' @export
 board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
-                                  cache = board_cache_path(name),
+                                  cache = NULL,
                                   ...) {
+
+  cache <- cache %||% board_cache_path(name)
+
   board <- legacy_kaggle("kaggle",
     name = name,
     token = token,

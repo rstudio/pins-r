@@ -140,6 +140,7 @@ pin_meta.pins_board_kaggle_competition <- function(board, name, ...) {
     api_version = 1
   )
   local_meta(meta,
+    name = name,
     version = NA_character_,
     dir = fs::path(board$cache, name),
     url = competition$url
@@ -289,6 +290,7 @@ pin_meta.pins_board_kaggle_dataset <- function(board, name, version = NULL, ...)
     api_version = 1
   )
   local_meta(meta,
+    name = name,
     version = view$currentVersionNumber,
     dir = fs::path(board$cache, name),
     url = view$url
@@ -431,7 +433,7 @@ kaggle_json <- function(resp, task = "retrieve data") {
       httr::stop_for_status(resp, task)
     }
   }
-  if (!is.null(json$error)) {
+  if (!is.null(json$hasError) && json$hasError) {
     abort(c(paste0("Failed to ", task), json$error))
   }
 

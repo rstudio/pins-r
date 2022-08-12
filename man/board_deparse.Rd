@@ -27,7 +27,7 @@ board_deparse(board, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or another \code{board_} function.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
 }

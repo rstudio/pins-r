@@ -29,7 +29,7 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
 
   new_board_v0("pins_board_local",
     name = name,
-    cache = NA_character_,
+    cache = NA,
     path = path,
     versions = versions
   )
@@ -37,9 +37,7 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
 
 #' @rdname legacy_local
 #' @export
-board_register_local <- function(name = "local",
-                                 cache = board_cache_path(name),
-                                 ...) {
+board_register_local <- function(name = "local", cache = NULL, ...) {
   board <- legacy_local(path = cache, name = name, ...)
   board_register2(board)
 }

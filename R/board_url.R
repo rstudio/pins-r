@@ -2,7 +2,7 @@
 #'
 #' @description
 #' `board_url()` lets you build up a board from individual urls. This is
-#' useful because [pin_download()] and [pin_get()] will be cached - they'll
+#' useful because [pin_download()] and [pin_read()] will be cached - they'll
 #' only re-download the data if it's changed from the last time you downloaded
 #' it (using the tools of
 #' [HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)).
@@ -25,9 +25,9 @@
 #' @examples
 #' github_raw <- "https://raw.githubusercontent.com/"
 #' board <- board_url(c(
-#'   files = paste0(github_raw, "rstudio/pins/master/tests/testthat/pin-files/"),
-#'   rds = paste0(github_raw, "rstudio/pins/master/tests/testthat/pin-rds/"),
-#'   raw = paste0(github_raw, "rstudio/pins/master/tests/testthat/pin-files/first.txt")
+#'   files = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/"),
+#'   rds = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-rds/"),
+#'   raw = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
 #' ))
 #'
 #' board %>% pin_read("rds")
@@ -90,6 +90,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
     )
     meta <- read_meta(cache_dir)
     local_meta(meta,
+      name = name,
       dir = cache_dir,
       url = url,
       file_url = paste0(url, meta$file)
@@ -102,6 +103,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       api_version = 1
     )
     local_meta(meta,
+      name = name,
       dir = cache_dir,
       url = url,
       file_url = url
@@ -228,11 +230,11 @@ has_expired <- function(x) {
   }
 }
 
-http_date <- function(x = Sys.time()) {
+http_date <- function(x = Sys.time(), tz = "UTC") {
   if (is.null(x)) {
     return(NULL)
   }
 
   withr::local_locale(LC_TIME = "C")
-  strftime(.POSIXct(x), "%a, %d %b %Y %H:%M:%S", tz = "UTC", usetz = TRUE)
+  strftime(.POSIXct(x), "%a, %d %b %Y %H:%M:%S", tz = tz, usetz = TRUE)
 }

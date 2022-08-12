@@ -2,6 +2,7 @@
 
     Code
       pin_registry_retrieve(board, "x")
-    Error <simpleError>
-      Pin 'x' not found in board 'temp'.
+    Condition
+      Error in `pin_registry_retrieve()`:
+      ! Pin 'x' not found in board 'temp'.
 

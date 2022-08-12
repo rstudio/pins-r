@@ -2,12 +2,14 @@
 
     Code
       pin("http://httpstat.us/404", "test", board = board)
-    Error <rlang_error>
-      Client error: (404) Not Found. Failed to download remote file: http://httpstat.us/404
+    Condition
+      Error in `pin()`:
+      ! Client error: (404) Not Found. Failed to download remote file: http://httpstat.us/404
     Code
       pin(1:10, "test", board = board)
       x <- pin("http://httpstat.us/404", "test", board = board)
-    Warning <warning>
+    Condition
+      Warning:
       Failed to re-download pin; using cached value
       * Client error: (404) Not Found. Failed to download remote file: http://httpstat.us/404
     Code
@@ -17,6 +19,7 @@
 
     Code
       pin(iris, "iris2", board = board, custom_metadata = meta)
-    Warning <warning>
+    Condition
+      Warning:
       `custom_metadata` is deprecated; please use `metadata` instead
 

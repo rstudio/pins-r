@@ -8,7 +8,7 @@ pin_meta(board, name, version = NULL, ...)
 }
 \arguments{
 \item{board}{A pin board, created by \code{\link[=board_folder]{board_folder()}}, \code{\link[=board_rsconnect]{board_rsconnect()}},
-\code{\link[=board_url]{board_url()}} or other other \code{board_} function.}
+\code{\link[=board_url]{board_url()}} or another \code{board_} function.}
 
 \item{name}{Pin name.}
 
@@ -25,6 +25,7 @@ Pin metadata comes from three sources:
 \itemize{
 \item Standard metadata added by \code{pin_upload()}/\code{pin_write()}. This includes:
 \itemize{
+\item \verb{$name} - the pin's name.
 \item \verb{$file} - names of files stored in the pin.
 \item \verb{$file_size} - size of each file.
 \item \verb{$pin_hash} - hash of pin contents.

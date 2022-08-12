@@ -128,7 +128,12 @@ pin_register_reset_cache <- function(board, name) {
 # helpers -----------------------------------------------------------------
 
 pin_registry_path <- function(board, ...) {
-  fs::path(board$path %||% board$cache, ...)
+  if (is.na(board$cache)) {
+    path <- board$path
+  } else {
+    path <- board$cache
+  }
+  fs::path(path, ...)
 }
 
 # I think this is used so that the rsconnect board can match x to any user

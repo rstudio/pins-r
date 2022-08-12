@@ -3,10 +3,11 @@ test_api_versioning(board_temp(versioned = TRUE))
 test_api_meta(board_temp())
 
 test_that("has useful print method", {
-  skip_on_cran()
-  skip_on_os("windows")
-
-  expect_snapshot(board_folder("/tmp/test"))
+  path <- withr::local_tempfile()
+  expect_snapshot(
+    board_folder(path),
+    transform = ~ gsub("Path: .*", "Path: '<redacted>'", .x)
+  )
 })
 
 test_that("can upload/download multiple files", {
@@ -25,21 +26,21 @@ test_that("can upload/download multiple files", {
 })
 
 test_that("can browse", {
-  skip_on_cran()
-  skip_on_os("windows")
-
-  b <- board_folder("/tmp/test")
-
+  b <- board_folder(withr::local_tempfile())
   b %>% pin_write(1:10, "x")
-  withr::defer(b %>% pin_delete("x"))
 
-  expect_snapshot(b %>% pin_browse("x", local = TRUE))
-  expect_snapshot(b %>% pin_browse("x"), error = TRUE)
+  expect_snapshot({
+    b %>% pin_browse("x")
+    b %>% pin_browse("x", local = TRUE)
+  }, error = TRUE, transform = ~ gsub("<.*>", "<redacted>", .x))
 })
 
 test_that("can deparse", {
-  b <- board_folder("/tmp/test")
-  expect_snapshot(board_deparse(b))
+  b <- board_folder(withr::local_tempfile())
+  expect_snapshot(
+    board_deparse(b),
+    transform = ~ gsub('".*"', '"<redacted>"', .x)
+  )
 })
 
 test_that("generates useful messages", {

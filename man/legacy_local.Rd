@@ -8,7 +8,7 @@
 \usage{
 legacy_local(path = NULL, name = "local", versions = FALSE)
 
-board_register_local(name = "local", cache = board_cache_path(name), ...)
+board_register_local(name = "local", cache = NULL, ...)
 
 legacy_temp(name = "temp", ...)
 }

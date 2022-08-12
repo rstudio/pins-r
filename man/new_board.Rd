@@ -25,7 +25,9 @@ cache location for your operating system, but you can override if needed.}
 generally needed since you should be passing around an explicit
 board object.}
 
-\item{versions, versioned}{Should this board be registered with support for versions?}
+\item{versions}{Should this board be registered with support for versions?}
+
+\item{versioned}{Should this board be registered with support for versions?}
 }
 \description{
 Create a new board

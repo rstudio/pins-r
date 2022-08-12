@@ -84,7 +84,7 @@ Finally, you can `pin()` a url to automatically re-download it when it changes:
 
 ```{r}
 # Legacy API
-base <- "https://raw.githubusercontent.com/rstudio/pins/master/tests/testthat/"
+base <- "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/"
 
 (pin(paste0(base, "pin-files/first.txt"), board = "vignette"))
 ```

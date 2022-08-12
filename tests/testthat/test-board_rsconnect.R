@@ -5,13 +5,14 @@ test_api_meta(board_rsconnect_test())
 # user facing -------------------------------------------------------------
 
 test_that("can round-trip a pin (v0)", {
-  board <- board_rsconnect_hadley()
+  board <- board_rsconnect_colorado()
+  colorado_user_name <- rsconnect::accounts(server = "colorado.rstudio.com")$name
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "test-df1", board = board)
-  withr::defer(pin_delete(board, "hadley/test-df1"))
+  withr::defer(pin_delete(board, paste0(colorado_user_name, "/test-df1")))
 
-  df2 <- pin_get("hadley/test-df1", board = board)
+  df2 <- pin_get(paste0(colorado_user_name, "/test-df1"), board = board)
   expect_equal(df1, df2)
 })
 
@@ -49,7 +50,7 @@ test_that("can update access_type", {
 test_that("can deparse", {
   board <- new_board_v1(
     "pins_board_rsconnect",
-    url = "https://connect.rstudioservices.com",
+    url = "https://colorado.rstudio.com/rsc",
     cache = tempdir()
   )
   expect_snapshot(board_deparse(board))
@@ -102,4 +103,23 @@ test_that("can find cached versions", {
   pin_write(board, 2, name)
   # Cached version hasn't changed since we haven't read
   expect_message(expect_equal(rsc_content_version_cached(board, guid), cached_v))
+})
+
+test_that("rsc_path() always includes leading /", {
+  expect_equal(
+    rsc_path(list(url = "https://example.com/"), "x"),
+    "/__api__/x"
+  )
+  expect_equal(
+    rsc_path(list(url = "https://example.com"), "x"),
+    "/__api__/x"
+  )
+  expect_equal(
+    rsc_path(list(url = "https://example.com/foo"), "x"),
+    "/foo/__api__/x"
+  )
+  expect_equal(
+    rsc_path(list(url = "https://example.com/foo/"), "x"),
+    "/foo/__api__/x"
+  )
 })

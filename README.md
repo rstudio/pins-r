@@ -3,11 +3,11 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/rstudio/pins/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins/actions)
+[![R-CMD-check](https://github.com/rstudio/pins-r/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins-r/actions)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Codecov test
-coverage](https://codecov.io/gh/rstudio/pins/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/pins?branch=master)
+coverage](https://codecov.io/gh/rstudio/pins-r/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rstudio/pins-r?branch=main)
 
 <!-- badges: end -->
 
@@ -26,21 +26,22 @@ implemented with the new API, so we encourage you to switch to the
 modern API as quickly as possible. Learn more in
 `vignette("pins-update")`.
 
+You can use pins from Python as well as R. For example, you can use one
+language to read a pin created with the other. Learn more about [pins
+for Python](https://rstudio.github.io/pins-python/).
+
 ## Installation
 
-To try out the development version of pins (which will become pins 1.0.0
-when released), you’ll need to install from GitHub:
-
-``` r
-remotes::install_github("rstudio/pins")
-```
-
-If you discover this breaks any of your existing code, please [let us
-know](https://github.com/rstudio/pins/issues) then revert to the
-released version:
+You can install pins from CRAN with:
 
 ``` r
 install.packages("pins")
+```
+
+You can install the development version from GitHub:
+
+``` r
+remotes::install_github("rstudio/pins-r")
 ```
 
 ## Usage
@@ -58,7 +59,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpxQu94x/pins-15f1d4a0c4d71'
+#> Path: '/tmp/RtmpAYa45m/pins-6cce258ca9cf'
 #> Cache size: 0
 ```
 
@@ -68,7 +69,8 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20210929T184444Z-f8797'
+#> Creating new version '20211116T161305Z-e8160'
+#> Writing to pin 'mtcars'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
@@ -111,7 +113,7 @@ board %>% pin_read("hadley/sales-summary")
 ```
 
 You can easily control who gets to access the data using the RStudio
-Connection permissions pane.
+Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on
 services like Amazon’s S3 (`board_s3()`), Azure’s blob storage
