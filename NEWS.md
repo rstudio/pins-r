@@ -5,6 +5,9 @@
   
 * `pin_upload()` now better handles path expansion (#585, @sellorm).
 
+* The `pin_reactive_*()` functions now use the hash (rather than the created 
+  date) for polling (#595, @thomaszwagerman).
+
 # pins 1.0.1
 
 * `board_azure()` now allows you to set a `path` so that multiple boards can
