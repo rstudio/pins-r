@@ -472,7 +472,7 @@ rsc_content_versions <- function(board, guid) {
 
   tibble::tibble(
     version = map_chr(json, ~ .x$id),
-    created = parse_8601_compact(map_chr(json, ~ .x$created_time)),
+    created = parse_8601(map_chr(json, ~ .x$created_time)),
     active = map_lgl(json, ~ .x$active),
     size = map_dbl(json, ~ .x$size),
   )
@@ -689,23 +689,23 @@ rsc_v1 <- function(...) {
 # Testing setup -----------------------------------------------------------
 
 board_rsconnect_test <- function(...) {
-  if (rsc_has_hadley_account()) {
-    board_rsconnect_hadley(...)
+  if (rsc_has_colorado()) {
+    board_rsconnect_colorado(...)
   } else {
     board_rsconnect_susan(...)
   }
 }
 
-# My real live RSC account which we obviously want to move away from
-rsc_has_hadley_account <- function() {
+# Use Colorado for local testing
+rsc_has_colorado <- function() {
   accounts <- rsconnect::accounts()
-  "hadley" %in% accounts$name
+  "colorado.rstudio.com" %in% accounts$server
 }
-board_rsconnect_hadley <- function(...) {
-  if (!rsc_has_hadley_account()) {
-    testthat::skip("board_rsconnect_hadley() only works on Hadley's computer")
+board_rsconnect_colorado <- function(...) {
+  if (!rsc_has_colorado()) {
+    testthat::skip("board_rsconnect_colorado() only works with RStudio's demo server")
   }
-  board_rsconnect(..., server = "connect.rstudioservices.com", auth = "rsconnect", cache = fs::file_temp())
+  board_rsconnect(..., server = "colorado.rstudio.com", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_rsconnect_susan <- function(...) {

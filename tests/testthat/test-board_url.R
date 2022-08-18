@@ -1,6 +1,6 @@
 test_that("provides key methods", {
   board <- board_url_test(c(
-    rds = github_raw("rstudio/pins/master/tests/testthat/pin-rds/")
+    rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/")
   ))
 
   board %>%
@@ -14,7 +14,7 @@ test_that("provides key methods", {
 
 test_that("absent pins handled consistently", {
   board <- board_url_test(c(
-    x = github_raw("rstudio/pins/master/tests/testthat/pin-rds/")
+    x = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/")
   ))
 
   expect_equal(pin_list(board), "x")
@@ -26,7 +26,7 @@ test_that("absent pins handled consistently", {
 
 test_that("only downloads once", {
   board <- board_url_test(c(
-    rds = github_raw("rstudio/pins/master/tests/testthat/pin-rds/")
+    rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/")
   ))
 
   board %>%
@@ -40,7 +40,7 @@ test_that("only downloads once", {
 
 test_that("raw pins can only be downloaded", {
   board <- board_url_test(c(
-    raw = github_raw("rstudio/pins/master/tests/testthat/pin-files/first.txt")
+    raw = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
   ))
 
   board %>%

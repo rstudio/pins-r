@@ -3,28 +3,31 @@
     Code
       board_deparse(board)
     Output
-      board_rsconnect("envvar", server = "https://connect.rstudioservices.com")
+      board_rsconnect("envvar", server = "https://colorado.rstudio.com/rsc")
 
 # can find content by full/partial name
 
     Code
       rsc_content_find(board, "marjory/test-partial")
-    Error <rlang_error>
-      Can't find pin named 'test-partial' with owner 'marjory'
+    Condition
+      Error in `rsc_content_find()`:
+      ! Can't find pin named 'test-partial' with owner 'marjory'
 
 # can create and delete content
 
     Code
       rsc_content_create(board, "test-1", list())
-    Error <rlang_error>
-      RStudio Connect API failed [409]
+    Condition
+      Error in `rsc_check_status()`:
+      ! RStudio Connect API failed [409]
       * An object with that name already exists.
 
 ---
 
     Code
       rsc_content_delete(board, "test-1")
-    Error <pins_pin_missing>
-      Can't find pin called 'test-1'
+    Condition
+      Error in `abort_pin_missing()`:
+      ! Can't find pin called 'test-1'
       i Use `pin_list()` to see all available pins in this board
 

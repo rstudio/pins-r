@@ -34,8 +34,8 @@ pin_upload <- function(board, paths, name = NULL, title = NULL, description = NU
   if (!is.character(paths)) {
     abort("`path` must be a character vector")
   }
-  if (!all(fs::file_exists(paths))) {
-    abort("All elements of `path` must exist")
+  if (!all(fs::file_exists(fs::path_expand(paths)))) {
+    abort("All elements of `paths` must exist")
   }
   if (any(fs::path_file(paths) == "data.txt")) {
     abort("Can't pin file called `data.txt`")

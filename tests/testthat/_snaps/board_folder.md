@@ -11,11 +11,12 @@
 
     Code
       b %>% pin_browse("x")
-    Error <rlang_error>
-      pin doesn't have remote url
+    Condition
+      Error in `pin_browse()`:
+      ! pin doesn't have remote url
     Code
       b %>% pin_browse("x", local = TRUE)
-    Message <cliMessage>
+    Message
       i Pin at <redacted>
 
 # can deparse
@@ -29,17 +30,17 @@
 
     Code
       pin_write(b, 1:5, "x", type = "rds")
-    Message <message>
+    Message
       Creating new version '20120304T050607Z-ab444'
       Writing to pin 'x'
     Code
       pin_write(b, 1:5, "x", type = "rds")
-    Message <message>
+    Message
       Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab444'
       Writing to pin 'x'
     Code
       pin_write(b, 1:6, "x", type = "rds")
-    Message <message>
+    Message
       Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab6b5'
       Writing to pin 'x'
 

@@ -3,6 +3,7 @@
     Code
       board <- legacy_temp()
       board %>% pin_search("x")
-    Error <rlang_error>
-      Use `pin_find()` with this board, not `pin_search()`
+    Condition
+      Error in `this_not_that()`:
+      ! Use `pin_find()` with this board, not `pin_search()`
 

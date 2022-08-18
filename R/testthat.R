@@ -123,6 +123,7 @@ test_api_versioning <- function(board) {
     testthat::expect_equal(nrow(pin_versions(board, name)), 2)
     pin_write(board, 3, name)
     testthat::expect_equal(nrow(pin_versions(board, name)), 3)
+    testthat::expect_equal(sum(is.na((pin_versions(board, name)))), 0)
   })
 
   testthat::test_that("pin_read() returns latest version", {

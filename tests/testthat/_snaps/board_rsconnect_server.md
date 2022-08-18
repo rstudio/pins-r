@@ -2,8 +2,9 @@
 
     Code
       check_auth()
-    Error <rlang_error>
-      auth = `auto` has failed to find a way to authenticate:
+    Condition
+      Error in `check_auth()`:
+      ! auth = `auto` has failed to find a way to authenticate:
       * `server` and `key` not provided for `auth = 'manual'`
       * Can't find CONNECT_SERVER and CONNECT_API_KEY envvars for `auth = 'envvar'`
       * Can't find any rsconnect::accounts() for `auth = 'rsconnect'`
@@ -12,15 +13,17 @@
 
     Code
       rsc_server_rsconnect()
-    Error <rlang_error>
-      No RStudio Connect servers have been registered
+    Condition
+      Error in `rsc_server_rsconnect()`:
+      ! No RStudio Connect servers have been registered
 
 ---
 
     Code
       rsc_server_rsconnect()
-    Error <rlang_error>
-      Found multiple matching RStudio Connect servers
+    Condition
+      Error in `rsc_server_rsconnect()`:
+      ! Found multiple matching RStudio Connect servers
       i Please disambiguate with `server` and/or `account`
 
 # auth is hidden
@@ -42,20 +45,23 @@
 
     Code
       rsc_server("envvar")
-    Error <rlang_error>
-      Can't find CONNECT_SERVER env var
+    Condition
+      Error in `rsc_server()`:
+      ! Can't find CONNECT_SERVER env var
 
 ---
 
     Code
       rsc_server("envvar")
-    Error <rlang_error>
-      Can't find CONNECT_API_KEY env var
+    Condition
+      Error in `rsc_server()`:
+      ! Can't find CONNECT_API_KEY env var
 
 ---
 
     Code
       rsc_server("envvar", server = "", key = "")
-    Error <rlang_error>
-      Can't find CONNECT_API_KEY env var
+    Condition
+      Error in `rsc_server()`:
+      ! Can't find CONNECT_API_KEY env var
 
