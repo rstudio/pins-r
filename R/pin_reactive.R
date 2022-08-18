@@ -72,7 +72,7 @@ pin_reactive_read <- function(board, name, interval = 5000) {
   shiny::reactivePoll(
     intervalMillis = interval,
     session = shiny::getDefaultReactiveDomain(),
-    checkFunc = function() pin_created(board, name),
+    checkFunc = function() get_pin_hash(board, name),
     valueFunc = function() pin_read(board, name)
   )
 }
@@ -85,12 +85,12 @@ pin_reactive_download <- function(board, name, interval = 5000) {
   shiny::reactivePoll(
     intervalMillis = interval,
     session = shiny::getDefaultReactiveDomain(),
-    checkFunc = function() pin_created(board, name),
+    checkFunc = function() get_pin_hash(board, name),
     valueFunc = function() pin_download(board, name)
   )
 }
 
-pin_created <- function(board, name) {
+get_pin_hash <- function(board, name){
   meta <- pin_meta(board, name)
-  meta$created
+  meta$pin_hash
 }
