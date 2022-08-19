@@ -35,9 +35,9 @@ download fails, you'll get the previously cached result with a warning.
 \examples{
 github_raw <- "https://raw.githubusercontent.com/"
 board <- board_url(c(
-  files = paste0(github_raw, "rstudio/pins/master/tests/testthat/pin-files/"),
-  rds = paste0(github_raw, "rstudio/pins/master/tests/testthat/pin-rds/"),
-  raw = paste0(github_raw, "rstudio/pins/master/tests/testthat/pin-files/first.txt")
+  files = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/"),
+  rds = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-rds/"),
+  raw = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
 ))
 
 board \%>\% pin_read("rds")
