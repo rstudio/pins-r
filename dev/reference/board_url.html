@@ -24,7 +24,7 @@ board_url() is read only and does not currently support versions."><meta propert
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.2.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,9 +127,9 @@ but you'll get clear errors when the code is deployed.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">github_raw</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/"</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_url</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  files <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">github_raw</span>, <span class="st">"rstudio/pins/master/tests/testthat/pin-files/"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  rds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">github_raw</span>, <span class="st">"rstudio/pins/master/tests/testthat/pin-rds/"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  raw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">github_raw</span>, <span class="st">"rstudio/pins/master/tests/testthat/pin-files/first.txt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  files <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">github_raw</span>, <span class="st">"rstudio/pins-r/master/tests/testthat/pin-files/"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  rds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">github_raw</span>, <span class="st">"rstudio/pins-r/master/tests/testthat/pin-rds/"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  raw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">github_raw</span>, <span class="st">"rstudio/pins-r/master/tests/testthat/pin-files/first.txt"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"rds"</span><span class="op">)</span></span></span>
@@ -145,13 +145,13 @@ but you'll get clear errors when the code is deployed.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9   9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 10</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_browse.html">pin_browse</a></span><span class="op">(</span><span class="st">"rds"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Pin at <span style="color: #0000BB; font-style: italic;">&lt;~/.cache/pins/url/c6e1c81e3fc99db54f6083809dbe243a&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Pin at <span style="color: #0000BB; font-style: italic;">&lt;~/.cache/pins/url/39420ee5ae0d9468fd9b8541bb32b6d0&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"files"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "~/.cache/pins/url/1651646bb022a8b321711c29a1ada198/first.txt" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "~/.cache/pins/url/1651646bb022a8b321711c29a1ada198/second.txt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "~/.cache/pins/url/9c7a0a2932172e9d8a9d080fb998bee6/first.txt" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "~/.cache/pins/url/9c7a0a2932172e9d8a9d080fb998bee6/second.txt"</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "~/.cache/pins/url/87473d3442e598f929b65b6630da6fd8/first.txt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "~/.cache/pins/url/26b8fc4e79ff84d4d95ece10d2bacb3c/first.txt"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -159,7 +159,7 @@ but you'll get clear errors when the code is deployed.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Hadley Wickham, Javier Luraschi.</p>
+  <p></p><p>Developed by Hadley Wickham, Javier Luraschi, RStudio.</p>
 </div>
 
 <div class="pkgdown-footer-right">
