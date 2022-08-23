@@ -1,3 +1,5 @@
+# pins (development version)
+
 # pins 1.0.2
 
 * `board_rsconnect()` now correctly finds the created date for pins (#623, 
