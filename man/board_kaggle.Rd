@@ -14,8 +14,8 @@ board_kaggle_competitions(username = NULL, key = NULL, cache = NULL)
 \method{pin_search}{pins_board_kaggle_competition}(
   board,
   search = NULL,
-  sort_by = c("grouped", "prize", "earliestDeadline", "latestDeadline",
-    "numberOfTeams", "recentlyCreated"),
+  sort_by = c("grouped", "prize", "earliestDeadline", "latestDeadline", "numberOfTeams",
+    "recentlyCreated"),
   page = 1,
   user = NULL,
   ...
