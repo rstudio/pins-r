@@ -234,7 +234,8 @@ pin_store.pins_board_rsconnect <- function(
 {
   # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
 
-  check_name(rsc_parse_name(name)$name)
+  name <- rsc_parse_name(name)$name
+  check_name(name)
 
   versioned <- versioned %||% board$versioned
   if (!is.null(access_type)) {
