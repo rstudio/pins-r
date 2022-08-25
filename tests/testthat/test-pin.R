@@ -17,6 +17,7 @@ test_that("can pin() a data frame", {
 })
 
 test_that("can pin() a data.table", {
+  skip_if_not_installed("data.table")
   board <- legacy_temp()
 
   dt <- data.table::data.table(x = 1:2, y = list("a", "b"))
