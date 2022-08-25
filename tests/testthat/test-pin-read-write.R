@@ -1,4 +1,5 @@
 test_that("can round trip all types", {
+  skip_if_not_installed("qs")
   board <- board_temp()
 
   # Data frames

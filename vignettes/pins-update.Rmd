@@ -1,5 +1,5 @@
 ---
-title: "Updating to pins 1.0.0"
+title: "Upgrading to pins 1.0.0"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Upgrading to pins 1.0.0}
