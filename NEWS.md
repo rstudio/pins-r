@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Fixed how Connect usernames are handled in messages, preview, etc (#643).
+
 # pins 1.0.2
 
 * `board_rsconnect()` now correctly finds the created date for pins (#623, 
