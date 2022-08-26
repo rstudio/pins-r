@@ -19,7 +19,6 @@ BugReports: https://github.com/rstudio/pins-r/issues
 Depends: 
     R (>= 3.3.0)
 Imports:
-    arrow,
     cli,
     digest,
     ellipsis,
@@ -40,6 +39,7 @@ Imports:
     yaml,
     zip
 Suggests:
+    arrow,
     AzureStor,
     data.table,
     datasets,

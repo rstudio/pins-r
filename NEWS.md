@@ -1,5 +1,7 @@
 # pins (development version)
 
+* The `arrow` package is now suggested, rather than imported (#644, @jonthegeek).
+
 * Fixed how Connect usernames are handled in messages, preview, etc (#643).
 
 # pins 1.0.2
@@ -109,7 +111,7 @@ This version includes the following modern boards:
   [paws](https://paws-r.github.io).
 
 * `board_url()` lets you create a manual board from a vector of URLs. This is 
-  useful because `pin_donwload()` and `pin_read()` are cached, so they only 
+  useful because `pin_download()` and `pin_read()` are cached, so they only 
   re-download the data if it has changed since the last time you used it (#409). 
   This board is a replacement for `pin()`'s ability to work directly with URLs
 
