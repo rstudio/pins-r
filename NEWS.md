@@ -1,6 +1,6 @@
 # pins (development version)
 
-* The `arrow` package is now suggested, rather than imported. (#644, @jonthegeek).
+* The `arrow` package is now suggested, rather than imported (#644, @jonthegeek).
 
 # pins 1.0.2
 
