@@ -304,7 +304,8 @@ pin_store.pins_board_rsconnect <- function(
     }
   }
 
-  paste0(board$account, "/", name)
+  name <- rsc_parse_name(name)
+  paste0(name$owner %||% board$account, "/", name$name)
 }
 
 #' @export
@@ -408,7 +409,10 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
   if (is.null(name$owner)) {
     if (length(json) > 1) {
       # TODO: Find user names and offer
-      abort(paste0("Multiple pins with name '",  name$name, "'"))
+      cli::cli_abort(c(
+        "Multiple pins with name {.val {name$name}}",
+        i = "Use a fully specified name including user name like {.val {paste0('julia/', name$name)}}"
+      ))
     }
     owner <- rsc_user_name(board, json[[1]]$owner_guid)
     name$full <- paste0(owner, "/", name$name)

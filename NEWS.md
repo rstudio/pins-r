@@ -2,6 +2,8 @@
 
 * The `arrow` package is now suggested, rather than imported (#644, @jonthegeek).
 
+* Fixed how Connect usernames are handled in messages, preview, etc (#643).
+
 # pins 1.0.2
 
 * `board_rsconnect()` now correctly finds the created date for pins (#623, 
