@@ -4,6 +4,9 @@
 
 * Fixed how Connect usernames are handled in messages, preview, etc (#643).
 
+* Pass the dots from `pin_write()` through to `s3_upload_file()` to support
+  S3 tagging, encryption options, etc for pins (#648).
+
 # pins 1.0.2
 
 * `board_rsconnect()` now correctly finds the created date for pins (#623, 
