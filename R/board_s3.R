@@ -275,6 +275,7 @@ s3_upload_yaml <- function(board, key, yaml) {
 }
 
 s3_upload_file <- function(board, key, path, ...) {
+  ellipsis::check_dots_used()
   body <- readBin(path, "raw", file.size(path))
   board$svc$put_object(
     Bucket = board$bucket,
