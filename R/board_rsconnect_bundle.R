@@ -53,12 +53,14 @@ rsc_bundle_preview_create <- function(board, name, x, metadata, path) {
 
 rsc_bundle_preview_index <- function(board, name, x, metadata) {
   data_preview <- rsc_bundle_preview_data(x)
+  name <- rsc_parse_name(name)
+  owner <- name$owner %||% board$account
 
   data <- list(
     pin_files = paste0("<a href=\"", metadata$file, "\">", metadata$file, "</a>", collapse = ", "),
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
-    pin_name = paste0(board$account, "/", name),
+    pin_name = paste0(owner, "/", name$name),
     pin_metadata = list(
       as_yaml = yaml::as.yaml(metadata),
       date = format(parse_8601_compact(metadata$created), tz = "UTC"),
