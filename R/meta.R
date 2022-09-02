@@ -49,7 +49,7 @@ as_8601_compact <- function(x = Sys.time()) {
   format(x, "%Y%m%dT%H%M%SZ", tz = "UTC")
 }
 parse_8601_compact <- function(x) {
-  y <- as.POSIXct(strptime(x, "%Y%m%dT%H%M", tz = "UTC"))
+  y <- as.POSIXct(strptime(x, "%Y%m%dT%H%M%S", tz = "UTC"))
   attr(y, "tzone") <- ""
   y
 }

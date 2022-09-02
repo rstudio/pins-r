@@ -4,6 +4,9 @@
 
 * Fixed how Connect usernames are handled in messages, preview, etc (#643).
 
+* Increased datetime precision to the second, for `pin_versions()` and related
+  functions (#642, @tomsing1).
+
 # pins 1.0.2
 
 * `board_rsconnect()` now correctly finds the created date for pins (#623, 
@@ -13,7 +16,7 @@
 
 * The `pin_reactive_*()` functions now use the hash (rather than the created 
   date) for polling (#595, @thomaszwagerman).
-
+  
 # pins 1.0.1
 
 * `board_azure()` now allows you to set a `path` so that multiple boards can
