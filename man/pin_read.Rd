@@ -16,7 +16,8 @@ pin_write(
   description = NULL,
   metadata = NULL,
   versioned = NULL,
-  ...
+  ...,
+  .f = NULL
 )
 }
 \arguments{
@@ -52,6 +53,10 @@ avoid potential clashes with the metadata that pins itself uses.}
 
 \item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
 use the default for \code{board}}
+
+\item{.f}{Custom function that writes \code{x} to a file. The function must accept
+accept two arguments: the first for the object, the second for a
+(temporary) path used to write a file.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;
