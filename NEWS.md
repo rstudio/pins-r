@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Added support for manifest files in `board_url()` (#627, @ijlyttle).
+
 * The `arrow` package is now suggested, rather than imported (#644, @jonthegeek).
 
 * Fixed how Connect usernames are handled in messages, preview, etc (#643).
