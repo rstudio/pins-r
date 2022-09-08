@@ -4,8 +4,11 @@
 
 * Fixed how Connect usernames are handled in messages, preview, etc (#643).
 
+* Increased datetime precision to the second, for `pin_versions()` and related
+  functions (#642, @tomsing1).
+  
 * Pass the dots from `pin_write()` through to `s3_upload_file()` to support
-  S3 tagging, encryption options, etc for pins (#648).
+  S3 tagging, encryption options, etc for pins (#648).  
 
 # pins 1.0.2
 
@@ -16,7 +19,7 @@
 
 * The `pin_reactive_*()` functions now use the hash (rather than the created 
   date) for polling (#595, @thomaszwagerman).
-
+  
 # pins 1.0.1
 
 * `board_azure()` now allows you to set a `path` so that multiple boards can
