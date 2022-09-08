@@ -6,6 +6,9 @@
 
 * Increased datetime precision to the second, for `pin_versions()` and related
   functions (#642, @tomsing1).
+  
+* Pass the dots from `pin_write()` through to `s3_upload_file()` to support
+  S3 tagging, encryption options, etc for pins (#648).  
 
 # pins 1.0.2
 

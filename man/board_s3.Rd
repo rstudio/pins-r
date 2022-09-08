@@ -79,10 +79,12 @@ an EC2 instance, using a role from another profile, and using multifactor
 authentication.
 }
 
-\section{Caveats}{
+\section{Details}{
 \itemize{
 \item If you point at a bucket that's not created by pins, some functions
 like \code{pins_list()} will work, but won't return useful output.
+\item You can pass arguments for \link[paws.storage:s3_put_object]{paws.storage::s3_put_object} such as \code{Tagging}
+and \code{ServerSideEncryption} through the dots of \code{pin_write()}.
 }
 }
 
@@ -96,5 +98,9 @@ board \%>\% pin_read("mtcars")
 board_sales <- board_s3("company-pins", prefix = "sales/")
 board_marketing <- board_s3("company-pins", prefix = "marketing/")
 # You can make the hierarchy arbitrarily deep.
+
+# Pass arguments like `Tagging` through the dots of `pin_write`:
+board \%>\% pin_write(mtcars, Tagging = "key1=value1&key2=value2")
+
 }
 }
