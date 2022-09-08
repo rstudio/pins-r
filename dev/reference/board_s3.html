@@ -156,10 +156,12 @@ an EC2 instance, using a role from another profile, and using multifactor
 authentication.</p>
     </div>
     <div class="section level2">
-    <h2 id="caveats">Caveats<a class="anchor" aria-label="anchor" href="#caveats"></a></h2>
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     
 <ul><li><p>If you point at a bucket that's not created by pins, some functions
 like <code>pins_list()</code> will work, but won't return useful output.</p></li>
+<li><p>You can pass arguments for <a href="https://rdrr.io/pkg/paws.storage/man/s3_put_object.html" class="external-link">paws.storage::s3_put_object</a> such as <code>Tagging</code>
+and <code>ServerSideEncryption</code> through the dots of <code><a href="pin_read.html">pin_write()</a></code>.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -173,6 +175,10 @@ like <code>pins_list()</code> will work, but won't return useful output.</p></li
 <span class="r-in"><span><span class="va">board_sales</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"sales/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">board_marketing</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"marketing/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># You can make the hierarchy arbitrarily deep.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Pass arguments like `Tagging` through the dots of `pin_write`:</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, Tagging <span class="op">=</span> <span class="st">"key1=value1&amp;key2=value2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
