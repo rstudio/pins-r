@@ -221,7 +221,7 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
   version_dir <- fs::path(name, version)
-  s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata)
+  s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata, ...)
   for (path in paths) {
     s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path, ...)
   }
@@ -265,12 +265,13 @@ s3_delete_dir <- function(board, dir) {
   invisible()
 }
 
-s3_upload_yaml <- function(board, key, yaml) {
+s3_upload_yaml <- function(board, key, yaml, ...) {
   body <- charToRaw(yaml::as.yaml(yaml))
   board$svc$put_object(
     Bucket = board$bucket,
     Key = paste0(board$prefix, key),
-    Body = body
+    Body = body,
+    ...
   )
 }
 
