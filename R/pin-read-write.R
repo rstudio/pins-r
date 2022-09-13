@@ -55,9 +55,14 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
-#' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
-#'   lists and rds for everything else.
+#' @param type File type used to save `x` to disk:
+#'   - If `character`, must be one of `"csv"`, `"rds"`, `"json"`, `"arrow"`,
+#'     or `"qs"`.
+#'   - If `function`, must accept two arguments: first the object, `x`, to be
+#'     pinned, second a path that `pin_write()` will determine, then use to
+#'     write a copy of the file. In this case, the pin type will be `"file"`.
+#'   - If not supplied, will use `"json"` for bare lists and `"rds"` for
+#'     everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
 #' @rdname pin_read

@@ -36,9 +36,16 @@ you expect. You can find the hash of an existing pin by looking for
 
 \item{x}{An object (typically a data frame) to pin.}
 
-\item{type}{File type used to save \code{x} to disk. Must be one of
-"csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
-lists and rds for everything else.}
+\item{type}{File type used to save \code{x} to disk:
+\itemize{
+\item If \code{character}, must be one of \code{"csv"}, \code{"rds"}, \code{"json"}, \code{"arrow"},
+or \code{"qs"}.
+\item If \code{function}, must accept two arguments: first the object, \code{x}, to be
+pinned, second a path that \code{pin_write()} will determine, then use to
+write a copy of the file. In this case, the pin type will be \code{"file"}.
+\item If not supplied, will use json for bare lists and rds for everything
+else.
+}}
 
 \item{title}{A title for the pin; most important for shared boards so that
 others can understand what the pin contains. If omitted, a brief
