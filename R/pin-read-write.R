@@ -60,9 +60,6 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   lists and rds for everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
-#' @param .f Custom function that writes `x` to a file. The function must accept
-#'   accept two arguments: the first for the object, the second for a
-#'   (temporary) path used to write a file.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,
@@ -72,8 +69,7 @@ pin_write <- function(board, x,
                       description = NULL,
                       metadata = NULL,
                       versioned = NULL,
-                      ...,
-                      .f = NULL) {
+                      ...) {
   ellipsis::check_dots_used()
   check_board(board, "pin_write()", "pin()")
 
@@ -97,22 +93,7 @@ pin_write <- function(board, x,
   }
 
   path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
-  if (is.null(.f)) {
-    object_write(x, path, type = type)
-  } else {
-
-    if (type %in% setdiff(object_types, "file")) {
-      pins_inform("Using custom writing-function for `type = '{type}'`.")
-    } else if (!grepl("^custom-", type)) {
-      abort(
-        glue::glue("A custom `type` must begin with `custom-`, not `{type}`.")
-      )
-    }
-
-    .f <- rlang::as_function(.f)
-    rlang::exec(.f, x, path)
-  }
-
+  object_write(x, path, type = type)
   withr::defer(fs::file_delete(path))
 
   meta <- standard_meta(
