@@ -58,9 +58,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @param type File type used to save `x` to disk:
 #'   - If `character`, must be one of `"csv"`, `"rds"`, `"json"`, `"arrow"`,
 #'     or `"qs"`.
-#'   - If `function`, must accept two arguments: first the object, `x`, to be
-#'     pinned, second a path that `pin_write()` will determine, then use to
-#'     write a copy of the file. In this case, the pin type will be `"file"`.
+#'   - If `function`, writer-function can be created using [pin_file_writer()].
+#'     In this case, the pin type will be `"file"`.
 #'   - If not supplied, will use `"json"` for bare lists and `"rds"` for
 #'     everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
@@ -97,9 +96,14 @@ pin_write <- function(board, x,
     pins_inform("Guessing `type = '{type}'`")
   }
 
-  path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
-  object_write(x, path, type = type)
-  withr::defer(fs::file_delete(path))
+  if (is.function(type) || rlang::is_formula(type)) {
+    f <- rlang::as_function(type)
+    path <- f(x, name)
+  } else {
+    path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
+    object_write(x, path, type = type)
+    withr::defer(fs::file_delete(path))
+  }
 
   meta <- standard_meta(
     paths = path,
@@ -113,6 +117,39 @@ pin_write <- function(board, x,
   pins_inform("Writing to pin '{name}'")
   invisible(name)
 }
+
+#' Helper to create pin-writing function
+#'
+#' @param .f `function` or purrr-style anonymous function that takes
+#'   an object and a path, then writes the object to the path.
+#' @param extension `character` extension for the file to be written.
+#'
+#' @return `function` to write a pin:
+#'  - takes an object to be written, and a name for the pin
+#'  - writes the object to a temporary path, using `.f` and `extension`
+#'  - returns the path, invisibly
+#' @examples
+#'   arrow_pin_writer <- pin_file_writer(
+#'     \(x, path) arrow::write_feather(x, path, compression = "uncompressed"),
+#'     extension = "arrow"
+#'   )
+#' @export
+pin_file_writer <- function(.f, extension) {
+
+  .f <- rlang::as_function(.f)
+
+  function(x, name) {
+
+    path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), extension))
+    .f(x, path)
+
+    # delete file when environment that called writer is destroyed
+    withr::defer(fs::file_delete(path), envir = parent.frame())
+
+    invisible(path)
+  }
+}
+
 
 guess_type <- function(x) {
   if (is.data.frame(x)) {

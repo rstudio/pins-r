@@ -40,11 +40,10 @@ you expect. You can find the hash of an existing pin by looking for
 \itemize{
 \item If \code{character}, must be one of \code{"csv"}, \code{"rds"}, \code{"json"}, \code{"arrow"},
 or \code{"qs"}.
-\item If \code{function}, must accept two arguments: first the object, \code{x}, to be
-pinned, second a path that \code{pin_write()} will determine, then use to
-write a copy of the file. In this case, the pin type will be \code{"file"}.
-\item If not supplied, will use json for bare lists and rds for everything
-else.
+\item If \code{function}, writer-function can be created using \code{\link[=pin_file_writer]{pin_file_writer()}}.
+In this case, the pin type will be \code{"file"}.
+\item If not supplied, will use \code{"json"} for bare lists and \code{"rds"} for
+everything else.
 }}
 
 \item{title}{A title for the pin; most important for shared boards so that
