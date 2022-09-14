@@ -148,22 +148,32 @@ pin_file_writer <- function(.f, extension) {
 
   function(x, name = NULL) {
 
-    # TODO: extract into own function?
     if (is.null(name)) {
       name <- enexpr(x)
       if (is_symbol(name)) {
         name <- as.character(name)
-        pins_inform("Using `name = '{name}'`")
       } else {
         abort("Must supply `name` when `x` is an expression")
       }
     }
 
-    path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), extension))
+    # We cannot destroy the temporary file until parent.frame() is destroyed;
+    # this function can be called many times from parent.frame().
+    #
+    # To avoid name-collisions, create a new directory each time
+    # this function is called.
+
+    assume_unique <- digest::digest(Sys.time())
+    temp_dir <- fs::path_temp(assume_unique)
+    fs::dir_create(temp_dir)
+
+    filename <- fs::path_ext_set(fs::path_file(name), extension)
+    path <- fs::path(temp_dir, filename)
+
     .f(x, path)
 
-    # delete file when environment that called writer is destroyed
-    withr::defer(fs::file_delete(path), envir = parent.frame())
+    # delete directory when environment that called writer is destroyed
+    withr::defer(fs::dir_delete(temp_dir), envir = parent.frame())
 
     invisible(path)
   }
