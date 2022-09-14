@@ -134,7 +134,7 @@ There are two ways to turn versioning on:
     ```
 
 Most boards have versioning on by default.
-The primary exception is `board_folder()` since that stores data on your computer, and there's no automated way to clean up the data your saving.
+The primary exception is `board_folder()` since that stores data on your computer, and there's no automated way to clean up the data you're saving.
 
 Once you have turned versioning on, every `pin_write()` will create a new version:
 
