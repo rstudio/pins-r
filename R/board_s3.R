@@ -39,10 +39,12 @@
 #' an EC2 instance, using a role from another profile, and using multifactor
 #' authentication.
 #'
-#' # Caveats
+#' # Details
 #'
 #' * If you point at a bucket that's not created by pins, some functions
 #'   like `pins_list()` will work, but won't return useful output.
+#' * You can pass arguments for [paws.storage::s3_put_object] such as `Tagging`
+#'   and `ServerSideEncryption` through the dots of `pin_write()`.
 #'
 #' @inheritParams new_board
 #' @param bucket Bucket name.
@@ -68,6 +70,10 @@
 #' board_sales <- board_s3("company-pins", prefix = "sales/")
 #' board_marketing <- board_s3("company-pins", prefix = "marketing/")
 #' # You can make the hierarchy arbitrarily deep.
+#'
+#' # Pass arguments like `Tagging` through the dots of `pin_write`:
+#' board %>% pin_write(mtcars, Tagging = "key1=value1&key2=value2")
+#'
 #' }
 board_s3 <- function(
                     bucket,
@@ -209,14 +215,15 @@ pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_store.pins_board_s3 <- function(board, name, paths, metadata,
-                                    versioned = NULL, ...) {
+                                    versioned = NULL, x = NULL, ...) {
+  ellipsis::check_dots_used()
   check_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
   version_dir <- fs::path(name, version)
-  s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata)
+  s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata, ...)
   for (path in paths) {
-    s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path)
+    s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path, ...)
   }
 
   name
@@ -258,21 +265,24 @@ s3_delete_dir <- function(board, dir) {
   invisible()
 }
 
-s3_upload_yaml <- function(board, key, yaml) {
+s3_upload_yaml <- function(board, key, yaml, ...) {
   body <- charToRaw(yaml::as.yaml(yaml))
   board$svc$put_object(
     Bucket = board$bucket,
     Key = paste0(board$prefix, key),
-    Body = body
+    Body = body,
+    ...
   )
 }
 
-s3_upload_file <- function(board, key, path) {
+s3_upload_file <- function(board, key, path, ...) {
+  ellipsis::check_dots_used()
   body <- readBin(path, "raw", file.size(path))
   board$svc$put_object(
     Bucket = board$bucket,
     Key = paste0(board$prefix, key),
-    Body = body
+    Body = body,
+    ...
   )
 }
 
