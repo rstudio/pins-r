@@ -25,7 +25,7 @@ Helper to create pin-writing function
 }
 \examples{
   arrow_pin_writer <- pin_file_writer(
-    \(x, path) arrow::write_feather(x, path, compression = "uncompressed"),
+    ~ arrow::write_feather(.x, .y, compression = "uncompressed"),
     extension = "arrow"
   )
 }

@@ -130,7 +130,7 @@ pin_write <- function(board, x,
 #'  - returns the path, invisibly
 #' @examples
 #'   arrow_pin_writer <- pin_file_writer(
-#'     \(x, path) arrow::write_feather(x, path, compression = "uncompressed"),
+#'     ~ arrow::write_feather(.x, .y, compression = "uncompressed"),
 #'     extension = "arrow"
 #'   )
 #' @export
@@ -138,7 +138,18 @@ pin_file_writer <- function(.f, extension) {
 
   .f <- rlang::as_function(.f)
 
-  function(x, name) {
+  function(x, name = NULL) {
+
+    # TODO: extract into own finction?
+    if (is.null(name)) {
+      name <- enexpr(x)
+      if (is_symbol(name)) {
+        name <- as.character(name)
+        pins_inform("Using `name = '{name}'`")
+      } else {
+        abort("Must supply `name` when `x` is an expression")
+      }
+    }
 
     path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), extension))
     .f(x, path)
@@ -149,7 +160,6 @@ pin_file_writer <- function(.f, extension) {
     invisible(path)
   }
 }
-
 
 guess_type <- function(x) {
   if (is.data.frame(x)) {
