@@ -2,7 +2,7 @@
 % Please edit documentation in R/pin-read-write.R
 \name{pin_file_writer}
 \alias{pin_file_writer}
-\title{Helper to create pin-writing function}
+\title{Helper to create file-writing function}
 \usage{
 pin_file_writer(.f, extension)
 }
@@ -13,7 +13,7 @@ an object and a path, then writes the object to the path.}
 \item{extension}{\code{character} extension for the file to be written.}
 }
 \value{
-\code{function} to write a pin:
+\code{function} to write a pin file:
 \itemize{
 \item takes an object to be written, and a name for the pin
 \item writes the object to a temporary path, using \code{.f} and \code{extension}
@@ -21,11 +21,17 @@ an object and a path, then writes the object to the path.}
 }
 }
 \description{
-Helper to create pin-writing function
+Lower-level functions \code{\link[=pin_download]{pin_download()}} and \code{\link[=pin_upload]{pin_upload()}} can be used to
+read and write custom-formatted file pins. You can use this function to build
+a file-writer for a given format.
 }
 \examples{
-  arrow_pin_writer <- pin_file_writer(
-    ~ arrow::write_feather(.x, .y, compression = "uncompressed"),
-    extension = "arrow"
-  )
+arrow_pin_writer <- pin_file_writer(
+  ~arrow::write_feather(.x, .y, compression = "uncompressed"),
+  extension = "arrow"
+)
+
+board <- board_temp()
+pin_upload(board, arrow_pin_writer(mtcars))
+pin_write(board, mtcars, type = arrow_pin_writer)
 }

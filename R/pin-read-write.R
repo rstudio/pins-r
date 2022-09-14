@@ -118,29 +118,37 @@ pin_write <- function(board, x,
   invisible(name)
 }
 
-#' Helper to create pin-writing function
+#' Helper to create file-writing function
+#'
+#' Lower-level functions [pin_download()] and [pin_upload()] can be used to
+#' read and write custom-formatted file pins. You can use this function to build
+#' a file-writer for a given format.
 #'
 #' @param .f `function` or purrr-style anonymous function that takes
 #'   an object and a path, then writes the object to the path.
 #' @param extension `character` extension for the file to be written.
 #'
-#' @return `function` to write a pin:
+#' @return `function` to write a pin file:
 #'  - takes an object to be written, and a name for the pin
 #'  - writes the object to a temporary path, using `.f` and `extension`
 #'  - returns the path, invisibly
-#' @examples
-#'   arrow_pin_writer <- pin_file_writer(
-#'     ~ arrow::write_feather(.x, .y, compression = "uncompressed"),
-#'     extension = "arrow"
-#'   )
 #' @export
+#' @examples
+#' arrow_pin_writer <- pin_file_writer(
+#'   ~arrow::write_feather(.x, .y, compression = "uncompressed"),
+#'   extension = "arrow"
+#' )
+#'
+#' board <- board_temp()
+#' pin_upload(board, arrow_pin_writer(mtcars))
+#' pin_write(board, mtcars, type = arrow_pin_writer)
 pin_file_writer <- function(.f, extension) {
 
   .f <- rlang::as_function(.f)
 
   function(x, name = NULL) {
 
-    # TODO: extract into own finction?
+    # TODO: extract into own function?
     if (is.null(name)) {
       name <- enexpr(x)
       if (is_symbol(name)) {
