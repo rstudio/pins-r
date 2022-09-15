@@ -43,8 +43,19 @@
 #' board %>% pin_download("files")
 #' board %>% pin_download("raw")
 board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive()) {
-  if (!is.character(urls) || !is_named(urls)) {
-    abort("`urls` must be a named character vector")
+
+  if (is_scalar_character(urls) && !is_named(urls)) {
+    # single URL
+  } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
+    # named list of URLS
+  } else if (is.character(urls) && is_named(urls)) {
+    # unnamed character vector of URLs
+  } else {
+    # unsupported
+    # TODO: make more-helpful error
+    abort(
+      "`urls`: must be single string, named list, or named character vector"
+    )
   }
 
   # Share cache across all instances of board_url(); pins are stored in
