@@ -96,6 +96,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
+  # check if we need this
   if (!is.null(version) && !board$versioned) {
     abort("this board_url() is not versioned")
   }
@@ -152,6 +153,20 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   })
 
   meta
+}
+
+#' @export
+pin_versions.pins_board_url <- function(board, name, ...) {
+
+  if (!board$versioned) {
+    abort("This board_url() is not versioned")
+  }
+
+  check_name(name)
+  check_pin_exists(board, name)
+
+  paths <- board$urls[[name]]
+  version_from_path(fs::path_file(paths)) # works for URLs too
 }
 
 # Unsupported features ----------------------------------------------------

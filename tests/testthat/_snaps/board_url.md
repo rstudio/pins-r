@@ -30,7 +30,7 @@
       board %>% pin_versions("x")
     Condition
       Error in `pin_versions_modern()`:
-      ! This board doesn't support versions
+      ! This board_url() is not versioned
     Code
       board %>% board_deparse()
     Condition
