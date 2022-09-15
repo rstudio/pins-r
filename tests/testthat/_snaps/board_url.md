@@ -25,7 +25,7 @@
       board %>% pin_meta("x", version = "x")
     Condition
       Error in `pin_meta()`:
-      ! this board_url() is not versioned
+      ! This board_url() is not versioned
     Code
       board %>% pin_versions("x")
     Condition

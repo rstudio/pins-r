@@ -96,12 +96,30 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
-  # check if we need this
-  if (!is.null(version) && !board$versioned) {
-    abort("this board_url() is not versioned")
+  if (board$versioned) {
+
+    versions <- pin_versions(board, name)
+
+    if (is.null(version)) {
+      version <- last(versions)
+    }
+
+    index <- which(versions == version)
+
+    if (identical(length(index), 0L)) {
+      abort("version not found")
+    }
+
+    url <- board$urls[[name]][[index]]
+  } else {
+
+    if (!is.null(version)) {
+      abort("This board_url() is not versioned")
+    }
+
+    url <- board$urls[[name]]
   }
 
-  url <- board$urls[[name]]
   is_dir <- grepl("/$", url)
 
   cache_dir <- fs::path(board$cache, hash(url))
