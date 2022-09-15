@@ -46,10 +46,15 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
 
   if (is_scalar_character(urls) && !is_named(urls)) {
     # single URL
+
+    # download, create list, call again using list
+
   } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
-    # named list of URLS
+    # named list of URLs
+    versioned = TRUE
   } else if (is.character(urls) && is_named(urls)) {
     # unnamed character vector of URLs
+    versioned = FALSE
   } else {
     # unsupported
     # TODO: make more-helpful error
@@ -65,6 +70,7 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   new_board_v1("pins_board_url",
     urls = urls,
     cache = cache,
+    versioned = versioned,
     use_cache_on_failure = use_cache_on_failure
   )
 }
@@ -88,7 +94,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
-  if (!is.null(version)) {
+  if (!is.null(version) && !board$versioned) {
     abort("board_url() doesn't support versions")
   }
 
