@@ -10,8 +10,10 @@ board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 \item{urls}{identify available pins, possible values:
 \itemize{
 \item unnamed character scalar, i.e. single string: URL to a manifest file.
-If the URL ends in a \code{/}, \code{board_url()} will look for a \code{pins.txt} that
-contains the manifest.
+If the URL ends in a \code{/}, \code{board_url()} will look for a \code{pins.txt}
+containing the manifest. If \code{pins.txt} parses to a named list,
+versioning is supported. If it parses to a named character vector,
+the board will not support versioning.
 \item named list, values are character vectors of URLs, each element of the
 vector refers to a version of the particular pin. If a URL ends in a \code{/},
 \code{board_url()} will look for a \code{data.txt} that provides metadata.

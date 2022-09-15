@@ -13,8 +13,10 @@
 #'
 #' @param urls identify available pins, possible values:
 #'   - unnamed character scalar, i.e. single string: URL to a manifest file.
-#'     If the URL ends in a `/`, `board_url()` will look for a `pins.txt` that
-#'     contains the manifest.
+#'     If the URL ends in a `/`, `board_url()` will look for a `pins.txt`
+#'     containing the manifest. If `pins.txt` parses to a named list,
+#'     versioning is supported. If it parses to a named character vector,
+#'     the board will not support versioning.
 #'   - named list, values are character vectors of URLs, each element of the
 #'     vector refers to a version of the particular pin. If a URL ends in a `/`,
 #'     `board_url()` will look for a `data.txt` that provides metadata.
@@ -47,7 +49,7 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   if (is_scalar_character(urls) && !is_named(urls)) {
     # single URL
 
-    # download, create list, call again using list
+    # download, parse, then call again using list, or named character vector
 
   } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
     # named list of URLs
@@ -95,7 +97,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
 
   if (!is.null(version) && !board$versioned) {
-    abort("board_url() doesn't support versions")
+    abort("this board_url() is not versioned")
   }
 
   url <- board$urls[[name]]
