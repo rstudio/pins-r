@@ -7,10 +7,19 @@
 board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }
 \arguments{
-\item{urls}{A named character vector of URLs If the URL ends in a \code{/},
-\code{board_url} will look for a \code{data.txt} that provides metadata. The
+\item{urls}{identify available pins, possible values:
+\itemize{
+\item unnamed character scalar, i.e. single string: URL to a manifest file.
+If the URL ends in a \code{/}, \code{board_url()} will look for a \code{pins.txt} that
+contains the manifest.
+\item named list, values are character vectors of URLs, each element of the
+vector refers to a version of the particular pin. If a URL ends in a \code{/},
+\code{board_url()} will look for a \code{data.txt} that provides metadata.
+\item named character vector of URLs: If the URL ends in a \code{/},
+\code{board_url()} will look for a \code{data.txt} that provides metadata. The
 easiest way to generate this file is to upload a pin directory created by
-\code{\link[=board_folder]{board_folder()}}.}
+\code{\link[=board_folder]{board_folder()}}. Versioning is not supported.
+}}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard

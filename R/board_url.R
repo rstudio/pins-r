@@ -11,10 +11,17 @@
 #'
 #' `board_url()` is read only and does not currently support versions.
 #'
-#' @param urls A named character vector of URLs If the URL ends in a `/`,
-#'   `board_url` will look for a `data.txt` that provides metadata. The
-#'   easiest way to generate this file is to upload a pin directory created by
-#'   [board_folder()].
+#' @param urls identify available pins, possible values:
+#'   - unnamed character scalar, i.e. single string: URL to a manifest file.
+#'     If the URL ends in a `/`, `board_url()` will look for a `pins.txt` that
+#'     contains the manifest.
+#'   - named list, values are character vectors of URLs, each element of the
+#'     vector refers to a version of the particular pin. If a URL ends in a `/`,
+#'     `board_url()` will look for a `data.txt` that provides metadata.
+#'   - named character vector of URLs: If the URL ends in a `/`,
+#'     `board_url()` will look for a `data.txt` that provides metadata. The
+#'     easiest way to generate this file is to upload a pin directory created by
+#'     [board_folder()]. Versioning is not supported.
 #' @param use_cache_on_failure If the pin fails to download, is it ok to
 #'   use the last cached version? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
