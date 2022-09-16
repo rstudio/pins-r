@@ -128,12 +128,13 @@ pin_exists.pins_board_url <- function(board, name, ...) {
 
 #' @export
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
+
   check_name(name)
   check_pin_exists(board, name)
 
   if (board$versioned) {
 
-    versions <- pin_versions(board, name)
+    versions <- pin_versions(board, name)$version
 
     if (is.null(version)) {
       version <- last(versions)
