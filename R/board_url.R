@@ -49,8 +49,17 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   if (is_scalar_character(urls) && !is_named(urls)) {
     # single URL
 
-    # download, parse, then call again using list, or named character vector
+    # if ends with "/", look for pins.txt
+    if (grepl("/$", urls)) {
+      urls <- paste0(urls, "pins.txt")
+    }
 
+    # download and parse manifest, then call again using manifest
+    manifest <- get_manifest(urls, cache, use_cache_on_failure)
+    manifest <- prepend_url(manifest, urls)
+    board <- board_url(manifest)
+
+    return(board)
   } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
     # named list of URLs
     versioned = TRUE
@@ -75,6 +84,32 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
     versioned = versioned,
     use_cache_on_failure = use_cache_on_failure
   )
+}
+
+get_manifest <- function(url, cache_dir, use_cache_on_failure) {
+  resp <- httr::GET(url)
+  httr::stop_for_status(resp)
+
+  text <- httr::content(resp, as = "text")
+  manifest <- yaml::yaml.load(text)
+
+  manifest
+}
+
+prepend_url <- function(manifest, url) {
+
+  url_root <- fs::path_dir(url)
+
+  prepend <- function(x) {
+    x <- fs::path(url_root, x)
+    x <- paste0(x, "/")
+
+    x
+  }
+
+  manifest <- map(manifest, prepend)
+
+  manifest
 }
 
 board_url_test <- function(urls, cache = tempfile()) {
@@ -107,7 +142,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
     index <- which(versions == version)
 
     if (identical(length(index), 0L)) {
-      abort("version not found")
+      abort("Version not found")
     }
 
     url <- board$urls[[name]][[index]]
