@@ -133,3 +133,59 @@ test_that("http_download saves read-only file", {
   cached <- http_download("https://httpbin.org/cache", path, "test")
   expect_false(fs::file_access(cached, "write"))
 })
+
+# manifest ----------------------------------------------------------
+
+test_that("url-modifying functions work as expected", {
+  url_root <- "https://posit.co/"
+  expect_identical(url_dir("https://posit.co/test/"), url_root)
+  expect_identical(url_dir("https://posit.co/test"), url_root)
+  expect_identical(url_dir("https://posit.co/"), url_root)
+  expect_identical(url_dir("https://posit.co"), url_root)
+
+  url_root <- "https://posit.co/test/"
+  expect_identical(url_dir(paste0(url_root, "path")), url_root)
+  expect_identical(url_dir(paste0(url_root, "path/")), url_root)
+  expect_identical(url_dir(paste0(url_root, "path.txt")), url_root)
+
+  url_root <- "https://posit.co/test/path/"
+  append <- function(...) {
+    paste0(url_root, ...)
+  }
+  expect_identical(url_path(url_root, "dat.txt"), append("dat.txt"))
+  expect_identical(url_path(url_root, "dir", "dat.txt"), append("dir/dat.txt"))
+  expect_identical(url_path(url_root, "dir/dat.txt"), append("dir/dat.txt"))
+})
+
+test_that("manifest downloads and parses properly", {
+  skip_on_cran()
+  # TODO: update in subsequent PR
+  url_manifest <-
+    github_raw("ijlyttle/pinsManifest/main/tests/testthat/pins/pins.txt")
+  manifest <- get_manifest(url_manifest)
+
+  expect_type(manifest, "list")
+  expect_named(manifest, c("mtcars-csv", "mtcars-json"))
+
+  # prepended the root URL
+  walk(manifest, ~expect_match(.x, paste0("^", url_dir(url_manifest))))
+})
+
+test_that("board is created using manifest", {
+  skip_on_cran()
+  # TODO: update in subsequent PR
+  url_manifest_root <-
+    github_raw("ijlyttle/pinsManifest/main/tests/testthat/pins/")
+  board <- board_url_test(url_manifest_root)
+
+  # exercise version
+  mtcars_json <-
+    pin_read(board, "mtcars-json", version = "20220811T155803Z-c2702")
+
+  expect_identical(pin_list(board), c("mtcars-csv", "mtcars-json"))
+  expect_s3_class(pin_versions(board, "mtcars-csv"), "data.frame")
+  expect_identical(names(mtcars_json), names(mtcars))
+  expect_identical(mtcars_json$mpg, mtcars$mpg)
+})
+
+

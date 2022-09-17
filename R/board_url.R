@@ -55,8 +55,7 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
     }
 
     # download and parse manifest, then call again using manifest
-    manifest <- get_manifest(urls, cache, use_cache_on_failure)
-    manifest <- prepend_url(manifest, urls)
+    manifest <- get_manifest(urls)
     board <- board_url(manifest)
 
     return(board)
@@ -86,28 +85,60 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   )
 }
 
-get_manifest <- function(url, cache_dir, use_cache_on_failure) {
+url_path <- function(url, ...) {
+  # return URL with path items appended
+  # - if last element in path ends with a slash,
+  #   ensure return URL ends with a slash
+
+  dots <- rlang::list2(...)
+  url_parsed <- httr::parse_url(url)
+  path_elems <- c(url_parsed$path, dots)
+
+  path_new <- rlang::exec(fs::path, !!!path_elems)
+  ends_with_slash <- grepl("/$", last(path_elems))
+  if (ends_with_slash) {
+    path_new <- append_slash(path_new)
+  }
+
+  url_parsed$path <- path_new
+
+  httr::build_url(url_parsed)
+}
+
+url_dir <- function(url) {
+  # return URL for the directory, end with slash
+  url_parsed <- httr::parse_url(url)
+  path <- fs::path_dir(url_parsed$path)
+
+  if (identical(path, ".")) {
+    path <- ""
+  }
+
+  url_parsed$path <- append_slash(path)
+
+  httr::build_url(url_parsed)
+}
+
+append_slash <- function(x) {
+  x <- paste0(x, "/")
+}
+
+get_manifest <- function(url) {
   resp <- httr::GET(url)
   httr::stop_for_status(resp)
 
   text <- httr::content(resp, as = "text")
   manifest <- yaml::yaml.load(text)
 
-  manifest
-}
-
-prepend_url <- function(manifest, url) {
-
-  url_root <- fs::path_dir(url)
-
-  prepend <- function(x) {
-    x <- fs::path(url_root, x)
-    x <- paste0(x, "/")
-
-    x
-  }
-
-  manifest <- map(manifest, prepend)
+  # prepend url to entries
+  url_root <- url_dir(url)
+  manifest <- map(
+    manifest,
+    ~map_chr(
+      .x,
+      ~url_path(url_root, .x)
+    )
+  )
 
   manifest
 }
@@ -220,7 +251,7 @@ pin_versions.pins_board_url <- function(board, name, ...) {
   check_pin_exists(board, name)
 
   paths <- board$urls[[name]]
-  version_from_path(fs::path_file(paths)) # works for URLs too
+  version_from_path(fs::path_file(paths))
 }
 
 # Unsupported features ----------------------------------------------------
