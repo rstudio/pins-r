@@ -14,7 +14,7 @@
 #' @param urls identify available pins, possible values:
 #'   - unnamed character scalar, i.e. single string: URL to a manifest file.
 #'     If the URL ends in a `/`, `board_url()` will look for a `pins.txt`
-#'     containing the manifest. If `pins.txt` parses to a named list,
+#'     containing the manifest. If manifest-file parses to a named list,
 #'     versioning is supported. If it parses to a named character vector,
 #'     the board will not support versioning.
 #'   - named list, values are character vectors of URLs, each element of the
@@ -130,14 +130,11 @@ get_manifest <- function(url) {
   text <- httr::content(resp, as = "text")
   manifest <- yaml::yaml.load(text)
 
-  # prepend url to entries
+  # prepend url-root to manifest entries
   url_root <- url_dir(url)
   manifest <- map(
     manifest,
-    ~map_chr(
-      .x,
-      ~url_path(url_root, .x)
-    )
+    ~map_chr(.x, ~url_path(url_root, .x))
   )
 
   manifest

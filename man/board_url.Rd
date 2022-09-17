@@ -11,7 +11,7 @@ board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 \itemize{
 \item unnamed character scalar, i.e. single string: URL to a manifest file.
 If the URL ends in a \code{/}, \code{board_url()} will look for a \code{pins.txt}
-containing the manifest. If \code{pins.txt} parses to a named list,
+containing the manifest. If manifest-file parses to a named list,
 versioning is supported. If it parses to a named character vector,
 the board will not support versioning.
 \item named list, values are character vectors of URLs, each element of the
