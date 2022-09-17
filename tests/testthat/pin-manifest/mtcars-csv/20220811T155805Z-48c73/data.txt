@@ -1,0 +1,8 @@
+file: mtcars-csv.csv
+file_size: 1303
+pin_hash: 48c73eef04b242dd
+type: csv
+title: 'mtcars-csv: a pinned 32 x 11 data frame'
+description: ~
+created: 20220811T155805Z
+api_version: 1.0

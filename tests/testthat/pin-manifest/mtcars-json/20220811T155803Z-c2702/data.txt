@@ -1,0 +1,8 @@
+file: mtcars-json.json
+file_size: 4147
+pin_hash: c2702fb156ba5c38
+type: json
+title: 'mtcars-json: a pinned 32 x 11 data frame'
+description: ~
+created: 20220811T155803Z
+api_version: 1.0
