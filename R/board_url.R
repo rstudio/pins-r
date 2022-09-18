@@ -67,7 +67,7 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
     versioned = FALSE
   } else {
     # unsupported
-    # TODO: make more-helpful error
+    # TODO: update error message
     abort(
       "`urls`: must be single string, named list, or named character vector"
     )
@@ -125,9 +125,13 @@ append_slash <- function(x) {
 
 get_manifest <- function(url) {
   resp <- httr::GET(url)
+
+  # TODO: error message if cannot find
   httr::stop_for_status(resp)
 
   text <- httr::content(resp, as = "text")
+
+  # TODO: error message if cannot parse
   manifest <- yaml::yaml.load(text)
 
   # prepend url-root to manifest entries
@@ -333,6 +337,7 @@ http_download <- function(url, path_dir, path_file, ...,
       cache$path
     } else {
       if (is.null(on_failure)) {
+        # TODO: address mismatch between manifest and reality, here?
         httr::stop_for_status(req)
       } else {
         on_failure(req)

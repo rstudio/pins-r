@@ -178,6 +178,8 @@ test_that("board is created using manifest", {
     github_raw("ijlyttle/pinsManifest/main/tests/testthat/pins/")
   board <- board_url_test(url_manifest_root)
 
+  # TODO: test version = NLLL returns last version
+
   # exercise version
   mtcars_json <-
     pin_read(board, "mtcars-json", version = "20220811T155803Z-c2702")
