@@ -191,4 +191,23 @@ test_that("board methods work using versioned manifest", {
   expect_identical(mtcars_json_earlier$mpg, mtcars$mpg)
 })
 
-
+test_that("useful errors for manifest problems", {
+  skip_on_cran()
+  expect_snapshot(error = TRUE, {
+    # failed request
+    board_url("https://not_real_url.posit.co")
+    # file not found
+    board_url(github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"))
+    # file not parsable YAML
+    # TODO: update in subsequent PR
+    board_url(github_raw("ijlyttle/pinsManifest/main/tests/testthat/pins/mtcars-csv/20220811T155805Z-48c73/mtcars-csv.csv"))
+    # not supported format
+    board_url(3)
+    # unnamed list
+    board_url(list("a", "b"))
+    # list values not all character
+    board_url(list(a = "a", b = 2))
+    # unnamed character vector
+    board_url(c("a", "b"))
+  })
+})

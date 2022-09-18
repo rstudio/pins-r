@@ -56,8 +56,14 @@
 #' board_manifest %>% pin_read("mtcars-json") %>% head()
 board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive()) {
 
+  error_message <- c(
+    "{.var urls} must resolve to either:",
+    "*" = "unnamed character scalar, i.e. a URL",
+    "*" = "named character vector",
+    "*" = "named list, where all elements are character scalars or vectors"
+  )
+
   if (is_scalar_character(urls) && !is_named(urls)) {
-    # single URL
 
     # if ends with "/", look for pins.txt
     if (grepl("/$", urls)) {
@@ -69,18 +75,50 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
     board <- board_url(manifest)
 
     return(board)
-  } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
-    # named list of URLs
+
+  } else if (is_list(urls)) {
+
+    if (!is_named(urls) || !all(map_lgl(urls, is_character))) {
+      cli::cli_abort(
+        message = c(
+          error_message,
+          "i" = "{.var urls} resolves to a list:",
+          "i" = "- named: {.val {is_named(urls)}}",
+          "i" = "- all values character: {.val {all(map_lgl(urls, is_character))}}"
+        ),
+        class = "pins_error_board_url_argument",
+        urls = urls
+      )
+    }
+
     versioned = TRUE
-  } else if (is.character(urls) && is_named(urls)) {
-    # unnamed character vector of URLs
+
+  } else if (is.character(urls)) {
+
+    if (!is_named(urls)) {
+      cli::cli_abort(
+        message = c(
+          error_message,
+          "i" = "{.var urls} resolves to a character vector, but is unnamed."
+        ),
+        class = "pins_error_board_url_argument",
+        urls = urls
+      )
+    }
+
     versioned = FALSE
+
   } else {
-    # unsupported
-    # TODO: update error message
-    abort(
-      "`urls`: must be single string, named list, or named character vector"
+
+    cli::cli_abort(
+      message = c(
+        error_message,
+        "i" = "{.var urls} is a {.val {class(urls)}}."
+      ),
+      class = "pins_error_board_url_argument",
+      urls = urls
     )
+
   }
 
   # Share cache across all instances of board_url(); pins are stored in
@@ -133,16 +171,46 @@ append_slash <- function(x) {
   x <- paste0(x, "/")
 }
 
-get_manifest <- function(url) {
-  resp <- httr::GET(url)
+get_manifest <- function(url, call = rlang::caller_env()) {
 
-  # TODO: error message if cannot find
-  httr::stop_for_status(resp)
+  # if request fails or returns with error code
+  tryCatch(
+    {
+      resp <- httr::GET(url)
+      httr::stop_for_status(resp)
+    },
+    error = function(e) {
+      cli::cli_abort(
+        message = c(
+          "Error requesting manifest-file from URL {.url {url}}:",
+          " " = "{e$message}"
+        ),
+        class = "pins_error_board_url_request",
+        url = url,
+        call = call
+      )
+    }
+  )
 
-  text <- httr::content(resp, as = "text")
-
-  # TODO: error message if cannot parse
-  manifest <- yaml::yaml.load(text)
+  # if file is not parsable
+  tryCatch(
+    {
+      text <- httr::content(resp, as = "text")
+      manifest <- yaml::yaml.load(text)
+    },
+    error = function(e) {
+      cli::cli_abort(
+        message = c(
+          "Error parsing manifest-file at URL {.url {url}}:",
+          " " = "{e$message}",
+          "i" = "Manifest file must be text and parsable as YAML."
+        ),
+        class = "pins_error_board_url_parse",
+        resp = resp,
+        call = call
+      )
+    }
+  )
 
   # prepend url-root to manifest entries
   url_root <- url_dir(url)
