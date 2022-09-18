@@ -171,23 +171,24 @@ test_that("manifest downloads and parses properly", {
   walk(manifest, ~expect_match(.x, paste0("^", url_dir(url_manifest))))
 })
 
-test_that("board is created using manifest", {
+test_that("board methods work using versioned manifest", {
   skip_on_cran()
   # TODO: update in subsequent PR
   url_manifest_root <-
     github_raw("ijlyttle/pinsManifest/main/tests/testthat/pins/")
   board <- board_url_test(url_manifest_root)
 
-  # TODO: test version = NLLL returns last version
-
   # exercise version
-  mtcars_json <-
+  meta_latest <- pin_meta(board, "mtcars-json", version = NULL)
+  mtcars_json_earlier <-
     pin_read(board, "mtcars-json", version = "20220811T155803Z-c2702")
 
   expect_identical(pin_list(board), c("mtcars-csv", "mtcars-json"))
   expect_s3_class(pin_versions(board, "mtcars-csv"), "data.frame")
-  expect_identical(names(mtcars_json), names(mtcars))
-  expect_identical(mtcars_json$mpg, mtcars$mpg)
+
+  expect_identical(meta_latest$local$version, "20220811T155805Z-c2702")
+  expect_identical(names(mtcars_json_earlier), names(mtcars))
+  expect_identical(mtcars_json_earlier$mpg, mtcars$mpg)
 })
 
 

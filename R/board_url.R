@@ -32,11 +32,12 @@
 #' @inheritParams new_board
 #' @export
 #' @examples
-#' github_raw <- "https://raw.githubusercontent.com/"
+#' github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
+#'
 #' board <- board_url(c(
-#'   files = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/"),
-#'   rds = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-rds/"),
-#'   raw = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
+#'   files = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/"),
+#'   rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"),
+#'   raw = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
 #' ))
 #'
 #' board %>% pin_read("rds")
@@ -44,6 +45,15 @@
 #'
 #' board %>% pin_download("files")
 #' board %>% pin_download("raw")
+#'
+#' # use manifest file - TODO: update address
+#' board_manifest <-
+#'   github_raw("ijlyttle/pinsManifest/main/tests/testthat/pins/") %>%
+#'   board_url()
+#'
+#' board_manifest %>% pin_list()
+#' board_manifest %>% pin_versions("mtcars-json")
+#' board_manifest %>% pin_read("mtcars-json") %>% head()
 board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive()) {
 
   if (is_scalar_character(urls) && !is_named(urls)) {
@@ -206,6 +216,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       name = name,
       dir = cache_dir,
       url = url,
+      version = version,
       file_url = paste0(url, meta$file)
     )
   } else {
