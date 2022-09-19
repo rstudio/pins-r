@@ -9,6 +9,7 @@
 #' @param board A pin board, currently only `board_folder()` is supported.
 #'
 #' @return `board`, invisibly.
+#' @export
 #' @examples
 #' board <- board_temp()
 #' pin_write(board, mtcars, "mtcars-csv", type = "csv")
@@ -16,7 +17,6 @@
 #'
 #' pin_manifest(board)
 #' fs::path(board$path, "pins.txt") %>% readLines() %>% cat(sep = "\n")
-#' @export
 pin_manifest <- function(board) {
   UseMethod("pin_manifest")
 }
