@@ -125,47 +125,10 @@ board_deparse.pins_board_folder <- function(board, ...) {
   expr(board_folder(path = !!as.character(path)))
 }
 
-# Manifest ------------------------------------------------------------------
-
 #' @export
 pin_manifest.pins_board_folder <- function(board) {
-  manifest <- make_manifest(board$path)
-  yaml::write_yaml(manifest, fs::path(board$path, "pins.txt"))
-
-  pins_inform("Manifest file written to `{fs::path(board$path, 'pins.txt')}`")
-
-  invisible(board)
-}
-
-make_manifest <- function(path_board) {
-  # given `path_board`,
-  # return a named list:
-  #  - names are names of pins
-  #  - values are names of version sub-directories (contain data.txt)
-
-  # get subdirectories of path - these are the (possible) pin-names
-  paths_pins <- fs::dir_ls(path_board, type = "directory")
-
-  # map over subdirectories
-  result <- map(paths_pins, get_version_directories, path_board = path_board)
-  names(result) <- fs::path_rel(paths_pins, path_board)
-
-  # keep non-empty values
-  result <- compact(result)
-  result <- map(result, as.list)
-
-  result
-}
-
-get_version_directories <- function(path_pin, path_board) {
-  # given a `path_pin`, `path_board`
-  # return an unnamed character vector:
-  #  - names of version sub-directories (contain data.txt)
-  names_valid <-
-    fs::dir_ls(path_pin, type = "directory") %>%
-    keep(~fs::file_exists(fs::path(.x, "data.txt"))) %>%
-    fs::path_rel(path_board) %>%
-    map_chr(append_slash)
-
-  names_valid
+  pin_manifest_internal(
+    board,
+    ~fs::file_copy(.x, fs::path(board$path, "pins.txt"))
+  )
 }
