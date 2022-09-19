@@ -194,8 +194,6 @@ test_that("board methods work using versioned manifest", {
 test_that("useful errors for manifest problems", {
   skip_on_cran()
   expect_snapshot(error = TRUE, {
-    # failed request
-    board_url("https://not_real_url.posit.co")
     # file not found
     board_url(github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"))
     # file not parsable YAML

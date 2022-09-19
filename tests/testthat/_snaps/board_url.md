@@ -50,12 +50,6 @@
 # useful errors for manifest problems
 
     Code
-      board_url("https://not_real_url.posit.co")
-    Condition
-      Error in `board_url()`:
-      ! Error requesting manifest-file from URL <https://not_real_url.posit.co>:
-        Received HTTP code 502 from proxy after CONNECT
-    Code
       board_url(github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"))
     Condition
       Error in `board_url()`:
