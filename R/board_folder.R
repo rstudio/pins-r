@@ -127,8 +127,12 @@ board_deparse.pins_board_folder <- function(board, ...) {
 
 #' @export
 pin_manifest.pins_board_folder <- function(board) {
-  pin_manifest_internal(
-    board,
-    ~fs::file_copy(.x, fs::path(board$path, "pins.txt"))
-  )
+
+  # Given path, `x`, to manifest file,
+  # "upload" file named "pins.txt" to root-folder of board.
+  uploader <- function(x) {
+    fs::file_copy(x, fs::path(board$path, "pins.txt"))
+  }
+
+  pin_manifest_internal(board, uploader)
 }
