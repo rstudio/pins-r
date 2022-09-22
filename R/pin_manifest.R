@@ -1,12 +1,16 @@
 #' Write manifest file
 #'
-#' This can be used if you have a `pins::board_folder()` that you want to
-#' serve as a web-site such that others can consume using `pins::board_url()`.
+#' A manifest file contains a named list of pins, where the values identify
+#' pin-version directories.
+#' This can be useful for a board built using, for example,
+#' [board_folder()] or [board_s3()], then served as a web-site,
+#' such that others can consume using [board_url()].
 #'
-#' This function is called for the side-effect of writing a manifest file,
+#' This function is not supported for read-only boards.
+#' It is called for the side-effect of writing a manifest file,
 #' `pins.txt`, to the `boards`'s root-directory.
 #'
-#' @param board A pin board, currently only `board_folder()` is supported.
+#' @param board A writable pin board.
 #'
 #' @return `board`, invisibly.
 #' @export
@@ -16,6 +20,8 @@
 #' pin_write(board, mtcars, "mtcars-json", type = "json")
 #'
 #' pin_manifest(board)
+#'
+#' # see the manifest's format
 #' fs::path(board$path, "pins.txt") %>% readLines() %>% cat(sep = "\n")
 pin_manifest <- function(board) {
   UseMethod("pin_manifest")

@@ -7,17 +7,21 @@
 pin_manifest(board)
 }
 \arguments{
-\item{board}{A pin board, currently only \code{board_folder()} is supported.}
+\item{board}{A writable pin board.}
 }
 \value{
 \code{board}, invisibly.
 }
 \description{
-This can be used if you have a \code{pins::board_folder()} that you want to
-serve as a web-site such that others can consume using \code{pins::board_url()}.
+A manifest file contains a named list of pins, where the values identify
+pin-version directories.
+This can be useful for a board built using, for example,
+\code{\link[=board_folder]{board_folder()}} or \code{\link[=board_s3]{board_s3()}}, then served as a web-site,
+such that others can consume using \code{\link[=board_url]{board_url()}}.
 }
 \details{
-This function is called for the side-effect of writing a manifest file,
+This function is not supported for read-only boards.
+It is called for the side-effect of writing a manifest file,
 \code{pins.txt}, to the \code{boards}'s root-directory.
 }
 \examples{
@@ -26,5 +30,7 @@ pin_write(board, mtcars, "mtcars-csv", type = "csv")
 pin_write(board, mtcars, "mtcars-json", type = "json")
 
 pin_manifest(board)
+
+# see the manifest's format
 fs::path(board$path, "pins.txt") \%>\% readLines() \%>\% cat(sep = "\n")
 }

@@ -9,10 +9,12 @@
 #' You'll also be protected from the vagaries of the internet; if a fresh
 #' download fails, you'll get the previously cached result with a warning.
 #'
-#' `board_url()` is read only and does not currently support versions.
+#' `board_url()` is read only.
 #'
-#' @param urls identify available pins, possible values:
-#'   - unnamed character scalar, i.e. single string: URL to a manifest file.
+#' @details
+#' The nature of the board depends on the type of the `urls` argument:
+#'   - unnamed character scalar, i.e. single string:
+#'     URL to a [manifest file][pin_manifest()].
 #'     If the URL ends in a `/`, `board_url()` will look for a `pins.txt`
 #'     containing the manifest. If manifest-file parses to a named list,
 #'     versioning is supported. If it parses to a named character vector,
@@ -20,10 +22,17 @@
 #'   - named list, values are character vectors of URLs, each element of the
 #'     vector refers to a version of the particular pin. If a URL ends in a `/`,
 #'     `board_url()` will look for a `data.txt` that provides metadata.
+#'     Versioning is supported.
 #'   - named character vector of URLs: If the URL ends in a `/`,
 #'     `board_url()` will look for a `data.txt` that provides metadata. The
 #'     easiest way to generate this file is to upload a pin directory created by
 #'     [board_folder()]. Versioning is not supported.
+#'
+#' @param urls identify available pins (see details):
+#'   - unnamed character scalar: URL to a [manifest file][pin_manifest()].
+#'   - named list: supports versioning, values are URLs to version-directories.
+#'   - named character vector: does not support versioning, values are
+#'      URLs to data.
 #' @param use_cache_on_failure If the pin fails to download, is it ok to
 #'   use the last cached version? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,

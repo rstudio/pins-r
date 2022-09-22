@@ -7,20 +7,12 @@
 board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }
 \arguments{
-\item{urls}{identify available pins, possible values:
+\item{urls}{identify available pins (see details):
 \itemize{
-\item unnamed character scalar, i.e. single string: URL to a manifest file.
-If the URL ends in a \code{/}, \code{board_url()} will look for a \code{pins.txt}
-containing the manifest. If manifest-file parses to a named list,
-versioning is supported. If it parses to a named character vector,
-the board will not support versioning.
-\item named list, values are character vectors of URLs, each element of the
-vector refers to a version of the particular pin. If a URL ends in a \code{/},
-\code{board_url()} will look for a \code{data.txt} that provides metadata.
-\item named character vector of URLs: If the URL ends in a \code{/},
-\code{board_url()} will look for a \code{data.txt} that provides metadata. The
-easiest way to generate this file is to upload a pin directory created by
-\code{\link[=board_folder]{board_folder()}}. Versioning is not supported.
+\item unnamed character scalar: URL to a \link[=pin_manifest]{manifest file}.
+\item named list: supports versioning, values are URLs to version-directories.
+\item named character vector: does not support versioning, values are
+URLs to data.
 }}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
@@ -41,7 +33,26 @@ it (using the tools of
 You'll also be protected from the vagaries of the internet; if a fresh
 download fails, you'll get the previously cached result with a warning.
 
-\code{board_url()} is read only and does not currently support versions.
+\code{board_url()} is read only.
+}
+\details{
+The nature of the board depends on the type of the \code{urls} argument:
+\itemize{
+\item unnamed character scalar, i.e. single string:
+URL to a \link[=pin_manifest]{manifest file}.
+If the URL ends in a \code{/}, \code{board_url()} will look for a \code{pins.txt}
+containing the manifest. If manifest-file parses to a named list,
+versioning is supported. If it parses to a named character vector,
+the board will not support versioning.
+\item named list, values are character vectors of URLs, each element of the
+vector refers to a version of the particular pin. If a URL ends in a \code{/},
+\code{board_url()} will look for a \code{data.txt} that provides metadata.
+Versioning is supported.
+\item named character vector of URLs: If the URL ends in a \code{/},
+\code{board_url()} will look for a \code{data.txt} that provides metadata. The
+easiest way to generate this file is to upload a pin directory created by
+\code{\link[=board_folder]{board_folder()}}. Versioning is not supported.
+}
 }
 \examples{
 github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
