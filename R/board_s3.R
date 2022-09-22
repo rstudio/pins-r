@@ -245,6 +245,16 @@ board_deparse.pins_board_s3 <- function(board, ...) {
   expr(board_s3(!!!board_args))
 }
 
+#' @export
+pin_manifest.pins_board_s3 <- function(board) {
+  manifest <- make_manifest(board)
+
+  s3_upload_yaml(board, key = "pins.txt", yaml = manifest)
+  pins_inform("Manifest file written to root-folder of board, as 'pins.txt'.")
+
+  invisible(board)
+}
+
 empty_string_to_null <- function(x) {
   if (is.null(x) || nchar(x) == 0) NULL else x
 }

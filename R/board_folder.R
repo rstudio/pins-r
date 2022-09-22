@@ -127,12 +127,13 @@ board_deparse.pins_board_folder <- function(board, ...) {
 
 #' @export
 pin_manifest.pins_board_folder <- function(board) {
+  manifest <- make_manifest(board)
 
-  # Given path, `x`, to manifest file,
-  # "upload" file named "pins.txt" to root-folder of board.
-  uploader <- function(x) {
-    fs::file_copy(x, fs::path(board$path, "pins.txt"))
-  }
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(manifest, file = temp_file)
 
-  pin_manifest_internal(board, uploader)
+  fs::file_copy(temp_file, fs::path(board$path, "pins.txt"))
+  pins_inform("Manifest file written to root-folder of board, as 'pins.txt'.")
+
+  invisible(board)
 }

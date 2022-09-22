@@ -193,6 +193,18 @@ board_deparse.pins_board_azure <- function(board, ...) {
   expr(board_azure(!!container, path = !!board$path))
 }
 
+#' @export
+pin_manifest.pins_board_azure <- function(board) {
+  manifest <- make_manifest(board)
+
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(manifest, file = temp_file)
+
+  azure_upload_file(board, src = temp_file, dest = "pins.txt")
+  pins_inform("Manifest file written to root-folder of board, as 'pins.txt'.")
+
+  invisible(board)
+}
 
 # Helpers -----------------------------------------------------------------
 

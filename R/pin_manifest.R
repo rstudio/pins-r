@@ -26,26 +26,6 @@ pin_manifest.default <- function(board) {
   abort(glue::glue("Not supported for {class(board)[[1]]}."))
 }
 
-pin_manifest_internal <- function(board, pins_txt_uploader) {
-
-  # pins_txt_uploader: function that takes path to a manifest file,
-  # then uploads file to the root folder of board, naming it "pins.txt".
-  pins_txt_uploader <- rlang::as_function(pins_txt_uploader)
-
-  manifest <- make_manifest(board)
-
-  # write manifest to temporary tile
-  temp_file <- withr::local_tempfile()
-  yaml::write_yaml(manifest, file = temp_file)
-
-  # upload file to board
-  pins_txt_uploader(temp_file)
-
-  pins_inform("Manifest file written to root-folder of board, as 'pins.txt'.")
-
-  invisible(board)
-}
-
 make_manifest <- function(board) {
   # given board, return named list:
   #   - names are pin names
