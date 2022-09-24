@@ -1,7 +1,7 @@
 Type: Package
 Package: pins
 Title: Pin, Discover and Share Resources
-Version: 1.0.3
+Version: 1.0.3.9000
 Authors@R: c(
     person("Julia", "Silge", , "julia.silge@rstudio.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-3671-836X")),
