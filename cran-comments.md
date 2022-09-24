@@ -1,6 +1,13 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 1 note
+
+This release updates the maintainer for pins:
+
+    New maintainer:
+      Julia Silge <julia.silge@rstudio.com>
+    Old maintainer(s):
+      Hadley Wickham <hadley@rstudio.com>
 
 ## revdepcheck results
 
