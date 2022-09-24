@@ -125,13 +125,13 @@
 <span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">board</span></span>
 <span><span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span></span>
-<span><span class="co">#&gt; Path: '/tmp/RtmpAYa45m/pins-6cce258ca9cf'</span></span>
+<span><span class="co">#&gt; Path: '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpIz0TnO/pins-e094532135f'</span></span>
 <span><span class="co">#&gt; Cache size: 0</span></span></code></pre></div>
 <p>You can “pin” (save) data to a board with <code><a href="reference/pin_read.html">pin_write()</a></code>. It takes three arguments: the board to pin to, an object, and a name:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20211116T161305Z-e8160'</span></span>
+<span><span class="co">#&gt; Creating new version '20220923T183046Z-209d4'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>As you can see, the data saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might use the <code>type</code> argument to instead save it as a <code>csv</code>, <code>json</code>, or <code>arrow</code> file.</p>
 <p>You can later retrieve the pinned data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
@@ -186,7 +186,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Hadley Wickham <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Julia Silge <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0002-3671-836X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Hadley Wickham <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Javier Luraschi <br><small class="roles"> Author </small>  </li>
 <li> RStudio <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
@@ -207,7 +208,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Hadley Wickham, Javier Luraschi, RStudio.</p>
+<p>Developed by Julia Silge, Hadley Wickham, Javier Luraschi, RStudio.</p>
 </div>
 
 <div class="pkgdown-footer-right">
