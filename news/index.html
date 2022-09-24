@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/pins-update.html">Updating to pins 1.0.0</a>
+    <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
     <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
   </div>
 </li>
@@ -63,6 +63,13 @@
       <small>Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.3" id="pins-103">pins 1.0.3<a class="anchor" aria-label="anchor" href="#pins-103"></a></h2><p class="text-muted">CRAN release: 2022-09-24</p>
+<ul><li><p>The <code>arrow</code> package is now suggested, rather than imported (<a href="https://github.com/rstudio/pins-r/issues/644" class="external-link">#644</a>, <a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>).</p></li>
+<li><p>Fixed how Connect usernames are handled in messages, preview, etc (<a href="https://github.com/rstudio/pins-r/issues/643" class="external-link">#643</a>).</p></li>
+<li><p>Increased datetime precision to the second, for <code><a href="../reference/pin_versions.html">pin_versions()</a></code> and related functions (<a href="https://github.com/rstudio/pins-r/issues/642" class="external-link">#642</a>, <a href="https://github.com/tomsing1" class="external-link">@tomsing1</a>).</p></li>
+<li><p>Pass the dots from <code><a href="../reference/pin_read.html">pin_write()</a></code> through to <code>s3_upload_file()</code> and <code>s3_uploade_yaml()</code> to support S3 tagging, encryption options, etc for pins (<a href="https://github.com/rstudio/pins-r/issues/648" class="external-link">#648</a>, <a href="https://github.com/rstudio/pins-r/issues/652" class="external-link">#652</a>, <a href="https://github.com/fh-mthomson" class="external-link">@fh-mthomson</a>).</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="pins-102">pins 1.0.2<a class="anchor" aria-label="anchor" href="#pins-102"></a></h2><p class="text-muted">CRAN release: 2022-08-23</p>
 <ul><li><p><code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> now correctly finds the created date for pins (<a href="https://github.com/rstudio/pins-r/issues/623" class="external-link">#623</a>, <a href="https://github.com/bjfletcher" class="external-link">@bjfletcher</a>).</p></li>
@@ -110,7 +117,7 @@
 <li><p><code><a href="../reference/board_ms365.html">board_ms365()</a></code> allow to pin data to MS One Drive and Sharpoint (<a href="https://github.com/rstudio/pins-r/issues/498" class="external-link">#498</a>, <a href="https://github.com/hongooi73" class="external-link">@hongooi73</a>).</p></li>
 <li><p><code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code> shares data on <a href="https://www.rstudio.com/products/connect/" class="external-link">RStudio connect</a>. This board supports both modern and legacy APIs, so that you and your colleagues can use a mixture of pins versions as you transition to pins 1.0.0. Note that the compatibility is one directional: you can <code><a href="../reference/pin_read.html">pin_read()</a></code> pins created by <code><a href="../reference/pin.html">pin()</a></code>, but you can’t <code><a href="../reference/pin_get.html">pin_get()</a></code> pins created by <code><a href="../reference/pin_read.html">pin_write()</a></code>.</p></li>
 <li><p><code><a href="../reference/board_s3.html">board_s3()</a></code> stores data in Amazon’s S3 service. It is built on top of <a href="https://paws-r.github.io" class="external-link">paws</a>.</p></li>
-<li><p><code><a href="../reference/board_url.html">board_url()</a></code> lets you create a manual board from a vector of URLs. This is useful because <code>pin_donwload()</code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> are cached, so they only re-download the data if it has changed since the last time you used it (<a href="https://github.com/rstudio/pins-r/issues/409" class="external-link">#409</a>). This board is a replacement for <code><a href="../reference/pin.html">pin()</a></code>’s ability to work directly with URLs</p></li>
+<li><p><code><a href="../reference/board_url.html">board_url()</a></code> lets you create a manual board from a vector of URLs. This is useful because <code><a href="../reference/pin_download.html">pin_download()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> are cached, so they only re-download the data if it has changed since the last time you used it (<a href="https://github.com/rstudio/pins-r/issues/409" class="external-link">#409</a>). This board is a replacement for <code><a href="../reference/pin.html">pin()</a></code>’s ability to work directly with URLs</p></li>
 </ul><p>The legacy boards will continue to work with the legacy pins API; we will implement modern versions of the remaining legacy boards based on user feedback.</p>
 </div>
 <div class="section level3">
@@ -413,7 +420,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Hadley Wickham, Javier Luraschi, RStudio.</p>
+  <p></p><p>Developed by Julia Silge, Hadley Wickham, Javier Luraschi, RStudio.</p>
 </div>
 
 <div class="pkgdown-footer-right">

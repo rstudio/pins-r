@@ -12,7 +12,7 @@ package."><meta property="og:image" content="https://pins.rstudio.com/logo.png">
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@ package."><meta property="og:image" content="https://pins.rstudio.com/logo.png">
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/pins-update.html">Updating to pins 1.0.0</a>
+    <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
     <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
   </div>
 </li>
@@ -156,10 +156,12 @@ an EC2 instance, using a role from another profile, and using multifactor
 authentication.</p>
     </div>
     <div class="section level2">
-    <h2 id="caveats">Caveats<a class="anchor" aria-label="anchor" href="#caveats"></a></h2>
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     
 <ul><li><p>If you point at a bucket that's not created by pins, some functions
 like <code>pins_list()</code> will work, but won't return useful output.</p></li>
+<li><p>You can pass arguments for <a href="https://rdrr.io/pkg/paws.storage/man/s3_put_object.html" class="external-link">paws.storage::s3_put_object</a> such as <code>Tagging</code>
+and <code>ServerSideEncryption</code> through the dots of <code><a href="pin_read.html">pin_write()</a></code>.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -173,6 +175,10 @@ like <code>pins_list()</code> will work, but won't return useful output.</p></li
 <span class="r-in"><span><span class="va">board_sales</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"sales/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">board_marketing</span> <span class="op">&lt;-</span> <span class="fu">board_s3</span><span class="op">(</span><span class="st">"company-pins"</span>, prefix <span class="op">=</span> <span class="st">"marketing/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># You can make the hierarchy arbitrarily deep.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Pass arguments like `Tagging` through the dots of `pin_write`:</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, Tagging <span class="op">=</span> <span class="st">"key1=value1&amp;key2=value2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
@@ -181,7 +187,7 @@ like <code>pins_list()</code> will work, but won't return useful output.</p></li
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Hadley Wickham, Javier Luraschi, RStudio.</p>
+  <p></p><p>Developed by Julia Silge, Hadley Wickham, Javier Luraschi, RStudio.</p>
 </div>
 
 <div class="pkgdown-footer-right">
