@@ -5,7 +5,7 @@
       x <- pin_versions("x", "local")
       x <- pin_versions("x", board)
 
-# can't swap arguments and omit name with modern api
+# can't swap arguments or omit name with modern api
 
     Code
       pin_versions(name, board)
