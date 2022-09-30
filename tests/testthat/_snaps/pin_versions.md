@@ -5,13 +5,21 @@
       x <- pin_versions("x", "local")
       x <- pin_versions("x", board)
 
-# can't swap arguments with modern api
+# can't swap arguments or omit name with modern api
 
     Code
       pin_versions(name, board)
     Condition
       Error in `pin_versions()`:
       ! Please supply `board` then `name` when working with modern boards
+
+---
+
+    Code
+      pin_versions(board)
+    Condition
+      Error in `pin_versions()`:
+      ! Argument `name` is missing, with no default
 
 # `full` is deprecated
 
