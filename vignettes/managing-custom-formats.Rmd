@@ -1,0 +1,94 @@
+---
+title: "Managing custom formats"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Managing custom formats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The pins package provides a robust set of methods to read and write standard types of files using standard tools, e.g. CSV files using `read.csv()` and `write.csv()`.
+However, from time to time, you may wish read or write using other tools. Perhaps you want to read and write:
+
+ - CSV files using readr or vroom.
+ - Arrow files without using compression. 
+ - Parquet files.
+
+An escape hatch is provided: `pin_upload()` and `pin_download()`. 
+The goal of this vignette is to show how you can incorporate these into your workflow.
+
+Two points to keep in mind:
+
+ - a vector of `paths` to files is provided to `pin_upload()`.
+ - a vector of `paths` to files is returned from `pin_download()`.
+
+Let's follow the "uncompressed Arrow" example; we'll start by creating a temporary board:
+
+```{r setup}
+library(pins)
+
+board <- board_temp()
+```
+
+## Upload a one-off file
+
+If you are writing a one-off file, you can do everything directly:
+
+```{r}
+pin_name <- "mtcars-arrow"
+
+# file name will be `mtcars-vroom.arrow`
+path <- fs::path_temp(fs::path_ext_set(pin_name, "arrow"))
+
+arrow::write_feather(mtcars, path, compression = "uncompressed")
+
+pin_upload(board, paths = path, name = pin_name)
+```
+
+Reading from the downloaded pin is straightforward; `pin_download()` returns a local path that can be piped to `arrow::read_feather()`:
+
+```{r}
+mtcars_download <- 
+  pin_download(board, pin_name) %>%
+  arrow::read_feather()
+
+head(mtcars_download)
+```
+
+## Function to manage uploading
+
+If you want to write more than one custom file of a certain type, like uncompressed Arrow, you might consider writing a helper function:
+
+```{r}
+pin_upload_arrow <- function(board, x, name, ...) {
+  # path deleted when `pin_upload_arrow()` exits
+  path <- fs::path_temp(fs::path_ext_set(name, "arrow"))
+  withr::defer(fs::file_delete(path))
+ 
+  # custom writer
+  arrow::write_feather(x, path, compression = "uncompressed")
+
+  pin_upload(board, paths = path, name = name, ...) 
+}
+```
+
+This helper function is designed to work like `pin_write()`:
+
+```{r}
+pin_upload_arrow(board, x = mtcars, name = "mtcars-arrow2")
+```
+
+As before, you can pipe the result of `pin_download()` to your reader function:
+
+```{r}
+pin_download(board, name = "mtcars-arrow2") %>%
+  arrow::read_feather() %>%
+  head()
+```
