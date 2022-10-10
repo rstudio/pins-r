@@ -1,6 +1,6 @@
 # pins (development version)
 
-* Added vignette to describe how to manage custom formats (#631, @ijlyttle).
+* Added vignette describing how to manage custom formats (#631, @ijlyttle).
 
 * Improved error message for `pin_versions()` (#657).
 
