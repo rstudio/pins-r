@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 The pins package provides a robust set of methods to read and write standard types of files using standard tools, e.g. CSV files using `read.csv()` and `write.csv()`.
-However, from time to time, you may wish read or write using other tools. Perhaps you want to read and write:
+However, from time to time, you may wish read or write using other tools. You may want to read and write:
 
  - CSV files using readr or vroom.
  - Arrow files without using compression. 
@@ -26,10 +26,10 @@ The goal of this vignette is to show how you can incorporate these into your wor
 
 Two points to keep in mind:
 
- - a vector of `paths` to files is provided to `pin_upload()`.
- - a vector of `paths` to files is returned from `pin_download()`.
+ - `pin_upload()` takes a vector of `paths` to local files.
+ - `pin_download()` returns a vector of `paths` to local files.
 
-Let's follow the "uncompressed Arrow" example; we'll start by creating a temporary board:
+We'll follow an example where we write and read uncomppressed Arrow files, starting by creating a temporary board:
 
 ```{r setup}
 library(pins)
@@ -64,7 +64,7 @@ head(mtcars_download)
 
 ## Function to manage uploading
 
-If you want to write more than one custom file of a certain type, like uncompressed Arrow, you might consider writing a helper function:
+If you want to write more than one custom file of a certain type, or using a certain tool, you might consider writing a helper function:
 
 ```{r}
 pin_upload_arrow <- function(board, x, name, ...) {
