@@ -10,18 +10,19 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = rlang::is_installed("arrow")
 )
 ```
 
-The pins package provides a robust set of methods to read and write standard types of files using standard tools, e.g. CSV files using `read.csv()` and `write.csv()`.
+The pins package provides a robust set of functions to read and write standard types of files using standard tools, e.g. CSV files using `read.csv()` and `write.csv()`.
 However, from time to time, you may wish read or write using other tools. You may want to read and write:
 
- - CSV files using readr or vroom.
- - Arrow files without using compression. 
- - Parquet files.
+ - CSV files using readr or vroom
+ - Arrow files without using compression
+ - Parquet files
 
-An escape hatch is provided: `pin_upload()` and `pin_download()`. 
+An escape hatch for a customized approach is provided: `pin_upload()` and `pin_download()`. 
 The goal of this vignette is to show how you can incorporate these into your workflow.
 
 Two points to keep in mind:
@@ -29,7 +30,7 @@ Two points to keep in mind:
  - `pin_upload()` takes a vector of `paths` to local files.
  - `pin_download()` returns a vector of `paths` to local files.
 
-We'll follow an example where we write and read uncomppressed Arrow files, starting by creating a temporary board:
+We'll follow an example where we write and read uncompressed Arrow files, starting by creating a temporary board:
 
 ```{r setup}
 library(pins)
@@ -44,7 +45,7 @@ If you are writing a one-off file, you can do everything directly:
 ```{r}
 pin_name <- "mtcars-arrow"
 
-# file name will be `mtcars-vroom.arrow`
+# file name will be `mtcars-arrow.arrow`
 path <- fs::path_temp(fs::path_ext_set(pin_name, "arrow"))
 
 arrow::write_feather(mtcars, path, compression = "uncompressed")
