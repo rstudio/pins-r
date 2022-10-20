@@ -19,7 +19,7 @@ board_s3(
 )
 }
 \arguments{
-\item{bucket}{Bucket name.}
+\item{bucket}{Bucket name. You can only write to an existing bucket.}
 
 \item{prefix}{Prefix within this bucket that this board will occupy.
 You can use this to maintain multiple independent pin boards within
@@ -81,8 +81,10 @@ authentication.
 
 \section{Details}{
 \itemize{
-\item If you point at a bucket that's not created by pins, some functions
-like \code{pins_list()} will work, but won't return useful output.
+\item The functions in pins do not create a new bucket. You can create
+a new bucket from R with \link[paws.storage:s3_create_bucket]{paws}.
+\item Some functions like \code{pins_list()} will work for an S3 board, but don't
+return useful output.
 \item You can pass arguments for \link[paws.storage:s3_put_object]{paws.storage::s3_put_object} such as \code{Tagging}
 and \code{ServerSideEncryption} through the dots of \code{pin_write()}.
 }
