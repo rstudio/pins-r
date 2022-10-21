@@ -83,7 +83,7 @@ authentication.
 \itemize{
 \item The functions in pins do not create a new bucket. You can create
 a new bucket from R with \link[paws.storage:s3_create_bucket]{paws}.
-\item Some functions like \code{pins_list()} will work for an S3 board, but don't
+\item Some functions like \code{\link[=pin_list]{pin_list()}} will work for an S3 board, but don't
 return useful output.
 \item You can pass arguments for \link[paws.storage:s3_put_object]{paws.storage::s3_put_object} such as \code{Tagging}
 and \code{ServerSideEncryption} through the dots of \code{pin_write()}.

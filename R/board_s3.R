@@ -43,7 +43,7 @@
 #'
 #' * The functions in pins do not create a new bucket. You can create
 #'   a new bucket from R with [paws][paws.storage::s3_create_bucket].
-#' * Some functions like `pins_list()` will work for an S3 board, but don't
+#' * Some functions like [pin_list()] will work for an S3 board, but don't
 #'   return useful output.
 #' * You can pass arguments for [paws.storage::s3_put_object] such as `Tagging`
 #'   and `ServerSideEncryption` through the dots of `pin_write()`.
