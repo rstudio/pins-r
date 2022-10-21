@@ -555,12 +555,24 @@ read_cache <- function(path) {
     list()
   }
 }
+
 update_cache <- function(path, key, value) {
   cache <- read_cache(path)
   cache[[key]] <- value
   write_yaml(cache, path)
 
   value
+}
+
+use_cache <- function(option = "pins_connect_cache") {
+  opt <- peek_option(option)
+  if (!is_null(opt)) {
+    if (!is_bool(opt)) {
+      abort(glue("The option `{option}` must be a logical (TRUE or FALSE)."))
+    }
+    return(opt)
+  }
+  return(TRUE)
 }
 
 # helpers -----------------------------------------------------------------
