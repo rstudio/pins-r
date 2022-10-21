@@ -63,8 +63,7 @@
 #' # Download a shared dataset
 #' board %>% pin_read("timothy/mtcars")
 #' }
-board_rsconnect <- function(
-                            auth = c("auto", "manual", "envvar", "rsconnect"),
+board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                             server = NULL,
                             account = NULL,
                             key = NULL,
@@ -84,7 +83,8 @@ board_rsconnect <- function(
 
   cache <- cache %||% board_cache_path(paste0("rsc-", hash(url)))
 
-  board <- new_board("pins_board_rsconnect",
+  board <- new_board(
+    "pins_board_rsconnect",
     api = c(0, 1),
     name = name,
     cache = cache,
@@ -198,7 +198,8 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   )
 
   meta <- read_meta(cache_path)
-  local_meta(meta,
+  local_meta(
+    meta,
     name = name,
     dir = cache_path,
     url = url,
@@ -258,7 +259,8 @@ pin_store.pins_board_rsconnect <- function(
   bundle_file <- fs::file_temp(ext = "tar.gz")
 
   # suppress warnings about "invalid uid value" / "invalid gid value"
-  withr::with_dir(bundle_dir,
+  withr::with_dir(
+    bundle_dir,
     suppressWarnings(utils::tar(
       bundle_file,
       compression = "gzip",
@@ -269,14 +271,14 @@ pin_store.pins_board_rsconnect <- function(
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
   json <- rsc_POST(board, rsc_v1("content", content_guid, "bundles"),
-    body = httr::upload_file(bundle_file)
+                   body = httr::upload_file(bundle_file)
   )
   bundle_id <- json$id
 
   # Deploy bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/experimental/content/{guid}/deploy
   json <- rsc_POST(board, rsc_v1("content", content_guid, "deploy"),
-    body = list(bundle_id = bundle_id),
+                   body = list(bundle_id = bundle_id),
   )
   task_id <- json$task_id
 
@@ -345,8 +347,8 @@ board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
 
 #' @export
 board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, code = NULL,
-                                       search_all = FALSE,
-                                       ...) {
+                                                  search_all = FALSE,
+                                                  ...) {
 
   path <- fs::dir_ls(path)
   metadata$file <- fs::path_file(path)
@@ -362,11 +364,11 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
 
 #' @export
 board_pin_find.pins_board_rsconnect <- function(board,
-                                               text = NULL,
-                                               name = NULL,
-                                               extended = FALSE,
-                                               metadata = FALSE,
-                                     ...) {
+                                                text = NULL,
+                                                name = NULL,
+                                                extended = FALSE,
+                                                metadata = FALSE,
+                                                ...) {
 
   params <- list(
     search = text,
@@ -393,7 +395,6 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
 
   cache_path <- fs::path(board$cache, "content-cache.yml")
   if (!is.null(name$owner)) {
-
     cache <- read_cache(cache_path)
     if (has_name(cache, name$full)) {
       return(cache[[name$full]])
@@ -520,10 +521,10 @@ rsc_content_version_cached <- function(board, guid) {
 rsc_content_delete <- function(board, name) {
   content <- rsc_content_find(board, name)
   rsc_DELETE(board, rsc_v1("content", content$guid))
-
   cache_path <- fs::path(board$cache, "content-cache.yml")
   update_cache(cache_path, name, NULL)
 }
+
 
 rsc_parse_name <- function(x) {
   parts <- strsplit(x, "/", fixed = TRUE)[[1]]
@@ -549,7 +550,7 @@ rsc_user_name <- function(board, guid) {
 }
 
 read_cache <- function(path) {
-  if (file.exists(path)) {
+  if (file.exists(path) && use_cache()) {
     yaml::read_yaml(path, eval.expr = FALSE)
   } else {
     list()
@@ -557,10 +558,11 @@ read_cache <- function(path) {
 }
 
 update_cache <- function(path, key, value) {
-  cache <- read_cache(path)
-  cache[[key]] <- value
-  write_yaml(cache, path)
-
+  if (use_cache()) {
+    cache <- read_cache(path)
+    cache[[key]] <- value
+    write_yaml(cache, path)
+  }
   value
 }
 
@@ -590,10 +592,10 @@ rsc_GET <- function(board, path, query = NULL, ...) {
   auth <- rsc_auth(board, path, "GET", NULL)
 
   req <- httr::GET(board$url,
-    path = path,
-    query = query,
-    auth,
-    ...
+                   path = path,
+                   query = query,
+                   auth,
+                   ...
   )
   rsc_check_status(req)
   httr::content(req)
@@ -623,10 +625,10 @@ rsc_DELETE <- function(board, path, query = NULL, ...) {
   auth <- rsc_auth(board, path, "DELETE", NULL)
 
   req <- httr::DELETE(board$url,
-    path = path,
-    query = query,
-    auth,
-    ...
+                      path = path,
+                      query = query,
+                      auth,
+                      ...
   )
   rsc_check_status(req)
   invisible()
@@ -651,12 +653,12 @@ rsc_POST <- function(board, path, query = NULL, body, ..., .method = "POST") {
   auth <- rsc_auth(board, path, .method, body_path)
 
   req <- httr::VERB(.method,
-    url = board$url,
-    path = path,
-    query = query,
-    body = body,
-    auth,
-    ...
+                    url = board$url,
+                    path = path,
+                    query = query,
+                    body = body,
+                    auth,
+                    ...
   )
   rsc_check_status(req)
   httr::content(req)
