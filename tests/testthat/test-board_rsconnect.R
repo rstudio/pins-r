@@ -106,6 +106,15 @@ test_that("can find cached versions", {
   expect_message(expect_equal(rsc_content_version_cached(board, guid), cached_v))
 })
 
+test_that("can use or not use cache", {
+  withr::local_options(list(pins_connect_cache = TRUE))
+  expect_equal(use_cache(), TRUE)
+  withr::local_options(list(pins_connect_cache = NULL))
+  expect_equal(use_cache(), TRUE)
+  withr::local_options(list(pins_connect_cache = FALSE))
+  expect_equal(use_cache(), FALSE)
+})
+
 test_that("rsc_path() always includes leading /", {
   expect_equal(
     rsc_path(list(url = "https://example.com/"), "x"),
