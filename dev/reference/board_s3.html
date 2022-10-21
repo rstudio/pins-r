@@ -92,7 +92,7 @@ package.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>bucket</dt>
-<dd><p>Bucket name.</p></dd>
+<dd><p>Bucket name. You can only write to an existing bucket.</p></dd>
 
 
 <dt>prefix</dt>
@@ -159,8 +159,10 @@ authentication.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     
-<ul><li><p>If you point at a bucket that's not created by pins, some functions
-like <code>pins_list()</code> will work, but won't return useful output.</p></li>
+<ul><li><p>The functions in pins do not create a new bucket. You can create
+a new bucket from R with <a href="https://rdrr.io/pkg/paws.storage/man/s3_create_bucket.html" class="external-link">paws</a>.</p></li>
+<li><p>Some functions like <code><a href="pin_list.html">pin_list()</a></code> will work for an S3 board, but don't
+return useful output.</p></li>
 <li><p>You can pass arguments for <a href="https://rdrr.io/pkg/paws.storage/man/s3_put_object.html" class="external-link">paws.storage::s3_put_object</a> such as <code>Tagging</code>
 and <code>ServerSideEncryption</code> through the dots of <code><a href="pin_read.html">pin_write()</a></code>.</p></li>
 </ul></div>
