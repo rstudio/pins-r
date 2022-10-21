@@ -566,6 +566,13 @@ update_cache <- function(path, key, value) {
   value
 }
 
+clear_cache <- function(board,
+                        cache = c("content-cache.yml", "users-cache.yml")) {
+  path <- fs::path(board$cache, cache)
+  cli::cli_inform("Deleting {.file {path}}")
+  fs::file_delete(path)
+}
+
 use_cache <- function(option = "pins_connect_cache") {
   opt <- peek_option(option)
   if (!is_null(opt)) {
