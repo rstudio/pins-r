@@ -41,13 +41,15 @@
 #'
 #' # Details
 #'
-#' * If you point at a bucket that's not created by pins, some functions
-#'   like `pins_list()` will work, but won't return useful output.
+#' * The functions in pins do not create a new bucket. You can create
+#'   a new bucket from R with [paws][paws.storage::s3_create_bucket].
+#' * Some functions like [pin_list()] will work for an S3 board, but don't
+#'   return useful output.
 #' * You can pass arguments for [paws.storage::s3_put_object] such as `Tagging`
 #'   and `ServerSideEncryption` through the dots of `pin_write()`.
 #'
 #' @inheritParams new_board
-#' @param bucket Bucket name.
+#' @param bucket Bucket name. You can only write to an existing bucket.
 #' @param prefix Prefix within this bucket that this board will occupy.
 #'   You can use this to maintain multiple independent pin boards within
 #'   a single S3 bucket. Will typically end with `/` to take advantage of
