@@ -550,7 +550,7 @@ rsc_user_name <- function(board, guid) {
 }
 
 read_cache <- function(path) {
-  if (file.exists(path) && use_cache()) {
+  if (file.exists(path) && use_connect_cache()) {
     yaml::read_yaml(path, eval.expr = FALSE)
   } else {
     list()
@@ -558,7 +558,7 @@ read_cache <- function(path) {
 }
 
 update_cache <- function(path, key, value) {
-  if (use_cache()) {
+  if (use_connect_cache()) {
     cache <- read_cache(path)
     cache[[key]] <- value
     write_yaml(cache, path)
@@ -567,9 +567,9 @@ update_cache <- function(path, key, value) {
 }
 
 #' @export
-#' @rdname use_cache
-clear_cache <- function(board,
-                        cache = c("content-cache.yml", "users-cache.yml")) {
+#' @rdname use_connect_cache
+clear_connect_cache <- function(board,
+                                cache = c("content-cache.yml", "users-cache.yml")) {
   path <- fs::path(board$cache, cache)
   cli::cli_inform("Deleting {.file {path}}")
   fs::file_delete(path)
@@ -579,11 +579,11 @@ clear_cache <- function(board,
 #'
 #' Sometimes the content and user caches for RStudio Connect can get out of
 #' sync with the server. While we work on solving this problem, the function
-#' `use_cache()` helps you by detecting whether or not to use these caches.
-#' You can manually delete a broken cache via `clear_cache()`.
+#' `use_connect_cache()` helps you by detecting whether or not to use these
+#' caches. You can manually delete a broken cache via `clear_connect_cache()`.
 #'
-#' @details The `use_cache()` function uses the following method for detecting
-#' whether or not to use the content and user caches for Connect:
+#' @details The `use_connect_cache()` function uses the following method for
+#' detecting whether or not to use the content and user caches for Connect:
 #'
 #' 1. If the `pins_connect_cache` option is set to `FALSE`, `FALSE` is returned.
 #' 2. If the `PINS_CONNECT_CACHE` environment variable is set to `"false"`,
@@ -592,19 +592,19 @@ clear_cache <- function(board,
 #' above), `TRUE` is returned
 #'
 #' For help deleting a broken cache, you can use the helper function
-#' `pins::clear_cache(board, "content-cache.yml")` or
-#' `pins::clear_cache(board, "user-cache.yml")` for your Connect `board`.
+#' `pins::clear_connect_cache(board, "content-cache.yml")` or
+#' `pins::clear_connect_cache(board, "user-cache.yml")` for your Connect `board`.
 #'
 #' @param board A pin board created by [board_rsconnect()].
 #' @param cache Filename for either the content or user cache.
-#' @return `use_cache()` returns a logical, `TRUE` or `FALSE`. `clear_cache()`
-#' returns the deleted path, invisibly.
+#' @return `use_connect_cache()` returns a logical, `TRUE` or `FALSE`.
+#' `clear_connect_cache()` returns the deleted path, invisibly.
 #' @export
 #' @seealso [board_rsconnect()]
 #' @examples
-#' use_cache()
+#' use_connect_cache()
 #'
-use_cache <- function() {
+use_connect_cache <- function() {
   option <- "pins_connect_cache"
   opt <- peek_option(option)
   if (!is_null(opt)) {
