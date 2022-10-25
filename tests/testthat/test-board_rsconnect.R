@@ -107,12 +107,27 @@ test_that("can find cached versions", {
 })
 
 test_that("can use or not use cache", {
-  withr::local_options(list(pins_connect_cache = TRUE))
-  expect_equal(use_cache(), TRUE)
   withr::local_options(list(pins_connect_cache = NULL))
-  expect_equal(use_cache(), TRUE)
+  expect_equal(use_connect_cache(), TRUE)
+  withr::local_envvar(list(PINS_CONNECT_CACHE = "True"))
+  expect_equal(use_connect_cache(), TRUE)
+  withr::local_envvar(list(PINS_CONNECT_CACHE = "false"))
+  expect_equal(use_connect_cache(), FALSE)
+
+  withr::local_options(list(pins_connect_cache = TRUE))
+  expect_equal(use_connect_cache(), TRUE)
+  ## option takes precedence
+  withr::local_envvar(list(PINS_CONNECT_CACHE = "False"))
+  expect_equal(use_connect_cache(), TRUE)
+
   withr::local_options(list(pins_connect_cache = FALSE))
-  expect_equal(use_cache(), FALSE)
+  expect_equal(use_connect_cache(), FALSE)
+  ## option takes precedence
+  withr::local_envvar(list(PINS_CONNECT_CACHE = "true"))
+  expect_equal(use_connect_cache(), FALSE)
+
+  withr::local_options(list(pins_connect_cache = "bloop"))
+  expect_error(use_connect_cache())
 })
 
 test_that("rsc_path() always includes leading /", {
