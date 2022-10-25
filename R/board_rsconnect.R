@@ -586,10 +586,13 @@ clear_connect_cache <- function(board,
 #' detecting whether or not to use the content and user caches for Connect:
 #'
 #' 1. If the `pins_connect_cache` option is set to `FALSE`, `FALSE` is returned.
-#' 2. If the `PINS_CONNECT_CACHE` environment variable is set to `"false"`,
-#' `"FALSE"`, or `"False"`, `FALSE` is returned
-#' 3. In all other cases (including empty or `NULL` values for either of the
-#' above), `TRUE` is returned
+#' 2. If the `pins_connect_cache` option is set to `TRUE`, `TRUE` is returned.
+#' 3. If the `PINS_CONNECT_CACHE` environment variable is set to `"false"`,
+#' `"FALSE"`, or `"False"`, `FALSE` is returned.
+#' 3. If the `PINS_CONNECT_CACHE` environment variable is set to `"true"`,
+#' `"TRUE"`, or `"True"`, `TRUE` is returned.
+#' 3. When both this option _and_ environment variable are not set, empty, or
+#' `NULL`, `TRUE` is returned.
 #'
 #' For help deleting a broken cache, you can use the helper function
 #' `pins::clear_connect_cache(board, "content-cache.yml")` or

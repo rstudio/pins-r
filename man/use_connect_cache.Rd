@@ -29,10 +29,13 @@ The \code{use_connect_cache()} function uses the following method for
 detecting whether or not to use the content and user caches for Connect:
 \enumerate{
 \item If the \code{pins_connect_cache} option is set to \code{FALSE}, \code{FALSE} is returned.
+\item If the \code{pins_connect_cache} option is set to \code{TRUE}, \code{TRUE} is returned.
 \item If the \code{PINS_CONNECT_CACHE} environment variable is set to \code{"false"},
-\code{"FALSE"}, or \code{"False"}, \code{FALSE} is returned
-\item In all other cases (including empty or \code{NULL} values for either of the
-above), \code{TRUE} is returned
+\code{"FALSE"}, or \code{"False"}, \code{FALSE} is returned.
+\item If the \code{PINS_CONNECT_CACHE} environment variable is set to \code{"true"},
+\code{"TRUE"}, or \code{"True"}, \code{TRUE} is returned.
+\item When both this option \emph{and} environment variable are not set, empty, or
+\code{NULL}, \code{TRUE} is returned.
 }
 
 For help deleting a broken cache, you can use the helper function
