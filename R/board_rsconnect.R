@@ -566,6 +566,8 @@ update_cache <- function(path, key, value) {
   value
 }
 
+#' @export
+#' @rdname use_cache
 clear_cache <- function(board,
                         cache = c("content-cache.yml", "users-cache.yml")) {
   path <- fs::path(board$cache, cache)
@@ -573,13 +575,48 @@ clear_cache <- function(board,
   fs::file_delete(path)
 }
 
-use_cache <- function(option = "pins_connect_cache") {
+#' Detect whether to use content and user caches on RStudio Connect
+#'
+#' Sometimes the content and user caches for RStudio Connect can get out of
+#' sync with the server. While we work on solving this problem, the function
+#' `use_cache()` helps you by detecting whether or not to use these caches.
+#' You can manually delete a broken cache via `clear_cache()`.
+#'
+#' @details The `use_cache()` function uses the following method for detecting
+#' whether or not to use the content and user caches for Connect:
+#'
+#' 1. If the `pins_connect_cache` option is set to `FALSE`, `FALSE` is returned.
+#' 2. If the `PINS_CONNECT_CACHE` environment variable is set to `"false"`,
+#' `"FALSE"`, or `"False"`, `FALSE` is returned
+#' 3. In all other cases (including empty or `NULL` values for either of the
+#' above), `TRUE` is returned
+#'
+#' For help deleting a broken cache, you can use the helper function
+#' `pins::clear_cache(board, "content-cache.yml")` or
+#' `pins::clear_cache(board, "user-cache.yml")` for your Connect `board`.
+#'
+#' @param board A pin board created by [board_rsconnect()].
+#' @param cache Filename for either the content or user cache.
+#' @return `use_cache()` returns a logical, `TRUE` or `FALSE`. `clear_cache()`
+#' returns the deleted path, invisibly.
+#' @export
+#' @seealso [board_rsconnect()]
+#' @examples
+#' use_cache()
+#'
+use_cache <- function() {
+  option <- "pins_connect_cache"
   opt <- peek_option(option)
   if (!is_null(opt)) {
     if (!is_bool(opt)) {
       abort(glue("The option `{option}` must be a logical (TRUE or FALSE)."))
     }
     return(opt)
+  }
+  env_var <- "PINS_CONNECT_CACHE"
+  env_var <- as.logical(Sys.getenv(env_var, ""))
+  if (!is_na(env_var)) {
+    return(isTRUE(env_var))
   }
   return(TRUE)
 }
