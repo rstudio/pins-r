@@ -53,6 +53,35 @@ test_that("raw pins can only be downloaded", {
     expect_equal("abcdefg")
 })
 
+test_that("can download pin from board_folder version dir", {
+  b1 <- board_folder(withr::local_tempfile())
+  b1 %>% pin_write(1:10, "x")
+  b2_path <- fs::path(b1$path, "x", pin_versions(b1, "x")$version)
+
+  b2_server <- webfakes::new_app()
+  b2_server$use(webfakes::mw_static(root = b2_path))
+  board_fake <- webfakes::new_app_process(b2_server)
+
+  b2 <- board_url(c(x = board_fake$url()))
+  b2 %>%
+    pin_read("x") %>%
+    expect_equal(1:10)
+})
+
+test_that("can download pin from versioned board_folder", {
+  b1 <- board_folder(withr::local_tempfile())
+  b1 %>% pin_write(1:10, "x")
+  b2_path <- fs::path(b1$path, "x")
+
+  b2_server <- webfakes::new_app()
+  b2_server$use(webfakes::mw_static(root = b2_path))
+  board_fake <- webfakes::new_app_process(b2_server)
+
+  b2 <- board_url(c(x = board_fake$url()), versioned = TRUE)
+
+})
+
+
 test_that("useful errors for unsupported methods", {
   board <- board_url(c("x" = "foo"))
 
@@ -62,6 +91,7 @@ test_that("useful errors for unsupported methods", {
     board %>% pin_meta("froofy", version = "x")
     board %>% pin_meta("x", version = "x")
     board %>% pin_versions("x")
+    board %>% pin_version_delete("x")
     board %>% board_deparse()
     pin(1:5, name = "x", board = board)
     pin_get(name = "x", board = board)

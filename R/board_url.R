@@ -9,7 +9,7 @@
 #' You'll also be protected from the vagaries of the internet; if a fresh
 #' download fails, you'll get the previously cached result with a warning.
 #'
-#' `board_url()` is read only and does not currently support versions.
+#' `board_url()` is read only.
 #'
 #' @param urls A named character vector of URLs If the URL ends in a `/`,
 #'   `board_url` will look for a `data.txt` that provides metadata. The
@@ -23,11 +23,12 @@
 #' @inheritParams new_board
 #' @export
 #' @examples
-#' github_raw <- "https://raw.githubusercontent.com/"
+#' github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
+#'
 #' board <- board_url(c(
-#'   files = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/"),
-#'   rds = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-rds/"),
-#'   raw = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
+#'   files = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/"),
+#'   rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"),
+#'   raw = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
 #' ))
 #'
 #' board %>% pin_read("rds")
@@ -35,7 +36,10 @@
 #'
 #' board %>% pin_download("files")
 #' board %>% pin_download("raw")
-board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive()) {
+board_url <- function(urls,
+                      cache = NULL,
+                      use_cache_on_failure = is_interactive(),
+                      versioned = FALSE) {
   if (!is.character(urls) || !is_named(urls)) {
     abort("`urls` must be a named character vector")
   }
@@ -45,14 +49,15 @@ board_url <- function(urls, cache = NULL, use_cache_on_failure = is_interactive(
   cache <- cache %||% board_cache_path("url")
 
   new_board_v1("pins_board_url",
-    urls = urls,
-    cache = cache,
-    use_cache_on_failure = use_cache_on_failure
+               urls = urls,
+               cache = cache,
+               versioned = versioned,
+               use_cache_on_failure = use_cache_on_failure
   )
 }
 
 board_url_test <- function(urls, cache = tempfile()) {
-  board_url(urls, cache = cache)
+  board_url(urls, cache = cache, versioned = FALSE)
 }
 
 #' @export
@@ -70,13 +75,16 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
-  if (!is.null(version)) {
-    abort("board_url() doesn't support versions")
+  if (board$versioned) {
+    version <- check_pin_version(board, name, version)
+  } else {
+    if (!is.null(version)) {
+      abort_board_not_versioned("board_url")
+    }
+    url <- board$urls[[name]]
   }
 
-  url <- board$urls[[name]]
   is_dir <- grepl("/$", url)
-
   cache_dir <- fs::path(board$cache, hash(url))
   fs::dir_create(cache_dir)
 
@@ -90,10 +98,10 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
     )
     meta <- read_meta(cache_dir)
     local_meta(meta,
-      name = name,
-      dir = cache_dir,
-      url = url,
-      file_url = paste0(url, meta$file)
+               name = name,
+               dir = cache_dir,
+               url = url,
+               file_url = paste0(url, meta$file)
     )
   } else {
     # Otherwise assume it's a single file with no metadata
@@ -103,12 +111,26 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       api_version = 1
     )
     local_meta(meta,
-      name = name,
-      dir = cache_dir,
-      url = url,
-      file_url = url
+               name = name,
+               dir = cache_dir,
+               url = url,
+               file_url = url
     )
   }
+}
+
+#' @export
+pin_versions.pins_board_url <- function(board, name, ...) {
+
+  if (!board$versioned) {
+    abort_board_not_versioned("board_url")
+  }
+
+  check_name(name)
+  check_pin_exists(board, name)
+
+  paths <- board$urls[[name]]
+  version_from_path(fs::path_file(paths))
 }
 
 #' @export
@@ -137,7 +159,12 @@ pin_delete.pins_board_url <- function(board, names, ...) {
 
 #' @export
 pin_store.pins_board_url <- function(board, name, paths, metadata,
-                                              versioned = NULL, ...) {
+                                     versioned = NULL, ...) {
+  abort_board_read_only("board_url")
+}
+
+#' @export
+pin_version_delete.pins_board_url <- function(board, name, version, ...) {
   abort_board_read_only("board_url")
 }
 

@@ -30,14 +30,15 @@ it (using the tools of
 You'll also be protected from the vagaries of the internet; if a fresh
 download fails, you'll get the previously cached result with a warning.
 
-\code{board_url()} is read only and does not currently support versions.
+\code{board_url()} is read only.
 }
 \examples{
-github_raw <- "https://raw.githubusercontent.com/"
+github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
+
 board <- board_url(c(
-  files = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/"),
-  rds = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-rds/"),
-  raw = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
+  files = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/"),
+  rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"),
+  raw = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
 ))
 
 board \%>\% pin_read("rds")

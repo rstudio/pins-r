@@ -24,13 +24,18 @@
     Code
       board %>% pin_meta("x", version = "x")
     Condition
-      Error in `pin_meta()`:
-      ! board_url() doesn't support versions
+      Error in `abort_board_not_versioned()`:
+      ! This board_url() is not versioned
     Code
       board %>% pin_versions("x")
     Condition
-      Error in `pin_versions_modern()`:
-      ! This board doesn't support versions
+      Error in `abort_board_not_versioned()`:
+      ! This board_url() is not versioned
+    Code
+      board %>% pin_version_delete("x")
+    Condition
+      Error in `abort_board_read_only()`:
+      ! board_url() is read only
     Code
       board %>% board_deparse()
     Condition
