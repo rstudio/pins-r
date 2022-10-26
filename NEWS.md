@@ -4,14 +4,9 @@
 
 * Improved error message for `pin_versions()` (#657).
 
-* Added a new R option "pins_connect_cache" to turn on/off the content and
-  user caches for RStudio Connect (#660).
-  
-  * Use `pins_connect_cache = TRUE` or no value to use these caches with
-    Connect board.
-  
-  * Use `pins_connect_cache = FALSE` to not use caching for content and users
-    with a Connect board.
+* Added a new R option "pins_connect_cache" (as well as environment variable 
+  "PINS_CONNECT_CACHE") to turn on/off the content and user caches for RStudio 
+  Connect (#660). See `?use_connect_cache()` for more details.
 
 # pins 1.0.3
 
