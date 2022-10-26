@@ -251,6 +251,13 @@ empty_string_to_null <- function(x) {
   if (is.null(x) || nchar(x) == 0) NULL else x
 }
 
+
+#' @export
+write_manifest_yaml.pins_board_s3 <- function(board, manifest, ...) {
+  s3_upload_yaml(board, key = "pins.txt", yaml = manifest, ...)
+  invisible(board)
+}
+
 # Helpers -----------------------------------------------------------------
 
 s3_delete_dir <- function(board, dir) {

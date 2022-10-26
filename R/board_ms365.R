@@ -197,8 +197,15 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
   name
 }
 
+#' @export
+write_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(manifest, file = temp_file)
+  board$folder$upload(temp_file, "pins.txt")
+  invisible(board)
+}
 
-# helpers
+# Helpers -----------------------------------------------------------------
 
 # list all the directories inside 'path', which is assumed to live in the board folder
 ms365_list_dirs <- function(board, path = "") {

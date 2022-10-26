@@ -137,7 +137,12 @@ pin_delete.pins_board_url <- function(board, names, ...) {
 
 #' @export
 pin_store.pins_board_url <- function(board, name, paths, metadata,
-                                              versioned = NULL, ...) {
+                                     versioned = NULL, ...) {
+  abort_board_read_only("board_url")
+}
+
+#' @export
+write_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
   abort_board_read_only("board_url")
 }
 
