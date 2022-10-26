@@ -4,6 +4,9 @@
 
 * Improved error message for `pin_versions()` (#657).
 
+* Added `board_manifest()` for boards that are not read-only (#661, based on 
+  work of @ijlyttle).
+
 # pins 1.0.3
 
 * The `arrow` package is now suggested, rather than imported (#644, @jonthegeek).
