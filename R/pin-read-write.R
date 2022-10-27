@@ -128,6 +128,7 @@ object_write <- function(x, path, type = "rds") {
     json = jsonlite::write_json(x, path, auto_unbox = TRUE),
     arrow = write_arrow(x, path),
     pickle = abort("'pickle' pins not supported in R"),
+    joblib = abort("'joblib' pins not supported in R"),
     csv = utils::write.csv(x, path, row.names = FALSE),
     qs = write_qs(x, path)
   )
