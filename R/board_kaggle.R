@@ -94,7 +94,7 @@ pin_exists.pins_board_kaggle_competition <- function(board, name, ...) {
       kaggle_get(board, paste0("competitions/data/list/", name))
       TRUE
     },
-    http_404 = function(e) FALSE
+    http_403 = function(e) FALSE
   )
 }
 
