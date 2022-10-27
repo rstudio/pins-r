@@ -183,7 +183,8 @@ object_read <- function(meta) {
       json = jsonlite::read_json(path, simplifyVector = TRUE),
       arrow = read_arrow(path),
       pickle = abort("'pickle' pins not supported in R"),
-      csv = utils::read.csv(path, stringsAsFactors = TRUE),
+      joblib = abort("'joblib' pins not supported in R"),
+      csv = utils::read.csv(path),
       qs = read_qs(path),
       file = abort(c(
         "Pin does not declare file type so can't be automatically read",
