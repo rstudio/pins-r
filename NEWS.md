@@ -1,8 +1,16 @@
 # pins (development version)
 
+## Breaking changes
+
+* Changed `type = "csv"` to use R's default value for `stringsAsFactors` i.e. 
+  `FALSE` (#664).
+  
+## Other improvements
+
 * Added vignette describing how to manage custom formats (#631, @ijlyttle).
 
 * Improved error message for `pin_versions()` (#657).
+
 
 # pins 1.0.3
 
