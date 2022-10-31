@@ -21,7 +21,7 @@ test_that("can write manifest", {
     manifest,
     ~expect_identical(
       .x,
-      append_slash(fs::path(.y, pin_versions(b, .y)$version))
+      append_slash(as.character(fs::path(.y, pin_versions(b, .y)$version)))
     )
   )
 })
