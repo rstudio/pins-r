@@ -545,21 +545,6 @@ rsc_user_name <- function(board, guid) {
   )
 }
 
-read_cache <- function(path) {
-  if (file.exists(path)) {
-    yaml::read_yaml(path, eval.expr = FALSE)
-  } else {
-    list()
-  }
-}
-update_cache <- function(path, key, value) {
-  cache <- read_cache(path)
-  cache[[key]] <- value
-  write_yaml(cache, path)
-
-  value
-}
-
 # helpers -----------------------------------------------------------------
 
 rsc_path <- function(board, path) {
