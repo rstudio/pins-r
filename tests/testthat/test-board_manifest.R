@@ -1,4 +1,4 @@
-testthat("can append slash", {
+test_that("can append slash", {
   expect_identical(append_slash("foo"), "foo/")
   expect_identical(append_slash("foo/"), "foo/")
   expect_identical(append_slash(c("foo/", "bar")), c("foo/", "bar/"))
