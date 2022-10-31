@@ -1,3 +1,10 @@
+testthat("can append slash", {
+  expect_identical(append_slash("foo"), "foo/")
+  expect_identical(append_slash("foo/"), "foo/")
+  expect_identical(append_slash(c("foo/", "bar")), c("foo/", "bar/"))
+  expect_identical(append_slash(c("foo", "bar/")), c("foo/", "bar/"))
+})
+
 test_that("can write manifest", {
   b <- board_temp()
   pin_write(b, mtcars, "mtcars-csv", type = "csv")

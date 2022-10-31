@@ -51,9 +51,8 @@ make_manifest <- function(board) {
 }
 
 append_slash <- function(x) {
-  if (!grepl("/$", x)) {
-    x <- paste0(x, "/")
-  }
+  has_slash <- grepl("/$", x)
+  x[!has_slash] <- paste0(x[!has_slash], "/")
   x
 }
 
