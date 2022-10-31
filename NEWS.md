@@ -11,6 +11,10 @@
 
 * Improved error message for `pin_versions()` (#657).
 
+* Switched content and user caches for Connect to use environments instead
+  of files on disk. This means caches will no longer persist between sessions
+  but will be much less likely to end up in a broken state (#667).
+
 
 # pins 1.0.3
 
