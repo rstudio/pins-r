@@ -133,7 +133,7 @@
 <span><span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/write_feather.html" class="external-link">write_feather</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">path</span>, compression <span class="op">=</span> <span class="st">"uncompressed"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">board</span>, paths <span class="op">=</span> <span class="va">path</span>, name <span class="op">=</span> <span class="va">pin_name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20221031T210328Z-d9859'</span></span></code></pre></div>
+<span><span class="co">#&gt; Creating new version '20221101T230724Z-d9859'</span></span></code></pre></div>
 <p>Reading from the downloaded pin is straightforward; <code><a href="../reference/pin_download.html">pin_download()</a></code> returns a local path that can be piped to <code><a href="https://arrow.apache.org/docs/r/reference/read_feather.html" class="external-link">arrow::read_feather()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars_download</span> <span class="op">&lt;-</span> </span>
@@ -167,7 +167,7 @@
 <p>This helper function is designed to work like <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pin_upload_arrow</span><span class="op">(</span><span class="va">board</span>, x <span class="op">=</span> <span class="va">mtcars</span>, name <span class="op">=</span> <span class="st">"mtcars-arrow2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20221031T210329Z-d9859'</span></span></code></pre></div>
+<span><span class="co">#&gt; Creating new version '20221101T230725Z-d9859'</span></span></code></pre></div>
 <p>As before, you can pipe the result of <code><a href="../reference/pin_download.html">pin_download()</a></code> to your reader function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="va">board</span>, name <span class="op">=</span> <span class="st">"mtcars-arrow2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
