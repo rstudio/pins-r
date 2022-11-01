@@ -1,7 +1,7 @@
 #' Use an S3 bucket as a board
 #'
-#' Pin data to a bucket on Amazon's S3 service, using the paws.storage
-#' package.
+#' Pin data to an S3 bucket, such as on Amazon's S3 service or MinIO, using the
+#' paws.storage package.
 #'
 #' # Authentication
 #'
@@ -58,8 +58,9 @@
 #'   Manually control authentication. See documentation below for details.
 #' @param region AWS region. If not specified, will be read from `AWS_REGION`,
 #'   or AWS config file.
-#' @param endpoint AWS endpoint to use; usually generated automatically from
-#'   `region`.
+#' @param endpoint Endpoint to use; usually generated automatically for AWS
+#'   from `region`. For MinIO, use the full URL (including scheme like
+#'   `https://`) of your MinIO endpoint.
 #' @param profile Role to use from AWS shared credentials/config file.
 #' @export
 #' @examples

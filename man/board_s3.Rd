@@ -35,16 +35,17 @@ S3's directory-like handling.}
 \item{region}{AWS region. If not specified, will be read from \code{AWS_REGION},
 or AWS config file.}
 
-\item{endpoint}{AWS endpoint to use; usually generated automatically from
-\code{region}.}
+\item{endpoint}{Endpoint to use; usually generated automatically for AWS
+from \code{region}. For MinIO, use the full URL (including scheme like
+\verb{https://}) of your MinIO endpoint.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 }
 \description{
-Pin data to a bucket on Amazon's S3 service, using the paws.storage
-package.
+Pin data to an S3 bucket, such as on Amazon's S3 service or MinIO, using the
+paws.storage package.
 }
 \section{Authentication}{
 \code{board_s3()} is powered by the paws package which provides a wide range
