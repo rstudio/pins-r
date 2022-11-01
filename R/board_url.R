@@ -222,6 +222,22 @@ download_cache_path <- function(path) {
   fs::path(path, "download-cache.yaml")
 }
 
+read_cache <- function(path) {
+  if (file.exists(path)) {
+    yaml::read_yaml(path, eval.expr = FALSE)
+  } else {
+    list()
+  }
+}
+
+update_cache <- function(path, key, value) {
+  cache <- read_cache(path)
+  cache[[key]] <- value
+  write_yaml(cache, path)
+
+  value
+}
+
 has_expired <- function(x) {
   if (is.null(x)) {
     TRUE
