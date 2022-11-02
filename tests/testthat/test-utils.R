@@ -11,3 +11,10 @@ test_that("write_yaml can write non-UTF8 data", {
   y <- yaml::read_yaml(path)
   expect_equal(y, list("fa\u00e7ile" = "fa\u00e7ile"))
 })
+
+test_that("can append slash", {
+  expect_identical(append_slash("foo"), "foo/")
+  expect_identical(append_slash("foo/"), "foo/")
+  expect_identical(append_slash(c("foo/", "bar")), c("foo/", "bar/"))
+  expect_identical(append_slash(c("foo", "bar/")), c("foo/", "bar/"))
+})

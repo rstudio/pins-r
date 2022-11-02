@@ -1,6 +1,7 @@
 test_api_basic(board_temp())
 test_api_versioning(board_temp(versioned = TRUE))
 test_api_meta(board_temp())
+test_api_manifest(board_temp())
 
 test_that("has useful print method", {
   path <- withr::local_tempfile()
