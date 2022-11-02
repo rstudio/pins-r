@@ -31,7 +31,7 @@ board <- board_temp()
 pin_write(board, mtcars, "mtcars-csv", type = "csv")
 pin_write(board, mtcars, "mtcars-json", type = "json")
 
-board_manifest(board)
+write_board_manifest(board)
 
 # see the manifest's format:
 fs::path(board$path, "_pins.yaml") \%>\% readLines() \%>\% cat(sep = "\n")
