@@ -171,6 +171,38 @@ test_api_versioning <- function(board) {
 
 }
 
+test_api_manifest <- function(board) {
+  # assume that test_api_basic() has passed
+  name1 <- local_pin(board, 1:10, type = "csv")
+  name2 <- local_pin(board, 11:20, type = "json")
+  write_board_manifest(board)
+
+  testthat::test_that("manifest is not a pin", {
+    testthat::expect_false(pin_exists(board, manifest_pin_yaml_filename))
+    testthat::expect_false(manifest_pin_yaml_filename %in% pin_list(board))
+    testthat::expect_error(
+      pin_meta(board, manifest_pin_yaml_filename),
+      class = "pins_pin_missing"
+    )
+  })
+
+  testthat::test_that("contents of manifest", {
+    # names are correct
+    manifest <- yaml::read_yaml(fs::path(board$path, manifest_pin_yaml_filename))
+    expect_identical(names(manifest), pin_list(board))
+
+    # values (relative paths to versions) are correct
+    imap(
+      manifest,
+      ~expect_identical(
+        .x,
+        append_slash(as.character(fs::path(.y, pin_versions(board, .y)$version)))
+      )
+    )
+  })
+
+}
+
 # errors live here for now since they're closely bound to the tests
 
 abort_pin_missing <- function(name) {
