@@ -168,10 +168,14 @@ board_deparse.pins_board <- function(board, ...) {
 #' [board_folder()] or [board_s3()], then served as a website,
 #' such that others can consume using [board_url()].
 #'
-#' This function is not supported for read-only boards.
+#' @details This function is not supported for read-only boards.
 #' It is called for the side-effect of writing a manifest file,
-#' `_pins.yaml`, to the root directory of the  `board`. If your
-#' board has a pin with the name `"_pins.yaml"`, this function will error.
+#' `_pins.yaml`, to the root directory of the  `board`.
+#'
+#' - If your board has a pin with the name `"_pins.yaml"`, this function will
+#'   error.
+#' - If you write a manifest to your board with this function, then trying to
+#'   create a pin named `"_pins.yaml"` will error.
 #'
 #' @param board A pin board that is *not* read-only.
 #' @inheritParams pin_read

@@ -25,6 +25,12 @@ such that others can consume using \code{\link[=board_url]{board_url()}}.
 This function is not supported for read-only boards.
 It is called for the side-effect of writing a manifest file,
 \verb{_pins.yaml}, to the root directory of the  \code{board}.
+\itemize{
+\item If your board has a pin with the name \code{"_pins.yaml"}, this function will
+error.
+\item If you write a manifest to your board with this function, then trying to
+create a pin named \code{"_pins.yaml"} will error.
+}
 }
 \examples{
 board <- board_temp()
