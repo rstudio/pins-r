@@ -198,10 +198,10 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
 }
 
 #' @export
-write_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
+write_board_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
   temp_file <- withr::local_tempfile()
   yaml::write_yaml(manifest, file = temp_file)
-  board$folder$upload(temp_file, "pins.txt")
+  board$folder$upload(temp_file, manifest_pin_yaml_filename)
   invisible(board)
 }
 

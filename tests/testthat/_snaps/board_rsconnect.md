@@ -10,7 +10,7 @@
     Code
       rsc_content_find(board, "marjory/test-partial")
     Condition
-      Error in `rsc_content_find()`:
+      Error in `rsc_content_find_live()`:
       ! Can't find pin named 'test-partial' with owner 'marjory'
 
 # can create and delete content

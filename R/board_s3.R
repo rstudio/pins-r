@@ -253,8 +253,8 @@ empty_string_to_null <- function(x) {
 
 
 #' @export
-write_manifest_yaml.pins_board_s3 <- function(board, manifest, ...) {
-  s3_upload_yaml(board, key = "pins.txt", yaml = manifest, ...)
+write_board_manifest_yaml.pins_board_s3 <- function(board, manifest, ...) {
+  s3_upload_yaml(board, key = manifest_pin_yaml_filename, yaml = manifest, ...)
   invisible(board)
 }
 

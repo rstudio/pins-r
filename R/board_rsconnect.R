@@ -388,17 +388,21 @@ board_pin_find.pins_board_rsconnect <- function(board,
 
 # Content -----------------------------------------------------------------
 
+the <- rlang::new_environment()
+the$connect_content_cache <- rlang::new_environment()
+the$connect_user_cache <- rlang::new_environment()
+
 rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
   name <- rsc_parse_name(name)
+  content <- rlang::env_cache(
+    env = the$connect_content_cache,
+    nm = name$full %||% name$name,
+    default = rsc_content_find_live(board, name, version = NULL, warn = TRUE)
+  )
+  content
+}
 
-  cache_path <- fs::path(board$cache, "content-cache.yml")
-  if (!is.null(name$owner)) {
-
-    cache <- read_cache(cache_path)
-    if (has_name(cache, name$full)) {
-      return(cache[[name$full]])
-    }
-  }
+rsc_content_find_live <- function(board, name, version = NULL, warn = TRUE) {
 
   # https://docs.rstudio.com/connect/api/#get-/v1/content
   json <- rsc_GET(board, "v1/content", list(name = name$name))
@@ -434,7 +438,7 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
     guid = selected$guid,
     url = selected$content_url
   )
-  update_cache(cache_path, name$full, content)
+  content
 }
 
 rsc_content_create <- function(board, name, metadata, access_type = "acl") {
@@ -520,9 +524,8 @@ rsc_content_version_cached <- function(board, guid) {
 rsc_content_delete <- function(board, name) {
   content <- rsc_content_find(board, name)
   rsc_DELETE(board, rsc_v1("content", content$guid))
-
-  cache_path <- fs::path(board$cache, "content-cache.yml")
-  update_cache(cache_path, name, NULL)
+  env_unbind(the$connect_content_cache, name)
+  invisible(NULL)
 }
 
 rsc_parse_name <- function(x) {
@@ -536,31 +539,11 @@ rsc_parse_name <- function(x) {
 }
 
 rsc_user_name <- function(board, guid) {
-  path <- fs::path(board$cache, "users-cache.yml")
-  users <- read_cache(path)
-
-  if (has_name(users, guid)) {
-    users[[guid]]
-  } else {
-    # https://docs.rstudio.com/connect/api/#get-/v1/users/{guid}
-    username <- rsc_GET(board, rsc_v1("users", guid))$username
-    update_cache(path, guid, username)
-  }
-}
-
-read_cache <- function(path) {
-  if (file.exists(path)) {
-    yaml::read_yaml(path, eval.expr = FALSE)
-  } else {
-    list()
-  }
-}
-update_cache <- function(path, key, value) {
-  cache <- read_cache(path)
-  cache[[key]] <- value
-  write_yaml(cache, path)
-
-  value
+  rlang::env_cache(
+    env = the$connect_user_cache,
+    nm = guid,
+    rsc_GET(board, rsc_v1("users", guid))$username
+  )
 }
 
 # helpers -----------------------------------------------------------------

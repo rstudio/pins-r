@@ -126,7 +126,10 @@ board_deparse.pins_board_folder <- function(board, ...) {
 }
 
 #' @export
-write_manifest_yaml.pins_board_folder <- function(board, manifest, ...) {
-  yaml::write_yaml(manifest, file = fs::path(board$path, "pins.txt"))
+write_board_manifest_yaml.pins_board_folder <- function(board, manifest, ...) {
+  yaml::write_yaml(
+    manifest,
+    file = fs::path(board$path, manifest_pin_yaml_filename)
+  )
   invisible(board)
 }

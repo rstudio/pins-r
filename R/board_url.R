@@ -142,7 +142,7 @@ pin_store.pins_board_url <- function(board, name, paths, metadata,
 }
 
 #' @export
-write_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
+write_board_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
   abort_board_read_only("board_url")
 }
 
@@ -225,6 +225,22 @@ http_download <- function(url, path_dir, path_file, ...,
 
 download_cache_path <- function(path) {
   fs::path(path, "download-cache.yaml")
+}
+
+read_cache <- function(path) {
+  if (file.exists(path)) {
+    yaml::read_yaml(path, eval.expr = FALSE)
+  } else {
+    list()
+  }
+}
+
+update_cache <- function(path, key, value) {
+  cache <- read_cache(path)
+  cache[[key]] <- value
+  write_yaml(cache, path)
+
+  value
 }
 
 has_expired <- function(x) {
