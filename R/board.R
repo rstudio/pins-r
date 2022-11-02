@@ -170,7 +170,8 @@ board_deparse.pins_board <- function(board, ...) {
 #'
 #' This function is not supported for read-only boards.
 #' It is called for the side-effect of writing a manifest file,
-#' `_pins.yaml`, to the root directory of the  `board`.
+#' `_pins.yaml`, to the root directory of the  `board`. If your
+#' board has a pin with the name `"_pins.yaml"`, this function will error.
 #'
 #' @param board A pin board that is *not* read-only.
 #' @inheritParams pin_read
@@ -233,7 +234,7 @@ write_board_manifest_yaml <- function(board, manifest, ...) {
 }
 
 #' @export
-write_board_manifest_yaml <- function(board, manifest, ...) {
+write_board_manifest_yaml.default <- function(board, manifest, ...) {
   abort(glue::glue("Manifest not supported for {class(board)[[1]]}"))
 }
 
