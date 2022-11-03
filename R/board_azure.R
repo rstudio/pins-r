@@ -257,24 +257,7 @@ azure_ls <- function(board, dir = "") {
 
 # TODO: implement this in AzureStor
 azure_dir_exists <- function(board, path) {
-
-  # need 3 different ways of testing if a dir exists (!)
-  # - blob storage: test if file list is non-empty
-  # - file storage: test if trying to get file list throws error
-  # - adlsgen2: use storage_file_exists()
-  if (inherits(board$container, "blob_container")) {
-    length(azure_ls(board, path)) > 0
-
-  } else if (inherits(board$container, "file_share")) {
-    !inherits(try(azure_ls(board, path), silent = TRUE), "try-error")
-
-  } else if (inherits(board$container, "adls_filesystem")) {
-    path <- azure_normalize_path(board, path)
-    AzureStor::storage_file_exists(board$container, path)
-
-  } else {
-    abort("Unknown Azure storage container type")
-  }
+  length(azure_ls(board, path)) > 0
 }
 
 local_azure_progress <- function(progress = !is_testing(), env = parent.frame()) {
