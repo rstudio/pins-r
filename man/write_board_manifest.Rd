@@ -27,9 +27,9 @@ It is called for the side-effect of writing a manifest file,
 \verb{_pins.yaml}, to the root directory of the  \code{board}.
 \itemize{
 \item If your board has a pin with the name \code{"_pins.yaml"}, this function will
-error.
+likely error.
 \item If you write a manifest to your board with this function, then trying to
-create a pin named \code{"_pins.yaml"} will error.
+create a pin named \code{"_pins.yaml"} will error or cause problems.
 }
 }
 \examples{

@@ -173,9 +173,9 @@ board_deparse.pins_board <- function(board, ...) {
 #' `_pins.yaml`, to the root directory of the  `board`.
 #'
 #' - If your board has a pin with the name `"_pins.yaml"`, this function will
-#'   error.
+#'   likely error.
 #' - If you write a manifest to your board with this function, then trying to
-#'   create a pin named `"_pins.yaml"` will error.
+#'   create a pin named `"_pins.yaml"` will error or cause problems.
 #'
 #' @param board A pin board that is *not* read-only.
 #' @inheritParams pin_read
