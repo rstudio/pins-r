@@ -177,6 +177,10 @@ board_deparse.pins_board <- function(board, ...) {
 #' - If you write a manifest to your board with this function, then trying to
 #'   create a pin named `"_pins.yaml"` will error or cause problems.
 #'
+#' The behavior of the legacy API (for example, [pin_find()]) is unspecified
+#' once you have written a board manifest file to a board's root directory.
+#' We recommend you only use `write_board_manifest()` with modern boards.
+#'
 #' @param board A pin board that is *not* read-only.
 #' @inheritParams pin_read
 #'

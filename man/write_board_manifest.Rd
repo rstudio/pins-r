@@ -31,6 +31,10 @@ likely error.
 \item If you write a manifest to your board with this function, then trying to
 create a pin named \code{"_pins.yaml"} will error or cause problems.
 }
+
+The behavior of the legacy API (for example, \code{\link[=pin_find]{pin_find()}}) is unspecified
+once you have written a board manifest file to a board's root directory.
+We recommend you only use \code{write_board_manifest()} with modern boards.
 }
 \examples{
 board <- board_temp()
