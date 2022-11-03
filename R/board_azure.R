@@ -253,7 +253,7 @@ azure_ls <- function(board, dir = "") {
     recursive = FALSE,
     info = "name"
   )
-  unique(fs::path_file(paths))
+  setdiff(unique(fs::path_file(paths)), manifest_pin_yaml_filename)
 }
 
 # TODO: implement this in AzureStor
