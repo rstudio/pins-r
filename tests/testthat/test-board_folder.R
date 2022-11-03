@@ -44,6 +44,27 @@ test_that("can deparse", {
   )
 })
 
+test_that("contents of manifest match", {
+  b <- board_folder(withr::local_tempfile())
+  pin_write(b, mtcars, "mtcars-csv", type = "csv")
+  pin_write(b, mtcars, "mtcars-json", type = "json")
+  write_board_manifest(b)
+
+  # names are correct
+  manifest <- yaml::read_yaml(fs::path(b$path, manifest_pin_yaml_filename))
+  expect_identical(names(manifest), pin_list(b))
+
+  # values (relative paths to versions) are correct
+  imap(
+    manifest,
+    ~ expect_identical(
+      .x,
+      append_slash(as.character(fs::path(.y, pin_versions(b, .y)$version)))
+    )
+  )
+})
+
+
 test_that("generates useful messages", {
   ui_loud()
   b <- board_temp()

@@ -2,6 +2,7 @@ board_blob <- board_azure_test(path = "", type = "blob")
 test_api_basic(board_blob)
 test_api_versioning(board_blob)
 test_api_meta(board_blob)
+test_api_manifest(board_blob)
 
 board_blob2 <- board_azure_test(path = "test/path", type = "blob")
 test_api_basic(board_blob2)
