@@ -197,45 +197,14 @@ board_deparse.pins_board_azure <- function(board, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-# logic for deleting dirs has been ported to AzureStor 3.5.2 as of Oct 2021
-# TODO: use AzureStor::delete_storage_dir()
 azure_delete_dir <- function(board, dir) {
   dir <- azure_normalize_path(board, dir)
-
-  # need 3 different ways of deleting a non-empty dir
-  # - blob storage: delete all files in dir and subdirs
-  # - file storage: delete files/dirs in reverse order, using correct function for each
-  # - adlsgen2: deleting dir will delete contents automatically
-  if (inherits(board$container, "blob_container")) {
-    ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
-    for (path in rev(ls$name)) {
-      AzureStor::delete_storage_file(board$container, path, confirm = FALSE)
-    }
-    try(AzureStor::delete_storage_file(board$container, dir, confirm = FALSE),
-        silent = TRUE)
-
-  } else if (inherits(board$container, "file_share")) {
-    ls <- AzureStor::list_storage_files(board$container, dir, recursive = TRUE)
-    for (i in rev(seq_len(nrow(ls)))) {
-      if (ls$isdir[i]) {
-        AzureStor::delete_storage_dir(board$container, ls$name[i], confirm = FALSE)
-      } else {
-        AzureStor::delete_storage_file(board$container, ls$name[i], confirm = FALSE)
-      }
-    }
-    if (dir != "/") {
-      AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE)
-    }
-
-  } else if (inherits(board$container, "adls_filesystem")) {
-    if (dir != "/") {
-      AzureStor::delete_storage_dir(board$container, dir, confirm = FALSE,
-                                    recursive = TRUE)
-    }
-
-  } else {
-    abort("Unknown Azure storage container type")
-  }
+  AzureStor::delete_storage_dir(
+    board$container,
+    dir,
+    confirm = FALSE,
+    recursive = TRUE
+  )
 }
 
 azure_ls <- function(board, dir = "") {
