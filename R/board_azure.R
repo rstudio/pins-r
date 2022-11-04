@@ -80,7 +80,7 @@ board_azure_test <- function(path, type = c("blob", "file", "dfs"), ...) {
   skip_if_missing_envvars("board_azure()", "PINS_AZURE_KEY")
 
   type <- arg_match(type)
-  acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT", "pins")
+  acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT")
   acct_url <- sprintf("https://%s.%s.core.windows.net/pins-rstats-testing-ci",
                       acct_name, type)
 
