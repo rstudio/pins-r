@@ -32,6 +32,9 @@ likely error.
 create a pin named \code{"_pins.yaml"} will error or cause problems.
 }
 
+The manifest file is \emph{not} versioned like a pin is, and this function
+will overwrite any existing \verb{_pins.yaml} file on your board.
+
 The behavior of the legacy API (for example, \code{\link[=pin_find]{pin_find()}}) is unspecified
 once you have written a board manifest file to a board's root directory.
 We recommend you only use \code{write_board_manifest()} with modern boards.
