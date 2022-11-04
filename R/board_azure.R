@@ -268,11 +268,11 @@ azure_ls <- function(board, dir = "") {
 }
 
 azure_dir_exists <- function(board, path) {
-  if (inherits(board$container, "adls_filesystem")) {
+  if (inherits(board$container, "blob_container")) {
+    length(azure_ls(board, path)) > 0
+  } else {
     paths <- azure_ls(board)
     path %in% paths
-  } else {
-    length(azure_ls(board, path)) > 0
   }
 }
 
