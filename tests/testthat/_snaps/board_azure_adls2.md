@@ -3,6 +3,6 @@
     Code
       board_deparse(board)
     Output
-      board_azure(AzureStor::storage_container("https://pins.dfs.core.windows.net/test-data"), 
+      board_azure(AzureStor::storage_container("https://cipins2.dfs.core.windows.net/pins-rstats-testing-ci"), 
           path = "test/path")
 
