@@ -80,7 +80,7 @@ board_azure_test <- function(path, type = c("blob", "file", "dfs"), ...) {
   skip_if_missing_envvars("board_azure()", "PINS_AZURE_KEY")
 
   type <- arg_match(type)
-  acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT", "pins")
+  acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT")
   acct_url <- sprintf("https://%s.%s.core.windows.net/pins-rstats-testing-ci",
                       acct_name, type)
 
@@ -221,28 +221,12 @@ azure_ls <- function(board, dir = "") {
 
 # TODO: implement this in AzureStor
 azure_dir_exists <- function(board, path) {
-
-  # need 3 different ways of testing if a dir exists (!)
-  # - blob storage: test if file list is non-empty
-  # - file storage: test if trying to get file list throws error
-  # - adlsgen2: use storage_file_exists()
-  if (inherits(board$container, "blob_container")) {
-    length(azure_ls(board, path)) > 0
-
-  } else if (inherits(board$container, "file_share")) {
-    !inherits(try(azure_ls(board, path), silent = TRUE), "try-error")
-
-  } else if (inherits(board$container, "adls_filesystem")) {
-    path <- azure_normalize_path(board, path)
-    AzureStor::storage_file_exists(board$container, path)
-
-  } else {
-    abort("Unknown Azure storage container type")
-  }
+  dir <- azure_normalize_path(board, path)
+  AzureStor::storage_dir_exists(board$container, dir)
 }
 
 local_azure_progress <- function(progress = !is_testing(), env = parent.frame()) {
-  withr::local_options(azure_storage_progress_bar = progress, .local_envir = env)
+  withr::local_options(list(azure_storage_progress_bar = progress), .local_envir = env)
 }
 
 azure_download <- function(board, keys, progress = !is_testing()) {
