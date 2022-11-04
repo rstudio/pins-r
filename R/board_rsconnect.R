@@ -63,8 +63,7 @@
 #' # Download a shared dataset
 #' board %>% pin_read("timothy/mtcars")
 #' }
-board_rsconnect <- function(
-                            auth = c("auto", "manual", "envvar", "rsconnect"),
+board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                             server = NULL,
                             account = NULL,
                             key = NULL,
@@ -84,7 +83,8 @@ board_rsconnect <- function(
 
   cache <- cache %||% board_cache_path(paste0("rsc-", hash(url)))
 
-  board <- new_board("pins_board_rsconnect",
+  board <- new_board(
+    "pins_board_rsconnect",
     api = c(0, 1),
     name = name,
     cache = cache,
@@ -198,7 +198,8 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
   )
 
   meta <- read_meta(cache_path)
-  local_meta(meta,
+  local_meta(
+    meta,
     name = name,
     dir = cache_path,
     url = url,
@@ -258,7 +259,8 @@ pin_store.pins_board_rsconnect <- function(
   bundle_file <- fs::file_temp(ext = "tar.gz")
 
   # suppress warnings about "invalid uid value" / "invalid gid value"
-  withr::with_dir(bundle_dir,
+  withr::with_dir(
+    bundle_dir,
     suppressWarnings(utils::tar(
       bundle_file,
       compression = "gzip",
@@ -268,14 +270,16 @@ pin_store.pins_board_rsconnect <- function(
 
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
-  json <- rsc_POST(board, rsc_v1("content", content_guid, "bundles"),
+  json <- rsc_POST(
+    board, rsc_v1("content", content_guid, "bundles"),
     body = httr::upload_file(bundle_file)
   )
   bundle_id <- json$id
 
   # Deploy bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/experimental/content/{guid}/deploy
-  json <- rsc_POST(board, rsc_v1("content", content_guid, "deploy"),
+  json <- rsc_POST(
+    board, rsc_v1("content", content_guid, "deploy"),
     body = list(bundle_id = bundle_id),
   )
   task_id <- json$task_id
@@ -344,9 +348,10 @@ board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
 }
 
 #' @export
-board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, code = NULL,
-                                       search_all = FALSE,
-                                       ...) {
+board_pin_create.pins_board_rsconnect <- function(board, path, name,
+                                                  metadata, code = NULL,
+                                                  search_all = FALSE,
+                                                  ...) {
 
   path <- fs::dir_ls(path)
   metadata$file <- fs::path_file(path)
@@ -362,11 +367,11 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name, metadata, c
 
 #' @export
 board_pin_find.pins_board_rsconnect <- function(board,
-                                               text = NULL,
-                                               name = NULL,
-                                               extended = FALSE,
-                                               metadata = FALSE,
-                                     ...) {
+                                                text = NULL,
+                                                name = NULL,
+                                                extended = FALSE,
+                                                metadata = FALSE,
+                                                ...) {
 
   params <- list(
     search = text,
@@ -560,7 +565,8 @@ rsc_GET <- function(board, path, query = NULL, ...) {
   path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "GET", NULL)
 
-  req <- httr::GET(board$url,
+  req <- httr::GET(
+    board$url,
     path = path,
     query = query,
     auth,
@@ -593,7 +599,8 @@ rsc_DELETE <- function(board, path, query = NULL, ...) {
   path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "DELETE", NULL)
 
-  req <- httr::DELETE(board$url,
+  req <- httr::DELETE(
+    board$url,
     path = path,
     query = query,
     auth,
@@ -621,7 +628,8 @@ rsc_POST <- function(board, path, query = NULL, body, ..., .method = "POST") {
   }
   auth <- rsc_auth(board, path, .method, body_path)
 
-  req <- httr::VERB(.method,
+  req <- httr::VERB(
+    .method,
     url = board$url,
     path = path,
     query = query,
