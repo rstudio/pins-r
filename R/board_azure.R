@@ -164,7 +164,8 @@ pin_store.pins_board_azure <- function(board, name, paths, metadata,
 
   # Upload metadata
   local_azure_progress(FALSE)
-  azure_upload_file(board,
+  azure_upload_file(
+    board,
     src = textConnection(yaml::as.yaml(metadata)),
     dest = fs::path(version_dir, "data.txt")
   )
@@ -195,6 +196,17 @@ board_deparse.pins_board_azure <- function(board, ...) {
 
 #' @export
 write_board_manifest_yaml.pins_board_azure <- function(board, manifest, ...) {
+
+  paths <- AzureStor::list_storage_files(board$container, info = "name")
+
+  if (manifest_pin_yaml_filename %in% paths) {
+    AzureStor::delete_storage_file(
+      board$container,
+      manifest_pin_yaml_filename,
+      confirm = FALSE
+    )
+  }
+
   temp_file <- withr::local_tempfile()
   yaml::write_yaml(manifest, file = temp_file)
   azure_upload_file(board, src = temp_file, dest = manifest_pin_yaml_filename)
@@ -255,9 +267,13 @@ azure_ls <- function(board, dir = "") {
   unique(fs::path_file(paths$name[paths$isdir] %||% character(0)))
 }
 
-# TODO: implement this in AzureStor
 azure_dir_exists <- function(board, path) {
-  length(azure_ls(board, path)) > 0
+  if (inherits(board$container, "adls_filesystem")) {
+    paths <- azure_ls(board)
+    path %in% paths
+  } else {
+    length(azure_ls(board, path)) > 0
+  }
 }
 
 local_azure_progress <- function(progress = !is_testing(), env = parent.frame()) {
