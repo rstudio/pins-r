@@ -111,6 +111,10 @@ test_api_basic <- function(board) {
     )
   })
 
+  testthat::test_that("can find board required pkgs", {
+    testthat::expect_snapshot(required_pkgs(board))
+  })
+
 }
 
 test_api_versioning <- function(board) {
