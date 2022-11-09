@@ -34,3 +34,4 @@ Determine required packages for a pins board
 required_pkgs(board_temp())
 
 }
+\keyword{internal}

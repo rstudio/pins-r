@@ -4,6 +4,7 @@
 #' @param ... Not used.
 #' @return A character vector of package names required to use the board.
 #' @name required_pkgs.pins_board
+#' @keywords internal
 #' @examples
 #' required_pkgs(board_temp())
 #'
