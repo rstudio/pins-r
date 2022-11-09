@@ -252,6 +252,13 @@ empty_string_to_null <- function(x) {
   if (is.null(x) || nchar(x) == 0) NULL else x
 }
 
+#' @rdname required_pkgs.pins_board
+#' @export
+required_pkgs.pins_board_s3 <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  "paws.storage"
+}
+
 # Helpers -----------------------------------------------------------------
 
 s3_delete_dir <- function(board, dir) {

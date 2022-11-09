@@ -1,3 +1,17 @@
+# can find board required pkgs
+
+    Code
+      required_pkgs(board)
+    Output
+      [1] "paws.storage"
+
+---
+
+    Code
+      required_pkgs(board)
+    Output
+      [1] "paws.storage"
+
 # can deparse
 
     Code

@@ -194,6 +194,12 @@ board_deparse.pins_board_azure <- function(board, ...) {
   expr(board_azure(!!container, path = !!board$path))
 }
 
+#' @rdname required_pkgs.pins_board
+#' @export
+required_pkgs.pins_board_azure <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  "AzureStor"
+}
 
 # Helpers -----------------------------------------------------------------
 

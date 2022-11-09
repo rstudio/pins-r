@@ -26,6 +26,7 @@ Imports:
     ellipsis,
     filelock,
     fs,
+    generics,
     glue,
     httr,
     jsonlite,
