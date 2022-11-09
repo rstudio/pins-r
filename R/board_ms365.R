@@ -197,6 +197,12 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
   name
 }
 
+#' @rdname required_pkgs.pins_board
+#' @export
+required_pkgs.pins_board_ms365 <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  "Microsoft365R"
+}
 
 # helpers
 
