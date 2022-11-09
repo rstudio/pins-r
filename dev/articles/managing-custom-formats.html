@@ -90,7 +90,8 @@
 
 
 
-<script src="managing-custom-formats_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Managing custom formats</h1>
             
@@ -101,21 +102,31 @@
 
     
     
-<p>The pins package provides a robust set of functions to read and write standard types of files using standard tools, e.g. CSV files using <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code> and <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv()</a></code>. However, from time to time, you may wish read or write using other tools. You may want to read and write:</p>
+<p>The pins package provides a robust set of functions to read and write
+standard types of files using standard tools, e.g. CSV files using
+<code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code> and <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv()</a></code>. However, from time
+to time, you may wish read or write using other tools. You may want to
+read and write:</p>
 <ul>
 <li>CSV files using readr or vroom</li>
 <li>Arrow files without using compression</li>
 <li>Parquet files</li>
 </ul>
-<p>An escape hatch for a customized approach is provided: <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code>. The goal of this vignette is to show how you can incorporate these into your workflow.</p>
+<p>An escape hatch for a customized approach is provided:
+<code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code>. The goal of
+this vignette is to show how you can incorporate these into your
+workflow.</p>
 <p>Two points to keep in mind:</p>
 <ul>
 <li>
-<code><a href="../reference/pin_download.html">pin_upload()</a></code> takes a vector of <code>paths</code> to local files.</li>
+<code><a href="../reference/pin_download.html">pin_upload()</a></code> takes a vector of <code>paths</code> to
+local files.</li>
 <li>
-<code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of <code>paths</code> to local files.</li>
+<code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of <code>paths</code>
+to local files.</li>
 </ul>
-<p>We’ll follow an example where we write and read uncompressed Arrow files, starting by creating a temporary board:</p>
+<p>We’ll follow an example where we write and read uncompressed Arrow
+files, starting by creating a temporary board:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span>
 <span></span>
@@ -123,7 +134,8 @@
 <div class="section level2">
 <h2 id="upload-a-one-off-file">Upload a one-off file<a class="anchor" aria-label="anchor" href="#upload-a-one-off-file"></a>
 </h2>
-<p>If you are writing a one-off file, you can do everything directly:</p>
+<p>If you are writing a one-off file, you can do everything
+directly:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pin_name</span> <span class="op">&lt;-</span> <span class="st">"mtcars-arrow"</span></span>
 <span></span>
@@ -133,8 +145,10 @@
 <span><span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/write_feather.html" class="external-link">write_feather</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">path</span>, compression <span class="op">=</span> <span class="st">"uncompressed"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">board</span>, paths <span class="op">=</span> <span class="va">path</span>, name <span class="op">=</span> <span class="va">pin_name</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20221109T185031Z-d9859'</span></span></code></pre></div>
-<p>Reading from the downloaded pin is straightforward; <code><a href="../reference/pin_download.html">pin_download()</a></code> returns a local path that can be piped to <code><a href="https://arrow.apache.org/docs/r/reference/read_feather.html" class="external-link">arrow::read_feather()</a></code>:</p>
+<span><span class="co">#&gt; Creating new version '20221109T211325Z-d9859'</span></span></code></pre></div>
+<p>Reading from the downloaded pin is straightforward;
+<code><a href="../reference/pin_download.html">pin_download()</a></code> returns a local path that can be piped to
+<code><a href="https://arrow.apache.org/docs/r/reference/read_feather.html" class="external-link">arrow::read_feather()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars_download</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="va">board</span>, <span class="va">pin_name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -152,7 +166,8 @@
 <div class="section level2">
 <h2 id="function-to-manage-uploading">Function to manage uploading<a class="anchor" aria-label="anchor" href="#function-to-manage-uploading"></a>
 </h2>
-<p>If you want to write more than one custom file of a certain type, or using a certain tool, you might consider writing a helper function:</p>
+<p>If you want to write more than one custom file of a certain type, or
+using a certain tool, you might consider writing a helper function:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pin_upload_arrow</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">board</span>, <span class="va">x</span>, <span class="va">name</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># path deleted when `pin_upload_arrow()` exits</span></span>
@@ -164,11 +179,13 @@
 <span></span>
 <span>  <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">board</span>, paths <span class="op">=</span> <span class="va">path</span>, name <span class="op">=</span> <span class="va">name</span>, <span class="va">...</span><span class="op">)</span> </span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>This helper function is designed to work like <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
+<p>This helper function is designed to work like
+<code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pin_upload_arrow</span><span class="op">(</span><span class="va">board</span>, x <span class="op">=</span> <span class="va">mtcars</span>, name <span class="op">=</span> <span class="st">"mtcars-arrow2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20221109T185031Z-d9859'</span></span></code></pre></div>
-<p>As before, you can pipe the result of <code><a href="../reference/pin_download.html">pin_download()</a></code> to your reader function:</p>
+<span><span class="co">#&gt; Creating new version '20221109T211325Z-d9859'</span></span></code></pre></div>
+<p>As before, you can pipe the result of <code><a href="../reference/pin_download.html">pin_download()</a></code> to
+your reader function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="va">board</span>, name <span class="op">=</span> <span class="st">"mtcars-arrow2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/read_feather.html" class="external-link">read_feather</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>

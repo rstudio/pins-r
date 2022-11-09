@@ -90,7 +90,8 @@
 
 
 
-<script src="rsc_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>RStudio Connect</h1>
             
@@ -101,13 +102,19 @@
 
     
     
-<p>This vignette demonstrates how you might use pins and <a href="https://www.rstudio.com/products/connect/" class="external-link">RStudio Connect</a> together to automate ETL for a Shiny app. Pulling expensive data manipulation out of your Shiny app is a great way to <a href="https://mastering-shiny.org/performance.html#schedule-data-munging" class="external-link">improve performance</a>, and pins makes it easy to schedule data updates in a way that automatically flows into your app.</p>
+<p>This vignette demonstrates how you might use pins and <a href="https://www.rstudio.com/products/connect/" class="external-link">RStudio Connect</a>
+together to automate ETL for a Shiny app. Pulling expensive data
+manipulation out of your Shiny app is a great way to <a href="https://mastering-shiny.org/performance.html#schedule-data-munging" class="external-link">improve
+performance</a>, and pins makes it easy to schedule data updates in a
+way that automatically flows into your app.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="sharing-tidied-data">Sharing tidied data<a class="anchor" aria-label="anchor" href="#sharing-tidied-data"></a>
 </h2>
-<p>Imagine you’re interested in what’s going on in the news, so you’ve written a little code to scrape the BBC world news feed and turn it into a tidy dataset:</p>
+<p>Imagine you’re interested in what’s going on in the news, so you’ve
+written a little code to scrape the BBC world news feed and turn it into
+a tidy dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
 <span></span>
@@ -140,11 +147,18 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Lady Gaga had a 'psychotic break' after sexual assault left her … Fri,… http…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Big cats seized from park belonging to Tiger King couple          Fri,… http…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 61 more rows</span></span></span></code></pre></div>
-<p>Wouldn’t it be nice to spare your colleagues the work of reproducing this data, and provide them directly with the tidy tibble? That’s easy to do with pins:</p>
+<p>Wouldn’t it be nice to spare your colleagues the work of reproducing
+this data, and provide them directly with the tidy tibble? That’s easy
+to do with pins:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board_rsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">board_rsc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">bbc_news</span><span class="op">)</span></span></code></pre></div>
-<p>If you open the pin on RSC (e.g. by running <code>board_rsc %&gt;% pin_browse("news_total")</code>), you’ll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data. Assuming you’ve given your colleagues access, they can now easily pull down the data for their own analysis:</p>
+<p>If you open the pin on RSC (e.g. by running
+<code>board_rsc %&gt;% pin_browse("news_total")</code>), you’ll see some
+metadata about the pin, a preview of the data, and a control panel which
+allows you to control who can see the data. Assuming you’ve given your
+colleagues access, they can now easily pull down the data for their own
+analysis:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board_rsc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">board_rsc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"your_name/bbc_news"</span><span class="op">)</span></span></code></pre></div>
@@ -152,7 +166,11 @@
 <div class="section level2">
 <h2 id="automating">Automating<a class="anchor" aria-label="anchor" href="#automating"></a>
 </h2>
-<p>Here the underlying data will be changing regularly, but the pinned data will only change when you run <code><a href="../reference/pin_read.html">pin_write()</a></code>. Wouldn’t it be great if we could automate that process? One way to do so is with RSC’s <a href="https://docs.rstudio.com/connect/user/scheduling/" class="external-link">scheduled reports</a>.</p>
+<p>Here the underlying data will be changing regularly, but the pinned
+data will only change when you run <code><a href="../reference/pin_read.html">pin_write()</a></code>. Wouldn’t it
+be great if we could automate that process? One way to do so is with
+RSC’s <a href="https://docs.rstudio.com/connect/user/scheduling/" class="external-link">scheduled
+reports</a>.</p>
 <p>First, take your code and put it in an Rmd:</p>
 <pre><code>---
 title: BBC news
@@ -178,12 +196,17 @@ board_rsc %&gt;% pin_write(bbc_news)
 ```{r}
 bbc_news
 ```</code></pre>
-<p>Then publish it to RSC, and schedule it to run as often as you like. Assuming that you have RSC 1.9.0 or later you don’t need to provide any arguments to <code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code>; pins will automatically publish to the same Connect instance that’s running the report.</p>
+<p>Then publish it to RSC, and schedule it to run as often as you like.
+Assuming that you have RSC 1.9.0 or later you don’t need to provide any
+arguments to <code><a href="../reference/board_rsconnect.html">board_rsconnect()</a></code>; pins will automatically
+publish to the same Connect instance that’s running the report.</p>
 </div>
 <div class="section level2">
 <h2 id="shiny-apps">Shiny apps<a class="anchor" aria-label="anchor" href="#shiny-apps"></a>
 </h2>
-<p>If you’re using automatically updated data in a <a href="https://shiny.rstudio.com" class="external-link">Shiny</a> app, you can use <code><a href="../reference/pin_reactive_read.html">pin_reactive_read()</a></code> to create a reactive dependency so that your app will automatically update shortly after the data changes:</p>
+<p>If you’re using automatically updated data in a <a href="https://shiny.rstudio.com" class="external-link">Shiny</a> app, you can use
+<code><a href="../reference/pin_reactive_read.html">pin_reactive_read()</a></code> to create a reactive dependency so that
+your app will automatically update shortly after the data changes:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span>
@@ -207,7 +230,8 @@ bbc_news
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
-<p>If you deploy this app and watch it while your scheduled reported runs, you’ll see the data update automatically.</p>
+<p>If you deploy this app and watch it while your scheduled reported
+runs, you’ll see the data update automatically.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

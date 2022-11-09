@@ -90,7 +90,8 @@
 
 
 
-<script src="pins-update_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Upgrading to pins 1.0.0</h1>
             
@@ -101,7 +102,12 @@
 
     
     
-<p>pins 1.0.0 introduced a completely new API. While the legacy API will continue to be supported for some time, it will not gain any new features, so it’s good to plan to switch to the new interface. This vignette shows a couple of examples of updating legacy code to the modern API, then provides a full set of equivalences between the legacy and modern function names.</p>
+<p>pins 1.0.0 introduced a completely new API. While the legacy API will
+continue to be supported for some time, it will not gain any new
+features, so it’s good to plan to switch to the new interface. This
+vignette shows a couple of examples of updating legacy code to the
+modern API, then provides a full set of equivalences between the legacy
+and modern function names.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -123,8 +129,10 @@
 <span><span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></span></code></pre></div>
 <p>To convert to the modern API you need to make two major changes:</p>
 <ul>
-<li>Instead of registering a named board, you create an explicit board object.</li>
-<li>You use <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_read.html">pin_write()</a></code> instead of <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin.html">pin()</a></code>.</li>
+<li>Instead of registering a named board, you create an explicit board
+object.</li>
+<li>You use <code><a href="../reference/pin_read.html">pin_read()</a></code> and <code><a href="../reference/pin_read.html">pin_write()</a></code> instead
+of <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a href="../reference/pin.html">pin()</a></code>.</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
@@ -132,7 +140,7 @@
 <span></span>
 <span><span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20221109T185035Z-a800d'</span></span>
+<span><span class="co">#&gt; Creating new version '20221109T211329Z-a800d'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
 <span><span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="va">board</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
@@ -142,14 +150,15 @@
 <span><span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></span>
 <span><span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></span>
 <span><span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></span></code></pre></div>
-<p>Since the board object is always the first argument, you might also want to use the pipe:</p>
+<p>Since the board object is always the first argument, you might also
+want to use the pipe:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Replacing version '20221109T185035Z-a800d' with '20221109T185035Z-a800d'</span></span>
+<span><span class="co">#&gt; Replacing version '20221109T211329Z-a800d' with '20221109T211330Z-a800d'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
@@ -170,26 +179,32 @@
 <span></span>
 <span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpVdtVdW/file3d6939af1663/alphabet/file3d6961493b87"</span></span></code></pre></div>
-<p>pins 1.0.0 clearly separates the two cases of pin an object and pinning a file, so here instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
+<span><span class="co">#&gt; [1] "/tmp/RtmpCh9zKV/file371b3f01cb26/alphabet/file371b3f044a8e"</span></span></code></pre></div>
+<p>pins 1.0.0 clearly separates the two cases of pin an object and
+pinning a file, so here instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and
+<code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and
+<code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20221109T185035Z-ee580'</span></span>
+<span><span class="co">#&gt; Creating new version '20221109T211330Z-ee580'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20221109T185035Z-ee580/file3d6961493b87"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20221109T211330Z-ee580/file371b3f044a8e"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pinning-a-url">Pinning a url<a class="anchor" aria-label="anchor" href="#pinning-a-url"></a>
 </h3>
-<p>Finally, you can <code><a href="../reference/pin.html">pin()</a></code> a url to automatically re-download it when it changes:</p>
+<p>Finally, you can <code><a href="../reference/pin.html">pin()</a></code> a url to automatically
+re-download it when it changes:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Legacy API</span></span>
 <span><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/"</span></span>
 <span></span>
 <span><span class="op">(</span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpVdtVdW/file3d6939af1663/first/first.txt"</span></span></code></pre></div>
-<p>This now needs to be made explicit with the new <code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
+<span><span class="co">#&gt; [1] "/tmp/RtmpCh9zKV/file371b3f01cb26/first/first.txt"</span></span></code></pre></div>
+<p>This now needs to be made explicit with the new
+<code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you
+need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board_github</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -201,7 +216,9 @@
 <div class="section level3">
 <h3 id="implicit-board">Implicit board<a class="anchor" aria-label="anchor" href="#implicit-board"></a>
 </h3>
-<p>It’s also possible to use <code><a href="../reference/pin.html">pin()</a></code> and <code><a href="../reference/pin_get.html">pin_get()</a></code> without an explicit board argument, in which case it automatically uses a local board:</p>
+<p>It’s also possible to use <code><a href="../reference/pin.html">pin()</a></code> and
+<code><a href="../reference/pin_get.html">pin_get()</a></code> without an explicit board argument, in which case
+it automatically uses a local board:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Legacy API</span></span>
 <span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span></span>
@@ -210,14 +227,15 @@
 <span><span class="co">#&gt; 1 1</span></span>
 <span><span class="co">#&gt; 2 2</span></span>
 <span><span class="co">#&gt; 3 3</span></span></code></pre></div>
-<p>To convert this code, you need to create an explicit <code><a href="../reference/board_folder.html">board_local()</a></code>:</p>
+<p>To convert this code, you need to create an explicit
+<code><a href="../reference/board_folder.html">board_local()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20221109T185035Z-2e87e'</span></span>
+<span><span class="co">#&gt; Creating new version '20221109T211330Z-2e87e'</span></span>
 <span><span class="co">#&gt; Writing to pin 'test-data'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   x</span></span>
@@ -269,7 +287,8 @@
 <tr class="odd">
 <td><code><a href="../reference/legacy_kaggle.html">board_register_kaggle()</a></code></td>
 <td>
-<code><a href="../reference/board_kaggle.html">board_kaggle_dataset()</a></code> / <code>board_kaggle_competition()</code>
+<code><a href="../reference/board_kaggle.html">board_kaggle_dataset()</a></code> /
+<code>board_kaggle_competition()</code>
 </td>
 </tr>
 <tr class="even">
@@ -287,7 +306,8 @@
 </tr>
 </tbody>
 </table>
-<p>Future releases will add support for additional boards based on user feedback.</p>
+<p>Future releases will add support for additional boards based on user
+feedback.</p>
 </div>
 <div class="section level3">
 <h3 id="pin-functions">Pin functions<a class="anchor" aria-label="anchor" href="#pin-functions"></a>
@@ -325,7 +345,8 @@
 <tr class="even">
 <td><code><a href="../reference/pin_reactive.html">pin_reactive()</a></code></td>
 <td>
-<code><a href="../reference/pin_reactive_read.html">pin_reactive_read()</a></code> / <code><a href="../reference/pin_reactive_read.html">pin_reactive_download()</a></code>
+<code><a href="../reference/pin_reactive_read.html">pin_reactive_read()</a></code> /
+<code><a href="../reference/pin_reactive_read.html">pin_reactive_download()</a></code>
 </td>
 </tr>
 <tr class="odd">
