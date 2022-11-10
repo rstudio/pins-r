@@ -19,6 +19,13 @@
 #' for working with blobs that is much faster when working with directories.
 #' You should consider using this rather than the classic blob API where
 #' possible; see the examples below.
+#'
+#' `board_azure()` is powered by the AzureStor package, which is a suggested
+#' dependency of pins (not required for pins in general). If you run into errors
+#' when deploying content to a server like <https://shinyapps.io> or
+#' [Connect](https://posit.co/products/enterprise/connect/), add
+#' `library(AzureStor)` to your app or document for [automatic dependency
+#' discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
 #' @export
 #' @examples
 #' if (requireNamespace("AzureStor")) {
