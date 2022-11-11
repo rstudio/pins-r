@@ -117,6 +117,11 @@ but is relatively old and inefficient. ADLSgen2 is a modern replacement API
 for working with blobs that is much faster when working with directories.
 You should consider using this rather than the classic blob API where
 possible; see the examples below.</p>
+<p><code>board_azure()</code> is powered by the AzureStor package, which is a suggested
+dependency of pins (not required for pins in general). If you run into errors
+when deploying content to a server like <a href="https://shinyapps.io" class="external-link">https://shinyapps.io</a> or
+<a href="https://posit.co/products/enterprise/connect/" class="external-link">Connect</a>, add
+<code><a href="https://github.com/Azure/AzureStor" class="external-link">library(AzureStor)</a></code> to your app or document for <a href="https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server" class="external-link">automatic dependency discovery</a>.</p>
     </div>
 
     <div class="section level2">

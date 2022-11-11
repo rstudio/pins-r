@@ -166,6 +166,11 @@ a new bucket from R with <a href="https://rdrr.io/pkg/paws.storage/man/s3_create
 return useful output.</p></li>
 <li><p>You can pass arguments for <a href="https://rdrr.io/pkg/paws.storage/man/s3_put_object.html" class="external-link">paws.storage::s3_put_object</a> such as <code>Tagging</code>
 and <code>ServerSideEncryption</code> through the dots of <code><a href="pin_read.html">pin_write()</a></code>.</p></li>
+<li><p><code>board_s3()</code> is powered by the paws.storage package, which is a
+suggested dependency of pins (not required for pins in general). If
+you run into errors when deploying content to a server like
+<a href="https://shinyapps.io" class="external-link">https://shinyapps.io</a> or <a href="https://posit.co/products/enterprise/connect/" class="external-link">Connect</a>,
+add <code><a href="https://github.com/paws-r/paws" class="external-link">library(paws.storage)</a></code> to your app or document for <a href="https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server" class="external-link">automatic dependency discovery</a>.</p></li>
 </ul></div>
 
     <div class="section level2">
