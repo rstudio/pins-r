@@ -42,6 +42,7 @@ Imports:
     yaml,
     zip
 Suggests:
+    archive,
     arrow,
     AzureStor,
     data.table,
