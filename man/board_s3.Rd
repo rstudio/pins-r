@@ -88,6 +88,11 @@ a new bucket from R with \link[paws.storage:s3_create_bucket]{paws}.
 return useful output.
 \item You can pass arguments for \link[paws.storage:s3_put_object]{paws.storage::s3_put_object} such as \code{Tagging}
 and \code{ServerSideEncryption} through the dots of \code{pin_write()}.
+\item \code{board_s3()} is powered by the paws.storage package, which is a
+suggested dependency of pins (not required for pins in general). If
+you run into errors when deploying content to a server like
+\url{https://shinyapps.io} or \href{https://posit.co/products/enterprise/connect/}{Connect},
+add \code{library(paws.storage)} to your app or document for \href{https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server}{automatic dependency discovery}.
 }
 }
 
