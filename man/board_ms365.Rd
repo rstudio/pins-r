@@ -37,9 +37,25 @@ Pin data to a folder in Onedrive or a SharePoint Online document library
 using the Microsoft365R package.
 }
 \details{
-Sharing a board in OneDrive (personal or business) is a bit complicated, as OneDrive normally allows only the person who owns the drive to access files and folders. First, the drive owner has to set the board folder as shared with other users, using either the OneDrive web interface or Microsoft365R's \code{ms_drive_item$create_share_link()} method. The other users then call \code{board_ms365} with a \emph{drive item object} in the \code{path} argument, pointing to the shared folder. See the examples below.
+Sharing a board in OneDrive (personal or business) is a bit complicated, as
+OneDrive normally allows only the person who owns the drive to access files
+and folders. First, the drive owner has to set the board folder as shared
+with other users, using either the OneDrive web interface or Microsoft365R's
+\code{ms_drive_item$create_share_link()} method. The other users then call
+\code{board_ms365} with a \emph{drive item object} in the \code{path} argument, pointing to
+the shared folder. See the examples below.
 
-Sharing a board in SharePoint Online is much more straightforward, assuming all users have access to the document library: in this case, everyone can use the same call \code{board_ms365(doclib, "path/to/board")}. If you want to share a board with users outside your team, follow the same steps for sharing a board in OneDrive.
+Sharing a board in SharePoint Online is much more straightforward, assuming
+all users have access to the document library: in this case, everyone can
+use the same call \code{board_ms365(doclib, "path/to/board")}. If you want to
+share a board with users outside your team, follow the same steps for sharing
+a board in OneDrive.
+
+\code{board_ms365()} is powered by the Microsoft365R package, which is a suggested
+dependency of pins (not required for pins in general). If you run into errors
+when deploying content to a server like \url{https://shinyapps.io} or
+\href{https://posit.co/products/enterprise/connect/}{Connect}, add
+\code{library(Microsoft365R)} to your app or document for \href{https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server}{automatic dependency discovery}.
 }
 \examples{
 \dontrun{

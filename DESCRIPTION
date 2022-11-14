@@ -26,6 +26,7 @@ Imports:
     ellipsis,
     filelock,
     fs,
+    generics,
     glue,
     httr,
     jsonlite,
@@ -41,6 +42,7 @@ Imports:
     yaml,
     zip
 Suggests:
+    archive,
     arrow,
     AzureStor,
     data.table,

@@ -337,6 +337,13 @@ board_deparse.pins_board_rsconnect <- function(board, ...) {
   expr(board_rsconnect("envvar", server = !!board$url))
 }
 
+#' @rdname required_pkgs.pins_board
+#' @export
+required_pkgs.pins_board_rsconnect <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  "rsconnect"
+}
+
 # v0 ----------------------------------------------------------------------
 
 #' @export

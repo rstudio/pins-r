@@ -15,9 +15,27 @@
 #'   due to document protection policies that prohibit deleting non-empty
 #'   folders.
 #' @details
-#' Sharing a board in OneDrive (personal or business) is a bit complicated, as OneDrive normally allows only the person who owns the drive to access files and folders. First, the drive owner has to set the board folder as shared with other users, using either the OneDrive web interface or Microsoft365R's `ms_drive_item$create_share_link()` method. The other users then call `board_ms365` with a _drive item object_ in the `path` argument, pointing to the shared folder. See the examples below.
+#' Sharing a board in OneDrive (personal or business) is a bit complicated, as
+#' OneDrive normally allows only the person who owns the drive to access files
+#' and folders. First, the drive owner has to set the board folder as shared
+#' with other users, using either the OneDrive web interface or Microsoft365R's
+#' `ms_drive_item$create_share_link()` method. The other users then call
+#' `board_ms365` with a _drive item object_ in the `path` argument, pointing to
+#' the shared folder. See the examples below.
 #'
-#' Sharing a board in SharePoint Online is much more straightforward, assuming all users have access to the document library: in this case, everyone can use the same call `board_ms365(doclib, "path/to/board")`. If you want to share a board with users outside your team, follow the same steps for sharing a board in OneDrive.
+#' Sharing a board in SharePoint Online is much more straightforward, assuming
+#' all users have access to the document library: in this case, everyone can
+#' use the same call `board_ms365(doclib, "path/to/board")`. If you want to
+#' share a board with users outside your team, follow the same steps for sharing
+#' a board in OneDrive.
+#'
+#' `board_ms365()` is powered by the Microsoft365R package, which is a suggested
+#' dependency of pins (not required for pins in general). If you run into errors
+#' when deploying content to a server like <https://shinyapps.io> or
+#' [Connect](https://posit.co/products/enterprise/connect/), add
+#' `library(Microsoft365R)` to your app or document for [automatic dependency
+#' discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -77,11 +95,11 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
 
   cache <- cache %||% board_cache_path(paste0("ms365-", hash(folder$properties$id)))
   new_board_v1("pins_board_ms365",
-    folder = folder,
-    path = path,
-    cache = cache,
-    versioned = versioned,
-    delete_by_item = delete_by_item
+               folder = folder,
+               path = path,
+               cache = cache,
+               versioned = versioned,
+               delete_by_item = delete_by_item
   )
 }
 
@@ -203,6 +221,13 @@ write_board_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
   yaml::write_yaml(manifest, file = temp_file)
   board$folder$upload(temp_file, manifest_pin_yaml_filename)
   invisible(board)
+}
+
+#' @rdname required_pkgs.pins_board
+#' @export
+required_pkgs.pins_board_ms365 <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  "Microsoft365R"
 }
 
 # Helpers -----------------------------------------------------------------
