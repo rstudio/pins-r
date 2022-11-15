@@ -270,7 +270,7 @@ pin_exists.pins_board_kaggle_dataset <- function(board, name, ...) {
       kaggle_get(board, paste0("datasets/list/", name))
       TRUE
     },
-    http_404 = function(e) FALSE
+    http_403 = function(e) FALSE
   )
 }
 
