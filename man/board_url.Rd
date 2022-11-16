@@ -48,7 +48,7 @@ board \%>\% pin_download("raw")
 }
 \seealso{
 Other boards: 
-\code{\link{board_folder}()},
-\code{\link{board_rsconnect}()}
+\code{\link{board_connect}()},
+\code{\link{board_folder}()}
 }
 \concept{boards}

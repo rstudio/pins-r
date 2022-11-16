@@ -1,11 +1,11 @@
-#' Use RStudio Connect as board
+#' Use Posit Connect as board
 #'
 #' @description
-#' To use a RStudio Connect board, you need to first authenticate. The easiest
+#' To use a Posit Connect board, you need to first authenticate. The easiest
 #' way to do so is by launching **Tools** - **Global Options** -
 #' **Publishing** - **Connect**, and follow the instructions.
 #'
-#' You can share pins with others in RStudio Connect by changing the viewers
+#' You can share pins with others in Posit Connect by changing the viewers
 #' of the document to specific users or groups. This is accomplished by opening
 #' the new published pin and then changing access under the settings tab.
 #' After you've shared the pin, it will be automatically available to others.
@@ -50,29 +50,29 @@
 #'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts,
 #'   like `server.rstudio.com` or `connect.rstudio.com`.
 #' @param account A user name used to disambiguate multiple RSC accounts.
-#' @param key The RStudio Connect API key.
+#' @param key The Posit Connect API key.
 #' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
 #' @family boards
 #' @export
 #' @examples
 #' \dontrun{
-#' board <- board_rsconnect()
+#' board <- board_connect()
 #' # Share the mtcars with your team
 #' board %>% pin_write(mtcars, "mtcars")
 #'
 #' # Download a shared dataset
 #' board %>% pin_read("timothy/mtcars")
 #' }
-board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
-                            server = NULL,
-                            account = NULL,
-                            key = NULL,
-                            output_files = FALSE,
-                            cache = NULL,
-                            name = "rsconnect",
-                            versioned = TRUE,
-                            use_cache_on_failure = is_interactive(),
-                            versions = deprecated()) {
+board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
+                          server = NULL,
+                          account = NULL,
+                          key = NULL,
+                          output_files = FALSE,
+                          cache = NULL,
+                          name = "rsconnect",
+                          versioned = TRUE,
+                          use_cache_on_failure = is_interactive(),
+                          versions = deprecated()) {
 
   server <- rsc_server(auth, server, account, key)
 
@@ -115,6 +115,13 @@ board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
   # Fill in account name if auth == "envvar"
   board$account <- board$account %||% rsc_GET(board, "users/current/")$username
   board
+}
+
+#' @rdname board_connect
+#' @export
+board_rsconnect <- function(...) {
+  lifecycle::deprecate_soft("1.1.0", "board_rsconnect()", "board_connect()")
+  board_connect(...)
 }
 
 #' @export
@@ -233,7 +240,7 @@ pin_store.pins_board_rsconnect <- function(
     ...,
     access_type = NULL)
 {
-  # https://docs.rstudio.com/connect/1.8.0.4/cookbook/deploying/
+  # https://docs.posit.co/connect/1.8.0.4/cookbook/deploying/
 
   check_name(rsc_parse_name(name)$name)
 
@@ -456,7 +463,7 @@ rsc_content_find_live <- function(board, name, version = NULL, warn = TRUE) {
 rsc_content_create <- function(board, name, metadata, access_type = "acl") {
   name <- rsc_parse_name(name)
   if (!grepl("^[-_A-Za-z0-9]+$", name$name)) {
-    abort("RStudio connect requires alpanumeric names")
+    abort("Posit Connect requires alpanumeric names")
   }
 
   body <- list(
@@ -671,7 +678,7 @@ rsc_check_status <- function(req) {
     if (type$complete == "application/json") {
       json <- httr::content(req)
       abort(c(
-        paste0("RStudio Connect API failed [", req$status_code, "]"),
+        paste0("Posit Connect API failed [", req$status_code, "]"),
         json$error
       ))
     } else {
@@ -705,7 +712,7 @@ rsc_has_colorado <- function() {
 }
 board_rsconnect_colorado <- function(...) {
   if (!rsc_has_colorado()) {
-    testthat::skip("board_rsconnect_colorado() only works with RStudio's demo server")
+    testthat::skip("board_rsconnect_colorado() only works with Posit's demo server")
   }
   board_rsconnect(..., server = "colorado.rstudio.com", auth = "rsconnect", cache = fs::file_temp())
 }
