@@ -8,9 +8,10 @@
 #'   * `$file` - names of files stored in the pin.
 #'   * `$file_size` - size of each file.
 #'   * `$pin_hash` - hash of pin contents.
-#'   * `$type` - type of pin, "rds", "csv", etc
+#'   * `$type` - type of pin: "rds", "csv", etc
 #'   * `$title` - pin title
 #'   * `$description` - pin description
+#'   * `$tags` - pin tags
 #'   * `$created` - date this (version of the pin) was created
 #'   * `$api_version` - API version used by pin
 #'
@@ -35,6 +36,11 @@
 #' b %>% pin_meta("mtcars")
 #' # Get path to underlying data
 #' b %>% pin_download("mtcars")
+#'
+#' # Use tags instead
+#' b %>% pin_write(head(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
+#' b %>% pin_meta("mtcars")
+#'
 pin_meta <- function(board, name, version = NULL, ...) {
   check_board(board, "pin_meta()", "pin_info()")
   UseMethod("pin_meta")
@@ -85,11 +91,12 @@ local_meta <- function(x, name, dir, url = NULL, version = NULL, ...) {
 
 test_api_meta <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
-    name <- local_pin(board, 1, title = "title", description = "desc", metadata = list(a = "a"))
+    name <- local_pin(board, 1, title = "title", description = "desc", tags = c("tag1", "tag2"), metadata = list(a = "a"))
     meta <- pin_meta(board, name)
     testthat::expect_equal(meta$name, name)
     testthat::expect_equal(meta$title, "title")
     testthat::expect_equal(meta$description, "desc")
+    testthat::expect_equal(meta$tags, c("tag1", "tag2"))
     testthat::expect_equal(meta$user$a, "a")
   })
 
@@ -127,6 +134,7 @@ test_api_meta <- function(board) {
     testthat::expect_vector(meta$user, list())
     testthat::expect_vector(meta$local, list())
   })
+
 }
 
 #' @export

@@ -52,6 +52,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   others can understand what the pin contains. If omitted, a brief
 #'   description of the contents will be automatically generated.
 #' @param description A detailed description of the pin contents.
+#' @param tags A character vector of tags for the pin; most important for
+#'   discoverability on shared boards.
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
@@ -67,6 +69,7 @@ pin_write <- function(board, x,
                       type = NULL,
                       title = NULL,
                       description = NULL,
+                      tags = NULL,
                       metadata = NULL,
                       versioned = NULL,
                       ...) {
@@ -82,6 +85,7 @@ pin_write <- function(board, x,
       abort("Must supply `name` when `x` is an expression")
     }
   }
+  check_tags(tags)
   check_metadata(metadata)
   if (!is_string(name)) {
     abort("`name` must be a string")
@@ -100,6 +104,7 @@ pin_write <- function(board, x,
     paths = path,
     type = type,
     title = title %||% default_title(name, data = x),
+    tags = tags,
     description = description
   )
   meta$user <- metadata
@@ -244,6 +249,11 @@ check_board <- function(x, v1, v0) {
 check_name <- function(x) {
   if (grepl("\\\\|/", x, perl = TRUE)) {
     abort("`name` must not contain slashes", class = "pins_check_name")
+  }
+}
+check_tags <- function(x) {
+  if (!is.null(x) && !is_character(x)) {
+    abort("`tags` must be a character vector")
   }
 }
 check_metadata <- function(x) {
