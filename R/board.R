@@ -204,6 +204,7 @@ write_board_manifest <- function(board, ...) {
   manifest <- make_manifest(board)
   write_board_manifest_yaml(board, manifest, ...)
   pins_inform("Manifest file written to root folder of board, as `{manifest_pin_yaml_filename}`")
+  invisible(board)
 }
 
 manifest_pin_yaml_filename <- "_pins.yaml"
