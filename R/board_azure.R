@@ -217,7 +217,6 @@ write_board_manifest_yaml.pins_board_azure <- function(board, manifest, ...) {
   temp_file <- withr::local_tempfile()
   yaml::write_yaml(manifest, file = temp_file)
   azure_upload_file(board, src = temp_file, dest = manifest_pin_yaml_filename)
-  invisible(board)
 }
 
 #' @rdname required_pkgs.pins_board

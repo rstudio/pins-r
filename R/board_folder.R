@@ -131,5 +131,4 @@ write_board_manifest_yaml.pins_board_folder <- function(board, manifest, ...) {
     manifest,
     file = fs::path(board$path, manifest_pin_yaml_filename)
   )
-  invisible(board)
 }

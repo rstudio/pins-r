@@ -94,12 +94,13 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
   }
 
   cache <- cache %||% board_cache_path(paste0("ms365-", hash(folder$properties$id)))
-  new_board_v1("pins_board_ms365",
-               folder = folder,
-               path = path,
-               cache = cache,
-               versioned = versioned,
-               delete_by_item = delete_by_item
+  new_board_v1(
+    "pins_board_ms365",
+    folder = folder,
+    path = path,
+    cache = cache,
+    versioned = versioned,
+    delete_by_item = delete_by_item
   )
 }
 
@@ -220,7 +221,6 @@ write_board_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
   temp_file <- withr::local_tempfile()
   yaml::write_yaml(manifest, file = temp_file)
   board$folder$upload(temp_file, manifest_pin_yaml_filename)
-  invisible(board)
 }
 
 #' @rdname required_pkgs.pins_board
