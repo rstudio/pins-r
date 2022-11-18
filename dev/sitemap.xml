@@ -180,4 +180,10 @@
   <url>
     <loc>https://pins.rstudio.com/dev/reference/ui_connection_create.html</loc>
   </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/write_board_manifest.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/dev/reference/write_board_manifest_yaml.html</loc>
+  </url>
 </urlset>

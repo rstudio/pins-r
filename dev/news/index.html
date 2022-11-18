@@ -75,6 +75,7 @@
 <ul><li><p>Added vignette describing how to manage custom formats (<a href="https://github.com/rstudio/pins-r/issues/631" class="external-link">#631</a>, <a href="https://github.com/ijlyttle" class="external-link">@ijlyttle</a>).</p></li>
 <li><p>Improved error message for <code><a href="../reference/pin_versions.html">pin_versions()</a></code> (<a href="https://github.com/rstudio/pins-r/issues/657" class="external-link">#657</a>).</p></li>
 <li><p>Switched content and user caches for Connect to use environments instead of files on disk. This means caches will no longer persist between sessions but will be much less likely to end up in a broken state (<a href="https://github.com/rstudio/pins-r/issues/667" class="external-link">#667</a>).</p></li>
+<li><p>Added <code><a href="../reference/write_board_manifest.html">write_board_manifest()</a></code> to write a manifest file <code>_pins.yaml</code> recording all pins and their versions to the board’s root directory. This function only works for boards that are not read-only (<a href="https://github.com/rstudio/pins-r/issues/661" class="external-link">#661</a>, based on work of <a href="https://github.com/ijlyttle" class="external-link">@ijlyttle</a>).</p></li>
 </ul></div>
 </div>
     <div class="section level2">
