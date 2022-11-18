@@ -18,9 +18,6 @@
 #' @export
 pin_remove <- function(name, board = NULL) {
   board <- board_get(board)
-
   board_pin_remove(board, name)
-  ui_viewer_updated(board)
-
   invisible(NULL)
 }
