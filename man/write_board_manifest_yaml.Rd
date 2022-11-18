@@ -15,7 +15,7 @@ write_board_manifest_yaml(board, manifest, ...)
 }
 \value{
 \code{write_board_manifest_yaml()} is called for its side-effect of
-writing a manifest YAML file. It invisibly returns the board.
+writing a manifest YAML file.
 }
 \description{
 This is a low-level function that powers \code{\link[=write_board_manifest]{write_board_manifest()}}. It is
