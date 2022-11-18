@@ -5,6 +5,9 @@
 * Changed `type = "csv"` to use R's default value for `stringsAsFactors` i.e. 
   `FALSE` (#664).
   
+* Functions for viewing legacy API pins in the RStudio Viewer pane are now 
+  deprecated (when possible) or removed (#679).
+  
 ## Other improvements
 
 * Added vignette describing how to manage custom formats (#631, @ijlyttle).
