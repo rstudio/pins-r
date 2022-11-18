@@ -36,6 +36,7 @@ reference:
 - title: Other functions
   contents:
   - cache_browse
+  - write_board_manifest
 
 - title: Legacy API
   desc: >

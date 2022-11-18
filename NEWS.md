@@ -15,6 +15,11 @@
   of files on disk. This means caches will no longer persist between sessions
   but will be much less likely to end up in a broken state (#667).
 
+* Added `write_board_manifest()` to write a manifest file `_pins.yaml` 
+  recording all pins and their versions to the board's root directory.
+  This function only works for boards that are not read-only
+  (#661, based on work of @ijlyttle).
+
 
 # pins 1.0.3
 

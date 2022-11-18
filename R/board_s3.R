@@ -85,17 +85,17 @@
 #'
 #' }
 board_s3 <- function(
-                    bucket,
-                    prefix = NULL,
-                    versioned = TRUE,
-                    access_key = NULL,
-                    secret_access_key = NULL,
-                    session_token = NULL,
-                    credential_expiration = NULL,
-                    profile = NULL,
-                    region = NULL,
-                    endpoint = NULL,
-                    cache = NULL) {
+    bucket,
+    prefix = NULL,
+    versioned = TRUE,
+    access_key = NULL,
+    secret_access_key = NULL,
+    session_token = NULL,
+    credential_expiration = NULL,
+    profile = NULL,
+    region = NULL,
+    endpoint = NULL,
+    cache = NULL) {
 
   check_installed("paws.storage")
 
@@ -118,12 +118,12 @@ board_s3 <- function(
 
   cache <- cache %||% board_cache_path(paste0("s3-", bucket))
   new_board_v1("pins_board_s3",
-    name = "s3",
-    bucket = bucket,
-    prefix = prefix,
-    svc = svc,
-    cache = cache,
-    versioned = versioned
+               name = "s3",
+               bucket = bucket,
+               prefix = prefix,
+               svc = svc,
+               cache = cache,
+               versioned = versioned
   )
 }
 
@@ -134,11 +134,11 @@ board_s3_test <- function(...) {
   )
 
   board_s3("pins-test-hadley",
-    region = "us-east-2",
-    cache = tempfile(),
-    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
-    secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
-    ...
+           region = "us-east-2",
+           cache = tempfile(),
+           access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
+           secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
+           ...
   )
 }
 
@@ -256,6 +256,11 @@ board_deparse.pins_board_s3 <- function(board, ...) {
 
 empty_string_to_null <- function(x) {
   if (is.null(x) || nchar(x) == 0) NULL else x
+}
+
+#' @export
+write_board_manifest_yaml.pins_board_s3 <- function(board, manifest, ...) {
+  s3_upload_yaml(board, key = manifest_pin_yaml_filename, yaml = manifest, ...)
 }
 
 #' @rdname required_pkgs.pins_board
