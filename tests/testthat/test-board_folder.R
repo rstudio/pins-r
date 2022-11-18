@@ -45,14 +45,21 @@ test_that("can deparse", {
 })
 
 test_that("contents of manifest match", {
-  b <- board_folder(withr::local_tempfile())
+  b <- board_folder(withr::local_tempfile(), versioned = TRUE)
   pin_write(b, mtcars, "mtcars-csv", type = "csv")
+  pin_write(b, head(mtcars), "mtcars-csv", type = "csv")
   pin_write(b, mtcars, "mtcars-json", type = "json")
   write_board_manifest(b)
 
   # names are correct
   manifest <- yaml::read_yaml(fs::path(b$path, manifest_pin_yaml_filename))
   expect_identical(names(manifest), pin_list(b))
+
+  # numbers of versions are correct
+  expect_identical(
+    map(manifest, length),
+    list(`mtcars-csv` = 2L, `mtcars-json` = 1L)
+  )
 
   # values (relative paths to versions) are correct
   imap(
