@@ -7,6 +7,6 @@
 pin_preview(x, board = NULL, ...)
 }
 \description{
-\code{pin_preview()} is no longer used and only exists for legacy compatibility.
+\code{pin_preview()} is no longer supported.
 }
 \keyword{internal}
