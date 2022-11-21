@@ -2,6 +2,9 @@
 
 #' Preview a pin (legacy API)
 #'
+#' @description
+#' `r lifecycle::badge("defunct")`
+#'
 #' `pin_preview()` is no longer supported.
 #'
 #' @export
