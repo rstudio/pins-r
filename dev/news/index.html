@@ -65,21 +65,6 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="pins-development-version">pins (development version)<a class="anchor" aria-label="anchor" href="#pins-development-version"></a></h2>
-<div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
-<ul><li><p>Changed <code>type = "csv"</code> to use R’s default value for <code>stringsAsFactors</code> i.e.  <code>FALSE</code> (<a href="https://github.com/rstudio/pins-r/issues/664" class="external-link">#664</a>).</p></li>
-<li><p>Functions for viewing legacy API pins in the RStudio Viewer pane are now deprecated (when possible) or removed (<a href="https://github.com/rstudio/pins-r/issues/679" class="external-link">#679</a>).</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="other-improvements-development-version">Other improvements<a class="anchor" aria-label="anchor" href="#other-improvements-development-version"></a></h3>
-<ul><li><p>Added vignette describing how to manage custom formats (<a href="https://github.com/rstudio/pins-r/issues/631" class="external-link">#631</a>, <a href="https://github.com/ijlyttle" class="external-link">@ijlyttle</a>).</p></li>
-<li><p>Improved error message for <code><a href="../reference/pin_versions.html">pin_versions()</a></code> (<a href="https://github.com/rstudio/pins-r/issues/657" class="external-link">#657</a>).</p></li>
-<li><p>Switched content and user caches for Connect to use environments instead of files on disk. This means caches will no longer persist between sessions but will be much less likely to end up in a broken state (<a href="https://github.com/rstudio/pins-r/issues/667" class="external-link">#667</a>).</p></li>
-<li><p>Added <code><a href="../reference/write_board_manifest.html">write_board_manifest()</a></code> to write a manifest file <code>_pins.yaml</code> recording all pins and their versions to the board’s root directory. This function only works for boards that are not read-only (<a href="https://github.com/rstudio/pins-r/issues/661" class="external-link">#661</a>, based on work of <a href="https://github.com/ijlyttle" class="external-link">@ijlyttle</a>).</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.3" id="pins-103">pins 1.0.3<a class="anchor" aria-label="anchor" href="#pins-103"></a></h2><p class="text-muted">CRAN release: 2022-09-24</p>
 <ul><li><p>The <code>arrow</code> package is now suggested, rather than imported (<a href="https://github.com/rstudio/pins-r/issues/644" class="external-link">#644</a>, <a href="https://github.com/jonthegeek" class="external-link">@jonthegeek</a>).</p></li>
 <li><p>Fixed how Connect usernames are handled in messages, preview, etc (<a href="https://github.com/rstudio/pins-r/issues/643" class="external-link">#643</a>).</p></li>
