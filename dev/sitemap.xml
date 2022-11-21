@@ -34,9 +34,6 @@
     <loc>https://pins.rstudio.com/dev/reference/board_cache_path.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/dev/reference/board_connect.html</loc>
-  </url>
-  <url>
     <loc>https://pins.rstudio.com/dev/reference/board_deparse.html</loc>
   </url>
   <url>
@@ -173,12 +170,6 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/dev/reference/required_pkgs.pins_board.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/dev/reference/ui_addin_pin_find.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/dev/reference/ui_connection_create.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/dev/reference/write_board_manifest.html</loc>
