@@ -7,6 +7,8 @@
 pin_preview(x, board = NULL, ...)
 }
 \description{
-\code{pin_preview()} is no longer used and only exists for legacy compatibility.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
+
+\code{pin_preview()} is no longer supported.
 }
 \keyword{internal}

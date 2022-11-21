@@ -64,11 +64,8 @@ board_register_rsconnect <- function(name = "rsconnect",
   board_register2(board)
 }
 
-board_register2 <- function(board, connect = TRUE) {
+board_register2 <- function(board) {
   board_registry_set(board$name, board)
-  if (connect && !is_testing()) {
-    # ui_viewer_register(board, "")
-  }
   invisible(board)
 }
 
@@ -113,10 +110,7 @@ board_deregister <- function(name, ...) {
   if (!name %in% board_registry_list()) stop("Board '", name, "' is not registered.")
 
   board <- board_get(name)
-
-  if (!identical(list(...)$disconnect, FALSE)) board_disconnect(name)
   board_registry_set(name, NULL)
-
   invisible(NULL)
 }
 
