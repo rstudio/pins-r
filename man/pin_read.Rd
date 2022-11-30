@@ -14,9 +14,9 @@ pin_write(
   type = NULL,
   title = NULL,
   description = NULL,
-  tags = NULL,
   metadata = NULL,
   versioned = NULL,
+  tags = NULL,
   ...
 )
 }
@@ -47,15 +47,15 @@ description of the contents will be automatically generated.}
 
 \item{description}{A detailed description of the pin contents.}
 
-\item{tags}{A character vector of tags for the pin; most important for
-discoverability on shared boards.}
-
 \item{metadata}{A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the \code{user} key, to
 avoid potential clashes with the metadata that pins itself uses.}
 
 \item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
 use the default for \code{board}}
+
+\item{tags}{A character vector of tags for the pin; most important for
+discoverability on shared boards.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;
