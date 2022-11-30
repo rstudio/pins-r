@@ -52,8 +52,6 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   others can understand what the pin contains. If omitted, a brief
 #'   description of the contents will be automatically generated.
 #' @param description A detailed description of the pin contents.
-#' @param tags A character vector of tags for the pin; most important for
-#'   discoverability on shared boards.
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
@@ -62,6 +60,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   lists and rds for everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
+#' @param tags A character vector of tags for the pin; most important for
+#'   discoverability on shared boards.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,
@@ -69,9 +69,9 @@ pin_write <- function(board, x,
                       type = NULL,
                       title = NULL,
                       description = NULL,
-                      tags = NULL,
                       metadata = NULL,
                       versioned = NULL,
+                      tags = NULL,
                       ...) {
   ellipsis::check_dots_used()
   check_board(board, "pin_write()", "pin()")
@@ -85,8 +85,8 @@ pin_write <- function(board, x,
       abort("Must supply `name` when `x` is an expression")
     }
   }
-  check_tags(tags)
   check_metadata(metadata)
+  check_tags(tags)
   if (!is_string(name)) {
     abort("`name` must be a string")
   }
@@ -104,8 +104,8 @@ pin_write <- function(board, x,
     paths = path,
     type = type,
     title = title %||% default_title(name, data = x),
-    tags = tags,
-    description = description
+    description = description,
+    tags = tags
   )
   meta$user <- metadata
 
@@ -251,14 +251,14 @@ check_name <- function(x) {
     abort("`name` must not contain slashes", class = "pins_check_name")
   }
 }
-check_tags <- function(x) {
-  if (!is.null(x) && !is_character(x)) {
-    abort("`tags` must be a character vector")
-  }
-}
 check_metadata <- function(x) {
   if (!is.null(x) && !is_bare_list(x)) {
     abort("`metadata` must be a list")
+  }
+}
+check_tags <- function(x) {
+  if (!is.null(x) && !is_character(x)) {
+    abort("`tags` must be a character vector")
   }
 }
 check_hash <- function(meta, hash) {

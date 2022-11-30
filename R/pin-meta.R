@@ -91,7 +91,7 @@ local_meta <- function(x, name, dir, url = NULL, version = NULL, ...) {
 
 test_api_meta <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
-    name <- local_pin(board, 1, title = "title", description = "desc", tags = c("tag1", "tag2"), metadata = list(a = "a"))
+    name <- local_pin(board, 1, title = "title", description = "desc", metadata = list(a = "a"), tags = c("tag1", "tag2"))
     meta <- pin_meta(board, name)
     testthat::expect_equal(meta$name, name)
     testthat::expect_equal(meta$title, "title")
