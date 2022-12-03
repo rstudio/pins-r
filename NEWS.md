@@ -1,8 +1,28 @@
-# pins (development version)
+# pins (development version, to be released as 1.1.0)
+
+## Breaking changes
+
+* Changed `type = "csv"` to use R's default value for `stringsAsFactors` i.e. 
+  `FALSE` (#664).
+  
+* Functions for viewing legacy API pins in the RStudio Viewer pane are now 
+  deprecated (when possible) or removed (#679).
+  
+## Other improvements
 
 * Added vignette describing how to manage custom formats (#631, @ijlyttle).
 
 * Improved error message for `pin_versions()` (#657).
+
+* Switched content and user caches for Connect to use environments instead
+  of files on disk. This means caches will no longer persist between sessions
+  but will be much less likely to end up in a broken state (#667).
+
+* Added `write_board_manifest()` to write a manifest file `_pins.yaml` 
+  recording all pins and their versions to the board's root directory.
+  This function only works for boards that are not read-only
+  (#661, based on work of @ijlyttle).
+
 
 # pins 1.0.3
 

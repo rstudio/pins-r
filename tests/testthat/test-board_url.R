@@ -54,6 +54,7 @@ test_that("raw pins can only be downloaded", {
 })
 
 test_that("can download pin from board_folder version dir", {
+  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempfile())
   b1 %>% pin_write(1:10, "x")
   b2_path <- fs::path(b1$path, "x", pin_versions(b1, "x")$version)
@@ -80,7 +81,6 @@ test_that("can download pin from versioned board_folder", {
   b2 <- board_url(c(x = board_fake$url()), versioned = TRUE)
 
 })
-
 
 test_that("useful errors for unsupported methods", {
   board <- board_url(c("x" = "foo"))

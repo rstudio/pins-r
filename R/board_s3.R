@@ -1,7 +1,7 @@
 #' Use an S3 bucket as a board
 #'
-#' Pin data to a bucket on Amazon's S3 service, using the paws.storage
-#' package.
+#' Pin data to an S3 bucket, such as on Amazon's S3 service or MinIO, using the
+#' paws.storage package.
 #'
 #' # Authentication
 #'
@@ -47,6 +47,12 @@
 #'   return useful output.
 #' * You can pass arguments for [paws.storage::s3_put_object] such as `Tagging`
 #'   and `ServerSideEncryption` through the dots of `pin_write()`.
+#' * `board_s3()` is powered by the paws.storage package, which is a
+#'   suggested dependency of pins (not required for pins in general). If
+#'   you run into errors when deploying content to a server like
+#'   <https://shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
+#'   add `library(paws.storage)` to your app or document for [automatic
+#'   dependency discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
 #'
 #' @inheritParams new_board
 #' @param bucket Bucket name. You can only write to an existing bucket.
@@ -58,8 +64,9 @@
 #'   Manually control authentication. See documentation below for details.
 #' @param region AWS region. If not specified, will be read from `AWS_REGION`,
 #'   or AWS config file.
-#' @param endpoint AWS endpoint to use; usually generated automatically from
-#'   `region`.
+#' @param endpoint Endpoint to use; usually generated automatically for AWS
+#'   from `region`. For MinIO, use the full URL (including scheme like
+#'   `https://`) of your MinIO endpoint.
 #' @param profile Role to use from AWS shared credentials/config file.
 #' @export
 #' @examples
@@ -78,17 +85,17 @@
 #'
 #' }
 board_s3 <- function(
-                    bucket,
-                    prefix = NULL,
-                    versioned = TRUE,
-                    access_key = NULL,
-                    secret_access_key = NULL,
-                    session_token = NULL,
-                    credential_expiration = NULL,
-                    profile = NULL,
-                    region = NULL,
-                    endpoint = NULL,
-                    cache = NULL) {
+    bucket,
+    prefix = NULL,
+    versioned = TRUE,
+    access_key = NULL,
+    secret_access_key = NULL,
+    session_token = NULL,
+    credential_expiration = NULL,
+    profile = NULL,
+    region = NULL,
+    endpoint = NULL,
+    cache = NULL) {
 
   check_installed("paws.storage")
 
@@ -111,12 +118,12 @@ board_s3 <- function(
 
   cache <- cache %||% board_cache_path(paste0("s3-", bucket))
   new_board_v1("pins_board_s3",
-    name = "s3",
-    bucket = bucket,
-    prefix = prefix,
-    svc = svc,
-    cache = cache,
-    versioned = versioned
+               name = "s3",
+               bucket = bucket,
+               prefix = prefix,
+               svc = svc,
+               cache = cache,
+               versioned = versioned
   )
 }
 
@@ -127,11 +134,11 @@ board_s3_test <- function(...) {
   )
 
   board_s3("pins-test-hadley",
-    region = "us-east-2",
-    cache = tempfile(),
-    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
-    secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
-    ...
+           region = "us-east-2",
+           cache = tempfile(),
+           access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
+           secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
+           ...
   )
 }
 
@@ -249,6 +256,18 @@ board_deparse.pins_board_s3 <- function(board, ...) {
 
 empty_string_to_null <- function(x) {
   if (is.null(x) || nchar(x) == 0) NULL else x
+}
+
+#' @export
+write_board_manifest_yaml.pins_board_s3 <- function(board, manifest, ...) {
+  s3_upload_yaml(board, key = manifest_pin_yaml_filename, yaml = manifest, ...)
+}
+
+#' @rdname required_pkgs.pins_board
+#' @export
+required_pkgs.pins_board_s3 <- function(x, ...) {
+  ellipsis::check_dots_empty()
+  "paws.storage"
 }
 
 # Helpers -----------------------------------------------------------------

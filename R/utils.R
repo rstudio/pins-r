@@ -21,6 +21,12 @@ is_url <- function(x) {
   grepl("^http://|^https://", x)
 }
 
+append_slash <- function(x) {
+  has_slash <- grepl("/$", x)
+  x[!has_slash] <- paste0(x[!has_slash], "/")
+  x
+}
+
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }

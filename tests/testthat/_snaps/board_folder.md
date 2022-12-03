@@ -1,3 +1,10 @@
+# can find board required pkgs
+
+    Code
+      required_pkgs(board)
+    Output
+      character(0)
+
 # has useful print method
 
     Code

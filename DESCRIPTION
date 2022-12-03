@@ -5,7 +5,7 @@ Version: 1.0.3.9000
 Authors@R: c(
     person("Julia", "Silge", , "julia.silge@rstudio.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-3671-836X")),
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut"),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut",
            comment = c(ORCID = "0000-0003-4757-117X")),
     person("Javier", "Luraschi", , "jluraschi@gmail.com", role = "aut"),
     person(, "RStudio", role = c("cph", "fnd"))
@@ -26,6 +26,7 @@ Imports:
     ellipsis,
     filelock,
     fs,
+    generics,
     glue,
     httr,
     jsonlite,
@@ -41,6 +42,7 @@ Imports:
     yaml,
     zip
 Suggests:
+    archive,
     arrow,
     AzureStor,
     data.table,
@@ -63,4 +65,4 @@ VignetteBuilder:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
