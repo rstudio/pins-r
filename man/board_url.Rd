@@ -4,12 +4,7 @@
 \alias{board_url}
 \title{Use a vector of URLs as a board}
 \usage{
-board_url(
-  urls,
-  cache = NULL,
-  use_cache_on_failure = is_interactive(),
-  versioned = FALSE
-)
+board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }
 \arguments{
 \item{urls}{A named character vector of URLs If the URL ends in a \code{/},
@@ -25,8 +20,6 @@ cache location for your operating system, but you can override if needed.}
 use the last cached version? Defaults to \code{is_interactive()} so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
-
-\item{versioned}{Should this board be registered with support for versions?}
 }
 \description{
 \code{board_url()} lets you build up a board from individual urls. This is

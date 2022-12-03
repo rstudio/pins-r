@@ -38,11 +38,21 @@
 #' board %>% pin_download("raw")
 board_url <- function(urls,
                       cache = NULL,
-                      use_cache_on_failure = is_interactive(),
-                      versioned = FALSE) {
-  if (!is.character(urls) || !is_named(urls)) {
-    abort("`urls` must be a named character vector")
-  }
+                      use_cache_on_failure = is_interactive()) {
+
+  url_format <- get_url_format(urls)
+  versioned <-
+    switch (
+      url_format,
+      pins_yaml = {
+        manifest <- get_manifest(urls)
+        board <- board_url(manifest)
+        return(board)
+      },
+      manifest_content = TRUE,
+      vector_of_urls = FALSE,
+      board_url_error_message
+    )
 
   # Share cache across all instances of board_url(); pins are stored in
   # directories based on the hash of the URL to avoid cache collisions.
@@ -57,7 +67,7 @@ board_url <- function(urls,
 }
 
 board_url_test <- function(urls, cache = tempfile()) {
-  board_url(urls, cache = cache, versioned = FALSE)
+  board_url(urls, cache = cache)
 }
 
 #' @export
@@ -174,6 +184,145 @@ write_board_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
 }
 
 # Helpers ------------------------------------------------------------------
+
+board_url_error_message <- c(
+  "{.var urls} must resolve to either:",
+  "*" = "unnamed character scalar, i.e. a URL",
+  "*" = "named character vector",
+  "*" = "named list, where all elements are character scalars or vectors"
+)
+
+get_url_format <- function(urls) {
+  if (is_scalar_character(urls) && !is_named(urls)) {
+    return ("pins_yaml")
+  }
+  if (is_list(urls)) {
+    if (!is_named(urls) || !all(map_lgl(urls, is_character))) {
+      cli::cli_abort(
+        message = c(
+          board_url_error_message,
+          "i" = "{.var urls} resolves to a list:",
+          "i" = "- named: {.val {is_named(urls)}}",
+          "i" = "- all values character: {.val {all(map_lgl(urls, is_character))}}"
+        ),
+        class = "pins_error_board_url_argument",
+        urls = urls
+      )
+    }
+    return ("manifest_content")
+  }
+  if (is.character(urls)) {
+    if (!is_named(urls)) {
+      cli::cli_abort(
+        message = c(
+          board_url_error_message,
+          "i" = "{.var urls} resolves to a character vector, but is unnamed."
+        ),
+        class = "pins_error_board_url_argument",
+        urls = urls
+      )
+    }
+    return ("vector_of_urls")
+  }
+  cli::cli_abort(
+    message = c(
+      board_url_error_message,
+      "i" = "{.var urls} is a {.val {class(urls)}}."
+    ),
+    class = "pins_error_board_url_argument",
+    urls = urls
+  )
+}
+
+get_manifest <- function(url, call = rlang::caller_env()) {
+  # if ends with "/", look for manifest
+  if (grepl("/$", url)) {
+    urls <- paste0(url, manifest_pin_yaml_filename)
+  }
+
+  # if request fails or returns with error code
+  tryCatch(
+    {
+      resp <- httr::GET(url)
+      httr::stop_for_status(resp)
+    },
+    error = function(e) {
+      cli::cli_abort(
+        message = c(
+          "Error requesting manifest file from URL {.url {url}}:",
+          " " = "{e$message}"
+        ),
+        class = "pins_error_board_url_request",
+        url = url,
+        call = call
+      )
+    }
+  )
+
+  # if file is not parsable
+  tryCatch(
+    {
+      text <- httr::content(resp, as = "text")
+      manifest <- yaml::yaml.load(text)
+    },
+    error = function(e) {
+      cli::cli_abort(
+        message = c(
+          "Error parsing manifest-file at URL {.url {url}}:",
+          " " = "{e$message}",
+          "i" = "Manifest file must be text and parsable as YAML."
+        ),
+        class = "pins_error_board_url_parse",
+        resp = resp,
+        call = call
+      )
+    }
+  )
+
+  # prepend url-root to manifest entries
+  url_root <- url_dir(url)
+  manifest <- map(
+    manifest,
+    ~ map_chr(.x, ~ url_path(url_root, .x))
+  )
+
+  manifest
+}
+
+url_path <- function(url, ...) {
+  # return URL with path items appended
+  # - if last element in path ends with a slash,
+  #   ensure return URL ends with a slash
+
+  dots <- rlang::list2(...)
+  url_parsed <- httr::parse_url(url)
+  path_elems <- c(url_parsed$path, dots)
+
+  path_new <- rlang::exec(fs::path, !!!path_elems)
+  ends_with_slash <- grepl("/$", last(path_elems))
+  if (ends_with_slash) {
+    path_new <- append_slash(path_new)
+  }
+
+  url_parsed$path <- path_new
+
+  httr::build_url(url_parsed)
+}
+
+url_dir <- function(url) {
+  # return URL for the directory, end with slash
+  url_parsed <- httr::parse_url(url)
+  path <- fs::path_dir(url_parsed$path)
+
+  if (identical(path, ".")) {
+    path <- ""
+  }
+
+  url_parsed$path <- append_slash(path)
+
+  httr::build_url(url_parsed)
+}
+
 http_download <- function(url, path_dir, path_file, ...,
                           use_cache_on_failure = FALSE,
                           on_failure = NULL) {
