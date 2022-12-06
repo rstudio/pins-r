@@ -94,7 +94,8 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
   }
 
   cache <- cache %||% board_cache_path(paste0("ms365-", hash(folder$properties$id)))
-  new_board_v1("pins_board_ms365",
+  new_board_v1(
+    "pins_board_ms365",
     folder = folder,
     path = path,
     cache = cache,
@@ -215,6 +216,13 @@ pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
   name
 }
 
+#' @export
+write_board_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(manifest, file = temp_file)
+  board$folder$upload(temp_file, manifest_pin_yaml_filename)
+}
+
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_ms365 <- function(x, ...) {
@@ -222,7 +230,7 @@ required_pkgs.pins_board_ms365 <- function(x, ...) {
   "Microsoft365R"
 }
 
-# helpers
+# Helpers -----------------------------------------------------------------
 
 # list all the directories inside 'path', which is assumed to live in the board folder
 ms365_list_dirs <- function(board, path = "") {
