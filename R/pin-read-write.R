@@ -258,7 +258,7 @@ check_metadata <- function(x) {
 }
 check_tags <- function(x) {
   if (!is.null(x) && !is_character(x)) {
-    abort("`tags` must be a character vector")
+    abort("`tags` must be a character vector.")
   }
 }
 check_hash <- function(meta, hash) {
