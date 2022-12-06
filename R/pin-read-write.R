@@ -253,7 +253,7 @@ check_name <- function(x) {
 }
 check_metadata <- function(x) {
   if (!is.null(x) && !is_bare_list(x)) {
-    abort("`metadata` must be a list")
+    abort("`metadata` must be a list.")
   }
 }
 check_tags <- function(x) {

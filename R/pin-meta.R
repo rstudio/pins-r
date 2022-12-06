@@ -117,6 +117,15 @@ test_api_meta <- function(board) {
     )
   })
 
+  testthat::test_that("metadata checking functions give correct errors", {
+    testthat::expect_snapshot_error(
+      local_pin(board, 1, title = "title", tags = list(a = "a"))
+    )
+    testthat::expect_snapshot_error(
+      local_pin(board, 1, title = "title", metadata = c("tag1", "tag2"))
+    )
+  })
+
   testthat::test_that("pin_meta() returns pins_meta object", {
     name <- local_pin(board, 1)
 
