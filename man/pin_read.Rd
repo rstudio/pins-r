@@ -16,6 +16,7 @@ pin_write(
   description = NULL,
   metadata = NULL,
   versioned = NULL,
+  tags = NULL,
   ...
 )
 }
@@ -52,6 +53,9 @@ avoid potential clashes with the metadata that pins itself uses.}
 
 \item{versioned}{Should the pin be versioned? The default, \code{NULL}, will
 use the default for \code{board}}
+
+\item{tags}{A character vector of tags for the pin; most important for
+discoverability on shared boards.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;
