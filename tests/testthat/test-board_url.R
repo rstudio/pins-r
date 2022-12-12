@@ -71,10 +71,10 @@ test_that("can download pin from board_folder version dir", {
 
 test_that("can download pin from versioned board_folder", {
   skip_if_not_installed("webfakes")
-  b1 <- board_folder(withr::local_tempfile(), versioned = TRUE)
-  b1 %>% pin_write(1:10, "x", type = "csv")
+  b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
+  b1 %>% pin_write(1:10, "x", type = "json")
   b1 %>% pin_write(11:20, "y", type = "json")
-  b1 %>% pin_write(1:20, "x", type = "json")
+  b1 %>% pin_write(1:20, "y", type = "csv")
   write_board_manifest(b1)
   b2_path <- fs::path(b1$path)
 
