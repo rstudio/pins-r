@@ -84,6 +84,10 @@ pin_exists.pins_board_url <- function(board, name, ...) {
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
+  if (!is.null(version) && !board$versioned) {
+    abort_board_not_versioned("board_url")
+  }
+
   url <- board$urls[[name]]
 
   if (board$versioned) {
