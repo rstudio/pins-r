@@ -22,6 +22,9 @@
   recording all pins and their versions to the board's root directory.
   This function only works for boards that are not read-only
   (#661, based on work of @ijlyttle).
+  
+* Updated `board_url()` to handle versions recorded via a manifest file 
+  (#681, based on work of @ijlyttle).
 
 
 # pins 1.0.3
