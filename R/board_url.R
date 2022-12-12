@@ -84,14 +84,12 @@ pin_exists.pins_board_url <- function(board, name, ...) {
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
+  url <- board$urls[[name]]
 
   if (board$versioned) {
+    versions <- pin_versions(board, name)$version
     version <- check_pin_version(board, name, version)
-  } else {
-    if (!is.null(version)) {
-      abort_board_not_versioned("board_url")
-    }
-    url <- board$urls[[name]]
+    url <- board$urls[[name]][[which(versions == version)]]
   }
 
   is_dir <- grepl("/$", url)
@@ -237,7 +235,7 @@ get_url_format <- function(urls) {
 get_manifest <- function(url, call = rlang::caller_env()) {
   # if ends with "/", look for manifest
   if (grepl("/$", url)) {
-    urls <- paste0(url, manifest_pin_yaml_filename)
+    url <- paste0(url, manifest_pin_yaml_filename)
   }
 
   # if request fails or returns with error code
