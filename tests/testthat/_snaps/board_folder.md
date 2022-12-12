@@ -5,6 +5,14 @@
     Output
       character(0)
 
+# metadata checking functions give correct errors
+
+    `tags` must be a character vector.
+
+---
+
+    `metadata` must be a list.
+
 # has useful print method
 
     Code

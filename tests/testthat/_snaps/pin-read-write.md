@@ -28,7 +28,7 @@
       pin_write(board, mtcars, name = "mtcars", metadata = 1)
     Condition
       Error in `check_metadata()`:
-      ! `metadata` must be a list
+      ! `metadata` must be a list.
 
 # pin_write() noisily generates name and type
 

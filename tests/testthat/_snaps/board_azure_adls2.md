@@ -12,6 +12,22 @@
     Output
       [1] "AzureStor"
 
+# metadata checking functions give correct errors
+
+    `tags` must be a character vector.
+
+---
+
+    `metadata` must be a list.
+
+---
+
+    `tags` must be a character vector.
+
+---
+
+    `metadata` must be a list.
+
 # can deparse
 
     Code
