@@ -46,7 +46,11 @@ board_url <- function(urls,
       url_format,
       pins_yaml = {
         manifest <- get_manifest(urls)
-        board <- board_url(manifest)
+        board <- board_url(
+          manifest,
+          cache = cache,
+          use_cache_on_failure = use_cache_on_failure
+        )
         return(board)
       },
       manifest_content = TRUE,
