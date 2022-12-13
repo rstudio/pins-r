@@ -301,10 +301,7 @@ url_path <- function(url, ...) {
   path_elems <- c(url_parsed$path, dots)
 
   path_new <- rlang::exec(fs::path, !!!path_elems)
-  ends_with_slash <- grepl("/$", last(path_elems))
-  if (ends_with_slash) {
-    path_new <- append_slash(path_new)
-  }
+  path_new <- end_with_slash(path_new)
 
   url_parsed$path <- path_new
 
@@ -320,7 +317,7 @@ url_dir <- function(url) {
     path <- ""
   }
 
-  url_parsed$path <- append_slash(path)
+  url_parsed$path <- end_with_slash(path)
 
   httr::build_url(url_parsed)
 }

@@ -222,7 +222,7 @@ make_manifest <- function(board) {
   result <- map(
     pin_names,
     ~fs::path(.x, pin_versions(board, name = .x)$version) %>%
-      append_slash() %>% # versions usually don't include slash
+      end_with_slash() %>% # versions usually don't include slash
       as.list()
   )
   names(result) <- pin_names
