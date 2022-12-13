@@ -264,7 +264,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
   # if file is not parsable
   tryCatch(
     {
-      text <- httr::content(resp, as = "text")
+      text <- httr::content(resp, as = "text", encoding = "UTF-8")
       manifest <- yaml::yaml.load(text)
     },
     error = function(e) {
