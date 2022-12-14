@@ -254,11 +254,8 @@ get_manifest <- function(url, call = rlang::caller_env()) {
     },
     error = function(e) {
       cli::cli_abort(
-        message = c(
-          "Error requesting manifest file from URL {.url {url}}:",
-          " " = "{e$message}"
-        ),
-        class = "pins_error_board_url_request",
+        message = "Failed to access manifest file at {.url {url}}:",
+        parent = e,
         url = url,
         call = call
       )
