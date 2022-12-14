@@ -52,3 +52,30 @@
       Error in `this_not_that()`:
       ! Use `pin_read()` with this board, not `pin_get()`
 
+# useful errors for specifying board
+
+    Code
+      board_url(c("foo", "bar"))
+    Condition
+      Error in `get_url_format()`:
+      ! `urls` must resolve to either:
+      * an unnamed character scalar, i.e. a single URL
+      * a named character vector
+      * a named list, where all elements are character scalars or vectors
+    Code
+      board_url(list("a", 1:2))
+    Condition
+      Error in `get_url_format()`:
+      ! `urls` must resolve to either:
+      * an unnamed character scalar, i.e. a single URL
+      * a named character vector
+      * a named list, where all elements are character scalars or vectors
+    Code
+      board_url(1:10)
+    Condition
+      Error in `get_url_format()`:
+      ! `urls` must resolve to either:
+      * an unnamed character scalar, i.e. a single URL
+      * a named character vector
+      * a named list, where all elements are character scalars or vectors
+
