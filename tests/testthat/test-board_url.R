@@ -101,7 +101,7 @@ test_that("useful error for missing or unparseable manifest file", {
 
   expect_error(
     board_url(b2$url()),
-    "Error requesting manifest file from URL"
+    "Failed to access manifest file"
   )
 
   write.csv(mtcars, file = fs::path(b1_path, "_pins.yaml"))
