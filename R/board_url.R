@@ -1,26 +1,48 @@
 #' Use a vector of URLs as a board
 #'
 #' @description
-#' `board_url()` lets you build up a board from individual urls. This is
-#' useful because [pin_download()] and [pin_read()] will be cached - they'll
-#' only re-download the data if it's changed from the last time you downloaded
-#' it (using the tools of
-#' [HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)).
-#' You'll also be protected from the vagaries of the internet; if a fresh
-#' download fails, you'll get the previously cached result with a warning.
+#' `board_url()` lets you build up a board from individual urls or a [manifest
+#' file][write_board_manifest()].
 #'
 #' `board_url()` is read only.
 #'
-#' @param urls A named character vector of URLs If the URL ends in a `/`,
-#'   `board_url` will look for a `data.txt` that provides metadata. The
-#'   easiest way to generate this file is to upload a pin directory created by
-#'   [board_folder()].
+#' @param urls Identify available pins being served at a URL or set of URLs (see details):
+#'   - Unnamed character scalar: URL to a [manifest file][write_board_manifest()].
+#'   - Named character vector: URLs to specific pins (does not support versioning).
+#'   - Named list: URLs to pin version directories (supports versioning).
 #' @param use_cache_on_failure If the pin fails to download, is it ok to
 #'   use the last cached version? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
 #' @family boards
 #' @inheritParams new_board
+#' @details
+#' The way `board_url()` works depends on the type of the `urls` argument:
+#'   - Unnamed character scalar, i.e. **a single URL** to a
+#'     [manifest file][write_board_manifest()]: If the URL ends in a `/`,
+#'     `board_url()` will look for a `_pins.yaml` manifest. If the manifest
+#'     file parses to a named list, versioning is supported. If it parses to a
+#'     named character vector, the board will not support versioning.
+#'   - **Named character vector of URLs**: If the URLs end in a `/`,
+#'     `board_url()` will look for a `data.txt` that provides metadata for the
+#'     associated pin. The easiest way to generate this file is to upload a pin
+#'     version directory created by [board_folder()]. Versioning is not supported.
+#'   - **Named list**, where the values are character vectors of URLs and each
+#'     element of the vector refers to a version of the particular pin: If a
+#'     URL ends in a `/`, `board_url()` will look for a `data.txt` that
+#'     provides metadata. Versioning is supported.
+#'
+#' Using a vector of URLs can be useful because [pin_download()] and
+#' [pin_read()] will be cached; they'll only re-download the data if it's
+#' changed from the last time you downloaded it (using the tools of
+#' [HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)).
+#' You'll also be protected from the vagaries of the internet; if a fresh
+#' download fails, you'll get the previously cached result with a warning.
+#'
+#' Using a [manifest file][write_board_manifest()] can be useful because you
+#' can serve a board of pins and allow collaborators to access the board
+#' straight from a URL, without worrying about board-level storage details.
+#'
 #' @export
 #' @examples
 #' github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
@@ -41,32 +63,27 @@ board_url <- function(urls,
                       use_cache_on_failure = is_interactive()) {
 
   url_format <- get_url_format(urls)
-  versioned <-
-    switch (
-      url_format,
-      pins_yaml = {
-        manifest <- get_manifest(urls)
-        board <- board_url(
-          manifest,
-          cache = cache,
-          use_cache_on_failure = use_cache_on_failure
-        )
-        return(board)
-      },
-      manifest_content = TRUE,
-      vector_of_urls = FALSE,
-      board_url_error_message
+  if (url_format == "pins_yaml") {
+    manifest <- get_manifest(urls)
+    board <- board_url(
+      manifest,
+      cache = cache,
+      use_cache_on_failure = use_cache_on_failure
     )
+    return(board)
+  }
+  versioned <- url_format == "manifest_content"
 
   # Share cache across all instances of board_url(); pins are stored in
   # directories based on the hash of the URL to avoid cache collisions.
   cache <- cache %||% board_cache_path("url")
 
-  new_board_v1("pins_board_url",
-               urls = urls,
-               cache = cache,
-               versioned = versioned,
-               use_cache_on_failure = use_cache_on_failure
+  new_board_v1(
+    "pins_board_url",
+    urls = urls,
+    cache = cache,
+    versioned = versioned,
+    use_cache_on_failure = use_cache_on_failure
   )
 }
 
@@ -113,11 +130,12 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       use_cache_on_failure = board$use_cache_on_failure
     )
     meta <- read_meta(cache_dir)
-    local_meta(meta,
-               name = name,
-               dir = cache_dir,
-               url = url,
-               file_url = paste0(url, meta$file)
+    local_meta(
+      meta,
+      name = name,
+      dir = cache_dir,
+      url = url,
+      file_url = paste0(url, meta$file)
     )
   } else {
     # Otherwise assume it's a single file with no metadata
@@ -126,11 +144,12 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       file = fs::path_file(url),
       api_version = 1
     )
-    local_meta(meta,
-               name = name,
-               dir = cache_dir,
-               url = url,
-               file_url = url
+    local_meta(
+      meta,
+      name = name,
+      dir = cache_dir,
+      url = url,
+      file_url = url
     )
   }
 }
@@ -193,48 +212,23 @@ write_board_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
 
 board_url_error_message <- c(
   "{.var urls} must resolve to either:",
-  "*" = "unnamed character scalar, i.e. a URL",
-  "*" = "named character vector",
-  "*" = "named list, where all elements are character scalars or vectors"
+  "*" = "an unnamed character scalar, i.e. a single URL",
+  "*" = "a named character vector",
+  "*" = "a named list, where all elements are character scalars or vectors"
 )
 
 get_url_format <- function(urls) {
   if (is_scalar_character(urls) && !is_named(urls)) {
     return ("pins_yaml")
   }
-  if (is_list(urls)) {
-    if (!is_named(urls) || !all(map_lgl(urls, is_character))) {
-      cli::cli_abort(
-        message = c(
-          board_url_error_message,
-          "i" = "{.var urls} resolves to a list:",
-          "i" = "- named: {.val {is_named(urls)}}",
-          "i" = "- all values character: {.val {all(map_lgl(urls, is_character))}}"
-        ),
-        class = "pins_error_board_url_argument",
-        urls = urls
-      )
-    }
+  if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
     return ("manifest_content")
   }
-  if (is.character(urls)) {
-    if (!is_named(urls)) {
-      cli::cli_abort(
-        message = c(
-          board_url_error_message,
-          "i" = "{.var urls} resolves to a character vector, but is unnamed."
-        ),
-        class = "pins_error_board_url_argument",
-        urls = urls
-      )
-    }
+  if (is.character(urls) && is_named(urls)) {
     return ("vector_of_urls")
   }
   cli::cli_abort(
-    message = c(
-      board_url_error_message,
-      "i" = "{.var urls} is a {.val {class(urls)}}."
-    ),
+    board_url_error_message,
     class = "pins_error_board_url_argument",
     urls = urls
   )
@@ -259,6 +253,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
           " " = "{e$message}"
         ),
         class = "pins_error_board_url_request",
+        parent = e,
         url = url,
         call = call
       )
@@ -274,11 +269,12 @@ get_manifest <- function(url, call = rlang::caller_env()) {
     error = function(e) {
       cli::cli_abort(
         message = c(
-          "Error parsing manifest-file at URL {.url {url}}:",
+          "Failed to parse manifest file at URL {.url {url}}:",
           " " = "{e$message}",
           "i" = "Manifest file must be text and parsable as YAML."
         ),
         class = "pins_error_board_url_parse",
+        parent = e,
         resp = resp,
         call = call
       )
