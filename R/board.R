@@ -144,7 +144,7 @@ board_cache_path <- function(name) {
 #' @keywords internal
 #' @examples
 #' \dontrun{
-#' board <- board_rsconnect()
+#' board <- board_connect()
 #' # Generate code to access this board from elsewhere
 #' board_deparse(board)
 #' }

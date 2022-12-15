@@ -12,14 +12,14 @@
 #'
 #' # Public pins
 #'
-#' If your RSC instance allows it, you can share a pin publicly by setting the
-#' access type to `all`:
+#' If your Posit Connect instance allows it, you can share a pin publicly by
+#' setting the access type to `all`:
 #'
 #' ```r
 #' board %>% pin_write(my_df, access_type = "all")
 #' ```
 #'
-#' (You can also do this in RSC by setting "Access" to
+#' (You can also do this in Posit Connect by setting "Access" to
 #' "Anyone - no login required")
 #'
 #' Now anyone can read your pin through [board_url()]:
@@ -46,10 +46,10 @@
 #'  using `"manual"` if `server` and `key` are provided, `"envvar"` if both
 #'  environment variables are set, and `"rsconnect"` otherwise.
 #' @param server For `auth = "manual"` or `auth = 'envvar'`, the full url to the server,
-#'   like `http://server.rstudio.com/rsc` or `https://connect.rstudio.com/`.
-#'   For `auth = 'rsconnect'` a host name used to disambiguate RSC accounts,
-#'   like `server.rstudio.com` or `connect.rstudio.com`.
-#' @param account A user name used to disambiguate multiple RSC accounts.
+#'   like `http://server.posit.co/rsc` or `https://connect.posit.co/`.
+#'   For `auth = 'rsconnect'` a host name used to disambiguate Connect accounts,
+#'   like `server.posit.co` or `connect.posit.co`.
+#' @param account A user name used to disambiguate multiple Connect accounts.
 #' @param key The Posit Connect API key.
 #' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
 #' @family boards
@@ -69,7 +69,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                           key = NULL,
                           output_files = FALSE,
                           cache = NULL,
-                          name = "rsconnect",
+                          name = "posit-connect",
                           versioned = TRUE,
                           use_cache_on_failure = is_interactive(),
                           versions = deprecated()) {
@@ -77,20 +77,20 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
   server <- rsc_server(auth, server, account, key)
 
   if (lifecycle::is_present(versions)) {
-    lifecycle::deprecate_warn("1.0.0", "board_rsconnect(versions)","board_rsconnect(versioned)")
+    lifecycle::deprecate_warn("1.0.0", "board_connect(versions)","board_connect(versioned)")
     versioned <- versions
   }
 
   cache <- cache %||% board_cache_path(paste0("rsc-", hash(url)))
 
   board <- new_board(
-    "pins_board_rsconnect",
+    "pins_board_connect",
     api = c(0, 1),
     name = name,
     cache = cache,
     url = server$url,
     account = server$account,         # for full name of pin
-    server_name = server$server_name, # for board_rsconnect(server = "...") in template
+    server_name = server$server_name, # for board_connect(server = "...") in template
     auth = server$auth,
     versioned = versioned,
     use_cache_on_failure = use_cache_on_failure
@@ -102,7 +102,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
       if (length(fs::dir_ls(cache)) == 0) {
         # We've never successfully connected
         abort(c(
-          glue("Failed to connect to RSC instance at <{server$url}>"),
+          glue("Failed to connect to Posit Connect instance at <{server$url}>"),
           conditionMessage(e)
         ))
       } else {
@@ -110,7 +110,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
       }
     }
   )
-  pins_inform("Connecting to RSC {version} at <{server$url}>")
+  pins_inform("Connecting to Posit Connect {version} at <{server$url}>")
 
   # Fill in account name if auth == "envvar"
   board$account <- board$account %||% rsc_GET(board, "users/current/")$username
@@ -125,12 +125,12 @@ board_rsconnect <- function(...) {
 }
 
 #' @export
-board_pin_remove.pins_board_rsconnect <- function(board, name, ...) {
+board_pin_remove.pins_board_connect <- function(board, name, ...) {
   rsc_content_delete(board, name)
 }
 
 #' @export
-pin_delete.pins_board_rsconnect <- function(board, names, ...) {
+pin_delete.pins_board_connect <- function(board, names, ...) {
   for (name in names) {
     check_pin_exists(board, name)
     rsc_content_delete(board, name)
@@ -139,12 +139,12 @@ pin_delete.pins_board_rsconnect <- function(board, names, ...) {
 }
 
 #' @export
-board_browse.pins_board_rsconnect <- function(board, ...) {
+board_browse.pins_board_connect <- function(board, ...) {
   browse_url(board$url)
 }
 
 #' @export
-pin_list.pins_board_rsconnect <- function(board, ...) {
+pin_list.pins_board_connect <- function(board, ...) {
   params <- list(
     filter = "content_type:pin",
     count = 1000
@@ -158,7 +158,7 @@ pin_list.pins_board_rsconnect <- function(board, ...) {
 }
 
 #' @export
-pin_exists.pins_board_rsconnect <- function(board, name, ...) {
+pin_exists.pins_board_connect <- function(board, name, ...) {
   tryCatch(
     {
       rsc_content_find(board, name)
@@ -169,21 +169,21 @@ pin_exists.pins_board_rsconnect <- function(board, name, ...) {
 }
 
 #' @export
-board_pin_versions.pins_board_rsconnect <- function(board, name, ...) {
+board_pin_versions.pins_board_connect <- function(board, name, ...) {
   guid <- rsc_content_find(board, name)$guid
   rsc_content_versions(board, guid)
 }
 #' @export
-pin_versions.pins_board_rsconnect <- board_pin_versions.pins_board_rsconnect
+pin_versions.pins_board_connect <- board_pin_versions.pins_board_connect
 
 #' @export
-pin_version_delete.pins_board_rsconnect <- function(board, name, version, ...) {
+pin_version_delete.pins_board_connect <- function(board, name, version, ...) {
   guid <- rsc_content_find(board, name, warn = FALSE)$guid
   rsc_DELETE(board, rsc_v1("content", guid, "bundles", version))
 }
 
 #' @export
-pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
+pin_meta.pins_board_connect <- function(board, name, version = NULL, ...) {
   content <- rsc_content_find(board, name)
 
   if (is.null(version)) {
@@ -216,7 +216,7 @@ pin_meta.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
+pin_fetch.pins_board_connect <- function(board, name, version = NULL, ...) {
   # Can't use bundle download endpoint because that requires collaborator
   # access. So download data.txt, then download each file that it lists.
   meta <- pin_meta(board, name, version = version)
@@ -230,7 +230,7 @@ pin_fetch.pins_board_rsconnect <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_rsconnect <- function(
+pin_store.pins_board_connect <- function(
     board,
     name,
     paths,
@@ -320,7 +320,7 @@ pin_store.pins_board_rsconnect <- function(
 }
 
 #' @export
-pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
+pin_search.pins_board_connect <- function(board, search = NULL, ...) {
   params <- list(
     search = search,
     filter = "content_type:pin",
@@ -340,13 +340,13 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
 
 #' @rdname board_deparse
 #' @export
-board_deparse.pins_board_rsconnect <- function(board, ...) {
-  expr(board_rsconnect("envvar", server = !!board$url))
+board_deparse.pins_board_connect <- function(board, ...) {
+  expr(board_connect("envvar", server = !!board$url))
 }
 
 #' @rdname required_pkgs.pins_board
 #' @export
-required_pkgs.pins_board_rsconnect <- function(x, ...) {
+required_pkgs.pins_board_connect <- function(x, ...) {
   ellipsis::check_dots_empty()
   "rsconnect"
 }
@@ -354,7 +354,7 @@ required_pkgs.pins_board_rsconnect <- function(x, ...) {
 # v0 ----------------------------------------------------------------------
 
 #' @export
-board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
+board_pin_get.pins_board_connect <- function(board, name, version = NULL, ...,
                                                extract = NULL) {
 
   meta <- pin_fetch(board, name, version = version, ...)
@@ -362,7 +362,7 @@ board_pin_get.pins_board_rsconnect <- function(board, name, version = NULL, ...,
 }
 
 #' @export
-board_pin_create.pins_board_rsconnect <- function(board, path, name,
+board_pin_create.pins_board_connect <- function(board, path, name,
                                                   metadata, code = NULL,
                                                   search_all = FALSE,
                                                   ...) {
@@ -380,7 +380,7 @@ board_pin_create.pins_board_rsconnect <- function(board, path, name,
 }
 
 #' @export
-board_pin_find.pins_board_rsconnect <- function(board,
+board_pin_find.pins_board_connect <- function(board,
                                                 text = NULL,
                                                 name = NULL,
                                                 extended = FALSE,
@@ -530,9 +530,9 @@ rsc_content_version_cached <- function(board, guid) {
   meta <- meta[fs::file_exists(meta)]
 
   if (length(meta) == 0) {
-    abort("Failed to connect to RSC ")
+    abort("Failed to connect to Posit Connect")
   } else {
-    cli::cli_alert_danger("Failed to connect to RSC; using cached version")
+    cli::cli_alert_danger("Failed to connect to Posit Connect; using cached version")
 
     info <- fs::file_info(meta)
     meta <- meta[order(info$modification_time, decreasing = TRUE)]
@@ -697,11 +697,11 @@ rsc_v1 <- function(...) {
 
 # Testing setup -----------------------------------------------------------
 
-board_rsconnect_test <- function(...) {
+board_connect_test <- function(...) {
   if (rsc_has_colorado()) {
-    board_rsconnect_colorado(...)
+    board_connect_colorado(...)
   } else {
-    board_rsconnect_susan(...)
+    board_connect_susan(...)
   }
 }
 
@@ -710,24 +710,31 @@ rsc_has_colorado <- function() {
   accounts <- rsconnect::accounts()
   any(c("colorado.rstudio.com", "colorado.posit.co") %in% accounts$server)
 }
-board_rsconnect_colorado <- function(...) {
+board_connect_colorado <- function(...) {
   if (!rsc_has_colorado()) {
-    testthat::skip("board_rsconnect_colorado() only works with Posit's demo server")
+    testthat::skip("board_connect_colorado() only works with Posit's demo server")
   }
-  board_rsconnect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
+  board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
 }
 
-board_rsconnect_susan <- function(...) {
+board_connect_colorado <- function(...) {
+  if (!rsc_has_colorado()) {
+    testthat::skip("board_connect_colorado() only works with Posit's demo server")
+  }
+  board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
+}
+
+board_connect_susan <- function(...) {
   creds <- read_creds()
-  board_rsconnect(
+  board_connect(
     server = "http://localhost:3939",
     account = "susan",
     key = creds$susan_key
   )
 }
-board_rsconnect_derek <- function(...) {
+board_connect_derek <- function(...) {
   creds <- read_creds()
-  board_rsconnect(
+  board_connect(
     server = "http://localhost:3939",
     account = "derek",
     key = creds$derek_key
@@ -736,7 +743,7 @@ board_rsconnect_derek <- function(...) {
 read_creds <- function() {
   path <- testthat::test_path("creds.rds")
   if (!file.exists(path)) {
-    testthat::skip(glue("board_rsconnect() tests requires `{path}`"))
+    testthat::skip(glue("board_connect() tests requires `{path}`"))
   }
   readRDS(path)
 }

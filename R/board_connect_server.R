@@ -68,7 +68,7 @@ rsc_server_rsconnect <- function(server = NULL, name = NULL) {
 
   accounts <- rsconnect::accounts()
   if (is.null(accounts)) {
-    abort("No RStudio Connect servers have been registered")
+    abort("No Posit Connect servers have been registered")
   }
 
   if (!is.null(server)) {
@@ -85,7 +85,7 @@ rsc_server_rsconnect <- function(server = NULL, name = NULL) {
 
   if (nrow(accounts) > 1) (
     abort(c(
-      "Found multiple matching RStudio Connect servers",
+      "Found multiple matching Posit Connect servers",
       i = "Please disambiguate with `server` and/or `account`"
     ))
   )
