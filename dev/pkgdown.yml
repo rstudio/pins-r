@@ -1,12 +1,12 @@
 pandoc: 2.19.2
-pkgdown: 2.0.6
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   managing-custom-formats: managing-custom-formats.html
   pins-update: pins-update.html
   pins: pins.html
   rsc: rsc.html
-last_built: 2022-12-12T20:00Z
+last_built: 2022-12-15T18:35Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles
