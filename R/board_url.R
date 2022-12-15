@@ -281,45 +281,15 @@ get_manifest <- function(url, call = rlang::caller_env()) {
     }
   )
 
-  # prepend url-root to manifest entries
-  url_root <- url_dir(url)
+  # url_root is directory containing manifest-file
+  url_root <- sub("[^/]*$", "", url)
+  # for each manifest entry, prepend url_root to each path entry
   manifest <- map(
     manifest,
-    ~ map_chr(.x, ~ url_path(url_root, .x))
+    ~ map_chr(.x, ~ paste0(url_root, .x))
   )
 
   manifest
-}
-
-url_path <- function(url, ...) {
-  # return URL with path items appended
-  # - if last element in path ends with a slash,
-  #   ensure return URL ends with a slash
-
-  dots <- rlang::list2(...)
-  url_parsed <- httr::parse_url(url)
-  path_elems <- c(url_parsed$path, dots)
-
-  path_new <- rlang::exec(fs::path, !!!path_elems)
-  path_new <- end_with_slash(path_new)
-
-  url_parsed$path <- path_new
-
-  httr::build_url(url_parsed)
-}
-
-url_dir <- function(url) {
-  # return URL for the directory, end with slash
-  url_parsed <- httr::parse_url(url)
-  path <- fs::path_dir(url_parsed$path)
-
-  if (identical(path, ".")) {
-    path <- ""
-  }
-
-  url_parsed$path <- end_with_slash(path)
-
-  httr::build_url(url_parsed)
 }
 
 http_download <- function(url, path_dir, path_file, ...,
