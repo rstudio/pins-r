@@ -7,7 +7,7 @@
 #' `board_url()` is read only.
 #'
 #' @param urls Identify available pins being served at a URL or set of URLs (see details):
-#'   - Unnamed character scalar: URL to a [manifest file][write_board_manifest()].
+#'   - Unnamed string: URL to a [manifest file][write_board_manifest()].
 #'   - Named character vector: URLs to specific pins (does not support versioning).
 #'   - Named list: URLs to pin version directories (supports versioning).
 #' @param use_cache_on_failure If the pin fails to download, is it ok to
