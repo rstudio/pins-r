@@ -1,6 +1,7 @@
 test_api_basic(board_temp())
 test_api_versioning(board_temp(versioned = TRUE))
 test_api_meta(board_temp())
+test_api_manifest(board_temp())
 
 test_that("has useful print method", {
   path <- withr::local_tempfile()
@@ -42,6 +43,34 @@ test_that("can deparse", {
     transform = ~ gsub('".*"', '"<redacted>"', .x)
   )
 })
+
+test_that("contents of manifest match", {
+  b <- board_folder(withr::local_tempfile(), versioned = TRUE)
+  pin_write(b, mtcars, "mtcars-csv", type = "csv")
+  pin_write(b, head(mtcars), "mtcars-csv", type = "csv")
+  pin_write(b, mtcars, "mtcars-json", type = "json")
+  write_board_manifest(b)
+
+  # names are correct
+  manifest <- yaml::read_yaml(fs::path(b$path, manifest_pin_yaml_filename))
+  expect_identical(names(manifest), pin_list(b))
+
+  # numbers of versions are correct
+  expect_identical(
+    map(manifest, length),
+    list(`mtcars-csv` = 2L, `mtcars-json` = 1L)
+  )
+
+  # values (relative paths to versions) are correct
+  imap(
+    manifest,
+    ~ expect_identical(
+      .x,
+      append_slash(as.character(fs::path(.y, pin_versions(b, .y)$version)))
+    )
+  )
+})
+
 
 test_that("generates useful messages", {
   ui_loud()

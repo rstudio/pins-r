@@ -160,6 +160,99 @@ board_deparse.pins_board <- function(board, ...) {
   abort("This board doesn't support deparsing")
 }
 
+#' Write board manifest file to board's root directory
+#'
+#' A board manifest file records all the pins, along with their
+#' versions, stored on a board.
+#' This can be useful for a board built using, for example,
+#' [board_folder()] or [board_s3()], then served as a website,
+#' such that others can consume using [board_url()].
+#' The manifest file is _not_ versioned like a pin is, and this function
+#' will overwrite any existing `_pins.yaml` file on your board. It is
+#' your responsibility as the user to keep the manifest up to date.
+#'
+#' @details This function is not supported for read-only boards.
+#' It is called for the side-effect of writing a manifest file,
+#' `_pins.yaml`, to the root directory of the  `board`. (This will
+#' not work in the unlikely event that you attempt to create a pin
+#' called `"_pins.yaml"`.)
+#'
+#' The behavior of the legacy API (for example, [pin_find()]) is unspecified
+#' once you have written a board manifest file to a board's root directory.
+#' We recommend you only use `write_board_manifest()` with modern boards.
+#'
+#' @param board A pin board that is *not* read-only.
+#' @inheritParams pin_read
+#'
+#' @return The board, invisibly
+#' @export
+#'
+#' @examples
+#' board <- board_temp()
+#' pin_write(board, mtcars, "mtcars-csv", type = "csv")
+#' pin_write(board, mtcars, "mtcars-json", type = "json")
+#'
+#' write_board_manifest(board)
+#'
+#' # see the manifest's format:
+#' fs::path(board$path, "_pins.yaml") %>% readLines() %>% cat(sep = "\n")
+#'
+#' # if you write another pin, the manifest file is out of date:
+#' pin_write(board, 1:10, "nice-numbers", type = "json")
+#'
+#' # you decide when to update the manifest:
+#' write_board_manifest(board)
+#'
+write_board_manifest <- function(board, ...) {
+  manifest <- make_manifest(board)
+  write_board_manifest_yaml(board, manifest, ...)
+  pins_inform("Manifest file written to root folder of board, as `{manifest_pin_yaml_filename}`")
+  invisible(board)
+}
+
+manifest_pin_yaml_filename <- "_pins.yaml"
+
+make_manifest <- function(board) {
+  # given board, return named list:
+  #   - names are pin names
+  #   - values are relative paths to version directories
+
+  pin_names <- pin_list(board)
+
+  result <- map(
+    pin_names,
+    ~fs::path(.x, pin_versions(board, name = .x)$version) %>%
+      append_slash() %>% # versions usually don't include slash
+      as.list()
+  )
+  names(result) <- pin_names
+
+  result
+}
+
+#' Write a manifest YAML file for a board
+#'
+#' This is a low-level function that powers [write_board_manifest()]. It is
+#' needed primarily for folks developing new board types, and should not
+#' generally be called directly.
+#'
+#' @return `write_board_manifest_yaml()` is called for its side-effect of
+#' writing a manifest YAML file.
+#' @export
+#' @keywords internal
+#' @inheritParams write_board_manifest
+#' @param manifest Contents to be written to the manifest file, as a list.
+#'
+write_board_manifest_yaml <- function(board, manifest, ...) {
+  ellipsis::check_dots_used()
+  UseMethod("write_board_manifest_yaml")
+}
+
+#' @export
+write_board_manifest_yaml.default <- function(board, manifest, ...) {
+  abort(glue::glue("Manifest not supported for {class(board)[[1]]}"))
+}
+
 
 # helpers -----------------------------------------------------------------
 

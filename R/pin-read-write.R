@@ -60,6 +60,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   lists and rds for everything else.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
+#' @param tags A character vector of tags for the pin; most important for
+#'   discoverability on shared boards.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,
@@ -69,6 +71,7 @@ pin_write <- function(board, x,
                       description = NULL,
                       metadata = NULL,
                       versioned = NULL,
+                      tags = NULL,
                       ...) {
   ellipsis::check_dots_used()
   check_board(board, "pin_write()", "pin()")
@@ -83,6 +86,7 @@ pin_write <- function(board, x,
     }
   }
   check_metadata(metadata)
+  check_tags(tags)
   if (!is_string(name)) {
     abort("`name` must be a string")
   }
@@ -100,7 +104,8 @@ pin_write <- function(board, x,
     paths = path,
     type = type,
     title = title %||% default_title(name, data = x),
-    description = description
+    description = description,
+    tags = tags
   )
   meta$user <- metadata
 
@@ -248,7 +253,12 @@ check_name <- function(x) {
 }
 check_metadata <- function(x) {
   if (!is.null(x) && !is_bare_list(x)) {
-    abort("`metadata` must be a list")
+    abort("`metadata` must be a list.")
+  }
+}
+check_tags <- function(x) {
+  if (!is.null(x) && !is_character(x)) {
+    abort("`tags` must be a character vector.")
   }
 }
 check_hash <- function(meta, hash) {

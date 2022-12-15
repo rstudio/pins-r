@@ -104,7 +104,6 @@ board_pin_store <- function(board,
 
   pin_manifest_create(store_path, metadata, dir(store_path, recursive = TRUE))
   board_pin_create(board, store_path, name = name, metadata = metadata, ...)
-  ui_viewer_updated(board)
 
   if (retrieve) {
     # Hack to suppress RSC message that you need to use the full name

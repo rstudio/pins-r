@@ -2,6 +2,7 @@ board_file <- board_azure_test(path = "", type = "file")
 test_api_basic(board_file)
 test_api_versioning(board_file)
 test_api_meta(board_file)
+test_api_manifest(board_file)
 
 board_file2 <- board_azure_test(path = "test/path", type = "file")
 test_api_basic(board_file2)

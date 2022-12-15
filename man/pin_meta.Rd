@@ -29,9 +29,10 @@ Pin metadata comes from three sources:
 \item \verb{$file} - names of files stored in the pin.
 \item \verb{$file_size} - size of each file.
 \item \verb{$pin_hash} - hash of pin contents.
-\item \verb{$type} - type of pin, "rds", "csv", etc
+\item \verb{$type} - type of pin: "rds", "csv", etc
 \item \verb{$title} - pin title
 \item \verb{$description} - pin description
+\item \verb{$tags} - pin tags
 \item \verb{$created} - date this (version of the pin) was created
 \item \verb{$api_version} - API version used by pin
 }
@@ -53,4 +54,9 @@ b \%>\% pin_read("mtcars")
 b \%>\% pin_meta("mtcars")
 # Get path to underlying data
 b \%>\% pin_download("mtcars")
+
+# Use tags instead
+b \%>\% pin_write(head(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
+b \%>\% pin_meta("mtcars")
+
 }

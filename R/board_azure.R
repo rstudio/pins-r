@@ -201,6 +201,24 @@ board_deparse.pins_board_azure <- function(board, ...) {
   expr(board_azure(!!container, path = !!board$path))
 }
 
+#' @export
+write_board_manifest_yaml.pins_board_azure <- function(board, manifest, ...) {
+
+  paths <- AzureStor::list_storage_files(board$container, info = "name")
+
+  if (manifest_pin_yaml_filename %in% paths) {
+    AzureStor::delete_storage_file(
+      board$container,
+      manifest_pin_yaml_filename,
+      confirm = FALSE
+    )
+  }
+
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(manifest, file = temp_file)
+  azure_upload_file(board, src = temp_file, dest = manifest_pin_yaml_filename)
+}
+
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_azure <- function(x, ...) {
@@ -226,13 +244,11 @@ azure_ls <- function(board, dir = "") {
   paths <- AzureStor::list_storage_files(
     board$container,
     dir = dir,
-    recursive = FALSE,
-    info = "name"
+    recursive = FALSE
   )
-  unique(fs::path_file(paths))
+  unique(fs::path_file(paths$name[paths$isdir] %||% character(0)))
 }
 
-# TODO: implement this in AzureStor
 azure_dir_exists <- function(board, path) {
   dir <- azure_normalize_path(board, path)
   AzureStor::storage_dir_exists(board$container, dir)
