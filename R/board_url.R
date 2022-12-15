@@ -226,19 +226,18 @@ board_url_error_message <- c(
 
 get_url_format <- function(urls) {
   if (is_scalar_character(urls) && !is_named(urls)) {
-    return ("pins_yaml")
+    "pins_yaml"
+  } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
+    "manifest_content"
+  } else if (is.character(urls) && is_named(urls)) {
+    "vector_of_urls"
+  } else {
+    cli::cli_abort(
+      board_url_error_message,
+      class = "pins_error_board_url_argument",
+      urls = urls
+    )
   }
-  if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
-    return ("manifest_content")
-  }
-  if (is.character(urls) && is_named(urls)) {
-    return ("vector_of_urls")
-  }
-  cli::cli_abort(
-    board_url_error_message,
-    class = "pins_error_board_url_argument",
-    urls = urls
-  )
 }
 
 get_manifest <- function(url, call = rlang::caller_env()) {
