@@ -217,13 +217,6 @@ write_board_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
 
 # Helpers ------------------------------------------------------------------
 
-board_url_error_message <- c(
-  "{.var urls} must resolve to either:",
-  "*" = "an unnamed character scalar, i.e. a single URL",
-  "*" = "a named character vector",
-  "*" = "a named list, where all elements are character scalars or vectors"
-)
-
 get_url_format <- function(urls) {
   if (is_scalar_character(urls) && !is_named(urls)) {
     "pins_yaml"
@@ -233,7 +226,12 @@ get_url_format <- function(urls) {
     "vector_of_urls"
   } else {
     cli::cli_abort(
-      board_url_error_message,
+      c(
+        "{.var urls} must resolve to either:",
+        "*" = "an unnamed character scalar, i.e. a single URL",
+        "*" = "a named character vector",
+        "*" = "a named list, where all elements are character scalars or vectors"
+      ),
       class = "pins_error_board_url_argument",
       urls = urls
     )
@@ -254,10 +252,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
     },
     error = function(e) {
       cli::cli_abort(
-        message = c(
-          "Failed to access manifest file at {.url {url}}:",
-          " " = "{e$message}"
-        ),
+        message = "Failed to access manifest file at {.url {url}}:",
         class = "pins_error_board_url_request",
         parent = e,
         url = url,
