@@ -60,17 +60,24 @@ straight from a URL, without worrying about board-level storage details.
 \examples{
 github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
 
-board <- board_url(c(
+## with a named vector of URLs to specific pins:
+b1 <- board_url(c(
   files = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/"),
   rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/"),
   raw = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
 ))
 
-board \%>\% pin_read("rds")
-board \%>\% pin_browse("rds", local = TRUE)
+b1 \%>\% pin_read("rds")
+b1 \%>\% pin_browse("rds", local = TRUE)
 
-board \%>\% pin_download("files")
-board \%>\% pin_download("raw")
+b1 \%>\% pin_download("files")
+b1 \%>\% pin_download("raw")
+
+## with a manifest file:
+b2 <- board_url(github_raw("rstudio/pins-r/master/tests/testthat/pin-board/"))
+b2 \%>\% pin_list()
+b2 \%>\% pin_versions("y")
+
 }
 \seealso{
 Other boards: 
