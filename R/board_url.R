@@ -285,11 +285,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
   # url_root is directory containing manifest-file
   url_root <- sub("[^/]*$", "", url)
   # for each manifest entry, prepend url_root to each path entry
-  manifest <- map(
-    manifest,
-    ~ map_chr(.x, ~ paste0(url_root, .x))
-  )
-
+  manifest <- map(manifest, ~ paste0(url_root, .x))
   manifest
 }
 
