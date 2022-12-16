@@ -7,10 +7,12 @@
 board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 }
 \arguments{
-\item{urls}{A named character vector of URLs If the URL ends in a \code{/},
-\code{board_url} will look for a \code{data.txt} that provides metadata. The
-easiest way to generate this file is to upload a pin directory created by
-\code{\link[=board_folder]{board_folder()}}.}
+\item{urls}{Identify available pins being served at a URL or set of URLs (see details):
+\itemize{
+\item Unnamed character scalar: URL to a \link[=write_board_manifest]{manifest file}.
+\item Named character vector: URLs to specific pins (does not support versioning).
+\item Named list: URLs to pin version directories (supports versioning).
+}}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
@@ -22,29 +24,60 @@ be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
 }
 \description{
-\code{board_url()} lets you build up a board from individual urls. This is
-useful because \code{\link[=pin_download]{pin_download()}} and \code{\link[=pin_read]{pin_read()}} will be cached - they'll
-only re-download the data if it's changed from the last time you downloaded
-it (using the tools of
+\code{board_url()} lets you build up a board from individual urls or a \link[=write_board_manifest]{manifest file}.
+
+\code{board_url()} is read only.
+}
+\details{
+The way \code{board_url()} works depends on the type of the \code{urls} argument:
+\itemize{
+\item Unnamed character scalar, i.e. \strong{a single URL} to a
+\link[=write_board_manifest]{manifest file}: If the URL ends in a \code{/},
+\code{board_url()} will look for a \verb{_pins.yaml} manifest. If the manifest
+file parses to a named list, versioning is supported. If it parses to a
+named character vector, the board will not support versioning.
+\item \strong{Named character vector of URLs}: If the URLs end in a \code{/},
+\code{board_url()} will look for a \code{data.txt} that provides metadata for the
+associated pin. The easiest way to generate this file is to upload a pin
+version directory created by \code{\link[=board_folder]{board_folder()}}. Versioning is not supported.
+\item \strong{Named list}, where the values are character vectors of URLs and each
+element of the vector refers to a version of the particular pin: If a
+URL ends in a \code{/}, \code{board_url()} will look for a \code{data.txt} that
+provides metadata. Versioning is supported.
+}
+
+Using a vector of URLs can be useful because \code{\link[=pin_download]{pin_download()}} and
+\code{\link[=pin_read]{pin_read()}} will be cached; they'll only re-download the data if it's
+changed from the last time you downloaded it (using the tools of
 \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching}{HTTP caching}).
 You'll also be protected from the vagaries of the internet; if a fresh
 download fails, you'll get the previously cached result with a warning.
 
-\code{board_url()} is read only and does not currently support versions.
+Using a \link[=write_board_manifest]{manifest file} can be useful because you
+can serve a board of pins and allow collaborators to access the board
+straight from a URL, without worrying about board-level storage details.
 }
 \examples{
-github_raw <- "https://raw.githubusercontent.com/"
-board <- board_url(c(
-  files = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/"),
-  rds = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-rds/"),
-  raw = paste0(github_raw, "rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
+github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
+
+## with a named vector of URLs to specific pins:
+b1 <- board_url(c(
+  files = github_raw("rstudio/pins-r/main/tests/testthat/pin-files/"),
+  rds = github_raw("rstudio/pins-r/main/tests/testthat/pin-rds/"),
+  raw = github_raw("rstudio/pins-r/main/tests/testthat/pin-files/first.txt")
 ))
 
-board \%>\% pin_read("rds")
-board \%>\% pin_browse("rds", local = TRUE)
+b1 \%>\% pin_read("rds")
+b1 \%>\% pin_browse("rds", local = TRUE)
 
-board \%>\% pin_download("files")
-board \%>\% pin_download("raw")
+b1 \%>\% pin_download("files")
+b1 \%>\% pin_download("raw")
+
+## with a manifest file:
+b2 <- board_url(github_raw("rstudio/pins-r/main/tests/testthat/pin-board/"))
+b2 \%>\% pin_list()
+b2 \%>\% pin_versions("y")
+
 }
 \seealso{
 Other boards: 

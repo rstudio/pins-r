@@ -55,7 +55,6 @@ test_that("raw pins can only be downloaded", {
 
 test_that("can download pin from board_folder version dir", {
   skip_if_not_installed("webfakes")
-
   b1 <- board_folder(withr::local_tempfile())
   b1 %>% pin_write(1:10, "x")
   b2_path <- fs::path(b1$path, "x", pin_versions(b1, "x")$version)
@@ -70,6 +69,53 @@ test_that("can download pin from board_folder version dir", {
     expect_equal(1:10)
 })
 
+test_that("can download pin from versioned board_folder", {
+  skip_if_not_installed("webfakes")
+  b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
+  b1 %>% pin_write(1:10, "x", type = "json")
+  b1 %>% pin_write(11:20, "y", type = "json")
+  b1 %>% pin_write(1:20, "y", type = "csv")
+  write_board_manifest(b1)
+  b1_path <- fs::path(b1$path)
+
+  b1_server <- webfakes::new_app()
+  b1_server$use(webfakes::mw_static(root = b1_path))
+  b1_process <- webfakes::new_app_process(b1_server)
+
+  b2 <- board_url(b1_process$url())
+  b2 %>%
+    pin_read("x") %>%
+    expect_equal(1:10)
+})
+
+test_that("useful error for missing or unparseable manifest file", {
+  skip_if_not_installed("webfakes")
+  b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
+  b1 %>% pin_write(1:10, "x", type = "json")
+  b1 %>% pin_write(1:20, "y", type = "csv")
+  b1_path <- fs::path(b1$path)
+
+  b1_server <- webfakes::new_app()
+  b1_server$use(webfakes::mw_static(root = b1_path))
+  b2 <- webfakes::new_app_process(b1_server)
+
+  expect_error(
+    board_url(b2$url()),
+    "Failed to access manifest file"
+  )
+
+  write.csv(mtcars, file = fs::path(b1_path, "_pins.yaml"))
+  b3_server <- webfakes::new_app()
+  b3_server$use(webfakes::mw_static(root = b1_path))
+  b4 <- webfakes::new_app_process(b3_server)
+
+  expect_error(
+    board_url(b4$url()),
+    "Failed to parse manifest file at URL"
+  )
+
+})
+
 test_that("useful errors for unsupported methods", {
   board <- board_url(c("x" = "foo"))
 
@@ -79,9 +125,18 @@ test_that("useful errors for unsupported methods", {
     board %>% pin_meta("froofy", version = "x")
     board %>% pin_meta("x", version = "x")
     board %>% pin_versions("x")
+    board %>% pin_version_delete("x")
     board %>% board_deparse()
     pin(1:5, name = "x", board = board)
     pin_get(name = "x", board = board)
+  })
+})
+
+test_that("useful errors for specifying board", {
+  expect_snapshot(error = TRUE, {
+    board_url(c("foo", "bar"))
+    board_url(list("a", 1:2))
+    board_url(1:10)
   })
 })
 
