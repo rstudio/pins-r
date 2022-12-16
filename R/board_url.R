@@ -121,7 +121,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
   if (board$versioned) {
     versions <- pin_versions(board, name)$version
     version <- check_pin_version(board, name, version)
-    url <- board$urls[[name]][[which(versions == version)]]
+    url <- board$urls[[name]][[versions == version]]
   }
 
   is_dir <- grepl("/$", url)
