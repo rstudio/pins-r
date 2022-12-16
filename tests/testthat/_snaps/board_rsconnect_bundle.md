@@ -57,9 +57,9 @@
          </section>
     
         <section>
-        <h3>Code</h3>
+        <h3>R Code</h3>
           <pre id="pin-r" class="pin-code"><code class="r">library(pins)
-    board <- board_rsconnect("envvar", server = "http://example.com")
+    board <- board_rsconnect(auth = "envvar")
     pin_read(board, "TEST/test")</code></pre>
         <script type="text/javascript">
           hljs.registerLanguage("r", highlight_r);
