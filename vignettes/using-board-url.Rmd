@@ -1,0 +1,36 @@
+---
+title: "Using web-hosted boards"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using web-hosted boards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Pins offers a lot of ways to manage back-and-forth collaboration using, for example, `board_s3()`.
+The goal of this vignette is to show how a `board_url()` can bring your pins to a wider audience.
+
+A couple of things to keep in mind:
+
+ - For consumers, `board_url()` offers read-only collaboration.
+ - For publishers, a helper function is provided, `write_board_manifest()`.
+   A manfiest contains a list of pins and versions; this function lets
+   you provide consumers with the same access to the board as you.
+   
+The rest of the vignette will go into greater detail on these points, providing examples.
+
+## Consuming
+
+
+```{r setup}
+library(pins)
+```
+
+## Publishing
