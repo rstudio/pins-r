@@ -215,3 +215,8 @@ abort_pin_versioned <- function() {
 abort_board_read_only <- function(board) {
   abort(glue("{board}() is read only"), class = "pins_board_read_only")
 }
+
+abort_board_not_versioned <- function(board) {
+  cli::cli_abort(glue("This {board}() is not versioned"),
+                 class = "pins_board_not_versioned")
+}

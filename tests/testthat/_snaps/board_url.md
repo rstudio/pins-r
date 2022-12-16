@@ -24,13 +24,18 @@
     Code
       board %>% pin_meta("x", version = "x")
     Condition
-      Error in `pin_meta()`:
-      ! board_url() doesn't support versions
+      Error in `abort_board_not_versioned()`:
+      ! This board_url() is not versioned
     Code
       board %>% pin_versions("x")
     Condition
-      Error in `pin_versions_modern()`:
-      ! This board doesn't support versions
+      Error in `abort_board_not_versioned()`:
+      ! This board_url() is not versioned
+    Code
+      board %>% pin_version_delete("x")
+    Condition
+      Error in `abort_board_read_only()`:
+      ! board_url() is read only
     Code
       board %>% board_deparse()
     Condition
@@ -46,4 +51,31 @@
     Condition
       Error in `this_not_that()`:
       ! Use `pin_read()` with this board, not `pin_get()`
+
+# useful errors for specifying board
+
+    Code
+      board_url(c("foo", "bar"))
+    Condition
+      Error in `get_url_format()`:
+      ! `urls` must resolve to either:
+      * an unnamed character scalar, i.e. a single URL
+      * a named character vector
+      * a named list, where all elements are character scalars or vectors
+    Code
+      board_url(list("a", 1:2))
+    Condition
+      Error in `get_url_format()`:
+      ! `urls` must resolve to either:
+      * an unnamed character scalar, i.e. a single URL
+      * a named character vector
+      * a named list, where all elements are character scalars or vectors
+    Code
+      board_url(1:10)
+    Condition
+      Error in `get_url_format()`:
+      ! `urls` must resolve to either:
+      * an unnamed character scalar, i.e. a single URL
+      * a named character vector
+      * a named list, where all elements are character scalars or vectors
 

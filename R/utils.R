@@ -21,7 +21,7 @@ is_url <- function(x) {
   grepl("^http://|^https://", x)
 }
 
-append_slash <- function(x) {
+end_with_slash <- function(x) {
   has_slash <- grepl("/$", x)
   x[!has_slash] <- paste0(x[!has_slash], "/")
   x

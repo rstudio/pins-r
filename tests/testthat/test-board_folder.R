@@ -66,7 +66,7 @@ test_that("contents of manifest match", {
     manifest,
     ~ expect_identical(
       .x,
-      append_slash(as.character(fs::path(.y, pin_versions(b, .y)$version)))
+      end_with_slash(as.character(fs::path(.y, pin_versions(b, .y)$version)))
     )
   )
 })
