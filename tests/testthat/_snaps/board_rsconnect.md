@@ -5,12 +5,20 @@
     Output
       [1] "rsconnect"
 
+# metadata checking functions give correct errors
+
+    `tags` must be a character vector.
+
+---
+
+    `metadata` must be a list.
+
 # can deparse
 
     Code
       board_deparse(board)
     Output
-      board_rsconnect("envvar", server = "https://colorado.rstudio.com/rsc")
+      board_rsconnect(auth = "envvar")
 
 # can find content by full/partial name
 
