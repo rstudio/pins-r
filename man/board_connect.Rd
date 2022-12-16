@@ -21,6 +21,7 @@ board_rsconnect(
   server = NULL,
   account = NULL,
   key = NULL,
+  output_files = FALSE,
   cache = NULL,
   name = "posit-connect",
   versioned = TRUE,
@@ -65,6 +66,8 @@ board object.}
 use the last cached version? Defaults to \code{is_interactive()} so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
+
+\item{output_files}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} No longer supported.}
 
 \item{versions}{Should this board be registered with support for versions?}
 }

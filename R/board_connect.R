@@ -51,6 +51,7 @@
 #'   like `server.posit.co` or `connect.posit.co`.
 #' @param account A user name used to disambiguate multiple Connect accounts.
 #' @param key The Posit Connect API key.
+#' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
 #' @family boards
 #' @export
 #' @examples
@@ -114,6 +115,7 @@ board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                             server = NULL,
                             account = NULL,
                             key = NULL,
+                            output_files = FALSE,
                             cache = NULL,
                             name = "posit-connect",
                             versioned = TRUE,
