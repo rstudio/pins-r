@@ -13,12 +13,17 @@
 
     `metadata` must be a list.
 
+# get useful error for rebranding
+
+    `board_rsconnect()` was deprecated in pins 1.1.0.
+    i Please use `board_connect()` instead.
+
 # can deparse
 
     Code
       board_deparse(board)
     Output
-      board_rsconnect(auth = "envvar")
+      board_connect(auth = "envvar")
 
 # can find content by full/partial name
 
@@ -34,7 +39,7 @@
       rsc_content_create(board, "test-1", list())
     Condition
       Error in `rsc_check_status()`:
-      ! RStudio Connect API failed [409]
+      ! Posit Connect API failed [409]
       * An object with that name already exists.
 
 ---

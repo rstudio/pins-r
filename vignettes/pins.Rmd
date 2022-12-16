@@ -19,7 +19,7 @@ options(pins.quiet = FALSE)
 ```
 
 The pins package helps you publish data sets, models, and other R objects, making it easy to share them across projects and with your colleagues.
-You can pin objects to a variety of "boards", including local folders (to share on a networked drive or with dropbox), RStudio connect, Amazon S3, and more.
+You can pin objects to a variety of "boards", including local folders (to share on a networked drive or with dropbox), Posit Connect, Amazon S3, and more.
 This vignette will introduce you to the basics of pins.
 
 ```{r}
@@ -42,7 +42,7 @@ Here are a few options:
 board <- board_local() # share data across R sessions on the same computer
 board <- board_folder("~/Dropbox") # share data with others using dropbox
 board <- board_folder("Z:\\my-team\pins") # share data using a shared network drive
-board <- board_rsconnect() # share data with RStudio Connect
+board <- board_connect() # share data with Posit Connect
 ```
 
 ## Reading and writing data

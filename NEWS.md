@@ -2,6 +2,9 @@
 
 ## Breaking changes
 
+* Change the function `board_rsconnect()` to `board_connect()`, following 
+  RStudio's rebranding to Posit (#689).
+
 * Changed `type = "csv"` to use R's default value for `stringsAsFactors` i.e. 
   `FALSE` (#664).
   

@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The pins package publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues.
-You can pin objects to a variety of pin *boards*, including folders (to share on a networked drive or with services like DropBox), RStudio Connect, Amazon S3, Azure storage and Microsoft 365 (OneDrive and SharePoint).
+You can pin objects to a variety of pin *boards*, including folders (to share on a networked drive or with services like DropBox), Posit Connect, Amazon S3, Azure storage and Microsoft 365 (OneDrive and SharePoint).
 Pins can be automatically versioned, making it straightforward to track changes, re-run analyses on historical data, and undo mistakes.
 
 pins 1.0.0 includes a new more explicit API and greater support for versioning.
@@ -79,10 +79,10 @@ board %>% pin_read("mtcars")
 ```
 
 A board on your computer is good place to start, but the real power of pins comes when you use a board that's shared with multiple people.
-To get started, you can use `board_folder()` with a directory on a shared drive or in dropbox, or if you use [RStudio Connect](https://www.rstudio.com/products/connect/) you can use `board_rsconnect()`:
+To get started, you can use `board_folder()` with a directory on a shared drive or in dropbox, or if you use [Posit Connect](https://posit.co/products/enterprise/connect/) you can use `board_connect()`:
 
 ```{r, eval = FALSE}
-board <- board_rsconnect()
+board <- board_connect()
 #> Connecting to RSC 1.9.0.1 at <https://connect.rstudioservices.com>
 board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
 #> Writing to pin 'hadley/sales-summary'
@@ -91,11 +91,11 @@ board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
 Then, someone else (or an automated Rmd report) can read and use your pin:
 
 ```{r, eval = FALSE}
-board <- board_rsconnect()
+board <- board_connect()
 board %>% pin_read("hadley/sales-summary")
 ```
 
-You can easily control who gets to access the data using the RStudio Connect permissions pane.
+You can easily control who gets to access the data using the Posit Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on services like Amazon's S3 (`board_s3()`), Azure's blob storage (`board_azure()`), and Microsoft SharePoint (`board_ms365()`). 
 Learn more in `vignette("pins")`.

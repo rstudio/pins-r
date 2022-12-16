@@ -14,7 +14,7 @@ coverage](https://codecov.io/gh/rstudio/pins-r/branch/main/graph/badge.svg)](htt
 The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
-networked drive or with services like DropBox), RStudio Connect, Amazon
+networked drive or with services like DropBox), Posit Connect, Amazon
 S3, Azure storage and Microsoft 365 (OneDrive and SharePoint). Pins can
 be automatically versioned, making it straightforward to track changes,
 re-run analyses on historical data, and undo mistakes.
@@ -59,7 +59,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpIz0TnO/pins-e094532135f'
+#> Path: '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmpr4OEz9/pins-e5127c5869f0'
 #> Cache size: 0
 ```
 
@@ -69,7 +69,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20220923T183046Z-209d4'
+#> Creating new version '20221215T225134Z-209d4'
 #> Writing to pin 'mtcars'
 ```
 
@@ -93,12 +93,12 @@ board %>% pin_read("mtcars")
 A board on your computer is good place to start, but the real power of
 pins comes when you use a board that’s shared with multiple people. To
 get started, you can use `board_folder()` with a directory on a shared
-drive or in dropbox, or if you use [RStudio
-Connect](https://www.rstudio.com/products/connect/) you can use
-`board_rsconnect()`:
+drive or in dropbox, or if you use [Posit
+Connect](https://posit.co/products/enterprise/connect/) you can use
+`board_connect()`:
 
 ``` r
-board <- board_rsconnect()
+board <- board_connect()
 #> Connecting to RSC 1.9.0.1 at <https://connect.rstudioservices.com>
 board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
 #> Writing to pin 'hadley/sales-summary'
@@ -108,11 +108,11 @@ Then, someone else (or an automated Rmd report) can read and use your
 pin:
 
 ``` r
-board <- board_rsconnect()
+board <- board_connect()
 board %>% pin_read("hadley/sales-summary")
 ```
 
-You can easily control who gets to access the data using the RStudio
+You can easily control who gets to access the data using the Posit
 Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on

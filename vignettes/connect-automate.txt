@@ -6,7 +6,7 @@ title: BBC news
 library(pins)
 library(xml2)
 
-xml <- read_xml("http://feeds.bbci.co.uk/news/rss.xml")  
+xml <- read_xml("http://feeds.bbci.co.uk/news/rss.xml")
 items <- xml %>% xml_find_all("//item")
 
 bbc_news <- tibble::tibble(
@@ -15,8 +15,8 @@ bbc_news <- tibble::tibble(
   url = items %>% xml_find_first("./guid") %>% xml_text()
 )
 
-board_rsc <- board_rsconnect()
-board_rsc %>% pin_write(bbc_news)
+board <- board_connect()
+board %>% pin_write(bbc_news)
 ```
 
 ```{r}
