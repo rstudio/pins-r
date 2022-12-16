@@ -23,7 +23,7 @@
     Code
       board_deparse(board)
     Output
-      board_connect("envvar", server = "https://colorado.posit.co/rsc")
+      board_connect(auth = "envvar")
 
 # can find content by full/partial name
 
