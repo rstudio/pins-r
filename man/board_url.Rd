@@ -9,7 +9,7 @@ board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
 \arguments{
 \item{urls}{Identify available pins being served at a URL or set of URLs (see details):
 \itemize{
-\item Unnamed character scalar: URL to a \link[=write_board_manifest]{manifest file}.
+\item Unnamed string: URL to a \link[=write_board_manifest]{manifest file}.
 \item Named character vector: URLs to specific pins (does not support versioning).
 \item Named list: URLs to pin version directories (supports versioning).
 }}
