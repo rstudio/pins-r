@@ -51,7 +51,6 @@
 #'   like `server.posit.co` or `connect.posit.co`.
 #' @param account A user name used to disambiguate multiple Connect accounts.
 #' @param key The Posit Connect API key.
-#' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
 #' @family boards
 #' @export
 #' @examples
@@ -67,20 +66,12 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                           server = NULL,
                           account = NULL,
                           key = NULL,
-                          output_files = FALSE,
                           cache = NULL,
                           name = "posit-connect",
                           versioned = TRUE,
-                          use_cache_on_failure = is_interactive(),
-                          versions = deprecated()) {
+                          use_cache_on_failure = is_interactive()) {
 
   server <- rsc_server(auth, server, account, key)
-
-  if (lifecycle::is_present(versions)) {
-    lifecycle::deprecate_warn("1.0.0", "board_connect(versions)","board_connect(versioned)")
-    versioned <- versions
-  }
-
   cache <- cache %||% board_cache_path(paste0("connect-", hash(url)))
 
   board <- new_board(
@@ -119,9 +110,32 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
 
 #' @rdname board_connect
 #' @export
-board_rsconnect <- function(...) {
+board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
+                            server = NULL,
+                            account = NULL,
+                            key = NULL,
+                            cache = NULL,
+                            name = "posit-connect",
+                            versioned = TRUE,
+                            use_cache_on_failure = is_interactive(),
+                            versions = deprecated()) {
+
   lifecycle::deprecate_soft("1.1.0", "board_rsconnect()", "board_connect()")
-  board_connect(...)
+  if (lifecycle::is_present(versions)) {
+    lifecycle::deprecate_warn("1.0.0", "board_rsconnect(versions)", "board_rsconnect(versioned)")
+    versioned <- versions
+  }
+
+  board_connect(
+    auth = auth,
+    server = server,
+    account = account,
+    key = key,
+    cache = cache,
+    name = name,
+    versioned = versioned,
+    use_cache_on_failure = use_cache_on_failure
+  )
 }
 
 #' @export
@@ -355,7 +369,7 @@ required_pkgs.pins_board_connect <- function(x, ...) {
 
 #' @export
 board_pin_get.pins_board_connect <- function(board, name, version = NULL, ...,
-                                               extract = NULL) {
+                                             extract = NULL) {
 
   meta <- pin_fetch(board, name, version = version, ...)
   meta$local$dir
@@ -363,9 +377,9 @@ board_pin_get.pins_board_connect <- function(board, name, version = NULL, ...,
 
 #' @export
 board_pin_create.pins_board_connect <- function(board, path, name,
-                                                  metadata, code = NULL,
-                                                  search_all = FALSE,
-                                                  ...) {
+                                                metadata, code = NULL,
+                                                search_all = FALSE,
+                                                ...) {
 
   path <- fs::dir_ls(path)
   metadata$file <- fs::path_file(path)
@@ -381,11 +395,11 @@ board_pin_create.pins_board_connect <- function(board, path, name,
 
 #' @export
 board_pin_find.pins_board_connect <- function(board,
-                                                text = NULL,
-                                                name = NULL,
-                                                extended = FALSE,
-                                                metadata = FALSE,
-                                                ...) {
+                                              text = NULL,
+                                              name = NULL,
+                                              extended = FALSE,
+                                              metadata = FALSE,
+                                              ...) {
 
   params <- list(
     search = text,

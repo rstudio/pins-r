@@ -10,15 +10,23 @@ board_connect(
   server = NULL,
   account = NULL,
   key = NULL,
-  output_files = FALSE,
+  cache = NULL,
+  name = "posit-connect",
+  versioned = TRUE,
+  use_cache_on_failure = is_interactive()
+)
+
+board_rsconnect(
+  auth = c("auto", "manual", "envvar", "rsconnect"),
+  server = NULL,
+  account = NULL,
+  key = NULL,
   cache = NULL,
   name = "posit-connect",
   versioned = TRUE,
   use_cache_on_failure = is_interactive(),
   versions = deprecated()
 )
-
-board_rsconnect(...)
 }
 \arguments{
 \item{auth}{There are three ways to authenticate:
@@ -43,8 +51,6 @@ like \code{server.posit.co} or \code{connect.posit.co}.}
 
 \item{key}{The Posit Connect API key.}
 
-\item{output_files}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} No longer supported.}
-
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
@@ -61,8 +67,6 @@ be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
 
 \item{versions}{Should this board be registered with support for versions?}
-
-\item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
 To use a Posit Connect board, you need to first authenticate. The easiest
