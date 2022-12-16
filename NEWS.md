@@ -25,6 +25,8 @@
   
 * Updated `board_url()` to handle versions recorded via a manifest file 
   (#681, based on work of @ijlyttle).
+  
+* Updated code preview on Posit Connect (#690).
 
 
 # pins 1.0.3
