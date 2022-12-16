@@ -33,7 +33,7 @@ developing new board types, and should not generally be called directly."><meta 
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/managing-custom-formats.html">Managing custom formats</a>
     <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
-    <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
+    <a class="dropdown-item" href="../articles/posit-connect.html">Posit Connect</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -85,7 +85,7 @@ developing new board types, and should not generally be called directly.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>board</dt>
-<dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_rsconnect.html">board_rsconnect()</a></code>,
+<dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_connect.html">board_connect()</a></code>,
 <code><a href="board_url.html">board_url()</a></code> or another <code>board_</code> function.</p></dd>
 
 
@@ -137,10 +137,10 @@ to a remote board. It invisibly returns the fully qualified pin name.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_upload</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `name = 'CITATION'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20221216T033142Z-dec01'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20221216T211003Z-dec01'</span>
 <span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">path</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpMaxKd3/pins-19855d8c0170/CITATION/20221216T033142Z-dec01/CITATION"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpRCoMhk/pins-21a9352c673c/CITATION/20221216T211003Z-dec01/CITATION"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bibentry(\"Manual\","                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] "         title = \"R: A Language and Environment for Statistical Computing\","</span>

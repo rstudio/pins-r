@@ -16,7 +16,7 @@
     <loc>https://pins.rstudio.com/dev/articles/pins.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/dev/articles/rsc.html</loc>
+    <loc>https://pins.rstudio.com/dev/articles/posit-connect.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/dev/authors.html</loc>
@@ -34,6 +34,9 @@
     <loc>https://pins.rstudio.com/dev/reference/board_cache_path.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/dev/reference/board_connect.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/dev/reference/board_deparse.html</loc>
   </url>
   <url>
@@ -47,9 +50,6 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/dev/reference/board_register.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/dev/reference/board_rsconnect.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/dev/reference/board_s3.html</loc>

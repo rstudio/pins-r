@@ -29,7 +29,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/managing-custom-formats.html">Managing custom formats</a>
     <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
-    <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
+    <a class="dropdown-item" href="../articles/posit-connect.html">Posit Connect</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -61,7 +61,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Determine required packages for a pins board</h1>
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_azure.R" class="external-link"><code>R/board_azure.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_ms365.R" class="external-link"><code>R/board_ms365.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_rsconnect.R" class="external-link"><code>R/board_rsconnect.R</code></a>, and 2 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_azure.R" class="external-link"><code>R/board_azure.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_connect.R" class="external-link"><code>R/board_connect.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_ms365.R" class="external-link"><code>R/board_ms365.R</code></a>, and 2 more</small>
       <div class="d-none name"><code>required_pkgs.pins_board.Rd</code></div>
     </div>
 
@@ -74,10 +74,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for pins_board_azure</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/required_pkgs.html" class="external-link">required_pkgs</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for pins_board_ms365</span></span>
+<span><span class="co"># S3 method for pins_board_connect</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/required_pkgs.html" class="external-link">required_pkgs</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for pins_board_rsconnect</span></span>
+<span><span class="co"># S3 method for pins_board_ms365</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/required_pkgs.html" class="external-link">required_pkgs</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for pins_board_s3</span></span>

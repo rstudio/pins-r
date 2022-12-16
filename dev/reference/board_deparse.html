@@ -35,7 +35,7 @@ most deployment scenarios board auth will be read from env vars."><meta property
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/managing-custom-formats.html">Managing custom formats</a>
     <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
-    <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
+    <a class="dropdown-item" href="../articles/posit-connect.html">Posit Connect</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -67,7 +67,7 @@ most deployment scenarios board auth will be read from env vars."><meta property
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Deparse a board object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board.R" class="external-link"><code>R/board.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_azure.R" class="external-link"><code>R/board_azure.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_folder.R" class="external-link"><code>R/board_folder.R</code></a>, and 3 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board.R" class="external-link"><code>R/board.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_azure.R" class="external-link"><code>R/board_azure.R</code></a>, <a href="https://github.com/rstudio/pins-r/blob/HEAD/R/board_connect.R" class="external-link"><code>R/board_connect.R</code></a>, and 3 more</small>
       <div class="d-none name"><code>board_deparse.Rd</code></div>
     </div>
 
@@ -85,6 +85,9 @@ most deployment scenarios board auth will be read from env vars.</p>
 <span><span class="co"># S3 method for pins_board_azure</span></span>
 <span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for pins_board_connect</span></span>
+<span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for pins_board_folder</span></span>
 <span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -94,9 +97,6 @@ most deployment scenarios board auth will be read from env vars.</p>
 <span><span class="co"># S3 method for pins_board_kaggle_dataset</span></span>
 <span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for pins_board_rsconnect</span></span>
-<span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># S3 method for pins_board_s3</span></span>
 <span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -104,7 +104,7 @@ most deployment scenarios board auth will be read from env vars.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>board</dt>
-<dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_rsconnect.html">board_rsconnect()</a></code>,
+<dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_connect.html">board_connect()</a></code>,
 <code><a href="board_url.html">board_url()</a></code> or another <code>board_</code> function.</p></dd>
 
 
@@ -122,7 +122,7 @@ most deployment scenarios board auth will be read from env vars.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_rsconnect.html">board_rsconnect</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_connect.html">board_connect</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Generate code to access this board from elsewhere</span></span></span>
 <span class="r-in"><span><span class="fu">board_deparse</span><span class="op">(</span><span class="va">board</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
