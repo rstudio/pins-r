@@ -26,9 +26,9 @@
 #'
 #' ```r
 #' board <- board_url(c(
-#'   my_df = "https://connect.rstudioservices.com/content/3004/"
+#'   numbers = "https://colorado.posit.co/rsc/great-numbers/"
 #' ))
-#' board %>% pin_read("my_df")
+#' board %>% pin_read("numbers")
 #' ```
 #'
 #' You can find the URL of a pin with [pin_browse()].
@@ -81,7 +81,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
     versioned <- versions
   }
 
-  cache <- cache %||% board_cache_path(paste0("rsc-", hash(url)))
+  cache <- cache %||% board_cache_path(paste0("connect-", hash(url)))
 
   board <- new_board(
     "pins_board_connect",

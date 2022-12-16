@@ -35,11 +35,11 @@ using \code{"manual"} if \code{server} and \code{key} are provided, \code{"envva
 environment variables are set, and \code{"rsconnect"} otherwise.}
 
 \item{server}{For \code{auth = "manual"} or \code{auth = 'envvar'}, the full url to the server,
-like \verb{http://server.rstudio.com/rsc} or \verb{https://connect.rstudio.com/}.
-For \code{auth = 'rsconnect'} a host name used to disambiguate RSC accounts,
-like \code{server.rstudio.com} or \code{connect.rstudio.com}.}
+like \verb{http://server.posit.co/rsc} or \verb{https://connect.posit.co/}.
+For \code{auth = 'rsconnect'} a host name used to disambiguate Connect accounts,
+like \code{server.posit.co} or \code{connect.posit.co}.}
 
-\item{account}{A user name used to disambiguate multiple RSC accounts.}
+\item{account}{A user name used to disambiguate multiple Connect accounts.}
 
 \item{key}{The Posit Connect API key.}
 
@@ -75,21 +75,21 @@ the new published pin and then changing access under the settings tab.
 After you've shared the pin, it will be automatically available to others.
 }
 \section{Public pins}{
-If your RSC instance allows it, you can share a pin publicly by setting the
-access type to \code{all}:
+If your Posit Connect instance allows it, you can share a pin publicly by
+setting the access type to \code{all}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
 }\if{html}{\out{</div>}}
 
-(You can also do this in RSC by setting "Access" to
+(You can also do this in Posit Connect by setting "Access" to
 "Anyone - no login required")
 
 Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{board <- board_url(c(
-  my_df = "https://connect.rstudioservices.com/content/3004/"
+  numbers = "https://colorado.posit.co/rsc/great-numbers/"
 ))
-board \%>\% pin_read("my_df")
+board \%>\% pin_read("numbers")
 }\if{html}{\out{</div>}}
 
 You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}.
