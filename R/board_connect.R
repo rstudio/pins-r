@@ -698,7 +698,7 @@ rsc_v1 <- function(...) {
 # Testing setup -----------------------------------------------------------
 
 board_connect_test <- function(...) {
-  if (rsc_has_colorado()) {
+  if (connect_has_colorado()) {
     board_connect_colorado(...)
   } else {
     board_connect_susan(...)
@@ -706,19 +706,19 @@ board_connect_test <- function(...) {
 }
 
 # Use Colorado for local testing
-rsc_has_colorado <- function() {
+connect_has_colorado <- function() {
   accounts <- rsconnect::accounts()
   any(c("colorado.rstudio.com", "colorado.posit.co") %in% accounts$server)
 }
 board_connect_colorado <- function(...) {
-  if (!rsc_has_colorado()) {
+  if (!connect_has_colorado()) {
     testthat::skip("board_connect_colorado() only works with Posit's demo server")
   }
   board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_connect_colorado <- function(...) {
-  if (!rsc_has_colorado()) {
+  if (!connect_has_colorado()) {
     testthat::skip("board_connect_colorado() only works with Posit's demo server")
   }
   board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
