@@ -56,8 +56,10 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "rds", "json", "arrow", or "qs". If not supplied will use json for bare
-#'   lists and rds for everything else.
+#'   "csv", "json", "rds", "arrow", or "qs". If not supplied, will use JSON for
+#'   bare lists and RDS for everything else. Be aware that CSV and JSON are
+#'   plain text formats, while RDS, Arrow, and
+#'   [qs](https://CRAN.R-project.org/package=qs) are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
