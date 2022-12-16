@@ -334,7 +334,7 @@ pin_search.pins_board_rsconnect <- function(board, search = NULL, ...) {
 #' @rdname board_deparse
 #' @export
 board_deparse.pins_board_rsconnect <- function(board, ...) {
-  expr(board_rsconnect("envvar", server = !!board$url))
+  expr(board_rsconnect(auth = "envvar"))
 }
 
 #' @rdname required_pkgs.pins_board
