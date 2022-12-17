@@ -26,11 +26,61 @@ A couple of things to keep in mind:
    
 The rest of the vignette will go into greater detail on these points, providing examples.
 
-## Consuming
-
+## Publishing
 
 ```{r setup}
 library(pins)
 ```
 
-## Publishing
+```{r pin-mtcars}
+board <- board_temp()
+
+board %>% pin_write(mtcars, type = "json")
+```
+
+```{r board-pin-list}
+board %>% pin_list()
+
+board %>% pin_meta("mtcars")
+
+board %>% pin_versions("mtcars")
+```
+
+```{r}
+board %>% write_board_manifest()
+```
+
+
+```yaml
+`r paste(readLines(fs::path(board$path, "_pins.yaml")), collapse = "\n")`
+```
+
+```{r board-serve}
+#| echo: false
+board_server <- webfakes::new_app()
+board_server$use(webfakes::mw_static(root = board$path))
+board_process <- webfakes::new_app_process(board_server)
+
+web_board <- board_url(board_process$url())
+```
+
+## Consuming
+
+```{r}
+#| message: false
+web_board %>% pin_list()
+
+web_board %>% pin_versions("mtcars")
+
+web_board %>% pin_meta("mtcars")
+
+web_board %>% pin_read("mtcars") %>% head()
+```
+
+## Publishing platforms
+
+### Quarto
+
+### pkgdown
+
+### S3
