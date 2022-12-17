@@ -21,8 +21,8 @@ A couple of things to keep in mind:
 
  - For consumers, `board_url()` offers read-only collaboration.
  - For publishers, a helper function is provided, `write_board_manifest()`.
-   A manifest contains a list of pins and versions; this function lets
-   you provide consumers with the same access to the board as you.
+   A manifest contains a list of pins and versions, enabling
+   a `board_url()` to behave like a `board_s3()` or `board_folder()`.
    
 The rest of the vignette will go into greater detail on these points, providing examples.
 
