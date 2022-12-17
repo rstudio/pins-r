@@ -30,7 +30,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: r-lib/downlit, any::pkgdown, local::.
+          extra-packages: r-lib/downlit, any::pkgdown, any::webfakes, local::.
           needs: website
 
       - name: Build site
