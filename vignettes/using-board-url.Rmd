@@ -14,34 +14,57 @@ knitr::opts_chunk$set(
 )
 ```
 
-Pins offers a lot of ways to manage back-and-forth collaboration using, for example, `board_s3()`.
-The goal of this vignette is to show how a `board_url()` can bring your pins to a wider audience.
+Pins helps facilitate back-and-forth collaboration using, for example, `board_s3()`.
+The goal of this vignette is to show how to publish board to a website, bringing your pins to a wider audience.
 
 A couple of things to keep in mind:
 
  - For consumers, `board_url()` offers read-only collaboration.
  - For publishers, a helper function is provided, `write_board_manifest()`.
-   A manfiest contains a list of pins and versions; this function lets
+   A manifest contains a list of pins and versions; this function lets
    you provide consumers with the same access to the board as you.
    
 The rest of the vignette will go into greater detail on these points, providing examples.
 
 ## Publishing
 
+Here are the general steps for publishing a board to that can be read using `board_url()`:
+
+ - create a board (if needed)
+ - populate board with pins
+ - write manifest using `write_board_manifest()`
+ - publish website
+
+For this first demonstration, we'll start by creating a `board_temp()`, and finish by "magically" serving the board.
+
+In practice, first and last steps will depend on how you create and deploy your board; we discuss these in the [Publishing platforms] section. In all cases, you'll write the pins and the manifest the same way.
+
 ```{r setup}
 library(pins)
 ```
 
-```{r pin-mtcars}
-board <- board_temp()
+In practice, you would likely use a `board_folder()` in a project folder, or perhaps a `board_s3()`.
+For the purposes of this vignette, we will create a temporary board.
 
+```{r pin-mtcars}
+board <- board_temp(versioned = TRUE)
+```
+
+```{r}
 board %>% pin_write(mtcars, type = "json")
+```
+
+To make our data frame more-familar to people outside the United States, let's create add a column `lper100km`: liters per 100 km:
+
+```{r metric}
+mtcars_metric <- mtcars
+mtcars_metric$lper100km <- 235.215 / mtcars$mpg
+
+board %>% pin_write(mtcars_metric, name = "mtcars", type = "json")
 ```
 
 ```{r board-pin-list}
 board %>% pin_list()
-
-board %>% pin_meta("mtcars")
 
 board %>% pin_versions("mtcars")
 ```
@@ -50,6 +73,9 @@ board %>% pin_versions("mtcars")
 board %>% write_board_manifest()
 ```
 
+```{r}
+withr::with_dir(board$path, fs::dir_ls())
+```
 
 ```yaml
 `r paste(readLines(fs::path(board$path, "_pins.yaml")), collapse = "\n")`
@@ -72,10 +98,10 @@ web_board %>% pin_list()
 
 web_board %>% pin_versions("mtcars")
 
-web_board %>% pin_meta("mtcars")
-
 web_board %>% pin_read("mtcars") %>% head()
 ```
+
+
 
 ## Publishing platforms
 
