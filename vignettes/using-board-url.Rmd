@@ -32,12 +32,12 @@ Here are the general steps for publishing a board to that can be read using `boa
 
  - create a board (if needed)
  - populate board with pins
- - write manifest using `write_board_manifest()`
+ - write a manifest file, using `write_board_manifest()`
  - publish website
 
 For this first demonstration, we'll start by creating a `board_temp()`, and finish by "magically" serving the board.
 
-In practice, first and last steps will depend on how you create and deploy your board; we discuss these in the [Publishing platforms] section. In all cases, you'll write the pins and the manifest the same way.
+In practice, first and last steps will depend on how you create and deploy your board; we discuss these in the [Publishing platforms] section. Regardless of platform, you'll write the pins and the manifest the same way.
 
 ```{r setup}
 library(pins)
@@ -50,11 +50,13 @@ For the purposes of this vignette, we will create a temporary board.
 board <- board_temp(versioned = TRUE)
 ```
 
+Let's make the `mtcars` dataset available as a JSON file:
+
 ```{r}
 board %>% pin_write(mtcars, type = "json")
 ```
 
-To make our data frame more-familar to people outside the United States, let's create add a column `lper100km`: liters per 100 km:
+Having made a first version of this pin, we think to make our data friendlier to folks outside the United States. We add a column: `lper100km`, consumption in liters-per-100-km, then add a new version to the pin:
 
 
 ```{r}
@@ -71,23 +73,38 @@ mtcars_metric$lper100km <- 235.215 / mtcars$mpg
 board %>% pin_write(mtcars_metric, name = "mtcars", type = "json")
 ```
 
+We make a quick check of our board to ensure we have one pin, named `"mtcars"`, with two versions:
+
 ```{r board-pin-list}
 board %>% pin_list()
 
 board %>% pin_versions("mtcars")
 ```
 
+Before we make serve our board from a website, we need to create (or update) the manifest; this is the key to letting a `board_url()` read pins similarly to a file-based board, like `board_folder()`.
+
+Because a `board_url()` is consumed over the web, it doesn't have access to a filesystem the way, for example, a `board_folder()` has. 
+Our workaround is to create a manifest file, which `board_url()` will read to catalog the pins and their versions.
+There is a function dedicated to this, `write_board_manifest()`:
+
 ```{r}
 board %>% write_board_manifest()
 ```
+
+We confirm that there is a file called `_pins.yaml`:
 
 ```{r}
 withr::with_dir(board$path, fs::dir_ls())
 ```
 
+When we inspect its contents to see it lists each pin in the board, and each version of each pin:
+
 ```yaml
 `r paste(readLines(fs::path(board$path, "_pins.yaml")), collapse = "\n")`
 ```
+
+At this point, we would serve the folder containing the board from a web site.
+However, for the purposes of this vignette, we pretend that we have served the folder from our fake website: `https://not.real.website.co/pins/`.
 
 ```{r board-serve}
 #| echo: false
@@ -100,18 +117,38 @@ web_board <- board_url(board_process$url())
 
 ## Consuming
 
+By making an up-to-date manifest file available, a `board_url()` can behave as a read-only version of a `board_folder()`.
+Let's create a `board_url()` using our fake URL:
+
+```{r}
+#| eval: false
+web_board <- board_url("https://not.real.website.co/pins/")
+```
+
+The `board_url()` function reads the manifest file to discover the pins and versions:
+
 ```{r}
 #| message: false
 web_board %>% pin_list()
 
 versions <- web_board %>% pin_versions("mtcars") %>% print()
+```
 
+We can read the most-recent version of the `"mtcars"` pin:
+
+```{r}
+#| message: false
 web_board %>% pin_read("mtcars") %>% head()
+```
 
+We can also read the first version:
+
+```{r}
+#| message: false
 web_board %>% pin_read("mtcars", version = versions$version[[1]]) %>% head()
 ```
 
-
+The next section shows some ways you can integrate web-based boards into your workflows.
 
 ## Publishing platforms
 
