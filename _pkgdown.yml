@@ -29,7 +29,7 @@ reference:
   - board_local
   - board_kaggle_dataset
   - board_ms365
-  - board_rsconnect
+  - board_connect
   - board_s3
   - board_url
 

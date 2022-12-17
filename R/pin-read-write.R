@@ -7,7 +7,7 @@
 #' disk, controlled by the `type` argument. See [pin_download()]/[pin_upload()]
 #' if you want to perform the serialisation yourself and work just with files.
 #'
-#' @param board A pin board, created by [board_folder()], [board_rsconnect()],
+#' @param board A pin board, created by [board_folder()], [board_connect()],
 #'   [board_url()] or another `board_` function.
 #' @param name Pin name.
 #' @param version Retrieve a specific version of a pin. Use [pin_versions()] to
@@ -200,7 +200,7 @@ object_read <- function(meta) {
       ))
     )
   } else {
-    # used by board_rsconnect()
+    # used by board_connect()
     type <- arg_match0(meta$type, c("default", "files", "table"))
     path <- fs::path_dir(path[[1]])
 

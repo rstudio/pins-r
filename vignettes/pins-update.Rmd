@@ -132,7 +132,7 @@ board %>% pin_read("test-data")
 | `board_register_github()`    | Not currently implemented                               |
 | `board_register_local()`     | `board_local()`                                         |
 | `board_register_kaggle()`    | `board_kaggle_dataset()` / `board_kaggle_competition()` |
-| `board_register_rsconnect()` | `board_rsconnect()`                                     |
+| `board_register_rsconnect()` | `board_connect()`                                       |
 | `board_register_s3()`        | `board_s3()`                                            |
 | `pin()` with a URL           | `board_url()`                                           |
 

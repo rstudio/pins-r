@@ -1,13 +1,19 @@
 skip_if_not_installed("rsconnect")
-test_api_basic(board_rsconnect_test())
-test_api_versioning(board_rsconnect_test())
-test_api_meta(board_rsconnect_test())
+test_api_basic(board_connect_test())
+test_api_versioning(board_connect_test())
+test_api_meta(board_connect_test())
 
 # user facing -------------------------------------------------------------
 
+test_that("get useful error for rebranding", {
+  skip_on_cran()
+  skip_on_ci()
+  expect_snapshot_warning(board <- board_rsconnect())
+})
+
 test_that("can round-trip a pin (v0)", {
-  board <- board_rsconnect_colorado()
-  colorado_user_name <- rsconnect::accounts(server = "colorado.rstudio.com")$name
+  board <- board_connect_colorado()
+  colorado_user_name <- rsconnect::accounts(server = "colorado.posit.co")$name
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "test-df1", board = board)
@@ -18,7 +24,7 @@ test_that("can round-trip a pin (v0)", {
 })
 
 test_that("can find/search pins", {
-  board <- board_rsconnect_test()
+  board <- board_connect_test()
   name <- pin_write(board, 1:5, "test-xyzxyzxyzxyz", title = "defdefdef")
   withr::defer(pin_delete(board, name))
 
@@ -32,7 +38,7 @@ test_that("can find/search pins", {
 })
 
 test_that("can update access_type", {
-  board <- board_rsconnect_test()
+  board <- board_connect_test()
 
   name <- local_pin(board, 1:5)
   guid <- pin_meta(board, name)$local$content_id
@@ -50,8 +56,8 @@ test_that("can update access_type", {
 
 test_that("can deparse", {
   board <- new_board_v1(
-    "pins_board_rsconnect",
-    url = "https://colorado.rstudio.com/rsc",
+    "pins_board_connect",
+    url = "https://colorado.posit.co/rsc",
     cache = tempdir()
   )
   expect_snapshot(board_deparse(board))
@@ -61,7 +67,7 @@ test_that("can deparse", {
 # content -----------------------------------------------------------------
 
 test_that("can find content by full/partial name", {
-  board <- board_rsconnect_test()
+  board <- board_connect_test()
 
   name <- pin_write(board, 1:3, "test-partial", type = "rds")
   withr::defer(pin_delete(board, name))
@@ -74,7 +80,7 @@ test_that("can find content by full/partial name", {
 })
 
 test_that("can create and delete content", {
-  board <- board_rsconnect_test()
+  board <- board_connect_test()
 
   rsc_content_create(board, "test-1", list())
   expect_snapshot(error = TRUE,
@@ -93,7 +99,7 @@ test_that("can parse user & pin name", {
 })
 
 test_that("can find cached versions", {
-  board <- board_rsconnect_test()
+  board <- board_connect_test()
   name <- local_pin(board, 1)
   pin_read(board, name)
 

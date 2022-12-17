@@ -1,8 +1,8 @@
 ---
-title: "RStudio Connect"
+title: "Posit Connect"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{RStudio Connect}
+  %\VignetteIndexEntry{Posit Connect}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette demonstrates how you might use pins and [RStudio Connect](https://www.rstudio.com/products/connect/) together to automate ETL for a Shiny app.
+This vignette demonstrates how you might use pins and [Posit Connect](https://posit.co/products/enterprise/connect/) together to automate ETL for a Shiny app.
 Pulling expensive data manipulation out of your Shiny app is a great way to [improve performance](https://mastering-shiny.org/performance.html#schedule-data-munging), and pins makes it easy to schedule data updates in a way that automatically flows into your app.
 
 ```{r setup}
@@ -50,16 +50,16 @@ Wouldn't it be nice to spare your colleagues the work of reproducing this data, 
 That's easy to do with pins:
 
 ```{r eval = FALSE}
-board_rsc <- board_rsconnect()
-board_rsc %>% pin_write(bbc_news)
+board <- board_connect()
+board %>% pin_write(bbc_news)
 ```
 
-If you open the pin on RSC (e.g. by running `board_rsc %>% pin_browse("news_total")`), you'll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data.
+If you open the pin on RSC (e.g. by running `board %>% pin_browse("news_total")`), you'll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data.
 Assuming you've given your colleagues access, they can now easily pull down the data for their own analysis:
 
 ```{r eval=FALSE}
-board_rsc <- board_rsconnect()
-board_rsc %>% pin_read("your_name/bbc_news")
+board <- board_connect()
+board %>% pin_read("your_name/bbc_news")
 ```
 
 ## Automating
@@ -71,11 +71,11 @@ One way to do so is with RSC's [scheduled reports](https://docs.rstudio.com/conn
 First, take your code and put it in an Rmd:
 
 ```{r echo = FALSE, comment = ""}
-cat(readLines("rsc-automate.txt"), sep = "\n")
+cat(readLines("connect-automate.txt"), sep = "\n")
 ```
 
-Then publish it to RSC, and schedule it to run as often as you like.
-Assuming that you have RSC 1.9.0 or later you don't need to provide any arguments to `board_rsconnect()`; pins will automatically publish to the same Connect instance that's running the report.
+Then publish it to Posit Connect, and schedule it to run as often as you like.
+Assuming that you have Posit Connect 1.9.0 or later you don't need to provide any arguments to `board_connect()`; pins will automatically publish to the same Connect instance that's running the report.
 
 ## Shiny apps
 
@@ -85,7 +85,7 @@ If you're using automatically updated data in a [Shiny](https://shiny.rstudio.co
 library(shiny)
 library(pins)
 
-board <- board_rsconnect()
+board <- board_connect()
 
 ui <- fluidPage(
   titlePanel("News from the BBC"),

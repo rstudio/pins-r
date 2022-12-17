@@ -15,7 +15,7 @@
       rsc_server_rsconnect()
     Condition
       Error in `rsc_server_rsconnect()`:
-      ! No RStudio Connect servers have been registered
+      ! No Posit Connect servers have been registered
 
 ---
 
@@ -23,7 +23,7 @@
       rsc_server_rsconnect()
     Condition
       Error in `rsc_server_rsconnect()`:
-      ! Found multiple matching RStudio Connect servers
+      ! Found multiple matching Posit Connect servers
       i Please disambiguate with `server` and/or `account`
 
 # auth is hidden
