@@ -56,6 +56,14 @@ board %>% pin_write(mtcars, type = "json")
 
 To make our data frame more-familar to people outside the United States, let's create add a column `lper100km`: liters per 100 km:
 
+
+```{r}
+#| echo: false
+
+# we need a short delay here to keep the versions in the right order
+Sys.sleep(2)
+```
+
 ```{r metric}
 mtcars_metric <- mtcars
 mtcars_metric$lper100km <- 235.215 / mtcars$mpg
@@ -96,9 +104,11 @@ web_board <- board_url(board_process$url())
 #| message: false
 web_board %>% pin_list()
 
-web_board %>% pin_versions("mtcars")
+versions <- web_board %>% pin_versions("mtcars") %>% print()
 
 web_board %>% pin_read("mtcars") %>% head()
+
+web_board %>% pin_read("mtcars", version = versions$version[[1]]) %>% head()
 ```
 
 
