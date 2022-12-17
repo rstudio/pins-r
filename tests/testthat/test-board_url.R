@@ -88,6 +88,34 @@ test_that("can download pin from versioned board_folder", {
     expect_equal(1:10)
 })
 
+test_that("pin_meta() works for versioned board", {
+  skip_if_not_installed("webfakes")
+  b1 <- board_folder(withr::local_tempfile(), versioned = TRUE)
+  b1 %>% pin_write(11:20, "y", type = "json")
+  b1 %>% pin_write(1:20, "y", type = "csv")
+  write_board_manifest(b1)
+  b1_path <- fs::path(b1$path)
+
+  b1_server <- webfakes::new_app()
+  b1_server$use(webfakes::mw_static(root = b1_path))
+  b1_process <- webfakes::new_app_process(b1_server)
+
+  b2 <- board_url(b1_process$url())
+
+  versions <- b2 %>% pin_versions("y")
+
+  expect_s3_class(
+    b2 %>% pin_meta("y"),
+    "pins_meta"
+  )
+
+  expect_s3_class(
+    b2 %>% pin_meta("y", version = versions$version[[1]]),
+    "pins_meta"
+  )
+
+})
+
 test_that("useful error for missing or unparseable manifest file", {
   skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
