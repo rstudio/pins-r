@@ -101,7 +101,7 @@ withr::with_dir(board$path, fs::dir_ls())
 When we inspect its contents to see it lists each pin in the board, and each version of each pin:
 
 ```yaml
-`r paste(readLines(fs::path(board$path, "_pins.yaml")), collapse = "\n")`
+`r if (rlang::is_installed("webfakes")) paste(readLines(fs::path(board$path, "_pins.yaml")), collapse = "\n")`
 ```
 
 At this point, we would serve the folder containing the board from a web site.
