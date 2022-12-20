@@ -99,6 +99,7 @@ pin_list.pins_board_gcs <- function(board, ...) {
 
 #' @export
 pin_exists.pins_board_gcs <- function(board, name, ...) {
+  withr::local_options(list(googleAuthR.verbose = 4))
   gcs_file_exists(board, name)
 }
 
@@ -129,6 +130,7 @@ pin_version_delete.pins_board_gcs <- function(board, name, version, ...) {
 
 #' @export
 pin_meta.pins_board_gcs <- function(board, name, version = NULL, ...) {
+  withr::local_options(list(googleAuthR.verbose = 4))
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
   metadata_blob <- fs::path(name, version, "data.txt")
@@ -150,6 +152,7 @@ pin_meta.pins_board_gcs <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_fetch.pins_board_gcs <- function(board, name, version = NULL, ...) {
+  withr::local_options(list(googleAuthR.verbose = 4))
   meta <- pin_meta(board, name, version = version)
   cache_touch(board, meta)
 
@@ -164,6 +167,7 @@ pin_fetch.pins_board_gcs <- function(board, name, version = NULL, ...) {
 #' @export
 pin_store.pins_board_gcs <- function(board, name, paths, metadata,
                                      versioned = NULL, x = NULL, ...) {
+  withr::local_options(list(googleAuthR.verbose = 4))
   ellipsis::check_dots_used()
   check_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
@@ -191,19 +195,6 @@ pin_store.pins_board_gcs <- function(board, name, paths, metadata,
 board_deparse.pins_board_gcs <- function(board, ...) {
   bucket <- check_board_deparse(board, "bucket")
   expr(board_gcs(!!bucket, prefix = !!board$prefix))
-}
-
-
-#' @export
-write_board_manifest_yaml.pins_board_gcs <- function(board, manifest, ...) {
-  paths <- googleCloudStorageR::gcs_list_objects(bucket = board$bucket)$name
-  if (manifest_pin_yaml_filename %in% paths) {
-    googleCloudStorageR::gcs_delete_object(
-      manifest_pin_yaml_filename,
-      board$bucket
-    )
-  }
-  gcs_upload_yaml(board, manifest_pin_yaml_filename, manifest)
 }
 
 #' @rdname required_pkgs.pins_board
@@ -247,11 +238,11 @@ gcs_upload_yaml <- function(board, key, yaml, ...) {
 gcs_download <- function(board, key) {
   path <- fs::path(board$cache, key)
   if (!fs::file_exists(path)) {
-    googleCloudStorageR::gcs_get_object(
+    suppressMessages(googleCloudStorageR::gcs_get_object(
       object_name = paste0(board$prefix, key),
       bucket = board$bucket,
       saveToDisk = path
-    )
+    ))
     fs::file_chmod(path, "u=r")
   }
   path
