@@ -48,6 +48,7 @@ Suggests:
     data.table,
     datasets,
     gitcreds,
+    googleCloudStorageR,
     knitr,
     Microsoft365R,
     mockery,
@@ -57,6 +58,7 @@ Suggests:
     rmarkdown,
     rsconnect,
     shiny,
+    sodium,
     testthat (>= 3.0.0),
     webfakes,
     xml2
