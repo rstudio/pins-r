@@ -26,11 +26,11 @@ reference:
     share data in a variety of ways.
   contents:
   - board_azure
+  - board_connect
   - board_gcs
   - board_kaggle_dataset
   - board_local
   - board_ms365
-  - board_connect
   - board_s3
   - board_url
 
