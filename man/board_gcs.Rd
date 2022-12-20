@@ -34,9 +34,8 @@ package.
 \code{board_gcs()} is powered by the googleCloudStorageR package which provides
 several authentication options, as documented in its
 \href{https://code.markedmondson.me/googleCloudStorageR/articles/googleCloudStorageR.html}{main vignette}.
-Of these options, we recommend you use
-\href{https://code.markedmondson.me/googleCloudStorageR/articles/googleCloudStorageR.html#token-authentication}{token authentication}
-via the \href{https://gargle.r-lib.org/}{gargle} package.
+The two main options are to create a service account key (a JSON file) or an
+authentication token; you can manage either using the \href{https://gargle.r-lib.org/}{gargle} package.
 }
 
 \section{Details}{
@@ -66,6 +65,5 @@ board_marketing <- board_gcs("company-pins", prefix = "marketing/")
 
 # Pass arguments like `predefinedAcl` through the dots of `pin_write`:
 board \%>\% pin_write(mtcars, predefinedAcl = "publicRead")
-
 }
 }

@@ -8,9 +8,8 @@
 #' `board_gcs()` is powered by the googleCloudStorageR package which provides
 #' several authentication options, as documented in its
 #' [main vignette](https://code.markedmondson.me/googleCloudStorageR/articles/googleCloudStorageR.html).
-#' Of these options, we recommend you use
-#' [token authentication](https://code.markedmondson.me/googleCloudStorageR/articles/googleCloudStorageR.html#token-authentication)
-#' via the [gargle](https://gargle.r-lib.org/) package.
+#' The two main options are to create a service account key (a JSON file) or an
+#' authentication token; you can manage either using the [gargle](https://gargle.r-lib.org/) package.
 #'
 #' # Details
 #'
@@ -46,7 +45,6 @@
 #'
 #' # Pass arguments like `predefinedAcl` through the dots of `pin_write`:
 #' board %>% pin_write(mtcars, predefinedAcl = "publicRead")
-#'
 #' }
 board_gcs <- function(bucket = googleCloudStorageR::gcs_get_global_bucket(),
                       prefix = NULL,
