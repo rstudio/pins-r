@@ -205,6 +205,8 @@ The R Packages book offers this observation on CRAN and package data:
 
 Publishing a board on your pkgdown site provides a way to offer extended versions of your data.
 
+Here's an example of a [toy package](https://github.com/ijlyttle/pkgpins) and its [pkgdown site](https://ijlyttle.github.io/pkgpins/).
+
 ### S3
 
 My understanding is that if you create a `board_s3()`, then allow anonymous access to the S3 bucket, things should "just work". Providing, of course, that you `write_board_manifest()` in a timely manner.
