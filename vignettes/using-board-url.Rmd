@@ -153,8 +153,59 @@ The next section shows some ways you can integrate web-based boards into your wo
 
 ## Publishing platforms
 
+These are just a few of the ways you can publish your boards using a website.
+In each of these cases, the goal is to copy the board into the deployed site.
+
 ### Quarto
+
+Using Quarto, you can [publish](https://quarto.org/docs/publishing/) to GitHub Pages, Quarto Pub, and Netlify, among others.
+
+Let's say you set up a board using a directory called `"pins-board"`; of course, you may wish to call use a different name.
+Here's how to set up your Quarto project:
+
+1. In your code, create a `board_folder("pins-board")` in the root directory:
+  - Write to the board using `pin_write()`.
+  - At the end, call `write_board_manifest()`.
+
+2. Add the board folder as a [Quarto site-resource](https://quarto.org/docs/websites/website-tools.html#site-resources):
+
+  - At the top level of your `_quarto.yml` file:
+  
+    ```yml
+    resources:
+      - pins-board
+    ```
+
+  - You may wish to add `/pins-board/` to your project's `.gitignore` file.
+
+Here's an example of a [Quarto repository](https://github.com/ijlyttle/quarto-pins) and its [published website](https://ijlyttle.github.io/quarto-pins/).
 
 ### pkgdown
 
+Pins offers another way for R-package developers to share data associated with a package. 
+Publishing a package dataset as a pin can let you extend your data's "audience" to Python users.
+Using [pkgdown](https://pkgdown.r-lib.org/articles/customise.html#additional-html-and-files), any files you save in `pkgdown/assets` will be copied to the website root directory. 
+
+The [R Packages book](https://r-pkgs.org/data.html#sec-data-data-raw) suggests using a folder called `data-raw` for working with datasets; this can be adapted to use pins. You would start with:
+
+```r
+usethis::use_data_raw()
+```
+
+In your data-raw file, you would wrangle and clean your datasets, then `usethis::use_data()` to create the datasets for your package.
+To offer such datasets on a web-based board, in your data-raw file you would:
+
+  - Create a board: `board_folder(here::here("pkgdown/assets/pins-board"))`; you might use a different name than `"pins-board"`.
+  - Write your datasets to the board using `pin_write()`.
+  - At the end, call `write_board_manifest()`.
+
+The R Packages book offers this observation on CRAN and package data:
+
+> Generally, package data should be smaller than a megabyte - if it’s larger you’ll need to argue for an exemption.
+
+Publishing a board on your pkgdown site provides a way to offer extended versions of your data.
+
 ### S3
+
+My understanding is that if you create a `board_s3()`, then allow anonymous access to the S3 bucket, things should "just work". Providing, of course, that you `write_board_manifest()` in a timely manner.
+
