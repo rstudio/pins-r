@@ -23,6 +23,8 @@ such that others can consume using \code{\link[=board_url]{board_url()}}.
 The manifest file is \emph{not} versioned like a pin is, and this function
 will overwrite any existing \verb{_pins.yaml} file on your board. It is
 your responsibility as the user to keep the manifest up to date.
+
+Some examples are provided in \code{vignette("using-board-url")}.
 }
 \details{
 This function is not supported for read-only boards.

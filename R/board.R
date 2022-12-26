@@ -162,6 +162,7 @@ board_deparse.pins_board <- function(board, ...) {
 
 #' Write board manifest file to board's root directory
 #'
+#' @description
 #' A board manifest file records all the pins, along with their
 #' versions, stored on a board.
 #' This can be useful for a board built using, for example,
@@ -170,6 +171,8 @@ board_deparse.pins_board <- function(board, ...) {
 #' The manifest file is _not_ versioned like a pin is, and this function
 #' will overwrite any existing `_pins.yaml` file on your board. It is
 #' your responsibility as the user to keep the manifest up to date.
+#'
+#' Some examples are provided in `vignette("using-board-url")`.
 #'
 #' @details This function is not supported for read-only boards.
 #' It is called for the side-effect of writing a manifest file,
