@@ -13,7 +13,7 @@
   
 ## Other improvements
 
-* Added vignette describing how to manage custom formats (#631, @ijlyttle).
+* Added vignettes describing how to manage custom formats and web-based boards (#631 #685, @ijlyttle).
 
 * Improved error message for `pin_versions()` (#657).
 
