@@ -16,36 +16,34 @@ knitr::opts_chunk$set(
 ```
 
 Pins helps facilitate back-and-forth collaboration using, for example, `board_s3()`.
-The goal of this vignette is to show how to publish board to a website, bringing your pins to a wider audience.
+The goal of this vignette is to show how to publish a board to a website, bringing your pins to a wider audience.
 
 A couple of things to keep in mind:
 
  - For consumers, `board_url()` offers read-only collaboration.
  - For publishers, a helper function is provided, `write_board_manifest()`.
    A manifest contains a list of pins and versions, enabling
-   a `board_url()` to behave like a `board_s3()` or `board_folder()`.
-   
-The rest of the vignette will go into greater detail on these points, providing examples.
+   a `board_url()` to read like a `board_s3()` or `board_folder()`.
 
 ## Publishing
 
-Here are the general steps for publishing a board to that can be read using `board_url()`:
+The general steps for publishing a board that can be read using `board_url()` are:
 
  - create a board (if needed)
- - populate board with pins
+ - write pins to board
  - write a manifest file, using `write_board_manifest()`
  - publish website
 
-For this first demonstration, we'll start by creating a `board_temp()`, and finish by "magically" serving the board.
+The first and last steps depend on how you create and deploy your board; we discuss these in the [Publishing platforms] section. Regardless of platform, you'll write the pins and the manifest the same way.
 
-In practice, first and last steps will depend on how you create and deploy your board; we discuss these in the [Publishing platforms] section. Regardless of platform, you'll write the pins and the manifest the same way.
+For this first demonstration, we'll start by creating a `board_temp()`, and finish by "magically" serving the board.
 
 ```{r setup}
 library(pins)
 ```
 
-In practice, you would likely use a `board_folder()` in a project folder, or perhaps a `board_s3()`.
-For the purposes of this vignette, we will create a temporary board.
+In practice, you might use a `board_folder()` in a project folder, or perhaps a `board_s3()`.
+For the purpose of this vignette, we create a temporary board.
 
 ```{r pin-mtcars}
 board <- board_temp(versioned = TRUE)
@@ -57,7 +55,8 @@ Let's make the `mtcars` dataset available as a JSON file:
 board %>% pin_write(mtcars, type = "json")
 ```
 
-Having made a first version of this pin, we think to make our data friendlier to folks outside the United States. We add a column: `lper100km`, consumption in liters-per-100-km, then add a new version to the pin:
+Let's make a new version of this pinned data by adding a new column: `lper100km`, consumption in liters-per-100-km.
+This could make our data friendlier to folks outside the United States.
 
 
 ```{r}
@@ -82,11 +81,11 @@ board %>% pin_list()
 board %>% pin_versions("mtcars")
 ```
 
-Before we make serve our board from a website, we need to create (or update) the manifest; this is the key to letting a `board_url()` read pins similarly to a file-based board, like `board_folder()`.
-
-Because a `board_url()` is consumed over the web, it doesn't have access to a filesystem the way, for example, a `board_folder()` has. 
-Our workaround is to create a manifest file, which `board_url()` will read to catalog the pins and their versions.
-There is a function dedicated to this, `write_board_manifest()`:
+Because a `board_url()` is consumed over the web, it doesn't have access to a file system the way, for example, a `board_folder()` has; our workaround is to create a manifest file.
+When a `board_url()` is created, it uses this file to discover the pins and their versions.
+The manifest file is the key to `board_url()`'s ability to discover pins as if it were a file-system-based board.
+ 
+After writing pins, but before publishing, call `write_board_manifest()`:
 
 ```{r}
 board %>% write_board_manifest()
@@ -98,14 +97,14 @@ We confirm that there is a file called `_pins.yaml`:
 withr::with_dir(board$path, fs::dir_ls())
 ```
 
-When we inspect its contents to see it lists each pin in the board, and each version of each pin:
+We can inspect its contents to see each pin in the board, and each version of each pin:
 
 ```yaml
 `r if (rlang::is_installed("webfakes")) paste(readLines(fs::path(board$path, "_pins.yaml")), collapse = "\n")`
 ```
 
-At this point, we would serve the folder containing the board from a web site.
-However, for the purposes of this vignette, we pretend that we have served the folder from our fake website: `https://not.real.website.co/pins/`.
+At this point, we would publish the folder containing the board as a part of a web site.
+For the purpose of this vignette, we pretend that we have served the folder from our fake website, `https://not.real.website.co/pins/`.
 
 ```{r board-serve}
 #| echo: false
@@ -118,7 +117,7 @@ web_board <- board_url(board_process$url())
 
 ## Consuming
 
-By making an up-to-date manifest file available, a `board_url()` can behave as a read-only version of a `board_folder()`.
+With an up-to-date manifest file, a `board_url()` can behave as a read-only version of a `board_folder()`.
 Let's create a `board_url()` using our fake URL:
 
 ```{r}
@@ -153,8 +152,7 @@ The next section shows some ways you can integrate web-based boards into your wo
 
 ## Publishing platforms
 
-These are just a few of the ways you can publish your boards using a website.
-In each of these cases, the goal is to copy the board into the deployed site.
+The goal of this section is to illustrate, for a few platforms, the particular way to publish a board as a part of a website.
 
 ### Quarto
 
@@ -184,13 +182,10 @@ Here's an example of a [Quarto repository](https://github.com/ijlyttle/quarto-pi
 
 Pins offers another way for R-package developers to share data associated with a package. 
 Publishing a package dataset as a pin can let you extend your data's "audience" to Python users.
-Using [pkgdown](https://pkgdown.r-lib.org/articles/customise.html#additional-html-and-files), any files you save in `pkgdown/assets` will be copied to the website root directory. 
 
-The [R Packages book](https://r-pkgs.org/data.html#sec-data-data-raw) suggests using a folder called `data-raw` for working with datasets; this can be adapted to use pins. You would start with:
+Using [pkgdown](https://pkgdown.r-lib.org/articles/customise.html#additional-html-and-files), any files you save in the directory `pkgdown/assets/` will be copied to the website's root directory when `pkgdown::build_site()` is run.
 
-```r
-usethis::use_data_raw()
-```
+The [R Packages book](https://r-pkgs.org/data.html#sec-data-data-raw) suggests using a folder called `data-raw` for working with datasets; this can be adapted to use pins. You would start with `usethis::use_data_raw()`.
 
 In your data-raw file, you would wrangle and clean your datasets, then `usethis::use_data()` to create the datasets for your package.
 To offer such datasets on a web-based board, in your data-raw file you would:
