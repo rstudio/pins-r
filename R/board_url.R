@@ -1,47 +1,49 @@
 #' Use a vector of URLs as a board
 #'
-#' @description
-#' `board_url()` lets you build up a board from individual urls or a [manifest
-#' file][write_board_manifest()].
+#' @description `board_url()` lets you build up a board from individual urls or
+#' a [manifest file][write_board_manifest()].
 #'
 #' `board_url()` is read only.
 #'
-#' @param urls Identify available pins being served at a URL or set of URLs (see details):
+#' @param urls Identify available pins being served at a URL or set of URLs (see
+#'   details):
 #'   - Unnamed string: URL to a [manifest file][write_board_manifest()].
 #'   - Named character vector: URLs to specific pins (does not support versioning).
 #'   - Named list: URLs to pin version directories (supports versioning).
-#' @param use_cache_on_failure If the pin fails to download, is it ok to
-#'   use the last cached version? Defaults to `is_interactive()` so you'll
-#'   be robust to poor internet connectivity when exploring interactively,
-#'   but you'll get clear errors when the code is deployed.
+#' @param auth An optional [httr::authenticate](httr::authenticate) object to
+#'   provide authentication for e.g. RStudio Connect pins.
+#' @param use_cache_on_failure If the pin fails to download, is it ok to use the
+#'   last cached version? Defaults to `is_interactive()` so you'll be robust to
+#'   poor internet connectivity when exploring interactively, but you'll get
+#'   clear errors when the code is deployed.
 #' @family boards
 #' @inheritParams new_board
-#' @details
-#' The way `board_url()` works depends on the type of the `urls` argument:
+#' @details The way `board_url()` works depends on the type of the `urls`
+#' argument:
 #'   - Unnamed character scalar, i.e. **a single URL** to a
-#'     [manifest file][write_board_manifest()]: If the URL ends in a `/`,
-#'     `board_url()` will look for a `_pins.yaml` manifest. If the manifest
-#'     file parses to a named list, versioning is supported. If it parses to a
-#'     named character vector, the board will not support versioning.
+#' [manifest file][write_board_manifest()]: If the URL ends in a `/`,
+#' `board_url()` will look for a `_pins.yaml` manifest. If the manifest file
+#' parses to a named list, versioning is supported. If it parses to a named
+#' character vector, the board will not support versioning.
 #'   - **Named character vector of URLs**: If the URLs end in a `/`,
-#'     `board_url()` will look for a `data.txt` that provides metadata for the
-#'     associated pin. The easiest way to generate this file is to upload a pin
-#'     version directory created by [board_folder()]. Versioning is not supported.
+#' `board_url()` will look for a `data.txt` that provides metadata for the
+#' associated pin. The easiest way to generate this file is to upload a pin
+#' version directory created by [board_folder()]. Versioning is not supported.
 #'   - **Named list**, where the values are character vectors of URLs and each
-#'     element of the vector refers to a version of the particular pin: If a
-#'     URL ends in a `/`, `board_url()` will look for a `data.txt` that
-#'     provides metadata. Versioning is supported.
+#' element of the vector refers to a version of the particular pin: If a URL
+#' ends in a `/`, `board_url()` will look for a `data.txt` that provides
+#' metadata. Versioning is supported.
 #'
 #' Using a vector of URLs can be useful because [pin_download()] and
 #' [pin_read()] will be cached; they'll only re-download the data if it's
-#' changed from the last time you downloaded it (using the tools of
-#' [HTTP caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)).
-#' You'll also be protected from the vagaries of the internet; if a fresh
-#' download fails, you'll get the previously cached result with a warning.
+#' changed from the last time you downloaded it (using the tools of [HTTP
+#' caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)). You'll
+#' also be protected from the vagaries of the internet; if a fresh download
+#' fails, you'll get the previously cached result with a warning.
 #'
-#' Using a [manifest file][write_board_manifest()] can be useful because you
-#' can serve a board of pins and allow collaborators to access the board
-#' straight from a URL, without worrying about board-level storage details.
+#' Using a [manifest file][write_board_manifest()] can be useful because you can
+#' serve a board of pins and allow collaborators to access the board straight
+#' from a URL, without worrying about board-level storage details.
 #'
 #' @export
 #' @examples
@@ -67,6 +69,7 @@
 #'
 board_url <- function(urls,
                       cache = NULL,
+                      auth = NULL,
                       use_cache_on_failure = is_interactive()) {
 
   url_format <- get_url_format(urls)
@@ -90,9 +93,21 @@ board_url <- function(urls,
     urls = urls,
     cache = cache,
     versioned = versioned,
+    auth = auth,
     use_cache_on_failure = use_cache_on_failure
   )
 }
+
+
+#' @export
+board_url_auth_connect <- function(auth_type, server=NULL, account=NULL, key=NULL) {
+  server_connection <- rsc_server(auth_type, server, account, key)
+  if (!is.character(server_connection$auth)) {
+    stop("Not sure how to handle this signature auth... :/")
+  }
+  httr::add_headers("Authorization" = paste("Key", server_connection$auth))
+}
+
 
 board_url_test <- function(urls, cache = tempfile()) {
   board_url(urls, cache = cache)
@@ -134,6 +149,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       url = paste0(url, "data.txt"),
       path_dir = cache_dir,
       path_file = "data.txt",
+      board$auth,
       use_cache_on_failure = board$use_cache_on_failure
     )
     meta <- read_meta(cache_dir)
@@ -185,6 +201,7 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
       url = url,
       path_dir = meta$local$dir,
       path_file = file,
+      board$auth,
       use_cache_on_failure = board$use_cache_on_failure
     )
   })
