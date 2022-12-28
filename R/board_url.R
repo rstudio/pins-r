@@ -98,14 +98,16 @@ board_url <- function(urls,
   )
 }
 
-
 #' @export
-board_url_auth_connect <- function(auth_type, server=NULL, account=NULL, key=NULL) {
-  server_connection <- rsc_server(auth_type, server, account, key)
-  if (!is.character(server_connection$auth)) {
-    stop("Not sure how to handle this signature auth... :/")
+board_url_auth_connect <- function(auth_type = c("manual", "envvar"), key=NULL) {
+  auth_type <- arg_match(auth_type)
+  if (auth_type == "envvar") {
+    key <- envvar_get("CONNECT_API_KEY") %||% abort("Can't find CONNECT_API_KEY env var")
+  } else  {
+    key <- key %||% abort("For manual auth, you must supply a key")
   }
-  httr::add_headers("Authorization" = paste("Key", server_connection$auth))
+
+  httr::add_headers("Authorization" = paste("Key", key))
 }
 
 
