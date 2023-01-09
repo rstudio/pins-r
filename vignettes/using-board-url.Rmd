@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 The pins package supports back-and-forth collaboration using, for example, `board_s3()`.
-The goal of this vignette is to show how to publish a pins-board to a website, bringing your pins to a wider audience.
+The goal of this vignette is to show how to publish a board of pins to a website, bringing your pins to a wider audience.
 
 A couple of things to keep in mind:
 
