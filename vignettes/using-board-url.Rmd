@@ -82,7 +82,7 @@ board %>% pin_versions("mtcars")
 ```
 
 Because a `board_url()` is consumed over the web, it doesn't have access to a file system the way, for example, a `board_folder()` has; our workaround is to create a manifest file.
-When a `board_url()` is created, it uses this file to discover the pins and their versions.
+When a `board_url()` is set up by a consumer for reading, the function uses this file to discover the pins and their versions.
 The manifest file is the key to `board_url()`'s ability to discover pins as if it were a file-system-based board.
  
 After writing pins, but before publishing, call `write_board_manifest()`:
