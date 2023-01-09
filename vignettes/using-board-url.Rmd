@@ -158,7 +158,7 @@ The goal of this section is to illustrate, for a few platforms, the particular w
 
 Using Quarto, you can [publish](https://quarto.org/docs/publishing/) to GitHub Pages, Quarto Pub, and Netlify, among others.
 
-Let's say you set up a board using a directory called `"pins-board"`; of course, you may wish to call use a different name.
+Let's say you set up a board using a directory called `"pins-board"`; of course, you may wish to use a different name.
 Here's how to set up your Quarto project:
 
 1. In your code, create a `board_folder("pins-board")` in the root directory:
