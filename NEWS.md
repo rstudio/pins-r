@@ -11,6 +11,9 @@
 * Functions for viewing legacy API pins in the RStudio Viewer pane are now 
   deprecated (when possible) or removed (#679).
   
+* The functions for accessing Kaggle resource as pins are no longer supported.
+  We recommend you use the Kaggle CLI instead (#698).
+  
 ## Other improvements
 
 * Added vignette describing how to manage custom formats (#631, @ijlyttle).
