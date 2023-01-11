@@ -1,15 +1,20 @@
 #' Use kaggle datasets/competitions as a board
 #'
 #' @description
+#' These functions are no longer supported because of changes to the Kaggle
+#' API and will be removed in a future version of pins. We recommend that you
+#' use the [Kaggle CLI](https://www.kaggle.com/docs/api) instead.
+#'
 #' `board_kaggle_competition()` allows you to treat a Kaggle competition like
 #' a read-only board, making it easy get the data on to your computer.
 #' `board_kaggle_dataset()` lets you upload and download files to and from a
 #' kaggle dataset. Data is only re-downloaded when it changes.
 #'
 #' These boards work best with `pin_download()` and `pin_upload()` since
-#' `pin_read()` and `pin_write()` are not a good fit to the kaggle model.
+#' `pin_read()` and `pin_write()` are not a good fit to the Kaggle model.
 #'
 #' @name board_kaggle
+#' @keywords internal
 #' @param username,key Typically you'll authenticate using the
 #'   `"~/.kaggle/kaggle.json"` file downloaded from your account page
 #'   (by clicking "Create New API Token". However, if necessary you can supply
