@@ -84,13 +84,17 @@ or public (\code{FALSE})?}
 \item{license}{How should the data be licensed?}
 }
 \description{
+These functions are no longer supported because of changes to the Kaggle
+API and will be removed in a future version of pins. We recommend that you
+use the \href{https://www.kaggle.com/docs/api}{Kaggle CLI} instead.
+
 \code{board_kaggle_competition()} allows you to treat a Kaggle competition like
 a read-only board, making it easy get the data on to your computer.
 \code{board_kaggle_dataset()} lets you upload and download files to and from a
 kaggle dataset. Data is only re-downloaded when it changes.
 
 These boards work best with \code{pin_download()} and \code{pin_upload()} since
-\code{pin_read()} and \code{pin_write()} are not a good fit to the kaggle model.
+\code{pin_read()} and \code{pin_write()} are not a good fit to the Kaggle model.
 }
 \examples{
 \dontrun{
@@ -114,3 +118,4 @@ board \%>\% pin_versions("rturley/pet-breed-characteristics")
 board \%>\% pin_versions("imsparsh/animal-breed-cats-and-dogs")
 }
 }
+\keyword{internal}
