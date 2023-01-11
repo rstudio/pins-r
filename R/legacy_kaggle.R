@@ -1,5 +1,9 @@
 #' Kaggle board (legacy API)
 #'
+#' These functions are no longer supported because of changes to the Kaggle
+#' API and will be removed in a future version of pins. We recommend that you
+#' use the [Kaggle CLI](https://www.kaggle.com/docs/api) instead.
+#'
 #' To use a Kaggle board, you need to first download a token file from
 #' your account.
 #'
@@ -14,6 +18,7 @@
 #' @param token The Kaggle token as a path to the `kaggle.json` file, can
 #'   be `NULL` if the `~/.kaggle/kaggle.json` file already exists.
 #' @inheritParams new_board
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' # the following example requires a Kaggle API token
