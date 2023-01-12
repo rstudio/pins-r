@@ -28,7 +28,6 @@ reference:
   - board_azure
   - board_connect
   - board_gcs
-  - board_kaggle_dataset
   - board_local
   - board_ms365
   - board_s3
