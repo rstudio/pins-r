@@ -21,7 +21,7 @@
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
 #'   <https://shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
-#'   add `library(googleCloudStorageR)` to your app or document for [automatic
+#'   add `requireNamespame(googleCloudStorageR)` to your app or document for [automatic
 #'   dependency discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
 #'
 #' @inheritParams new_board
@@ -54,7 +54,7 @@ board_gcs <- function(bucket = googleCloudStorageR::gcs_get_global_bucket(),
   check_installed("googleCloudStorageR")
 
   # Check that have access to the bucket
-  invisible(googleCloudStorageR::gcs_get_bucket(bucket))
+  googleCloudStorageR::gcs_get_bucket(bucket)
 
   cache <- cache %||% board_cache_path(paste0("gcs-", bucket))
   new_board_v1("pins_board_gcs",
