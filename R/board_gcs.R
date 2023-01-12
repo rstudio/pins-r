@@ -57,12 +57,13 @@ board_gcs <- function(bucket = googleCloudStorageR::gcs_get_global_bucket(),
   googleCloudStorageR::gcs_get_bucket(bucket)
 
   cache <- cache %||% board_cache_path(paste0("gcs-", bucket))
-  new_board_v1("pins_board_gcs",
-               name = "gcs",
-               bucket = bucket,
-               prefix = prefix,
-               cache = cache,
-               versioned = versioned
+  new_board_v1(
+    "pins_board_gcs",
+    name = "gcs",
+    bucket = bucket,
+    prefix = prefix,
+    cache = cache,
+    versioned = versioned
   )
 }
 
@@ -73,7 +74,6 @@ board_gcs_test <- function(...) {
     envvars = c("PINS_GCS_PASSWORD")
   )
 
-  rlang::check_installed("sodium")
   path_to_encrypted_json <- fs::path_package("pins", "secret", "pins-gcs-testing.json")
   raw <- readBin(path_to_encrypted_json, "raw", file.size(path_to_encrypted_json))
   pw <- Sys.getenv("PINS_GCS_PASSWORD", "")
@@ -84,10 +84,12 @@ board_gcs_test <- function(...) {
   )
   googleCloudStorageR::gcs_auth(json_file = rawToChar(json))
 
-  board_gcs("pins-dev",
-            cache = tempfile(),
-            ...
-  )
+  board_gcs("pins-dev", cache = tempfile(), ...)
+}
+
+## for decrypting JSON for service account:
+secret_nonce <- function() {
+  sodium::hex2bin("cb36bab652dec6ae9b1827c684a7b6d21d2ea31cd9f766ac")
 }
 
 #' @export
@@ -253,10 +255,3 @@ gcs_file_exists <- function(board, name) {
   )
   nrow(resp) > 0
 }
-
-## for decrypting JSON for service account:
-secret_nonce <- function() {
-  sodium::hex2bin("cb36bab652dec6ae9b1827c684a7b6d21d2ea31cd9f766ac")
-}
-
-
