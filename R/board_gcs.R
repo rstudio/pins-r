@@ -25,8 +25,8 @@
 #'   dependency discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
 #'
 #' @inheritParams new_board
-#' @param bucket Bucket name. You can only write to an existing bucket. Defaults
-#'   to [googleCloudStorageR::gcs_get_global_bucket()].
+#' @param bucket Bucket name. You can only write to an existing bucket, and you
+#'   can use [googleCloudStorageR::gcs_get_global_bucket()] here.
 #' @param prefix Prefix within this bucket that this board will occupy.
 #'   You can use this to maintain multiple independent pin boards within
 #'   a single GCS bucket. Will typically end with `/` to take advantage of
@@ -46,7 +46,7 @@
 #' # Pass arguments like `predefinedAcl` through the dots of `pin_write`:
 #' board %>% pin_write(mtcars, predefinedAcl = "publicRead")
 #' }
-board_gcs <- function(bucket = googleCloudStorageR::gcs_get_global_bucket(),
+board_gcs <- function(bucket,
                       prefix = NULL,
                       versioned = TRUE,
                       cache = NULL) {

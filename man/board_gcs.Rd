@@ -4,16 +4,11 @@
 \alias{board_gcs}
 \title{Use a Google Cloud Storage bucket as a board}
 \usage{
-board_gcs(
-  bucket = googleCloudStorageR::gcs_get_global_bucket(),
-  prefix = NULL,
-  versioned = TRUE,
-  cache = NULL
-)
+board_gcs(bucket, prefix = NULL, versioned = TRUE, cache = NULL)
 }
 \arguments{
-\item{bucket}{Bucket name. You can only write to an existing bucket. Defaults
-to \code{\link[googleCloudStorageR:gcs_get_global_bucket]{googleCloudStorageR::gcs_get_global_bucket()}}.}
+\item{bucket}{Bucket name. You can only write to an existing bucket, and you
+can use \code{\link[googleCloudStorageR:gcs_get_global_bucket]{googleCloudStorageR::gcs_get_global_bucket()}} here.}
 
 \item{prefix}{Prefix within this bucket that this board will occupy.
 You can use this to maintain multiple independent pin boards within
@@ -48,7 +43,7 @@ a new bucket from R with \code{\link[googleCloudStorageR:gcs_create_bucket]{goog
 suggested dependency of pins (not required for pins in general). If
 you run into errors when deploying content to a server like
 \url{https://shinyapps.io} or \href{https://posit.co/products/enterprise/connect/}{Connect},
-add \code{library(googleCloudStorageR)} to your app or document for \href{https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server}{automatic dependency discovery}.
+add \code{requireNamespame(googleCloudStorageR)} to your app or document for \href{https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server}{automatic dependency discovery}.
 }
 }
 
