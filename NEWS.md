@@ -16,6 +16,8 @@
   
 ## Other improvements
 
+* Added new board for Google Cloud Storage `board_gcs()` (#695).
+
 * Added vignette describing how to manage custom formats (#631, @ijlyttle).
 
 * Improved error message for `pin_versions()` (#657).

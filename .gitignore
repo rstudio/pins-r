@@ -8,3 +8,4 @@ packages
 docs
 inst/doc
 .Renviron
+google-pins.json
