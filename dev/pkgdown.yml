@@ -6,7 +6,8 @@ articles:
   pins-update: pins-update.html
   pins: pins.html
   posit-connect: posit-connect.html
-last_built: 2023-01-13T19:21Z
+  using-board-url: using-board-url.html
+last_built: 2023-01-20T02:45Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles
