@@ -43,6 +43,8 @@
 #' can serve a board of pins and allow collaborators to access the board
 #' straight from a URL, without worrying about board-level storage details.
 #'
+#' Some examples are provided in `vignette("using-board-url")`.
+#'
 #' @export
 #' @examples
 #' github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
