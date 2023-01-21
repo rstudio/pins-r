@@ -20,6 +20,8 @@
 
 * Added new board for Google Cloud Storage `board_gcs()` (#695).
 
+* Added new `tags` item to metadata for a pin (#677).
+
 * Improved error message for `pin_versions()` (#657).
 
 * Switched content and user caches for Connect to use environments instead
