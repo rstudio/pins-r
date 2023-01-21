@@ -50,9 +50,9 @@
 #' * `board_s3()` is powered by the paws.storage package, which is a
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
-#'   <https://shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
+#'   <https://www.shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
 #'   add `library(paws.storage)` to your app or document for [automatic
-#'   dependency discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
+#'   dependency discovery](https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package).
 #'
 #' @inheritParams new_board
 #' @param bucket Bucket name. You can only write to an existing bucket.

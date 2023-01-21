@@ -66,7 +66,7 @@ board %>% pin_read("your_name/bbc_news")
 
 Here the underlying data will be changing regularly, but the pinned data will only change when you run `pin_write()`.
 Wouldn't it be great if we could automate that process?
-One way to do so is with RSC's [scheduled reports](https://docs.rstudio.com/connect/user/scheduling/).
+One way to do so is with RSC's [scheduled reports](https://docs.posit.co/connect/user/scheduling/).
 
 First, take your code and put it in an Rmd:
 

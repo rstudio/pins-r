@@ -53,9 +53,9 @@ a board in OneDrive.
 
 \code{board_ms365()} is powered by the Microsoft365R package, which is a suggested
 dependency of pins (not required for pins in general). If you run into errors
-when deploying content to a server like \url{https://shinyapps.io} or
+when deploying content to a server like \url{https://www.shinyapps.io} or
 \href{https://posit.co/products/enterprise/connect/}{Connect}, add
-\code{library(Microsoft365R)} to your app or document for \href{https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server}{automatic dependency discovery}.
+\code{library(Microsoft365R)} to your app or document for \href{https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package}{automatic dependency discovery}.
 }
 \examples{
 \dontrun{
