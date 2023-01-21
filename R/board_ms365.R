@@ -31,10 +31,10 @@
 #'
 #' `board_ms365()` is powered by the Microsoft365R package, which is a suggested
 #' dependency of pins (not required for pins in general). If you run into errors
-#' when deploying content to a server like <https://shinyapps.io> or
+#' when deploying content to a server like <https://www.shinyapps.io> or
 #' [Connect](https://posit.co/products/enterprise/connect/), add
 #' `library(Microsoft365R)` to your app or document for [automatic dependency
-#' discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
+#' discovery](https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package).
 #'
 #' @export
 #' @examples

@@ -20,9 +20,9 @@
 #' * `board_gcs()` is powered by the googleCloudStorageR package, which is a
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
-#'   <https://shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
+#'   <https://www.shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
 #'   add `requireNamespame(googleCloudStorageR)` to your app or document for [automatic
-#'   dependency discovery](https://support.posit.co/hc/en-us/articles/229998627-Why-does-my-app-work-locally-but-not-on-my-RStudio-Connect-server).
+#'   dependency discovery](https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package).
 #'
 #' @inheritParams new_board
 #' @param bucket Bucket name. You can only write to an existing bucket, and you
@@ -34,7 +34,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' board <- board_gcs()
+#' board <- board_gcs("pins-testing")
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
 #'

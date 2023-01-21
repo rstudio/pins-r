@@ -1,4 +1,4 @@
-# pins (development version, to be released as 1.1.0)
+# pins 1.1.0
 
 ## Breaking changes
 
@@ -149,7 +149,7 @@ This version includes the following modern boards:
    (#498, @hongooi73).
 
 * `board_rsconnect()` shares data on 
-  [RStudio connect](https://www.rstudio.com/products/connect/). This board 
+  [RStudio connect](https://posit.co/products/enterprise/connect/). This board 
   supports both modern and legacy APIs, so that you and your colleagues can use 
   a mixture of pins versions as you transition to pins 1.0.0. Note that the
   compatibility is one directional: you can `pin_read()` pins created by 
