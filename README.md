@@ -59,7 +59,7 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmp6DjQ3f/pins-1582c70487cea'
+#> Path: '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpQ8OzP6/pins-354022be6938'
 #> Cache size: 0
 ```
 
@@ -69,7 +69,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230120T165934Z-209d4'
+#> Creating new version '20230121T180607Z-209d4'
 #> Writing to pin 'mtcars'
 ```
 
@@ -117,5 +117,5 @@ Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on
 services like Amazon’s S3 (`board_s3()`), Azure’s blob storage
-(`board_azure()`), and Microsoft SharePoint (`board_ms365()`). Learn
-more in `vignette("pins")`.
+(`board_azure()`), and Google Cloud Storage (`board_gcs()`). Learn more
+in `vignette("pins")`.
