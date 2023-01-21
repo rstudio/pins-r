@@ -10,13 +10,19 @@
     <loc>https://pins.rstudio.com/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/articles/managing-custom-formats.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/articles/pins-update.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/pins.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/articles/rsc.html</loc>
+    <loc>https://pins.rstudio.com/articles/posit-connect.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/articles/using-board-url.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/authors.html</loc>
@@ -43,6 +49,9 @@
     <loc>https://pins.rstudio.com/reference/board_folder.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/board_gcs.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/board_kaggle.html</loc>
   </url>
   <url>
@@ -50,9 +59,6 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/board_register.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/board_rsconnect.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/board_s3.html</loc>
@@ -172,9 +178,12 @@
     <loc>https://pins.rstudio.com/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/ui_addin_pin_find.html</loc>
+    <loc>https://pins.rstudio.com/reference/required_pkgs.pins_board.html</loc>
   </url>
   <url>
-    <loc>https://pins.rstudio.com/reference/ui_connection_create.html</loc>
+    <loc>https://pins.rstudio.com/reference/write_board_manifest.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/reference/write_board_manifest_yaml.html</loc>
   </url>
 </urlset>

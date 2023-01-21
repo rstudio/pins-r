@@ -5,9 +5,10 @@ $name - the pin's name.
 $file - names of files stored in the pin.
 $file_size - size of each file.
 $pin_hash - hash of pin contents.
-$type - type of pin, &quot;rds&quot;, &quot;csv&quot;, etc
+$type - type of pin: &quot;rds&quot;, &quot;csv&quot;, etc
 $title - pin title
 $description - pin description
+$tags - pin tags
 $created - date this (version of the pin) was created
 $api_version - API version used by pin
 
@@ -18,15 +19,16 @@ Local metadata generated when caching the pin, stored in $local.
 This includes information like the version of the pin, and the path
 its local cache.
 
-"><title>Retrieve metadata for a pin — pin_meta • pins</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Retrieve metadata for a pin — pin_meta"><meta property="og:description" content="Pin metadata comes from three sources:
+"><title>Retrieve metadata for a pin — pin_meta • pins</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Retrieve metadata for a pin — pin_meta"><meta property="og:description" content="Pin metadata comes from three sources:
 Standard metadata added by pin_upload()/pin_write(). This includes:
 $name - the pin's name.
 $file - names of files stored in the pin.
 $file_size - size of each file.
 $pin_hash - hash of pin contents.
-$type - type of pin, &quot;rds&quot;, &quot;csv&quot;, etc
+$type - type of pin: &quot;rds&quot;, &quot;csv&quot;, etc
 $title - pin title
 $description - pin description
+$tags - pin tags
 $created - date this (version of the pin) was created
 $api_version - API version used by pin
 
@@ -48,7 +50,7 @@ its local cache.
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,8 +67,10 @@ its local cache.
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/managing-custom-formats.html">Managing custom formats</a>
     <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
-    <a class="dropdown-item" href="../articles/rsc.html">RStudio Connect</a>
+    <a class="dropdown-item" href="../articles/posit-connect.html">Posit Connect</a>
+    <a class="dropdown-item" href="../articles/using-board-url.html">Using web-hosted boards</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -107,9 +111,10 @@ its local cache.
 <li><p><code>$file</code> - names of files stored in the pin.</p></li>
 <li><p><code>$file_size</code> - size of each file.</p></li>
 <li><p><code>$pin_hash</code> - hash of pin contents.</p></li>
-<li><p><code>$type</code> - type of pin, "rds", "csv", etc</p></li>
+<li><p><code>$type</code> - type of pin: "rds", "csv", etc</p></li>
 <li><p><code>$title</code> - pin title</p></li>
 <li><p><code>$description</code> - pin description</p></li>
+<li><p><code>$tags</code> - pin tags</p></li>
 <li><p><code>$created</code> - date this (version of the pin) was created</p></li>
 <li><p><code>$api_version</code> - API version used by pin</p></li>
 </ul></li>
@@ -129,7 +134,7 @@ its local cache.</p></li>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>board</dt>
-<dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_rsconnect.html">board_rsconnect()</a></code>,
+<dd><p>A pin board, created by <code><a href="board_folder.html">board_folder()</a></code>, <code><a href="board_connect.html">board_connect()</a></code>,
 <code><a href="board_url.html">board_url()</a></code> or another <code>board_</code> function.</p></dd>
 
 
@@ -158,7 +163,7 @@ find out which versions are available and when they were created.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Hadley"</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20220924T171554Z-209d4'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230121T180841Z-a800d'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the pin</span></span></span>
@@ -172,25 +177,50 @@ find out which versions are available and when they were created.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span>
 <span class="r-in"><span><span class="co"># Get its metadata</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_meta</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 425</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "209d4d093f4fd982"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 424</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "a800d001750a5c81"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2022-09-24 17:15:54"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2023-01-21 18:08:41"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       :List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Hadley: logi TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/Rtmpx9Qigs/pins-3c5a67d5b5bf/mtcars/20220924T171554Z-209d4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKz3wx/pins-1ab71468c934/mtcars/20230121T180841Z-a800d"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20220924T171554Z-209d4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20230121T180841Z-a800d"</span>
 <span class="r-in"><span><span class="co"># Get path to underlying data</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpx9Qigs/pins-3c5a67d5b5bf/mtcars/20220924T171554Z-209d4/mtcars.rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpxKz3wx/pins-1ab71468c934/mtcars/20230121T180841Z-a800d/mtcars.rds"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use tags instead</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fuel-efficiency"</span>, <span class="st">"automotive"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Replacing version '20230121T180841Z-a800d' with '20230121T180842Z-a800d'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
+<span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_meta</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 424</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "a800d001750a5c81"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2023-01-21 18:08:42"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: num 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKz3wx/pins-1ab71468c934/mtcars/20230121T180842Z-a800d"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20230121T180842Z-a800d"</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -202,7 +232,7 @@ find out which versions are available and when they were created.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer></div>
