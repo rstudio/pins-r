@@ -44,7 +44,7 @@ standard_meta <- function(paths,
     type = type,
     title = title,
     description = description,
-    tags = tags,
+    tags = if (is.null(tags)) tags else as.list(tags),
     created = format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
     api_version = 1
   )
