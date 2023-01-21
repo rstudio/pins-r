@@ -34,7 +34,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' board <- board_gcs()
+#' board <- board_gcs("pins-testing")
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
 #'
