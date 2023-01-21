@@ -1,4 +1,4 @@
-# pins (development version, to be released as 1.1.0)
+# pins 1.1.0
 
 ## Breaking changes
 
