@@ -43,7 +43,7 @@ a new bucket from R with \code{\link[googleCloudStorageR:gcs_create_bucket]{goog
 suggested dependency of pins (not required for pins in general). If
 you run into errors when deploying content to a server like
 \url{https://www.shinyapps.io} or \href{https://posit.co/products/enterprise/connect/}{Connect},
-add \code{requireNamespame(googleCloudStorageR)} to your app or document for \href{https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package}{automatic dependency discovery}.
+add \code{requireNamespace("googleCloudStorageR")} to your app or document for \href{https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package}{automatic dependency discovery}.
 }
 }
 

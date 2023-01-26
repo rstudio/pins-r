@@ -33,7 +33,7 @@
 #' dependency of pins (not required for pins in general). If you run into errors
 #' when deploying content to a server like <https://www.shinyapps.io> or
 #' [Connect](https://posit.co/products/enterprise/connect/), add
-#' `library(Microsoft365R)` to your app or document for [automatic dependency
+#' `requireNamespace(Microsoft365R)` to your app or document for [automatic dependency
 #' discovery](https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package).
 #'
 #' @export

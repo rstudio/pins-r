@@ -21,7 +21,7 @@
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
 #'   <https://www.shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
-#'   add `requireNamespame(googleCloudStorageR)` to your app or document for [automatic
+#'   add `requireNamespace("googleCloudStorageR")` to your app or document for [automatic
 #'   dependency discovery](https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package).
 #'
 #' @inheritParams new_board
