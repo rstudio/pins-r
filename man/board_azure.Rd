@@ -46,7 +46,7 @@ possible; see the examples below.
 dependency of pins (not required for pins in general). If you run into errors
 when deploying content to a server like \url{https://www.shinyapps.io} or
 \href{https://posit.co/products/enterprise/connect/}{Connect}, add
-\code{requireNamespace(AzureStor)} to your app or document for \href{https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package}{automatic dependency discovery}.
+\code{requireNamespace("AzureStor")} to your app or document for \href{https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package}{automatic dependency discovery}.
 }
 \examples{
 if (requireNamespace("AzureStor")) {
