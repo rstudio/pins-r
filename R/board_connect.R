@@ -1,7 +1,8 @@
 #' Use Posit Connect as board
 #'
 #' @description
-#' To use a Posit Connect board, you need to first authenticate. The easiest
+#' To use a Posit Connect board like this one or [board_connect_url()],
+#' you need to first authenticate. The easiest
 #' way to do so is by launching **Tools** - **Global Options** -
 #' **Publishing** - **Connect**, and follow the instructions.
 #'
@@ -31,7 +32,8 @@
 #' board %>% pin_read("numbers")
 #' ```
 #'
-#' You can find the URL of a pin with [pin_browse()].
+#' You can find the URL of a pin with [pin_browse()]. See [board_connect_url()]
+#' for how to read pins with vanity URLs that are not public.
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
@@ -88,20 +90,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
     use_cache_on_failure = use_cache_on_failure
   )
 
-  version <- tryCatch(
-    rsc_version(board),
-    error = function(e) {
-      if (length(fs::dir_ls(cache)) == 0) {
-        # We've never successfully connected
-        abort(c(
-          glue("Failed to connect to Posit Connect instance at <{server$url}>"),
-          conditionMessage(e)
-        ))
-      } else {
-        "???"
-      }
-    }
-  )
+  version <- try_catch_rsc_version(board, cache, server)
   pins_inform("Connecting to Posit Connect {version} at <{server$url}>")
 
   # Fill in account name if auth == "envvar"
@@ -707,6 +696,23 @@ rsc_version <- function(board) {
   rsc_GET(board, "server_settings")$version
 }
 
+try_catch_rsc_version <- function(board, cache, server) {
+  tryCatch(
+    rsc_version(board),
+    error = function(e) {
+      if (length(fs::dir_ls(cache)) == 0) {
+        # We've never successfully connected
+        abort(c(
+          glue("Failed to connect to Posit Connect instance at <{server$url}>"),
+          conditionMessage(e)
+        ))
+      } else {
+        "???"
+      }
+    }
+  )
+}
+
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
 }
@@ -725,12 +731,6 @@ board_connect_test <- function(...) {
 connect_has_colorado <- function() {
   accounts <- rsconnect::accounts()
   any(c("colorado.rstudio.com", "colorado.posit.co") %in% accounts$server)
-}
-board_connect_colorado <- function(...) {
-  if (!connect_has_colorado()) {
-    testthat::skip("board_connect_colorado() only works with Posit's demo server")
-  }
-  board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_connect_colorado <- function(...) {
