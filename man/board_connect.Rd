@@ -72,7 +72,8 @@ but you'll get clear errors when the code is deployed.}
 \item{versions}{Should this board be registered with support for versions?}
 }
 \description{
-To use a Posit Connect board, you need to first authenticate. The easiest
+To use a Posit Connect board like this one or \code{\link[=board_connect_url]{board_connect_url()}},
+you need to first authenticate. The easiest
 way to do so is by launching \strong{Tools} - \strong{Global Options} -
 \strong{Publishing} - \strong{Connect}, and follow the instructions.
 
@@ -114,6 +115,7 @@ board \%>\% pin_read("timothy/mtcars")
 }
 \seealso{
 Other boards: 
+\code{\link{board_connect_url}()},
 \code{\link{board_folder}()},
 \code{\link{board_url}()}
 }
