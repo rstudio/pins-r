@@ -129,7 +129,7 @@ write_board_manifest_yaml.pins_board_connect_url <- function(board, manifest, ..
 
 # Testing setup -----------------------------------------------------------
 
-board_connect_url_test_url <- function(env = parent.frame()) {
+vanity_url_test <- function(env = parent.frame()) {
   board <- board_connect_test()
   name <- pin_write(board, 1:10, random_pin_name())
   withr::defer(if (pin_exists(board, name)) pin_delete(board, name), env)
@@ -150,5 +150,30 @@ board_connect_url_test_url <- function(env = parent.frame()) {
                       httr::add_headers(Authorization = auth))
 
   glue("{board$url}/{vanity_slug}/")
+}
+
+board_connect_url_test <- function(...) {
+  if (connect_has_colorado()) {
+    board_connect_url_colorado(...)
+  } else {
+    board_connect_url_susan(...)
+  }
+}
+
+board_connect_url_colorado <- function(...) {
+  if (!connect_has_colorado()) {
+    testthat::skip("board_connect_url_colorado() only works with Posit's demo server")
+  }
+  board_connect_url(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
+}
+
+board_connect_url_susan <- function(...) {
+  creds <- read_creds()
+  board_connect_url(
+    ...,
+    server = "http://localhost:3939",
+    account = "susan",
+    key = creds$susan_key
+  )
 }
 

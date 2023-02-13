@@ -1,8 +1,8 @@
 skip_if_not_installed("rsconnect")
 
 test_that("provides key methods", {
-  vanity_url <- board_connect_url_test_url()
-  board <- board_connect_url(c(x = vanity_url))
+  vanity_url <- vanity_url_test()
+  board <- board_connect_url_test(c(x = vanity_url))
 
   board %>%
     pin_list() %>%
@@ -14,8 +14,8 @@ test_that("provides key methods", {
 })
 
 test_that("absent pins handled consistently", {
-  vanity_url <- board_connect_url_test_url()
-  board <- board_connect_url(c(x = vanity_url))
+  vanity_url <- vanity_url_test()
+  board <- board_connect_url_test(c(x = vanity_url))
 
   expect_equal(pin_list(board), "x")
   expect_equal(pin_exists(board, "x"), TRUE)
@@ -25,7 +25,7 @@ test_that("absent pins handled consistently", {
 })
 
 test_that("can deparse", {
-  board <- board_connect_url(c(
+  board <- board_connect_url_test(c(
     x = "https://connect.example.com/sizable_tigerbeetle/",
     y = "https://connect.example.com/avaricious_indianspinyloach/"
     ))
@@ -34,8 +34,8 @@ test_that("can deparse", {
 })
 
 test_that("useful errors for unsupported methods", {
-  vanity_url <- board_connect_url_test_url()
-  board <- board_connect_url(c(x = vanity_url))
+  vanity_url <- vanity_url_test()
+  board <- board_connect_url_test(c(x = vanity_url))
 
   expect_snapshot(error = TRUE, {
     board %>% pin_write(1:5, "x")
@@ -44,7 +44,7 @@ test_that("useful errors for unsupported methods", {
     board %>% pin_version_delete("x")
   })
 
-  board <- board_connect_url(c(x = "foo"))
+  board <- board_connect_url_test(c(x = "foo"))
   expect_snapshot(error = TRUE, {
     board %>% pin_meta("x")
   })
