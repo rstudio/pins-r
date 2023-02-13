@@ -128,27 +128,24 @@ write_board_manifest_yaml.pins_board_connect_url <- function(board, manifest, ..
 
 # Testing setup -----------------------------------------------------------
 
-board_connect_url_test <- function(...) {
+board_connect_url_test_url <- function() {
+  board <- board_connect_test()
+  name <- local_pin(board, 1:10)
+  meta <- pin_meta(board, name)
+  vanity_slug <- ids::adjective_animal()
+  body <- glue('{{"force": false, "path": "/{vanity_slug}/"}}')
+  connect_url <- glue("{board$url}/__api__/v1/content/{meta$local$content_id}/vanity")
+
   if (connect_has_colorado()) {
-    board_connect_url_colorado(...)
+    auth <- paste("Key", Sys.getenv("CONNECT_API_KEY"))
   } else {
-    board_connect_url_susan(...)
+    creds <- read_creds()
+    auth <- paste("Key", creds$susan_key)
   }
+
+  result <- httr::PUT(connect_url, body = body, encode = "raw",
+                      httr::add_headers(Authorization = auth))
+
+  glue("{board$url}/{vanity_slug}/")
 }
 
-board_connect_url_colorado <- function(...) {
-  if (!connect_has_colorado()) {
-    testthat::skip("board_connect_url_colorado() only works with Posit's demo server")
-  }
-  board_connect_url(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
-}
-
-board_connect_url_susan <- function(...) {
-  creds <- read_creds()
-  board_connect_url(
-    ...,
-    server = "http://localhost:3939",
-    account = "susan",
-    key = creds$susan_key
-  )
-}
