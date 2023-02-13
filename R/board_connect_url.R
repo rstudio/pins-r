@@ -8,8 +8,8 @@
 #' **Global Options** - **Publishing** - **Connect**, and follow the
 #' instructions.
 #'
-#' `board_connect_url()` is read only and does not support the use of a
-#' [manifest file][write_board_manifest()].
+#' `board_connect_url()` is read only, and does not support either the use of a
+#' [manifest file][write_board_manifest()] or versioning.
 #'
 #' @param vanity_urls A named character vector of
 #'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url).

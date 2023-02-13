@@ -5,7 +5,7 @@
 \title{Use a vector of Posit Connect vanity URLs as a board}
 \usage{
 board_connect_url(
-  urls,
+  vanity_urls,
   auth = c("auto", "manual", "envvar", "rsconnect"),
   server = NULL,
   account = NULL,
@@ -15,7 +15,7 @@ board_connect_url(
 )
 }
 \arguments{
-\item{urls}{A named character vector of
+\item{vanity_urls}{A named character vector of
 \href{https://docs.posit.co/connect/user/content-settings/#custom-url}{Connect vanity URLs}.
 This board is read only, and the best way to write to a pin on Connect is
 \code{\link[=board_connect]{board_connect()}}.}
@@ -59,8 +59,8 @@ first authenticate. The easiest way to do so is by launching \strong{Tools} -
 \strong{Global Options} - \strong{Publishing} - \strong{Connect}, and follow the
 instructions.
 
-\code{board_connect_url()} is read only and does not support the use of a
-\link[=write_board_manifest]{manifest file}.
+\code{board_connect_url()} is read only, and does not support either the use of a
+\link[=write_board_manifest]{manifest file} or versioning.
 }
 \examples{
 \dontshow{if (interactive() || identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
