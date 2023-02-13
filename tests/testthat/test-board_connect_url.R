@@ -34,13 +34,19 @@ test_that("can deparse", {
 })
 
 test_that("useful errors for unsupported methods", {
-  board <- board_connect_url(c(x = "foo"))
+  vanity_url <- board_connect_url_test_url()
+  board <- board_connect_url(c(x = vanity_url))
 
   expect_snapshot(error = TRUE, {
     board %>% pin_write(1:5, "x")
     board %>% pin_delete("x")
-    board %>% pin_meta("x")
     board %>% pin_versions("x")
     board %>% pin_version_delete("x")
   })
+
+  board <- board_connect_url(c(x = "foo"))
+  expect_snapshot(error = TRUE, {
+    board %>% pin_meta("x")
+  })
+
 })
