@@ -146,8 +146,9 @@ vanity_url_test <- function(env = parent.frame()) {
     auth <- paste("Key", creds$susan_key)
   }
 
-  result <- httr::PUT(connect_url, body = body, encode = "raw",
-                      httr::add_headers(Authorization = auth))
+  resp <- httr::PUT(connect_url, body = body, encode = "raw",
+                    httr::add_headers(Authorization = auth))
+  httr::stop_for_status(resp)
 
   glue("{board$url}/{vanity_slug}/")
 }
