@@ -5,7 +5,7 @@
 \title{Use a vector of Posit Connect vanity URLs as a board}
 \usage{
 board_connect_url(
-  vanity_urls,
+  urls,
   auth = c("auto", "manual", "envvar", "rsconnect"),
   server = NULL,
   account = NULL,
@@ -15,7 +15,7 @@ board_connect_url(
 )
 }
 \arguments{
-\item{vanity_urls}{A named character vector of
+\item{urls}{A named character vector of
 \href{https://docs.posit.co/connect/user/content-settings/#custom-url}{Connect vanity URLs}.
 This board is read only, and the best way to write to a pin on Connect is
 \code{\link[=board_connect]{board_connect()}}.}

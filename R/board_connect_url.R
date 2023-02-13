@@ -11,7 +11,7 @@
 #' `board_connect_url()` is read only and does not support the use of a
 #' [manifest file][write_board_manifest()].
 #'
-#' @param vanity_urls A named character vector of
+#' @param urls A named character vector of
 #'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url).
 #'   This board is read only, and the best way to write to a pin on Connect is
 #'   [board_connect()].
@@ -26,7 +26,7 @@
 #'
 #' board %>% pin_read("my_vanity_url_pin")
 #'
-board_connect_url <- function(vanity_urls,
+board_connect_url <- function(urls,
                               auth = c("auto", "manual", "envvar", "rsconnect"),
                               server = NULL,
                               account = NULL,
@@ -39,9 +39,8 @@ board_connect_url <- function(vanity_urls,
 
   board <- new_board_v1(
     "pins_board_connect_url",
-    vanity_urls = vanity_urls,
+    urls = urls,
     cache = cache,
-    url = server$url,
     auth = server$auth,
     use_cache_on_failure = use_cache_on_failure
   )
@@ -53,12 +52,12 @@ board_connect_url <- function(vanity_urls,
 
 #' @export
 pin_list.pins_board_connect_url <- function(board, ...) {
-  names(board$vanity_urls)
+  pin_list.pins_board_url(board, ...)
 }
 
 #' @export
 pin_exists.pins_board_connect_url <- function(board, name, ...) {
-  name %in% names(board$vanity_urls)
+  pin_exists.pins_board_url(board, name, ...)
 }
 
 #' @export
@@ -66,7 +65,7 @@ pin_meta.pins_board_connect_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
-  url <- board$vanity_urls[[name]]
+  url <- board$urls[[name]]
 
   cache_dir <- fs::path(board$cache, hash(url))
   fs::dir_create(cache_dir)
@@ -147,7 +146,7 @@ board_connect_url_colorado <- function(...) {
 board_connect_url_susan <- function(...) {
   creds <- read_creds()
   board_connect_url(
-    ...
+    ...,
     server = "http://localhost:3939",
     account = "susan",
     key = creds$susan_key
