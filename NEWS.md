@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Added new board for Connect vanity URLs `board_connect_url()` (#706).
+
 # pins 1.1.0
 
 ## Breaking changes
