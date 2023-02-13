@@ -84,7 +84,7 @@ pin_meta.pins_board_connect_url <- function(board, name, version = NULL, ...) {
   } else {
     cli::cli_abort(c(
       "Malformed vanity URL(s):",
-      x = "{.url url}",
+      x = "{.url {url}}",
       i = "Check the vanity URL for your pin"
     ))
   }
