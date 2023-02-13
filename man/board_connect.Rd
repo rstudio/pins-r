@@ -100,7 +100,8 @@ Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:
 board \%>\% pin_read("numbers")
 }\if{html}{\out{</div>}}
 
-You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}.
+You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}. See \code{\link[=board_connect_url]{board_connect_url()}}
+for how to read pins with vanity URLs that are \emph{not} public.
 }
 
 \examples{

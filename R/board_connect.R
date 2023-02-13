@@ -33,7 +33,7 @@
 #' ```
 #'
 #' You can find the URL of a pin with [pin_browse()]. See [board_connect_url()]
-#' for how to read pins with vanity URLs that are not public.
+#' for how to read pins with vanity URLs that are *not* public.
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
