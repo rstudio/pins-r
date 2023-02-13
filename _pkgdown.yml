@@ -27,6 +27,7 @@ reference:
   contents:
   - board_azure
   - board_connect
+  - board_connect_url
   - board_gcs
   - board_local
   - board_ms365
