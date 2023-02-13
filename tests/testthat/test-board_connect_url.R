@@ -31,8 +31,6 @@ test_that("useful errors for unsupported methods", {
     board %>% pin_write(1:5, "x")
     board %>% pin_delete("x")
     board %>% pin_meta("x")
-    board %>% pin_meta("froofy", version = "x")
-    ## TODO: pin_versions
     board %>% pin_versions("x")
     board %>% pin_version_delete("x")
   })
