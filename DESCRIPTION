@@ -49,6 +49,7 @@ Suggests:
     datasets,
     gitcreds,
     googleCloudStorageR,
+    ids,
     knitr,
     Microsoft365R,
     mockery,
