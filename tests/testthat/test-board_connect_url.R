@@ -24,6 +24,15 @@ test_that("absent pins handled consistently", {
   expect_error(pin_meta(board, "y"), class = "pins_pin_missing")
 })
 
+test_that("can deparse", {
+  board <- board_connect_url(c(
+    x = "https://connect.example.com/sizable_tigerbeetle/",
+    y = "https://connect.example.com/avaricious_indianspinyloach/"
+    ))
+
+  expect_snapshot(board_deparse(board))
+})
+
 test_that("useful errors for unsupported methods", {
   board <- board_connect_url(c(x = "foo"))
 

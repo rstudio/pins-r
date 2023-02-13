@@ -1,3 +1,12 @@
+# can deparse
+
+    Code
+      board_deparse(board)
+    Output
+      board_connect_url(c(x = "https://connect.example.com/sizable_tigerbeetle/", 
+          y = "https://connect.example.com/avaricious_indianspinyloach/"), 
+          auth = "envvar")
+
 # useful errors for unsupported methods
 
     Code

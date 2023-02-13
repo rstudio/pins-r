@@ -98,8 +98,8 @@ pin_fetch.pins_board_connect_url <- function(board, name, version = NULL, ...) {
 #' @rdname board_deparse
 #' @export
 board_deparse.pins_board_connect_url <- function(board, ...) {
-  ## TODO: add vanity URLs
-  expr(board_connect_url(auth = "envvar"))
+  vanity_urls <- check_board_deparse(board, "vanity_urls")
+  expr(board_connect_url(c(!!!vanity_urls), auth = "envvar"))
 }
 
 #' @rdname required_pkgs.pins_board
