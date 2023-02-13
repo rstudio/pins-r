@@ -11,7 +11,7 @@
 #' `board_connect_url()` is read only and does not support the use of a
 #' [manifest file][write_board_manifest()].
 #'
-#' @param urls A named character vector of
+#' @param vanity_urls A named character vector of
 #'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url).
 #'   This board is read only, and the best way to write to a pin on Connect is
 #'   [board_connect()].
@@ -26,7 +26,7 @@
 #'
 #' board %>% pin_read("my_vanity_url_pin")
 #'
-board_connect_url <- function(urls,
+board_connect_url <- function(vanity_urls,
                               auth = c("auto", "manual", "envvar", "rsconnect"),
                               server = NULL,
                               account = NULL,
@@ -39,8 +39,9 @@ board_connect_url <- function(urls,
 
   board <- new_board_v1(
     "pins_board_connect_url",
-    urls = urls,
+    vanity_urls = vanity_urls,
     cache = cache,
+    url = server$url,
     auth = server$auth,
     use_cache_on_failure = use_cache_on_failure
   )
@@ -52,12 +53,12 @@ board_connect_url <- function(urls,
 
 #' @export
 pin_list.pins_board_connect_url <- function(board, ...) {
-  pin_list.pins_board_url(board, ...)
+  names(board$vanity_urls)
 }
 
 #' @export
 pin_exists.pins_board_connect_url <- function(board, name, ...) {
-  pin_exists.pins_board_url(board, name, ...)
+  name %in% names(board$vanity_urls)
 }
 
 #' @export
@@ -65,7 +66,7 @@ pin_meta.pins_board_connect_url <- function(board, name, version = NULL, ...) {
   check_name(name)
   check_pin_exists(board, name)
 
-  url <- board$urls[[name]]
+  url <- board$vanity_urls[[name]]
 
   cache_dir <- fs::path(board$cache, hash(url))
   fs::dir_create(cache_dir)
@@ -128,9 +129,11 @@ write_board_manifest_yaml.pins_board_connect_url <- function(board, manifest, ..
 
 # Testing setup -----------------------------------------------------------
 
-board_connect_url_test_url <- function() {
+board_connect_url_test_url <- function(env = parent.frame()) {
   board <- board_connect_test()
-  name <- local_pin(board, 1:10)
+  name <- pin_write(board, 1:10, random_pin_name())
+  withr::defer(if (pin_exists(board, name)) pin_delete(board, name), env)
+
   meta <- pin_meta(board, name)
   vanity_slug <- ids::adjective_animal()
   body <- glue('{{"force": false, "path": "/{vanity_slug}/"}}')
