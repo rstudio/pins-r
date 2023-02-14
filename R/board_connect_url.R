@@ -134,20 +134,17 @@ vanity_url_test <- function(env = parent.frame()) {
   name <- pin_write(board, 1:10, random_pin_name())
   withr::defer(if (pin_exists(board, name)) pin_delete(board, name), env)
 
-  meta <- pin_meta(board, name)
   vanity_slug <- ids::adjective_animal()
-  body <- glue('{{"force": false, "path": "/{vanity_slug}/"}}')
-  connect_url <- glue("{board$url}/__api__/v1/content/{meta$local$content_id}/vanity")
+  body_path <- withr::local_tempfile()
+  body <- list(force = FALSE, path = glue("/{vanity_slug}/"))
+  jsonlite::write_json(body, body_path, auto_unbox = TRUE)
+  body <- httr::upload_file(body_path, "application/json")
 
-  if (connect_has_colorado()) {
-    auth <- paste("Key", Sys.getenv("CONNECT_API_KEY"))
-  } else {
-    creds <- read_creds()
-    auth <- paste("Key", creds$susan_key)
-  }
-
-  resp <- httr::PUT(connect_url, body = body, encode = "raw",
-                    httr::add_headers(Authorization = auth))
+  meta <- pin_meta(board, name)
+  path <- glue("v1/content/{meta$local$content_id}/vanity")
+  path <- rsc_path(board, path)
+  auth <- rsc_auth(board, path, "PUT", body_path)
+  resp <- httr::PUT(board$url, path = path, body = body, auth)
   httr::stop_for_status(resp)
 
   glue("{board$url}/{vanity_slug}/")
