@@ -128,8 +128,8 @@ board %>% pin_read("test-data")
 | `board_register_azure()`     | `board_azure()`                                         |
 | `board_register_datatxt()`   | Not currently implemented                               |
 | `board_register_dospace()`   | Not currently implemented                               |
-| `board_register_gcloud()`    | Not currently implemented                               |
-| `board_register_github()`    | Not currently implemented                               |
+| `board_register_gcloud()`    | `board_gcs()`                                           |
+| `board_register_github()`    | Use `board_folder()` together with `board_url()`        |
 | `board_register_local()`     | `board_local()`                                         |
 | `board_register_kaggle()`    | `board_kaggle_dataset()` / `board_kaggle_competition()` |
 | `board_register_rsconnect()` | `board_connect()`                                       |
