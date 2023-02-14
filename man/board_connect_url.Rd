@@ -63,7 +63,7 @@ instructions.
 \link[=write_board_manifest]{manifest file} or versioning.
 }
 \examples{
-\dontshow{if (interactive() || identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 board <- board_connect_url(c(
     my_vanity_url_pin = "https://colorado.posit.co/rsc/great-numbers/"
 ))

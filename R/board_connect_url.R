@@ -19,7 +19,7 @@
 #' @inheritParams new_board
 #' @inheritParams board_connect
 #' @export
-#' @examplesIf interactive() || identical(Sys.getenv("IN_PKGDOWN"), "true")
+#' @examplesIf interactive()
 #' board <- board_connect_url(c(
 #'     my_vanity_url_pin = "https://colorado.posit.co/rsc/great-numbers/"
 #' ))
