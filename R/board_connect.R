@@ -730,7 +730,7 @@ board_connect_test <- function(...) {
 # Use Colorado for local testing
 connect_has_colorado <- function() {
   accounts <- rsconnect::accounts()
-  any(c("colorado.posit.co") %in% accounts$server)
+  "colorado.posit.co") %in% accounts$server
 }
 
 board_connect_colorado <- function(...) {
