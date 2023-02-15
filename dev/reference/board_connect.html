@@ -160,10 +160,12 @@ board object.</p></dd>
 
 
 <dt>use_cache_on_failure</dt>
-<dd><p>If the pin fails to download, is it ok to
+<dd><p>If the pin fails to download, is it OK to
 use the last cached version? Defaults to <code>is_interactive()</code> so you'll
 be robust to poor internet connectivity when exploring interactively,
-but you'll get clear errors when the code is deployed.</p></dd>
+but you'll get clear errors when the code is deployed. Note that this
+argument controls whether you use the cache for reading pins, but you can't
+create a board object unless you can connect to your Connect server.</p></dd>
 
 
 <dt>output_files</dt>
