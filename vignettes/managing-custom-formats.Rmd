@@ -16,22 +16,18 @@ knitr::opts_chunk$set(
 ```
 
 The pins package provides a robust set of functions to read and write standard types of files using standard tools, e.g. CSV files using `read.csv()` and `write.csv()`.
-However, from time to time, you may wish read or write using other tools. You may want to read and write:
+However, from time to time, you may wish read or write in other ways. You may want to read and write:
 
- - CSV files using readr or vroom
- - Arrow files without using compression
- - Parquet files
- - Whole directories that are archived/zipped
+- CSV files using readr or vroom
+- Arrow files without using compression
+- Parquet files
+- Whole directories that are archived/zipped
+- Objects with standardized metadata
 
-An escape hatch for a customized approach is provided: `pin_upload()` and `pin_download()`. 
-The goal of this vignette is to show how you can incorporate these into your workflow.
+You can create a customized approach using either `pin_upload()` and `pin_download()` or `pin_write()` and `pin_read()`. 
+The goal of this vignette is to show how you can incorporate these customizations into your workflow.
 
-Two points to keep in mind:
-
- - `pin_upload()` takes a vector of `paths` to local files.
- - `pin_download()` returns a vector of `paths` to local files.
-
-We'll follow an example where we write and read uncompressed Arrow files, starting by creating a temporary board:
+We'll begin with an example where we write and read uncompressed Arrow files, starting by creating a temporary board:
 
 ```{r setup}
 library(pins)
@@ -39,7 +35,12 @@ library(pins)
 board <- board_temp()
 ```
 
-## Upload a one-off file
+## Upload a single file
+
+Two points to keep in mind:
+
+- `pin_upload()` takes a vector of `paths` to local files.
+- `pin_download()` returns a vector of `paths` to local files.
 
 If you are writing a one-off file, you can do everything directly:
 
@@ -73,10 +74,10 @@ pin_upload_arrow <- function(board, x, name, ...) {
   # path deleted when `pin_upload_arrow()` exits
   path <- fs::path_temp(fs::path_ext_set(name, "arrow"))
   withr::defer(fs::file_delete(path))
- 
+  
   # custom writer
   arrow::write_feather(x, path, compression = "uncompressed")
-
+  
   pin_upload(board, paths = path, name = name, ...) 
 }
 ```
@@ -95,7 +96,7 @@ pin_download(board, name = "mtcars-arrow2") %>%
   head()
 ```
 
-## Another example function
+## Example 2: upload a zipped directory archive as a pin
 
 If you want to use this same approach to [archive](https://archive.r-lib.org/) and pin a whole directory, you can write a helper function like:
 
@@ -104,8 +105,65 @@ pin_upload_archive <- function(board, dir, name, ...) {
   path <- fs::path_temp(fs::path_ext_set(name, "tar.gz"))
   withr::defer(fs::file_delete(path))
   archive::archive_write_dir(path, dir)
-  pin_upload(b, paths = path, name = name, ...)
+  pin_upload(board = board, paths = path, name = name, ...)
 }
 ```
 
-You can download the compressed archive via `pin_download(board, name)` and then pipe that path straight to `archive::archive_extract()` to extract your archive in a new diretory.
+You can download the compressed archive via `pin_download(board, name)` and then pipe that path straight to `archive::archive_extract()` to extract your archive in a new directory.
+
+## Example 3: store objects with consistent metadata as pins
+
+The previous examples involve wrapping `pin_upload()` and `pin_download()`, but you can also wrap `pin_write()` and `pin_read()`. You can use this approach to store an object with standardized metadata. For example, say you want to store a factor as JSON together with the _levels_ of the factor in the metadata:
+
+```{r}
+pin_write_factor_json <- function(board, 
+                                  x, 
+                                  name, 
+                                  title = NULL, 
+                                  description = NULL, 
+                                  metadata = list(), 
+                                  versioned = NULL, 
+                                  tags = NULL, 
+                                  ...) {
+  if (!is.factor(x)) rlang::abort("`x` is not a factor")
+  factor_levels <- levels(x)
+  metadata <- modifyList(metadata, list(factor_levels = factor_levels))
+  pin_write(
+    board = board, 
+    x = x, 
+    name = name, 
+    type = "json", 
+    title = title, 
+    description = description, 
+    metadata = metadata,
+    ...
+  )
+}
+```
+
+We can use this new function to write a pin as JSON with our specific metadata:
+
+```{r}
+ten_letters <- factor(sample(letters, size = 10), levels = letters)
+board %>% pin_write_factor_json(ten_letters, "letters-as-json")
+```
+
+It's possible to read this pin using the regular `pin_read()` function, but the object we get is no longer a factor:
+
+```{r}
+board %>% pin_read("letters-as-json")
+```
+
+Instead, we can also write a special function for reading, to reconstruct the factor including its levels:
+
+```{r}
+pin_read_factor_json <- function(board, name, version = NULL, hash = NULL, ...) {
+  ret <- pin_read(board = board, name = name, version = version, hash = hash, ...)
+  meta <- pin_meta(board = board, name = name, version = version, ...)
+  factor(ret, levels = meta$user$factor_levels)
+}
+
+board %>% pin_read_factor_json("letters-as-json")
+```
+
+For an example of how this approach is used in a real project, look at how [the vetiver package wraps these functions to write and read model binaries as pins](https://github.com/rstudio/vetiver-r/blob/main/R/pin-read-write.R).
