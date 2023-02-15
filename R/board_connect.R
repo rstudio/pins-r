@@ -52,6 +52,12 @@
 #' @param account A user name used to disambiguate multiple Connect accounts.
 #' @param key The Posit Connect API key.
 #' @param output_files `r lifecycle::badge("deprecated")` No longer supported.
+#' @param use_cache_on_failure If the pin fails to download, is it OK to
+#'   use the last cached version? Defaults to `is_interactive()` so you'll
+#'   be robust to poor internet connectivity when exploring interactively,
+#'   but you'll get clear errors when the code is deployed. Note that this
+#'   argument controls whether you use the cache for reading pins, but you can't
+#'   create a board object unless you can connect to your Connect server.
 #' @family boards
 #' @export
 #' @examples
