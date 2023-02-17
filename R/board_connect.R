@@ -165,18 +165,29 @@ board_browse.pins_board_connect <- function(board, ...) {
   browse_url(board$url)
 }
 
-#' @export
-pin_list.pins_board_connect <- function(board, ...) {
+rsc_pin_list <- function(board) {
   params <- list(
     filter = "content_type:pin",
-    count = 1000
+    count = 1000 # need to remove this one day!
   )
   json <- rsc_GET(board, "applications/", params)
   pins <- json$applications
+  pins
+}
+
+#' @export
+pin_list.pins_board_connect <- function(board, ...) {
+  pins <- rsc_pin_list(board)
 
   name <- map_chr(pins, ~ .x$name)
   user <- map_chr(pins, ~ .x$owner_username)
-  paste0(user, "/", name)
+
+  normal_pins <- paste0(user, "/", name)
+
+  is_vanity <- map_lgl(pins, ~ .x$vanity_url)
+  vanity_pin_urls <- map_chr(pins[is_vanity], ~ .x$url)
+
+  c(vanity_pin_urls, normal_pins)
 }
 
 #' @export
@@ -569,7 +580,30 @@ rsc_content_delete <- function(board, name) {
   invisible(NULL)
 }
 
+rsc_looks_like_vanity <- function(name) {
+  stringr::str_starts(name, "https?://")
+}
+
+rsc_vanity_to_name <- function(board, vanity_url) {
+  # could consider caching here - as this could be slow...
+  pins <- rsc_pin_list(board)
+
+  content_found <- keep(pins, ~ .x$url == vanity_url)
+  if (length(content_found) == 0) {
+    stop("Error - could not find vanity_url")
+  }
+  if (length(content_found) > 1) {
+    stop("Error - found multiple matching vanity_urls")
+  }
+
+  map_chr(content_found, ~ paste0(.x$owner_username, "/", .x$name))
+}
+
 rsc_parse_name <- function(x) {
+  if (rsc_looks_like_vanity(x)) {
+    x <- rsc_vanity_to_name(board, x)
+  }
+
   parts <- strsplit(x, "/", fixed = TRUE)[[1]]
 
   if (length(parts) == 1) {
