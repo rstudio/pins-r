@@ -40,8 +40,9 @@
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   ellipsis::check_dots_used()
   if (missing(name) && rsc_looks_like_vanity(board)) {
-    name <- board
-    board <- rsc_board_from_url(name)
+    name_and_board <- name_and_board_from_url(board)
+    name <- name_and_board$name
+    board <- name_and_board$board
   }
 
   check_board(board, "pin_read()", "pin_get()")
@@ -52,13 +53,39 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   object_read(meta)
 }
 
-rsc_board_from_url <- function(url) {
+name_and_board_from_url <- function(url) {
   parsed <- httr::parse_url(url)
   if (is.null(parsed$hostname)) {
     stop("Unable to parse host")
   }
-  board <- board_connect(server = parsed$hostname)
-  board
+
+  # try rsconnect first...
+  if (is_installed("rsconnect")) {
+    known_accounts <- rsconnect::accounts()
+    if (!is.null(known_accounts)) {
+      server_accounts <- known_accounts[known_accounts$server == parsed$hostname, , drop = FALSE]
+      if (nrow(server_accounts) > 0) {
+        board <- board_connect(server = parsed$hostname)
+        return(
+          list(
+            name = url,
+            board = board
+          )
+        )
+      }
+    }
+  }
+
+  # fall back to board_url
+  names(url) <- "single_url"
+  board <- board_url(urls = url)
+
+  return(
+    list(
+      name = "single_url",
+      board = board
+    )
+  )
 }
 
 #' @param x An object (typically a data frame) to pin.
