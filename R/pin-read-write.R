@@ -39,12 +39,26 @@
 #' # version includes the date-time I can't do that in an example)
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   ellipsis::check_dots_used()
+  if (missing(name) && rsc_looks_like_vanity(board)) {
+    name <- board
+    board <- rsc_board_from_url(name)
+  }
+
   check_board(board, "pin_read()", "pin_get()")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
 
   object_read(meta)
+}
+
+rsc_board_from_url <- function(url) {
+  parsed <- httr::parse_url(url)
+  if (is.null(parsed$hostname)) {
+    stop("Unable to parse host")
+  }
+  board <- board_connect(server = parsed$hostname)
+  board
 }
 
 #' @param x An object (typically a data frame) to pin.
