@@ -73,7 +73,10 @@ preprocess_board_and_name <- function(board, name) {
   }
 
   url <- board
+  board_and_name_from_url(url)
+}
 
+board_and_name_from_url <- function(url) {
   parsed <- httr::parse_url(url)
   if (is.null(parsed$hostname)) {
     abort("Unable to parse hostname from board.")
