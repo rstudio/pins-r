@@ -1,3 +1,9 @@
+#' Create an automagic board around a single (vanity) url
+#'
+#' @param url the url
+#'
+#' @return the board
+#' @export
 board_auto <- function(url) {
   underlying <- board_and_name_from_url(url)
   new_board_v1("pins_board_auto",
