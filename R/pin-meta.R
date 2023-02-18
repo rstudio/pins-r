@@ -45,7 +45,10 @@ pin_meta <- function(board, name, version = NULL, ...) {
   preprocessed <- preprocess_board_and_name(board, name)
   board <- preprocessed$board
   name <- preprocessed$name
-  pin_meta_internal(board, name, version, ...)
+  return(pin_meta_internal(board, name, version, ...))
+
+  # there is probably a better way... but let's just trick roxygen into S3 for now
+  UseMethod("pin_meta")
 }
 
 pin_meta_internal <- function(board, name, version = NULL, ...) {
