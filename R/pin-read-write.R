@@ -39,11 +39,10 @@
 #' # version includes the date-time I can't do that in an example)
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   ellipsis::check_dots_used()
-  if (missing(name) && rsc_looks_like_vanity(board)) {
-    name_and_board <- name_and_board_from_url(board)
-    name <- name_and_board$name
-    board <- name_and_board$board
-  }
+
+  preprocessed <- preprocess_board_and_name(board, name)
+  board <- preprocessed$board
+  name <- preprocessed$name
 
   check_board(board, "pin_read()", "pin_get()")
 
@@ -53,18 +52,58 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   object_read(meta)
 }
 
-name_and_board_from_url <- function(url) {
-  parsed <- httr::parse_url(url)
-  if (is.null(parsed$hostname)) {
-    stop("Unable to parse host")
+preprocess_board_and_name <- function(board, name) {
+
+  if (inherits(board, "pins_board")) {
+    return(list(
+      board = board,
+      name = name
+    ))
   }
 
-  # try rsconnect first...
+  if (!missing(name)) {
+    return(list(
+      board = board,
+      name = name
+    ))
+  }
+
+  if (!looks_like_single_url(board)) {
+    abort("What on earth to do here... we only know how to handle a http url-style board...")
+  }
+
+  url <- board
+
+  parsed <- httr::parse_url(url)
+  if (is.null(parsed$hostname)) {
+    abort("Unable to parse hostname from board.")
+  }
+
+  # try connect envvar first...
+  if (has_envvars(c("CONNECT_API_KEY", "CONNECT_SERVER"))){
+    connect_server <- Sys.getenv("CONNECT_SERVER")
+    connect_server_parsed <- httr::parse_url(connect_server)
+    if (!is.null(connect_server_parsed$hostname)) {
+      if (connect_server_parsed$hostname == parsed$hostname) {
+        # assume envvar connection will work
+        board <- board_connect(auth="envvar")
+        return(
+          list(
+            name = url,
+            board = board
+          )
+        )
+      }
+    }
+  }
+
+  # try rsconnect second...
   if (is_installed("rsconnect")) {
     known_accounts <- rsconnect::accounts()
     if (!is.null(known_accounts)) {
       server_accounts <- known_accounts[known_accounts$server == parsed$hostname, , drop = FALSE]
       if (nrow(server_accounts) > 0) {
+        # only "auto" auth supported here
         board <- board_connect(server = parsed$hostname)
         return(
           list(
@@ -75,6 +114,8 @@ name_and_board_from_url <- function(url) {
       }
     }
   }
+
+  # TODO... how could we search for GCP, AWS, Azure, etc
 
   # fall back to board_url
   names(url) <- "single_url"

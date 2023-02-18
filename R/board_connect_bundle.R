@@ -53,7 +53,7 @@ rsc_bundle_preview_create <- function(board, name, x, metadata, path) {
 
 rsc_bundle_preview_index <- function(board, name, x, metadata) {
   data_preview <- rsc_bundle_preview_data(x)
-  name <- rsc_parse_name(name)
+  name <- rsc_parse_name(board, name)
   owner <- name$owner %||% board$account
 
   data <- list(

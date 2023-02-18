@@ -275,7 +275,7 @@ pin_store.pins_board_connect <- function(
 {
   # https://docs.posit.co/connect/1.8.0.4/cookbook/deploying/
 
-  check_name(rsc_parse_name(name)$name)
+  check_name(rsc_parse_name(board, name)$name)
 
   versioned <- versioned %||% board$versioned
   if (!is.null(access_type)) {
@@ -348,7 +348,7 @@ pin_store.pins_board_connect <- function(
     }
   }
 
-  name <- rsc_parse_name(name)
+  name <- rsc_parse_name(board, name)
   paste0(name$owner %||% board$account, "/", name$name)
 }
 
@@ -445,7 +445,7 @@ the$connect_content_cache <- rlang::new_environment()
 the$connect_user_cache <- rlang::new_environment()
 
 rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
-  name <- rsc_parse_name(name)
+  name <- rsc_parse_name(board, name)
   content <- rlang::env_cache(
     env = the$connect_content_cache,
     nm = name$full %||% name$name,
@@ -494,7 +494,7 @@ rsc_content_find_live <- function(board, name, version = NULL, warn = TRUE) {
 }
 
 rsc_content_create <- function(board, name, metadata, access_type = "acl") {
-  name <- rsc_parse_name(name)
+  name <- rsc_parse_name(board, name)
   if (!grepl("^[-_A-Za-z0-9]+$", name$name)) {
     abort("Posit Connect requires alpanumeric names")
   }
@@ -580,8 +580,12 @@ rsc_content_delete <- function(board, name) {
   invisible(NULL)
 }
 
-rsc_looks_like_vanity <- function(name) {
-  stringr::str_starts(name, "https?://")
+looks_like_single_url <- function(name) {
+  if (is.character(name) && length(name) == 1) {
+    return(stringr::str_starts(name, "https?://"))
+  } else {
+    return(FALSE)
+  }
 }
 
 rsc_vanity_to_name <- function(board, vanity_url) {
@@ -599,8 +603,8 @@ rsc_vanity_to_name <- function(board, vanity_url) {
   map_chr(content_found, ~ paste0(.x$owner_username, "/", .x$name))
 }
 
-rsc_parse_name <- function(x) {
-  if (rsc_looks_like_vanity(x)) {
+rsc_parse_name <- function(board, x) {
+  if (looks_like_single_url(x)) {
     x <- rsc_vanity_to_name(board, x)
   }
 
