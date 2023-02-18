@@ -38,7 +38,9 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
     lifecycle::deprecate_warn("1.0.0", "pin_versions(full)")
   }
 
-  if (missing(name) && is.board(board)) {
+  if (is.board.auto(board)) {
+    swapped <- FALSE
+  } else if (missing(name) && is.board(board)) {
     abort("Argument `name` is missing, with no default")
   } else if (missing(name) && is.character(board)) {
     preprocessed <- preprocess_board_and_name(board, name)

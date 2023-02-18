@@ -55,6 +55,7 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 preprocess_board_and_name <- function(board, name) {
 
   if (inherits(board, "pins_board")) {
+    if (missing(name)) name <- NULL
     return(list(
       board = board,
       name = name
@@ -167,6 +168,10 @@ pin_write <- function(board, x,
   name <- preprocessed$name
 
   check_board(board, "pin_write()", "pin()")
+
+  if (is.board.auto(board) && is.null(name)) {
+    name <- board$underlying$name
+  }
 
   if (is.null(name)) {
     name <- enexpr(x)
