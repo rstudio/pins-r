@@ -61,7 +61,7 @@ preprocess_board_and_name <- function(board, name) {
     ))
   }
 
-  if (!missing(name)) {
+  if (!missing(name) && !rlang::is_null(name)) {
     return(list(
       board = board,
       name = name
@@ -158,6 +158,11 @@ pin_write <- function(board, x,
                       tags = NULL,
                       ...) {
   ellipsis::check_dots_used()
+
+  preprocessed <- preprocess_board_and_name(board, name)
+  board <- preprocessed$board
+  name <- preprocessed$name
+
   check_board(board, "pin_write()", "pin()")
 
   if (is.null(name)) {

@@ -42,7 +42,15 @@
 #' b %>% pin_meta("mtcars")
 #'
 pin_meta <- function(board, name, version = NULL, ...) {
+  preprocessed <- preprocess_board_and_name(board, name)
+  board <- preprocessed$board
+  name <- preprocessed$name
+  pin_meta_internal(board, name, version, ...)
+}
+
+pin_meta_internal <- function(board, name, version = NULL, ...) {
   check_board(board, "pin_meta()", "pin_info()")
+
   UseMethod("pin_meta")
 }
 

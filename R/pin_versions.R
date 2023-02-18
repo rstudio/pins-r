@@ -40,6 +40,11 @@ pin_versions <- function(board, name, ..., full = deprecated()) {
 
   if (missing(name) && is.board(board)) {
     abort("Argument `name` is missing, with no default")
+  } else if (missing(name) && is.character(board)) {
+    preprocessed <- preprocess_board_and_name(board, name)
+    board <- preprocessed$board
+    name <- preprocessed$name
+    swapped <- FALSE
   } else if (missing(name) || is.board(name) || name %in% board_list()) {
     swap <- board
     board <- if (missing(name)) NULL else name
