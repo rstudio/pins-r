@@ -5,6 +5,7 @@ test_api_manifest(board_temp())
 
 test_that("has useful print method", {
   path <- withr::local_tempfile()
+  withr::local_options(cli.width = 120)
   expect_snapshot(
     board_folder(path),
     transform = ~ gsub("Path: .*", "Path: '<redacted>'", .x)

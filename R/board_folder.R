@@ -33,7 +33,7 @@ board_folder <- function(path, versioned = FALSE) {
 }
 #' @export
 board_desc.pins_board_folder <- function(board, ...) {
-  paste0("Path: '", board$path, "'")
+  glue("Path: '{board$path}'")
 }
 
 #' @export
