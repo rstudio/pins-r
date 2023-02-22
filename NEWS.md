@@ -1,5 +1,7 @@
 # pins (development version)
 
+* The `print` method for boards no longer calls `pin_list()` internally (#718).
+
 # pins 1.1.0
 
 ## Breaking changes
