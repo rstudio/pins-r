@@ -773,7 +773,7 @@ add_another_user <- function(board, user_name, content_id) {
   resp <- httr::GET(board$url, path = path, query = query, auth)
   httr::stop_for_status(resp)
   res <- httr::content(resp)
-  principal_guid <- purrr::pluck(res$results[[1]], "guid")
+  principal_guid <- res$results[[1]]$guid
 
   ## add user_name as owner for content at GUID
   body <- glue('{{
