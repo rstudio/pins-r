@@ -96,9 +96,9 @@ board_s3 <- function(
     region = NULL,
     endpoint = NULL,
     cache = NULL) {
-  
+
   check_installed("paws.storage")
-  
+
   config <- compact(list(
     credentials = compact(list(
       creds = compact(list(
@@ -112,10 +112,10 @@ board_s3 <- function(
     region = region
   ))
   svc <- paws.storage::s3(config = config)
-  
+
   # Check that have access to the bucket
   svc$head_bucket(bucket)
-  
+
   cache <- cache %||% board_cache_path(paste0("s3-", bucket))
   new_board_v1("pins_board_s3",
                name = "s3",
@@ -132,7 +132,7 @@ board_s3_test <- function(...) {
     tests = "board_s3()",
     envvars = c("PINS_AWS_ACCESS_KEY", "PINS_AWS_SECRET_ACCESS_KEY")
   )
-  
+
   board_s3("pins-test-hadley",
            region = "us-east-2",
            cache = tempfile(),
@@ -214,14 +214,14 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
   metadata_key <- fs::path(name, version, "data.txt")
-  
+
   if (!s3_file_exists(board, metadata_key)) {
     abort_pin_version_missing(version)
   }
-  
+
   path_version <- fs::path(board$cache, name, version)
   fs::dir_create(path_version)
-  
+
   s3_download(board, metadata_key, immutable = TRUE)
   local_meta(
     read_meta(fs::path(board$cache, name, version)),
@@ -235,12 +235,12 @@ pin_meta.pins_board_s3 <- function(board, name, version = NULL, ...) {
 pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   cache_touch(board, meta)
-  
+
   for (file in meta$file) {
     key <- fs::path(name, meta$local$version, file)
     s3_download(board, key, immutable = TRUE)
   }
-  
+
   meta
 }
 
@@ -250,13 +250,13 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
   ellipsis::check_dots_used()
   check_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
-  
+
   version_dir <- fs::path(name, version)
   s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata, ...)
   for (path in paths) {
     s3_upload_file(board, fs::path(version_dir, fs::path_file(path)), path, ...)
   }
-  
+
   name
 }
 
@@ -264,7 +264,7 @@ pin_store.pins_board_s3 <- function(board, name, paths, metadata,
 #' @export
 board_deparse.pins_board_s3 <- function(board, ...) {
   bucket <- check_board_deparse(board, "bucket")
-  
+
   config <- board$svc$.internal$config
   board_args <- compact(list(
     bucket = bucket,
@@ -302,7 +302,7 @@ s3_delete_dir <- function(board, dir) {
   if (resp$KeyCount == 0) {
     return(invisible())
   }
-  
+
   delete <- list(Objects = map(resp$Contents, "[", "Key"))
   board$svc$delete_objects(board$bucket, Delete = delete)
   invisible()
@@ -331,7 +331,7 @@ s3_upload_file <- function(board, key, path, ...) {
 
 s3_download <- function(board, key, immutable = FALSE) {
   path <- fs::path(board$cache, key)
-  
+
   if (!immutable || !fs::file_exists(path)) {
     resp <- board$svc$get_object(
       Bucket = board$bucket,
@@ -340,7 +340,7 @@ s3_download <- function(board, key, immutable = FALSE) {
     writeBin(resp$Body, path)
     fs::file_chmod(path, "u=r")
   }
-  
+
   path
 }
 
@@ -356,7 +356,7 @@ strip_prefix <- function(x, prefix) {
   if (is.null(prefix)) {
     return(x)
   }
-  
+
   to_strip <- startsWith(x, prefix)
   x[to_strip] <- substr(x[to_strip], nchar(prefix) + 1, nchar(x[to_strip]))
   x
