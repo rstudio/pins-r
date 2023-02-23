@@ -15,9 +15,10 @@ The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
 networked drive or with services like DropBox), Posit Connect, Amazon
-S3, Azure storage and Microsoft 365 (OneDrive and SharePoint). Pins can
-be automatically versioned, making it straightforward to track changes,
-re-run analyses on historical data, and undo mistakes.
+S3, Google Cloud Storage, Azure storage, and Microsoft 365 (OneDrive and
+SharePoint). Pins can be automatically versioned, making it
+straightforward to track changes, re-run analyses on historical data,
+and undo mistakes.
 
 pins 1.0.0 includes a new more explicit API and greater support for
 versioning. The legacy API (`pin()`, `pin_get()`, and
@@ -59,7 +60,8 @@ library(pins)
 board <- board_temp()
 board
 #> Pin board <pins_board_folder>
-#> Path: '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpQ8OzP6/pins-354022be6938'
+#> Path:
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpTxyyP1/pins-114c073a9ddd2'
 #> Cache size: 0
 ```
 
@@ -69,7 +71,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230121T180607Z-209d4'
+#> Creating new version '20230223T220424Z-a800d'
 #> Writing to pin 'mtcars'
 ```
 
@@ -99,7 +101,7 @@ Connect](https://posit.co/products/enterprise/connect/) you can use
 
 ``` r
 board <- board_connect()
-#> Connecting to RSC 1.9.0.1 at <https://connect.rstudioservices.com>
+#> Connecting to Posit Connect 2023.01.0 at <https://colorado.posit.co/rsc>
 board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
 #> Writing to pin 'hadley/sales-summary'
 ```
