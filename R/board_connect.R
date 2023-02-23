@@ -763,17 +763,17 @@ read_creds <- function() {
   }
   readRDS(path)
 }
-add_another_user <- function(board, user_name, guid) {
+add_another_user <- function(board, user_name, content_id) {
 
-  ## get GUID for user_name
+  ## get user GUID for new owner from user_name
   path <- glue("v1/users/")
   path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "GET")
   query <- glue("prefix={user_name}")
-  resp <- httr::GET(board$url, path = path, auth)
+  resp <- httr::GET(board$url, path = path, query = query, auth)
   httr::stop_for_status(resp)
   res <- httr::content(resp)
-  principal_guid <- map_chr(res$results, "guid")
+  principal_guid <- purrr::pluck(res$results[[1]], "guid")
 
   ## add user_name as owner for content at GUID
   body <- glue('{{
@@ -782,7 +782,7 @@ add_another_user <- function(board, user_name, guid) {
   "role": "owner"
   }}')
 
-  path <- glue("v1/content/{guid}/permissions")
+  path <- glue("v1/content/{content_id}/permissions")
   path <- rsc_path(board, path)
   auth <- rsc_auth(board, path, "POST")
   resp <- httr::POST(board$url, path = path, body = body, auth)
