@@ -772,7 +772,7 @@ add_another_user <- function(board, user_name, guid) {
   query <- glue("prefix={user_name}")
   resp <- httr::GET(board$url, path = path, auth)
   httr::stop_for_status(resp)
-  res <- content(resp)
+  res <- httr::content(resp)
   principal_guid <- map_chr(res$results, "guid")
 
   ## add user_name as owner for content at GUID
