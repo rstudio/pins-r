@@ -730,13 +730,7 @@ board_connect_test <- function(...) {
 # Use Colorado for local testing
 connect_has_colorado <- function() {
   accounts <- rsconnect::accounts()
-  any(c("colorado.rstudio.com", "colorado.posit.co") %in% accounts$server)
-}
-board_connect_colorado <- function(...) {
-  if (!connect_has_colorado()) {
-    testthat::skip("board_connect_colorado() only works with Posit's demo server")
-  }
-  board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
+  "colorado.posit.co" %in% accounts$server
 }
 
 board_connect_colorado <- function(...) {
@@ -769,4 +763,29 @@ read_creds <- function() {
   }
   readRDS(path)
 }
+add_another_user <- function(board, user_name, content_id) {
 
+  ## get user GUID for new owner from user_name
+  path <- glue("v1/users/")
+  path <- rsc_path(board, path)
+  auth <- rsc_auth(board, path, "GET")
+  query <- glue("prefix={user_name}")
+  resp <- httr::GET(board$url, path = path, query = query, auth)
+  httr::stop_for_status(resp)
+  res <- httr::content(resp)
+  principal_guid <- res$results[[1]]$guid
+
+  ## add user_name as owner for content at GUID
+  body <- glue('{{
+  "principal_guid": "{principal_guid}",
+  "principal_type": "user",
+  "role": "owner"
+  }}')
+
+  path <- glue("v1/content/{content_id}/permissions")
+  path <- rsc_path(board, path)
+  auth <- rsc_auth(board, path, "POST")
+  resp <- httr::POST(board$url, path = path, body = body, auth)
+  httr::stop_for_status(resp)
+  invisible(resp)
+}
