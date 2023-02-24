@@ -1,3 +1,6 @@
+skip_if_not_installed("mime")
+skip_if_not_installed("openssl")
+
 test_that("board contains proper azure headers", {
   mock_board <- list(key = jsonlite::base64_enc(as.raw(1:3)), url = "https://foo.com")
   headers <- names(azure_headers(mock_board, "PUT", "x", "files/hello.txt")$headers)
