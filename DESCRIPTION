@@ -35,8 +35,7 @@ Imports:
     rlang (>= 0.4.10),
     tibble,
     withr (>= 2.4.3),
-    yaml,
-    zip
+    yaml
 Suggests:
     archive,
     arrow,
@@ -61,7 +60,8 @@ Suggests:
     testthat (>= 3.0.0),
     webfakes,
     whisker,
-    xml2
+    xml2,
+    zip
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
