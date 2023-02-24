@@ -158,8 +158,8 @@ version_from_path <- function(x) {
 
   pieces <- strsplit(x, "-")
   n_ok <- lengths(pieces) == 2
-  out$created[n_ok] <- parse_8601_compact(map_chr(pieces[n_ok], "[[", 1))
-  out$hash[n_ok] <- map_chr(pieces[n_ok], "[[", 2)
+  out$created[n_ok] <- parse_8601_compact(map_chr(pieces[n_ok], 1))
+  out$hash[n_ok] <- map_chr(pieces[n_ok], 2)
 
   out
 }

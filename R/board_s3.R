@@ -303,7 +303,7 @@ s3_delete_dir <- function(board, dir) {
     return(invisible())
   }
 
-  delete <- list(Objects = map(resp$Contents, "[", "Key"))
+  delete <- list(Objects = map(resp$Contents, ~ list(Key = .$Key)))
   board$svc$delete_objects(board$bucket, Delete = delete)
   invisible()
 }
