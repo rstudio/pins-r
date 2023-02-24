@@ -39,6 +39,7 @@ supports the new pins API.
 in tests and examples.
 }
 \examples{
+\dontshow{if (rlang::is_installed("filelock")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Old api
 pin(data.frame(x = 1:3), "test")
 pin_get("test")
@@ -47,4 +48,5 @@ pin_get("test")
 board <- board_local()
 board \%>\% pin_write(data.frame(x = 1:3), "test")
 board \%>\% pin_read("test")
+\dontshow{\}) # examplesIf}
 }
