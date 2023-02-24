@@ -144,7 +144,7 @@ file:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using `name = 'mtcars'`</span></span>
-<span><span class="co">#&gt; Creating new version '20230223T220902Z-c2702'</span></span>
+<span><span class="co">#&gt; Creating new version '20230224T150629Z-c2702'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>Let’s make a new version of this data by adding a column:
 <code>lper100km</code>, consumption in liters per 100 km. This could
@@ -154,7 +154,7 @@ make our data friendlier to folks outside the United States.</p>
 <span><span class="va">mtcars_metric</span><span class="op">$</span><span class="va">lper100km</span> <span class="op">&lt;-</span> <span class="fl">235.215</span> <span class="op">/</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span></span>
 <span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars_metric</span>, name <span class="op">=</span> <span class="st">"mtcars"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20230223T220904Z-8416c'</span></span>
+<span><span class="co">#&gt; Creating new version '20230224T150631Z-8416c'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>Let’s check our board to ensure we have one pin named
 <code>"mtcars"</code>, with two versions:</p>
@@ -166,8 +166,8 @@ make our data friendlier to folks outside the United States.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230223T220902Z-c2702 2023-02-23 <span style="color: #949494;">22:09:02</span> c2702</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230223T220904Z-8416c 2023-02-23 <span style="color: #949494;">22:09:04</span> 8416c</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230224T150629Z-c2702 2023-02-24 <span style="color: #949494;">15:06:29</span> c2702</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230224T150631Z-8416c 2023-02-24 <span style="color: #949494;">15:06:31</span> 8416c</span></span></code></pre></div>
 <p>Because a <code><a href="../reference/board_url.html">board_url()</a></code> is consumed over the web, it
 doesn’t have access to a file system the way, for example, a
 <code><a href="../reference/board_folder.html">board_folder()</a></code> has; we can work around this by creating a
@@ -192,8 +192,8 @@ date.</p>
 <p>We can inspect its contents to see each pin in the board, and each
 version of each pin:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mtcars</span><span class="kw">:</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20230223T220902Z-c2702/</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20230223T220904Z-8416c/</span></span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20230224T150629Z-c2702/</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20230224T150631Z-8416c/</span></span></code></pre></div>
 <p>At this point, we would publish the folder containing the board as a
 part of a web site. Let’s pretend that we have served the folder from
 our fake website, <code>https://not.real.website.co/pins/</code>.</p>
@@ -217,8 +217,8 @@ discover the pins and versions:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230223T220902Z-c2702 2023-02-23 <span style="color: #949494;">22:09:02</span> c2702</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230223T220904Z-8416c 2023-02-23 <span style="color: #949494;">22:09:04</span> 8416c</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230224T150629Z-c2702 2023-02-24 <span style="color: #949494;">15:06:29</span> c2702</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230224T150631Z-8416c 2023-02-24 <span style="color: #949494;">15:06:31</span> 8416c</span></span></code></pre></div>
 <p>We can read the most-recent version of the <code>"mtcars"</code>
 pin:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
