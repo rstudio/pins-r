@@ -4,7 +4,7 @@
 #' The legacy pins API uses a board registry, where you first register a board
 #' then refer to it by name in calls to pin functions.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("filelock")
 #' # legacy API
 #' board_register_local("myboard", cache = tempfile())
 #' pin(mtcars, board = "myboard")
