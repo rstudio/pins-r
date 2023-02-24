@@ -328,7 +328,7 @@ http_download <- function(url, path_dir, path_file, ...,
   )
 
   if (is.null(req)) {
-    warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
+    warn(glue("Downloading '{path_file}' failed; falling back to cached version"))
     cache$path
   } else if (httr::status_code(req) <= 200) {
     signal("", "pins_cache_downloaded")
@@ -354,7 +354,7 @@ http_download <- function(url, path_dir, path_file, ...,
     cache$path
   } else {
     if (!is.null(cache) && use_cache_on_failure) {
-      warn(glue::glue("Downloading '{path_file}' failed; falling back to cached version"))
+      warn(glue("Downloading '{path_file}' failed; falling back to cached version"))
       httr::warn_for_status(req)
       cache$path
     } else {
