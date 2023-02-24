@@ -1,3 +1,5 @@
+skip_if_not_installed("whisker")
+
 test_that("bundle contains expected files", {
   path <- withr::local_tempdir()
 
