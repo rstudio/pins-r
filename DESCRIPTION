@@ -37,7 +37,6 @@ Imports:
     rappdirs,
     rlang (>= 0.4.10),
     tibble,
-    whisker,
     withr (>= 2.4.3),
     yaml,
     zip
@@ -61,6 +60,7 @@ Suggests:
     sodium,
     testthat (>= 3.0.0),
     webfakes,
+    whisker,
     xml2
 VignetteBuilder: 
     knitr
