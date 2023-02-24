@@ -26,7 +26,7 @@
 #' This can improve performance and size at the cost of making the pin unreadable from other
 #' tools and programming languages.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("filelock")
 #' # old API
 #' board_register_local(cache = tempfile())
 #' pin(mtcars)
