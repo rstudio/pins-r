@@ -1,3 +1,5 @@
+skip_if_not_installed("filelock")
+
 test_that("can read from and write to registry ", {
   board <- legacy_temp()
 

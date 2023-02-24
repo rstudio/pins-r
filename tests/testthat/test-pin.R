@@ -1,3 +1,5 @@
+skip_if_not_installed("filelock")
+
 # main types --------------------------------------------------------------
 
 test_that("can pin() a data frame", {

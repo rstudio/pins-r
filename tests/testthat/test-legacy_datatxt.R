@@ -1,3 +1,5 @@
+skip_if_not_installed("filelock")
+
 test_that("can board_register() a data.txt board", {
   skip_on_cran()
 
