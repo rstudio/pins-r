@@ -144,14 +144,25 @@ board_s3_test <- function(...) {
 
 #' @export
 pin_list.pins_board_s3 <- function(board, ...) {
-  # TODO: implement pagination
+
   resp <- board$svc$list_objects_v2(
     Bucket = board$bucket,
     Prefix = board$prefix,
     Delimiter = "/"
   )
 
-  prefixes <- map_chr(resp$CommonPrefixes, ~ .x$Prefix)
+  final_list <- resp$CommonPrefixes
+
+  while(!is_empty(resp$NextContinuationToken)) {
+    resp <- board$svc$list_objects_v2(
+      Bucket = board$bucket,
+      Prefix = board$prefix,
+      Delimiter = "/",
+      ContinuationToken = resp$NextContinuationToken)
+    final_list <- c(final_list, resp$CommonPrefixes)
+  }
+
+  prefixes <- map_chr(final_list, ~ .x$Prefix)
   strip_prefix(sub("/$", "", prefixes), board$prefix)
 }
 
@@ -176,9 +187,20 @@ pin_versions.pins_board_s3 <- function(board, name, ...) {
   resp <- board$svc$list_objects_v2(
     Bucket = board$bucket,
     Prefix = paste0(board$prefix, name, "/"),
-    Delimiter = "/"
-  )
-  paths <- fs::path_file(map_chr(resp$CommonPrefixes, ~ .$Prefix))
+    Delimiter = "/")
+
+  final_list <- resp$CommonPrefixes
+
+  while(!is_empty(resp$NextContinuationToken)) {
+    resp <- board$svc$list_objects_v2(
+      Bucket = board$bucket,
+      Prefix = paste0(board$prefix, name, "/"),
+      Delimiter = "/",
+      ContinuationToken = resp$NextContinuationToken)
+    final_list <- c(final_list, resp$CommonPrefixes)
+  }
+
+  paths <- fs::path_file(map_chr(final_list, ~ .$Prefix))
   version_from_path(paths)
 }
 

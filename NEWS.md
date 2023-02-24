@@ -2,6 +2,8 @@
 
 * The `print` method for boards no longer calls `pin_list()` internally (#718).
 
+* `board_s3()` now uses pagination for listing and versioning (#719, @mzorko).
+
 # pins 1.1.0
 
 ## Breaking changes
