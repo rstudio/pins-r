@@ -31,6 +31,7 @@ Imports:
     jsonlite,
     lifecycle,
     magrittr,
+    purrr,
     rappdirs,
     rlang (>= 0.4.10),
     tibble,
