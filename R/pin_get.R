@@ -20,7 +20,7 @@
 #' If a board is not specified, it will use `pin_find()` to find the pin across
 #' all boards and retrieve the one that matches by name.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("filelock")
 #' # define temporary board
 #' board <- legacy_temp()
 #' pin(mtcars, board = board)
