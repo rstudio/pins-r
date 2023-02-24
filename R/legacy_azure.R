@@ -76,6 +76,7 @@ board_register_azure <- function(name = "azure",
 
 azure_headers <- function(board, verb, path, file) {
   check_installed("openssl")
+  check_installed("mime")
   date <- http_date(tz = "GMT")
   azure_version <- "2015-04-05"
 
