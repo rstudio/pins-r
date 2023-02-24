@@ -5,7 +5,7 @@
 #' @param name The name for the pin.
 #' @param board The board from where this pin will be removed.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("filelock")
 #' # old API
 #' board_register_local(cache = tempfile())
 #' pin(mtcars)
