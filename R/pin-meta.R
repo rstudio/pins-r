@@ -47,7 +47,7 @@ pin_meta <- function(board, name, version = NULL, ...) {
 }
 
 multi_meta <- function(board, names) {
-  meta <- map(names, pin_meta, board = board)
+  meta <- map(names, possibly(pin_meta, list()), board = board)
 
   if (length(names) == 0) {
     tibble::tibble(
