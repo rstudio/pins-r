@@ -52,7 +52,6 @@ rsc_bundle_preview_create <- function(board, name, x, metadata, path) {
 }
 
 rsc_bundle_preview_index <- function(board, name, x, metadata) {
-  check_installed("whisker")
   data_preview <- rsc_bundle_preview_data(x)
   name <- rsc_parse_name(name)
   owner <- name$owner %||% board$account
