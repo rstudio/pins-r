@@ -14,7 +14,7 @@
 #'   to a system **cache** directory, which may be deleted by the operating
 #'   system if you run out of disk space.
 #' @export
-#' @examples
+#' @examplesIf rlang::is_installed("filelock")
 #' # Old api
 #' pin(data.frame(x = 1:3), "test")
 #' pin_get("test")

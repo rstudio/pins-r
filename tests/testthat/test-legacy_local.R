@@ -1,3 +1,5 @@
+skip_if_not_installed("filelock")
+
 board_test(legacy_temp(), suite = "default")
 board_test(legacy_temp(versions = TRUE), suite = "versions")
 

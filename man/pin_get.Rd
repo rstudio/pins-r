@@ -44,10 +44,12 @@ If a board is not specified, it will use \code{pin_find()} to find the pin acros
 all boards and retrieve the one that matches by name.
 }
 \examples{
+\dontshow{if (rlang::is_installed("filelock")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # define temporary board
 board <- legacy_temp()
 pin(mtcars, board = board)
 
 # retrieve the mtcars pin
 pin_get("mtcars", board = board)
+\dontshow{\}) # examplesIf}
 }

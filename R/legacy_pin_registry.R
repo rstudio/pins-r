@@ -23,6 +23,7 @@ pin_registry_write <- function(board, entries) {
 
 # Lock registry file to prevent multi-process race conditions
 local_registry_lock <- function(board, env = parent.frame()) {
+  check_installed("filelock")
   path <- paste0(pin_registry_path(board, "data.txt"), ".lock")
 
   lock <- filelock::lock(path, timeout = getOption("pins.lock.timeout", Inf))

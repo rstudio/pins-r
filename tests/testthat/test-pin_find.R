@@ -1,3 +1,5 @@
+skip_if_not_installed("filelock")
+
 test_that("can pin_find() entries across all boards", {
   withr::local_options(lifecycle_verbosity = "quiet")
 

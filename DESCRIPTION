@@ -24,7 +24,6 @@ Imports:
     cli,
     digest,
     ellipsis,
-    filelock,
     fs,
     generics,
     glue,
@@ -32,26 +31,27 @@ Imports:
     jsonlite,
     lifecycle,
     magrittr,
-    mime,
-    openssl,
+    purrr,
     rappdirs,
     rlang (>= 0.4.10),
     tibble,
     whisker,
     withr (>= 2.4.3),
-    yaml,
-    zip
+    yaml
 Suggests:
     archive,
     arrow,
     AzureStor,
     data.table,
     datasets,
+    filelock,
     gitcreds,
     googleCloudStorageR,
     knitr,
     Microsoft365R,
+    mime,
     mockery,
+    openssl,
     paws.storage,
     qs,
     R.utils,
@@ -61,7 +61,8 @@ Suggests:
     sodium,
     testthat (>= 3.0.0),
     webfakes,
-    xml2
+    xml2,
+    zip
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

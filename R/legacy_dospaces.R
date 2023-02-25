@@ -80,6 +80,7 @@ board_register_dospace <- function(name = "dospace",
 
 
 dospace_headers <- function(board, verb, path, file) {
+  check_installed("openssl")
   date <- http_date()
 
   # allow full urls to allow arbitrary file downloads

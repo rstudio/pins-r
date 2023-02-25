@@ -1,3 +1,5 @@
+skip_if_not_installed("mime")
+
 test_that("board contains proper gcloud headers", {
   headers <- names(gcloud_headers(list(token = "abc"), "PUT", "x", "files/hello.txt")$headers)
 

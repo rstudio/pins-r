@@ -1,3 +1,5 @@
+skip_if_not_installed("filelock")
+
 test_that("can get info with or without board", {
   withr::local_options(lifecycle_verbosity = "quiet")
   expect_snapshot({

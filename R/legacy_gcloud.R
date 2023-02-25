@@ -80,6 +80,7 @@ board_register_gcloud <- function(name = "gcloud",
 }
 
 gcloud_headers <- function(board, verb, path, file) {
+  check_installed("mime")
   content_type <- NULL
   if (!is.null(file)) {
     content_type <- mime::guess_type(file)

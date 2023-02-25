@@ -83,6 +83,7 @@ board_register_s3 <- function(name = "s3",
 # See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
 # httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) %>% httr::text_content()
 s3_headers_v4 <- function(board, verb, path, filepath) {
+  check_installed("openssl")
   service <- "s3"
   method <- verb
   bucket <- board$bucket
@@ -194,6 +195,7 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
 }
 
 s3_headers <- function(board, verb, path, file) {
+  check_installed("openssl")
   date <- http_date()
 
   # allow full urls to allow arbitrary file downloads

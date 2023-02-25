@@ -9,7 +9,7 @@
 #' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("filelock")
 #' # old API
 #' board_register_local(cache = tempfile())
 #' pin(mtcars)

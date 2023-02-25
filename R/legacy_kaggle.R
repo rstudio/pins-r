@@ -165,6 +165,7 @@ kaggle_create_resource <- function(name, description, token, type, metadata, not
 }
 
 kaggle_create_bundle <- function(path, type, description) {
+  check_installed("zip")
   bundle_path <- tempfile()
   dir.create(bundle_path)
   on.exit(unlink(bundle_path, recursive = TRUE))

@@ -194,6 +194,7 @@ pin_extract <- function(file, destination) {
 }
 
 pin_extract.zip <- function(file, destination) {
+  check_installed("zip")
   pin_log("Extracting zip file '", file, "'")
   zip::unzip(file, exdir = destination)
   unlink(file)

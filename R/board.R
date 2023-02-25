@@ -237,7 +237,7 @@ write_board_manifest_yaml <- function(board, manifest, ...) {
 
 #' @export
 write_board_manifest_yaml.default <- function(board, manifest, ...) {
-  abort(glue::glue("Manifest not supported for {class(board)[[1]]}"))
+  abort(glue("Manifest not supported for {class(board)[[1]]}"))
 }
 
 
