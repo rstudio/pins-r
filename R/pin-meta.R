@@ -66,7 +66,7 @@ multi_meta <- function(board, names) {
       type = map_chr(meta, ~ .x$type %||% NA_character_),
       title = map_chr(meta, ~ .x$title %||% NA_character_),
       created = .POSIXct(map_dbl(meta, ~ .x$created %||% NA_real_)),
-      file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size) %||% NA_real_)),
+      file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size %||% NA_real_))),
       meta = meta
     )
   }
