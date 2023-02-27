@@ -16,22 +16,18 @@ knitr::opts_chunk$set(
 ```
 
 The pins package provides a robust set of functions to read and write standard types of files using standard tools, e.g. CSV files using `read.csv()` and `write.csv()`.
-However, from time to time, you may wish read or write using other tools. You may want to read and write:
+However, from time to time, you may wish read or write in other ways. You may want to read and write:
 
- - CSV files using readr or vroom
- - Arrow files without using compression
- - Parquet files
- - Whole directories that are archived/zipped
+- CSV files using readr or vroom
+- Arrow files without using compression
+- Parquet files
+- Whole directories that are archived/zipped
 
-An escape hatch for a customized approach is provided: `pin_upload()` and `pin_download()`. 
-The goal of this vignette is to show how you can incorporate these into your workflow.
+You can create a customized approach using either `pin_upload()` and `pin_download()`. 
+The goal of this vignette is to show how you can incorporate this customization into your workflow. 
+To see a different approach for when you want to write and read with consistent metadata, see `vignette("customize-pins-metadata")`.
 
-Two points to keep in mind:
-
- - `pin_upload()` takes a vector of `paths` to local files.
- - `pin_download()` returns a vector of `paths` to local files.
-
-We'll follow an example where we write and read uncompressed Arrow files, starting by creating a temporary board:
+We'll begin with an example where we write and read uncompressed Arrow files, starting by creating a temporary board:
 
 ```{r setup}
 library(pins)
@@ -39,7 +35,12 @@ library(pins)
 board <- board_temp()
 ```
 
-## Upload a one-off file
+## Upload a single file
+
+Two points to keep in mind:
+
+- `pin_upload()` takes a vector of `paths` to local files.
+- `pin_download()` returns a vector of `paths` to local files.
 
 If you are writing a one-off file, you can do everything directly:
 
@@ -73,10 +74,10 @@ pin_upload_arrow <- function(board, x, name, ...) {
   # path deleted when `pin_upload_arrow()` exits
   path <- fs::path_temp(fs::path_ext_set(name, "arrow"))
   withr::defer(fs::file_delete(path))
- 
+  
   # custom writer
   arrow::write_feather(x, path, compression = "uncompressed")
-
+  
   pin_upload(board, paths = path, name = name, ...) 
 }
 ```
@@ -95,7 +96,7 @@ pin_download(board, name = "mtcars-arrow2") %>%
   head()
 ```
 
-## Another example function
+## Another example: upload a zipped directory archive as a pin
 
 If you want to use this same approach to [archive](https://archive.r-lib.org/) and pin a whole directory, you can write a helper function like:
 
@@ -104,8 +105,8 @@ pin_upload_archive <- function(board, dir, name, ...) {
   path <- fs::path_temp(fs::path_ext_set(name, "tar.gz"))
   withr::defer(fs::file_delete(path))
   archive::archive_write_dir(path, dir)
-  pin_upload(b, paths = path, name = name, ...)
+  pin_upload(board = board, paths = path, name = name, ...)
 }
 ```
 
-You can download the compressed archive via `pin_download(board, name)` and then pipe that path straight to `archive::archive_extract()` to extract your archive in a new diretory.
+You can download the compressed archive via `pin_download(board, name)` and then pipe that path straight to `archive::archive_extract()` to extract your archive in a new directory.
