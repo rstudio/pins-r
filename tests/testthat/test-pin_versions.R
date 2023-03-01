@@ -41,6 +41,13 @@ test_that("can parse versions from path", {
 test_that("can prune old versions", {
   board <- board_temp(versioned = TRUE)
 
+  mock_version_name <- mockery::mock(
+    "20130104T050607Z-xxxxx",
+    "20130204T050607Z-yyyyy",
+    "20130304T050607Z-zzzzz",
+    "20130404T050607Z-aaaaa"
+  )
+  mockery::stub(pin_store, "version_name", mock_version_name, depth = 2)
   pin_write(board, 1, "x")
   pin_write(board, 2, "x")
   pin_write(board, 3, "x")

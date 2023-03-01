@@ -34,7 +34,7 @@
     Code
       pin_versions_prune(board, "x", n = 1)
     Message
-      Deleting versions: 20120304T050607Z-3de1f, 20120304T050607Z-caa1b, 20120304T050607Z-e4e08
+      Deleting versions: 20130104T050607Z-xxxxx, 20130204T050607Z-yyyyy, 20130304T050607Z-zzzzz
     Code
       pin_versions_prune(board, "x", n = 1)
     Message
