@@ -10,6 +10,8 @@ test_that("can round-trip a file", {
 })
 
 test_that("pin_upload generated useful messages", {
+  skip_if_not_installed("mockery")
+  mockery::stub(pin_store, "version_name", "20120304T050607Z-xxxxx", depth = 2)
   ui_loud()
   board <- board_temp()
 
