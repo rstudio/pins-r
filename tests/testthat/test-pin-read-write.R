@@ -69,6 +69,7 @@ test_that("user can supply metadata", {
 })
 
 test_that("can request specific hash", {
+  skip_if_not_installed("mockery")
   mockery::stub(pin_store, "version_name", "20120304T050607Z-xxxxx", depth = 2)
   ui_loud()
   expect_snapshot(error = TRUE, {

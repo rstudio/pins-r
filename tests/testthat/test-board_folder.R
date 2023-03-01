@@ -74,6 +74,8 @@ test_that("contents of manifest match", {
 
 
 test_that("generates useful messages", {
+  skip_if_not_installed("mockery")
+
   mock_version_name <- mockery::mock(
     "20130104T050607Z-xxxxx",
     "20130204T050607Z-yyyyy",
