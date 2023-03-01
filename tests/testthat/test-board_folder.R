@@ -74,6 +74,13 @@ test_that("contents of manifest match", {
 
 
 test_that("generates useful messages", {
+  mock_version_name <- mockery::mock(
+    "20130104T050607Z-xxxxx",
+    "20130204T050607Z-yyyyy",
+    "20130304T050607Z-zzzzz"
+  )
+  mockery::stub(pin_store, "version_name", mock_version_name, depth = 2)
+
   ui_loud()
   b <- board_temp()
   expect_snapshot({
