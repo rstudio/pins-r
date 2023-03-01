@@ -40,7 +40,6 @@ test_that("can parse versions from path", {
 
 test_that("can prune old versions", {
   skip_if_not_installed("mockery")
-  skip_if_not_installed("mockr")
 
   board <- board_temp(versioned = TRUE)
   mock_version_name <- mockery::mock(
@@ -49,7 +48,7 @@ test_that("can prune old versions", {
     "20130304T050607Z-zzzzz",
     "20130404T050607Z-aaaaa"
   )
-  mockr::local_mock(version_name = mock_version_name)
+  local_mocked_bindings(version_name = mock_version_name)
   pin_write(board, 1, "x")
   pin_write(board, 2, "x")
   pin_write(board, 3, "x")

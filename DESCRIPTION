@@ -51,7 +51,6 @@ Suggests:
     Microsoft365R,
     mime,
     mockery,
-    mockr,
     openssl,
     paws.storage,
     qs,
@@ -60,7 +59,7 @@ Suggests:
     rsconnect,
     shiny,
     sodium,
-    testthat (>= 3.0.0),
+    testthat (>= 3.1.6.9000),
     webfakes,
     xml2,
     zip
@@ -70,3 +69,5 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Remotes:  
+    r-lib/testthat
