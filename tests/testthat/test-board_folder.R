@@ -74,6 +74,7 @@ test_that("contents of manifest match", {
 
 
 test_that("generates useful messages", {
+  skip_if_not_installed("mockr")
   skip_if_not_installed("mockery")
 
   mock_version_name <- mockery::mock(
@@ -81,7 +82,7 @@ test_that("generates useful messages", {
     "20130204T050607Z-yyyyy",
     "20130304T050607Z-zzzzz"
   )
-  mockery::stub(pin_store, "version_name", mock_version_name, depth = 2)
+ mockr::local_mock(version_name = mock_version_name)
 
   ui_loud()
   b <- board_temp()
