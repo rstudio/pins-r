@@ -50,6 +50,7 @@ test_that("guess_type() works as expected", {
 })
 
 test_that("pin_write() noisily generates name and type", {
+  skip_if_not_installed("mockery")
   ui_loud()
   mockery::stub(pin_store, "version_name", "20120304T050607Z-xxxxx", depth = 2)
   expect_snapshot(error = TRUE, {
