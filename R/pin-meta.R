@@ -47,7 +47,7 @@ pin_meta <- function(board, name, version = NULL, ...) {
 }
 
 multi_meta <- function(board, names) {
-  meta <- map(names, pin_meta, board = board)
+  meta <- map(names, possibly(pin_meta, empty_local_meta), board = board)
 
   if (length(names) == 0) {
     tibble::tibble(
@@ -66,7 +66,7 @@ multi_meta <- function(board, names) {
       type = map_chr(meta, ~ .x$type %||% NA_character_),
       title = map_chr(meta, ~ .x$title %||% NA_character_),
       created = .POSIXct(map_dbl(meta, ~ .x$created %||% NA_real_)),
-      file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size) %||% NA_real_)),
+      file_size = fs::as_fs_bytes(map_dbl(meta, ~ sum(.x$file_size %||% NA_real_))),
       meta = meta
     )
   }
@@ -88,6 +88,8 @@ local_meta <- function(x, name, dir, url = NULL, version = NULL, ...) {
   )
   structure(x, class = "pins_meta")
 }
+
+empty_local_meta <- local_meta(x = NULL, name = NULL, dir = NULL)
 
 test_api_meta <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
