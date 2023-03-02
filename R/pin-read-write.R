@@ -148,6 +148,20 @@ write_rds <- function(x, path) {
   invisible(path)
 }
 
+write_rds_test <- function(x, path) {
+  saveRDS(x, path, version = 2, compress = FALSE)
+
+  old <- readBin(path, "raw", fs::file_size(path))
+
+  # Record fixed R version number (3.5.3) to avoid spurious hash changes
+  con <- file(path, open = "wb")
+  writeBin(old[1:7], con)
+  writeBin(as.raw(c(3, 5, 3)), con)
+  writeBin(old[-(1:10)], con)
+  close(con)
+  invisible(path)
+}
+
 write_qs <- function(x, path) {
   check_installed("qs")
   qs::qsave(x, path)

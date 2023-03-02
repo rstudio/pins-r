@@ -69,7 +69,10 @@ test_that("user can supply metadata", {
 })
 
 test_that("can request specific hash", {
-  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
+  local_mocked_bindings(
+    version_name = function(metadata) "20120304T050607Z-xxxxx",
+    write_rds = write_rds_test
+    )
   ui_loud()
   expect_snapshot(error = TRUE, {
     b <- board_temp()
