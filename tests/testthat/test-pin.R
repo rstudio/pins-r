@@ -70,9 +70,9 @@ test_that("unavailable url can use cache", {
   board <- legacy_temp()
 
   expect_snapshot(error = TRUE, {
-    pin("http://httpstat.us/404", "test", board = board)
+    pin("http://httpbin.org/status/404", "test", board = board)
     pin(1:10, "test", board = board)
-    x <- pin("http://httpstat.us/404", "test", board = board)
+    x <- pin("http://httpbin.org/status/404", "test", board = board)
     expect_equal(x, 1:10)
   })
 })
