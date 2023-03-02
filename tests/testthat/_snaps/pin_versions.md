@@ -29,6 +29,16 @@
       Warning:
       The `full` argument of `pin_versions()` is deprecated as of pins 1.0.0.
 
+# informative error for writing with same version
+
+    Code
+      board %>% pin_write(1:10, "x")
+      board %>% pin_write(1:10, "x")
+    Condition
+      Error in `version_setup()`:
+      ! The new version 20120304T050607Z-xxxxx is the same as the most recent version.
+      i Did you try to create a new version with the same timestamp as the last version?
+
 # can prune old versions
 
     Code

@@ -74,13 +74,3 @@
       Error in `this_not_that()`:
       ! Use `pin_get()` with this board, not `pin_read()`
 
-# informative error for writing with same version
-
-    Code
-      board %>% pin_write(1:10, "x")
-      board %>% pin_write(1:10, "x")
-    Condition
-      Error in `version_setup()`:
-      ! The new version 20120304T050607Z-xxxxx is the same as the most recent version.
-      i Did you try to create a new version with the same timestamp as the last version?
-
