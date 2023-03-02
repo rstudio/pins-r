@@ -169,6 +169,12 @@ version_setup <- function(board, name, new_version, versioned = NULL) {
     versions <- pin_versions(board, name)
     old_version <- versions$version[[1]]
     n_versions <- nrow(versions)
+    if (old_version == new_version) {
+      cli::cli_abort(c(
+        "The new version {.field {new_version}} is the same as the most recent existing version.",
+        i = "Did you try to create a new version with the same timestamp as the existing version?"
+      ))
+    }
   } else {
     n_versions <- 0
   }
