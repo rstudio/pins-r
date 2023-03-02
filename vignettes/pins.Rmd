@@ -138,13 +138,24 @@ The primary exception is `board_folder()` since that stores data on your compute
 
 Once you have turned versioning on, every `pin_write()` will create a new version:
 
-```{r}
+```{r, eval=FALSE}
 board2 <- board_temp(versioned = TRUE)
 
 board2 %>% pin_write(1:5, name = "x", type = "rds")
 board2 %>% pin_write(2:6, name = "x", type = "rds")
 board2 %>% pin_write(3:7, name = "x", type = "rds")
 ```
+
+```{r, echo=FALSE}
+board2 <- board_temp(versioned = TRUE)
+
+board2 %>% pin_write(1:5, name = "x", type = "rds")
+Sys.sleep(0.5)
+board2 %>% pin_write(2:6, name = "x", type = "rds")
+Sys.sleep(0.5)
+board2 %>% pin_write(3:7, name = "x", type = "rds")
+```
+
 
 You can list all the available versions with `pin_versions()`:
 
