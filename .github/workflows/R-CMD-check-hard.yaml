@@ -48,6 +48,7 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             github::r-lib/testthat
+            any::mockery
             any::knitr
             any::rmarkdown
           needs: check
