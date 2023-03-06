@@ -63,7 +63,7 @@ But you can choose another option depending on your goals:
 
 -   `type = "rds"` uses `writeRDS()` to create a binary R data file. It can save any R object but it's only readable from R, not other languages.
 -   `type = "csv"` uses `write.csv()` to create a `.csv` file. CSVs can read by any application, but only support simple columns (e.g. numbers, strings, dates), can take up a lot of disk space, and can be slow to read.
--   `type = "parquet"` uses `arrow::write_parquet()` to create a Parquet file. [Parquet](https://parquet.apache.org/) is a modern, language-independent, column-oriented file format for efficient data storage and retrieval. Parquet is a storage format used with [Arrow](https://arrow.apache.org), an in-memory columnar format.
+-   `type = "parquet"` uses `arrow::write_parquet()` to create a Parquet file. [Parquet](https://parquet.apache.org/) is a modern, language-independent, column-oriented file format for efficient data storage and retrieval. 
 -   `type = "arrow"` uses `arrow::write_feather()` to create an Arrow/Feather file. Read the [FAQs from the Arrow project](https://arrow.apache.org/faq/) for more on the differences between Arrow and Parquet as file formats.
 -   `type = "json"` uses `jsonlite::write_json()` to create a `.json` file. Pretty much every programming language can read json files, but they only work well for nested lists.
 -   `type = "qs"` uses `qs::qsave()` to create a binary R data file, like `writeRDS()`. This format achieves faster read/write speeds than RDS, and compresses data more efficiently, making it a good choice for larger objects. Read more on the [qs package](https://github.com/traversc/qs).
