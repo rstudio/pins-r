@@ -56,9 +56,9 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "json", "rds", "arrow", or "qs". If not supplied, will use JSON for
-#'   bare lists and RDS for everything else. Be aware that CSV and JSON are
-#'   plain text formats, while RDS, Arrow, and
+#'   "csv", "json", "rds", "parquet", "arrow", or "qs". If not supplied, will
+#'   use JSON for bare lists and RDS for everything else. Be aware that CSV and
+#'   JSON are plain text formats, while RDS, Parquet, Arrow, and
 #'   [qs](https://CRAN.R-project.org/package=qs) are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
@@ -133,6 +133,7 @@ object_write <- function(x, path, type = "rds") {
   switch(type,
     rds = write_rds(x, path),
     json = jsonlite::write_json(x, path, auto_unbox = TRUE),
+    parquet = write_parquet(x, path),
     arrow = write_arrow(x, path),
     pickle = abort("'pickle' pins not supported in R"),
     joblib = abort("'joblib' pins not supported in R"),
@@ -168,13 +169,19 @@ write_qs <- function(x, path) {
   invisible(path)
 }
 
+write_parquet <- function(x, path) {
+  check_installed("arrow")
+  arrow::write_parquet(x, path)
+  invisible(path)
+}
+
 write_arrow <- function(x, path) {
   check_installed("arrow")
   arrow::write_feather(x, path)
   invisible(path)
 }
 
-object_types <- c("rds", "json", "arrow", "pickle", "csv", "qs", "file")
+object_types <- c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "file")
 
 object_read <- function(meta) {
   path <- fs::path(meta$local$dir, meta$file)
@@ -189,6 +196,7 @@ object_read <- function(meta) {
     switch(type,
       rds = readRDS(path),
       json = jsonlite::read_json(path, simplifyVector = TRUE),
+      parquet = read_parquet(path),
       arrow = read_arrow(path),
       pickle = abort("'pickle' pins not supported in R"),
       joblib = abort("'joblib' pins not supported in R"),
@@ -215,6 +223,11 @@ object_read <- function(meta) {
 read_qs <- function(path) {
   check_installed("qs")
   qs::qread(path, strict = TRUE)
+}
+
+read_parquet <- function(path) {
+  check_installed("arrow")
+  arrow::read_parquet(path)
 }
 
 read_arrow <- function(path) {

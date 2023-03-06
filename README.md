@@ -61,7 +61,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpTxyyP1/pins-114c073a9ddd2'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpwGre3p/pins-15a8b4f3f602c'
 #> Cache size: 0
 ```
 
@@ -71,13 +71,14 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230223T220424Z-a800d'
+#> Creating new version '20230303T233508Z-a800d'
 #> Writing to pin 'mtcars'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
 what you’re saving and who else you want to read it, you might use the
-`type` argument to instead save it as a `csv`, `json`, or `arrow` file.
+`type` argument to instead save it as a Parquet, Arrow, CSV, or JSON
+file.
 
 You can later retrieve the pinned data with `pin_read()`:
 
