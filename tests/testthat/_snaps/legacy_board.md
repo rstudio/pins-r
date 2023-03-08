@@ -4,17 +4,17 @@
       board <- board_temp()
       pin(mtcars, "mtcars", board = board)
     Condition
-      Error in `this_not_that()`:
+      Error in `board_pin_create()`:
       ! Use `pin_write()` with this board, not `pin()`
     Code
       pin_get("mtcars", board = board)
     Condition
-      Error in `this_not_that()`:
+      Error in `board_pin_get()`:
       ! Use `pin_read()` with this board, not `pin_get()`
     Code
       pin_find("mtcars", board = board)
     Condition
-      Error in `this_not_that()`:
+      Error in `board_pin_find()`:
       ! Use `pin_search()` with this board, not `pin_find()`
     Code
       pin_versions("mtcars", board)
@@ -24,6 +24,6 @@
     Code
       board_browse(board)
     Condition
-      Error in `this_not_that()`:
+      Error in `board_browse()`:
       ! Use `pin_browse()` with this board, not `board_browse()`
 

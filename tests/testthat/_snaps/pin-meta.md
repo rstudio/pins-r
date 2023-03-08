@@ -4,6 +4,6 @@
       board <- legacy_temp()
       pin_meta(board, "x")
     Condition
-      Error in `this_not_that()`:
+      Error in `pin_meta()`:
       ! Use `pin_info()` with this board, not `pin_meta()`
 

@@ -7,11 +7,11 @@
 
 # metadata checking functions give correct errors
 
-    `tags` must be a character vector.
+    `tags` must be a character vector or `NULL`, not a list.
 
 ---
 
-    `metadata` must be a list.
+    `metadata` must be a list or `NULL`, not a character vector.
 
 # has useful print method
 
