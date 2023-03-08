@@ -42,7 +42,7 @@
 #' b %>% pin_meta("mtcars")
 #'
 pin_meta <- function(board, name, version = NULL, ...) {
-  check_board(board, "pin_meta()", "pin_info()")
+  check_board(board, "pin_meta", "pin_info")
   UseMethod("pin_meta")
 }
 
@@ -154,13 +154,13 @@ print.pins_meta <- function(x, ...) {
   invisible(x)
 }
 
-check_pin_version <- function(board, name, version) {
+check_pin_version <- function(board, name, version, call = caller_env()) {
   if (is.null(version)) {
     last(pin_versions(board, name)$version) %||% abort("No versions found")
   } else if (is_string(version)) {
     # TODO: provide pin_version_exists() so this can return informative error
     version
   } else {
-    abort("`version` must be a string or `NULL`")
+    check_string(version, allow_null = TRUE)
   }
 }

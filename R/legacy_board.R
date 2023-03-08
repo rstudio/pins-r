@@ -8,8 +8,8 @@
 #' @param path The path to store as a pin.
 #' @param name The name of the pin.
 #' @param metadata A list of metadata associated with this pin.
-#' @param text The text patteren to find a pin.
-#' @param ... Additional parameteres.
+#' @param text The text pattern to find a pin.
+#' @param ... Additional parameters.
 #'
 #' @rdname custom-boards
 #' @keywords internal
@@ -20,7 +20,7 @@ board_pin_create <- function(board, path, name, metadata, ...) {
 
 #' @export
 board_pin_create.pins_board <- function(board, path, name, metadata, ...) {
-  this_not_that("pin_write()", "pin()")
+  this_not_that("pin_write", "pin")
 }
 
 #' @export
@@ -37,7 +37,7 @@ board_browse <- function(board, ...) {
 
 #' @export
 board_browse.pins_board <- function(board, ...) {
-  this_not_that("pin_browse()", "board_browse()")
+  this_not_that("pin_browse", "board_browse")
 }
 
 #' @export
@@ -58,7 +58,7 @@ board_pin_get <- function(board, name, ...) {
 
 #' @export
 board_pin_get.pins_board <- function(board, name, ...) {
-  this_not_that("pin_read()", "pin_get()")
+  this_not_that("pin_read", "pin_get")
 }
 
 #' @export
@@ -69,7 +69,7 @@ board_pin_remove <- function(board, name, ...) {
 
 #' @export
 board_pin_remove.pins_board <- function(board, name, ...) {
-  this_not_that("pin_delete()", "pin_remove()")
+  this_not_that("pin_delete", "pin_remove")
 }
 
 #' @export
@@ -80,7 +80,7 @@ board_pin_find <- function(board, text, ...) {
 
 #' @export
 board_pin_find.pins_board <- function(board, text, ...) {
-  this_not_that("pin_search()", "pin_find()")
+  this_not_that("pin_search", "pin_find")
 }
 
 #' @export

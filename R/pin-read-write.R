@@ -39,7 +39,7 @@
 #' # version includes the date-time I can't do that in an example)
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   ellipsis::check_dots_used()
-  check_board(board, "pin_read()", "pin_get()")
+  check_board(board, "pin_read", "pin_get")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
@@ -76,7 +76,7 @@ pin_write <- function(board, x,
                       tags = NULL,
                       ...) {
   ellipsis::check_dots_used()
-  check_board(board, "pin_write()", "pin()")
+  check_board(board, "pin_write", "pin")
 
   if (is.null(name)) {
     name <- enexpr(x)
@@ -88,7 +88,7 @@ pin_write <- function(board, x,
     }
   }
   check_metadata(metadata)
-  check_tags(tags)
+  check_character(tags, allow_null = TRUE)
   if (!is_string(name)) {
     abort("`name` must be a string")
   }
@@ -252,39 +252,41 @@ hash_file <- function(path) {
   digest::digest(file = path, algo = "xxhash64")
 }
 
-check_board <- function(x, v1, v0) {
+check_board <- function(x, v1, v0, arg = caller_arg(x), call = caller_env()) {
   if (!inherits(x, "pins_board")) {
-    abort("`board` must be a pin board")
+    stop_input_type(x, "a pin board", arg = arg, call = call)
   }
-
   if (!1 %in% x$api) {
-    this_not_that(v0, v1)
+    this_not_that(v0, v1, call = call)
   }
 }
-check_name <- function(x) {
+
+check_pin_name <- function(x, call = caller_env()) {
   if (grepl("\\\\|/", x, perl = TRUE)) {
-    abort("`name` must not contain slashes", class = "pins_check_name")
+    cli_abort(
+      "{.var name} must not contain slashes",
+      class = "pins_check_name",
+      call = call
+    )
   }
 }
-check_metadata <- function(x) {
+
+check_metadata <- function(x, arg = caller_arg(x), call = caller_env()) {
   if (!is.null(x) && !is_bare_list(x)) {
-    abort("`metadata` must be a list.")
+    stop_input_type(x, "a list", allow_null = TRUE, arg = arg, call = call)
   }
 }
-check_tags <- function(x) {
-  if (!is.null(x) && !is_character(x)) {
-    abort("`tags` must be a character vector.")
-  }
-}
-check_hash <- function(meta, hash) {
+
+check_hash <- function(meta, hash, call = caller_env()) {
   if (is.null(hash)) {
     return()
   }
 
   pin_hash <- pin_hash(fs::path(meta$local$dir, meta$file))
   if (!is_prefix(hash, pin_hash)) {
-    abort(paste0(
-      "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
-    ))
+    cli_abort(
+      "Specified hash {.val {hash}} doesn't match pin hash {.val {pin_hash}}",
+      call = call
+    )
   }
 }

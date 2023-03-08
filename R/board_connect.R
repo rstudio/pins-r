@@ -264,7 +264,7 @@ pin_store.pins_board_connect <- function(
 {
   # https://docs.posit.co/connect/1.8.0.4/cookbook/deploying/
 
-  check_name(rsc_parse_name(name)$name)
+  check_pin_name(rsc_parse_name(name)$name)
 
   versioned <- versioned %||% board$versioned
   if (!is.null(access_type)) {
@@ -454,7 +454,7 @@ rsc_content_find_live <- function(board, name, version = NULL, warn = TRUE) {
   if (is.null(name$owner)) {
     if (length(json) > 1) {
       # TODO: Find user names and offer
-      cli::cli_abort(c(
+      cli_abort(c(
         "Multiple pins with name {.val {name$name}}",
         i = "Use a fully specified name including user name like {.val {paste0('julia/', name$name)}}"
       ))
