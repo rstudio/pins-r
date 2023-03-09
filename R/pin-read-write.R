@@ -285,7 +285,7 @@ check_hash <- function(meta, hash, call = caller_env()) {
   pin_hash <- pin_hash(fs::path(meta$local$dir, meta$file))
   if (!is_prefix(hash, pin_hash)) {
     cli_abort(
-      "Specified hash {.val {hash}} doesn't match pin hash {.val {pin_hash}}",
+      "Specified hash {.val {hash}} doesn't match pin hash {.val {pin_hash}}.",
       call = call
     )
   }
