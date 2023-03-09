@@ -58,7 +58,7 @@
       pin_read(b, "mtcars", hash = "ABCD")
     Condition
       Error in `pin_read()`:
-      ! Specified hash "ABCD" doesn't match pin hash "dfa6c1c109362781"
+      ! Specified hash "ABCD" doesn't match pin hash "dfa6c1c109362781".
 
 # informative error for legacy boards
 
