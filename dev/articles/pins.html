@@ -15,7 +15,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.5/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.5/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started with pins">
 <meta property="og:description" content="pins">
@@ -27,10 +29,10 @@
 <![endif]-->
 </head>
 <body>
-    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    <a href="#container" class="visually-hidden-focusable">Skip to content</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
@@ -63,6 +65,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://posit.co/blog/announcing-pins-1-1-0/">pins 1.1.0</a>
     <a class="external-link dropdown-item" href="https://blog.rstudio.com/2021/10/04/pins-1-0-0/">pins 1.0.0</a>
     <a class="external-link dropdown-item" href="https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/">pins 0.4.0</a>
     <a class="external-link dropdown-item" href="https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/">pins 0.3.0</a>
@@ -88,7 +91,7 @@
 
     
   </div>
-</nav><div class="container template-article">
+</nav><div class="container template-article" id="container">
 
 
 
@@ -219,12 +222,12 @@ reconsider your data engineering pipeline.</p>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-03-06 17:47:49"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-03-09 18:54:48"</span></span>
 <span><span class="co">#&gt;  $ api_version: num 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpY6H0DV/pins-1b1c7e57daf4/mtcars/20120304T050607Z-2f9b5"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpFEASDU/pins-1f9526e0a718/mtcars/20120304T050607Z-2f9b5"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
 <span><span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This
@@ -263,13 +266,13 @@ provide additional metadata that is stored with the data:</p>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-03-06 17:47:50"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-03-09 18:54:48"</span></span>
 <span><span class="co">#&gt;  $ api_version: num 1</span></span>
 <span><span class="co">#&gt;  $ user       :List of 1</span></span>
 <span><span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpY6H0DV/pins-1b1c7e57daf4/mtcars/20120304T050607Z-2f9b5"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpFEASDU/pins-1f9526e0a718/mtcars/20120304T050607Z-2f9b5"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
 <span><span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata
@@ -358,8 +361,8 @@ creating a few files in the temp directory:</p>
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpY6H0DV/pins-1b1c7e57daf4/example/20120304T050607Z-e9d42/mtcars.csv"  </span></span>
-<span><span class="co">#&gt; [2] "/tmp/RtmpY6H0DV/pins-1b1c7e57daf4/example/20120304T050607Z-e9d42/alphabet.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpFEASDU/pins-1f9526e0a718/example/20120304T050607Z-e9d42/mtcars.csv"  </span></span>
+<span><span class="co">#&gt; [2] "/tmp/RtmpFEASDU/pins-1f9526e0a718/example/20120304T050607Z-e9d42/alphabet.txt"</span></span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as
 internal implementation details — never modify them and never save them
 for use outside of pins.</p>
@@ -374,7 +377,7 @@ for use outside of pins.</p>
 with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpY6H0DV/pins-1b1c7e57daf4/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpFEASDU/pins-1f9526e0a718/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
@@ -405,23 +408,24 @@ dependencies of the pins package. For real code I’d recommend using
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 344 × 17</span></span></span>
-<span><span class="co">#&gt;    studyName Sampl…¹ Species Region Island Stage Indiv…² Clutc…³ Date …⁴ Culme…⁵</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708         1 Adelie… Anvers Torge… Adul… N1A1    Yes     2007-1…    39.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708         2 Adelie… Anvers Torge… Adul… N1A2    Yes     2007-1…    39.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708         3 Adelie… Anvers Torge… Adul… N2A1    Yes     2007-1…    40.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708         4 Adelie… Anvers Torge… Adul… N2A2    Yes     2007-1…    <span style="color: #BB0000;">NA</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708         5 Adelie… Anvers Torge… Adul… N3A1    Yes     2007-1…    36.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708         6 Adelie… Anvers Torge… Adul… N3A2    Yes     2007-1…    39.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708         7 Adelie… Anvers Torge… Adul… N4A1    No      2007-1…    38.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708         8 Adelie… Anvers Torge… Adul… N4A2    No      2007-1…    39.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708         9 Adelie… Anvers Torge… Adul… N5A1    Yes     2007-1…    34.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708        10 Adelie… Anvers Torge… Adul… N5A2    Yes     2007-1…    42  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 334 more rows, 7 more variables: `Culmen Depth (mm)` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Flipper Length (mm)` &lt;int&gt;, `Body Mass (g)` &lt;int&gt;, Sex &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​`Sample Number`, ²​`Individual ID`,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​`Clutch Completion`, ⁴​`Date Egg`, ⁵​`Culmen Length (mm)`</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    studyName Sample …¹ Species Region Island Stage Indiv…² Clutc…³ Date …⁴</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708           1 Adelie… Anvers Torge… Adul… N1A1    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708           2 Adelie… Anvers Torge… Adul… N1A2    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708           3 Adelie… Anvers Torge… Adul… N2A1    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708           4 Adelie… Anvers Torge… Adul… N2A2    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708           5 Adelie… Anvers Torge… Adul… N3A1    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708           6 Adelie… Anvers Torge… Adul… N3A2    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708           7 Adelie… Anvers Torge… Adul… N4A1    No      2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708           8 Adelie… Anvers Torge… Adul… N4A2    No      2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708           9 Adelie… Anvers Torge… Adul… N5A1    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708          10 Adelie… Anvers Torge… Adul… N5A2    Yes     2007-1…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 334 more rows, 8 more variables: `Culmen Length (mm)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Culmen Depth (mm)` &lt;dbl&gt;, `Flipper Length (mm)` &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Body Mass (g)` &lt;int&gt;, Sex &lt;chr&gt;, `Delta 15 N (o/oo)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;, and abbreviated variable</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   names ¹​`Sample Number`, ²​`Individual ID`, ³​`Clutch Completion`,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​`Date Egg`</span></span></span></code></pre></div>
 <p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using
 <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> or similar but it has a big payoff: the
 data will only be re-downloaded when it changes.</p>
@@ -433,9 +437,11 @@ data will only be re-downloaded when it changes.</p>
 
 
 
-    <footer><div class="pkgdown-footer-left">
+   </div>
+  <footer><div class="container">
+  <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Julia Silge, Hadley Wickham, Javier Luraschi, RStudio.</p>
+<p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
@@ -443,12 +449,6 @@ data will only be re-downloaded when it changes.</p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-    </footer>
-</div>
-
-  
-
-  
-
-  </body>
+  </div></footer>
+</body>
 </html>
