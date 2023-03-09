@@ -17,7 +17,7 @@
 #' path
 #' readLines(path)[1:5]
 pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
-  check_board(board, "pin_download()", "pin_get()")
+  check_board(board, "pin_download", "pin_get")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
@@ -29,7 +29,7 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @rdname pin_download
 #' @param paths A character vector of file paths to upload to `board`.
 pin_upload <- function(board, paths, name = NULL, title = NULL, description = NULL, metadata = NULL, ...) {
-  check_board(board, "pin_upload()", "pin()")
+  check_board(board, "pin_upload", "pin")
 
   if (!is.character(paths)) {
     abort("`path` must be a character vector")
@@ -45,7 +45,7 @@ pin_upload <- function(board, paths, name = NULL, title = NULL, description = NU
     name <- fs::path_file(paths)
     inform(paste0("Guessing `name = '", name, "'`"))
   } else {
-    check_name(name)
+    check_pin_name(name)
   }
 
   # Expand any directories

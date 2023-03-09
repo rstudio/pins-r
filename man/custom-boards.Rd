@@ -36,9 +36,9 @@ board_pin_versions(board, name, ...)
 
 \item{metadata}{A list of metadata associated with this pin.}
 
-\item{...}{Additional parameteres.}
+\item{...}{Additional parameters.}
 
-\item{text}{The text patteren to find a pin.}
+\item{text}{The text pattern to find a pin.}
 }
 \description{
 Family of functions meant to be used to implement custom boards extensions,

@@ -4,6 +4,6 @@
       board <- legacy_temp()
       board %>% pin_search("x")
     Condition
-      Error in `this_not_that()`:
+      Error in `pin_search()`:
       ! Use `pin_find()` with this board, not `pin_search()`
 

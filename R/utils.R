@@ -97,15 +97,18 @@ envvar_get <- function(name) {
   null_if_na(Sys.getenv(name, NA))
 }
 
-this_not_that <- function(this, that) {
-  abort(glue("Use `{this}` with this board, not `{that}`"))
+this_not_that <- function(this, that, call = caller_env()) {
+  cli_abort(
+    "Use {.fun {this}} with this board, not {.fun {that}}",
+    call = call
+  )
 }
 
-check_board_deparse <- function(board, arg) {
+check_board_deparse <- function(board, arg, call = caller_env()) {
   if (has_name(board, arg)) {
     return(board[[arg]])
   } else {
-    abort(glue("No {arg} found for this board"))
+    cli_abort("No {.arg {arg}} found for this board", call = call)
   }
 }
 

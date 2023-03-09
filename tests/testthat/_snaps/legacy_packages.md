@@ -24,5 +24,5 @@
       pin_get("packagethatdoesntexist/x", board = board)
     Condition
       Error in `board_pin_get()`:
-      ! The package `packagethatdoesntexist` is required.
+      ! The package "packagethatdoesntexist" is required.
 
