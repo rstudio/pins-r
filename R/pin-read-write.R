@@ -272,7 +272,7 @@ check_pin_name <- function(x, call = caller_env()) {
 }
 
 check_metadata <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is.null(x) && !is_bare_list(x)) {
+  if (!is.null(x) && !inherits(x, "list")) {
     stop_input_type(x, "a list", allow_null = TRUE, arg = arg, call = call)
   }
 }
