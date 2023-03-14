@@ -51,7 +51,7 @@ pin_read(board, "mtcars")
 Since the board object is always the first argument, you might also want to use the pipe:
 
 ```{r, echo=FALSE}
-Sys.sleep(0.5)
+Sys.sleep(1)
 ```
 
 ```{r}
