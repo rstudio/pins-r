@@ -1,14 +1,15 @@
 
-# pins [<img src="man/figures/logo.png" align="right" height="139"/>](https://pins.rstudio.com)
+# pins <a href="https://pins.rstudio.com"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/rstudio/pins-r/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/pins-r/actions)
+[![R-CMD-check](https://github.com/rstudio/pins-r/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/pins-r/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/pins)](https://cran.r-project.org/package=pins)
 [![Codecov test
 coverage](https://codecov.io/gh/rstudio/pins-r/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rstudio/pins-r?branch=main)
-
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 The pins package publishes data, models, and other R objects, making it
@@ -61,7 +62,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpTxyyP1/pins-114c073a9ddd2'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpveI0M2/pins-12a3e3fc391a5'
 #> Cache size: 0
 ```
 
@@ -71,13 +72,14 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230223T220424Z-a800d'
+#> Creating new version '20230308T174436Z-a800d'
 #> Writing to pin 'mtcars'
 ```
 
 As you can see, the data saved as an `.rds` by default, but depending on
 what you’re saving and who else you want to read it, you might use the
-`type` argument to instead save it as a `csv`, `json`, or `arrow` file.
+`type` argument to instead save it as a Parquet, Arrow, CSV, or JSON
+file.
 
 You can later retrieve the pinned data with `pin_read()`:
 

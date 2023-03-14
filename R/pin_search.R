@@ -23,7 +23,7 @@
 #' board %>% pin_search("number")
 #' board %>% pin_search("letters")
 pin_search <- function(board, search = NULL, ...) {
-  check_board(board, "pin_search()", "pin_find()")
+  check_board(board, "pin_search", "pin_find")
   ellipsis::check_dots_used()
   UseMethod("pin_search")
 }

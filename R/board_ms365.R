@@ -197,7 +197,7 @@ pin_fetch.pins_board_ms365 <- function(board, name, version = NULL, ...) {
 #' @export
 pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
                                        versioned = NULL, ...) {
-  check_name(name)
+  check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
   version_dir <- fs::path(name, version)

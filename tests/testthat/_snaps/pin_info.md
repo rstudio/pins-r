@@ -48,6 +48,6 @@
       board <- board_temp()
       pin_info("mtcars", board = board)
     Condition
-      Error in `this_not_that()`:
+      Error in `pin_info()`:
       ! Use `pin_meta()` with this board, not `pin_info()`
 

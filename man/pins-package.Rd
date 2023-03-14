@@ -20,17 +20,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Julia Silge \email{julia.silge@rstudio.com} (\href{https://orcid.org/0000-0002-3671-836X}{ORCID})
+\strong{Maintainer}: Julia Silge \email{julia.silge@posit.co} (\href{https://orcid.org/0000-0002-3671-836X}{ORCID})
 
 Authors:
 \itemize{
-  \item Hadley Wickham \email{hadley@rstudio.com} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
+  \item Hadley Wickham \email{hadley@posit.co} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
   \item Javier Luraschi \email{jluraschi@gmail.com}
 }
 
 Other contributors:
 \itemize{
-  \item  RStudio [copyright holder, funder]
+  \item Posit Software, PBC [copyright holder, funder]
 }
 
 }

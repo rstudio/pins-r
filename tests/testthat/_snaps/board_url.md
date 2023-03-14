@@ -8,34 +8,34 @@
     Code
       board %>% pin_write(1:5, "x")
     Condition
-      Error in `abort_board_read_only()`:
-      ! board_url() is read only
+      Error in `pin_store()`:
+      ! `board_url()` is read only
     Code
       board %>% pin_delete("x")
     Condition
-      Error in `abort_board_read_only()`:
-      ! board_url() is read only
+      Error in `pin_delete()`:
+      ! `board_url()` is read only
     Code
       board %>% pin_meta("froofy", version = "x")
     Condition
-      Error in `abort_pin_missing()`:
-      ! Can't find pin called 'froofy'
+      Error in `pin_meta()`:
+      ! Can't find pin called "froofy"
       i Use `pin_list()` to see all available pins in this board
     Code
       board %>% pin_meta("x", version = "x")
     Condition
-      Error in `abort_board_not_versioned()`:
-      ! This board_url() is not versioned
+      Error in `pin_meta()`:
+      ! This `board_url()` is not versioned
     Code
       board %>% pin_versions("x")
     Condition
-      Error in `abort_board_not_versioned()`:
-      ! This board_url() is not versioned
+      Error in `pin_versions_modern()`:
+      ! This `board_url()` is not versioned
     Code
       board %>% pin_version_delete("x")
     Condition
-      Error in `abort_board_read_only()`:
-      ! board_url() is read only
+      Error in `pin_version_delete()`:
+      ! `board_url()` is read only
     Code
       board %>% board_deparse()
     Condition
@@ -44,12 +44,12 @@
     Code
       pin(1:5, name = "x", board = board)
     Condition
-      Error in `this_not_that()`:
+      Error in `board_pin_create()`:
       ! Use `pin_write()` with this board, not `pin()`
     Code
       pin_get(name = "x", board = board)
     Condition
-      Error in `this_not_that()`:
+      Error in `board_pin_get()`:
       ! Use `pin_read()` with this board, not `pin_get()`
 
 # useful errors for specifying board

@@ -7,11 +7,11 @@
 
 # metadata checking functions give correct errors
 
-    `tags` must be a character vector.
+    `tags` must be a character vector or `NULL`, not a list.
 
 ---
 
-    `metadata` must be a list.
+    `metadata` must be a list or `NULL`, not a character vector.
 
 # has useful print method
 
@@ -46,16 +46,16 @@
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message
-      Creating new version '20120304T050607Z-ab444'
+      Creating new version '20130104T050607Z-xxxxx'
       Writing to pin 'x'
     Code
       pin_write(b, 1:5, "x", type = "rds")
     Message
-      Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab444'
+      Replacing version '20130104T050607Z-xxxxx' with '20130204T050607Z-yyyyy'
       Writing to pin 'x'
     Code
       pin_write(b, 1:6, "x", type = "rds")
     Message
-      Replacing version '20120304T050607Z-ab444' with '20120304T050607Z-ab6b5'
+      Replacing version '20130204T050607Z-yyyyy' with '20130304T050607Z-zzzzz'
       Writing to pin 'x'
 

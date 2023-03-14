@@ -39,7 +39,7 @@
 #' # version includes the date-time I can't do that in an example)
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
   ellipsis::check_dots_used()
-  check_board(board, "pin_read()", "pin_get()")
+  check_board(board, "pin_read", "pin_get")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
@@ -56,9 +56,9 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "json", "rds", "arrow", or "qs". If not supplied, will use JSON for
-#'   bare lists and RDS for everything else. Be aware that CSV and JSON are
-#'   plain text formats, while RDS, Arrow, and
+#'   "csv", "json", "rds", "parquet", "arrow", or "qs". If not supplied, will
+#'   use JSON for bare lists and RDS for everything else. Be aware that CSV and
+#'   JSON are plain text formats, while RDS, Parquet, Arrow, and
 #'   [qs](https://CRAN.R-project.org/package=qs) are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
@@ -76,7 +76,7 @@ pin_write <- function(board, x,
                       tags = NULL,
                       ...) {
   ellipsis::check_dots_used()
-  check_board(board, "pin_write()", "pin()")
+  check_board(board, "pin_write", "pin")
 
   if (is.null(name)) {
     name <- enexpr(x)
@@ -88,7 +88,7 @@ pin_write <- function(board, x,
     }
   }
   check_metadata(metadata)
-  check_tags(tags)
+  check_character(tags, allow_null = TRUE)
   if (!is_string(name)) {
     abort("`name` must be a string")
   }
@@ -133,6 +133,7 @@ object_write <- function(x, path, type = "rds") {
   switch(type,
     rds = write_rds(x, path),
     json = jsonlite::write_json(x, path, auto_unbox = TRUE),
+    parquet = write_parquet(x, path),
     arrow = write_arrow(x, path),
     pickle = abort("'pickle' pins not supported in R"),
     joblib = abort("'joblib' pins not supported in R"),
@@ -144,21 +145,21 @@ object_write <- function(x, path, type = "rds") {
 }
 
 write_rds <- function(x, path) {
-  if (!is_testing()) {
-    saveRDS(x, path, version = 2)
-  } else {
-    # compression algorithm changed in 4.1
-    saveRDS(x, path, version = 2, compress = FALSE)
+  saveRDS(x, path, version = 2)
+  invisible(path)
+}
 
-    old <- readBin(path, "raw", fs::file_size(path))
+write_rds_test <- function(x, path) {
+  saveRDS(x, path, version = 2, compress = FALSE)
 
-    # Record fixed R version number (3.5.3) to avoid spurious hash changes
-    con <- file(path, open = "wb")
-    writeBin(old[1:7], con)
-    writeBin(as.raw(c(3, 5, 3)), con)
-    writeBin(old[-(1:10)], con)
-    close(con)
-  }
+  old <- readBin(path, "raw", fs::file_size(path))
+
+  # Record fixed R version number (3.5.3) to avoid spurious hash changes
+  con <- file(path, open = "wb")
+  writeBin(old[1:7], con)
+  writeBin(as.raw(c(3, 5, 3)), con)
+  writeBin(old[-(1:10)], con)
+  close(con)
   invisible(path)
 }
 
@@ -168,13 +169,19 @@ write_qs <- function(x, path) {
   invisible(path)
 }
 
+write_parquet <- function(x, path) {
+  check_installed("arrow")
+  arrow::write_parquet(x, path)
+  invisible(path)
+}
+
 write_arrow <- function(x, path) {
   check_installed("arrow")
   arrow::write_feather(x, path)
   invisible(path)
 }
 
-object_types <- c("rds", "json", "arrow", "pickle", "csv", "qs", "file")
+object_types <- c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "file")
 
 object_read <- function(meta) {
   path <- fs::path(meta$local$dir, meta$file)
@@ -189,6 +196,7 @@ object_read <- function(meta) {
     switch(type,
       rds = readRDS(path),
       json = jsonlite::read_json(path, simplifyVector = TRUE),
+      parquet = read_parquet(path),
       arrow = read_arrow(path),
       pickle = abort("'pickle' pins not supported in R"),
       joblib = abort("'joblib' pins not supported in R"),
@@ -217,6 +225,11 @@ read_qs <- function(path) {
   qs::qread(path, strict = TRUE)
 }
 
+read_parquet <- function(path) {
+  check_installed("arrow")
+  arrow::read_parquet(path)
+}
+
 read_arrow <- function(path) {
   check_installed("arrow")
   arrow::read_feather(path)
@@ -239,39 +252,41 @@ hash_file <- function(path) {
   digest::digest(file = path, algo = "xxhash64")
 }
 
-check_board <- function(x, v1, v0) {
+check_board <- function(x, v1, v0, arg = caller_arg(x), call = caller_env()) {
   if (!inherits(x, "pins_board")) {
-    abort("`board` must be a pin board")
+    stop_input_type(x, "a pin board", arg = arg, call = call)
   }
-
   if (!1 %in% x$api) {
-    this_not_that(v0, v1)
+    this_not_that(v0, v1, call = call)
   }
 }
-check_name <- function(x) {
+
+check_pin_name <- function(x, call = caller_env()) {
   if (grepl("\\\\|/", x, perl = TRUE)) {
-    abort("`name` must not contain slashes", class = "pins_check_name")
+    cli_abort(
+      "{.var name} must not contain slashes",
+      class = "pins_check_name",
+      call = call
+    )
   }
 }
-check_metadata <- function(x) {
-  if (!is.null(x) && !is_bare_list(x)) {
-    abort("`metadata` must be a list.")
+
+check_metadata <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (!is.null(x) && !inherits(x, "list")) {
+    stop_input_type(x, "a list", allow_null = TRUE, arg = arg, call = call)
   }
 }
-check_tags <- function(x) {
-  if (!is.null(x) && !is_character(x)) {
-    abort("`tags` must be a character vector.")
-  }
-}
-check_hash <- function(meta, hash) {
+
+check_hash <- function(meta, hash, call = caller_env()) {
   if (is.null(hash)) {
     return()
   }
 
   pin_hash <- pin_hash(fs::path(meta$local$dir, meta$file))
   if (!is_prefix(hash, pin_hash)) {
-    abort(paste0(
-      "Specified hash '", hash, "' doesn't match pin hash '", pin_hash, "'"
-    ))
+    cli_abort(
+      "Specified hash {.val {hash}} doesn't match pin hash {.val {pin_hash}}.",
+      call = call
+    )
   }
 }

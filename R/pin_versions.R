@@ -146,11 +146,7 @@ versions_template <- function(version = character()) {
 }
 
 version_name <- function(metadata) {
-  if (is_testing()) {
-    paste0("20120304T050607Z-", substr(metadata$pin_hash, 1, 5))
-  } else {
-    paste0(metadata$created, "-", substr(metadata$pin_hash, 1, 5))
-  }
+  paste0(metadata$created, "-", substr(metadata$pin_hash, 1, 5))
 }
 
 version_from_path <- function(x) {

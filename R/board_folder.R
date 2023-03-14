@@ -72,7 +72,7 @@ pin_delete.pins_board_folder <- function(board, names, ...) {
 #' @export
 pin_store.pins_board_folder <- function(board, name, paths, metadata,
                                               versioned = NULL, ...) {
-  check_name(name)
+  check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
   version_dir <- fs::path(board$path, name, version)
@@ -91,7 +91,7 @@ pin_fetch.pins_board_folder <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
-  check_name(name)
+  check_pin_name(name)
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
 
@@ -106,7 +106,7 @@ pin_meta.pins_board_folder <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_versions.pins_board_folder <- function(board, name, ...) {
-  check_name(name)
+  check_pin_name(name)
   check_pin_exists(board, name)
 
   paths <- fs::dir_ls(fs::path(board$path, name), type = "directory")

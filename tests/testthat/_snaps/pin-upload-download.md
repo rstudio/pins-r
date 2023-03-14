@@ -15,7 +15,7 @@
       pin_upload(board, path)
     Message
       Guessing `name = 'test.txt'`
-      Creating new version '20120304T050607Z-ef46d'
+      Creating new version '20120304T050607Z-xxxxx'
 
 # can pin file called data.txt
 
@@ -31,11 +31,11 @@
       board <- legacy_temp()
       board %>% pin_upload(1:10, "x")
     Condition
-      Error in `this_not_that()`:
+      Error in `pin_upload()`:
       ! Use `pin()` with this board, not `pin_upload()`
     Code
       board %>% pin_download("x")
     Condition
-      Error in `this_not_that()`:
+      Error in `pin_download()`:
       ! Use `pin_get()` with this board, not `pin_download()`
 

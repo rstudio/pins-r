@@ -5,7 +5,7 @@ test_that("non-existent file returns default data", {
 test_that("standard metadata is useful", {
   df <- data.frame(x = 1:10)
   path <- withr::local_tempfile()
-  write_rds(df, path)
+  write_rds_test(df, path)
 
   meta <- standard_meta(path, "arrow", title = "title")
   meta$file <- "df.rds"

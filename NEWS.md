@@ -4,6 +4,10 @@
 
 * `board_s3()` now uses pagination for listing and versioning (#719, @mzorko).
 
+* Added `type = "parquet"` to read and write Parquet files (#729).
+
+* Updated error messages and type checking (#731).
+
 # pins 1.1.0
 
 ## Breaking changes

@@ -112,7 +112,7 @@ pin_exists.pins_board_url <- function(board, name, ...) {
 
 #' @export
 pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
-  check_name(name)
+  check_pin_name(name)
   check_pin_exists(board, name)
   if (!is.null(version) && !board$versioned) {
     abort_board_not_versioned("board_url")
@@ -170,7 +170,7 @@ pin_versions.pins_board_url <- function(board, name, ...) {
     abort_board_not_versioned("board_url")
   }
 
-  check_name(name)
+  check_pin_name(name)
   check_pin_exists(board, name)
 
   paths <- board$urls[[name]]
@@ -227,7 +227,7 @@ get_url_format <- function(urls) {
   } else if (is.character(urls) && is_named(urls)) {
     "vector_of_urls"
   } else {
-    cli::cli_abort(
+    cli_abort(
       c(
         "{.var urls} must resolve to either:",
         "*" = "an unnamed character scalar, i.e. a single URL",
@@ -253,7 +253,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
       httr::stop_for_status(resp)
     },
     error = function(e) {
-      cli::cli_abort(
+      cli_abort(
         message = "Failed to access manifest file at {.url {url}}:",
         class = "pins_error_board_url_request",
         parent = e,
@@ -270,7 +270,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
       manifest <- yaml::yaml.load(text)
     },
     error = function(e) {
-      cli::cli_abort(
+      cli_abort(
         message = c(
           "Failed to parse manifest file at URL {.url {url}}:",
           " " = "{e$message}",
