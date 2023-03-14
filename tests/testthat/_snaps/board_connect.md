@@ -7,11 +7,11 @@
 
 # metadata checking functions give correct errors
 
-    `tags` must be a character vector.
+    `tags` must be a character vector or `NULL`, not a list.
 
 ---
 
-    `metadata` must be a list.
+    `metadata` must be a list or `NULL`, not a character vector.
 
 # get useful error for rebranding
 
@@ -47,7 +47,7 @@
     Code
       rsc_content_delete(board, "test-1")
     Condition
-      Error in `abort_pin_missing()`:
-      ! Can't find pin called 'test-1'
+      Error in `rsc_content_find_live()`:
+      ! Can't find pin called "test-1"
       i Use `pin_list()` to see all available pins in this board
 

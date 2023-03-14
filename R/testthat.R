@@ -201,29 +201,44 @@ test_api_manifest <- function(board) {
 
 # errors live here for now since they're closely bound to the tests
 
-abort_pin_missing <- function(name) {
-  abort(c(
-    glue("Can't find pin called '{name}'"),
-    i = "Use `pin_list()` to see all available pins in this board"
-  ), class = "pins_pin_missing")
+abort_pin_missing <- function(name, call = caller_env()) {
+  cli_abort(c(
+    "Can't find pin called {.val {name}}",
+    i = "Use {.fun pin_list} to see all available pins in this board"
+  ),
+  class = "pins_pin_missing", call = call)
 }
 
-abort_pin_version_missing <- function(version) {
-  abort(glue("Can't find version '{version}'"), class = "pins_pin_version_missing")
+abort_pin_version_missing <- function(version, call = caller_env()) {
+  cli_abort(
+    "Can't find version {.val {version}}",
+    class = "pins_pin_version_missing",
+    call = call
+  )
 }
 
-abort_pin_versioned <- function() {
-  abort(c(
+abort_pin_versioned <- function(call = caller_env()) {
+  cli_abort(c(
     "Pin is versioned, but you have requested a write without versions",
     i = "To un-version a pin, you must delete it"
-  ), class = "pins_pin_versioned")
+  ),
+  class = "pins_pin_versioned",
+  call = call
+  )
 }
 
-abort_board_read_only <- function(board) {
-  abort(glue("{board}() is read only"), class = "pins_board_read_only")
+abort_board_read_only <- function(board, call = caller_env()) {
+  cli_abort(
+    "{.fun {board}} is read only",
+    class = "pins_board_read_only",
+    call = call
+  )
 }
 
-abort_board_not_versioned <- function(board) {
-  cli::cli_abort(glue("This {board}() is not versioned"),
-                 class = "pins_board_not_versioned")
+abort_board_not_versioned <- function(board, call = caller_env()) {
+  cli_abort(
+    "This {.fun {board}} is not versioned",
+    class = "pins_board_not_versioned",
+    call = call
+  )
 }

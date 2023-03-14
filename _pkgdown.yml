@@ -4,7 +4,8 @@ development:
   mode: auto
 
 template:
-  bootstrap: 4
+  package: tidytemplate
+  bootstrap: 5
 
 reference:
 - title: Pins
@@ -55,6 +56,8 @@ reference:
 
 news:
   releases:
+  - text: pins 1.1.0
+    href: https://posit.co/blog/announcing-pins-1-1-0/
   - text: pins 1.0.0
     href: https://blog.rstudio.com/2021/10/04/pins-1-0-0/
   - text: pins 0.4.0

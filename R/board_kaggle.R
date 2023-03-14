@@ -92,7 +92,7 @@ pin_search.pins_board_kaggle_competition <- function(
 
 #' @export
 pin_exists.pins_board_kaggle_competition <- function(board, name, ...) {
-  check_name(name)
+  check_pin_name(name)
 
   tryCatch(
     {
@@ -122,7 +122,7 @@ pin_list.pins_board_kaggle_competition <- function(board, ...) {
 
 #' @export
 pin_meta.pins_board_kaggle_competition <- function(board, name, ...) {
-  check_name(name)
+  check_pin_name(name)
 
   resp <- kaggle_get(board, "competitions/list", query = list(search = name))
   match <- map_lgl(resp, ~ .x$ref == name)
@@ -344,7 +344,7 @@ pin_store.pins_board_kaggle_dataset <- function(board, name, paths, metadata,
                                     private = TRUE,
                                     license = "CC0-1.0") {
 
-  check_name(name)
+  check_pin_name(name)
   versioned <- versioned %||% TRUE
 
   tokens <- map_chr(paths, kaggle_upload_file, board = board)

@@ -28,7 +28,7 @@ pin_info <- function(name,
                      ...) {
 
   if (is.board(board) && !0 %in% board$api) {
-    this_not_that("pin_meta()", "pin_info()")
+    this_not_that("pin_meta", "pin_info")
   }
 
   entry <- pin_find(

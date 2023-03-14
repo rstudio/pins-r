@@ -59,12 +59,12 @@ new_board_v1 <- function(board, cache, versioned = FALSE, ...) {
 format.pins_board <- function(x, ...) {
   first_class <- class(x)[[1]]
   desc <- board_desc(x)
-  cli::cli_format_method({
-    cli::cli_text("Pin board {.cls {first_class}}")
+  cli_format_method({
+    cli_text("Pin board {.cls {first_class}}")
     if (length(desc) > 0) {
-      cli::cli_text("{desc}")
+      cli_text("{desc}")
     }
-    cli::cli_text("Cache size: {format(cache_size(x))}")
+    cli_text("Cache size: {format(cache_size(x))}")
   })
 }
 

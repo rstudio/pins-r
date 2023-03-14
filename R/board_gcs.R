@@ -169,7 +169,7 @@ pin_store.pins_board_gcs <- function(board, name, paths, metadata,
                                      versioned = NULL, x = NULL, ...) {
   withr::local_options(list(googleAuthR.verbose = 4))
   ellipsis::check_dots_used()
-  check_name(name)
+  check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
   version_dir <- fs::path(name, version)
   gcs_upload_yaml(

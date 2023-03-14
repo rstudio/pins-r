@@ -8,13 +8,16 @@ test_that("can round trip all types", {
   pin_write(board, df, "df-1", type = "rds")
   expect_equal(pin_read(board, "df-1"), df)
 
-  pin_write(board, df, "df-2", type = "arrow")
+  pin_write(board, df, "df-2", type = "parquet")
   expect_equal(pin_read(board, "df-2"), df)
 
-  pin_write(board, df, "df-3", type = "csv")
+  pin_write(board, df, "df-3", type = "arrow")
+  expect_equal(pin_read(board, "df-2"), df)
+
+  pin_write(board, df, "df-4", type = "csv")
   expect_equal(pin_read(board, "df-3"), df)
 
-  pin_write(board, df, "df-4", type = "qs")
+  pin_write(board, df, "df-5", type = "qs")
   expect_equal(pin_read(board, "df-4"), df)
 
   # List
