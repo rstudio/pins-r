@@ -6,7 +6,7 @@
 
 * Added `type = "parquet"` to read and write Parquet files (#729).
 
-* Updated error messages and type checking (#731).
+* Updated error messages and type checking (#731) along with testing strategy (#724).
 
 # pins 1.1.0
 
