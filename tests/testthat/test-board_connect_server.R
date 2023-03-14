@@ -1,4 +1,5 @@
 skip_if_not_installed("mockery")
+skip_if_not_installed("rsconnect")
 
 test_that("auth allows manual, envvar and rsconnect values", {
   expect_equal(check_auth("manual"), "manual")

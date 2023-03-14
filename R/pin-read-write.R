@@ -145,21 +145,21 @@ object_write <- function(x, path, type = "rds") {
 }
 
 write_rds <- function(x, path) {
-  if (!is_testing()) {
-    saveRDS(x, path, version = 2)
-  } else {
-    # compression algorithm changed in 4.1
-    saveRDS(x, path, version = 2, compress = FALSE)
+  saveRDS(x, path, version = 2)
+  invisible(path)
+}
 
-    old <- readBin(path, "raw", fs::file_size(path))
+write_rds_test <- function(x, path) {
+  saveRDS(x, path, version = 2, compress = FALSE)
 
-    # Record fixed R version number (3.5.3) to avoid spurious hash changes
-    con <- file(path, open = "wb")
-    writeBin(old[1:7], con)
-    writeBin(as.raw(c(3, 5, 3)), con)
-    writeBin(old[-(1:10)], con)
-    close(con)
-  }
+  old <- readBin(path, "raw", fs::file_size(path))
+
+  # Record fixed R version number (3.5.3) to avoid spurious hash changes
+  con <- file(path, open = "wb")
+  writeBin(old[1:7], con)
+  writeBin(as.raw(c(3, 5, 3)), con)
+  writeBin(old[-(1:10)], con)
+  close(con)
   invisible(path)
 }
 

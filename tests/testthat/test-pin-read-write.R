@@ -54,6 +54,7 @@ test_that("guess_type() works as expected", {
 
 test_that("pin_write() noisily generates name and type", {
   ui_loud()
+  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
   expect_snapshot(error = TRUE, {
     b <- board_temp()
     pin_write(b, mtcars)
@@ -71,6 +72,10 @@ test_that("user can supply metadata", {
 })
 
 test_that("can request specific hash", {
+  local_mocked_bindings(
+    version_name = function(metadata) "20120304T050607Z-xxxxx",
+    write_rds = write_rds_test
+    )
   ui_loud()
   expect_snapshot(error = TRUE, {
     b <- board_temp()
@@ -86,3 +91,4 @@ test_that("informative error for legacy boards", {
     board %>% pin_read("x")
   })
 })
+

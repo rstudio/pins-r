@@ -27,10 +27,6 @@ end_with_slash <- function(x) {
   x
 }
 
-is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true")
-}
-
 #' Pin Logging
 #'
 #' Log message for diagnosing the `pins` package.
@@ -40,7 +36,7 @@ is_testing <- function() {
 #' @export
 #' @keywords internal
 pin_log <- function(...) {
-  if (getOption("pins.verbose", FALSE) && !is_testing()) {
+  if (getOption("pins.verbose", FALSE)) {
     message(...)
   }
 }
@@ -59,7 +55,7 @@ last <- function(x) x[[length(x)]]
 
 pins_inform <- function(...) {
   opt <- getOption("pins.quiet", NA)
-  if (identical(opt, FALSE) || (identical(opt, NA) && !is_testing())) {
+  if (identical(opt, FALSE) || (identical(opt, NA))) {
     inform(glue(..., .envir = caller_env()))
   }
 }

@@ -74,6 +74,15 @@ test_that("contents of manifest match", {
 
 
 test_that("generates useful messages", {
+  skip_if_not_installed("mockery")
+
+  mock_version_name <- mockery::mock(
+    "20130104T050607Z-xxxxx",
+    "20130204T050607Z-yyyyy",
+    "20130304T050607Z-zzzzz"
+  )
+ local_mocked_bindings(version_name = mock_version_name)
+
   ui_loud()
   b <- board_temp()
   expect_snapshot({

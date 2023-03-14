@@ -131,6 +131,13 @@ test_api_versioning <- function(board) {
   })
 
   testthat::test_that("pin_read() returns latest version", {
+    mock_version_name <-
+      mockery::mock(
+        "20130104T050607Z-xxxxx",
+        "20130204T050607Z-yyyyy",
+        "20130304T050607Z-zzzzz"
+      )
+    testthat::local_mocked_bindings(version_name = mock_version_name)
     name <- local_pin(board, 1)
     pin_write(board, 2, name)
     pin_write(board, 3, name)

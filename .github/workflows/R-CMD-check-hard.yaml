@@ -47,7 +47,8 @@ jobs:
           cache: false
           extra-packages: |
             any::rcmdcheck
-            github::r-lib/testthat
+            any::testthat
+            any::mockery
             any::knitr
             any::rmarkdown
           needs: check

@@ -10,6 +10,7 @@ test_that("can round-trip a file", {
 })
 
 test_that("pin_upload generated useful messages", {
+  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
   ui_loud()
   board <- board_temp()
 

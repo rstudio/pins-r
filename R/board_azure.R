@@ -254,11 +254,11 @@ azure_dir_exists <- function(board, path) {
   AzureStor::storage_dir_exists(board$container, dir)
 }
 
-local_azure_progress <- function(progress = !is_testing(), env = parent.frame()) {
+local_azure_progress <- function(progress = is_interactive(), env = parent.frame()) {
   withr::local_options(list(azure_storage_progress_bar = progress), .local_envir = env)
 }
 
-azure_download <- function(board, keys, progress = !is_testing()) {
+azure_download <- function(board, keys, progress = is_interactive()) {
   local_azure_progress(progress)
 
   paths <- fs::path(board$cache, keys)
