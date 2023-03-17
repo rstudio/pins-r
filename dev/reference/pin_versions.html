@@ -138,43 +138,43 @@ provided additional data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230314T173531Z-97c67'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230317T184139Z-d6cbf'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230314T173531Z-2a03b'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230317T184139Z-4002d'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230314T173531Z-f8383'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230317T184139Z-2379b'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># pin_read() returns the latest version by default</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># but you can return earlier versions if needed</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_versions</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20230314T173531Z-2a03b 2023-03-14 <span style="color: #949494;">17:35:31</span> 2a03b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20230314T173531Z-97c67 2023-03-14 <span style="color: #949494;">17:35:31</span> 97c67</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20230314T173531Z-f8383 2023-03-14 <span style="color: #949494;">17:35:31</span> f8383</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20230317T184139Z-2379b 2023-03-17 <span style="color: #949494;">18:41:39</span> 2379b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20230317T184139Z-4002d 2023-03-17 <span style="color: #949494;">18:41:39</span> 4002d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20230317T184139Z-d6cbf 2023-03-17 <span style="color: #949494;">18:41:39</span> d6cbf</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 7</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># delete all versions created more than 30 days ago</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_versions_prune</span><span class="op">(</span><span class="st">"df"</span>, days <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
