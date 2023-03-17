@@ -8,9 +8,6 @@
 
 * Updated error messages and type checking (#731) along with testing strategy (#724).
 
-* Added new check for whether a new version is the same as the previous version,
-  as can happen when writing pin versions very quickly (#727).
-
 # pins 1.1.0
 
 ## Breaking changes
