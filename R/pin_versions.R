@@ -160,13 +160,17 @@ version_from_path <- function(x) {
   out
 }
 
-version_setup <- function(board, name, new_version, versioned = NULL) {
+version_setup <- function(board, name, new_version, versioned = NULL, call = caller_env()) {
   if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
     old_version <- versions$version[[1]]
     n_versions <- nrow(versions)
     if (old_version == new_version) {
-      return(NULL)
+      cli::cli_abort(c(
+        "The new version {.val {new_version}} is the same as the most recent version.",
+        i = "Did you try to create a new version with the same timestamp as the last version?"
+      ),
+      call = call)
     }
   } else {
     n_versions <- 0
