@@ -56,7 +56,7 @@ b \%>\% pin_meta("mtcars")
 b \%>\% pin_download("mtcars")
 
 # Use tags instead
-b \%>\% pin_write(head(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
+b \%>\% pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
 b \%>\% pin_meta("mtcars")
 
 }

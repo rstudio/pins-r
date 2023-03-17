@@ -38,7 +38,7 @@
 #' b %>% pin_download("mtcars")
 #'
 #' # Use tags instead
-#' b %>% pin_write(head(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
+#' b %>% pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
 #' b %>% pin_meta("mtcars")
 #'
 pin_meta <- function(board, name, version = NULL, ...) {
@@ -105,7 +105,8 @@ test_api_meta <- function(board) {
   testthat::test_that("can update pin metadata", {
     # RSC requires at least 3 characters
     name <- local_pin(board, 1, title = "xxx-a1", description = "xxx-a2")
-    pin_write(board, 1, name, title = "xxx-b1", description = "xxx-b2")
+    # change content so hash changes
+    pin_write(board, 2, name, title = "xxx-b1", description = "xxx-b2")
 
     meta <- pin_meta(board, name)
     testthat::expect_equal(meta$title, "xxx-b1")

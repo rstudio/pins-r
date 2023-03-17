@@ -35,6 +35,14 @@ test_that("can parse versions from path", {
   expect_equal(out$hash, "hash")
 })
 
+test_that("informative error for writing with same version", {
+  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
+  board <- board_temp(versioned = TRUE)
+  expect_snapshot(error = TRUE, {
+    board %>% pin_write(1:10, "x")
+    board %>% pin_write(1:10, "x")
+  })
+})
 
 # versions pruning --------------------------------------------------------
 
