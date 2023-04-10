@@ -44,8 +44,25 @@
 #' Using a [manifest file][write_board_manifest()] can be useful because you
 #' can serve a board of pins and allow collaborators to access the board
 #' straight from a URL, without worrying about board-level storage details.
-#'
 #' Some examples are provided in `vignette("using-board-url")`.
+#'
+#' # Authentication for `board_url()`
+#'
+#' The `add_headers` argument allows you to pass authentication details to the
+#' board, such as for a Posit Connect vanity URL that is not public or a private
+#' GitHub repo.
+#'
+#' ```r
+#' connect_auth <- httr::add_headers(
+#'   Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))
+#' )
+#' board <- board_url(
+#'   c(numbers = "https://colorado.posit.co/rsc/great-numbers/"),
+#'   add_headers = connect_auth
+#' )
+#'
+#' board %>% pin_read("numbers")
+#' ```
 #'
 #' @export
 #' @examples

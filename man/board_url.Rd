@@ -64,9 +64,25 @@ download fails, you'll get the previously cached result with a warning.
 Using a \link[=write_board_manifest]{manifest file} can be useful because you
 can serve a board of pins and allow collaborators to access the board
 straight from a URL, without worrying about board-level storage details.
-
 Some examples are provided in \code{vignette("using-board-url")}.
 }
+\section{Authentication for \code{board_url()}}{
+The \code{add_headers} argument allows you to pass authentication details to the
+board, such as for a Posit Connect vanity URL that is not public or a private
+GitHub repo.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{connect_auth <- httr::add_headers(
+  Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))
+)
+board <- board_url(
+  c(numbers = "https://colorado.posit.co/rsc/great-numbers/"),
+  add_headers = connect_auth
+)
+
+board \%>\% pin_read("numbers")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
 
