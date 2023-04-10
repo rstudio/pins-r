@@ -14,6 +14,8 @@
 #'   use the last cached version? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
+#' @param add_headers Additional headers (such as for authentication) created
+#'   with [httr::add_headers()].
 #' @family boards
 #' @inheritParams new_board
 #' @details
@@ -69,15 +71,17 @@
 #'
 board_url <- function(urls,
                       cache = NULL,
-                      use_cache_on_failure = is_interactive()) {
+                      use_cache_on_failure = is_interactive(),
+                      add_headers = NULL) {
 
   url_format <- get_url_format(urls)
   if (url_format == "pins_yaml") {
-    manifest <- get_manifest(urls)
+    manifest <- get_manifest(urls, add_headers)
     board <- board_url(
       manifest,
       cache = cache,
-      use_cache_on_failure = use_cache_on_failure
+      use_cache_on_failure = use_cache_on_failure,
+      add_headers = add_headers
     )
     return(board)
   }
@@ -92,7 +96,8 @@ board_url <- function(urls,
     urls = urls,
     cache = cache,
     versioned = versioned,
-    use_cache_on_failure = use_cache_on_failure
+    use_cache_on_failure = use_cache_on_failure,
+    add_headers = add_headers
   )
 }
 
@@ -136,7 +141,8 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       url = paste0(url, "data.txt"),
       path_dir = cache_dir,
       path_file = "data.txt",
-      use_cache_on_failure = board$use_cache_on_failure
+      use_cache_on_failure = board$use_cache_on_failure,
+      add_headers = board$add_headers
     )
     meta <- read_meta(cache_dir)
     local_meta(
@@ -187,7 +193,8 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
       url = url,
       path_dir = meta$local$dir,
       path_file = file,
-      use_cache_on_failure = board$use_cache_on_failure
+      use_cache_on_failure = board$use_cache_on_failure,
+      add_headers = board$add_headers
     )
   })
 
@@ -240,7 +247,7 @@ get_url_format <- function(urls) {
   }
 }
 
-get_manifest <- function(url, call = rlang::caller_env()) {
+get_manifest <- function(url, add_headers, call = rlang::caller_env()) {
   # if ends with "/", look for manifest
   if (grepl("/$", url)) {
     url <- paste0(url, manifest_pin_yaml_filename)
@@ -249,7 +256,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
   # if request fails or returns with error code
   tryCatch(
     {
-      resp <- httr::GET(url)
+      resp <- httr::GET(url, add_headers)
       httr::stop_for_status(resp)
     },
     error = function(e) {
@@ -293,6 +300,7 @@ get_manifest <- function(url, call = rlang::caller_env()) {
 
 http_download <- function(url, path_dir, path_file, ...,
                           use_cache_on_failure = FALSE,
+                          add_headers = NULL,
                           on_failure = NULL) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
@@ -304,11 +312,12 @@ http_download <- function(url, path_dir, path_file, ...,
     }
 
     headers <- httr::add_headers(
+      add_headers$headers,
       `If-Modified-Since` = http_date(cache$modified),
       `If-None-Match` = cache$etag
     )
   } else {
-    headers <- NULL
+    headers <- add_headers
   }
 
   path <- fs::path(path_dir, path_file)
