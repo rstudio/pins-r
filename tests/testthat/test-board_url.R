@@ -176,7 +176,7 @@ test_that("use cache with Last-Modified header", {
   url <- "https://httpbin.org/cache"
 
   expect_condition(
-    http_download(url, path, "test"),
+    http_download(url, path, "test", add_headers = httr::add_headers(x = 1)),
     class = "pins_cache_downloaded"
   )
 
