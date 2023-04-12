@@ -38,12 +38,11 @@ with \code{\link[=connect_auth_headers]{connect_auth_headers()}} or \code{\link[
 \code{board_connect_url()} lets you build up a board from individual
 \href{https://docs.posit.co/connect/user/content-settings/#custom-url}{vanity urls}.
 
-\code{board_connect_url()} is read only, and does not support either the use of a
-\link[=write_board_manifest]{manifest file} or versioning.
+\code{board_connect_url()} is read only, and does not support versioning.
 }
 \details{
-This board uses \code{connect_auth_headers()} for authentication via environment
-variable.
+This board is a thin wrapper around \code{\link[=board_url]{board_url()}} which uses
+\code{connect_auth_headers()} for authentication via environment variable.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

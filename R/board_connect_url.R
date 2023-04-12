@@ -4,8 +4,7 @@
 #' `board_connect_url()` lets you build up a board from individual
 #' [vanity urls](https://docs.posit.co/connect/user/content-settings/#custom-url).
 #'
-#' `board_connect_url()` is read only, and does not support either the use of a
-#' [manifest file][write_board_manifest()] or versioning.
+#' `board_connect_url()` is read only, and does not support versioning.
 #'
 #' @param vanity_urls A named character vector of
 #'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url).
@@ -16,8 +15,8 @@
 #' @inheritParams board_url
 #' @inheritParams board_connect
 #' @details
-#' This board uses `connect_auth_headers()` for authentication via environment
-#' variable.
+#' This board is a thin wrapper around [board_url()] which uses
+#' `connect_auth_headers()` for authentication via environment variable.
 #' @export
 #' @examplesIf interactive()
 #' connect_auth_headers()
