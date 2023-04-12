@@ -37,6 +37,7 @@ board <- board_temp()
 }
 \seealso{
 Other boards: 
+\code{\link{board_connect_url}()},
 \code{\link{board_connect}()},
 \code{\link{board_url}()}
 }

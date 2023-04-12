@@ -29,7 +29,7 @@ be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
 
 \item{add_headers}{Additional headers (such as for authentication) created
-with \code{\link[httr:add_headers]{httr::add_headers()}}.}
+with \code{\link[=connect_auth_headers]{connect_auth_headers()}} or \code{\link[httr:add_headers]{httr::add_headers()}}.}
 }
 \description{
 \code{board_url()} lets you build up a board from individual urls or a \link[=write_board_manifest]{manifest file}.
@@ -68,18 +68,18 @@ Some examples are provided in \code{vignette("using-board-url")}.
 }
 \section{Authentication for \code{board_url()}}{
 The \code{add_headers} argument allows you to pass authentication details to the
-board, such as for a Posit Connect vanity URL that is not public or a private
-GitHub repo.
+board, such as for a Posit Connect vanity URL that is not public
+(see \code{\link[=board_connect_url]{board_connect_url()}}) or a private GitHub repo.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{connect_auth <- httr::add_headers(
-  Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{gh_pat_auth <- httr::add_headers(
+  Authorization = paste("token", "github_pat_XXXX")
 )
 board <- board_url(
-  c(numbers = "https://colorado.posit.co/rsc/great-numbers/"),
-  add_headers = connect_auth
+  "https://raw.githubusercontent.com/username/repo/main/path/to/pins",
+  add_headers = gh_pat_auth
 )
 
-board \%>\% pin_read("numbers")
+board \%>\% pin_list()
 }\if{html}{\out{</div>}}
 }
 
@@ -107,6 +107,7 @@ b2 \%>\% pin_versions("y")
 }
 \seealso{
 Other boards: 
+\code{\link{board_connect_url}()},
 \code{\link{board_connect}()},
 \code{\link{board_folder}()}
 }

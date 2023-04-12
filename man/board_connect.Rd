@@ -116,6 +116,7 @@ board \%>\% pin_read("timothy/mtcars")
 }
 \seealso{
 Other boards: 
+\code{\link{board_connect_url}()},
 \code{\link{board_folder}()},
 \code{\link{board_url}()}
 }
