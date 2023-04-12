@@ -15,7 +15,7 @@
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
 #' @param add_headers Additional headers (such as for authentication) created
-#'   with [httr::add_headers()].
+#'   with [connect_auth_headers()] or [httr::add_headers()].
 #' @family boards
 #' @inheritParams new_board
 #' @details
@@ -49,19 +49,19 @@
 #' # Authentication for `board_url()`
 #'
 #' The `add_headers` argument allows you to pass authentication details to the
-#' board, such as for a Posit Connect vanity URL that is not public or a private
-#' GitHub repo.
+#' board, such as for a Posit Connect vanity URL that is not public
+#' (see [board_connect_url()]) or a private GitHub repo.
 #'
 #' ```r
-#' connect_auth <- httr::add_headers(
-#'   Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))
+#' gh_pat_auth <- httr::add_headers(
+#'   Authorization = paste("token", "github_pat_XXXX")
 #' )
 #' board <- board_url(
-#'   c(numbers = "https://colorado.posit.co/rsc/great-numbers/"),
-#'   add_headers = connect_auth
+#'   "https://raw.githubusercontent.com/username/repo/main/path/to/pins",
+#'   add_headers = gh_pat_auth
 #' )
 #'
-#' board %>% pin_read("numbers")
+#' board %>% pin_list()
 #' ```
 #'
 #' @export
