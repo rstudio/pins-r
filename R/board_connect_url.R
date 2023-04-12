@@ -13,6 +13,7 @@
 #'   [board_connect()].
 #' @family boards
 #' @inheritParams new_board
+#' @inheritParams board_url
 #' @details
 #' This board uses `connect_auth_headers()` for authentication via environment
 #' variable.
@@ -29,12 +30,12 @@
 board_connect_url <- function(vanity_urls,
                               cache = NULL,
                               use_cache_on_failure = is_interactive(),
-                              auth = connect_auth_headers()) {
+                              add_headers = connect_auth_headers()) {
   board_url(
     urls = vanity_urls,
     cache = cache,
     use_cache_on_failure = use_cache_on_failure,
-    add_headers = auth
+    add_headers = add_headers
   )
 }
 

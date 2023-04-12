@@ -9,7 +9,7 @@ board_connect_url(
   vanity_urls,
   cache = NULL,
   use_cache_on_failure = is_interactive(),
-  auth = connect_auth_headers()
+  add_headers = connect_auth_headers()
 )
 
 connect_auth_headers(api_key = Sys.getenv("CONNECT_API_KEY"))
@@ -23,6 +23,14 @@ This board is read only, and the best way to write to a pin on Connect is
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
+
+\item{use_cache_on_failure}{If the pin fails to download, is it ok to
+use the last cached version? Defaults to \code{is_interactive()} so you'll
+be robust to poor internet connectivity when exploring interactively,
+but you'll get clear errors when the code is deployed.}
+
+\item{add_headers}{Additional headers (such as for authentication) created
+with \code{\link[=connect_auth_headers]{connect_auth_headers()}} or \code{\link[httr:add_headers]{httr::add_headers()}}.}
 }
 \description{
 \code{board_connect_url()} lets you build up a board from individual
