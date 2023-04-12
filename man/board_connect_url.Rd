@@ -12,7 +12,7 @@ board_connect_url(
   add_headers = connect_auth_headers()
 )
 
-connect_auth_headers(api_key = Sys.getenv("CONNECT_API_KEY"))
+connect_auth_headers(key = Sys.getenv("CONNECT_API_KEY"))
 }
 \arguments{
 \item{vanity_urls}{A named character vector of
@@ -31,6 +31,8 @@ but you'll get clear errors when the code is deployed.}
 
 \item{add_headers}{Additional headers (such as for authentication) created
 with \code{\link[=connect_auth_headers]{connect_auth_headers()}} or \code{\link[httr:add_headers]{httr::add_headers()}}.}
+
+\item{key}{The Posit Connect API key.}
 }
 \description{
 \code{board_connect_url()} lets you build up a board from individual

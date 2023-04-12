@@ -14,6 +14,7 @@
 #' @family boards
 #' @inheritParams new_board
 #' @inheritParams board_url
+#' @inheritParams board_connect
 #' @details
 #' This board uses `connect_auth_headers()` for authentication via environment
 #' variable.
@@ -41,8 +42,8 @@ board_connect_url <- function(vanity_urls,
 
 #' @export
 #' @rdname board_connect_url
-connect_auth_headers <- function(api_key = Sys.getenv("CONNECT_API_KEY")) {
-  httr::add_headers(Authorization = paste("Key", api_key))
+connect_auth_headers <- function(key = Sys.getenv("CONNECT_API_KEY")) {
+  httr::add_headers(Authorization = paste("Key", key))
 }
 
 
@@ -86,6 +87,6 @@ board_connect_url_susan <- function(...) {
   creds <- read_creds()
   board_connect_url(
     ...,
-    auth = connect_auth_headers(creds$susan_key)
+    add_headers = connect_auth_headers(creds$susan_key)
   )
 }
