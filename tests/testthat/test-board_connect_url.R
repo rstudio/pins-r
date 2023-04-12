@@ -1,3 +1,5 @@
+skip_if_not_installed("rsconnect")
+
 test_that("provides key methods", {
   vanity_url <- vanity_url_test()
   board <- board_connect_url_test(c(x = vanity_url))
