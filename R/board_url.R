@@ -53,7 +53,7 @@
 #' (see [board_connect_url()]) or a private GitHub repo.
 #'
 #' ```r
-#' gh_pat_auth <- httr::add_headers(
+#' gh_pat_auth <- c(
 #'   Authorization = paste("token", "github_pat_XXXX")
 #' )
 #' board <- board_url(
