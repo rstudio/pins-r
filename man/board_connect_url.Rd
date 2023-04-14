@@ -9,7 +9,7 @@ board_connect_url(
   vanity_urls,
   cache = NULL,
   use_cache_on_failure = is_interactive(),
-  add_headers = connect_auth_headers()
+  headers = connect_auth_headers()
 )
 
 connect_auth_headers(key = Sys.getenv("CONNECT_API_KEY"))
@@ -29,8 +29,8 @@ use the last cached version? Defaults to \code{is_interactive()} so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
 
-\item{add_headers}{Additional headers (such as for authentication) created
-with \code{\link[=connect_auth_headers]{connect_auth_headers()}} or \code{\link[httr:add_headers]{httr::add_headers()}}.}
+\item{headers}{Named character vector for additional HTTP headers (such as for
+authentication). See \code{\link[=connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
 
 \item{key}{The Posit Connect API key.}
 }

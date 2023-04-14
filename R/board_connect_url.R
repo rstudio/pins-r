@@ -30,19 +30,19 @@
 board_connect_url <- function(vanity_urls,
                               cache = NULL,
                               use_cache_on_failure = is_interactive(),
-                              add_headers = connect_auth_headers()) {
+                              headers = connect_auth_headers()) {
   board_url(
     urls = vanity_urls,
     cache = cache,
     use_cache_on_failure = use_cache_on_failure,
-    add_headers = add_headers
+    headers = headers
   )
 }
 
 #' @export
 #' @rdname board_connect_url
 connect_auth_headers <- function(key = Sys.getenv("CONNECT_API_KEY")) {
-  httr::add_headers(Authorization = paste("Key", key))
+  c(Authorization = paste("Key", key))
 }
 
 
@@ -86,6 +86,6 @@ board_connect_url_susan <- function(...) {
   creds <- read_creds()
   board_connect_url(
     ...,
-    add_headers = connect_auth_headers(creds$susan_key)
+    headers = connect_auth_headers(creds$susan_key)
   )
 }

@@ -14,8 +14,8 @@
 #'   use the last cached version? Defaults to `is_interactive()` so you'll
 #'   be robust to poor internet connectivity when exploring interactively,
 #'   but you'll get clear errors when the code is deployed.
-#' @param add_headers Additional headers (such as for authentication) created
-#'   with [connect_auth_headers()] or [httr::add_headers()].
+#' @param headers Named character vector for additional HTTP headers (such as for
+#'   authentication). See [connect_auth_headers()] for Posit Connect support.
 #' @family boards
 #' @inheritParams new_board
 #' @details
@@ -48,9 +48,9 @@
 #'
 #' # Authentication for `board_url()`
 #'
-#' The `add_headers` argument allows you to pass authentication details to the
-#' board, such as for a Posit Connect vanity URL that is not public
-#' (see [board_connect_url()]) or a private GitHub repo.
+#' The `headers` argument allows you to pass authentication details or other
+#' HTTP headers to the board, such as for a Posit Connect vanity URL that is
+#' not public (see [board_connect_url()]) or a private GitHub repo.
 #'
 #' ```r
 #' gh_pat_auth <- c(
@@ -58,7 +58,7 @@
 #' )
 #' board <- board_url(
 #'   "https://raw.githubusercontent.com/username/repo/main/path/to/pins",
-#'   add_headers = gh_pat_auth
+#'   headers = gh_pat_auth
 #' )
 #'
 #' board %>% pin_list()
@@ -89,16 +89,17 @@
 board_url <- function(urls,
                       cache = NULL,
                       use_cache_on_failure = is_interactive(),
-                      add_headers = NULL) {
+                      headers = NULL) {
 
+  check_headers(headers)
   url_format <- get_url_format(urls)
   if (url_format == "pins_yaml") {
-    manifest <- get_manifest(urls, add_headers)
+    manifest <- get_manifest(urls, headers)
     board <- board_url(
       manifest,
       cache = cache,
       use_cache_on_failure = use_cache_on_failure,
-      add_headers = add_headers
+      headers = headers
     )
     return(board)
   }
@@ -114,7 +115,7 @@ board_url <- function(urls,
     cache = cache,
     versioned = versioned,
     use_cache_on_failure = use_cache_on_failure,
-    add_headers = add_headers
+    headers = headers
   )
 }
 
@@ -159,7 +160,7 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
       path_dir = cache_dir,
       path_file = "data.txt",
       use_cache_on_failure = board$use_cache_on_failure,
-      add_headers = board$add_headers
+      headers = board$headers
     )
     meta <- read_meta(cache_dir)
     local_meta(
@@ -211,7 +212,7 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
       path_dir = meta$local$dir,
       path_file = file,
       use_cache_on_failure = board$use_cache_on_failure,
-      add_headers = board$add_headers
+      headers = board$headers
     )
   })
 
@@ -264,7 +265,7 @@ get_url_format <- function(urls) {
   }
 }
 
-get_manifest <- function(url, add_headers, call = rlang::caller_env()) {
+get_manifest <- function(url, headers, call = rlang::caller_env()) {
   # if ends with "/", look for manifest
   if (grepl("/$", url)) {
     url <- paste0(url, manifest_pin_yaml_filename)
@@ -273,7 +274,7 @@ get_manifest <- function(url, add_headers, call = rlang::caller_env()) {
   # if request fails or returns with error code
   tryCatch(
     {
-      resp <- httr::GET(url, add_headers)
+      resp <- httr::GET(url, httr::add_headers(headers))
       httr::stop_for_status(resp)
     },
     error = function(e) {
@@ -317,7 +318,7 @@ get_manifest <- function(url, add_headers, call = rlang::caller_env()) {
 
 http_download <- function(url, path_dir, path_file, ...,
                           use_cache_on_failure = FALSE,
-                          add_headers = NULL,
+                          headers = NULL,
                           on_failure = NULL) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
@@ -328,13 +329,11 @@ http_download <- function(url, path_dir, path_file, ...,
       return(cache$path)
     }
 
-    headers <- httr::add_headers(
-      add_headers$headers,
+    headers <- c(
+      headers,
       `If-Modified-Since` = http_date(cache$modified),
       `If-None-Match` = cache$etag
     )
-  } else {
-    headers <- add_headers
   }
 
   path <- fs::path(path_dir, path_file)
@@ -343,7 +342,7 @@ http_download <- function(url, path_dir, path_file, ...,
   write_out <- httr::write_disk(tmp_path)
 
   req <- tryCatch(
-    httr::GET(url, headers, ..., write_out),
+    httr::GET(url, httr::add_headers(headers), ..., write_out),
     error = function(e) {
       if (!is.null(cache) && use_cache_on_failure) {
         NULL
@@ -428,4 +427,11 @@ http_date <- function(x = Sys.time(), tz = "UTC") {
 
   withr::local_locale(LC_TIME = "C")
   strftime(.POSIXct(x), "%a, %d %b %Y %H:%M:%S", tz = tz, usetz = TRUE)
+}
+
+check_headers <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (!is.null(x) && (!is_character(x) || !is_named(x))) {
+    stop_input_type(x, "a named character vector", allow_null = TRUE, arg = arg, call = call)
+  }
+
 }

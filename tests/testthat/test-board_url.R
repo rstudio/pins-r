@@ -165,6 +165,8 @@ test_that("useful errors for specifying board", {
     board_url(c("foo", "bar"))
     board_url(list("a", 1:2))
     board_url(1:10)
+    board_url(c("x" = "foo"), headers = list(auth = "x"))
+    board_url(c("x" = "foo"), headers = "my_api_key")
   })
 })
 
@@ -176,7 +178,7 @@ test_that("use cache with Last-Modified header", {
   url <- "https://httpbin.org/cache"
 
   expect_condition(
-    http_download(url, path, "test", add_headers = httr::add_headers(x = 1)),
+    http_download(url, path, "test", header = c(x = "potato")),
     class = "pins_cache_downloaded"
   )
 

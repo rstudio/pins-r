@@ -8,7 +8,7 @@ board_url(
   urls,
   cache = NULL,
   use_cache_on_failure = is_interactive(),
-  add_headers = NULL
+  headers = NULL
 )
 }
 \arguments{
@@ -28,8 +28,8 @@ use the last cached version? Defaults to \code{is_interactive()} so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
 
-\item{add_headers}{Additional headers (such as for authentication) created
-with \code{\link[=connect_auth_headers]{connect_auth_headers()}} or \code{\link[httr:add_headers]{httr::add_headers()}}.}
+\item{headers}{Named character vector for additional HTTP headers (such as for
+authentication). See \code{\link[=connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
 }
 \description{
 \code{board_url()} lets you build up a board from individual urls or a \link[=write_board_manifest]{manifest file}.
@@ -67,16 +67,16 @@ straight from a URL, without worrying about board-level storage details.
 Some examples are provided in \code{vignette("using-board-url")}.
 }
 \section{Authentication for \code{board_url()}}{
-The \code{add_headers} argument allows you to pass authentication details to the
-board, such as for a Posit Connect vanity URL that is not public
-(see \code{\link[=board_connect_url]{board_connect_url()}}) or a private GitHub repo.
+The \code{headers} argument allows you to pass authentication details or other
+HTTP headers to the board, such as for a Posit Connect vanity URL that is
+not public (see \code{\link[=board_connect_url]{board_connect_url()}}) or a private GitHub repo.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{gh_pat_auth <- httr::add_headers(
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{gh_pat_auth <- c(
   Authorization = paste("token", "github_pat_XXXX")
 )
 board <- board_url(
   "https://raw.githubusercontent.com/username/repo/main/path/to/pins",
-  add_headers = gh_pat_auth
+  headers = gh_pat_auth
 )
 
 board \%>\% pin_list()

@@ -78,4 +78,14 @@
       * an unnamed character scalar, i.e. a single URL
       * a named character vector
       * a named list, where all elements are character scalars or vectors
+    Code
+      board_url(c(x = "foo"), headers = list(auth = "x"))
+    Condition
+      Error in `board_url()`:
+      ! `headers` must be a named character vector or `NULL`, not a list.
+    Code
+      board_url(c(x = "foo"), headers = "my_api_key")
+    Condition
+      Error in `board_url()`:
+      ! `headers` must be a named character vector or `NULL`, not the string "my_api_key".
 
