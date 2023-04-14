@@ -77,7 +77,12 @@ board_url() is read only."><meta property="og:image" content="https://pins.rstud
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">board_url</span><span class="op">(</span><span class="va">urls</span>, cache <span class="op">=</span> <span class="cn">NULL</span>, use_cache_on_failure <span class="op">=</span> <span class="fu">is_interactive</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">board_url</span><span class="op">(</span></span>
+<span>  <span class="va">urls</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use_cache_on_failure <span class="op">=</span> <span class="fu">is_interactive</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  headers <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -100,6 +105,11 @@ cache location for your operating system, but you can override if needed.</p></d
 use the last cached version? Defaults to <code>is_interactive()</code> so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.</p></dd>
+
+
+<dt>headers</dt>
+<dd><p>Named character vector for additional HTTP headers (such as for
+authentication). See <code><a href="board_connect_url.html">connect_auth_headers()</a></code> for Posit Connect support.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -125,12 +135,28 @@ You'll also be protected from the vagaries of the internet; if a fresh
 download fails, you'll get the previously cached result with a warning.</p>
 <p>Using a <a href="write_board_manifest.html">manifest file</a> can be useful because you
 can serve a board of pins and allow collaborators to access the board
-straight from a URL, without worrying about board-level storage details.</p>
-<p>Some examples are provided in <code><a href="../articles/using-board-url.html">vignette("using-board-url")</a></code>.</p>
+straight from a URL, without worrying about board-level storage details.
+Some examples are provided in <code><a href="../articles/using-board-url.html">vignette("using-board-url")</a></code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="authentication-for-board-url-">Authentication for <code>board_url()</code><a class="anchor" aria-label="anchor" href="#authentication-for-board-url-"></a></h2>
+    <p>The <code>headers</code> argument allows you to pass authentication details or other
+HTTP headers to the board, such as for a Posit Connect vanity URL that is
+not public (see <code><a href="board_connect_url.html">board_connect_url()</a></code>) or a private GitHub repo.</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">gh_pat_auth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  Authorization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"token"</span>, <span class="st">"github_pat_XXXX"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://raw.githubusercontent.com/username/repo/main/path/to/pins"</span>,</span>
+<span>  headers <span class="op">=</span> <span class="va">gh_pat_auth</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other boards: 
+<code><a href="board_connect_url.html">board_connect_url</a>()</code>,
 <code><a href="board_connect.html">board_connect</a>()</code>,
 <code><a href="board_folder.html">board_folder</a>()</code></p></div>
     </div>
