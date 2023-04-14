@@ -4,7 +4,12 @@
 \alias{board_url}
 \title{Use a vector of URLs as a board}
 \usage{
-board_url(urls, cache = NULL, use_cache_on_failure = is_interactive())
+board_url(
+  urls,
+  cache = NULL,
+  use_cache_on_failure = is_interactive(),
+  headers = NULL
+)
 }
 \arguments{
 \item{urls}{Identify available pins being served at a URL or set of URLs (see details):
@@ -22,6 +27,9 @@ cache location for your operating system, but you can override if needed.}
 use the last cached version? Defaults to \code{is_interactive()} so you'll
 be robust to poor internet connectivity when exploring interactively,
 but you'll get clear errors when the code is deployed.}
+
+\item{headers}{Named character vector for additional HTTP headers (such as for
+authentication). See \code{\link[=connect_auth_headers]{connect_auth_headers()}} for Posit Connect support.}
 }
 \description{
 \code{board_url()} lets you build up a board from individual urls or a \link[=write_board_manifest]{manifest file}.
@@ -56,9 +64,25 @@ download fails, you'll get the previously cached result with a warning.
 Using a \link[=write_board_manifest]{manifest file} can be useful because you
 can serve a board of pins and allow collaborators to access the board
 straight from a URL, without worrying about board-level storage details.
-
 Some examples are provided in \code{vignette("using-board-url")}.
 }
+\section{Authentication for \code{board_url()}}{
+The \code{headers} argument allows you to pass authentication details or other
+HTTP headers to the board, such as for a Posit Connect vanity URL that is
+not public (see \code{\link[=board_connect_url]{board_connect_url()}}) or a private GitHub repo.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{gh_pat_auth <- c(
+  Authorization = paste("token", "github_pat_XXXX")
+)
+board <- board_url(
+  "https://raw.githubusercontent.com/username/repo/main/path/to/pins",
+  headers = gh_pat_auth
+)
+
+board \%>\% pin_list()
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
 
@@ -83,6 +107,7 @@ b2 \%>\% pin_versions("y")
 }
 \seealso{
 Other boards: 
+\code{\link{board_connect_url}()},
 \code{\link{board_connect}()},
 \code{\link{board_folder}()}
 }

@@ -10,6 +10,9 @@
 
 * Added new check for whether a new version is the same as the previous version,
   as can happen when writing pin versions very quickly (#727).
+  
+* Added new `headers` argument for `board_url()`, mostly for authentication, as 
+  well as new board for Connect vanity URLs `board_connect_url()` (#732).  
 
 # pins 1.1.0
 

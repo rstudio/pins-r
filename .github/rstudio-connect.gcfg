@@ -11,6 +11,7 @@ Provider = pam
 
 [Authorization]
 DefaultUserRole = publisher
+PublishersCanManageVanities = true
 
 [RPackageRepository "CRAN"]
 URL = https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
