@@ -70,9 +70,7 @@ cache_boards <- function() {
 }
 
 cache_versions <- function() {
-  pins <- fs::dir_ls(cache_boards(), type = "directory")
-  versions <- fs::dir_ls(pins, type = "directory")
-
+  versions <- fs::dir_ls(cache_boards(), recurse = 2, type = "directory")
   versions[fs::file_exists(fs::path(versions, "data.txt"))]
 }
 
