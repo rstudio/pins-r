@@ -14,6 +14,8 @@
 * Added new `headers` argument for `board_url()`, mostly for authentication, as 
   well as new board for Connect vanity URLs `board_connect_url()` (#732).  
 
+* Fixed bug in `cache_prune()` to correctly find caches for `board_url()` (#734).
+
 # pins 1.1.0
 
 ## Breaking changes
