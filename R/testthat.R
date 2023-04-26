@@ -162,6 +162,15 @@ test_api_versioning <- function(board) {
     )
   })
 
+  testthat::test_that("check_hash arg skips an identical subsequent write", {
+    orig <- local_pin(board, 1, check_hash = TRUE)
+    name <- local_pin(board, 1)
+    testthat::expect_warning(
+      pin_write(board, 1, name, check_hash = TRUE),
+      regexp = "has not changed and will not be stored"
+    )
+  })
+
   testthat::test_that("unversioned write overwrites single previous version", {
     name <- local_pin(board, 1)
     pin_write(board, 2, name, versioned = FALSE)
