@@ -17,7 +17,8 @@ pin_write(
   metadata = NULL,
   versioned = NULL,
   tags = NULL,
-  ...
+  ...,
+  check_hash = FALSE
 )
 }
 \arguments{
@@ -58,6 +59,10 @@ use the default for \code{board}}
 
 \item{tags}{A character vector of tags for the pin; most important for
 discoverability on shared boards.}
+
+\item{check_hash}{Check whether the pin contents are identical to the last
+version if one exists (using the hash), and then \strong{do not store} the pin
+again. Defaults to \code{FALSE}.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;
