@@ -8,8 +8,8 @@ services:
     ports:
       - 3939:3939
     volumes:
-      - $PWD/.github/users.txt:/etc/users.txt
-      - $PWD/.github/rstudio-connect.gcfg:/etc/rstudio-connect/rstudio-connect.gcfg
+      - $PWD/.github/setup-connect/users.txt:/etc/users.txt
+      - $PWD/.github/setup-connect/rstudio-connect.gcfg:/etc/rstudio-connect/rstudio-connect.gcfg
     # by default, mysql rounds to 4 decimals, but tests require more precision
     privileged: true
     environment:
