@@ -7,7 +7,7 @@ on:
 name: posit-connect
 
 jobs:
-  rstudio-connect:
+  posit-connect:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork == false
     env:
@@ -19,7 +19,7 @@ jobs:
       # TODO: should use a real action to make sure that cleanup happens on error...
       - name: run Connect
         run: |
-          docker-compose up --build -d
+          docker-compose up --build -d --wait
           docker-compose exec -T rsconnect bash < .github/setup-connect/add-users.sh
           sleep 5
           curl -s --retry 10 --retry-connrefused http://localhost:3939
