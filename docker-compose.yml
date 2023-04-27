@@ -10,11 +10,6 @@ services:
     volumes:
       - $PWD/.github/setup-connect/users.txt:/etc/users.txt
       - $PWD/.github/setup-connect/rstudio-connect.gcfg:/etc/rstudio-connect/rstudio-connect.gcfg
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:3939"]
-        interval: 30s
-        timeout: 10s
-        retries: 10
     privileged: true
     environment:
       RSTUDIO_CONNECT_HASTE: "enabled"
