@@ -10,9 +10,8 @@ services:
     volumes:
       - $PWD/.github/setup-connect/users.txt:/etc/users.txt
       - $PWD/.github/setup-connect/rstudio-connect.gcfg:/etc/rstudio-connect/rstudio-connect.gcfg
-    # by default, mysql rounds to 4 decimals, but tests require more precision
     healthcheck:
-        test: ["CMD", "curl", "-s", "http://localhost:3939"]
+        test: ["CMD", "curl", "-f", "http://localhost:3939"]
         interval: 30s
         timeout: 10s
         retries: 10

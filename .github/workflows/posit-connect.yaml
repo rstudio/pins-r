@@ -19,7 +19,8 @@ jobs:
       # TODO: should use a real action to make sure that cleanup happens on error...
       - name: run Connect
         run: |
-          docker-compose up --build -d --wait
+          docker-compose build
+          docker-compose up --wait
           docker-compose exec -T rsconnect bash < .github/setup-connect/add-users.sh
 
       - uses: r-lib/actions/setup-r@v2
