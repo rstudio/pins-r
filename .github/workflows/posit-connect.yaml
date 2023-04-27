@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # TODO: should use a real action to make sure that cleanup happens on error...
       - name: run Connect
         run: docker-compose up -d --build
 
@@ -32,7 +31,10 @@ jobs:
           needs: check
 
       - name: create Connect users
-        run: docker-compose exec -T rsconnect bash < .github/setup-connect/add-users.sh
+        run: |
+          sleep 5
+          curl -s --retry 10 --retry-connrefused http://localhost:3939
+          docker-compose exec -T rsconnect bash < .github/setup-connect/add-users.sh
 
       - name: initialize Connect users
         shell: Rscript {0}
