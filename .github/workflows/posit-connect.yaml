@@ -32,7 +32,6 @@ jobs:
 
       - name: create Connect users
         run: |
-          sleep 5
           curl -s --retry 10 --retry-connrefused http://localhost:3939
           docker-compose exec -T rsconnect bash < .github/setup-connect/add-users.sh
 
