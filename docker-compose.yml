@@ -1,0 +1,16 @@
+version: '3.2'
+
+services:
+
+  rsconnect:
+    image: rstudio/rstudio-connect:latest
+    restart: always
+    ports:
+      - 3939:3939
+    volumes:
+      - $PWD/.github/setup-connect/users.txt:/etc/users.txt
+      - $PWD/.github/setup-connect/rstudio-connect.gcfg:/etc/rstudio-connect/rstudio-connect.gcfg
+    privileged: true
+    environment:
+      RSTUDIO_CONNECT_HASTE: "enabled"
+      RSC_LICENSE: ${RSC_LICENSE}
