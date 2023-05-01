@@ -66,7 +66,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   discoverability on shared boards.
 #' @param check_hash Check whether the pin contents are identical to the last
 #'   version if one exists (using the hash), and then **do not store** the pin
-#'   again. Defaults to `FALSE`.
+#'   again. This argument does not check the pin metadata, only the pin
+#'   contents. Defaults to `FALSE`.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,

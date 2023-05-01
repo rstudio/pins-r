@@ -62,7 +62,8 @@ discoverability on shared boards.}
 
 \item{check_hash}{Check whether the pin contents are identical to the last
 version if one exists (using the hash), and then \strong{do not store} the pin
-again. Defaults to \code{FALSE}.}
+again. This argument does not check the pin metadata, only the pin
+contents. Defaults to \code{FALSE}.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;
