@@ -16,7 +16,7 @@
 
 * Fixed bug in `cache_prune()` to correctly find caches for `board_url()` (#734).
 
-* Added new `check_hash` argument when writing a pin to check whether the pin 
+* `pin_write()` gains a `check_hash` argument to check whether the pin 
   contents are identical to the last version (#735).
 
 # pins 1.1.0

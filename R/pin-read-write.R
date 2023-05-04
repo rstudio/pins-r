@@ -118,7 +118,7 @@ pin_write <- function(board, x,
 
   if (check_hash) {
     old_hash <- possibly_pin_meta(board, name)$pin_hash
-    if (!is.null(old_hash) && old_hash == meta$pin_hash) {
+    if (identical(old_hash, meta$pin_hash)) {
       cli::cli_warn(c(
         "!" = "The hash of pin {.val {name}} has not changed.",
         "*" = "Your pin will not be stored."
