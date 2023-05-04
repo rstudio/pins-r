@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.5/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.5/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.6/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.6/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started with pins">
@@ -30,7 +30,10 @@
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
-    
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHBDBW7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
     
@@ -139,7 +142,7 @@ the data. Here are a few options:</p>
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20230503T204757Z-87300'</span></span>
+<span><span class="co">#&gt; Creating new version '20230504T174141Z-87300'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>The first argument is the object to save (usually a data frame, but
 it can be any R object), and the second argument gives the “name” of the
@@ -222,14 +225,14 @@ reconsider your data engineering pipeline.</p>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-05-03 20:47:57"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-05-04 17:41:41"</span></span>
 <span><span class="co">#&gt;  $ api_version: num 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpUxQPM9/pins-1ebc26d97435/mtcars/20230503T204757Z-87300"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpQr0Jox/pins-1f611bac438d/mtcars/20230504T174141Z-87300"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20230503T204757Z-87300"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20230504T174141Z-87300"</span></span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This
 includes:</p>
 <ul>
@@ -255,7 +258,7 @@ provide additional metadata that is stored with the data:</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using `name = 'mtcars'`</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Replacing version '20230503T204757Z-87300' with '20230503T204758Z-87300'</span></span>
+<span><span class="co">#&gt; Replacing version '20230504T174141Z-87300' with '20230504T174142Z-87300'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 12</span></span>
@@ -266,15 +269,15 @@ provide additional metadata that is stored with the data:</p>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-05-03 20:47:58"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-05-04 17:41:42"</span></span>
 <span><span class="co">#&gt;  $ api_version: num 1</span></span>
 <span><span class="co">#&gt;  $ user       :List of 1</span></span>
 <span><span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpUxQPM9/pins-1ebc26d97435/mtcars/20230503T204758Z-87300"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpQr0Jox/pins-1f611bac438d/mtcars/20230504T174142Z-87300"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20230503T204758Z-87300"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20230504T174142Z-87300"</span></span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata
 consistent over time, I’d recommend manually capturing anything you
 really care about in <code>metadata</code>.</p>
@@ -309,13 +312,13 @@ will create a new version:</p>
 <code class="sourceCode R"><span><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20230503T204758Z-50edb'</span></span>
+<span><span class="co">#&gt; Creating new version '20230504T174143Z-50edb'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20230503T204758Z-57129'</span></span>
+<span><span class="co">#&gt; Creating new version '20230504T174143Z-57129'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20230503T204758Z-06c11'</span></span>
+<span><span class="co">#&gt; Creating new version '20230504T174143Z-06c11'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span></code></pre></div>
 <p>You can list all the available versions with
 <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
@@ -324,9 +327,9 @@ will create a new version:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230503T204758Z-06c11 2023-05-03 <span style="color: #949494;">20:47:58</span> 06c11</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230503T204758Z-50edb 2023-05-03 <span style="color: #949494;">20:47:58</span> 50edb</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20230503T204758Z-57129 2023-05-03 <span style="color: #949494;">20:47:58</span> 57129</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230504T174143Z-06c11 2023-05-04 <span style="color: #949494;">17:41:43</span> 06c11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230504T174143Z-50edb 2023-05-04 <span style="color: #949494;">17:41:43</span> 50edb</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20230504T174143Z-57129 2023-05-04 <span style="color: #949494;">17:41:43</span> 57129</span></span></code></pre></div>
 <p>(Pins does not currently provide any tool to remove old versions, but
 this is likely to be implemented in the future.)</p>
 <p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent
@@ -357,12 +360,12 @@ creating a few files in the temp directory:</p>
 <p>Now I can upload those to the board:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20230503T204759Z-e9d42'</span></span></code></pre></div>
+<span><span class="co">#&gt; Creating new version '20230504T174143Z-e9d42'</span></span></code></pre></div>
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpUxQPM9/pins-1ebc26d97435/example/20230503T204759Z-e9d42/mtcars.csv"  </span></span>
-<span><span class="co">#&gt; [2] "/tmp/RtmpUxQPM9/pins-1ebc26d97435/example/20230503T204759Z-e9d42/alphabet.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpQr0Jox/pins-1f611bac438d/example/20230504T174143Z-e9d42/mtcars.csv"  </span></span>
+<span><span class="co">#&gt; [2] "/tmp/RtmpQr0Jox/pins-1f611bac438d/example/20230504T174143Z-e9d42/alphabet.txt"</span></span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as
 internal implementation details — never modify them and never save them
 for use outside of pins.</p>
@@ -377,7 +380,7 @@ for use outside of pins.</p>
 with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpUxQPM9/pins-1ebc26d97435/mtcars/20230503T204758Z-87300/mtcars.rds"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpQr0Jox/pins-1f611bac438d/mtcars/20230504T174142Z-87300/mtcars.rds"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
@@ -448,9 +451,6 @@ data will only be re-downloaded when it changes.</p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-  </div></footer><!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHBDBW7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-
-  </body>
+  </div></footer>
+</body>
 </html>
