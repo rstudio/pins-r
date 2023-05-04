@@ -46,11 +46,11 @@ test_that("can update access_type", {
   # default is acl
   expect_equal(rsc_content_info(board, guid)$access_type, "acl")
 
-  pin_write(board, 1:5, name, access_type = "logged_in")
+  pin_write(board, 1:6, name, access_type = "logged_in")
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 
   # writing again doesn't change the access_type
-  pin_write(board, 1:5, name)
+  pin_write(board, 1:7, name)
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 })
 

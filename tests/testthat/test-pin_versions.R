@@ -40,7 +40,7 @@ test_that("informative error for writing with same version", {
   board <- board_temp(versioned = TRUE)
   expect_snapshot(error = TRUE, {
     board %>% pin_write(1:10, "x")
-    board %>% pin_write(1:10, "x")
+    board %>% pin_write(1:10, "x", compare_hash = FALSE)
   })
 })
 
