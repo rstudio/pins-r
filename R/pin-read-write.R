@@ -64,10 +64,10 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
 #'   discoverability on shared boards.
-#' @param check_hash Check whether the pin contents are identical to the last
-#'   version if one exists (using the hash), and then **do not store** the pin
-#'   again. This argument does not check the pin metadata, only the pin
-#'   contents. Defaults to `FALSE`.
+#' @param compare_hash Compare the pin contents to the last version if one
+#'   exists (using the hash), and if identical, **do not store** the pin again.
+#'   This argument does not compare any pin metadata, only the pin contents.
+#'   Defaults to `TRUE`.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,
@@ -79,7 +79,7 @@ pin_write <- function(board, x,
                       versioned = NULL,
                       tags = NULL,
                       ...,
-                      check_hash = FALSE) {
+                      compare_hash = TRUE) {
   ellipsis::check_dots_used()
   check_board(board, "pin_write", "pin")
 
@@ -116,7 +116,7 @@ pin_write <- function(board, x,
   )
   meta$user <- metadata
 
-  if (check_hash) {
+  if (compare_hash) {
     old_hash <- possibly_pin_meta(board, name)$pin_hash
     if (identical(old_hash, meta$pin_hash)) {
       pins_inform(c(

@@ -49,12 +49,12 @@
       Creating new version '20130104T050607Z-xxxxx'
       Writing to pin 'x'
     Code
-      pin_write(b, 1:5, "x", type = "rds")
+      pin_write(b, 1:6, "x", type = "rds")
     Message
       Replacing version '20130104T050607Z-xxxxx' with '20130204T050607Z-yyyyy'
       Writing to pin 'x'
     Code
-      pin_write(b, 1:6, "x", type = "rds")
+      pin_write(b, 1:7, "x", type = "rds")
     Message
       Replacing version '20130204T050607Z-yyyyy' with '20130304T050607Z-zzzzz'
       Writing to pin 'x'

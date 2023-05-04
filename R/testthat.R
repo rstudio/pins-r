@@ -162,11 +162,12 @@ test_api_versioning <- function(board) {
     )
   })
 
-  testthat::test_that("check_hash arg skips an identical subsequent write", {
-    orig <- local_pin(board, 1, check_hash = TRUE)
+  testthat::test_that("compare_hash arg skips an identical subsequent write", {
+    orig <- local_pin(board, 1, compare_hash = TRUE)
     name <- local_pin(board, 1)
+    ui_loud()
     testthat::expect_message(
-      pin_write(board, 1, name, check_hash = TRUE),
+      pin_write(board, 1, name, compare_hash = TRUE),
       regexp = "Your pin will not be stored"
     )
   })
