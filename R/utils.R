@@ -53,10 +53,10 @@ modifyList <- function(x, y) {
 
 last <- function(x) x[[length(x)]]
 
-pins_inform <- function(...) {
+pins_inform <- function(msg) {
   opt <- getOption("pins.quiet", NA)
   if (identical(opt, FALSE) || (identical(opt, NA))) {
-    inform(glue(..., .envir = caller_env()))
+    cli::cli_inform(msg, .envir = caller_env())
   }
 }
 
