@@ -1,5 +1,13 @@
 # pins (development version)
 
+## Breaking changes
+
+* `pin_write()` no longer writes identical pin contents by default, and gains a
+  `force_identical_write` argument for writing even when the pin contents are 
+  identical to the last version (#735).
+
+## Other improvements
+
 * The `print` method for boards no longer calls `pin_list()` internally (#718).
 
 * `board_s3()` now uses pagination for listing and versioning (#719, @mzorko).

@@ -33,7 +33,7 @@
 
     Code
       board %>% pin_write(1:10, "x")
-      board %>% pin_write(1:10, "x")
+      board %>% pin_write(1:10, "x", force_identical_write = TRUE)
     Condition
       Error in `pin_store()`:
       ! The new version "20120304T050607Z-xxxxx" is the same as the most recent version.

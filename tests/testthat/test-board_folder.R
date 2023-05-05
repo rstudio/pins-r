@@ -87,7 +87,7 @@ test_that("generates useful messages", {
   b <- board_temp()
   expect_snapshot({
     pin_write(b, 1:5, "x", type = "rds")
-    pin_write(b, 1:5, "x", type = "rds")
     pin_write(b, 1:6, "x", type = "rds")
+    pin_write(b, 1:7, "x", type = "rds")
   })
 })

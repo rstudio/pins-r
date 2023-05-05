@@ -64,6 +64,9 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
 #'   discoverability on shared boards.
+#' @param force_identical_write Store the pin even if the pin contents are
+#'   identical to the last version (compared using the hash). Only the pin
+#'   contents are compared, not the pin metadata. Defaults to `FALSE`.
 #' @rdname pin_read
 #' @export
 pin_write <- function(board, x,
@@ -74,7 +77,8 @@ pin_write <- function(board, x,
                       metadata = NULL,
                       versioned = NULL,
                       tags = NULL,
-                      ...) {
+                      ...,
+                      force_identical_write = FALSE) {
   ellipsis::check_dots_used()
   check_board(board, "pin_write", "pin")
 
@@ -110,6 +114,17 @@ pin_write <- function(board, x,
     tags = tags
   )
   meta$user <- metadata
+
+  if (!force_identical_write) {
+    old_hash <- possibly_pin_meta(board, name)$pin_hash
+    if (identical(old_hash, meta$pin_hash)) {
+      pins_inform(c(
+        "!" = "The hash of pin {.val {name}} has not changed.",
+        "*" = "Your pin will not be stored."
+      ))
+      return(invisible(name))
+    }
+  }
 
   name <- pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
   pins_inform("Writing to pin '{name}'")
