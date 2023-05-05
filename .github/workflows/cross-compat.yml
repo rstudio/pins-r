@@ -14,9 +14,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-      BOARD_PY: "tmp/board-py"
-      BOARD_R: "tmp/board-r"
-
     steps:
       - uses: actions/checkout@v3
 
@@ -39,7 +36,10 @@ jobs:
 
       - name: Write pins
         run: |
-          python .github/cross-compat/write_pins.py ${{ BOARD_PY }}
-          Rscript .github/cross-compat/write_pins.R ${{ BOARD_R }}
+          python .github/cross-compat/write-pins.py "tmp"
+          Rscript .github/cross-compat/write-pins.R "tmp"
 
+      - name: Read pins
+        run: |
+          Rscript .github/cross-compat/read-pins.R "tmp"
 
