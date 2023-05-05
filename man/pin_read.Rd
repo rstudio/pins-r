@@ -18,7 +18,7 @@ pin_write(
   versioned = NULL,
   tags = NULL,
   ...,
-  compare_hash = TRUE
+  force_identical_write = FALSE
 )
 }
 \arguments{
@@ -60,10 +60,9 @@ use the default for \code{board}}
 \item{tags}{A character vector of tags for the pin; most important for
 discoverability on shared boards.}
 
-\item{compare_hash}{Compare the pin contents to the last version if one
-exists (using the hash), and if identical, \strong{do not store} the pin again.
-This argument does not compare any pin metadata, only the pin contents.
-Defaults to \code{TRUE}.}
+\item{force_identical_write}{Store the pin even if the pin contents are
+identical to the last version (compared using the hash). Only the pin
+contents are compared, not the pin metadata. Defaults to \code{FALSE}.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;

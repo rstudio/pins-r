@@ -1,5 +1,13 @@
 # pins (development version)
 
+## Breaking changes
+
+* `pin_write()` no longer writes identical pin contents by default, and gains a
+  `force_identical_write` argument for writing even when the pin contents are 
+  identical to the last version (#735).
+
+## Other improvements
+
 * The `print` method for boards no longer calls `pin_list()` internally (#718).
 
 * `board_s3()` now uses pagination for listing and versioning (#719, @mzorko).
@@ -15,9 +23,6 @@
   well as new board for Connect vanity URLs `board_connect_url()` (#732).  
 
 * Fixed bug in `cache_prune()` to correctly find caches for `board_url()` (#734).
-
-* `pin_write()` gains a `compare_hash` argument to check whether the pin 
-  contents are identical to the last version (#735).
 
 # pins 1.1.0
 
