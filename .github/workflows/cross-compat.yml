@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      SHARED_BOARD: "tmp"
 
     steps:
       - uses: actions/checkout@v3
@@ -36,10 +37,11 @@ jobs:
 
       - name: Write pins
         run: |
-          python .github/cross-compat/write-pins.py "tmp"
-          Rscript .github/cross-compat/write-pins.R "tmp"
+          python .github/cross-compat/write-pins.py $SHARED_BOARD
+          Rscript .github/cross-compat/write-pins.R $SHARED_BOARD
 
       - name: Read pins
         run: |
-          Rscript .github/cross-compat/read-pins.R "tmp"
+          Rscript .github/cross-compat/read-pins.R $SHARED_BOARD
+          python .github/cross-compat/read-pins.py $SHARED_BOARD
 
