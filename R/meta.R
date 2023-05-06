@@ -16,8 +16,8 @@ read_meta <- function(path) {
     yaml$created <- parse_8601_compact(yaml$created)
     yaml$user <- yaml$user %||% list()
   } else if (yaml$api_version > 1) {
-    abort(c(
-      paste0("Metadata requires pins ", yaml$api_version),
+    cli::cli_abort(c(
+      "Metadata requires pins {yaml$api_version}.0.0 or greater",
       i = "Do you need to upgrade the pins package?"
     ))
   }
