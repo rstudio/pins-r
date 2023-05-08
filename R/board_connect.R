@@ -79,7 +79,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                           use_cache_on_failure = is_interactive()) {
 
   server <- rsc_server(auth, server, account, key)
-  cache <- cache %||% board_cache_path(paste0("connect-", hash(url)))
+  cache <- cache %||% board_cache_path(paste0("connect-", hash(server$url)))
 
   board <- new_board(
     "pins_board_connect",
