@@ -9,7 +9,7 @@
      $ description: NULL
      $ tags       : NULL
      $ created    : chr "<TODAY>"
-     $ api_version: num 1
+     $ api_version: int 1
 
 # newer version triggers error
 

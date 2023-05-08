@@ -143,7 +143,7 @@ test_api_meta <- function(board) {
     testthat::expect_true(meta$type %in% object_types)
     testthat::expect_vector(meta$title, character(), 1)
     testthat::expect_vector(meta$created, .POSIXct(double()), 1)
-    testthat::expect_vector(meta$api_version, double(), 1)
+    testthat::expect_vector(meta$api_version, integer(), 1)
 
     testthat::expect_vector(meta$user, list())
     testthat::expect_vector(meta$local, list())
