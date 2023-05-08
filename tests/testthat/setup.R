@@ -6,6 +6,8 @@ httpbin <- webfakes::local_app_process(
   .local_envir = testthat::teardown_env()
 )
 
+httpbin_port <- if (rlang::is_installed("webfakes")) httpbin$get_port()
+
 redact_port <- function(snapshot) {
-  snapshot <- gsub(httpbin$get_port(), "<port>", snapshot, fixed = TRUE)
+  snapshot <- gsub(httpbin_port, "<port>", snapshot, fixed = TRUE)
 }
