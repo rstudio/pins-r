@@ -1,0 +1,47 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: cross-compat
+
+jobs:
+  cross-compat:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      SHARED_BOARD: "tmp"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: local::.
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade git+https://github.com/rstudio/pins-python
+
+      - name: Write pins
+        run: |
+          python .github/cross-compat/write-pins.py $SHARED_BOARD
+          Rscript .github/cross-compat/write-pins.R $SHARED_BOARD
+
+      - name: Read pins
+        run: |
+          Rscript .github/cross-compat/read-pins.R $SHARED_BOARD
+          python .github/cross-compat/read-pins.py $SHARED_BOARD
+
