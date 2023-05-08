@@ -1,6 +1,12 @@
 skip_if_not_installed("filelock")
 skip_if_not_installed("webfakes")
 
+httpbin <- local_httpbin_app()
+httpbin_port <- httpbin$get_port()
+redact_port <- function(snapshot) {
+  snapshot <- gsub(httpbin_port, "<port>", snapshot, fixed = TRUE)
+}
+
 # main types --------------------------------------------------------------
 
 test_that("can pin() a data frame", {

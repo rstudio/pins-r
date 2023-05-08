@@ -209,6 +209,14 @@ test_api_manifest <- function(board) {
 
 }
 
+local_httpbin_app <- function() {
+  rlang::check_installed("webfakes")
+  webfakes::local_app_process(
+    webfakes::httpbin_app(),
+    .local_envir = testthat::teardown_env()
+  )
+}
+
 # errors live here for now since they're closely bound to the tests
 
 abort_pin_missing <- function(name, call = caller_env()) {
