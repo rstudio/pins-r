@@ -1,17 +1,17 @@
 # unavailable url can use cache
 
     Code
-      pin("http://httpbin.org/status/404", "test", board = board)
+      pin(url, "test", board = board)
     Condition
       Error in `pin()`:
-      ! Client error: (404) Not Found. Failed to download remote file: http://httpbin.org/status/404
+      ! Client error: (404) Not Found. Failed to download remote file: http://127.0.0.1:<port>/status/404
     Code
       pin(1:10, "test", board = board)
-      x <- pin("http://httpbin.org/status/404", "test", board = board)
+      x <- pin(url, "test", board = board)
     Condition
       Warning:
       Failed to re-download pin; using cached value
-      * Client error: (404) Not Found. Failed to download remote file: http://httpbin.org/status/404
+      * Client error: (404) Not Found. Failed to download remote file: http://127.0.0.1:<port>/status/404
     Code
       expect_equal(x, 1:10)
 
