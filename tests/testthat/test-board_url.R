@@ -62,7 +62,6 @@ test_that("raw pins can only be downloaded", {
 })
 
 test_that("can download pin from board_folder version dir", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempfile())
   b1 %>% pin_write(1:10, "x")
   b2_path <- fs::path(b1$path, "x", pin_versions(b1, "x")$version)
@@ -96,7 +95,6 @@ test_that("can download pin from versioned board_folder", {
 })
 
 test_that("pin_meta() works for versioned board", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempfile(), versioned = TRUE)
   b1 %>% pin_write(11:20, "y", type = "json")
   b1 %>% pin_write(1:20, "y", type = "csv")
@@ -124,7 +122,6 @@ test_that("pin_meta() works for versioned board", {
 })
 
 test_that("useful error for missing or unparseable manifest file", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
   b1 %>% pin_write(1:10, "x", type = "json")
   b1 %>% pin_write(1:20, "y", type = "csv")
