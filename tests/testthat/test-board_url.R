@@ -1,3 +1,11 @@
+skip_if_not_installed("webfakes")
+
+httpbin <- local_httpbin_app()
+httpbin_port <- httpbin$get_port()
+redact_port <- function(snapshot) {
+  snapshot <- gsub(httpbin_port, "<port>", snapshot, fixed = TRUE)
+}
+
 test_that("provides key methods", {
   board <- board_url_test(c(
     rds = github_raw("rstudio/pins-r/master/tests/testthat/pin-rds/")
@@ -54,7 +62,6 @@ test_that("raw pins can only be downloaded", {
 })
 
 test_that("can download pin from board_folder version dir", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempfile())
   b1 %>% pin_write(1:10, "x")
   b2_path <- fs::path(b1$path, "x", pin_versions(b1, "x")$version)
@@ -70,7 +77,6 @@ test_that("can download pin from board_folder version dir", {
 })
 
 test_that("can download pin from versioned board_folder", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
   b1 %>% pin_write(1:10, "x", type = "json")
   b1 %>% pin_write(11:20, "y", type = "json")
@@ -89,7 +95,6 @@ test_that("can download pin from versioned board_folder", {
 })
 
 test_that("pin_meta() works for versioned board", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempfile(), versioned = TRUE)
   b1 %>% pin_write(11:20, "y", type = "json")
   b1 %>% pin_write(1:20, "y", type = "csv")
@@ -117,7 +122,6 @@ test_that("pin_meta() works for versioned board", {
 })
 
 test_that("useful error for missing or unparseable manifest file", {
-  skip_if_not_installed("webfakes")
   b1 <- board_folder(withr::local_tempdir(), versioned = TRUE)
   b1 %>% pin_write(1:10, "x", type = "json")
   b1 %>% pin_write(1:20, "y", type = "csv")
@@ -175,7 +179,7 @@ test_that("useful errors for specifying board", {
 test_that("use cache with Last-Modified header", {
   skip_on_cran()
   path <- fs::dir_create(withr::local_tempdir())
-  url <- "https://httpbin.org/cache"
+  url <- httpbin$url("/cache")
 
   expect_condition(
     http_download(url, path, "test", header = c(x = "potato")),
@@ -194,7 +198,7 @@ test_that("use cache with Last-Modified header", {
 test_that("use cache with etags header", {
   skip_on_cran()
   path <- fs::dir_create(withr::local_tempdir())
-  url <- "https://httpbin.org/etag/xxx"
+  url <- httpbin$url("/etag/xxx")
 
   expect_condition(
     http_download(url, path, "test"),
@@ -202,7 +206,7 @@ test_that("use cache with etags header", {
   )
 
   cache <- read_cache(download_cache_path(path))
-  expect_equal(cache[["https://httpbin.org/etag/xxx"]]$etag, "xxx")
+  expect_equal(cache[[url]]$etag, "xxx")
 
   expect_condition(
     http_download(url, path, "test"),
@@ -213,7 +217,7 @@ test_that("use cache with etags header", {
 test_that("no request if cache-control set", {
   skip_on_cran()
   path <- fs::dir_create(withr::local_tempdir())
-  url <- "https://httpbin.org/cache/60"
+  url <- httpbin$url("/cache/60")
 
   expect_condition(
     http_download(url, path, "test"),
@@ -232,6 +236,7 @@ test_that("no request if cache-control set", {
 test_that("http_download saves read-only file", {
   skip_on_cran()
   path <- fs::dir_create(withr::local_tempdir())
-  cached <- http_download("https://httpbin.org/cache", path, "test")
+  url <- httpbin$url("/cache")
+  cached <- http_download(url, path, "test")
   expect_false(fs::file_access(cached, "write"))
 })
