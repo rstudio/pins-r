@@ -35,7 +35,7 @@
 pin_versions <- function(board, name, ..., full = deprecated()) {
   ellipsis::check_dots_used()
   if (lifecycle::is_present(full)) {
-    lifecycle::deprecate_warn("1.0.0", "pin_versions(full)")
+    lifecycle::deprecate_stop("1.0.0", "pin_versions(full)")
   }
 
   if (missing(name) && is.board(board)) {

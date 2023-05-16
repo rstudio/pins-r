@@ -25,7 +25,7 @@ test_that("`full` is deprecated", {
 
   expect_snapshot({
     x <- pin_versions(board, "x", full = TRUE)
-  })
+  }, error = TRUE)
 })
 
 test_that("can parse versions from path", {
