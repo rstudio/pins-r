@@ -1,7 +1,7 @@
 Type: Package
 Package: pins
 Title: Pin, Discover and Share Resources
-Version: 1.1.0.9000
+Version: 1.2.0
 Authors@R: c(
     person("Julia", "Silge", , "julia.silge@posit.co", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-3671-836X")),
