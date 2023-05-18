@@ -26,8 +26,8 @@
     Code
       x <- pin_versions(board, "x", full = TRUE)
     Condition
-      Warning:
-      The `full` argument of `pin_versions()` is deprecated as of pins 1.0.0.
+      Error:
+      ! The `full` argument of `pin_versions()` was deprecated in pins 1.0.0 and is now defunct.
 
 # informative error for writing with same version
 

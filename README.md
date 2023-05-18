@@ -43,7 +43,8 @@ install.packages("pins")
 You can install the development version from GitHub:
 
 ``` r
-remotes::install_github("rstudio/pins-r")
+# install.packages("pak")
+pak::pak("rstudio/pins-r")
 ```
 
 ## Usage
@@ -62,7 +63,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpveI0M2/pins-12a3e3fc391a5'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpPROJ1m/pins-17c753a542596'
 #> Cache size: 0
 ```
 
@@ -72,7 +73,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230308T174436Z-a800d'
+#> Creating new version '20230516T170700Z-a800d'
 #> Writing to pin 'mtcars'
 ```
 

@@ -79,7 +79,7 @@ Assuming that you have Posit Connect 1.9.0 or later you don't need to provide an
 
 ## Shiny apps
 
-If you're using automatically updated data in a [Shiny](https://shiny.rstudio.com) app, you can use `pin_reactive_read()` to create a reactive dependency so that your app will automatically update shortly after the data changes:
+If you're using automatically updated data in a [Shiny](https://shiny.posit.co/) app, you can use `pin_reactive_read()` to create a reactive dependency so that your app will automatically update shortly after the data changes:
 
 ```{r eval=FALSE}
 library(shiny)

@@ -128,9 +128,9 @@ board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                             use_cache_on_failure = is_interactive(),
                             versions = deprecated()) {
 
-  lifecycle::deprecate_soft("1.1.0", "board_rsconnect()", "board_connect()")
+  lifecycle::deprecate_warn("1.1.0", "board_rsconnect()", "board_connect()")
   if (lifecycle::is_present(versions)) {
-    lifecycle::deprecate_warn("1.0.0", "board_rsconnect(versions)", "board_rsconnect(versioned)")
+    lifecycle::deprecate_stop("1.0.0", "board_rsconnect(versions)", "board_rsconnect(versioned)")
     versioned <- versions
   }
 
