@@ -4,7 +4,13 @@
     <loc>https://pins.rstudio.com/404.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://pins.rstudio.com/articles/customize-pins-metadata.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/articles/index.html</loc>
@@ -43,6 +49,9 @@
     <loc>https://pins.rstudio.com/reference/board_connect.html</loc>
   </url>
   <url>
+    <loc>https://pins.rstudio.com/reference/board_connect_url.html</loc>
+  </url>
+  <url>
     <loc>https://pins.rstudio.com/reference/board_deparse.html</loc>
   </url>
   <url>
@@ -71,9 +80,6 @@
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/cache_browse.html</loc>
-  </url>
-  <url>
-    <loc>https://pins.rstudio.com/reference/custom-boards-utils.html</loc>
   </url>
   <url>
     <loc>https://pins.rstudio.com/reference/custom-boards.html</loc>

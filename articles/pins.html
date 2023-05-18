@@ -15,7 +15,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.6/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.6/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started with pins">
 <meta property="og:description" content="pins">
@@ -23,17 +25,20 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KHBDBW7');</script><!-- End Google Tag Manager -->
 </head>
 <body>
-    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
+    <a href="#container" class="visually-hidden-focusable">Skip to content</a>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHBDBW7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +56,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/customize-pins-metadata.html">Create consistent metadata for pins</a>
     <a class="dropdown-item" href="../articles/managing-custom-formats.html">Managing custom formats</a>
     <a class="dropdown-item" href="../articles/pins-update.html">Upgrading to pins 1.0.0</a>
     <a class="dropdown-item" href="../articles/posit-connect.html">Posit Connect</a>
@@ -61,6 +67,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://posit.co/blog/announcing-pins-1-1-0/">pins 1.1.0</a>
     <a class="external-link dropdown-item" href="https://blog.rstudio.com/2021/10/04/pins-1-0-0/">pins 1.0.0</a>
     <a class="external-link dropdown-item" href="https://blog.rstudio.com/2020/05/29/pins-0-4-0-versioning/">pins 0.4.0</a>
     <a class="external-link dropdown-item" href="https://blog.rstudio.com/2019/11/28/pins-0-3-0-azure-gcloud-and-s3/">pins 0.3.0</a>
@@ -86,7 +93,7 @@
 
     
   </div>
-</nav><div class="container template-article">
+</nav><div class="container template-article" id="container">
 
 
 
@@ -134,7 +141,7 @@ the data. Here are a few options:</p>
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20120304T050607Z-2f9b5'</span></span>
+<span><span class="co">#&gt; Creating new version '20230518T135329Z-87300'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>The first argument is the object to save (usually a data frame, but
 it can be any R object), and the second argument gives the “name” of the
@@ -147,24 +154,26 @@ on your goals:</p>
 <ul>
 <li>
 <code>type = "rds"</code> uses <code>writeRDS()</code> to create a
-binary R data file. It can save any R object but it’s only readable from
-R, not other languages.</li>
+binary R data file. It can save any R object (including trained models)
+but it’s only readable from R, not other languages.</li>
 <li>
 <code>type = "csv"</code> uses <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv()</a></code> to create a
-<code>.csv</code> file. CSVs can read by any application, but only
-support simple columns (e.g. numbers, strings, dates), can take up a lot
-of disk space, and can be slow to read.</li>
+CSV file. CSVs are plain text and can be read easily by many
+applications, but they only support simple columns (e.g. numbers,
+strings), can take up a lot of disk space, and can be slow to read.</li>
+<li>
+<code>type = "parquet"</code> uses
+<code><a href="https://arrow.apache.org/docs/r/reference/write_parquet.html" class="external-link">arrow::write_parquet()</a></code> to create a Parquet file. <a href="https://parquet.apache.org/" class="external-link">Parquet</a> is a modern,
+language-independent, column-oriented file format for efficient data
+storage and retrieval. Parquet is an excellent choice for storing
+tabular data but requires the <a href="https://arrow.apache.org/docs/r/" class="external-link">arrow</a> package.</li>
 <li>
 <code>type = "arrow"</code> uses <code><a href="https://arrow.apache.org/docs/r/reference/write_feather.html" class="external-link">arrow::write_feather()</a></code>
-to create an arrow/feather file. <a href="https://arrow.apache.org" class="external-link">Arrow</a> is a modern,
-language-independent, high-performance file format designed for data
-science. Not every tool can read arrow files, but support is growing
-rapidly.</li>
+to create an Arrow/Feather file.</li>
 <li>
 <code>type = "json"</code> uses <code><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html" class="external-link">jsonlite::write_json()</a></code>
-to create a <code>.json</code> file. Pretty much every programming
-language can read json files, but they only work well for nested
-lists.</li>
+to create a JSON file. Pretty much every programming language can read
+json files, but they only work well for nested lists.</li>
 <li>
 <code>type = "qs"</code> uses <code><a href="https://rdrr.io/pkg/qs/man/qsave.html" class="external-link">qs::qsave()</a></code> to create a
 binary R data file, like <code>writeRDS()</code>. This format achieves
@@ -188,7 +197,7 @@ making it a good choice for larger objects. Read more on the <a href="https://gi
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more rows</span></span></span></code></pre></div>
 <p>You don’t need to supply the file type when reading data from a pin
 because pins automatically stores the file type in the metadata, the
 topic of the next section.</p>
@@ -209,20 +218,20 @@ reconsider your data engineering pipeline.</p>
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 12</span></span>
 <span><span class="co">#&gt;  $ file       : chr "mtcars.rds"</span></span>
-<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 3.12K</span></span>
-<span><span class="co">#&gt;  $ pin_hash   : chr "2f9b568eb4365daf"</span></span>
+<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 900</span></span>
+<span><span class="co">#&gt;  $ pin_hash   : chr "87300860268c357f"</span></span>
 <span><span class="co">#&gt;  $ type       : chr "rds"</span></span>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-01-21 18:28:09"</span></span>
-<span><span class="co">#&gt;  $ api_version: num 1</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-05-18 13:53:29"</span></span>
+<span><span class="co">#&gt;  $ api_version: int 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/Rtmp5NV5ZZ/pins-1cf01331fe2c/mtcars/20120304T050607Z-2f9b5"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpmEKEI7/pins-1df33fc7654c/mtcars/20230518T135329Z-87300"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20230518T135329Z-87300"</span></span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This
 includes:</p>
 <ul>
@@ -248,26 +257,25 @@ provide additional metadata that is stored with the data:</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using `name = 'mtcars'`</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Replacing version '20120304T050607Z-2f9b5' with '20120304T050607Z-2f9b5'</span></span>
-<span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> The hash of pin <span style="color: #0000BB;">"mtcars"</span> has not changed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Your pin will not be stored.</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 12</span></span>
 <span><span class="co">#&gt;  $ file       : chr "mtcars.rds"</span></span>
-<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 3.12K</span></span>
-<span><span class="co">#&gt;  $ pin_hash   : chr "2f9b568eb4365daf"</span></span>
+<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 900</span></span>
+<span><span class="co">#&gt;  $ pin_hash   : chr "87300860268c357f"</span></span>
 <span><span class="co">#&gt;  $ type       : chr "rds"</span></span>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
-<span><span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span></span>
+<span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-01-21 18:28:09"</span></span>
-<span><span class="co">#&gt;  $ api_version: num 1</span></span>
-<span><span class="co">#&gt;  $ user       :List of 1</span></span>
-<span><span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-05-18 13:53:29"</span></span>
+<span><span class="co">#&gt;  $ api_version: int 1</span></span>
+<span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/Rtmp5NV5ZZ/pins-1cf01331fe2c/mtcars/20120304T050607Z-2f9b5"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpmEKEI7/pins-1df33fc7654c/mtcars/20230518T135329Z-87300"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20120304T050607Z-2f9b5"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20230518T135329Z-87300"</span></span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata
 consistent over time, I’d recommend manually capturing anything you
 really care about in <code>metadata</code>.</p>
@@ -302,13 +310,13 @@ will create a new version:</p>
 <code class="sourceCode R"><span><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20120304T050607Z-ab444'</span></span>
+<span><span class="co">#&gt; Creating new version '20230518T135331Z-50edb'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20120304T050607Z-a077a'</span></span>
+<span><span class="co">#&gt; Creating new version '20230518T135331Z-57129'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20120304T050607Z-0a284'</span></span>
+<span><span class="co">#&gt; Creating new version '20230518T135331Z-06c11'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span></code></pre></div>
 <p>You can list all the available versions with
 <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
@@ -317,16 +325,16 @@ will create a new version:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20120304T050607Z-0a284 2012-03-04 <span style="color: #949494;">05:06:07</span> 0a284</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20120304T050607Z-a077a 2012-03-04 <span style="color: #949494;">05:06:07</span> a077a</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20120304T050607Z-ab444 2012-03-04 <span style="color: #949494;">05:06:07</span> ab444</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230518T135331Z-06c11 2023-05-18 <span style="color: #949494;">13:53:31</span> 06c11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230518T135331Z-50edb 2023-05-18 <span style="color: #949494;">13:53:31</span> 50edb</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20230518T135331Z-57129 2023-05-18 <span style="color: #949494;">13:53:31</span> 57129</span></span></code></pre></div>
 <p>(Pins does not currently provide any tool to remove old versions, but
 this is likely to be implemented in the future.)</p>
 <p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent
 version:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1 2 3 4 5</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 2 3 4 5 6</span></span></code></pre></div>
 <p>But you can request an older version by supplying the
 <code>version</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -350,12 +358,12 @@ creating a few files in the temp directory:</p>
 <p>Now I can upload those to the board:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20120304T050607Z-e9d42'</span></span></code></pre></div>
+<span><span class="co">#&gt; Creating new version '20230518T135331Z-e9d42'</span></span></code></pre></div>
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp5NV5ZZ/pins-1cf01331fe2c/example/20120304T050607Z-e9d42/mtcars.csv"  </span></span>
-<span><span class="co">#&gt; [2] "/tmp/Rtmp5NV5ZZ/pins-1cf01331fe2c/example/20120304T050607Z-e9d42/alphabet.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpmEKEI7/pins-1df33fc7654c/example/20230518T135331Z-e9d42/mtcars.csv"  </span></span>
+<span><span class="co">#&gt; [2] "/tmp/RtmpmEKEI7/pins-1df33fc7654c/example/20230518T135331Z-e9d42/alphabet.txt"</span></span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as
 internal implementation details — never modify them and never save them
 for use outside of pins.</p>
@@ -370,7 +378,7 @@ for use outside of pins.</p>
 with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp5NV5ZZ/pins-1cf01331fe2c/mtcars/20120304T050607Z-2f9b5/mtcars.rds"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpmEKEI7/pins-1df33fc7654c/mtcars/20230518T135329Z-87300/mtcars.rds"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
@@ -401,23 +409,23 @@ dependencies of the pins package. For real code I’d recommend using
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 344 × 17</span></span></span>
-<span><span class="co">#&gt;    studyName Sampl…¹ Species Region Island Stage Indiv…² Clutc…³ Date …⁴ Culme…⁵</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708         1 Adelie… Anvers Torge… Adul… N1A1    Yes     2007-1…    39.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708         2 Adelie… Anvers Torge… Adul… N1A2    Yes     2007-1…    39.5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708         3 Adelie… Anvers Torge… Adul… N2A1    Yes     2007-1…    40.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708         4 Adelie… Anvers Torge… Adul… N2A2    Yes     2007-1…    <span style="color: #BB0000;">NA</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708         5 Adelie… Anvers Torge… Adul… N3A1    Yes     2007-1…    36.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708         6 Adelie… Anvers Torge… Adul… N3A2    Yes     2007-1…    39.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708         7 Adelie… Anvers Torge… Adul… N4A1    No      2007-1…    38.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708         8 Adelie… Anvers Torge… Adul… N4A2    No      2007-1…    39.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708         9 Adelie… Anvers Torge… Adul… N5A1    Yes     2007-1…    34.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708        10 Adelie… Anvers Torge… Adul… N5A2    Yes     2007-1…    42  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 334 more rows, 7 more variables: `Culmen Depth (mm)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt;    studyName `Sample Number` Species   Region Island Stage `Individual ID`</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> PAL0708                 1 Adelie P… Anvers Torge… Adul… N1A1           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PAL0708                 2 Adelie P… Anvers Torge… Adul… N1A2           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAL0708                 3 Adelie P… Anvers Torge… Adul… N2A1           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PAL0708                 4 Adelie P… Anvers Torge… Adul… N2A2           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PAL0708                 5 Adelie P… Anvers Torge… Adul… N3A1           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PAL0708                 6 Adelie P… Anvers Torge… Adul… N3A2           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PAL0708                 7 Adelie P… Anvers Torge… Adul… N4A1           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> PAL0708                 8 Adelie P… Anvers Torge… Adul… N4A2           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PAL0708                 9 Adelie P… Anvers Torge… Adul… N5A1           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PAL0708                10 Adelie P… Anvers Torge… Adul… N5A2           </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 334 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 10 more variables: `Clutch Completion` &lt;chr&gt;, `Date Egg` &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Culmen Length (mm)` &lt;dbl&gt;, `Culmen Depth (mm)` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   `Flipper Length (mm)` &lt;int&gt;, `Body Mass (g)` &lt;int&gt;, Sex &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​`Sample Number`, ²​`Individual ID`,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​`Clutch Completion`, ⁴​`Date Egg`, ⁵​`Culmen Length (mm)`</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Delta 15 N (o/oo)` &lt;dbl&gt;, `Delta 13 C (o/oo)` &lt;dbl&gt;, Comments &lt;chr&gt;</span></span></span></code></pre></div>
 <p><code><a href="../reference/board_url.html">board_url()</a></code> requires a bit of work compared to using
 <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> or similar but it has a big payoff: the
 data will only be re-downloaded when it changes.</p>
@@ -429,9 +437,11 @@ data will only be re-downloaded when it changes.</p>
 
 
 
-    <footer><div class="pkgdown-footer-left">
+   </div>
+  <footer><div class="container">
+  <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Julia Silge, Hadley Wickham, Javier Luraschi, RStudio.</p>
+<p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Javier Luraschi, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
@@ -439,12 +449,6 @@ data will only be re-downloaded when it changes.</p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-    </footer>
-</div>
-
-  
-
-  
-
-  </body>
+  </div></footer>
+</body>
 </html>
