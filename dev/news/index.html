@@ -13,7 +13,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,13 +72,16 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="pins-development-version">pins (development version)<a class="anchor" aria-label="anchor" href="#pins-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="pins-120">pins 1.2.0<a class="anchor" aria-label="anchor" href="#pins-120"></a></h2><p class="text-muted">CRAN release: 2023-05-18</p>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="breaking-changes-1-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-2-0"></a></h3>
 <ul><li>
 <code><a href="../reference/pin_read.html">pin_write()</a></code> no longer writes identical pin contents by default, and gains a <code>force_identical_write</code> argument for writing even when the pin contents are identical to the last version (<a href="https://github.com/rstudio/pins-r/issues/735" class="external-link">#735</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="other-improvements-development-version">Other improvements<a class="anchor" aria-label="anchor" href="#other-improvements-development-version"></a></h3>
+<h3 id="other-improvements-1-2-0">Other improvements<a class="anchor" aria-label="anchor" href="#other-improvements-1-2-0"></a></h3>
 <ul><li><p>The <code>print</code> method for boards no longer calls <code><a href="../reference/pin_list.html">pin_list()</a></code> internally (<a href="https://github.com/rstudio/pins-r/issues/718" class="external-link">#718</a>).</p></li>
 <li><p><code><a href="../reference/board_s3.html">board_s3()</a></code> now uses pagination for listing and versioning (<a href="https://github.com/rstudio/pins-r/issues/719" class="external-link">#719</a>, <a href="https://github.com/mzorko" class="external-link">@mzorko</a>).</p></li>
 <li><p>Added <code>type = "parquet"</code> to read and write Parquet files (<a href="https://github.com/rstudio/pins-r/issues/729" class="external-link">#729</a>).</p></li>

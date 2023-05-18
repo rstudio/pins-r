@@ -29,7 +29,7 @@ Some examples are provided in vignette("using-board-url").'><meta property="og:i
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,10 +136,10 @@ We recommend you only use <code>write_board_manifest()</code> with modern boards
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="va">mtcars</span>, <span class="st">"mtcars-csv"</span>, type <span class="op">=</span> <span class="st">"csv"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230509T194954Z-48c73'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230518T142621Z-48c73'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars-csv'</span>
 <span class="r-in"><span><span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="va">mtcars</span>, <span class="st">"mtcars-json"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230509T194954Z-c2702'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230518T142621Z-c2702'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars-json'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">write_board_manifest</span><span class="op">(</span><span class="va">board</span><span class="op">)</span></span></span>
@@ -148,13 +148,13 @@ We recommend you only use <code>write_board_manifest()</code> with modern boards
 <span class="r-in"><span><span class="co"># see the manifest's format:</span></span></span>
 <span class="r-in"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">board</span><span class="op">$</span><span class="va">path</span>, <span class="st">"_pins.yaml"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mtcars-csv:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - mtcars-csv/20230509T194954Z-48c73/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - mtcars-csv/20230518T142621Z-48c73/</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mtcars-json:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - mtcars-json/20230509T194954Z-c2702/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - mtcars-json/20230518T142621Z-c2702/</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># if you write another pin, the manifest file is out of date:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"nice-numbers"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230509T194954Z-c3943'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20230518T142621Z-c3943'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'nice-numbers'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># you decide when to update the manifest:</span></span></span>
