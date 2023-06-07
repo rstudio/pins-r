@@ -1,0 +1,46 @@
+---
+title: "How to create a new board"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{create-new-board}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pins)
+```
+
+
+
+First, make board constructor
+
+
+Start on methods
+
+required_pkgs is pretty easy
+
+pin_list,
+
+Now start making some helper functions that we will use
+
+pin_exists
+
+pin_delete
+
+pin_versions and pin_version_delete
+
+pin_meta
+
+pin_fetch
+
+pin_store
+
+
