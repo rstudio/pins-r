@@ -50,6 +50,15 @@ board_gdrive <- function(path,
   )
 }
 
+board_gdrive_test <- function(...) {
+  skip_if_missing_envvars(
+    tests = "board_gdrive()",
+    envvars = c("PINS_GDRIVE_USE_PERSONAL")
+  )
+
+  board_gdrive("pins-testing", cache = tempfile())
+}
+
 #' @export
 pin_list.pins_board_gdrive <- function(board, ...) {
   googledrive::drive_ls(board$dribble)$name
