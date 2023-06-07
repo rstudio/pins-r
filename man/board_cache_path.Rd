@@ -19,7 +19,7 @@ via the \code{cache} argument.
 There are several environment variables available to control the location of
 the default pins cache:
 \itemize{
-\item Use \code{PINS_CACHE_PATH} to set the cache path for \emph{only} pins functions
+\item Use \code{PINS_CACHE_DIR} to set the cache path for \emph{only} pins functions
 \item Use \code{R_USER_CACHE_DIR} to set the cache path for all functions that use rappdirs
 }
 
@@ -34,12 +34,12 @@ board_cache_path("local")
 
 # set with env vars:
 withr::with_envvar(
-    c("PINS_CACHE_PATH" = "/path/to/cache"),
-    board_cache_path("local")
+  c("PINS_CACHE_DIR" = "/path/to/cache"),
+  board_cache_path("local")
 )
 withr::with_envvar(
-    c("R_USER_CACHE_DIR" = "/path/to/cache"),
-    board_cache_path("local")
+  c("R_USER_CACHE_DIR" = "/path/to/cache"),
+  board_cache_path("local")
 )
 
 }

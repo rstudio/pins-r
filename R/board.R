@@ -96,7 +96,7 @@ is.board <- function(x) inherits(x, "pins_board")
 #' There are several environment variables available to control the location of
 #' the default pins cache:
 #'
-#' - Use `PINS_CACHE_PATH` to set the cache path for _only_ pins functions
+#' - Use `PINS_CACHE_DIR` to set the cache path for _only_ pins functions
 #' - Use `R_USER_CACHE_DIR` to set the cache path for all functions that use rappdirs
 #'
 #' On system like AWS Lambda that is read only (for example, only `/tmp` is
@@ -110,21 +110,21 @@ is.board <- function(x) inherits(x, "pins_board")
 #'
 #' # set with env vars:
 #' withr::with_envvar(
-#'     c("PINS_CACHE_PATH" = "/path/to/cache"),
-#'     board_cache_path("local")
+#'   c("PINS_CACHE_DIR" = "/path/to/cache"),
+#'   board_cache_path("local")
 #' )
 #' withr::with_envvar(
-#'     c("R_USER_CACHE_DIR" = "/path/to/cache"),
-#'     board_cache_path("local")
+#'   c("R_USER_CACHE_DIR" = "/path/to/cache"),
+#'   board_cache_path("local")
 #' )
 #'
 #' @export
 board_cache_path <- function(name) {
   # R_CONFIG_ACTIVE suggests we're in a production environment
   if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
-    path <- tempdir()
-  } else if (has_envvars("PINS_CACHE_PATH") ) {
-    path <- Sys.getenv("PINS_CACHE_PATH")
+    path <- fs::dir_create(tempdir(), "pins")
+  } else if (has_envvars("PINS_CACHE_DIR") ) {
+    path <- Sys.getenv("PINS_CACHE_DIR")
   } else {
     path <- cache_dir()
   }
