@@ -48,6 +48,7 @@ Suggests:
     filelock,
     gitcreds,
     googleCloudStorageR,
+    googledrive,
     ids,
     knitr,
     Microsoft365R,
