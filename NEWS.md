@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Added new board for Google Drive `board_gdrive()` (#749).
+
 # pins 1.2.0
 
 ## Breaking changes
