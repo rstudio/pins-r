@@ -116,6 +116,7 @@ pin_meta.pins_board_gdrive <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_fetch.pins_board_gdrive <- function(board, name, version = NULL, ...) {
+  googledrive::local_drive_quiet()
   meta <- pin_meta(board, name, version = version)
   cache_touch(board, meta)
 
@@ -130,6 +131,7 @@ pin_fetch.pins_board_gdrive <- function(board, name, version = NULL, ...) {
 #' @export
 pin_store.pins_board_gdrive <- function(board, name, paths, metadata,
                                         versioned = NULL, ...) {
+  googledrive::local_drive_quiet()
   check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
