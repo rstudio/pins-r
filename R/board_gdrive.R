@@ -88,12 +88,13 @@ pin_version_delete.pins_board_gdrive <- function(board, name, version, ...) {
 pin_versions.pins_board_gdrive <- function(board, name, ...) {
   check_pin_exists(board, name)
   path <- fs::path(board$dribble$path, name)
-  version_from_path(googledrive::drive_ls(path)$name)
+  version_from_path(sort(googledrive::drive_ls(path)$name))
 }
 
 
 #' @export
 pin_meta.pins_board_gdrive <- function(board, name, version = NULL, ...) {
+  googledrive::local_drive_quiet()
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
   metadata_key <- fs::path(name, version, "data.txt")
@@ -173,8 +174,9 @@ required_pkgs.pins_board_gdrive <- function(x, ...) {
 gdrive_file_exists <- function(board, name) {
   path <- fs::path(board$dribble$name, fs::path_dir(name))
   name <- fs::path_file(name)
-  all_names <- googledrive::drive_ls(path)$name
-  name %in% all_names
+  possibly_drive_ls <- purrr::possibly(googledrive::drive_ls)
+  all_names <- possibly_drive_ls(path)
+  name %in% all_names$name
 }
 
 gdrive_delete_dir <- function(board, dir) {
