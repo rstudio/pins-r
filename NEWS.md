@@ -1,5 +1,8 @@
 # pins (development version)
 
+* New environment variable `PINS_CACHE_DIR` controls the location of the 
+  default cache path (#748).
+  
 * Added new board for Google Drive `board_gdrive()` (#749).
 
 # pins 1.2.0

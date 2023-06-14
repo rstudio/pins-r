@@ -48,6 +48,7 @@ reference:
 - title: Other functions
   contents:
   - cache_browse
+  - board_cache_path
   - write_board_manifest
 
 - title: Legacy API

@@ -84,22 +84,47 @@ cache_size <- function(board) {
 
 is.board <- function(x) inherits(x, "pins_board")
 
-#' Retrieve Default Cache Path
+#' Retrieve default cache path
 #'
 #' Retrieves the default path used to cache boards and pins. Makes
-#' use of the `rappdirs` package to use cache folders
-#' defined by each OS.
+#' use of [rappdirs::user_cache_dir()] for cache folders defined by each OS.
+#' Remember that you can set the cache location for an individual board object
+#' via the `cache` argument.
 #'
 #' @param name Board name
-#' @keywords internal
+#' @details
+#' There are several environment variables available to control the location of
+#' the default pins cache:
+#'
+#' - Use `PINS_CACHE_DIR` to set the cache path for _only_ pins functions
+#' - Use `R_USER_CACHE_DIR` to set the cache path for all functions that use rappdirs
+#'
+#' On system like AWS Lambda that is read only (for example, only `/tmp` is
+#' writeable), set either of these to [base::tempdir()]. You may also need to
+#' set environment variables like `HOME` and/or `R_USER_DATA_DIR` to the
+#' session temporary directory.
+#'
 #' @examples
 #' # retrieve default cache path
 #' board_cache_path("local")
+#'
+#' # set with env vars:
+#' withr::with_envvar(
+#'   c("PINS_CACHE_DIR" = "/path/to/cache"),
+#'   board_cache_path("local")
+#' )
+#' withr::with_envvar(
+#'   c("R_USER_CACHE_DIR" = "/path/to/cache"),
+#'   board_cache_path("local")
+#' )
+#'
 #' @export
 board_cache_path <- function(name) {
   # R_CONFIG_ACTIVE suggests we're in a production environment
   if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
-    path <- tempfile()
+    path <- fs::dir_create(tempdir(), "pins")
+  } else if (has_envvars("PINS_CACHE_DIR") ) {
+    path <- Sys.getenv("PINS_CACHE_DIR")
   } else {
     path <- cache_dir()
   }
