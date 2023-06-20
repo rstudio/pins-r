@@ -39,6 +39,7 @@ reference:
   - board_connect
   - board_connect_url
   - board_gcs
+  - board_gdrive
   - board_local
   - board_ms365
   - board_s3
