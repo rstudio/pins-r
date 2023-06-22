@@ -47,7 +47,7 @@ pin_meta <- function(board, name, version = NULL, ...) {
 }
 
 possibly_pin_meta <- function(...) {
-  purrr::possibly(pin_meta)(...)
+  tryCatch(pin_meta(...), error = function(err) NULL)
 }
 
 multi_meta <- function(board, names) {
