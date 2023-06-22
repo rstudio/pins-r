@@ -46,7 +46,9 @@ pin_meta <- function(board, name, version = NULL, ...) {
   UseMethod("pin_meta")
 }
 
-possibly_pin_meta <- possibly(pin_meta)
+possibly_pin_meta <- function(...) {
+  tryCatch(pin_meta(...), error = function(err) NULL)
+}
 
 multi_meta <- function(board, names) {
   meta <- map(names, possibly(pin_meta, empty_local_meta), board = board)

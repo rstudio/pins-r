@@ -171,10 +171,13 @@ required_pkgs.pins_board_gdrive <- function(x, ...) {
 
 # Helpers -----------------------------------------------------------------
 
+possibly_drive_ls <- function(...) {
+  tryCatch(googledrive::drive_ls(...), error = function(err) NULL)
+}
+
 gdrive_file_exists <- function(board, name) {
   path <- fs::path(board$dribble$name, fs::path_dir(name))
   name <- fs::path_file(name)
-  possibly_drive_ls <- purrr::possibly(googledrive::drive_ls)
   all_names <- possibly_drive_ls(path)
   name %in% all_names$name
 }
