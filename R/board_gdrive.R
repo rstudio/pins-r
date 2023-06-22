@@ -172,7 +172,7 @@ required_pkgs.pins_board_gdrive <- function(x, ...) {
 # Helpers -----------------------------------------------------------------
 
 possibly_drive_ls <- function(...) {
-  purrr::possibly(googledrive::drive_ls)(...)
+  tryCatch(googledrive::drive_ls(...), error = function(err) NULL)
 }
 
 gdrive_file_exists <- function(board, name) {
