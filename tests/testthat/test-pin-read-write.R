@@ -4,7 +4,7 @@ test_that("can round trip all types", {
   board <- board_temp()
 
   # Data frames
-  df <- data.frame(x = 1:10)
+  df <- tibble::tibble(x = 1:10)
   pin_write(board, df, "df-1", type = "rds")
   expect_equal(pin_read(board, "df-1"), df)
 
@@ -12,13 +12,13 @@ test_that("can round trip all types", {
   expect_equal(pin_read(board, "df-2"), df)
 
   pin_write(board, df, "df-3", type = "arrow")
-  expect_equal(pin_read(board, "df-2"), df)
-
-  pin_write(board, df, "df-4", type = "csv")
   expect_equal(pin_read(board, "df-3"), df)
 
+  pin_write(board, df, "df-4", type = "csv")
+  expect_equal(pin_read(board, "df-4"), as.data.frame(df))
+
   pin_write(board, df, "df-5", type = "qs")
-  expect_equal(pin_read(board, "df-4"), df)
+  expect_equal(pin_read(board, "df-5"), df)
 
   # List
   x <- list(a = 1:5, b = 1:10)
