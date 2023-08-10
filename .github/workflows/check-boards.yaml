@@ -16,9 +16,6 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
       # needed for modern board tests
-      PINS_AZURE_SAS: ${{ secrets.PINS_AZURE_SAS }}
-      PINS_AZURE_KEY: ${{ secrets.PINS_AZURE_KEY }}
-      PINS_AZURE_ACCOUNT: ${{ secrets.PINS_AZURE_ACCOUNT }}
       PINS_AWS_ACCESS_KEY: ${{ secrets.PINS_AWS_ACCESS_KEY}}
       PINS_AWS_SECRET_ACCESS_KEY: ${{ secrets.PINS_AWS_SECRET_ACCESS_KEY}}
       PINS_GCS_PASSWORD: ${{ secrets.PINS_GCS_PASSWORD }}
