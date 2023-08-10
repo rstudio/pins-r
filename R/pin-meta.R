@@ -105,7 +105,6 @@ test_api_meta <- function(board) {
   })
 
   testthat::test_that("can update pin metadata", {
-    cat(class(board))
     # RSC requires at least 3 characters
     name <- local_pin(board, 1, title = "xxx-a1", description = "xxx-a2")
     # change content so hash changes
