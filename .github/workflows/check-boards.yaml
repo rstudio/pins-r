@@ -18,7 +18,7 @@ jobs:
       # needed for modern board tests
       ## PINS_AWS_ACCESS_KEY: ${{ secrets.PINS_AWS_ACCESS_KEY}}
       ## PINS_AWS_SECRET_ACCESS_KEY: ${{ secrets.PINS_AWS_SECRET_ACCESS_KEY}}
-      ## PINS_GCS_PASSWORD: ${{ secrets.PINS_GCS_PASSWORD }}
+      PINS_GCS_PASSWORD: ${{ secrets.PINS_GCS_PASSWORD }}
 
       # needed for legacy board tests
       TEST_AWS_BUCKET: "pins-github-tests"
