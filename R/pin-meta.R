@@ -102,9 +102,7 @@ test_api_meta <- function(board) {
     testthat::expect_equal(meta$description, "desc")
     testthat::expect_equal(meta$tags, c("tag1", "tag2"))
     testthat::expect_equal(meta$user$a, "a")
-  })
 
-  testthat::test_that("can update pin metadata", {
     # RSC requires at least 3 characters
     name <- local_pin(board, 1, title = "xxx-a1", description = "xxx-a2")
     # change content so hash changes
@@ -113,9 +111,7 @@ test_api_meta <- function(board) {
     meta <- pin_meta(board, name)
     testthat::expect_equal(meta$title, "xxx-b1")
     testthat::expect_equal(meta$description, "xxx-b2")
-  })
 
-  testthat::test_that("pin_meta fails cleanly if pin is missing", {
     testthat::expect_error(
       pin_read(board, "DOES-NOT-EXIST"),
       class = "pins_pin_missing"
