@@ -107,10 +107,15 @@ test_api_meta <- function(board) {
   })
 
   testthat::test_that("can update pin metadata", {
+  mock_version_name <-
+    mockery::mock(
+      "20130104T050607Z-xxxxx",
+      "20130204T050607Z-yyyyy"
+    )
+  testthat::local_mocked_bindings(version_name = mock_version_name)
     # RSC requires at least 3 characters
     name <- local_pin(board, 1, title = "xxx-a1", description = "xxx-a2")
-    # change content so hash changes
-    pin_write(board, 2, name, title = "xxx-b1", description = "xxx-b2")
+    pin_write(board, 1, name, title = "xxx-b1", description = "xxx-b2", force_identical_write = TRUE)
 
     meta <- pin_meta(board, name)
     testthat::expect_equal(meta$title, "xxx-b1")
