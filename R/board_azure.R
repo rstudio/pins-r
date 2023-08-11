@@ -85,7 +85,6 @@ board_azure <- function(container, path = "", n_processes = 10, versioned = TRUE
 
 board_azure_test <- function(path, type = c("blob", "file", "dfs"), ...) {
   skip_if_missing_envvars("board_azure()", "PINS_AZURE_KEY")
-  testthat::skip_on_ci()
 
   type <- arg_match(type)
   acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT")
