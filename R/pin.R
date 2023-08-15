@@ -55,11 +55,9 @@ pin_load <- function(path, ...) {
 #' @param board The board to extended, retrieved with `board_get()`.
 #' @param name The name of the pin.
 #' @param path The path to store.
-#' @param description The text patteren to find a pin.
-#' @param type The type of pin being stored.
 #' @param pin_metadata A list of pin metadata describing the pin. Must contain
 #'   `type` and `description`.
-#' @param metadat Additional user supplied metadata.
+#' @param metadata Additional user supplied metadata.
 #' @param custom_metadata Deprecated. Please use `metadata` instead.
 #' @param retrieve Should the pin be retrieved after being created? Defaults to `TRUE`.
 #' @param ... Additional parameteres.

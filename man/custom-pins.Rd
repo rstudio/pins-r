@@ -35,13 +35,9 @@ board_pin_store(
 
 \item{retrieve}{Should the pin be retrieved after being created? Defaults to \code{TRUE}.}
 
+\item{metadata}{Additional user supplied metadata.}
+
 \item{custom_metadata}{Deprecated. Please use \code{metadata} instead.}
-
-\item{description}{The text patteren to find a pin.}
-
-\item{type}{The type of pin being stored.}
-
-\item{metadat}{Additional user supplied metadata.}
 }
 \description{
 Family of functions meant to be used to implement custom pin extensions, not to be used by users.

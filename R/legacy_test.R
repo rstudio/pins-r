@@ -2,7 +2,7 @@
 #'
 #' Tests a particular board, useful only when creating new boards.
 #'
-#' @param name The name of the board to test.
+#' @param board The name of the board to test.
 #' @param exclude Names of tests to exclude form test.
 #' @param suite The test suite to run, currently only `"versions"` or
 #'   `default` are supported.
