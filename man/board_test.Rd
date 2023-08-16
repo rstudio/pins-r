@@ -7,12 +7,12 @@
 board_test(board, exclude = list(), suite = c("default", "versions"))
 }
 \arguments{
+\item{board}{The name of the board to test.}
+
 \item{exclude}{Names of tests to exclude form test.}
 
 \item{suite}{The test suite to run, currently only \code{"versions"} or
 \code{default} are supported.}
-
-\item{name}{The name of the board to test.}
 }
 \description{
 Tests a particular board, useful only when creating new boards.
