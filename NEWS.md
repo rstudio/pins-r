@@ -5,6 +5,8 @@
   
 * Added new board for Google Drive `board_gdrive()` (#749).
 
+* Updated test for new arrow release (#764).
+
 # pins 1.2.0
 
 ## Breaking changes
