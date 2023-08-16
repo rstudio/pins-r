@@ -1,4 +1,4 @@
-# pins (development version)
+# pins 1.2.1
 
 * New environment variable `PINS_CACHE_DIR` controls the location of the 
   default cache path (#748).
