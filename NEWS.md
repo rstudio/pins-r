@@ -1,5 +1,8 @@
 # pins (development version)
 
+* Fixed how dots are checked in `pin_write()` to make user-facing messages more 
+  clear (#770).
+
 # pins 1.2.1
 
 * New environment variable `PINS_CACHE_DIR` controls the location of the 
