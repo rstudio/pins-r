@@ -79,7 +79,6 @@ pin_write <- function(board, x,
                       tags = NULL,
                       ...,
                       force_identical_write = FALSE) {
-  ellipsis::check_dots_used()
   check_board(board, "pin_write", "pin")
 
   if (is.null(name)) {
@@ -126,6 +125,7 @@ pin_write <- function(board, x,
     }
   }
 
+  ellipsis::check_dots_used()
   name <- pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
   pins_inform("Writing to pin '{name}'")
   invisible(name)
