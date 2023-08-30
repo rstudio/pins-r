@@ -3,6 +3,8 @@
 * Fixed how dots are checked in `pin_write()` to make user-facing messages more 
   clear (#770).
 
+* Added `board_deparse` for `board_url()` (#774).
+
 # pins 1.2.1
 
 * New environment variable `PINS_CACHE_DIR` controls the location of the 
