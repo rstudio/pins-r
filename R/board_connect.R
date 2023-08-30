@@ -32,7 +32,7 @@
 #' ```
 #' 
 #' You can find the URL of a pin with [pin_browse()].
-#' 
+#'
 #' # Caching on Posit Connect
 #' 
 #' The pins package maintains per-session caches for _users_ and _content_ on
