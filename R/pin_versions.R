@@ -90,7 +90,7 @@ pin_version_delete.pins_board <- function(board, name, version, ...) {
 #' @rdname pin_versions
 #' @param n,days Pick one of `n` or `days` to choose how many versions to
 #'   keep. `n = 3` will keep the last three versions, `days = 14` will
-#'   keep all the versions in the 14 days. Regardless of what values you
+#'   keep all the versions created in the 14 days. Regardless of what values you
 #'   set, `pin_versions_prune()` will never delete the most recent version.
 pin_versions_prune <- function(board, name, n = NULL, days = NULL, ...) {
   versions <- pin_versions(board, name)
