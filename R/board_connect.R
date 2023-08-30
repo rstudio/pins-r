@@ -33,13 +33,13 @@
 #' 
 #' You can find the URL of a pin with [pin_browse()].
 #'
-#' # Caching on Posit Connect
+#' # Local caching for Posit Connect
 #' 
-#' The pins package maintains per-session caches for _users_ and _content_ on
-#' your Connect server. If your cache gets into a bad state (for example, user
-#' names have changed on the server or a pin was deleted on the server, but 
-#' your local machine doesn't know about the change yet), you can clear you local
-#' cache by restarting your R session.
+#' The pins package maintains local per-session caches for _users_ and _content_ 
+#' from your Connect server. If your cache gets into a bad state (for example, 
+#' user names have changed on the server or a pin was deleted on the server, but 
+#' your local machine doesn't know about the change yet), you can clear your 
+#' local cache by restarting your R session.
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
