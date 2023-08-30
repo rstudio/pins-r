@@ -219,6 +219,13 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta
 }
 
+#' @rdname board_deparse
+#' @export
+board_deparse.pins_board_url <- function(board, ...) {
+  urls <- check_board_deparse(board, "urls")
+  expr(board_url(!!urls))
+}
+
 # Unsupported features ----------------------------------------------------
 
 #' @export

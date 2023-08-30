@@ -1,3 +1,10 @@
+# provides key methods
+
+    Code
+      board_deparse(board)
+    Output
+      board_url(c(rds = "https://raw.githubusercontent.com/rstudio/pins-r/master/tests/testthat/pin-rds/"))
+
 # raw pins can only be downloaded
 
     Pin does not declare file type so can't be automatically read
@@ -36,11 +43,6 @@
     Condition
       Error in `pin_version_delete()`:
       ! `board_url()` is read only
-    Code
-      board %>% board_deparse()
-    Condition
-      Error in `board_deparse()`:
-      ! This board doesn't support deparsing
     Code
       pin(1:5, name = "x", board = board)
     Condition
