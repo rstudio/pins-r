@@ -84,4 +84,10 @@ pin_read_factor_json <- function(board, name, version = NULL, hash = NULL, ...) 
 board %>% pin_read_factor_json("letters-as-json")
 ```
 
-For an example of how this approach is used in a real project, look at how [the vetiver package wraps these functions to write and read model binaries as pins](https://github.com/rstudio/vetiver-r/blob/main/R/pin-read-write.R).
+## Examples of using consistent metadata
+
+How are these approaches used in real projects?
+
+- The vetiver package wraps pins functions [to write and read model binaries together with their metadata, including an renv lockfile](https://github.com/rstudio/vetiver-r/blob/main/R/pin-read-write.R).
+- You can record version control information such as Git commit and SHA as pin metadata.
+- You can create data lineage or data governance metadata appropriate to your use case.
