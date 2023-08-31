@@ -3,7 +3,10 @@
 * Fixed how dots are checked in `pin_write()` to make user-facing messages more 
   clear (#770).
 
+* Improved documentation about Connect caches (#771) and deleting pin versions (#773).
+
 * Added `board_deparse` for `board_url()` (#774).
+
 
 # pins 1.2.1
 
