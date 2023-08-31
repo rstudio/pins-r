@@ -157,7 +157,7 @@ You can list all the available versions with `pin_versions()`:
 board2 %>% pin_versions("x")
 ```
 
-(Pins does not currently provide any tool to remove old versions, but this is likely to be implemented in the future.)
+You can delete a specific older version with `pin_version_delete()` or sets of older versions with `pin_versions_prune()`.
 
 By default, `pin_read()` will return the most recent version:
 

@@ -26,7 +26,7 @@ legacy API, you can also use \code{pin_versions(name)} or
 
 \item{n, days}{Pick one of \code{n} or \code{days} to choose how many versions to
 keep. \code{n = 3} will keep the last three versions, \code{days = 14} will
-keep all the versions in the 14 days. Regardless of what values you
+keep all the versions created in the 14 days. Regardless of what values you
 set, \code{pin_versions_prune()} will never delete the most recent version.}
 }
 \value{
