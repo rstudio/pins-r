@@ -140,20 +140,23 @@ pin_store.pins_board_gdrive <- function(board, name, paths, metadata,
   gdrive_mkdir(fs::path(board$dribble$name, name), version)
 
   version_dir <- fs::path(name, version)
+  version_dir_dribble = googledrive::as_dribble(version_dir)
 
   # Upload metadata
   temp_file <- withr::local_tempfile()
   yaml::write_yaml(metadata, file = temp_file)
   googledrive::drive_upload(
     temp_file,
-    fs::path(board$dribble$path, version_dir, "data.txt")
+    version_dir_dribble,
+    "data.txt"
   )
 
   # Upload files
   for (path in paths) {
     googledrive::drive_upload(
       path,
-      fs::path(board$dribble$path, version_dir, fs::path_file(path))
+      version_dir_dribble,
+      fs::path_file(path)
     )
   }
 

@@ -7,6 +7,8 @@
 
 * Added `board_deparse` for `board_url()` (#774).
 
+* Fixed how `board_gdrive()` makes version directories (#780, @gorkang).
+
 
 # pins 1.2.1
 
