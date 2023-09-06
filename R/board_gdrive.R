@@ -77,7 +77,6 @@ pin_delete.pins_board_gdrive <- function(board, names, ...) {
     dribble <- googledrive::drive_ls(board$dribble)
     dribble <- dribble[dribble$name == name,]
     googledrive::drive_trash(dribble)
-    invisible()
   }
   invisible(board)
 }
