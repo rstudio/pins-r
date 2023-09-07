@@ -189,10 +189,14 @@ possibly_drive_ls <- function(...) {
 }
 
 gdrive_file_exists <- function(board, name) {
-  path <- fs::path(board$dribble$name, fs::path_dir(name))
+  dribble <- googledrive::drive_ls(board$dribble)
+  path_components <- purrr::pluck(fs::path_split(fs::path_dir(name)), 1)
+  for (path_component in path_components) {
+    dribble <- dribble[dribble$name == path_component,]
+    dribble <- possibly_drive_ls(dribble)
+  }
   name <- fs::path_file(name)
-  all_names <- possibly_drive_ls(path)
-  name %in% all_names$name
+  name %in% dribble$name
 }
 
 gdrive_download <- function(board, key) {
