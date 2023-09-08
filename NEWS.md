@@ -1,4 +1,4 @@
-# pins (development version)
+# pins 1.2.2
 
 * Fixed how dots are checked in `pin_write()` to make user-facing messages more 
   clear (#770).
@@ -8,7 +8,6 @@
 * Added `board_deparse` for `board_url()` (#774).
 
 * Fixed how `board_gdrive()` handles dribble objects (#780, @gorkang and #782).
-
 
 # pins 1.2.1
 
