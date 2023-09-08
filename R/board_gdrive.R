@@ -202,7 +202,10 @@ gdrive_file_exists <- function(board, name) {
 gdrive_download <- function(board, key) {
   path <- fs::path(board$cache, key)
   if (!fs::file_exists(path)) {
-    googledrive::drive_download(key, path)
+    dribble <- googledrive::as_dribble(fs::path_dir(key))
+    dribble <- googledrive::drive_ls(dribble)
+    dribble <- dribble[dribble$name == fs::path_file(key),]
+    googledrive::drive_download(dribble, path)
     fs::file_chmod(path, "u=r")
   }
   path
