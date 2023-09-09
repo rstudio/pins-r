@@ -38,7 +38,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,7 +147,7 @@ of <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a h
 <span></span>
 <span><span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20230816T160754Z-8df40'</span></span>
+<span><span class="co">#&gt; Creating new version '20230909T221229Z-8df40'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
 <span><span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="va">board</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
@@ -186,7 +186,7 @@ want to use the pipe:</p>
 <span></span>
 <span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp6XP6ko/file1ece70599098/alphabet/file1ece495567fd"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/Rtmpbiv0XI/file20e76afa47d6/alphabet/file20e748fe9603"</span></span></code></pre></div>
 <p>pins 1.0.0 clearly separates the two cases of pin an object and
 pinning a file, so here instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and
 <code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and
@@ -194,9 +194,9 @@ pinning a file, so here instead of <code><a href="../reference/pin_read.html">pi
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20230816T160755Z-ee580'</span></span>
+<span><span class="co">#&gt; Creating new version '20230909T221230Z-ee580'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20230816T160755Z-ee580/file1ece495567fd"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20230909T221230Z-ee580/file20e748fe9603"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pinning-a-url">Pinning a url<a class="anchor" aria-label="anchor" href="#pinning-a-url"></a>
@@ -208,7 +208,7 @@ re-download it when it changes:</p>
 <span><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rstudio/pins-r/main/tests/testthat/"</span></span>
 <span></span>
 <span><span class="op">(</span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp6XP6ko/file1ece70599098/first/first.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/Rtmpbiv0XI/file20e76afa47d6/first/first.txt"</span></span></code></pre></div>
 <p>This now needs to be made explicit with the new
 <code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you
 need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
@@ -242,7 +242,7 @@ it automatically uses a local board:</p>
 <span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20230816T160756Z-59306'</span></span>
+<span><span class="co">#&gt; Creating new version '20230909T221231Z-59306'</span></span>
 <span><span class="co">#&gt; Writing to pin 'test-data'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   x</span></span>
