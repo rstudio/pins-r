@@ -63,7 +63,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/07/0sps_qnd3qd7fdj3cq9j8pqw0000gn/T/RtmpfnLq46/pins-16f285b5dde39'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmp4Z1lsA/pins-8a413b4b4478'
 #> Cache size: 0
 ```
 
@@ -73,7 +73,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230816T005558Z-8df40'
+#> Creating new version '20230908T204205Z-a800d'
 #> Writing to pin 'mtcars'
 ```
 
