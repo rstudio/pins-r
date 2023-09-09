@@ -1,3 +1,5 @@
+# pins (development version)
+
 # pins 1.2.2
 
 * Fixed how dots are checked in `pin_write()` to make user-facing messages more 
