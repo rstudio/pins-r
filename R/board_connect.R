@@ -471,7 +471,7 @@ rsc_content_find_live <- function(board, name, version = NULL, warn = TRUE) {
     name$full <- paste0(owner, "/", name$name)
 
     if (warn) {
-      cli::cli_alert_warning("Please use full name when reading a pin: {.val {name$full}}, not {.val {name$name}}.")
+      cli::cli_alert_warning("Please use full name when reading or writing a pin: {.val {name$full}}, not {.val {name$name}}.")
     }
     selected <- json[[1]]
   } else {
