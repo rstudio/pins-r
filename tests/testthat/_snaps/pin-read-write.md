@@ -20,6 +20,11 @@
       Error in `pin_write()`:
       ! `name` must be a string
     Code
+      pin_write(board, mtcars, name = 1:10, "json")
+    Condition
+      Error in `pin_write()`:
+      ! The `type` argument must be named, like `type = "json"`.
+    Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition
       Error in `object_write()`:
