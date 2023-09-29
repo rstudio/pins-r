@@ -20,7 +20,7 @@
       Error in `pin_write()`:
       ! `name` must be a string
     Code
-      pin_write(board, mtcars, name = 1:10, "json")
+      pin_write(board, mtcars, name = "mtcars", "json")
     Condition
       Error in `pin_write()`:
       ! Arguments after the dots `...` must be named, like `type = "json"`.
