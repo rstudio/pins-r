@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Changed the function signature of `pin_write()` so arguments like `type` and `title` must be passed by name and not position (#792).
+
 # pins 1.2.2
 
 * Fixed how dots are checked in `pin_write()` to make user-facing messages more 
