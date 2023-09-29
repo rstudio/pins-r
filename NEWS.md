@@ -1,5 +1,8 @@
 # pins (development version)
 
+* Removed content and user caches for Connect altogether. Now, we look up 
+  usernames and content on the Connect server every time (#793).
+
 # pins 1.2.2
 
 * Fixed how dots are checked in `pin_write()` to make user-facing messages more 
