@@ -30,16 +30,8 @@
 #' ))
 #' board %>% pin_read("numbers")
 #' ```
-#' 
-#' You can find the URL of a pin with [pin_browse()].
 #'
-#' # Local caching for Posit Connect
-#' 
-#' The pins package maintains local per-session caches for _users_ and _content_ 
-#' from your Connect server. If your cache gets into a bad state (for example, 
-#' user names have changed on the server or a pin was deleted on the server, but 
-#' your local machine doesn't know about the change yet), you can clear your 
-#' local cache by restarting your R session.
+#' You can find the URL of a pin with [pin_browse()].
 #'
 #' @inheritParams new_board
 #' @inheritParams board_url
@@ -437,21 +429,9 @@ board_pin_find.pins_board_connect <- function(board,
 
 # Content -----------------------------------------------------------------
 
-the <- rlang::new_environment()
-the$connect_content_cache <- rlang::new_environment()
-the$connect_user_cache <- rlang::new_environment()
-
 rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
-  name <- rsc_parse_name(name)
-  content <- rlang::env_cache(
-    env = the$connect_content_cache,
-    nm = name$full %||% name$name,
-    default = rsc_content_find_live(board, name, version = NULL, warn = TRUE)
-  )
-  content
-}
 
-rsc_content_find_live <- function(board, name, version = NULL, warn = TRUE) {
+  name <- rsc_parse_name(name)
 
   # https://docs.rstudio.com/connect/api/#get-/v1/content
   json <- rsc_GET(board, "v1/content", list(name = name$name))
@@ -573,7 +553,6 @@ rsc_content_version_cached <- function(board, guid) {
 rsc_content_delete <- function(board, name) {
   content <- rsc_content_find(board, name)
   rsc_DELETE(board, rsc_v1("content", content$guid))
-  env_unbind(the$connect_content_cache, name)
   invisible(NULL)
 }
 
@@ -588,11 +567,7 @@ rsc_parse_name <- function(x) {
 }
 
 rsc_user_name <- function(board, guid) {
-  rlang::env_cache(
-    env = the$connect_user_cache,
-    nm = guid,
-    rsc_GET(board, rsc_v1("users", guid))$username
-  )
+  rsc_GET(board, rsc_v1("users", guid))$username
 }
 
 # helpers -----------------------------------------------------------------
