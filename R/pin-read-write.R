@@ -71,15 +71,19 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @export
 pin_write <- function(board, x,
                       name = NULL,
+                      ...,
                       type = NULL,
                       title = NULL,
                       description = NULL,
                       metadata = NULL,
                       versioned = NULL,
                       tags = NULL,
-                      ...,
                       force_identical_write = FALSE) {
   check_board(board, "pin_write", "pin")
+  dots <- list2(...)
+  if (!is_empty(dots) && is.null(names(dots[1]))) {
+    cli::cli_abort('The {.arg type} argument must be named, like {.code type = "{dots[[1]]}"}.')
+  }
 
   if (is.null(name)) {
     name <- enexpr(x)

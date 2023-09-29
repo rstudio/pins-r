@@ -11,13 +11,13 @@ pin_write(
   board,
   x,
   name = NULL,
+  ...,
   type = NULL,
   title = NULL,
   description = NULL,
   metadata = NULL,
   versioned = NULL,
   tags = NULL,
-  ...,
   force_identical_write = FALSE
 )
 }
