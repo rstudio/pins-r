@@ -1,4 +1,8 @@
-# pins (development version)
+# pins (development version to be released as 1.3.0)
+
+## Breaking changes
+
+* Changed the function signature of `pin_write()` so arguments like `type` and `title` must be passed by name and not position (#792).
 
 # pins 1.2.2
 

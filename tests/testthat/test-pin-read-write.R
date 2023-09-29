@@ -41,6 +41,7 @@ test_that("useful errors on bad inputs", {
   expect_snapshot(error = TRUE, {
     pin_write(mtcars)
     pin_write(board, mtcars, name = 1:10)
+    pin_write(board, mtcars, name = "mtcars", "json")
     pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     pin_write(board, mtcars, name = "mtcars", metadata = 1)
   })
@@ -65,7 +66,7 @@ test_that("pin_write() noisily generates name and type", {
 test_that("user can supply metadata", {
   board <- board_temp()
 
-  pin_write(board, 1:10, "x", metadata = list(name = "Susan"), desc = "A vector")
+  pin_write(board, 1:10, "x", metadata = list(name = "Susan"), description = "A vector")
   meta <- pin_meta(board, "x")
   expect_equal(meta$user, list(name = "Susan"))
   expect_equal(meta$description, "A vector")
