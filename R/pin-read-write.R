@@ -80,9 +80,8 @@ pin_write <- function(board, x,
                       tags = NULL,
                       force_identical_write = FALSE) {
   check_board(board, "pin_write", "pin")
-  dots <- list2(...)
-  if (!is_empty(dots) && is.null(names(dots[1]))) {
-    cli::cli_abort('Arguments after the dots `...` must be named, like {.code type = "{dots[[1]]}"}.')
+  if (!missing(...) && (is.null(...names()) || ...names()[[1]] == "")) {
+    cli::cli_abort('Arguments after the dots `...` must be named, like {.code type = "json"}.')
   }
 
   if (is.null(name)) {
