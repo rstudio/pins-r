@@ -23,7 +23,7 @@
       pin_write(board, mtcars, name = 1:10, "json")
     Condition
       Error in `pin_write()`:
-      ! The `type` argument must be named, like `type = "json"`.
+      ! Arguments after the dots `...` must be named, like `type = "json"`.
     Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition

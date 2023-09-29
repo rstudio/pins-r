@@ -82,7 +82,7 @@ pin_write <- function(board, x,
   check_board(board, "pin_write", "pin")
   dots <- list2(...)
   if (!is_empty(dots) && is.null(names(dots[1]))) {
-    cli::cli_abort('The {.arg type} argument must be named, like {.code type = "{dots[[1]]}"}.')
+    cli::cli_abort('Arguments after the dots `...` must be named, like {.code type = "{dots[[1]]}"}.')
   }
 
   if (is.null(name)) {
