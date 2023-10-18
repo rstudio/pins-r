@@ -28,7 +28,8 @@ test_that("generates index files", {
     pin_hash = "77fee172a9275a62",
     type = "rds",
     title = "test: a pinned 2 x 2 data frame",
-    desctiption = "Some simple data to test with",
+    description = "Some simple data to test with",
+    urls = c("https://posit.co/", "https://www.tidyverse.org/"),
     created = "20211111T113956Z",
     api_version = "1.0",
     user = list(my_meta = "User defined metadata")
