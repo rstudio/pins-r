@@ -18,11 +18,19 @@
 
 ---
 
+    `urls` must be a character vector or `NULL`, not a list.
+
+---
+
     `metadata` must be a list or `NULL`, not a character vector.
 
 ---
 
     `tags` must be a character vector or `NULL`, not a list.
+
+---
+
+    `urls` must be a character vector or `NULL`, not a list.
 
 ---
 
