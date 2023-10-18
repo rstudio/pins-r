@@ -36,7 +36,8 @@ standard_meta <- function(paths,
                           type,
                           title = NULL,
                           description = NULL,
-                          tags = NULL) {
+                          tags = NULL,
+                          urls = NULL) {
   list(
     file = fs::path_file(paths),
     file_size = as.integer(fs::file_size(paths)),
@@ -45,6 +46,7 @@ standard_meta <- function(paths,
     title = title,
     description = description,
     tags = if (is.null(tags)) tags else as.list(tags),
+    urls = if (is.null(urls)) urls else as.list(urls),
     created = format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC"),
     api_version = 1L
   )
