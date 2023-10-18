@@ -60,6 +60,8 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
     pin_files = paste0("<a href=\"", metadata$file, "\">", metadata$file, "</a>", collapse = ", "),
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
     data_preview_style = if (is.data.frame(x)) "" else "display:none",
+    urls = paste0("<a href=\"", metadata$urls, "\">", metadata$urls, "</a>", collapse = ", "),
+    url_preview_style = if (!is.null(metadata$urls)) "" else "display:none",
     pin_name = paste0(owner, "/", name$name),
     pin_metadata = list(
       as_yaml = yaml::as.yaml(metadata),
