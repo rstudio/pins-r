@@ -18,6 +18,7 @@ pin_write(
   metadata = NULL,
   versioned = NULL,
   tags = NULL,
+  urls = NULL,
   force_identical_write = FALSE
 )
 }
@@ -59,6 +60,9 @@ use the default for \code{board}}
 
 \item{tags}{A character vector of tags for the pin; most important for
 discoverability on shared boards.}
+
+\item{urls}{A character vector of URLs for more info on the pin, such as a
+link to a wiki or other documentation.}
 
 \item{force_identical_write}{Store the pin even if the pin contents are
 identical to the last version (compared using the hash). Only the pin

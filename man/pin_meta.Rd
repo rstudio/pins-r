@@ -33,6 +33,7 @@ Pin metadata comes from three sources:
 \item \verb{$title} - pin title
 \item \verb{$description} - pin description
 \item \verb{$tags} - pin tags
+\item \verb{$urls} - URLs for more info on pin
 \item \verb{$created} - date this (version of the pin) was created
 \item \verb{$api_version} - API version used by pin
 }
