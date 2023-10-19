@@ -1,6 +1,6 @@
 # standard metadata is useful
 
-    List of 9
+    List of 10
      $ file       : chr "df.rds"
      $ file_size  : int 200
      $ pin_hash   : chr "db696042be80dbb4"
@@ -8,6 +8,7 @@
      $ title      : chr "title"
      $ description: NULL
      $ tags       : NULL
+     $ urls       : NULL
      $ created    : chr "<TODAY>"
      $ api_version: int 1
 

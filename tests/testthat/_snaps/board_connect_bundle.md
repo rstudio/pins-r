@@ -38,7 +38,7 @@
              <b>Format:</b> rds &bull;
              <b>API:</b> v1.0
            </p>
-           <p></p>
+           <p>Some simple data to test with</p>
            <p>Download data: <a href="test.csv">test.csv</a></p>
            <details>
              <summary>Raw metadata</summary>
@@ -47,14 +47,22 @@
     pin_hash: 77fee172a9275a62
     type: rds
     title: 'test: a pinned 2 x 2 data frame'
-    desctiption: Some simple data to test with
+    description: Some simple data to test with
+    urls:
+    - https://posit.co/
+    - https://www.tidyverse.org/
     created: 20211111T113956Z
     api_version: '1.0'
     user:
       my_meta: User defined metadata
     </pre>
            </details>
-         </section>
+        </section>
+    
+        <section style="">
+          <h3>Learn more about this pin at:</h3>
+          <p><a href="https://posit.co/">https://posit.co/</a>, <a href="https://www.tidyverse.org/">https://www.tidyverse.org/</a></p>
+        </section>
     
         <section>
         <h3>R Code</h3>

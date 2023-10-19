@@ -44,6 +44,9 @@ test_that("useful errors on bad inputs", {
     pin_write(board, mtcars, name = "mtcars", "json")
     pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     pin_write(board, mtcars, name = "mtcars", metadata = 1)
+    pin_write(board, mtcars, title = "title", tags = list(a = "a"))
+    pin_write(board, mtcars, title = "title", urls = list(a = "a"))
+    pin_write(board, mtcars, title = "title", metadata = c("tag1", "tag2"))
   })
 })
 

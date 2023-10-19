@@ -64,6 +64,8 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
 #'   discoverability on shared boards.
+#' @param urls A character vector of URLs for more info on the pin, such as a
+#'   link to a wiki or other documentation.
 #' @param force_identical_write Store the pin even if the pin contents are
 #'   identical to the last version (compared using the hash). Only the pin
 #'   contents are compared, not the pin metadata. Defaults to `FALSE`.
@@ -78,6 +80,7 @@ pin_write <- function(board, x,
                       metadata = NULL,
                       versioned = NULL,
                       tags = NULL,
+                      urls = NULL,
                       force_identical_write = FALSE) {
   check_board(board, "pin_write", "pin")
   dots <- list2(...)
@@ -96,6 +99,7 @@ pin_write <- function(board, x,
   }
   check_metadata(metadata)
   check_character(tags, allow_null = TRUE)
+  check_character(urls, allow_null = TRUE)
   if (!is_string(name)) {
     abort("`name` must be a string")
   }
@@ -114,7 +118,8 @@ pin_write <- function(board, x,
     type = type,
     title = title %||% default_title(name, data = x),
     description = description,
-    tags = tags
+    tags = tags,
+    urls = urls
   )
   meta$user <- metadata
 

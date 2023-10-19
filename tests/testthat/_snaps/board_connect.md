@@ -5,14 +5,6 @@
     Output
       [1] "rsconnect"
 
-# metadata checking functions give correct errors
-
-    `tags` must be a character vector or `NULL`, not a list.
-
----
-
-    `metadata` must be a list or `NULL`, not a character vector.
-
 # get useful error for rebranding
 
     `board_rsconnect()` was deprecated in pins 1.1.0.

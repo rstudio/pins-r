@@ -12,6 +12,7 @@
 #'   * `$title` - pin title
 #'   * `$description` - pin description
 #'   * `$tags` - pin tags
+#'   * `$urls` - URLs for more info on pin
 #'   * `$created` - date this (version of the pin) was created
 #'   * `$api_version` - API version used by pin
 #'
@@ -97,12 +98,13 @@ empty_local_meta <- local_meta(x = NULL, name = NULL, dir = NULL)
 
 test_api_meta <- function(board) {
   testthat::test_that("can round-trip pin metadata", {
-    name <- local_pin(board, 1, title = "title", description = "desc", metadata = list(a = "a"), tags = c("tag1", "tag2"))
+    name <- local_pin(board, 1, title = "title", description = "desc", metadata = list(a = "a"), tags = c("tag1", "tag2"), urls = "https://posit.co/")
     meta <- pin_meta(board, name)
     testthat::expect_equal(meta$name, name)
     testthat::expect_equal(meta$title, "title")
     testthat::expect_equal(meta$description, "desc")
     testthat::expect_equal(meta$tags, c("tag1", "tag2"))
+    testthat::expect_equal(meta$urls, "https://posit.co/")
     testthat::expect_equal(meta$user$a, "a")
   })
 
@@ -126,15 +128,6 @@ test_api_meta <- function(board) {
     testthat::expect_error(
       pin_read(board, "DOES-NOT-EXIST"),
       class = "pins_pin_missing"
-    )
-  })
-
-  testthat::test_that("metadata checking functions give correct errors", {
-    testthat::expect_snapshot_error(
-      local_pin(board, 1, title = "title", tags = list(a = "a"))
-    )
-    testthat::expect_snapshot_error(
-      local_pin(board, 1, title = "title", metadata = c("tag1", "tag2"))
     )
   })
 
