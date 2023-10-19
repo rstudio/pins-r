@@ -104,7 +104,7 @@ test_api_meta <- function(board) {
     testthat::expect_equal(meta$title, "title")
     testthat::expect_equal(meta$description, "desc")
     testthat::expect_equal(meta$tags, c("tag1", "tag2"))
-    testthat::expect_equal(meta$urls, c("https://posit.co/"))
+    testthat::expect_equal(meta$urls, "https://posit.co/")
     testthat::expect_equal(meta$user$a, "a")
   })
 
