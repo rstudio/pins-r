@@ -57,7 +57,7 @@
       my_meta: User defined metadata
     </pre>
            </details>
-         </section>
+        </section>
     
         <section style="">
           <h3>Learn more about this pin at:</h3>
