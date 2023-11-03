@@ -1,5 +1,5 @@
 
-# pins <a href="https://pins.rstudio.com"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# pins <a href="https://pins.rstudio.com"><img src="man/figures/logo.png" align="right" height="138" alt="pins website" /></a>
 
 <!-- badges: start -->
 
@@ -63,7 +63,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmp4Z1lsA/pins-8a413b4b4478'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpxYBClc/pins-15f883ae6999e'
 #> Cache size: 0
 ```
 
@@ -73,7 +73,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20230908T204205Z-a800d'
+#> Creating new version '20231103T151040Z-8df40'
 #> Writing to pin 'mtcars'
 ```
 
