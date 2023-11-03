@@ -50,7 +50,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: rcmdcheck
+          extra-packages: any::rcmdcheck
           needs: check
 
       - name: "Set LOGNAME environment variable to get _R_CHECK_THINGS_IN_OTHER_DIRS_ to work"
