@@ -7,8 +7,12 @@
 
 # get useful error for rebranding
 
-    `board_rsconnect()` was deprecated in pins 1.1.0.
-    i Please use `board_connect()` instead.
+    Code
+      board <- board_rsconnect()
+    Condition
+      Error:
+      ! `board_rsconnect()` was deprecated in pins 1.1.0 and is now defunct.
+      i Please use `board_connect()` instead.
 
 # can deparse
 

@@ -19,15 +19,6 @@ test_that("can't swap arguments or omit name with modern api", {
   expect_snapshot(pin_versions(board), error = TRUE)
 })
 
-test_that("`full` is deprecated", {
-  board <- board_temp()
-  board %>% pin_write(x = 1:5, "x")
-
-  expect_snapshot({
-    x <- pin_versions(board, "x", full = TRUE)
-  }, error = TRUE)
-})
-
 test_that("can parse versions from path", {
   date <- as.POSIXct("2020-01-03 04:05", tz = "")
   out <- version_from_path(paste0(as_8601_compact(date), "-", "hash"))
