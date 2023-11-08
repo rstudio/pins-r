@@ -11,6 +11,7 @@
 #' @param versioned Should this board be registered with support for versions?
 #' @param ... Additional parameters required to initialize a particular board.
 #' @keywords internal
+#' @export
 new_board <- function(board, api, cache, ...) {
   if (!is.na(cache)) {
     fs::dir_create(cache)
