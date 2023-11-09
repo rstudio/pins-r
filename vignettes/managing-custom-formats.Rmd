@@ -20,7 +20,6 @@ However, from time to time, you may wish read or write in other ways. You may wa
 
 - CSV files using readr or vroom
 - Arrow files without using compression
-- Parquet files
 - Whole directories that are archived/zipped
 
 You can create a customized approach using either `pin_upload()` and `pin_download()`. 
