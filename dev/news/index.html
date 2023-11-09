@@ -13,7 +13,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,21 @@
       <small>Source: <a href="https://github.com/rstudio/pins-r/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="pins-development-version">pins (development version)<a class="anchor" aria-label="anchor" href="#pins-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="pins-130">pins 1.3.0<a class="anchor" aria-label="anchor" href="#pins-130"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-1-3-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-3-0"></a></h3>
+<ul><li>Changed the function signature of <code><a href="../reference/pin_read.html">pin_write()</a></code> so arguments like <code>type</code> and <code>title</code> must be passed by name and not position (<a href="https://github.com/rstudio/pins-r/issues/792" class="external-link">#792</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-improvements-1-3-0">Other improvements<a class="anchor" aria-label="anchor" href="#other-improvements-1-3-0"></a></h3>
+<ul><li><p>Removed content and user caches for Connect altogether. Now, we look up usernames and content on the Connect server every time (<a href="https://github.com/rstudio/pins-r/issues/793" class="external-link">#793</a>).</p></li>
+<li><p>Added new <code>urls</code> item to metadata for a pin (<a href="https://github.com/rstudio/pins-r/issues/795" class="external-link">#795</a>).</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.2" id="pins-122">pins 1.2.2<a class="anchor" aria-label="anchor" href="#pins-122"></a></h2><p class="text-muted">CRAN release: 2023-09-09</p>
 <ul><li><p>Fixed how dots are checked in <code><a href="../reference/pin_read.html">pin_write()</a></code> to make user-facing messages more clear (<a href="https://github.com/rstudio/pins-r/issues/770" class="external-link">#770</a>).</p></li>
@@ -175,7 +190,7 @@
 <li><p><code><a href="../reference/board_kaggle.html">board_kaggle_dataset()</a></code> and <code>board_kaggle_competition()</code> allow you to download data from Kaggle. The data is automatically cached so that it’s only downloaded when it changes.</p></li>
 <li><p><code><a href="../reference/board_ms365.html">board_ms365()</a></code> allow to pin data to MS One Drive and Sharpoint (<a href="https://github.com/rstudio/pins-r/issues/498" class="external-link">#498</a>, <a href="https://github.com/hongooi73" class="external-link">@hongooi73</a>).</p></li>
 <li><p><code><a href="../reference/board_connect.html">board_rsconnect()</a></code> shares data on <a href="https://posit.co/products/enterprise/connect/" class="external-link">RStudio connect</a>. This board supports both modern and legacy APIs, so that you and your colleagues can use a mixture of pins versions as you transition to pins 1.0.0. Note that the compatibility is one directional: you can <code><a href="../reference/pin_read.html">pin_read()</a></code> pins created by <code><a href="../reference/pin.html">pin()</a></code>, but you can’t <code><a href="../reference/pin_get.html">pin_get()</a></code> pins created by <code><a href="../reference/pin_read.html">pin_write()</a></code>.</p></li>
-<li><p><code><a href="../reference/board_s3.html">board_s3()</a></code> stores data in Amazon’s S3 service. It is built on top of <a href="https://paws-r.github.io" class="external-link">paws</a>.</p></li>
+<li><p><code><a href="../reference/board_s3.html">board_s3()</a></code> stores data in Amazon’s S3 service. It is built on top of paws.</p></li>
 <li><p><code><a href="../reference/board_url.html">board_url()</a></code> lets you create a manual board from a vector of URLs. This is useful because <code><a href="../reference/pin_download.html">pin_download()</a></code> and <code><a href="../reference/pin_read.html">pin_read()</a></code> are cached, so they only re-download the data if it has changed since the last time you used it (<a href="https://github.com/rstudio/pins-r/issues/409" class="external-link">#409</a>). This board is a replacement for <code><a href="../reference/pin.html">pin()</a></code>’s ability to work directly with URLs</p></li>
 </ul><p>The legacy boards will continue to work with the legacy pins API; we will implement modern versions of the remaining legacy boards based on user feedback.</p>
 </div>
