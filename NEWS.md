@@ -1,3 +1,5 @@
+# pins 1.3.0
+
 # pins (development version to be released as 1.3.0)
 
 ## Breaking changes
