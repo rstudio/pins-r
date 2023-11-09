@@ -46,7 +46,8 @@
 #' * Some functions like [pin_list()] will work for an S3 board, but don't
 #'   return useful output.
 #' * You can pass arguments for [paws.storage::s3_put_object] such as `Tagging`
-#'   and `ServerSideEncryption` through the dots of `pin_write()`.
+#'   and `ServerSideEncryption` through the dots of `pin_write()`. (Note that
+#'   these are separate from [pin_write()] arguments like `tags`.)
 #' * `board_s3()` is powered by the paws.storage package, which is a
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
@@ -80,7 +81,7 @@
 #' board_marketing <- board_s3("company-pins", prefix = "marketing/")
 #' # You can make the hierarchy arbitrarily deep.
 #'
-#' # Pass arguments like `Tagging` through the dots of `pin_write`:
+#' # Pass S3 arguments like `Tagging` through the dots of `pin_write`:
 #' board %>% pin_write(mtcars, Tagging = "key1=value1&key2=value2")
 #'
 #' }
