@@ -1,4 +1,4 @@
-# pins (development version to be released as 1.3.0)
+# pins 1.3.0
 
 ## Breaking changes
 
@@ -215,7 +215,7 @@ This version includes the following modern boards:
   `pin()`, but you can't `pin_get()` pins created by `pin_write()`.
   
 * `board_s3()` stores data in Amazon's S3 service. It is built on top of 
-  [paws](https://paws-r.github.io).
+  paws.
 
 * `board_url()` lets you create a manual board from a vector of URLs. This is 
   useful because `pin_download()` and `pin_read()` are cached, so they only 

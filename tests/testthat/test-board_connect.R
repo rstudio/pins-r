@@ -8,7 +8,7 @@ test_api_meta(board_connect_test())
 test_that("get useful error for rebranding", {
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot_warning(board <- board_rsconnect())
+  expect_snapshot(board <- board_rsconnect(), error = TRUE)
 })
 
 test_that("can round-trip a pin (v0)", {

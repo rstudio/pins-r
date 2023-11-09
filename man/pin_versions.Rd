@@ -6,7 +6,7 @@
 \alias{pin_versions_prune}
 \title{List, delete, and prune pin versions}
 \usage{
-pin_versions(board, name, ..., full = deprecated())
+pin_versions(board, name, ...)
 
 pin_version_delete(board, name, version, ...)
 
@@ -19,8 +19,6 @@ legacy API, you can also use \code{pin_versions(name)} or
 \code{pin_version(name, board)}.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}
-
-\item{full}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{version}{Version identifier.}
 

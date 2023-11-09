@@ -9,7 +9,6 @@
 #'   use `board %>% pin_versions(name)`. For backward compatibility with the
 #'   legacy API, you can also use `pin_versions(name)` or
 #'   `pin_version(name, board)`.
-#' @param full `r lifecycle::badge("deprecated")`
 #' @param ... Additional arguments passed on to methods for a specific board.
 #' @return A data frame with at least a `version` column. Some boards may
 #'   provided additional data.
@@ -32,11 +31,8 @@
 #' # delete all versions created more than 30 days ago
 #' board %>% pin_versions_prune("df", days = 30)
 #' @export
-pin_versions <- function(board, name, ..., full = deprecated()) {
+pin_versions <- function(board, name, ...) {
   ellipsis::check_dots_used()
-  if (lifecycle::is_present(full)) {
-    lifecycle::deprecate_stop("1.0.0", "pin_versions(full)")
-  }
 
   if (missing(name) && is.board(board)) {
     abort("Argument `name` is missing, with no default")

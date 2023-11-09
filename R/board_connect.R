@@ -125,14 +125,9 @@ board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                             cache = NULL,
                             name = "posit-connect",
                             versioned = TRUE,
-                            use_cache_on_failure = is_interactive(),
-                            versions = deprecated()) {
+                            use_cache_on_failure = is_interactive()) {
 
-  lifecycle::deprecate_warn("1.1.0", "board_rsconnect()", "board_connect()")
-  if (lifecycle::is_present(versions)) {
-    lifecycle::deprecate_stop("1.0.0", "board_rsconnect(versions)", "board_rsconnect(versioned)")
-    versioned <- versions
-  }
+  lifecycle::deprecate_stop("1.1.0", "board_rsconnect()", "board_connect()")
 
   board_connect(
     auth = auth,

@@ -21,14 +21,6 @@
       Error in `pin_versions()`:
       ! Argument `name` is missing, with no default
 
-# `full` is deprecated
-
-    Code
-      x <- pin_versions(board, "x", full = TRUE)
-    Condition
-      Error:
-      ! The `full` argument of `pin_versions()` was deprecated in pins 1.0.0 and is now defunct.
-
 # informative error for writing with same version
 
     Code

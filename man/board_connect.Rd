@@ -25,8 +25,7 @@ board_rsconnect(
   cache = NULL,
   name = "posit-connect",
   versioned = TRUE,
-  use_cache_on_failure = is_interactive(),
-  versions = deprecated()
+  use_cache_on_failure = is_interactive()
 )
 }
 \arguments{
@@ -70,8 +69,6 @@ argument controls whether you use the cache for reading pins, but you can't
 create a board object unless you can connect to your Connect server.}
 
 \item{output_files}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} No longer supported.}
-
-\item{versions}{Should this board be registered with support for versions?}
 }
 \description{
 To use a Posit Connect board, you need to first authenticate. The easiest
