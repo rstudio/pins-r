@@ -46,7 +46,7 @@
     
     <a class="navbar-brand me-2" href="index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,13 +136,13 @@
 <span><span class="va">board</span></span>
 <span><span class="co">#&gt; Pin board &lt;pins_board_folder&gt;</span></span>
 <span><span class="co">#&gt; Path:</span></span>
-<span><span class="co">#&gt; '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmp4Z1lsA/pins-8a413b4b4478'</span></span>
+<span><span class="co">#&gt; '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmpvoaxgw/pins-142d05cc7724a'</span></span>
 <span><span class="co">#&gt; Cache size: 0</span></span></code></pre></div>
 <p>You can “pin” (save) data to a board with <code><a href="reference/pin_read.html">pin_write()</a></code>. It takes three arguments: the board to pin to, an object, and a name:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20230908T204205Z-a800d'</span></span>
+<span><span class="co">#&gt; Creating new version '20231108T211157Z-8df40'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>As you can see, the data saved as an <code>.rds</code> by default, but depending on what you’re saving and who else you want to read it, you might use the <code>type</code> argument to instead save it as a Parquet, Arrow, CSV, or JSON file.</p>
 <p>You can later retrieve the pinned data with <code><a href="reference/pin_read.html">pin_read()</a></code>:</p>
