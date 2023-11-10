@@ -53,7 +53,7 @@
 
     <section>
       <h3>R Code</h3>
-        <pre id="pin-r" class="pin-code-r"><code class="r">library(pins)
+        <pre id="pin-r" class="pin-code"><code class="r">library(pins)
 board <- {{{board_deparse}}}
 pin_read(board, "{{pin_name}}")</code></pre>
       <script type="text/javascript">
@@ -65,7 +65,7 @@ pin_read(board, "{{pin_name}}")</code></pre>
     
     <section style="{{show_python_style}}">
       <h3>Python Code</h3>
-        <pre id="pin-python" class="pin-code-python"><code class="python">import pins
+        <pre id="pin-python" class="pin-code"><code class="python">import pins
 board = pins.board_connect()
 board.pin_read(board, "{{pin_name}}")</code></pre>
     </section>

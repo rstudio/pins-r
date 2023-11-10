@@ -66,7 +66,7 @@
     
         <section>
           <h3>R Code</h3>
-            <pre id="pin-r" class="pin-code-r"><code class="r">library(pins)
+            <pre id="pin-r" class="pin-code"><code class="r">library(pins)
     board <- board_connect(auth = "envvar")
     pin_read(board, "TEST/test")</code></pre>
           <script type="text/javascript">
@@ -78,7 +78,7 @@
         
         <section style="display:none">
           <h3>Python Code</h3>
-            <pre id="pin-python" class="pin-code-python"><code class="python">import pins
+            <pre id="pin-python" class="pin-code"><code class="python">import pins
     board = pins.board_connect()
     board.pin_read(board, "TEST/test")</code></pre>
         </section>
