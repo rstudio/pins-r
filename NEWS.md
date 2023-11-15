@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Fixed a bug in how pins with the same name but different owners on Posit Connect were identified (#808).
+
 # pins 1.3.0
 
 ## Breaking changes
