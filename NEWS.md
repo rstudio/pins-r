@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Added example Python code to pin previews for Posit Connect (#806).
+
 # pins 1.3.0
 
 ## Breaking changes
