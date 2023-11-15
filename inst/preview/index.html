@@ -62,10 +62,13 @@ pin_read(board, "{{pin_name}}")</code></pre>
         hljs.initHighlightingOnLoad();
       </script>
     </section>
-    
+
     <section style="{{show_python_style}}">
       <h3>Python Code</h3>
         <pre id="pin-python" class="pin-code"><code class="python">import pins
+from dotenv import load_dotenv
+load_dotenv()
+
 board = pins.board_connect()
 board.pin_read(board, "{{pin_name}}")</code></pre>
     </section>
