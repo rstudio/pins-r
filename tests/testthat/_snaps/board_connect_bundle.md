@@ -34,7 +34,7 @@
         <section>
            <h3>TEST/test</h3>
            <p>
-             <b>Last updated:</b> 2021-11-11 11:39:56 &bull;
+             <b>Last updated from R:</b> 2021-11-11 11:39:56 &bull;
              <b>Format:</b> rds &bull;
              <b>API:</b> v1.0
            </p>
@@ -65,14 +65,25 @@
         </section>
     
         <section>
-        <h3>R Code</h3>
-          <pre id="pin-r" class="pin-code"><code class="r">library(pins)
+          <h3>R Code</h3>
+            <pre id="pin-r" class="pin-code"><code class="r">library(pins)
     board <- board_connect(auth = "envvar")
     pin_read(board, "TEST/test")</code></pre>
-        <script type="text/javascript">
-          hljs.registerLanguage("r", highlight_r);
-          hljs.initHighlightingOnLoad();
-        </script>
+          <script type="text/javascript">
+            hljs.registerLanguage("r", highlight_r);
+            hljs.registerLanguage("python", highlight_python);
+            hljs.initHighlightingOnLoad();
+          </script>
+        </section>
+    
+        <section style="display:none">
+          <h3>Python Code</h3>
+            <pre id="pin-python" class="pin-code"><code class="python">import pins
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    board = pins.board_connect()
+    board.pin_read(board, "TEST/test")</code></pre>
         </section>
     
         <section style="">

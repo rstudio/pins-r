@@ -33,7 +33,7 @@
        <h3>{{{pin_name}}}</h3>
        {{#pin_metadata}}
        <p>
-         {{#date}}<b>Last updated:</b> {{{.}}} &bull;{{/date}}
+         {{#date}}<b>Last updated from R:</b> {{{.}}} &bull;{{/date}}
          <b>Format:</b> {{{format}}} &bull;
          <b>API:</b> v{{{api_version}}}
        </p>
@@ -52,14 +52,25 @@
     </section>
 
     <section>
-    <h3>R Code</h3>
-      <pre id="pin-r" class="pin-code"><code class="r">library(pins)
+      <h3>R Code</h3>
+        <pre id="pin-r" class="pin-code"><code class="r">library(pins)
 board <- {{{board_deparse}}}
 pin_read(board, "{{pin_name}}")</code></pre>
-    <script type="text/javascript">
-      hljs.registerLanguage("r", highlight_r);
-      hljs.initHighlightingOnLoad();
-    </script>
+      <script type="text/javascript">
+        hljs.registerLanguage("r", highlight_r);
+        hljs.registerLanguage("python", highlight_python);
+        hljs.initHighlightingOnLoad();
+      </script>
+    </section>
+
+    <section style="{{show_python_style}}">
+      <h3>Python Code</h3>
+        <pre id="pin-python" class="pin-code"><code class="python">import pins
+from dotenv import load_dotenv
+load_dotenv()
+
+board = pins.board_connect()
+board.pin_read(board, "{{pin_name}}")</code></pre>
     </section>
 
     <section style="{{data_preview_style}}">
