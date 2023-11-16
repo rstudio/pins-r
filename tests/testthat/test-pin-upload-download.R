@@ -20,6 +20,7 @@ test_that("pin_upload generated useful messages", {
 
     path <- fs::file_touch(fs::path_temp("test.txt"))
     pin_upload(board, path)
+    pin_upload(board, path, "test", c("blue", "green"))
   })
 })
 

@@ -16,6 +16,11 @@
     Message
       Guessing `name = 'test.txt'`
       Creating new version '20120304T050607Z-xxxxx'
+    Code
+      pin_upload(board, path, "test", c("blue", "green"))
+    Condition
+      Error in `pin_upload()`:
+      ! Arguments after the dots `...` must be named, like `tags = "my-great-tag"`.
 
 # can pin file called data.txt
 
