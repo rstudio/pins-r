@@ -1,8 +1,12 @@
-# pins (development version)
+# pins (development version, to be released as 1.4.0)
 
 ## Breaking changes
 
 * Changed the function signature of `pin_upload()` to be consistent with `pin_write()` i.e. arguments like `tags` must be passed by name and not position (#809).
+
+## Other improvements
+
+* Added example Python code to pin previews for Posit Connect (#806).
 
 # pins 1.3.0
 
