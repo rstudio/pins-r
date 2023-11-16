@@ -1,5 +1,9 @@
 # pins (development version)
 
+## Breaking changes
+
+* Changed the function signature of `pin_upload()` to be consistent with `pin_write()` i.e. arguments like `tags` must be passed by name and not position (#809).
+
 # pins 1.3.0
 
 ## Breaking changes
