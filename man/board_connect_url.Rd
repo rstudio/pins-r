@@ -16,9 +16,9 @@ connect_auth_headers(key = Sys.getenv("CONNECT_API_KEY"))
 }
 \arguments{
 \item{vanity_urls}{A named character vector of
-\href{https://docs.posit.co/connect/user/content-settings/#custom-url}{Connect vanity URLs}.
-This board is read only, and the best way to write to a pin on Connect is
-\code{\link[=board_connect]{board_connect()}}.}
+\href{https://docs.posit.co/connect/user/content-settings/#custom-url}{Connect vanity URLs},
+including trailing slash. This board is read only, and the best way to write to a pin
+on Connect is \code{\link[=board_connect]{board_connect()}}.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
