@@ -226,9 +226,10 @@ object_read <- function(meta) {
       joblib = abort("'joblib' pins not supported in R"),
       csv = utils::read.csv(path),
       qs = read_qs(path),
-      file = abort(c(
-        "Pin does not declare file type so can't be automatically read",
-        i = "Retrieve uploaded paths with `pin_download()`"
+      file = cli_abort(c(
+        "Cannot automatically read pin:",
+        "*" = "Is your pin specified as a full path? Retrieve it with {.code pin_download()}",
+        "*" = "Is your pin specified via a URL that is {.emph not} a full path, such as a Posit Connect vanity URL? Remember to include a trailing slash {.code /}"
       ))
     )
   } else {
