@@ -5,10 +5,10 @@ test_that("bundle contains expected files", {
   saveRDS(df, fs::path(path, "test.rds"))
 
   board <- list(account = "TEST", server_name = "example.com")
-  metadata <- list(file = "test.rds")
+  metadata <- list(file = "test.rds", type = "rds")
   class(board) <- c("pins_board_connect", "pins_board")
 
-  out <- rsc_bundle(board, "test", fs::path(path, "test.rds"), list(), df)
+  out <- rsc_bundle(board, "test", fs::path(path, "test.rds"), metadata, df)
 
   files <- fs::dir_ls(out)
   files <- files[!fs::is_dir(files)]

@@ -11,10 +11,12 @@ pin_upload(
   board,
   paths,
   name = NULL,
+  ...,
   title = NULL,
   description = NULL,
   metadata = NULL,
-  ...
+  tags = NULL,
+  urls = NULL
 )
 }
 \arguments{
@@ -43,6 +45,12 @@ description of the contents will be automatically generated.}
 \item{metadata}{A list containing additional metadata to store with the pin.
 When retrieving the pin, this will be stored in the \code{user} key, to
 avoid potential clashes with the metadata that pins itself uses.}
+
+\item{tags}{A character vector of tags for the pin; most important for
+discoverability on shared boards.}
+
+\item{urls}{A character vector of URLs for more info on the pin, such as a
+link to a wiki or other documentation.}
 }
 \value{
 \code{pin_download()} returns a character vector of file paths;

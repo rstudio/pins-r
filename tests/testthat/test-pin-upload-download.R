@@ -20,6 +20,7 @@ test_that("pin_upload generated useful messages", {
 
     path <- fs::file_touch(fs::path_temp("test.txt"))
     pin_upload(board, path)
+    pin_upload(board, path, "test", c("blue", "green"))
   })
 })
 
@@ -51,10 +52,11 @@ test_that("user can supply metadata", {
   writeLines("Hi!", path1)
 
   board <- board_temp()
-  pin_upload(board, path1, "x", metadata = list(name = "Susan"), desc = "A vector")
+  pin_upload(board, path1, "x", metadata = list(name = "Susan"), description = "A vector", tags = c("blue", "green"))
   meta <- pin_meta(board, "x")
   expect_equal(meta$user, list(name = "Susan"))
   expect_equal(meta$description, "A vector")
+  expect_equal(meta$tags, c("blue", "green"))
 })
 
 test_that("informative error for legacy boards", {
