@@ -92,10 +92,12 @@ attempt to modify this file.</p>
 <span>  <span class="va">board</span>,</span>
 <span>  <span class="va">paths</span>,</span>
 <span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  description <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  urls <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -144,6 +146,16 @@ description of the contents will be automatically generated.</p></dd>
 When retrieving the pin, this will be stored in the <code>user</code> key, to
 avoid potential clashes with the metadata that pins itself uses.</p></dd>
 
+
+<dt>tags</dt>
+<dd><p>A character vector of tags for the pin; most important for
+discoverability on shared boards.</p></dd>
+
+
+<dt>urls</dt>
+<dd><p>A character vector of URLs for more info on the pin, such as a
+link to a wiki or other documentation.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -159,10 +171,10 @@ avoid potential clashes with the metadata that pins itself uses.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_upload</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `name = 'CITATION'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20231120T174329Z-f5b9d'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20231120T190234Z-f5b9d'</span>
 <span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_download</span><span class="op">(</span><span class="st">"CITATION"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">path</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpprwnN7/pins-1937a42f1e3/CITATION/20231120T174329Z-f5b9d/CITATION"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpKGnmZU/pins-182373da207e/CITATION/20231120T190234Z-f5b9d/CITATION"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bibentry(\"Manual\","                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] "         title = \"R: A Language and Environment for Statistical Computing\","</span>
