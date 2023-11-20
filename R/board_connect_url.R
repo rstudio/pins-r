@@ -7,9 +7,9 @@
 #' `board_connect_url()` is read only, and does not support versioning.
 #'
 #' @param vanity_urls A named character vector of
-#'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url).
-#'   This board is read only, and the best way to write to a pin on Connect is
-#'   [board_connect()].
+#'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url),
+#'   including trailing slash. This board is read only, and the best way to write to a pin 
+#'   on Connect is [board_connect()].
 #' @family boards
 #' @inheritParams new_board
 #' @inheritParams board_url

@@ -7,8 +7,9 @@
 
 # raw pins can only be downloaded
 
-    Pin does not declare file type so can't be automatically read
-    i Retrieve uploaded paths with `pin_download()`
+    Cannot automatically read pin:
+    * Is your pin specified as a full path? Retrieve it with `pin_download()`
+    * Is your pin specified via a URL that is not a full path, such as a Posit Connect vanity URL? Remember to include a trailing slash `/`
 
 # useful errors for unsupported methods
 
