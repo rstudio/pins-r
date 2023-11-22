@@ -160,7 +160,7 @@ metadata:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ten_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, levels <span class="op">=</span> <span class="va">letters</span><span class="op">)</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write_factor_json</span><span class="op">(</span><span class="va">ten_letters</span>, <span class="st">"letters-as-json"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20231120T190243Z-583c9'</span></span>
+<span><span class="co">#&gt; Creating new version '20231122T172739Z-ffb10'</span></span>
 <span><span class="co">#&gt; Writing to pin 'letters-as-json'</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="a-function-to-read-factors">A function to read factors<a class="anchor" aria-label="anchor" href="#a-function-to-read-factors"></a>
@@ -170,7 +170,7 @@ metadata:</p>
 factor!</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"letters-as-json"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "q" "l" "r" "t" "w" "j" "c" "a" "p" "v"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "w" "t" "d" "x" "a" "g" "e" "b" "u" "v"</span></span></code></pre></div>
 <p>Instead, we can also write a special function for reading, to
 reconstruct the factor including its levels:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -181,7 +181,7 @@ reconstruct the factor including its levels:</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read_factor_json</span><span class="op">(</span><span class="st">"letters-as-json"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] q l r t w j c a p v</span></span>
+<span><span class="co">#&gt;  [1] w t d x a g e b u v</span></span>
 <span><span class="co">#&gt; Levels: a b c d e f g h i j k l m n o p q r s t u v w x y z</span></span></code></pre></div>
 </div>
 <div class="section level3">
