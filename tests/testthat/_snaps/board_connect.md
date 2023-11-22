@@ -27,7 +27,7 @@
       rsc_content_find(board, "marjory/test-partial")
     Condition
       Error in `rsc_content_find()`:
-      ! Can't find pin named 'test-partial' with owner 'marjory'
+      ! Can't find pin with name "test-partial" and owner "marjory"
 
 # can create and delete content
 

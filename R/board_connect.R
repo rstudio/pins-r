@@ -453,7 +453,10 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
     owner_guids <- map_chr(json, ~ .x$owner_guid)
     owner_names <- map_chr(owner_guids, rsc_user_name, board = board)
     if (!name$owner %in% owner_names) {
-      abort(paste0("Can't find pin named '", name$name, "' with owner '", name$owner, "'"))
+      cli_abort(
+        "Can't find pin with name {.val {name$name}} and owner {.val {name$owner}}",
+        class = "pins_pin_missing"
+      )
     }
     selected <- json[[name$owner %in% owner_names]]
   }

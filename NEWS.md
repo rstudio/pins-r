@@ -8,6 +8,8 @@
 
 * Added example Python code to pin previews for Posit Connect (#806).
 
+* Fixed a bug in how pins with the same name but different owners on Posit Connect were identified (#808).
+
 # pins 1.3.0
 
 ## Breaking changes
