@@ -2,8 +2,8 @@
 #'
 #' @description
 #' To use a Posit Connect board, you need to first authenticate. The easiest
-#' way to do so is by launching **Tools** - **Global Options** -
-#' **Publishing** - **Connect**, and follow the instructions.
+#' way to do so is using the RStudio IDE and choosing **Tools** - **Global Options** -
+#' **Publishing** - **Connect**, then following the instructions.
 #'
 #' You can share pins with others in Posit Connect by changing the viewers
 #' of the document to specific users or groups. This is accomplished by opening
