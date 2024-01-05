@@ -29,10 +29,6 @@ The pins package publishes data, models, and other R objects, making it easy to 
 You can pin objects to a variety of pin *boards*, including folders (to share on a networked drive or with services like DropBox), Posit Connect, Amazon S3, Google Cloud Storage, Azure storage, and Microsoft 365 (OneDrive and SharePoint).
 Pins can be automatically versioned, making it straightforward to track changes, re-run analyses on historical data, and undo mistakes.
 
-pins 1.0.0 includes a new more explicit API and greater support for versioning.
-The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible.
-Learn more in `vignette("pins-update")`.
-
 You can use pins from Python as well as R. For example, you can use one language to read a pin created with the other. Learn more about [pins for Python](https://rstudio.github.io/pins-python/).
 
 ## Installation
