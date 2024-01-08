@@ -142,16 +142,40 @@ the data. Here are a few options:</p>
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20231211T235041Z-7c7a6'</span></span>
+<span><span class="co">#&gt; Creating new version '20240108T164416Z-7c7a6'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>The first argument is the object to save (usually a data frame, but
 it can be any R object), and the second argument gives the “name” of the
 pin. The name is basically equivalent to a file name: you’ll use it when
 you later want to read the data from the pin. The only rule for a pin
 name is that it can’t contain slashes.</p>
-<p>As you can see from the output, pins has chosen to save this data to
-an <code>.rds</code> file. But you can choose another option depending
-on your goals:</p>
+<p>After you’ve pinned an object, you can read it back with
+<code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 11</span></span></span>
+<span><span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more rows</span></span></span></code></pre></div>
+<p>You don’t need to supply the file type when reading data from a pin
+because pins automatically stores the file type in the <a href="#Metadata">metadata</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="how-and-what-to-store-as-a-pin">How and what to store as a pin<a class="anchor" aria-label="anchor" href="#how-and-what-to-store-as-a-pin"></a>
+</h2>
+<p>As you can see from the output in the previous section, pins has
+chosen to save this example data to an <code>.rds</code> file. But you
+can choose another option depending on your goals:</p>
 <ul>
 <li>
 <code>type = "rds"</code> uses <code>writeRDS()</code> to create a
@@ -181,27 +205,6 @@ binary R data file, like <code>writeRDS()</code>. This format achieves
 faster read/write speeds than RDS, and compresses data more efficiently,
 making it a good choice for larger objects. Read more on the <a href="https://github.com/traversc/qs" class="external-link">qs package</a>.</li>
 </ul>
-<p>After you’ve pinned an object, you can read it back with
-<code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 11</span></span></span>
-<span><span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more rows</span></span></span></code></pre></div>
-<p>You don’t need to supply the file type when reading data from a pin
-because pins automatically stores the file type in the metadata, the
-topic of the next section.</p>
 <p>Note that when the data lives elsewhere, pins takes care of
 downloading and caching so that it’s only re-downloaded when needed.
 That said, most boards transmit pins over HTTP, and this is going to be
@@ -209,6 +212,18 @@ slow and possibly unreliable for very large pins. As a general rule of
 thumb, we don’t recommend using pins with files over 500 MB. If you find
 yourself routinely pinning data larger that this, you might need to
 reconsider your data engineering pipeline.</p>
+<p>Storing your data/object as a pin works well when you write from a
+single source or process. It is <em>not</em> appropriate when multiple
+sources or processes need to write to the same pin; since the pins
+package reads and writes files, it cannot manage concurrent writes.</p>
+<ul>
+<li>
+<strong>Good</strong> use for pins: an ETL pipeline that stores a
+model or summarized dataset once a day</li>
+<li>
+<strong>Bad</strong> use for pins: a Shiny app that collects data
+from users, who may be using the app at the same time</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
@@ -226,14 +241,14 @@ reconsider your data engineering pipeline.</p>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
 <span><span class="co">#&gt;  $ urls       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-12-11 23:50:41"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2024-01-08 16:44:16"</span></span>
 <span><span class="co">#&gt;  $ api_version: int 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpXMCOcz/pins-21cd641f28c8/mtcars/20231211T235041Z-7c7a6"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpyBszyl/pins-213c1274221e/mtcars/20240108T164416Z-7c7a6"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20231211T235041Z-7c7a6"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20240108T164416Z-7c7a6"</span></span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This
 includes:</p>
 <ul>
@@ -271,14 +286,14 @@ provide additional metadata that is stored with the data:</p>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
 <span><span class="co">#&gt;  $ urls       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2023-12-11 23:50:41"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2024-01-08 16:44:16"</span></span>
 <span><span class="co">#&gt;  $ api_version: int 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpXMCOcz/pins-21cd641f28c8/mtcars/20231211T235041Z-7c7a6"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpyBszyl/pins-213c1274221e/mtcars/20240108T164416Z-7c7a6"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20231211T235041Z-7c7a6"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20240108T164416Z-7c7a6"</span></span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata
 consistent over time, I’d recommend manually capturing anything you
 really care about in <code>metadata</code>.</p>
@@ -313,13 +328,13 @@ will create a new version:</p>
 <code class="sourceCode R"><span><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20231211T235042Z-6c18b'</span></span>
+<span><span class="co">#&gt; Creating new version '20240108T164417Z-6c18b'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20231211T235043Z-22b72'</span></span>
+<span><span class="co">#&gt; Creating new version '20240108T164418Z-22b72'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
 <span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20231211T235043Z-ec693'</span></span>
+<span><span class="co">#&gt; Creating new version '20240108T164418Z-ec693'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span></code></pre></div>
 <p>You can list all the available versions with
 <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
@@ -328,9 +343,9 @@ will create a new version:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20231211T235042Z-6c18b 2023-12-11 <span style="color: #949494;">23:50:42</span> 6c18b</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20231211T235043Z-22b72 2023-12-11 <span style="color: #949494;">23:50:43</span> 22b72</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20231211T235043Z-ec693 2023-12-11 <span style="color: #949494;">23:50:43</span> ec693</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20240108T164417Z-6c18b 2024-01-08 <span style="color: #949494;">16:44:17</span> 6c18b</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20240108T164418Z-22b72 2024-01-08 <span style="color: #949494;">16:44:18</span> 22b72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20240108T164418Z-ec693 2024-01-08 <span style="color: #949494;">16:44:18</span> ec693</span></span></code></pre></div>
 <p>You can delete a specific older version with
 <code><a href="../reference/pin_versions.html">pin_version_delete()</a></code> or sets of older versions with
 <code><a href="../reference/pin_versions.html">pin_versions_prune()</a></code>.</p>
@@ -362,12 +377,12 @@ creating a few files in the temp directory:</p>
 <p>Now I can upload those to the board:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20231211T235043Z-e9d42'</span></span></code></pre></div>
+<span><span class="co">#&gt; Creating new version '20240108T164418Z-e9d42'</span></span></code></pre></div>
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpXMCOcz/pins-21cd641f28c8/example/20231211T235043Z-e9d42/mtcars.csv"  </span></span>
-<span><span class="co">#&gt; [2] "/tmp/RtmpXMCOcz/pins-21cd641f28c8/example/20231211T235043Z-e9d42/alphabet.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpyBszyl/pins-213c1274221e/example/20240108T164418Z-e9d42/mtcars.csv"  </span></span>
+<span><span class="co">#&gt; [2] "/tmp/RtmpyBszyl/pins-213c1274221e/example/20240108T164418Z-e9d42/alphabet.txt"</span></span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as
 internal implementation details — never modify them and never save them
 for use outside of pins.</p>
@@ -384,7 +399,7 @@ for use outside of pins.</p>
 with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpXMCOcz/pins-21cd641f28c8/mtcars/20231211T235041Z-7c7a6/mtcars.rds"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpyBszyl/pins-213c1274221e/mtcars/20240108T164416Z-7c7a6/mtcars.rds"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
