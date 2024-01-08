@@ -58,7 +58,17 @@ The first argument is the object to save (usually a data frame, but it can be an
 The name is basically equivalent to a file name: you'll use it when you later want to read the data from the pin.
 The only rule for a pin name is that it can't contain slashes.
 
-As you can see from the output, pins has chosen to save this data to an `.rds` file.
+After you've pinned an object, you can read it back with `pin_read()`:
+
+```{r}
+board %>% pin_read("mtcars")
+```
+
+You don't need to supply the file type when reading data from a pin because pins automatically stores the file type in the [metadata](#Metadata).
+
+## How and what to store as a pin
+
+As you can see from the output in the previous section, pins has chosen to save this example data to an `.rds` file.
 But you can choose another option depending on your goals:
 
 -   `type = "rds"` uses `writeRDS()` to create a binary R data file. It can save any R object (including trained models) but it's only readable from R, not other languages.
@@ -68,18 +78,15 @@ But you can choose another option depending on your goals:
 -   `type = "json"` uses `jsonlite::write_json()` to create a JSON file. Pretty much every programming language can read json files, but they only work well for nested lists.
 -   `type = "qs"` uses `qs::qsave()` to create a binary R data file, like `writeRDS()`. This format achieves faster read/write speeds than RDS, and compresses data more efficiently, making it a good choice for larger objects. Read more on the [qs package](https://github.com/traversc/qs).
 
-After you've pinned an object, you can read it back with `pin_read()`:
-
-```{r}
-board %>% pin_read("mtcars")
-```
-
-You don't need to supply the file type when reading data from a pin because pins automatically stores the file type in the metadata, the topic of the next section.
-
 Note that when the data lives elsewhere, pins takes care of downloading and caching so that it's only re-downloaded when needed.
 That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins.
 As a general rule of thumb, we don't recommend using pins with files over 500 MB.
 If you find yourself routinely pinning data larger that this, you might need to reconsider your data engineering pipeline.
+
+Storing your data/object as a pin works well when you write from a single source or process. It is _not_ appropriate when multiple sources or processes need to write to the same pin; since the pins package reads and writes files, it cannot manage concurrent writes.
+
+- **Good** use for pins: an ETL pipeline that stores a model or summarized dataset once a day
+- **Bad** use for pins: a Shiny app that collects data from users, who may be using the app at the same time
 
 ## Metadata
 
