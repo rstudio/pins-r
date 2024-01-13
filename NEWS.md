@@ -10,6 +10,8 @@
 
 * Fixed a bug in how pins with the same name but different owners on Posit Connect were identified (#808).
 
+* Fixed a bug in handling folders with duplicate names for Google Drive (#819, @UchidaMizuki)
+
 # pins 1.3.0
 
 ## Breaking changes

@@ -146,11 +146,8 @@ pin_store.pins_board_gdrive <- function(board, name, paths, metadata,
   check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
-  gdrive_mkdir(board$dribble$name, name)
-  gdrive_mkdir(fs::path(board$dribble$name, name), version)
-
-  version_dir <- fs::path(name, version)
-  version_dir_dribble = googledrive::as_dribble(version_dir)
+  dir_dribble <- gdrive_mkdir(board$dribble, name)
+  version_dir_dribble <- gdrive_mkdir(dir_dribble, version)
 
   # Upload metadata
   temp_file <- withr::local_tempfile()
@@ -211,10 +208,11 @@ gdrive_download <- function(board, key) {
   path
 }
 
-gdrive_mkdir <- function(dir, name) {
-  dribble <- googledrive::as_dribble(fs::path(dir, name))
-  if (googledrive::no_file(dribble) || !googledrive::is_folder(dribble)) {
-    googledrive::drive_mkdir(name, dir, overwrite = FALSE)
+gdrive_mkdir <- function(dribble, name) {
+  dir_dribble <- googledrive::drive_ls(dribble, type = "folder")
+  dir_dribble <- dir_dribble[dir_dribble$name == name,]
+  if (googledrive::no_file(dir_dribble)) {
+    dir_dribble <- googledrive::drive_mkdir(name, dribble, overwrite = FALSE)
   }
-  invisible()
+  invisible(dir_dribble)
 }
