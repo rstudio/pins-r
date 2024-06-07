@@ -174,7 +174,7 @@ pin_store.pins_board_gdrive <- function(board, name, paths, metadata,
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_gdrive <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   "googledrive"
 }
 

@@ -168,7 +168,7 @@ pin_fetch.pins_board_gcs <- function(board, name, version = NULL, ...) {
 pin_store.pins_board_gcs <- function(board, name, paths, metadata,
                                      versioned = NULL, x = NULL, ...) {
   withr::local_options(list(googleAuthR.verbose = 4))
-  ellipsis::check_dots_used()
+  check_dots_used()
   check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
   version_dir <- fs::path(name, version)
@@ -200,7 +200,7 @@ board_deparse.pins_board_gcs <- function(board, ...) {
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_gcs <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   "googleCloudStorageR"
 }
 

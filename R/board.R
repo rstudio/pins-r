@@ -150,7 +150,7 @@ board_cache_path <- function(name) {
 #' @export
 #' @inheritParams pin_read
 board_deparse <- function(board, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("board_deparse")
 }
 
@@ -246,7 +246,7 @@ make_manifest <- function(board) {
 #' @param manifest Contents to be written to the manifest file, as a list.
 #'
 write_board_manifest_yaml <- function(board, manifest, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("write_board_manifest_yaml")
 }
 

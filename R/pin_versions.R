@@ -32,7 +32,7 @@
 #' board %>% pin_versions_prune("df", days = 30)
 #' @export
 pin_versions <- function(board, name, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
 
   if (missing(name) && is.board(board)) {
     abort("Argument `name` is missing, with no default")
@@ -73,7 +73,7 @@ pin_versions.pins_board <- function(board, name, ...) {
 #' @rdname pin_versions
 #' @param version Version identifier.
 pin_version_delete <- function(board, name, version, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("pin_version_delete")
 }
 

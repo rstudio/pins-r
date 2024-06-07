@@ -38,7 +38,7 @@
 #' # (Normally you'd specify the version with a string, but since the
 #' # version includes the date-time I can't do that in an example)
 pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   check_board(board, "pin_read", "pin_get")
 
   meta <- pin_fetch(board, name, version = version, ...)
@@ -134,7 +134,7 @@ pin_write <- function(board, x,
     }
   }
 
-  ellipsis::check_dots_used()
+  check_dots_used()
   name <- pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
   pins_inform("Writing to pin '{name}'")
   invisible(name)

@@ -364,7 +364,7 @@ board_deparse.pins_board_connect <- function(board, ...) {
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_connect <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   "rsconnect"
 }
 

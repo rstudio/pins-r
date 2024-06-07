@@ -248,7 +248,7 @@ pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
 #' @export
 pin_store.pins_board_s3 <- function(board, name, paths, metadata,
                                     versioned = NULL, x = NULL, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   check_pin_name(name)
   version <- version_setup(board, name, version_name(metadata), versioned = versioned)
 
@@ -289,7 +289,7 @@ write_board_manifest_yaml.pins_board_s3 <- function(board, manifest, ...) {
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_s3 <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   "paws.storage"
 }
 
@@ -320,7 +320,7 @@ s3_upload_yaml <- function(board, key, yaml, ...) {
 }
 
 s3_upload_file <- function(board, key, path, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   body <- readBin(path, "raw", file.size(path))
   board$svc$put_object(
     Bucket = board$bucket,

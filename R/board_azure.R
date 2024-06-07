@@ -222,7 +222,7 @@ write_board_manifest_yaml.pins_board_azure <- function(board, manifest, ...) {
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_azure <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   "AzureStor"
 }
 
