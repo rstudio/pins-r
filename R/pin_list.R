@@ -16,6 +16,6 @@
 #'
 #' board %>% pin_list()
 pin_list <- function(board, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("pin_list")
 }

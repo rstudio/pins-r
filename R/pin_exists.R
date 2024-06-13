@@ -3,7 +3,7 @@
 #' @inheritParams pin_read
 #' @export
 pin_exists <- function(board, name, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("pin_exists")
 }
 

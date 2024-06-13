@@ -13,7 +13,7 @@
 #' @keywords internal
 #' @inheritParams pin_read
 pin_fetch <- function(board, name, version = NULL, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("pin_fetch")
 }
 
@@ -21,6 +21,6 @@ pin_fetch <- function(board, name, version = NULL, ...) {
 #' @rdname pin_fetch
 #' @inherit pin_upload
 pin_store <- function(board, name, paths, metadata, versioned = NULL, x = NULL, ...) {
-  ellipsis::check_dots_used()
+  check_dots_used()
   UseMethod("pin_store")
 }

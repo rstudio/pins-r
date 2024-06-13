@@ -23,7 +23,6 @@ Depends:
 Imports:
     cli,
     digest,
-    ellipsis,
     fs,
     generics,
     glue,

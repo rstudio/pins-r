@@ -15,7 +15,7 @@
 #' board %>% pin_delete(c("x", "y"))
 #' board %>% pin_list()
 pin_delete <- function(board, names, ...) {
-  ellipsis::check_dots_used(...)
+  check_dots_used()
   check_board(board, "pin_delete", "pin_remove")
   UseMethod("pin_delete")
 }

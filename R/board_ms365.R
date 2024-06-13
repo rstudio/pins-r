@@ -226,7 +226,7 @@ write_board_manifest_yaml.pins_board_ms365 <- function(board, manifest, ...) {
 #' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_ms365 <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   "Microsoft365R"
 }
 

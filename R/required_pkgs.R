@@ -10,6 +10,6 @@
 #'
 #' @export
 required_pkgs.pins_board <- function(x, ...) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   character(0)
 }
