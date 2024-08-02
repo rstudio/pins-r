@@ -458,7 +458,7 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
         class = "pins_pin_missing"
       )
     }
-    selected <- json[[name$owner %in% owner_names]]
+    selected <- json[[which(name$owner == owner_names)]]
   }
 
   content <- list(
