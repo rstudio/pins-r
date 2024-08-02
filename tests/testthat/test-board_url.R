@@ -1,5 +1,6 @@
 skip_if_not_installed("webfakes")
 skip_on_cran()
+skip_on_covr()
 
 httpbin <- local_httpbin_app()
 httpbin_port <- httpbin$get_port()
