@@ -12,6 +12,8 @@
 
 * Fixed a bug in handling folders with duplicate names for Google Drive (#819, @UchidaMizuki)
 
+* Fixed how previously deleted pin versions are detected (#838, @MichalLauer)
+
 # pins 1.3.0
 
 ## Breaking changes
