@@ -159,6 +159,7 @@ version_from_path <- function(x) {
 version_setup <- function(board, name, new_version, versioned = NULL, call = caller_env()) {
   
   n_versions <- 0
+  
   if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
     n_versions <- nrow(versions)
