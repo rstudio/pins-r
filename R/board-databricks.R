@@ -1,3 +1,31 @@
+board_databricks <- function(
+    catalog,
+    schema,
+    volume,
+    host = NULL,
+    token = NULL,
+    cache = NULL
+    ) {
+  cache_path <- paste0(catalog, schema, volume, collapse = "-")
+  cache <- cache %||% board_cache_path(paste0("databricks-", cache_path))
+  host <- databricks_host(host)
+  token <- databricks_token(token)
+  check_installed("httr2")
+
+  new_board_v1(
+    "pins_board_databricks",
+    name = "databricks",
+    catalog = catalog,
+    schema = schema,
+    volume = volume,
+    host = host,
+    token = token,
+    #prefix = prefix,
+    cache = cache
+    #versioned = versioned
+  )
+}
+
 databricks_host <- function(host = NULL, fail = TRUE) {
   if (!is.null(host)) {
     return(set_names(host, "argument"))
