@@ -1,24 +1,17 @@
 #' @export
 board_databricks <- function(
-    catalog,
-    schema,
-    volume,
+    folder_url,
     host = NULL,
     prefix = NULL,
     versioned = TRUE,
     cache = NULL) {
   check_installed("httr2")
-
-  cache_path <- paste0(catalog, schema, volume, collapse = "-")
-  cache <- cache %||% board_cache_path(paste0("databricks-", cache_path))
-
+  cache <- cache %||% board_cache_path(paste0("databricks-", folder_url))
   new_board_v1(
     "pins_board_databricks",
     name = "databricks",
-    catalog = catalog,
-    schema = schema,
-    volume = volume,
-    host = databricks_host(host),
+    folder_url = folder_url,
+    host = db_get_host(host),
     prefix = prefix,
     cache = cache,
     versioned = versioned
@@ -40,13 +33,10 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
   metadata_blob <- fs::path(name, version %||% "", "data.txt")
-
   if (!db_list_content(board, metadata_blob)) {
     abort_pin_version_missing(version)
   }
-
   path_version <- fs::path(board$cache, name, version %||% "")
-
   local_meta(
     read_meta(path_version),
     name = name,
@@ -58,10 +48,7 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
 db_list_content <- function(board, path = NULL) {
   full_path <- fs::path(
     "/api/2.0/fs/directories",
-    "Volumes",
-    board$catalog,
-    board$schema,
-    board$volume,
+    board$folder_url,
     board$prefix %||% "",
     path %||% ""
   )
@@ -80,11 +67,11 @@ db_req_init <- function(board, method, path) {
   out <- httr2::url_build(host_url)
   out <- httr2::request(out)
   out <- httr2::req_method(out, method)
-  out <- httr2::req_auth_bearer_token(out, databricks_token())
+  out <- httr2::req_auth_bearer_token(out, db_get_token())
   httr2::req_url_path_append(out, glue(path))
 }
 
-databricks_host <- function(host = NULL, fail = TRUE) {
+db_get_host <- function(host = NULL, fail = TRUE) {
   if (!is.null(host)) {
     return(set_names(host, "argument"))
   }
@@ -112,7 +99,7 @@ databricks_host <- function(host = NULL, fail = TRUE) {
   host
 }
 
-databricks_token <- function(token = NULL, fail = FALSE) {
+db_get_token <- function(token = NULL, fail = FALSE) {
   if (!is.null(token)) {
     return(set_names(token, "argument"))
   }
@@ -131,7 +118,7 @@ databricks_token <- function(token = NULL, fail = FALSE) {
   # Checks for OAuth Databricks token inside the RStudio API
   if (is.null(token) && exists(".rs.api.getDatabricksToken")) {
     getDatabricksToken <- get(".rs.api.getDatabricksToken")
-    token <- set_names(getDatabricksToken(databricks_host()), "oauth")
+    token <- set_names(getDatabricksToken(db_get_host()), "oauth")
   }
   if (is.null(token)) {
     if (fail) {
