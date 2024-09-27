@@ -76,6 +76,13 @@ pin_store.pins_board_databricks <- function(board, name, paths, metadata,
   name
 }
 
+#' @export
+pin_versions.pins_board_databricks <- function(board, name, ...) {
+  paths <- db_list_content(board, name)
+  version_from_path(paths)
+}
+
+
 db_upload_file <- function(board, path, name = "", file_name = NULL) {
   file_name <- file_name %||% fs::path_file(path)
   full_path <- fs::path(
