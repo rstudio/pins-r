@@ -3,14 +3,13 @@ board_databricks <- function(
     schema,
     volume,
     host = NULL,
-    token = NULL,
     cache = NULL
     ) {
+
+  check_installed("httr2")
+
   cache_path <- paste0(catalog, schema, volume, collapse = "-")
   cache <- cache %||% board_cache_path(paste0("databricks-", cache_path))
-  host <- databricks_host(host)
-  token <- databricks_token(token)
-  check_installed("httr2")
 
   new_board_v1(
     "pins_board_databricks",
@@ -18,12 +17,36 @@ board_databricks <- function(
     catalog = catalog,
     schema = schema,
     volume = volume,
-    host = host,
-    token = token,
+    host = databricks_host(host),
     #prefix = prefix,
     cache = cache
     #versioned = versioned
   )
+}
+
+pin_list.pins_board_databricks <- function(board, ...) {
+  db_req_init(
+    board,
+    "GET",
+    "/api/2.0/fs/directories/Volumes/{board$catalog}/{board$schema}/{board$volume}"
+    ) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json() |>
+    purrr::list_flatten() |>
+    purrr::keep(\(x) x$is_directory) |>
+    purrr::map_chr(\(x) x$name) |>
+    as.character()
+}
+
+db_req_init <- function(board, method, path) {
+  host_url <- httr2::url_parse(board$host)
+  if (is.null(host_url$scheme)) host_url$scheme <- "https"
+  host_url |>
+    httr2::url_build() |>
+    httr2::request() |>
+    httr2::req_method(method) |>
+    httr2::req_auth_bearer_token(databricks_token()) |>
+    httr2::req_url_path_append(glue(path))
 }
 
 databricks_host <- function(host = NULL, fail = TRUE) {
