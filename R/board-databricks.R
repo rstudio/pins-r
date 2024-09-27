@@ -35,6 +35,26 @@ pin_exists.pins_board_databricks <- function(board, name, ...) {
   name %in% db_list_content(board)
 }
 
+#' @export
+pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
+  check_pin_exists(board, name)
+  version <- check_pin_version(board, name, version)
+  metadata_blob <- fs::path(name, version %||% "", "data.txt")
+
+  if (!db_list_content(board, metadata_blob)) {
+    abort_pin_version_missing(version)
+  }
+
+  path_version <- fs::path(board$cache, name, version %||% "")
+
+  local_meta(
+    read_meta(path_version),
+    name = name,
+    dir = path_version,
+    version = version
+  )
+}
+
 db_list_content <- function(board, path = NULL) {
   full_path <- fs::path(
     "/api/2.0/fs/directories",
