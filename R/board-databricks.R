@@ -1,8 +1,11 @@
+#' @export
 board_databricks <- function(
     catalog,
     schema,
     volume,
     host = NULL,
+    prefix = NULL,
+    versioned = TRUE,
     cache = NULL) {
   check_installed("httr2")
 
@@ -16,18 +19,33 @@ board_databricks <- function(
     schema = schema,
     volume = volume,
     host = databricks_host(host),
-    # prefix = prefix,
-    cache = cache
-    # versioned = versioned
+    prefix = prefix,
+    cache = cache,
+    versioned = versioned
   )
 }
 
+#' @export
 pin_list.pins_board_databricks <- function(board, ...) {
-  path <- paste0(
+  db_list_content(board)
+}
+
+#' @export
+pin_exists.pins_board_databricks <- function(board, name, ...) {
+  name %in% db_list_content(board)
+}
+
+db_list_content <- function(board, path = NULL) {
+  full_path <- fs::path(
     "/api/2.0/fs/directories",
-    "/Volumes/{board$catalog}/{board$schema}/{board$volume}"
+    "Volumes",
+    board$catalog,
+    board$schema,
+    board$volume,
+    board$prefix %||% "",
+    path %||% ""
   )
-  out <- db_req_init(board, "GET", path)
+  out <- db_req_init(board, "GET", full_path)
   out <- httr2::req_perform(out)
   out <- httr2::resp_body_json(out)
   out <- purrr::list_flatten(out)
