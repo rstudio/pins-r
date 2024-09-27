@@ -63,14 +63,14 @@ pin_store.pins_board_databricks <- function(board, name, paths, metadata,
   db_upload_file(
     board = board,
     path = temp_file,
-    name = name,
+    name = version_dir,
     file_name = "data.txt"
   )
   for (path in paths) {
     db_upload_file(
       board = board,
       path = path,
-      name = name
+      name = version_dir
     )
   }
   name
