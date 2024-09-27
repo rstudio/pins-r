@@ -32,6 +32,7 @@ pin_exists.pins_board_databricks <- function(board, name, ...) {
 pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
+
   metadata_blob <- fs::path(name, version %||% "", "data.txt")
   if (!db_list_content(board, metadata_blob)) {
     abort_pin_version_missing(version)
@@ -43,6 +44,51 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
     dir = path_version,
     version = version
   )
+}
+
+#' @export
+pin_store.pins_board_databricks <- function(board, name, paths, metadata,
+                                            versioned = NULL, x = NULL, ...) {
+  check_dots_used()
+  check_pin_name(name)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
+  version_dir <- fs::path(name, version)
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(x = metadata, file = temp_file)
+  db_upload_file(
+    board = board,
+    path = temp_file,
+    name = name,
+    file_name = "data.txt"
+  )
+  for (path in paths) {
+    db_upload_file(
+      board = board,
+      path = path,
+      name = name
+    )
+  }
+  name
+}
+
+db_upload_file <- function(board, path, name = "", file_name = NULL) {
+  file_name <- file_name %||% fs::path_file(path)
+  full_path <- fs::path(
+    "/api/2.0/fs/files",
+    board$folder_url,
+    board$prefix %||% "",
+    name,
+    file_name
+  )
+  out <- db_req_init(board, "PUT", full_path)
+  out <- httr2::req_body_file(out, path)
+  out <- httr2::req_perform(out)
+  out
 }
 
 db_list_content <- function(board, path = NULL) {
