@@ -6,7 +6,10 @@ board_databricks <- function(
     versioned = TRUE,
     cache = NULL) {
   check_installed("httr2")
-  cache <- cache %||% board_cache_path(paste0("databricks-", folder_url))
+
+  cache_path <- tolower(fs::path("databricks", folder_url, prefix %||% ""))
+  cache_path <- paste0(strsplit(cache_path, "\\/")[[1]], collapse = "-")
+  cache <- cache %||% board_cache_path(cache_path)
   new_board_v1(
     "pins_board_databricks",
     name = "databricks",
@@ -39,7 +42,7 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
   }
   path_version <- fs::path(board$cache, name, version %||% "")
   local_meta(
-    read_meta(path_version),
+    x = read_meta(path_version),
     name = name,
     dir = path_version,
     version = version
@@ -52,9 +55,9 @@ pin_store.pins_board_databricks <- function(board, name, paths, metadata,
   check_dots_used()
   check_pin_name(name)
   version <- version_setup(
-    board,
-    name,
-    version_name(metadata),
+    board = board,
+    name = name,
+    new_version =  version_name(metadata),
     versioned = versioned
   )
   version_dir <- fs::path(name, version)
