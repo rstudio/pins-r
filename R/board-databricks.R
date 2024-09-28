@@ -23,12 +23,12 @@ board_databricks <- function(
 
 #' @export
 pin_list.pins_board_databricks <- function(board, ...) {
-  db_list_content(board)
+  db_list_folders(board)
 }
 
 #' @export
 pin_exists.pins_board_databricks <- function(board, name, ...) {
-  name %in% db_list_content(board)
+  name %in% db_list_folders(board)
 }
 
 #' @export
@@ -77,7 +77,7 @@ pin_store.pins_board_databricks <- function(board, name, paths, metadata,
 
 #' @export
 pin_versions.pins_board_databricks <- function(board, name, ...) {
-  paths <- db_list_content(board, name)
+  paths <- db_list_folders(board, name)
   version_from_path(paths)
 }
 
@@ -88,6 +88,15 @@ pin_fetch.pins_board_databricks <- function(board, name, version = NULL, ...) {
     db_download_file(board, name, meta$local$version, file)
   }
   meta
+}
+
+#' @export
+pin_delete.pins_board_databricks <- function(board, names, ...) {
+  for (name in names) {
+    check_pin_exists(board, name)
+    db_delete_pin(board, name)
+  }
+  invisible(board)
 }
 
 # Helpers -----------------------------------------------------------------
@@ -121,7 +130,58 @@ db_download_file <- function(board, name = "", version = "", file_name = "") {
   invisible()
 }
 
-db_list_content <- function(board, path = NULL) {
+db_delete_pin <- function(board, name) {
+  files <- db_list_file_paths(board, name)
+  purrr::walk(files, db_delete_file, board)
+  dir <- fs::path(name, db_list_folders(board, name))
+  purrr::walk(dir, db_delete_folder, board)
+  db_delete_folder(name, board)
+  invisible()
+}
+
+db_delete_folder <- function(folder, board) {
+  full_path <- fs::path(
+    "/api/2.0/fs/directories",
+    board$folder_url,
+    board$prefix %||% "",
+    folder
+  )
+  out <- db_req_init(board, "DELETE", full_path)
+  out <- httr2::req_perform(out)
+  out
+}
+
+db_delete_file <- function(path, board) {
+  full_path <- fs::path("/api/2.0/fs/files", path)
+  out <- db_req_init(board, "DELETE", full_path)
+  out <- httr2::req_perform(out)
+  out
+}
+
+db_list_file_paths <- function(board, name) {
+  main_folder <- db_list_folders(board, name)
+  if (length(main_folder) == 0) {
+    return(main_folder)
+  }
+  out <- purrr::map(main_folder, \(x) db_list_files(board, name, x))
+  purrr::reduce(out, c)
+}
+
+db_list_files <- function(board, name, folder) {
+  out <- db_list_contents(board, fs::path(name, folder))
+  out <- purrr::discard(out, \(x) x$is_directory)
+  out <- purrr::map_chr(out, \(x) x$path)
+  as.character(out)
+}
+
+db_list_folders <- function(board, path = NULL) {
+  out <- db_list_contents(board, path)
+  out <- purrr::keep(out, \(x) x$is_directory)
+  out <- purrr::map_chr(out, \(x) x$name)
+  as.character(out)
+}
+
+db_list_contents <- function(board, path = NULL) {
   full_path <- fs::path(
     "/api/2.0/fs/directories",
     board$folder_url,
@@ -131,10 +191,7 @@ db_list_content <- function(board, path = NULL) {
   out <- db_req_init(board, "GET", full_path)
   out <- httr2::req_perform(out)
   out <- httr2::resp_body_json(out)
-  out <- purrr::list_flatten(out)
-  out <- purrr::keep(out, \(x) x$is_directory)
-  out <- purrr::map_chr(out, \(x) x$name)
-  as.character(out)
+  purrr::list_flatten(out)
 }
 
 db_req_init <- function(board, method, path) {
