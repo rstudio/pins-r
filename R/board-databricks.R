@@ -35,11 +35,7 @@ pin_exists.pins_board_databricks <- function(board, name, ...) {
 pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
-
-  metadata_blob <- fs::path(name, version %||% "", "data.txt")
-  if (!db_list_content(board, metadata_blob)) {
-    abort_pin_version_missing(version)
-  }
+  db_download_file(board, name, version, "data.txt")
   path_version <- fs::path(board$cache, name, version %||% "")
   local_meta(
     x = read_meta(path_version),
