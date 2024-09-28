@@ -57,7 +57,7 @@ pin_store.pins_board_databricks <- function(board, name, paths, metadata,
   version <- version_setup(
     board = board,
     name = name,
-    new_version =  version_name(metadata),
+    new_version = version_name(metadata),
     versioned = versioned
   )
   version_dir <- fs::path(name, version)
@@ -85,6 +85,7 @@ pin_versions.pins_board_databricks <- function(board, name, ...) {
   version_from_path(paths)
 }
 
+# Helpers -----------------------------------------------------------------
 
 db_upload_file <- function(board, path, name = "", file_name = NULL) {
   file_name <- file_name %||% fs::path_file(path)
@@ -99,6 +100,19 @@ db_upload_file <- function(board, path, name = "", file_name = NULL) {
   out <- httr2::req_body_file(out, path)
   out <- httr2::req_perform(out)
   out
+}
+
+db_download_file <- function(board, name = "", version = "", file_name = "") {
+  base_path <- fs::path(board$prefix %||% "", name, version)
+  cache_path <- fs::path(board$cache, base_path)
+  if (fs::file_exists(cache_path)) {
+    return(invisible())
+  }
+  try(fs::dir_create(cache_path))
+  full_path <- fs::path("/api/2.0/fs/files", board$folder_url, base_path, file_name)
+  out <- db_req_init(board, "GET", full_path)
+  out <- httr2::req_perform(out, path = fs::path(cache_path, file_name))
+  invisible()
 }
 
 db_list_content <- function(board, path = NULL) {
