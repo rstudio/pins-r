@@ -35,6 +35,9 @@ pin_exists.pins_board_databricks <- function(board, name, ...) {
 pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
   check_pin_exists(board, name)
   version <- check_pin_version(board, name, version)
+  if (!version %in% db_list_folders(board, name)) {
+    abort_pin_version_missing(version)
+  }
   db_download_file(board, name, version, "data.txt")
   path_version <- fs::path(board$cache, name, version %||% "")
   local_meta(
@@ -99,6 +102,11 @@ pin_delete.pins_board_databricks <- function(board, names, ...) {
   invisible(board)
 }
 
+#' @export
+pin_version_delete.pins_board_databricks <- function(board, name, version, ...) {
+  db_delete_pin(board, fs::path(name, version))
+}
+
 # Helpers -----------------------------------------------------------------
 
 db_upload_file <- function(board, path, name = "", file_name = NULL) {
@@ -160,15 +168,24 @@ db_delete_file <- function(path, board) {
 }
 
 db_list_file_paths <- function(board, name) {
-  main_folder <- db_list_folders(board, name)
-  if (length(main_folder) == 0) {
-    return(main_folder)
+  root_folder <- db_list_folders(board, name)
+  root_files <- db_list_files(board, name, "")
+  if (length(root_files) == 0) {
+    root_files <- NULL
   }
-  out <- purrr::map(main_folder, \(x) db_list_files(board, name, x))
-  purrr::reduce(out, c)
+  if (length(root_folder) == 0 && length(root_files) == 0) {
+    return(root_folder)
+  }
+  out <- purrr::map(root_folder, \(x) db_list_files(board, name, x))
+  if (length(out) > 0) {
+    out <- purrr::reduce(out, c)
+  } else {
+    out <- NULL
+  }
+  c(out, root_files)
 }
 
-db_list_files <- function(board, name, folder) {
+db_list_files <- function(board, name, folder = "") {
   out <- db_list_contents(board, fs::path(name, folder))
   out <- purrr::discard(out, \(x) x$is_directory)
   out <- purrr::map_chr(out, \(x) x$path)
