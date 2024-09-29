@@ -21,6 +21,20 @@ board_databricks <- function(
   )
 }
 
+board_databricks_test <- function(prefix = NULL) {
+  skip_if(is.null(db_get_token()), message = "No Databricks credentials found")
+  skip_if(is.null(db_get_host()), message = "No Databricks host defined")
+  skip_if_missing_envvars(
+    tests = "board_gcs()",
+    envvars = c("PINS_DATABRICKS_FOLDER_URL")
+  )
+  board_databricks(
+    folder_url = Sys.getenv("PINS_DATABRICKS_FOLDER_URL"),
+    prefix = prefix,
+    cache = tempfile()
+    )
+}
+
 #' @export
 pin_list.pins_board_databricks <- function(board, ...) {
   db_list_folders(board)
