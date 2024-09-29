@@ -25,7 +25,7 @@ board_databricks_test <- function(prefix = NULL) {
   skip_if(is.null(db_get_token()), message = "No Databricks credentials found")
   skip_if(is.null(db_get_host()), message = "No Databricks host defined")
   skip_if_missing_envvars(
-    tests = "board_gcs()",
+    tests = "board_databricks()",
     envvars = c("PINS_DATABRICKS_FOLDER_URL")
   )
   board_databricks(
@@ -240,7 +240,15 @@ db_list_contents <- function(board, path = NULL) {
     path %||% ""
   )
   out <- db_req_init(board, "GET", full_path)
-  out <- httr2::req_perform(out)
+  out <- try(httr2::req_perform(out), silent = TRUE)
+  if(inherits(out, "try-error")) {
+    cond <- attr(out, "condition")
+    if(inherits(cond, "httr2_http_404")) {
+      return(list())
+    } else {
+      return(cond)
+    }
+  }
   out <- httr2::resp_body_json(out)
   purrr::list_flatten(out)
 }
