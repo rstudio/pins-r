@@ -14,7 +14,7 @@ board_databricks <- function(
     "pins_board_databricks",
     name = "databricks",
     folder_url = folder_url,
-    host = db_get_host(host),
+    host = as.character(db_get_host(host)),
     prefix = prefix,
     cache = cache,
     versioned = versioned
@@ -105,6 +105,19 @@ pin_delete.pins_board_databricks <- function(board, names, ...) {
 #' @export
 pin_version_delete.pins_board_databricks <- function(board, name, version, ...) {
   db_delete_pin(board, fs::path(name, version))
+}
+
+#' @export
+board_deparse.pins_board_databricks <- function(board, ...) {
+  expr(
+    board_databricks(
+      folder_url = !!board$folder_url,
+      host = !!board$host,
+      prefix = !!board$prefix,
+      versioned = !!board$versioned,
+      cache = !!board$cache
+    )
+  )
 }
 
 # Helpers -----------------------------------------------------------------
