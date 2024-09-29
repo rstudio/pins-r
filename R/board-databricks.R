@@ -127,6 +127,7 @@ db_download_file <- function(board, name = "", version = "", file_name = "") {
   full_path <- fs::path("/api/2.0/fs/files", board$folder_url, base_path, file_name)
   out <- db_req_init(board, "GET", full_path)
   out <- httr2::req_perform(out, path = local_path)
+  fs::file_chmod(local_path, "u=r")
   invisible()
 }
 
