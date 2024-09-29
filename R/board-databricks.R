@@ -120,6 +120,12 @@ board_deparse.pins_board_databricks <- function(board, ...) {
   )
 }
 
+#' @export
+required_pkgs.pins_board_databricks <- function(x, ...) {
+  check_dots_empty()
+  "httr2"
+}
+
 # Helpers -----------------------------------------------------------------
 
 db_upload_file <- function(board, path, name = "", file_name = NULL) {
