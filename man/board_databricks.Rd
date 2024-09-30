@@ -20,8 +20,8 @@ folder. For example: /Volumes/my-catalog/my-schema/my-volume.}
 \item{host}{Your \href{https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url}{Workspace Instance URL}.
 If \code{NULL}, it will search for URL in two different environment variables:
 \itemize{
-\item DATABRICKS_HOST
-\item CONNECT_DATABRICKS_HOST
+\item 'DATABRICKS_HOST'
+\item 'CONNECT_DATABRICKS_HOST'
 }
 
 Defaults to \code{NULL}.}

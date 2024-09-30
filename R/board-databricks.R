@@ -26,8 +26,8 @@
 #' folder. For example: /Volumes/my-catalog/my-schema/my-volume.
 #' @param host Your [Workspace Instance URL](https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url).
 #' If `NULL`, it will search for URL in two different environment variables:
-#' - DATABRICKS_HOST
-#' - CONNECT_DATABRICKS_HOST
+#' - 'DATABRICKS_HOST'
+#' - 'CONNECT_DATABRICKS_HOST'
 #'
 #' Defaults to `NULL`.
 #' @param prefix 	Prefix within this bucket that this board will occupy.
