@@ -1,3 +1,48 @@
+#' Use a Databricks Volume bucket as a board
+#'
+#' Pin data to a Datbricks Volume
+#'
+#' # Authentication
+#'
+#' `board_databricks()` searches for authentication token in three different
+#' places, in order they are:
+#' - 'DATABRICKS_TOKEN' environment variable
+#' - 'CONNECT_DATABRICKS_TOKEN' environment variable
+#' -  OAuth Databricks token inside the RStudio API
+#'
+#' # Details
+#'
+#' * The functions in pins do not create a new bucket.
+#' * `board_gcs()` is powered by the googleCloudStorageR package, which is a
+#'   suggested dependency of pins (not required for pins in general).
+#'
+#' @inheritParams new_board
+#' @param folder_url The path to the target folder inside Unity Catalog. The path
+#' will include the catalog, schema and volume name, preceded by the 'Volumes/'
+#' folder. For example: /Volumes/my-catalog/my-schema/my-volume.
+#' @param host Your [Workspace Instance URL](https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url).
+#' If `NULL`, it will search for URL in two different environment variables:
+#' - DATABRICKS_HOST
+#' - CONNECT_DATABRICKS_HOST
+#'
+#' Defaults to `NULL`.
+#' @param prefix 	Prefix within this bucket that this board will occupy.
+#' You can use this to maintain multiple independent pin boards within a single
+#' Databricks Volume. Make sure to end with '/', so as to take advantage of
+#' Databricks Volume directory-like handling.
+#' @export
+#' @examples
+#' \dontrun{
+#' board <- board_gcs("pins-testing")
+#' board %>% pin_write(mtcars)
+#' board %>% pin_read("mtcars")
+#'
+#' # A prefix allows you to have multiple independent boards in the same pin.
+#' board_sales <- board_gcs("company-pins", prefix = "sales/")
+#' board_marketing <- board_gcs("company-pins", prefix = "marketing/")
+#' # You can make the hierarchy arbitrarily deep.
+#'
+#' }
 #' @export
 board_databricks <- function(
     folder_url,
