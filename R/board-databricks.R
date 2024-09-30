@@ -32,7 +32,7 @@ board_databricks_test <- function(prefix = NULL) {
     folder_url = Sys.getenv("PINS_DATABRICKS_FOLDER_URL"),
     prefix = prefix,
     cache = tempfile()
-    )
+  )
 }
 
 #' @export
@@ -53,7 +53,7 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
     abort_pin_version_missing(version)
   }
   db_download_file(board, name, version, "data.txt")
-  path_version <- fs::path(board$cache, name, version %||% "")
+  path_version <- fs::path(board$cache, board$prefix %||% "", name, version %||% "")
   local_meta(
     x = read_meta(path_version),
     name = name,
@@ -134,6 +134,7 @@ board_deparse.pins_board_databricks <- function(board, ...) {
   )
 }
 
+#' @rdname required_pkgs.pins_board
 #' @export
 required_pkgs.pins_board_databricks <- function(x, ...) {
   check_dots_empty()
@@ -241,9 +242,9 @@ db_list_contents <- function(board, path = NULL) {
   )
   out <- db_req_init(board, "GET", full_path)
   out <- try(httr2::req_perform(out), silent = TRUE)
-  if(inherits(out, "try-error")) {
+  if (inherits(out, "try-error")) {
     cond <- attr(out, "condition")
-    if(inherits(cond, "httr2_http_404")) {
+    if (inherits(cond, "httr2_http_404")) {
       return(list())
     } else {
       return(cond)
