@@ -75,8 +75,14 @@ board_databricks <- function(
 }
 
 board_databricks_test <- function(prefix = NULL) {
-  testthat::skip_if(is.null(db_get_token()), message = "No Databricks credentials found")
-  testthat::skip_if(is.null(db_get_host()), message = "No Databricks host defined")
+  testthat::skip_if(
+    db_get_token(fail = FALSE) == "",
+    message = "No Databricks credentials found"
+  )
+  testthat::skip_if(
+    db_get_host(fail = FALSE) == "",
+    message = "No Databricks host defined"
+  )
   skip_if_missing_envvars(
     tests = "board_databricks()",
     envvars = c("PINS_DATABRICKS_FOLDER_URL")
