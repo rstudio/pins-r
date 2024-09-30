@@ -38,6 +38,7 @@ reference:
   - board_azure
   - board_connect
   - board_connect_url
+  - board_databricks
   - board_gcs
   - board_gdrive
   - board_local

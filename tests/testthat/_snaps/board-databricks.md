@@ -1,8 +1,14 @@
-# Deparse works
+# can find board required pkgs
 
     Code
-      board_databricks("THIS-IS-A-TEST", host = "NOT-A-HOST")
+      required_pkgs(board)
     Output
-      Pin board <pins_board_databricks>
-      Cache size: 0
+      [1] "httr2"
+
+---
+
+    Code
+      required_pkgs(board)
+    Output
+      [1] "httr2"
 

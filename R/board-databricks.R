@@ -269,7 +269,7 @@ db_list_file_paths <- function(board, name) {
   if (length(root_folder) == 0 && length(root_files) == 0) {
     return(root_folder)
   }
-  out <- purrr::map(root_folder, \(x) db_list_files(board, name, x))
+  out <- purrr::map(root_folder, ~ db_list_files(board, name, .x))
   if (length(out) > 0) {
     out <- purrr::reduce(out, c)
   } else {
@@ -280,15 +280,15 @@ db_list_file_paths <- function(board, name) {
 
 db_list_files <- function(board, name, folder = "") {
   out <- db_list_contents(board, fs::path(name, folder))
-  out <- purrr::discard(out, \(x) x$is_directory)
-  out <- purrr::map_chr(out, \(x) x$path)
+  out <- purrr::discard(out, ~ .x$is_directory)
+  out <- purrr::map_chr(out, ~ .x$path)
   as.character(out)
 }
 
 db_list_folders <- function(board, path = NULL) {
   out <- db_list_contents(board, path)
-  out <- purrr::keep(out, \(x) x$is_directory)
-  out <- purrr::map_chr(out, \(x) x$name)
+  out <- purrr::keep(out, ~ .x$is_directory)
+  out <- purrr::map_chr(out, ~ .x$name)
   as.character(out)
 }
 

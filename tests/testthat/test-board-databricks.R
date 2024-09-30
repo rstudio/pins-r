@@ -5,7 +5,22 @@
 # DATABRICKS_TOKEN - Your PAT
 skip_if_not_installed("httr2")
 test_that("Deparse works", {
-  expect_snapshot(board_databricks("THIS-IS-A-TEST", host = "NOT-A-HOST"))
+  x <- board_databricks(
+    folder_url = "THIS-IS-A-TEST",
+    host = "NOT-A-HOST",
+    cache = "CACHE"
+  )
+  expect_s3_class(x, "pins_board_databricks")
+  expected_expr <- expr(
+    board_databricks(
+      folder_url = "THIS-IS-A-TEST",
+      host = "NOT-A-HOST",
+      prefix = NULL,
+      versioned = TRUE,
+      cache = "CACHE"
+    )
+  )
+  expect_identical(board_deparse(x), expected_expr)
 })
 test_api_basic(board_databricks_test())
 test_api_basic(board_databricks_test(prefix = "prefixed/"))
