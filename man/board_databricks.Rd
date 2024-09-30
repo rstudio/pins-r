@@ -2,7 +2,7 @@
 % Please edit documentation in R/board-databricks.R
 \name{board_databricks}
 \alias{board_databricks}
-\title{Use a Databricks Volume bucket as a board}
+\title{Use a Databricks Volume as a board}
 \usage{
 board_databricks(
   folder_url,
@@ -38,7 +38,7 @@ downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 }
 \description{
-Pin data to a Datbricks Volume
+Pin data to a \href{https://docs.databricks.com/en/sql/language-manual/sql-ref-volumes.html}{Datbricks Volume}
 }
 \section{Authentication}{
 \code{board_databricks()} searches for authentication token in three different
@@ -48,26 +48,34 @@ places, in order they are:
 \item 'CONNECT_DATABRICKS_TOKEN' environment variable
 \item OAuth Databricks token inside the RStudio API
 }
+
+In most cases, the authentication will be a Personal Authentication
+Token ('PAT') that is saved 'DATABRICKS_TOKEN' environment variable. To
+obtain a 'PAT' see: \href{https://docs.databricks.com/en/dev-tools/auth/pat.html}{Databricks personal access token authentication}.
 }
 
 \section{Details}{
 \itemize{
 \item The functions in pins do not create a new bucket.
-\item \code{board_gcs()} is powered by the googleCloudStorageR package, which is a
+\item The integration with Databricks depends on \code{httr2} which is a
 suggested dependency of pins (not required for pins in general).
 }
 }
 
 \examples{
 \dontrun{
-board <- board_gcs("pins-testing")
+board <- board_databricks("/Volumes/my-catalog/my-schema/my-volume")
 board \%>\% pin_write(mtcars)
 board \%>\% pin_read("mtcars")
 
 # A prefix allows you to have multiple independent boards in the same pin.
-board_sales <- board_gcs("company-pins", prefix = "sales/")
-board_marketing <- board_gcs("company-pins", prefix = "marketing/")
-# You can make the hierarchy arbitrarily deep.
-
+project_1 <- board_databricks(
+  folder_url = "/Volumes/my-catalog/my-schema/my-volume",
+  prefix = "project1/"
+)
+project_2 <- board_databricks(
+  folder_url = "/Volumes/my-catalog/my-schema/my-volume",
+  prefix = "project2/"
+)
 }
 }

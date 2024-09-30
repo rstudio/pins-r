@@ -1,6 +1,6 @@
-#' Use a Databricks Volume bucket as a board
+#' Use a Databricks Volume as a board
 #'
-#' Pin data to a Datbricks Volume
+#' Pin data to a [Datbricks Volume](https://docs.databricks.com/en/sql/language-manual/sql-ref-volumes.html)
 #'
 #' # Authentication
 #'
@@ -10,10 +10,14 @@
 #' - 'CONNECT_DATABRICKS_TOKEN' environment variable
 #' -  OAuth Databricks token inside the RStudio API
 #'
+#' In most cases, the authentication will be a Personal Authentication
+#' Token ('PAT') that is saved 'DATABRICKS_TOKEN' environment variable. To
+#' obtain a 'PAT' see: [Databricks personal access token authentication](https://docs.databricks.com/en/dev-tools/auth/pat.html).
+#'
 #' # Details
 #'
 #' * The functions in pins do not create a new bucket.
-#' * `board_gcs()` is powered by the googleCloudStorageR package, which is a
+#' * The integration with Databricks depends on `httr2` which is a
 #'   suggested dependency of pins (not required for pins in general).
 #'
 #' @inheritParams new_board
@@ -33,15 +37,19 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' board <- board_gcs("pins-testing")
+#' board <- board_databricks("/Volumes/my-catalog/my-schema/my-volume")
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
 #'
 #' # A prefix allows you to have multiple independent boards in the same pin.
-#' board_sales <- board_gcs("company-pins", prefix = "sales/")
-#' board_marketing <- board_gcs("company-pins", prefix = "marketing/")
-#' # You can make the hierarchy arbitrarily deep.
-#'
+#' project_1 <- board_databricks(
+#'   folder_url = "/Volumes/my-catalog/my-schema/my-volume",
+#'   prefix = "project1/"
+#' )
+#' project_2 <- board_databricks(
+#'   folder_url = "/Volumes/my-catalog/my-schema/my-volume",
+#'   prefix = "project2/"
+#' )
 #' }
 #' @export
 board_databricks <- function(
