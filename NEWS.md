@@ -6,6 +6,8 @@
 
 ## Other improvements
 
+* Added new board for Databricks Volumes `board_databricks()` (#839, @edgararuiz).
+
 * Added example Python code to pin previews for Posit Connect (#806).
 
 * Fixed a bug in how pins with the same name but different owners on Posit Connect were identified (#808).
