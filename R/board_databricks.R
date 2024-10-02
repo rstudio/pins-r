@@ -11,12 +11,12 @@
 #' -  OAuth Databricks token inside the RStudio API
 #'
 #' In most cases, the authentication will be a Personal Authentication
-#' Token ('PAT') that is saved as the 'DATABRICKS_TOKEN' environment variable. 
+#' Token ('PAT') that is saved as the 'DATABRICKS_TOKEN' environment variable.
 #' To obtain a 'PAT' see: [Databricks personal access token authentication](https://docs.databricks.com/en/dev-tools/auth/pat.html).
 #'
 #' # Details
 #'
-#' * The functions in pins do not create a new bucket.
+#' * The functions in pins do not create a new Databricks Volume.
 #' * `board_databricks()` is powered by the httr2 package, which is a
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
@@ -30,7 +30,7 @@
 #' will include the catalog, schema, and volume names, preceded by the 'Volumes/'
 #' folder. For example: `"/Volumes/my-catalog/my-schema/my-volume"`.
 #' @param host Your [Workspace Instance URL](https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url).
-#' If `NULL`, it will search for this URL in two different environment 
+#' If `NULL`, it will search for this URL in two different environment
 #' variables, in this order:
 #' - 'DATABRICKS_HOST'
 #' - 'CONNECT_DATABRICKS_HOST'
@@ -63,7 +63,7 @@ board_databricks <- function(
     prefix = NULL,
     versioned = TRUE,
     cache = NULL) {
-  
+
   check_installed("httr2")
 
   cache_path <- tolower(fs::path("databricks", folder_url, prefix %||% ""))

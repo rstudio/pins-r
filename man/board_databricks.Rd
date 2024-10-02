@@ -26,7 +26,7 @@ variables, in this order:
 Defaults to \code{NULL}.
 }}
 
-\item{prefix}{Prefix within the bucket that this board will occupy.
+\item{prefix}{Prefix within the folder that this board will occupy.
 You can use this to maintain multiple independent pin boards within a single
 Databricks Volume. Make sure to end with '/', so as to take advantage of
 Databricks Volume directory-like handling.}
@@ -56,7 +56,7 @@ To obtain a 'PAT' see: \href{https://docs.databricks.com/en/dev-tools/auth/pat.h
 
 \section{Details}{
 \itemize{
-\item The functions in pins do not create a new bucket.
+\item The functions in pins do not create a new Databricks Volume.
 \item \code{board_databricks()} is powered by the httr2 package, which is a
 suggested dependency of pins (not required for pins in general). If
 you run into errors when deploying content to a server like
@@ -71,7 +71,7 @@ board <- board_databricks("/Volumes/my-catalog/my-schema/my-volume")
 board \%>\% pin_write(mtcars)
 board \%>\% pin_read("mtcars")
 
-# A prefix allows you to have multiple independent boards in the same pin.
+# A prefix allows you to have multiple independent boards in the same folder.
 project_1 <- board_databricks(
   folder_url = "/Volumes/my-catalog/my-schema/my-volume",
   prefix = "project1/"
