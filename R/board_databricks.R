@@ -46,7 +46,7 @@
 #' board %>% pin_write(mtcars)
 #' board %>% pin_read("mtcars")
 #'
-#' # A prefix allows you to have multiple independent boards in the same pin.
+#' # A prefix allows you to have multiple independent boards in the same folder.
 #' project_1 <- board_databricks(
 #'   folder_url = "/Volumes/my-catalog/my-schema/my-volume",
 #'   prefix = "project1/"
