@@ -35,7 +35,7 @@
 #' - 'DATABRICKS_HOST'
 #' - 'CONNECT_DATABRICKS_HOST'
 #' Defaults to `NULL`.
-#' @param prefix 	Prefix within the bucket that this board will occupy.
+#' @param prefix 	Prefix within the folder that this board will occupy.
 #' You can use this to maintain multiple independent pin boards within a single
 #' Databricks Volume. Make sure to end with '/', so as to take advantage of
 #' Databricks Volume directory-like handling.
