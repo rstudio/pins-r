@@ -1,36 +1,41 @@
 #' Use a Databricks Volume as a board
 #'
-#' Pin data to a [Datbricks Volume](https://docs.databricks.com/en/sql/language-manual/sql-ref-volumes.html)
+#' Pin data to a [Databricks Volume](https://docs.databricks.com/en/sql/language-manual/sql-ref-volumes.html)
 #'
 #' # Authentication
 #'
-#' `board_databricks()` searches for authentication token in three different
-#' places, in order they are:
+#' `board_databricks()` searches for an authentication token in three different
+#' places, in this order:
 #' - 'DATABRICKS_TOKEN' environment variable
 #' - 'CONNECT_DATABRICKS_TOKEN' environment variable
 #' -  OAuth Databricks token inside the RStudio API
 #'
 #' In most cases, the authentication will be a Personal Authentication
-#' Token ('PAT') that is saved 'DATABRICKS_TOKEN' environment variable. To
-#' obtain a 'PAT' see: [Databricks personal access token authentication](https://docs.databricks.com/en/dev-tools/auth/pat.html).
+#' Token ('PAT') that is saved as the 'DATABRICKS_TOKEN' environment variable. 
+#' To obtain a 'PAT' see: [Databricks personal access token authentication](https://docs.databricks.com/en/dev-tools/auth/pat.html).
 #'
 #' # Details
 #'
 #' * The functions in pins do not create a new bucket.
-#' * The integration with Databricks depends on `httr2` which is a
-#'   suggested dependency of pins (not required for pins in general).
+#' * `board_databricks()` is powered by the httr2 package, which is a
+#'   suggested dependency of pins (not required for pins in general). If
+#'   you run into errors when deploying content to a server like
+#'   <https://www.shinyapps.io> or [Connect](https://posit.co/products/enterprise/connect/),
+#'   add `requireNamespace("httr2")` to your app or document for [automatic
+#'   dependency discovery](https://docs.posit.co/connect/user/troubleshooting/#render-missing-r-package).
+
 #'
 #' @inheritParams new_board
 #' @param folder_url The path to the target folder inside Unity Catalog. The path
-#' will include the catalog, schema and volume name, preceded by the 'Volumes/'
-#' folder. For example: /Volumes/my-catalog/my-schema/my-volume.
+#' will include the catalog, schema, and volume names, preceded by the 'Volumes/'
+#' folder. For example: `"/Volumes/my-catalog/my-schema/my-volume"`.
 #' @param host Your [Workspace Instance URL](https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url).
-#' If `NULL`, it will search for URL in two different environment variables:
+#' If `NULL`, it will search for this URL in two different environment 
+#' variables, in this order:
 #' - 'DATABRICKS_HOST'
 #' - 'CONNECT_DATABRICKS_HOST'
-#'
 #' Defaults to `NULL`.
-#' @param prefix 	Prefix within this bucket that this board will occupy.
+#' @param prefix 	Prefix within the bucket that this board will occupy.
 #' You can use this to maintain multiple independent pin boards within a single
 #' Databricks Volume. Make sure to end with '/', so as to take advantage of
 #' Databricks Volume directory-like handling.
@@ -58,6 +63,7 @@ board_databricks <- function(
     prefix = NULL,
     versioned = TRUE,
     cache = NULL) {
+  
   check_installed("httr2")
 
   cache_path <- tolower(fs::path("databricks", folder_url, prefix %||% ""))
