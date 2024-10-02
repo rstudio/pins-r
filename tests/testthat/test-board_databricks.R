@@ -3,6 +3,8 @@
 # PINS_DATABRICKS_FOLDER_URL - The path to your Databricks Volume
 # DATABRICKS_HOST - Your Workpace Instance URL
 # DATABRICKS_TOKEN - Your PAT
+# CI has 200 day token created on 2024-10-02
+
 skip_if_not_installed("httr2")
 test_that("Deparse works", {
   x <- board_databricks(

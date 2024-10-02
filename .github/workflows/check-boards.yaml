@@ -22,6 +22,9 @@ jobs:
       PINS_AWS_ACCESS_KEY: ${{ secrets.PINS_AWS_ACCESS_KEY}}
       PINS_AWS_SECRET_ACCESS_KEY: ${{ secrets.PINS_AWS_SECRET_ACCESS_KEY}}
       PINS_GCS_PASSWORD: ${{ secrets.PINS_GCS_PASSWORD }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      DATABRICKS_HOST: "https://rstudio-partner-posit-default.cloud.databricks.com"
+      PINS_DATABRICKS_FOLDER_URL: "/Volumes/workshops/models/vetiver"
 
       # needed for legacy board tests
       TEST_AWS_BUCKET: "pins-github-tests"
