@@ -27,17 +27,16 @@
 #'
 #' @inheritParams new_board
 #' @param folder_url The path to the target folder inside Unity Catalog. The path
-#' will include the catalog, schema, and volume names, preceded by the 'Volumes/'
-#' folder. For example: `"/Volumes/my-catalog/my-schema/my-volume"`.
+#' must include the catalog, schema, and volume names, preceded by 'Volumes/', 
+#' like `"/Volumes/my-catalog/my-schema/my-volume"`.
 #' @param host Your [Workspace Instance URL](https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url).
-#' If `NULL`, it will search for this URL in two different environment
-#' variables, in this order:
+#' Defaults to `NULL`. If `NULL`, it will search for this URL in two different 
+#' environment variables, in this order:
 #' - 'DATABRICKS_HOST'
 #' - 'CONNECT_DATABRICKS_HOST'
-#' Defaults to `NULL`.
 #' @param prefix 	Prefix within the folder that this board will occupy.
 #' You can use this to maintain multiple independent pin boards within a single
-#' Databricks Volume. Make sure to end with '/', so as to take advantage of
+#' Databricks Volume. Make sure to end with '/', to take advantage of
 #' Databricks Volume directory-like handling.
 #' @export
 #' @examples
