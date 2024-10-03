@@ -15,7 +15,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
 
-      # needed for modern board tests
+      # board specific env vars
       PINS_AZURE_SAS: ${{ secrets.PINS_AZURE_SAS }}
       PINS_AZURE_KEY: ${{ secrets.PINS_AZURE_KEY }}
       PINS_AZURE_ACCOUNT: ${{ secrets.PINS_AZURE_ACCOUNT }}
@@ -25,12 +25,6 @@ jobs:
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       DATABRICKS_HOST: "https://rstudio-partner-posit-default.cloud.databricks.com"
       PINS_DATABRICKS_FOLDER_URL: "/Volumes/workshops/models/vetiver"
-
-      # needed for legacy board tests
-      TEST_AWS_BUCKET: "pins-github-tests"
-      TEST_AWS_KEY: "AKIAWDFKE5M2ZHDUORMW"
-      TEST_AWS_REGION: "us-east-2"
-      TEST_AWS_SECRET: ${{ secrets.TEST_AWS_SECRET }}
 
     steps:
       - uses: actions/checkout@v3
