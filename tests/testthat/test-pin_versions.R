@@ -1,6 +1,7 @@
 skip_if_not_installed("filelock")
 
 test_that("can use old pin_versions() api", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   board <- legacy_local()
   pin(x = 1:5, "x", board = board)
   withr::defer(pin_remove("x", board))

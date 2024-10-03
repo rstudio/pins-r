@@ -1,4 +1,5 @@
 test_that("can pin_find() package data", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   board <- board_packages()
 
   results <- pin_find(board = board)
@@ -12,12 +13,14 @@ test_that("can pin_find() package data", {
 })
 
 test_that("can retrieve data from a package", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   board <- board_packages()
   data <- pin_get("datasets/AirPassengers", board = board)
   expect_equal(data, datasets::AirPassengers)
 })
 
 test_that("bad pin names give useful errors", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   board <- board_packages()
 
   expect_snapshot(error = TRUE, {
