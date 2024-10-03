@@ -15,11 +15,11 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
-networked drive or with services like DropBox), Posit Connect, Amazon
-S3, Google Cloud Storage, Azure storage, and Microsoft 365 (OneDrive and
-SharePoint). Pins can be automatically versioned, making it
-straightforward to track changes, re-run analyses on historical data,
-and undo mistakes.
+networked drive or with services like DropBox), Posit Connect,
+Databricks, Amazon S3, Google Cloud Storage, Azure storage, and
+Microsoft 365 (OneDrive and SharePoint). Pins can be automatically
+versioned, making it straightforward to track changes, re-run analyses
+on historical data, and undo mistakes.
 
 You can use pins from Python as well as R. For example, you can use one
 language to read a pin created with the other. Learn more about [pins
@@ -56,7 +56,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpwlRT0v/pins-181564fb94495'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmp4ETVv9/pins-28f423d40e5'
 #> Cache size: 0
 ```
 
@@ -66,7 +66,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20241003T202643Z-8dce8'
+#> Creating new version '20241003T231743Z-8dce8'
 #> Writing to pin 'mtcars'
 ```
 
@@ -102,7 +102,7 @@ board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
 #> Writing to pin 'hadley/sales-summary'
 ```
 
-Then, someone else (or an automated Rmd report) can read and use your
+Then, someone else (or an automated Quarto report) can read and use your
 pin:
 
 ``` r
@@ -114,6 +114,6 @@ You can easily control who gets to access the data using the Posit
 Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on
-services like Amazon’s S3 (`board_s3()`), Azure’s blob storage
-(`board_azure()`), and Google Cloud Storage (`board_gcs()`). Learn more
-in `vignette("pins")`.
+services like Databricks Volumes (`board_databricks()`), Amazon’s S3
+(`board_s3()`), Azure’s blob storage (`board_azure()`), and Google Cloud
+Storage (`board_gcs()`). Learn more in `vignette("pins")`.
