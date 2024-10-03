@@ -1,6 +1,7 @@
 test_that("can round trip all types", {
   skip_if_not_installed("qs")
   skip_if_not_installed("arrow")
+  skip_if_not_installed("nanoparquet")
   board <- board_temp()
 
   # Data frames
@@ -9,7 +10,13 @@ test_that("can round trip all types", {
   expect_equal(pin_read(board, "df-1"), df)
 
   pin_write(board, df, "df-2", type = "parquet")
-  expect_equal(pin_read(board, "df-2"), df)
+  expect_equal(
+    withr::with_options(
+      list(nanoparquet.class = c("tbl_df", "tbl")), 
+      pin_read(board, "df-2")
+    ), 
+    df
+  )
 
   pin_write(board, df, "df-3", type = "arrow")
   expect_equal(pin_read(board, "df-3"), df)
