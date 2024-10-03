@@ -22,7 +22,7 @@
 #' connect_auth_headers()
 #'
 #' board <- board_connect_url(c(
-#'     my_vanity_url_pin = "https://colorado.posit.co/rsc/great-numbers/"
+#'     my_vanity_url_pin = "https://pub.current.posit.team/public/great-numbers/"
 #' ))
 #'
 #' board %>% pin_read("my_vanity_url_pin")
@@ -68,16 +68,16 @@ vanity_url_test <- function(env = parent.frame()) {
 }
 
 board_connect_url_test <- function(...) {
-  if (connect_has_colorado()) {
-    board_connect_url_colorado(...)
+  if (connect_has_ptd()) {
+    board_connect_url_ptd(...)
   } else {
     board_connect_url_susan(...)
   }
 }
 
-board_connect_url_colorado <- function(...) {
-  if (!connect_has_colorado()) {
-    testthat::skip("board_connect_url_colorado() only works with Posit's demo server")
+board_connect_url_ptd <- function(...) {
+  if (!connect_has_ptd()) {
+    testthat::skip("board_connect_url_ptd() only works with Posit's demo server")
   }
   board_connect_url(..., cache = fs::file_temp())
 }

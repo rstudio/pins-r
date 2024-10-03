@@ -12,14 +12,14 @@ test_that("get useful error for rebranding", {
 })
 
 test_that("can round-trip a pin (v0)", {
-  board <- board_connect_colorado()
-  colorado_user_name <- rsconnect::accounts(server = "colorado.posit.co")$name
+  board <- board_connect_ptd()
+  ptd_user_name <- rsconnect::accounts(server = "pub.demo.posit.team")$name
 
   df1 <- data.frame(x = 1:5)
   pin(df1, "test-df1", board = board)
-  withr::defer(pin_delete(board, paste0(colorado_user_name, "/test-df1")))
+  withr::defer(pin_delete(board, paste0(ptd_user_name, "/test-df1")))
 
-  df2 <- pin_get(paste0(colorado_user_name, "/test-df1"), board = board)
+  df2 <- pin_get(paste0(ptd_user_name, "/test-df1"), board = board)
   expect_equal(df1, df2)
 })
 
@@ -69,7 +69,7 @@ test_that("can write pin created another user", {
 test_that("can deparse", {
   board <- new_board_v1(
     "pins_board_connect",
-    url = "https://colorado.posit.co/rsc",
+    url = "https://pub.demo.posit.team",
     cache = tempdir()
   )
   expect_snapshot(board_deparse(board))
