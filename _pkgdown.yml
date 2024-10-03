@@ -52,21 +52,6 @@ reference:
   - board_cache_path
   - write_board_manifest
 
-- title: Legacy API
-  desc: >
-    These functions implement the legacy pins API. They will continue to exist
-    for some time so your existing code will continue to work, but we recommend
-    you move to the modern API and modern boards where possible. Learn
-    more in `vignettes("pins-update")`.
-  contents:
-  - starts_with("legacy_")
-  - pin
-  - pin_get
-  - pin_info
-  - pin_find
-  - pin_remove
-  - pin_reactive
-
 news:
   releases:
   - text: pins 1.1.0
