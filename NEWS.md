@@ -16,6 +16,8 @@
 
 * Fixed how previously deleted pin versions are detected (#838, @MichalLauer)
 
+* Switched writing with `type = "parquet"` to use the nanoparquet package (#843).
+
 # pins 1.3.0
 
 ## Breaking changes

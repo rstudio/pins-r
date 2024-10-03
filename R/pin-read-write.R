@@ -194,8 +194,8 @@ write_qs <- function(x, path) {
 }
 
 write_parquet <- function(x, path) {
-  check_installed("arrow")
-  arrow::write_parquet(x, path)
+  check_installed("nanoparquet")
+  nanoparquet::write_parquet(x, path)
   invisible(path)
 }
 
@@ -251,8 +251,8 @@ read_qs <- function(path) {
 }
 
 read_parquet <- function(path) {
-  check_installed("arrow")
-  arrow::read_parquet(path)
+  check_installed("nanoparquet")
+  nanoparquet::read_parquet(path)
 }
 
 read_arrow <- function(path) {

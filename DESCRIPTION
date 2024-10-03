@@ -54,6 +54,7 @@ Suggests:
     Microsoft365R,
     mime,
     mockery,
+    nanoparquet,
     openssl,
     paws.storage,
     qs,
