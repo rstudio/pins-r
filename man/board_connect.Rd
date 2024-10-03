@@ -93,7 +93,7 @@ setting the access type to \code{all}:
 Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{board <- board_url(c(
-  numbers = "https://colorado.posit.co/rsc/great-numbers/"
+  numbers = "https://pub.current.posit.team/public/great-numbers/"
 ))
 board \%>\% pin_read("numbers")
 }\if{html}{\out{</div>}}

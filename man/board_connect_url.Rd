@@ -49,7 +49,7 @@ This board is a thin wrapper around \code{\link[=board_url]{board_url()}} which 
 connect_auth_headers()
 
 board <- board_connect_url(c(
-    my_vanity_url_pin = "https://colorado.posit.co/rsc/great-numbers/"
+    my_vanity_url_pin = "https://pub.current.posit.team/public/great-numbers/"
 ))
 
 board \%>\% pin_read("my_vanity_url_pin")
