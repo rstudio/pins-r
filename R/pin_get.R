@@ -1,5 +1,7 @@
 #' Retrieve a pin (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Retrieves a pin by name from the local or given board.
 #'
 #' @param name The name of the pin.
@@ -28,6 +30,7 @@
 #' # retrieve the mtcars pin
 #' pin_get("mtcars", board = board)
 #' @export
+#' @keywords internal
 pin_get <- function(name,
                     board = NULL,
                     cache = TRUE,
@@ -36,6 +39,7 @@ pin_get <- function(name,
                     files = FALSE,
                     signature = NULL,
                     ...) {
+  lifecycle::deprecate_soft("1.4.0", "pin_get()", "pin_read()")
   board <- board_get(board)
 
   if (!cache) {

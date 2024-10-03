@@ -1,5 +1,7 @@
 #' Retrieve pin metadata (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Retrieve metadata for pins in legacy boards.
 #'
 #' @param name The exact name of the pin to match when searching.
@@ -20,12 +22,14 @@
 #' board %>% pin_write(mtcars)
 #' board %>% pin_meta("mtcars")
 #' @export
+#' @keywords internal
 pin_info <- function(name,
                      board = NULL,
                      extended = TRUE,
                      metadata = TRUE,
                      signature = FALSE,
                      ...) {
+  lifecycle::deprecate_soft("1.4.0", "pin_info()", "pin_meta()")
 
   if (is.board(board) && !0 %in% board$api) {
     this_not_that("pin_meta", "pin_info")

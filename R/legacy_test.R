@@ -1,5 +1,7 @@
 #' Test Board
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Tests a particular board, useful only when creating new boards.
 #'
 #' @param board The name of the board to test.

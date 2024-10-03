@@ -1,5 +1,7 @@
 #' Search for pins (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Search for pins in legacy boards.
 #'
 #' @param text The text to find in the pin description or name.
@@ -14,12 +16,14 @@
 #' board <- board_local()
 #' board %>% pin_search("cars")
 #' @export
+#' @keywords internal
 pin_find <- function(text = NULL,
                      board = NULL,
                      name = NULL,
                      extended = FALSE,
                      metadata = FALSE,
                      ...) {
+  lifecycle::deprecate_soft("1.4.0", "pin_find()", "pin_search()")
 
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)

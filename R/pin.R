@@ -1,5 +1,7 @@
 #' Pin a resource (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Pins the given resource locally or to the given board.
 #'
 #' @param x An object, local file or remote URL to pin.
@@ -38,7 +40,9 @@
 #' board %>% pin_read("mtcars")
 #'
 #' @export
+#' @keywords internal
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+  lifecycle::deprecate_soft("1.4.0", "pin()", "pin_write()")
   UseMethod("pin")
 }
 

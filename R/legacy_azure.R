@@ -1,6 +1,8 @@
 #' Azure board (legacy API)
 #'
 #' @description
+#' `r lifecycle::badge('deprecated')`
+#' 
 #' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
 #' account, an Azure Storage container, and an Azure Storage key.
 #' You can sign-up and create those at [portal.azure.com](https://portal.azure.com).
@@ -24,6 +26,7 @@
 #' )
 #' }
 #' @export
+#' @keywords internal
 legacy_azure <- function(
                         container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
                         account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
@@ -61,6 +64,12 @@ board_register_azure <- function(name = "azure",
                                  cache = NULL,
                                  path = NULL,
                                  ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_azure()",
+    details = 'Learn more in `vignettes("pins-update")`'
+  )
+
   board <- legacy_azure(
     name = name,
     container = container,
