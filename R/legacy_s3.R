@@ -73,7 +73,7 @@ board_register_s3 <- function(name = "s3",
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_s3()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   legacy_s3(

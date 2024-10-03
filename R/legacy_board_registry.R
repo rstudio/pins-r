@@ -57,7 +57,7 @@ board_register_rsconnect <- function(name = "rsconnect",
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_rsconnect()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   board <- board_rsconnect(

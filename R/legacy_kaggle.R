@@ -57,7 +57,7 @@ board_register_kaggle <- function(name = "kaggle",
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_kaggle()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   cache <- cache %||% board_cache_path(name)

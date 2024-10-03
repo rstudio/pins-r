@@ -44,7 +44,7 @@ board_register_local <- function(name = "local", cache = NULL, ...) {
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_local()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
   board <- legacy_local(path = cache, name = name, ...)
   board_register2(board)

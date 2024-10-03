@@ -102,7 +102,7 @@ board_register_github <- function(name = "github",
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_github()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   board <- legacy_github(

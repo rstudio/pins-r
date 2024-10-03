@@ -67,7 +67,7 @@ board_register_azure <- function(name = "azure",
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_azure()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   board <- legacy_azure(

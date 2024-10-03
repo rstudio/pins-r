@@ -73,7 +73,7 @@ board_register_datatxt <- function(url,
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_datatxt()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   board <- legacy_datatxt(

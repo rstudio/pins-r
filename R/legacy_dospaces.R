@@ -70,7 +70,7 @@ board_register_dospace <- function(name = "dospace",
   lifecycle::deprecate_soft(
     "1.4.0",
     "board_register_dospace()",
-    details = 'Learn more in `vignettes("pins-update")`'
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
   )
 
   board <- legacy_dospace(
