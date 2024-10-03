@@ -24,11 +24,13 @@ downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 These functions are no longer supported because of changes to the Kaggle
 API and will be removed in a future version of pins. We recommend that you
 use the \href{https://www.kaggle.com/docs/api}{Kaggle CLI} instead.
-}
-\details{
+
 To use a Kaggle board, you need to first download a token file from
 your account.
 }

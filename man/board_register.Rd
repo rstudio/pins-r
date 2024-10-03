@@ -30,6 +30,8 @@ board_list()
 board_get(name)
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 The legacy pins API uses a board registry, where you first register a board
 then refer to it by name in calls to pin functions.
 }

@@ -47,6 +47,9 @@ board object.}
 \item{path}{Subdirectory within \code{url}}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 To use a Google Cloud Storage board, you first need a Google Cloud Storage
 account, a Google Storage bucket, and an access token or the
 \href{https://cloud.google.com/sdk/}{Google Cloud SDK} properly installed and
@@ -59,3 +62,4 @@ configured. You can sign-up and create these from
 board <- legacy_gcloud(container = "gcloudcontainer")
 }
 }
+\keyword{internal}

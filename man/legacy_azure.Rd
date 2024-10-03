@@ -50,6 +50,8 @@ board object.}
 \item{path}{Subdirectory within \code{url}}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 To use Microsoft Azure Storage as a board, you'll need an Azure Storage
 account, an Azure Storage container, and an Azure Storage key.
 You can sign-up and create those at \href{https://portal.azure.com}{portal.azure.com}.
@@ -64,3 +66,4 @@ board_register_azure(
 )
 }
 }
+\keyword{internal}
