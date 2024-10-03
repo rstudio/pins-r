@@ -48,6 +48,7 @@ Suggests:
     gitcreds,
     googleCloudStorageR,
     googledrive,
+    httr2,
     ids,
     knitr,
     Microsoft365R,
