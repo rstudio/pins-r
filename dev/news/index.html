@@ -10,7 +10,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.4.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,26 @@
       <small>Source: <a href="https://github.com/rstudio/pins-r/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="pins-development-version">pins (development version)<a class="anchor" aria-label="anchor" href="#pins-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.4.0" id="pins-140">pins 1.4.0<a class="anchor" aria-label="anchor" href="#pins-140"></a></h2><p class="text-muted">CRAN release: 2024-10-07</p>
+<div class="section level3">
+<h3 id="lifecycle-changes-1-4-0">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-1-4-0"></a></h3>
+<ul><li><p>Changed the function signature of <code><a href="../reference/pin_download.html">pin_upload()</a></code> to be consistent with <code><a href="../reference/pin_read.html">pin_write()</a></code> i.e. arguments like <code>tags</code> must be passed by name and not position (<a href="https://github.com/rstudio/pins-r/issues/809" class="external-link">#809</a>).</p></li>
+<li><p>Started gradual deprecation process for legacy pins functions such as <code><a href="../reference/pin.html">pin()</a></code> (<a href="https://github.com/rstudio/pins-r/issues/844" class="external-link">#844</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-improvements-1-4-0">Other improvements<a class="anchor" aria-label="anchor" href="#other-improvements-1-4-0"></a></h3>
+<ul><li><p>Added example Python code to pin previews for Posit Connect (<a href="https://github.com/rstudio/pins-r/issues/806" class="external-link">#806</a>).</p></li>
+<li><p>Fixed a bug in how pins with the same name but different owners on Posit Connect were identified (<a href="https://github.com/rstudio/pins-r/issues/808" class="external-link">#808</a>).</p></li>
+<li><p>Fixed a bug in handling folders with duplicate names for Google Drive (<a href="https://github.com/rstudio/pins-r/issues/819" class="external-link">#819</a>, <a href="https://github.com/UchidaMizuki" class="external-link">@UchidaMizuki</a>).</p></li>
+<li><p>Fixed how previously deleted pin versions are detected (<a href="https://github.com/rstudio/pins-r/issues/838" class="external-link">#838</a>, <a href="https://github.com/MichalLauer" class="external-link">@MichalLauer</a>).</p></li>
+<li><p>Added new board for Databricks Volumes <code><a href="../reference/board_databricks.html">board_databricks()</a></code> (<a href="https://github.com/rstudio/pins-r/issues/839" class="external-link">#839</a>, <a href="https://github.com/edgararuiz" class="external-link">@edgararuiz</a>).</p></li>
+<li><p>Switched writing with <code>type = "parquet"</code> to use the nanoparquet package (<a href="https://github.com/rstudio/pins-r/issues/843" class="external-link">#843</a>).</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.0" id="pins-130">pins 1.3.0<a class="anchor" aria-label="anchor" href="#pins-130"></a></h2><p class="text-muted">CRAN release: 2023-11-09</p>
 <div class="section level3">
