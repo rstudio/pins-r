@@ -88,12 +88,11 @@
 
     
     
-<p>pins 1.0.0 introduced a completely new API. While the legacy API will
-continue to be supported for some time, it will not gain any new
-features, so it’s good to plan to switch to the new interface. This
-vignette shows a couple of examples of updating legacy code to the
-modern API, then provides a full set of equivalences between the legacy
-and modern function names.</p>
+<p>pins 1.0.0 introduced a completely new API and the old legacy API was
+deprecated in pins 1.4.0, so now is a good time to switch to the new
+interface. This vignette shows a couple of examples of updating legacy
+code to the modern API, then provides a full set of equivalences between
+the legacy and modern function names.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pins.rstudio.com/">pins</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -103,9 +102,24 @@ and modern function names.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Legacy API</span></span>
 <span><span class="fu"><a href="../reference/legacy_local.html">board_register_local</a></span><span class="op">(</span><span class="st">"vignette"</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `board_register_local()` was deprecated in pins 1.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Learn more at &lt;https://pins.rstudio.com/articles/pins-update.html&gt;</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `pin()` was deprecated in pins 1.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `pin_write()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"mtcars"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `pin_get()` was deprecated in pins 1.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `pin_read()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
 <span><span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
 <span><span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
@@ -126,7 +140,7 @@ of <code><a href="../reference/pin_get.html">pin_get()</a></code> and <code><a h
 <span></span>
 <span><span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">board</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20241003T202300Z-f79b9'</span></span>
+<span><span class="co">#&gt; Creating new version '20241007T002113Z-f79b9'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
 <span><span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="va">board</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
@@ -165,7 +179,7 @@ want to use the pipe:</p>
 <span></span>
 <span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pin_get.html">pin_get</a></span><span class="op">(</span><span class="st">"alphabet"</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmpbvt8en/file1dbb1a4db1a8/alphabet/file1dbb6cddd09f"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpURG86x/file1e2c16f03feb/alphabet/file1e2c13351da0"</span></span></code></pre></div>
 <p>pins 1.0.0 clearly separates the two cases of pin an object and
 pinning a file, so here instead of <code><a href="../reference/pin_read.html">pin_write()</a></code> and
 <code><a href="../reference/pin_read.html">pin_read()</a></code> you need to <code><a href="../reference/pin_download.html">pin_upload()</a></code> and
@@ -173,9 +187,9 @@ pinning a file, so here instead of <code><a href="../reference/pin_read.html">pi
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20241003T202302Z-ee580'</span></span>
+<span><span class="co">#&gt; Creating new version '20241007T002114Z-ee580'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20241003T202302Z-ee580/file1dbb6cddd09f"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "~/.local/share/pins/alphabet/20241007T002114Z-ee580/file1e2c13351da0"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pinning-a-url">Pinning a url<a class="anchor" aria-label="anchor" href="#pinning-a-url"></a>
@@ -187,7 +201,7 @@ re-download it when it changes:</p>
 <span><span class="va">base</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rstudio/pins-r/main/tests/testthat/"</span></span>
 <span></span>
 <span><span class="op">(</span><span class="fu"><a href="../reference/pin.html">pin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span>, board <span class="op">=</span> <span class="st">"vignette"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmpbvt8en/file1dbb1a4db1a8/first/first.txt"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpURG86x/file1e2c16f03feb/first/first.txt"</span></span></code></pre></div>
 <p>This now needs to be made explicit with the new
 <code><a href="../reference/board_url.html">board_url()</a></code>, and since this returns a path, not a file, you
 need to use <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
@@ -221,7 +235,7 @@ it automatically uses a local board:</p>
 <span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20241003T202302Z-1422a'</span></span>
+<span><span class="co">#&gt; Creating new version '20241007T002115Z-1422a'</span></span>
 <span><span class="co">#&gt; Writing to pin 'test-data'</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   x</span></span>
