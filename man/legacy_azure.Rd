@@ -54,7 +54,6 @@ board object.}
 
 To use Microsoft Azure Storage as a board, you'll need an Azure Storage
 account, an Azure Storage container, and an Azure Storage key.
-You can sign-up and create those at \href{https://portal.azure.com}{portal.azure.com}.
 }
 \examples{
 \dontrun{
