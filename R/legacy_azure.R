@@ -5,7 +5,6 @@
 #' 
 #' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
 #' account, an Azure Storage container, and an Azure Storage key.
-#' You can sign-up and create those at [portal.azure.com](https://portal.azure.com).
 #' @inheritParams legacy_datatxt
 #' @param container The name of the Azure Storage container.
 #' @param account The name of the Azure Storage account.
