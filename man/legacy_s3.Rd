@@ -57,6 +57,8 @@ board object.}
 \item{path}{Subdirectory within \code{url}}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 with enough permissions to access the S3 bucket. You can sign-up and create
 those at \url{https://aws.amazon.com/}. Note that it can take a few minutes
@@ -70,3 +72,4 @@ See \code{\link[=board_s3]{board_s3()}} for a modern version of this legacy boar
 board <- legacy_s3(bucket = "s3bucket")
 }
 }
+\keyword{internal}

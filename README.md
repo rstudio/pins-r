@@ -15,18 +15,11 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 The pins package publishes data, models, and other R objects, making it
 easy to share them across projects and with your colleagues. You can pin
 objects to a variety of pin *boards*, including folders (to share on a
-networked drive or with services like DropBox), Posit Connect, Amazon
-S3, Google Cloud Storage, Azure storage, and Microsoft 365 (OneDrive and
-SharePoint). Pins can be automatically versioned, making it
-straightforward to track changes, re-run analyses on historical data,
-and undo mistakes.
-
-pins 1.0.0 includes a new more explicit API and greater support for
-versioning. The legacy API (`pin()`, `pin_get()`, and
-`board_register()`) will continue to work, but new features will only be
-implemented with the new API, so we encourage you to switch to the
-modern API as quickly as possible. Learn more in
-`vignette("pins-update")`.
+networked drive or with services like DropBox), Posit Connect,
+Databricks, Amazon S3, Google Cloud Storage, Azure storage, and
+Microsoft 365 (OneDrive and SharePoint). Pins can be automatically
+versioned, making it straightforward to track changes, re-run analyses
+on historical data, and undo mistakes.
 
 You can use pins from Python as well as R. For example, you can use one
 language to read a pin created with the other. Learn more about [pins
@@ -63,7 +56,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmpvoaxgw/pins-142d05cc7724a'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/Rtmp4ETVv9/pins-28f423d40e5'
 #> Cache size: 0
 ```
 
@@ -73,7 +66,7 @@ arguments: the board to pin to, an object, and a name:
 ``` r
 board %>% pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20231108T211157Z-8df40'
+#> Creating new version '20241003T231743Z-8dce8'
 #> Writing to pin 'mtcars'
 ```
 
@@ -104,12 +97,12 @@ Connect](https://posit.co/products/enterprise/connect/) you can use
 
 ``` r
 board <- board_connect()
-#> Connecting to Posit Connect 2023.01.0 at <https://colorado.posit.co/rsc>
+#> Connecting to Posit Connect 2024.08.0 at <https://pub.current.posit.team>
 board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
 #> Writing to pin 'hadley/sales-summary'
 ```
 
-Then, someone else (or an automated Rmd report) can read and use your
+Then, someone else (or an automated Quarto report) can read and use your
 pin:
 
 ``` r
@@ -121,6 +114,6 @@ You can easily control who gets to access the data using the Posit
 Connect permissions pane.
 
 The pins package also includes boards that allow you to share data on
-services like Amazon’s S3 (`board_s3()`), Azure’s blob storage
-(`board_azure()`), and Google Cloud Storage (`board_gcs()`). Learn more
-in `vignette("pins")`.
+services like Databricks Volumes (`board_databricks()`), Amazon’s S3
+(`board_s3()`), Azure’s blob storage (`board_azure()`), and Google Cloud
+Storage (`board_gcs()`). Learn more in `vignette("pins")`.

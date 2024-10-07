@@ -4,6 +4,8 @@
 
 * Changed the function signature of `pin_upload()` to be consistent with `pin_write()` i.e. arguments like `tags` must be passed by name and not position (#809).
 
+* Started gradual deprecation process for legacy pins functions such as `pin()` (#844).
+
 ## Other improvements
 
 * Added example Python code to pin previews for Posit Connect (#806).

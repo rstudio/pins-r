@@ -1,5 +1,7 @@
 #' DigitalOcean board (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' To use DigitalOcean Spaces as a board, you first
 #' need an DigitalOcean space and a storage key. You can sign-up and create
 #' those at [digitalocean.com](https://www.digitalocean.com/).
@@ -21,6 +23,7 @@
 #' board <- legacy_dospace(bucket = "s3bucket")
 #' }
 #' @export
+#' @keywords internal
 legacy_dospace <- function(
                           space = Sys.getenv("DO_SPACE"),
                           key = Sys.getenv("DO_ACCESS_KEY_ID"),
@@ -64,6 +67,12 @@ board_register_dospace <- function(name = "dospace",
                                    host = "digitaloceanspaces.com",
                                    path = NULL,
                                    ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_dospace()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
+
   board <- legacy_dospace(
     name = name,
     space = space,

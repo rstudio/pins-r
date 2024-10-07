@@ -27,6 +27,9 @@ pin_find(
 \item{...}{Additional parameters.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Search for pins in legacy boards.
 }
 \examples{
@@ -35,3 +38,4 @@ pin_find("cars")
 board <- board_local()
 board \%>\% pin_search("cars")
 }
+\keyword{internal}

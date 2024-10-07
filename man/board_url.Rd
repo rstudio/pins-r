@@ -108,8 +108,8 @@ b2 \%>\% pin_versions("y")
 }
 \seealso{
 Other boards: 
-\code{\link{board_connect_url}()},
 \code{\link{board_connect}()},
+\code{\link{board_connect_url}()},
 \code{\link{board_folder}()}
 }
 \concept{boards}

@@ -50,6 +50,9 @@ board object.}
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Use board that for a website that uses the \href{https://datatxt.org}{data.txt}
 specification. A \code{data.txt} file is a YAML that provides some basic metadata
 about a directory of files.
@@ -66,3 +69,4 @@ board_register_datatxt(
 # find pins
 pin_find(board = "txtexample")
 }
+\keyword{internal}

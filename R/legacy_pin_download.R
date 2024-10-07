@@ -193,6 +193,7 @@ pin_extract <- function(file, destination) {
   UseMethod("pin_extract")
 }
 
+#' @export
 pin_extract.zip <- function(file, destination) {
   check_installed("zip")
   pin_log("Extracting zip file '", file, "'")
@@ -200,6 +201,7 @@ pin_extract.zip <- function(file, destination) {
   unlink(file)
 }
 
+#' @export
 pin_extract.gzip <- function(file, destination) {
   if (length(find.package("R.utils", quiet = TRUE)) == 0) {
     warning("To extract gzip pins install the 'R.utils' package")
@@ -208,12 +210,14 @@ pin_extract.gzip <- function(file, destination) {
   }
 }
 
+#' @export
 `pin_extract.compressed-tar` <- function(file, destination) {
   pin_log("Extracting tgz file '", file, "'")
   utils::untar(file, exdir = destination)
   unlink(file)
 }
 
+#' @export
 pin_extract.default <- function(file, destination) {
   ext_map <- list(
     "\\.tar\\.gz$" = `pin_extract.compressed-tar`,

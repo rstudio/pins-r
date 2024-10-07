@@ -1,5 +1,7 @@
 #' Google Cloud board (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' To use a Google Cloud Storage board, you first need a Google Cloud Storage
 #' account, a Google Storage bucket, and an access token or the
 #' [Google Cloud SDK](https://cloud.google.com/sdk/) properly installed and
@@ -22,6 +24,7 @@
 #' board <- legacy_gcloud(container = "gcloudcontainer")
 #' }
 #' @export
+#' @keywords internal
 legacy_gcloud <- function(
                          bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
                          token = NULL,
@@ -68,6 +71,12 @@ board_register_gcloud <- function(name = "gcloud",
                                   cache = NULL,
                                   path = NULL,
                                   ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_gcloud()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
+
   board <- legacy_gcloud(
     name = name,
     bucket = bucket,

@@ -1,5 +1,7 @@
 #' Remote "data.txt" board (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Use board that for a website that uses the [data.txt](https://datatxt.org)
 #' specification. A `data.txt` file is a YAML that provides some basic metadata
 #' about a directory of files.
@@ -26,6 +28,7 @@
 #' # find pins
 #' pin_find(board = "txtexample")
 #' @export
+#' @keywords internal
 legacy_datatxt <- function(url,
                           headers = NULL,
                           cache = NULL,
@@ -67,6 +70,12 @@ board_register_datatxt <- function(url,
                                    headers = NULL,
                                    cache = NULL,
                                    ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_datatxt()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
+
   board <- legacy_datatxt(
     name = name,
     url = url,

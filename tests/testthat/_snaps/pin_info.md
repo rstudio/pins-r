@@ -48,6 +48,9 @@
       board <- board_temp()
       pin_info("mtcars", board = board)
     Condition
+      Warning:
+      `pin_info()` was deprecated in pins 1.4.0.
+      i Please use `pin_meta()` instead.
       Error in `pin_info()`:
       ! Use `pin_meta()` with this board, not `pin_info()`
 

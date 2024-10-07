@@ -1,6 +1,8 @@
 #' Local board (legacy API)
 #'
 #' @description
+#' `r lifecycle::badge('deprecated')`
+#'
 #' `legacy_local()` powers `board_register_local()`, which allows you to
 #' access local pins created in earlier versions of the pins package. For
 #' new pins, we recommend that you transition to [board_local()] which
@@ -14,6 +16,7 @@
 #'   to a system **cache** directory, which may be deleted by the operating
 #'   system if you run out of disk space.
 #' @export
+#' @keywords internal
 #' @examplesIf rlang::is_installed("filelock")
 #' # Old api
 #' pin(data.frame(x = 1:3), "test")
@@ -38,6 +41,11 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
 #' @rdname legacy_local
 #' @export
 board_register_local <- function(name = "local", cache = NULL, ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_local()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
   board <- legacy_local(path = cache, name = name, ...)
   board_register2(board)
 }

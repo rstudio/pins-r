@@ -1,6 +1,8 @@
 #' S3 board (legacy API)
 #'
 #' @description
+#' `r lifecycle::badge('deprecated')`
+#'
 #' To use an Amazon S3 Storage board, you need an Amazon S3 bucket and a user
 #' with enough permissions to access the S3 bucket. You can sign-up and create
 #' those at <https://aws.amazon.com/>. Note that it can take a few minutes
@@ -26,6 +28,7 @@
 #' board <- legacy_s3(bucket = "s3bucket")
 #' }
 #' @export
+#' @keywords internal
 legacy_s3 <- function(
                      bucket = Sys.getenv("AWS_BUCKET"),
                      key = Sys.getenv("AWS_ACCESS_KEY_ID"),
@@ -67,6 +70,12 @@ board_register_s3 <- function(name = "s3",
                               region = NULL,
                               path = NULL,
                               ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_s3()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
+
   legacy_s3(
     name = name,
     bucket = bucket,

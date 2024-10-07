@@ -1,6 +1,8 @@
 #' Board registry (legacy API)
 #'
 #' @description
+#' `r lifecycle::badge('deprecated')`
+#'
 #' The legacy pins API uses a board registry, where you first register a board
 #' then refer to it by name in calls to pin functions.
 #'
@@ -52,6 +54,12 @@ board_register_rsconnect <- function(name = "rsconnect",
                                      output_files = FALSE,
                                      cache = NULL,
                                      ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_rsconnect()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
+
   board <- board_rsconnect(
     name = name,
     server = server,

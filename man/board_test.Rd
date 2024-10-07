@@ -15,6 +15,9 @@ board_test(board, exclude = list(), suite = c("default", "versions"))
 \code{default} are supported.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Tests a particular board, useful only when creating new boards.
 }
 \keyword{internal}

@@ -35,9 +35,11 @@ to compute signature.}
 \item{...}{Additional parameters.}
 }
 \description{
-Retrieves a pin by name from the local or given board.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
+Retrieves a pin by name from the local or given board.
+
 \code{pin_get()} retrieves a pin by name and, by default, from the local board.
 You can use the \code{board} parameter to specify which board to retrieve a pin from.
 If a board is not specified, it will use \code{pin_find()} to find the pin across
@@ -53,3 +55,4 @@ pin(mtcars, board = board)
 pin_get("mtcars", board = board)
 \dontshow{\}) # examplesIf}
 }
+\keyword{internal}

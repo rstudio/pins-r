@@ -1,6 +1,8 @@
 
 #' Custom Boards
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Family of functions meant to be used to implement custom boards extensions,
 #' not to be used by users.
 #'

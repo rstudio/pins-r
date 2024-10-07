@@ -1,5 +1,7 @@
 #' Reactive Pin (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Creates a pin that reacts to changes in the given board by
 #' polling `pin_get()`, useful when used from the `shiny`
 #' package.
@@ -15,7 +17,10 @@
 #'   deefault behavior.
 #'
 #' @export
+#' @keywords internal
 pin_reactive <- function(name, board, interval = 5000, session = NULL, extract = NULL) {
+  lifecycle::deprecate_soft("1.4.0", "pin_reactive()", "pin_reactive_read()")
+
   board_object <- board_get(board)
 
   shiny::reactivePoll(

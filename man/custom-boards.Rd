@@ -41,6 +41,9 @@ board_pin_versions(board, name, ...)
 \item{text}{The text pattern to find a pin.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Family of functions meant to be used to implement custom boards extensions,
 not to be used by users.
 }

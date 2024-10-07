@@ -1,5 +1,7 @@
 #' Kaggle board (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' These functions are no longer supported because of changes to the Kaggle
 #' API and will be removed in a future version of pins. We recommend that you
 #' use the [Kaggle CLI](https://www.kaggle.com/docs/api) instead.
@@ -52,6 +54,11 @@ board_register_kaggle <- function(name = "kaggle",
                                   token = NULL,
                                   cache = NULL,
                                   ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_kaggle()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
 
   cache <- cache %||% board_cache_path(name)
 

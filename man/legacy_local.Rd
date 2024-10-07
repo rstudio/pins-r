@@ -30,6 +30,8 @@ cache location for your operating system, but you can override if needed.}
 \item{...}{Additional parameters required to initialize a particular board.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 \code{legacy_local()} powers \code{board_register_local()}, which allows you to
 access local pins created in earlier versions of the pins package. For
 new pins, we recommend that you transition to \code{\link[=board_local]{board_local()}} which
@@ -50,3 +52,4 @@ board \%>\% pin_write(data.frame(x = 1:3), "test")
 board \%>\% pin_read("test")
 \dontshow{\}) # examplesIf}
 }
+\keyword{internal}

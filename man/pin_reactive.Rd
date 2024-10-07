@@ -22,7 +22,11 @@ none. If non-null, the reader will automatically stop when the session ends.}
 deefault behavior.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Creates a pin that reacts to changes in the given board by
 polling \code{pin_get()}, useful when used from the \code{shiny}
 package.
 }
+\keyword{internal}

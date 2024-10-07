@@ -1,5 +1,7 @@
 #' GitHub board (legacy API)
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' To use a GitHub board, you'll need to set up authentication, following
 #' the instructions at <https://happygitwithr.com/https-pat.html#https-pat>.
 #'
@@ -29,15 +31,15 @@
 #' board <- legacy_github("owner/repo")
 #' }
 #' @export
-legacy_github <- function(
-                         repo,
-                         branch = NULL,
-                         token = NULL,
-                         path = "",
-                         host = "https://api.github.com",
-                         name = "github",
-                         cache = NULL,
-                         ...) {
+#' @keywords internal
+legacy_github <- function(repo,
+                          branch = NULL,
+                          token = NULL,
+                          path = "",
+                          host = "https://api.github.com",
+                          name = "github",
+                          cache = NULL,
+                          ...) {
 
   cache <- cache %||% board_cache_path(name)
 
@@ -97,6 +99,12 @@ board_register_github <- function(name = "github",
                                   host = "https://api.github.com",
                                   cache = NULL,
                                   ...) {
+  lifecycle::deprecate_soft(
+    "1.4.0",
+    "board_register_github()",
+    details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
+  )
+
   board <- legacy_github(
     name = name,
     repo = repo,

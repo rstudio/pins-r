@@ -18,9 +18,11 @@ pin(x, name = NULL, description = NULL, board = NULL, ...)
 \item{...}{Additional parameters.}
 }
 \description{
-Pins the given resource locally or to the given board.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
+Pins the given resource locally or to the given board.
+
 \code{pin()} allows you to cache remote resources and intermediate results with ease. When
 caching remote resources, usually URLs, it will check for HTTP caching headers to avoid
 re-downloading when the remote result has not changed.
@@ -50,3 +52,4 @@ board \%>\% pin_write(mtcars)
 board \%>\% pin_read("mtcars")
 \dontshow{\}) # examplesIf}
 }
+\keyword{internal}

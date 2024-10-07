@@ -56,6 +56,9 @@ board object.}
 \item{path}{Subdirectory within \code{url}}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 To use DigitalOcean Spaces as a board, you first
 need an DigitalOcean space and a storage key. You can sign-up and create
 those at \href{https://www.digitalocean.com/}{digitalocean.com}.
@@ -66,3 +69,4 @@ those at \href{https://www.digitalocean.com/}{digitalocean.com}.
 board <- legacy_dospace(bucket = "s3bucket")
 }
 }
+\keyword{internal}

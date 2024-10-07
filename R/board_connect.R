@@ -26,7 +26,7 @@
 #'
 #' ```r
 #' board <- board_url(c(
-#'   numbers = "https://colorado.posit.co/rsc/great-numbers/"
+#'   numbers = "https://pub.current.posit.team/public/great-numbers/"
 #' ))
 #' board %>% pin_read("numbers")
 #' ```
@@ -701,24 +701,24 @@ rsc_v1 <- function(...) {
 # Testing setup -----------------------------------------------------------
 
 board_connect_test <- function(...) {
-  if (connect_has_colorado()) {
-    board_connect_colorado(...)
+  if (connect_has_ptd()) {
+    board_connect_ptd(...)
   } else {
     board_connect_susan(...)
   }
 }
 
-# Use Colorado for local testing
-connect_has_colorado <- function() {
+# Use demo.posit.team PTD for local testing
+connect_has_ptd <- function() {
   accounts <- rsconnect::accounts()
-  "colorado.posit.co" %in% accounts$server
+  "pub.demo.posit.team" %in% accounts$server
 }
 
-board_connect_colorado <- function(...) {
-  if (!connect_has_colorado()) {
-    testthat::skip("board_connect_colorado() only works with Posit's demo server")
+board_connect_ptd <- function(...) {
+  if (!connect_has_ptd()) {
+    testthat::skip("board_connect_ptd() only works with Posit's demo PTD server")
   }
-  board_connect(..., server = "colorado.posit.co", auth = "rsconnect", cache = fs::file_temp())
+  board_connect(..., server = "pub.demo.posit.team", auth = "rsconnect", cache = fs::file_temp())
 }
 
 board_connect_susan <- function(...) {
