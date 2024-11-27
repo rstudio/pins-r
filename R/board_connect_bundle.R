@@ -1,4 +1,4 @@
-rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tempfile()) {
+rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tempfile(), preview_data = TRUE) {
   fs::dir_create(bundle_path)
 
   # Bundle contains:
@@ -9,7 +9,7 @@ rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tem
   write_yaml(metadata, fs::path(bundle_path, "data.txt"))
 
   # * index.html
-  rsc_bundle_preview_create(board, name, metadata, path = bundle_path, x = x)
+  rsc_bundle_preview_create(board, name, x, metadata, bundle_path, preview_data)
 
   # * manifest.json (used for deployment)
   manifest <- rsc_bundle_manifest(board, bundle_path)
@@ -39,27 +39,27 @@ rsc_bundle_manifest <- function(board, path) {
   )
 }
 
-rsc_bundle_preview_create <- function(board, name, x, metadata, path) {
+rsc_bundle_preview_create <- function(board, name, x, metadata, path, preview_data) {
   # Copy support files
   template <- fs::dir_ls(fs::path_package("pins", "preview"))
   file.copy(template, path, recursive = TRUE)
 
   # Update index template with pin data
-  index <- rsc_bundle_preview_index(board, name, x, metadata)
+  index <- rsc_bundle_preview_index(board, name, x, metadata, preview_data)
   writeLines(index, fs::path(path, "index.html"))
 
   invisible(path)
 }
 
-rsc_bundle_preview_index <- function(board, name, x, metadata) {
-  data_preview <- rsc_bundle_preview_data(x)
+rsc_bundle_preview_index <- function(board, name, x, metadata, preview_data = TRUE) {
+  data_preview <- rsc_bundle_preview_data(x, preview_data)
   name <- rsc_parse_name(name)
   owner <- name$owner %||% board$account
 
   data <- list(
     pin_files = paste0("<a href=\"", metadata$file, "\">", metadata$file, "</a>", collapse = ", "),
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
-    data_preview_style = if (is.data.frame(x)) "" else "display:none",
+    data_preview_style = if ( is.data.frame(x) && preview_data ) "" else "display:none",
     urls = paste0("<a href=\"", metadata$urls, "\">", metadata$urls, "</a>", collapse = ", "),
     url_preview_style = if (!is.null(metadata$urls)) "" else "display:none",
     show_python_style = if (metadata$type %in% c("rds", "qs")) "display:none" else "",
@@ -78,8 +78,8 @@ rsc_bundle_preview_index <- function(board, name, x, metadata) {
   whisker::whisker.render(template, data)
 }
 
-rsc_bundle_preview_data <- function(df, n = 100) {
-  if (!is.data.frame(df)) {
+rsc_bundle_preview_data <- function(df, preview = TRUE, n = 100) {
+  if ( !is.data.frame(df) || !preview ) {
     return(list(data = list(), columns = list()))
   }
 

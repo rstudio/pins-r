@@ -101,6 +101,15 @@ board \%>\% pin_read("numbers")
 You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}.
 }
 
+\section{HTML preview}{
+When you write a pin to Posit Connect, a landing page is created and
+published together with the pin file. This HTML landing page shows a
+table preview for rectangular data, but you can opt out of the table preview:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{board \%>\% pin_write(my_df, preview_data = FALSE)
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontrun{
 board <- board_connect()
