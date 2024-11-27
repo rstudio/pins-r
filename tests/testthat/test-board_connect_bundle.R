@@ -42,6 +42,7 @@ test_that("generates preview data", {
   expect_snapshot({
     df <- data.frame(x = 1:2, y = c("a", "b"), stringsAsFactors = FALSE)
     str(rsc_bundle_preview_data(df))
+    str(rsc_bundle_preview_data(df, preview = FALSE))
   })
 
   # for NULL

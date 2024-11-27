@@ -124,6 +124,12 @@
         ..$ rows   :List of 2
         .. ..$ min  : num 1
         .. ..$ total: int 2
+    Code
+      str(rsc_bundle_preview_data(df, preview = FALSE))
+    Output
+      List of 2
+       $ data   : list()
+       $ columns: list()
 
 ---
 
