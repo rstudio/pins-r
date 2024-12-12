@@ -57,8 +57,6 @@ pin_upload <- function(board,
   if (is.null(name) && length(paths) == 1) {
     name <- fs::path_file(paths)
     inform(paste0("Guessing `name = '", name, "'`"))
-  } else {
-    check_pin_name(name)
   }
 
   check_metadata(metadata)
