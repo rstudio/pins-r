@@ -2,6 +2,8 @@
 
 * Support new `preview_data` parameter for pin previews on Posit Connect (#850).
 
+* Fixed a bug in how `pin_upload()` handles pin names (#852).
+
 # pins 1.4.0
 
 ## Lifecycle changes
