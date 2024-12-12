@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Support new `preview_data` parameter for pin previews on Posit Connect (#850).
+
 # pins 1.4.0
 
 ## Lifecycle changes
@@ -30,14 +32,14 @@
 
 ## Other improvements
 
-* Removed content and user caches for Connect altogether. Now, we look up 
+* Removed content and user caches for Connect altogether. Now, we look up
   usernames and content on the Connect server every time (#793).
 
 * Added new `urls` item to metadata for a pin (#795).
 
 # pins 1.2.2
 
-* Fixed how dots are checked in `pin_write()` to make user-facing messages more 
+* Fixed how dots are checked in `pin_write()` to make user-facing messages more
   clear (#770).
 
 * Improved documentation about Connect caches (#771) and deleting pin versions (#773).
@@ -48,9 +50,9 @@
 
 # pins 1.2.1
 
-* New environment variable `PINS_CACHE_DIR` controls the location of the 
+* New environment variable `PINS_CACHE_DIR` controls the location of the
   default cache path (#748).
-  
+
 * Added new board for Google Drive `board_gdrive()` (#749).
 
 * Updated test for new arrow release (#764).
@@ -60,7 +62,7 @@
 ## Breaking changes
 
 * `pin_write()` no longer writes identical pin contents by default, and gains a
-  `force_identical_write` argument for writing even when the pin contents are 
+  `force_identical_write` argument for writing even when the pin contents are
   identical to the last version (#735).
 
 ## Other improvements
@@ -75,9 +77,9 @@
 
 * Added new check for whether a new version is the same as the previous version,
   as can happen when writing pin versions very quickly (#727).
-  
-* Added new `headers` argument for `board_url()`, mostly for authentication, as 
-  well as new board for Connect vanity URLs `board_connect_url()` (#732).  
+
+* Added new `headers` argument for `board_url()`, mostly for authentication, as
+  well as new board for Connect vanity URLs `board_connect_url()` (#732).
 
 * Fixed bug in `cache_prune()` to correctly find caches for `board_url()` (#734).
 
@@ -85,18 +87,18 @@
 
 ## Breaking changes
 
-* Change the function `board_rsconnect()` to `board_connect()`, following 
+* Change the function `board_rsconnect()` to `board_connect()`, following
   RStudio's rebranding to Posit (#689).
 
-* Changed `type = "csv"` to use R's default value for `stringsAsFactors` i.e. 
+* Changed `type = "csv"` to use R's default value for `stringsAsFactors` i.e.
   `FALSE` (#664).
-  
-* Functions for viewing legacy API pins in the RStudio Viewer pane are now 
+
+* Functions for viewing legacy API pins in the RStudio Viewer pane are now
   deprecated (when possible) or removed (#679).
-  
+
 * The functions for accessing Kaggle resource as pins are no longer supported.
   We recommend you use the Kaggle CLI instead (#698).
-  
+
 ## Other improvements
 
 * Added vignettes describing how to manage custom formats and web-based boards (#631, #685, @ijlyttle).
@@ -111,14 +113,14 @@
   of files on disk. This means caches will no longer persist between sessions
   but will be much less likely to end up in a broken state (#667).
 
-* Added `write_board_manifest()` to write a manifest file `_pins.yaml` 
+* Added `write_board_manifest()` to write a manifest file `_pins.yaml`
   recording all pins and their versions to the board's root directory.
   This function only works for boards that are not read-only
   (#661, based on work of @ijlyttle).
-  
-* Updated `board_url()` to handle versions recorded via a manifest file 
+
+* Updated `board_url()` to handle versions recorded via a manifest file
   (#681, based on work of @ijlyttle).
-  
+
 * Updated code preview on Posit Connect (#690).
 
 
@@ -130,21 +132,21 @@
 
 * Increased datetime precision to the second, for `pin_versions()` and related
   functions (#642, @tomsing1).
-  
-* Pass the dots from `pin_write()` through to `s3_upload_file()` and 
-  `s3_uploade_yaml()` to support S3 tagging, encryption options, etc for 
-  pins (#648, #652, @fh-mthomson).  
+
+* Pass the dots from `pin_write()` through to `s3_upload_file()` and
+  `s3_uploade_yaml()` to support S3 tagging, encryption options, etc for
+  pins (#648, #652, @fh-mthomson).
 
 # pins 1.0.2
 
-* `board_rsconnect()` now correctly finds the created date for pins (#623, 
+* `board_rsconnect()` now correctly finds the created date for pins (#623,
   @bjfletcher).
-  
+
 * `pin_upload()` now better handles path expansion (#585, @sellorm).
 
-* The `pin_reactive_*()` functions now use the hash (rather than the created 
+* The `pin_reactive_*()` functions now use the hash (rather than the created
   date) for polling (#595, @thomaszwagerman).
-  
+
 # pins 1.0.1
 
 * `board_azure()` now allows you to set a `path` so that multiple boards can
@@ -159,7 +161,7 @@
 
 * `pin_meta()` now includes pin `name` (#544).
 
-* `board_register()` works better when called directly, due to standardisation 
+* `board_register()` works better when called directly, due to standardisation
   of cache paths all computation (#529).
 
 * Drop add-ins since they're not tested or documented (#525)
@@ -180,25 +182,25 @@ The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to w
 
 * `pin_read()` and `pin_write()` replace most uses of `pin_get()` and `pin()`.
   `pin_write()` has a `type` argument that allows you to choose how to serialise
-  your R objects to disk, allowing you to manage the tradeoffs between speed, 
-  generality, and language inter-op, and a `metadata` argument that allows you 
+  your R objects to disk, allowing you to manage the tradeoffs between speed,
+  generality, and language inter-op, and a `metadata` argument that allows you
   to store arbitrary metadata (#430).
-  
-* `pin_download()` and `pin_upload()` are lower-level versions of `pin_read()` 
+
+* `pin_download()` and `pin_upload()` are lower-level versions of `pin_read()`
   and `pin_write()` that work with file paths rather than R objects. They
   replace the use of `pin()` with a path and eliminate the type-instability
   in `pin_get()`, which can return either an R object or a character vector of
   paths.
 
-* `pin_browse()` replaces `board_browse()`, and takes you to a specific pin, 
-  either the original source on the internet, or the cached version on your 
+* `pin_browse()` replaces `board_browse()`, and takes you to a specific pin,
+  either the original source on the internet, or the cached version on your
   local file system (#435).
 
 * `pin_delete()` replaces `pin_remove()`, and can delete multiple pins (#433).
 
 * `pin_list()` lists all pins in a board.
 
-* `pin_meta()` replaces `pin_info()` and retrieves pin metadata (#418). 
+* `pin_meta()` replaces `pin_info()` and retrieves pin metadata (#418).
 
 * `pin_search()` replaces `pin_find()`. It is much more limited because the
   previous version was based on assumptions that are not true for many boards.
@@ -215,15 +217,15 @@ The legacy API (`pin()`, `pin_get()`, and `board_register()`) will continue to w
 
 This version includes the following modern boards:
 
-* `board_azure()` stores data in Azure's blob storage. It is built on top of 
+* `board_azure()` stores data in Azure's blob storage. It is built on top of
   [AzureStor](https://github.com/Azure/AzureStor) (#474).
 
 * `board_folder()` is a generalised replacement for the legacy local board.
-  `board_folder()` can store data in any directory, making it possible to 
+  `board_folder()` can store data in any directory, making it possible to
   share boards using shared network drives or on dropbox or similar. If you
-  using pins casually and don't want to pick a directory, `board_local()` 
+  using pins casually and don't want to pick a directory, `board_local()`
   is a variant of `board_folder()` that stores data in a system data directory.
-  
+
 * `board_kaggle_dataset()` and `board_kaggle_competition()` allow you to
   download data from Kaggle. The data is automatically cached so that it's
   only downloaded when it changes.
@@ -231,19 +233,19 @@ This version includes the following modern boards:
 * `board_ms365()` allow to pin data to MS One Drive and Sharpoint
    (#498, @hongooi73).
 
-* `board_rsconnect()` shares data on 
-  [RStudio connect](https://posit.co/products/enterprise/connect/). This board 
-  supports both modern and legacy APIs, so that you and your colleagues can use 
+* `board_rsconnect()` shares data on
+  [RStudio connect](https://posit.co/products/enterprise/connect/). This board
+  supports both modern and legacy APIs, so that you and your colleagues can use
   a mixture of pins versions as you transition to pins 1.0.0. Note that the
-  compatibility is one directional: you can `pin_read()` pins created by 
+  compatibility is one directional: you can `pin_read()` pins created by
   `pin()`, but you can't `pin_get()` pins created by `pin_write()`.
-  
-* `board_s3()` stores data in Amazon's S3 service. It is built on top of 
+
+* `board_s3()` stores data in Amazon's S3 service. It is built on top of
   paws.
 
-* `board_url()` lets you create a manual board from a vector of URLs. This is 
-  useful because `pin_download()` and `pin_read()` are cached, so they only 
-  re-download the data if it has changed since the last time you used it (#409). 
+* `board_url()` lets you create a manual board from a vector of URLs. This is
+  useful because `pin_download()` and `pin_read()` are cached, so they only
+  re-download the data if it has changed since the last time you used it (#409).
   This board is a replacement for `pin()`'s ability to work directly with URLs
 
 The legacy boards will continue to work with the legacy pins API; we will implement modern versions of the remaining legacy boards based on user feedback.
@@ -254,8 +256,8 @@ The legacy boards will continue to work with the legacy pins API; we will implem
   inherit from common superclass `pins_board`.
 
 * Pins no longer works with the connections pane. This automatically registered
-  code tended to be either dangerous (because it's easy to accidentally leak 
-  credentials) or useless (because it relied on variables that the connection 
+  code tended to be either dangerous (because it's easy to accidentally leak
+  credentials) or useless (because it relied on variables that the connection
   pane doesn't capture).
 
 * Pinned data frames are longer converted to tibbles.
@@ -277,7 +279,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 * `pin_fetch()` has been removed
 
-* `option(pins.invisible)` is now defunct and ignored. 
+* `option(pins.invisible)` is now defunct and ignored.
 
 * You can no longer switch from a versioned pin to an unversioned pin without
   first deleting the pin (#410).
@@ -288,7 +290,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Support downloading remote files when service returns incompatible
   `data.txt` file (#310).
-  
+
 - Support for pins over 100MB in Windows systems (#313).
 
 - Avoid Windows crashing in `pin()` under some locales (#127).
@@ -321,7 +323,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Properly store relative paths when `path` parameter is
   specified in GitHub boards (#199).
-  
+
 - Add support for repos with a 'main' branch as default (#336).
 
 - Add support for large file in private repo releases (#292).
@@ -335,10 +337,10 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Increase total entries retrieved with `pin_find()`, configurable with
   `pins.search.count` (#296).
-  
+
 - Fix regression introduced in pins 0.4.2 (#253) preventing users from
   collaborating on existing pins they have access to (#302).
-  
+
 - Avoid deleting pin when upload fails to avoid deleting versions (#306).
 
 - Support re-creating pins from pins not previously properly updated (#308).
@@ -355,7 +357,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - For files bigger than 100MB `pin()` creates symlinks to speed up uploads, can be configured
   using the `pins.link.size` option (#273).
-  
+
 - When using `pin(zip = TRUE)` the zip no longer contains local patahs (#277).
 
 ## Google Cloud
@@ -400,13 +402,13 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Support for `versions = FALSE` in `board_register()` to avoid using too much space when
   creating pins (#245).
-  
-- Prevent administrators from overriding pins they don't own, unless the pin is specified 
+
+- Prevent administrators from overriding pins they don't own, unless the pin is specified
   as `user/name` (#253).
-  
+
 - Support to connect to servers that have a redirect configured when the full server URL
   is not specified in `board_register()` (#256).
-  
+
 - Throw error when multiple accounts are associated to the same server (#261).
 
 # pins 0.4.1
@@ -420,19 +422,19 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Support for `custom_metadata` in `pin()` to allow saving custom fields
   in `data.txt` file.
-  
+
 - Improve performannce for `pin()` from URLs containing large files that are
   already been cached prerviously by `pin()` (#225).
-  
+
 - Avoid showing upload or download progress when creating R Markdown documents
   and other non-interactive use cases (#227).
-  
+
 - When pin(url) fails and local cache exists, produce warning and retrieve
   cached version (#231).
-  
+
 - Support for `pin(zip = TRUE)` to create a zip file of the given path before
   creating the pin (#232).
-  
+
 ## RStudio Connect
 
 - Fix when overriding pin with corrupt metadata.
@@ -492,7 +494,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 - Support for `versions = FALSE` in `board_register()` to avoid creating
   versioned GitHub releases (#197).
 
-- Support for committing all github files with a single commit (#197). 
+- Support for committing all github files with a single commit (#197).
 
 - Support for custom GitHub hosts including GitHub Enterprise using the
   `host` parameter in `board_register_github()` (#163).
@@ -575,7 +577,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Support for `extract` parameter in `pin_get()`, `pin()`, and
   `pin_reactive()` to override default file extraction behavior.
-  
+
 - Support to extract gzip files when the `R.utils` package is installed.
 
 - Show download progress for files larger than 10mb.
@@ -590,7 +592,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Avoid "cannot create dir" warning in systems with an
   empty cache folder.
-  
+
 ## RStudio
 
 - Gracefully handle errors when a pin's preview can't be created.
@@ -610,13 +612,13 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 - Fix issue where RStudio Connections pane would not show
   all pins.
 
-- Store all downloaded content under user subfolder insited 
+- Store all downloaded content under user subfolder insited
   rsconnect cache.
 
 - Removed `pin_find()` workaround for beta rsconnect server where
   searching was causing timeout.
 
-- Fix for RStudio Connect servers where `/content/` is not 
+- Fix for RStudio Connect servers where `/content/` is not
   used in content URLs.
 
 - Fix issue expanding pins columns in RStudio for pins with
@@ -658,10 +660,10 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Fix in RStudio Connect boards to retrieve pins that match
   other pin names (#45).
-  
+
 - Fix for data frames with nested data frames in rsconnect
   boards (#36).
-  
+
 ## GitHub
 
 - `board_register_github()` now checks for the repo to exist (#63).
@@ -673,7 +675,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
 
 - Allow overriding GitHub pin over a pin that partially failed
   to be created.
-  
+
 ## Boards
 
 - Using a board will attempt to automatically register, such
@@ -681,7 +683,7 @@ The legacy boards will continue to work with the legacy pins API; we will implem
   the default configuration even when the board is not
   explicitly registered (#50).
 
-- Registers "local" board by default, you no longer need to 
+- Registers "local" board by default, you no longer need to
   explicitly run `board_register_local()` (#56).
 
 - Make use of the `rappdirs` package to define the default

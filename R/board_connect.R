@@ -33,6 +33,16 @@
 #'
 #' You can find the URL of a pin with [pin_browse()].
 #'
+#' # HTML preview
+#'
+#' When you write a pin to Posit Connect, a landing page is created and
+#' published together with the pin file. This HTML landing page shows a
+#' table preview for rectangular data, but you can opt out of the table preview:
+#'
+#' ```r
+#' board %>% pin_write(my_df, preview_data = FALSE)
+#' ```
+#'
 #' @inheritParams new_board
 #' @inheritParams board_url
 #' @param auth There are three ways to authenticate:
@@ -255,7 +265,8 @@ pin_store.pins_board_connect <- function(
     versioned = NULL,
     x = NULL,
     ...,
-    access_type = NULL)
+    access_type = NULL,
+    preview_data = TRUE)
 {
   # https://docs.posit.co/connect/1.8.0.4/cookbook/deploying/
 
@@ -279,7 +290,7 @@ pin_store.pins_board_connect <- function(
   )
 
   # Make .tar.gz bundle containing data.txt + index.html + pin data
-  bundle_dir <- rsc_bundle(board, name, paths, metadata, x = x)
+  bundle_dir <- rsc_bundle(board, name, paths, metadata, x, preview_data = preview_data)
   bundle_file <- fs::file_temp(ext = "tar.gz")
 
   # suppress warnings about "invalid uid value" / "invalid gid value"
