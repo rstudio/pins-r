@@ -36,16 +36,16 @@ S3's directory-like handling.}
 or AWS config file.}
 
 \item{endpoint}{Endpoint to use; usually generated automatically for AWS
-from \code{region}. For MinIO, use the full URL (including scheme like
-\verb{https://}) of your MinIO endpoint.}
+from \code{region}. For MinIO and Digital Ocean, use the full URL (including
+scheme like \verb{https://}) of your S3-compatible storage endpoint.}
 
 \item{cache}{Cache path. Every board requires a local cache to avoid
 downloading files multiple times. The default stores in a standard
 cache location for your operating system, but you can override if needed.}
 }
 \description{
-Pin data to an S3 bucket, such as on Amazon's S3 service or MinIO, using the
-paws.storage package.
+Pin data to an S3-compatible storage bucket, such as on Amazon's S3 service,
+MinIO, or Digital Ocean, using the paws.storage package.
 }
 \section{Authentication}{
 \code{board_s3()} is powered by the paws package which provides a wide range
@@ -89,6 +89,9 @@ return useful output.
 \item You can pass arguments for \link[paws.storage:s3_put_object]{paws.storage::s3_put_object} such as \code{Tagging}
 and \code{ServerSideEncryption} through the dots of \code{pin_write()}. (Note that
 these are separate from \code{\link[=pin_write]{pin_write()}} arguments like \code{tags}.)
+\item You can use \code{board_s3()} with S3-compatible object storage on non-AWS
+platforms such as MinIO and Digital Ocean. For this type of object storage,
+use the full URL (including scheme like \verb{https://}) of the storage endpoint.
 \item \code{board_s3()} is powered by the paws.storage package, which is a
 suggested dependency of pins (not required for pins in general). If
 you run into errors when deploying content to a server like
