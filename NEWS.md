@@ -4,6 +4,8 @@
 
 * Fixed a bug in how `pin_upload()` handles pin names (#852).
 
+* Improved documentation for S3-compatible object storage (#853).
+
 # pins 1.4.0
 
 ## Lifecycle changes

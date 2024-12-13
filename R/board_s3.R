@@ -1,7 +1,7 @@
 #' Use an S3 bucket as a board
 #'
-#' Pin data to an S3 bucket, such as on Amazon's S3 service or MinIO, using the
-#' paws.storage package.
+#' Pin data to an S3-compatible storage bucket, such as on Amazon's S3 service,
+#' MinIO, or Digital Ocean, using the paws.storage package.
 #'
 #' # Authentication
 #'
@@ -48,6 +48,9 @@
 #' * You can pass arguments for [paws.storage::s3_put_object] such as `Tagging`
 #'   and `ServerSideEncryption` through the dots of `pin_write()`. (Note that
 #'   these are separate from [pin_write()] arguments like `tags`.)
+#' * You can use `board_s3()` with S3-compatible object storage on non-AWS
+#'   platforms such as MinIO and Digital Ocean. For this type of object storage,
+#'   use the full URL (including scheme like `https://`) of the storage endpoint.
 #' * `board_s3()` is powered by the paws.storage package, which is a
 #'   suggested dependency of pins (not required for pins in general). If
 #'   you run into errors when deploying content to a server like
@@ -66,8 +69,8 @@
 #' @param region AWS region. If not specified, will be read from `AWS_REGION`,
 #'   or AWS config file.
 #' @param endpoint Endpoint to use; usually generated automatically for AWS
-#'   from `region`. For MinIO, use the full URL (including scheme like
-#'   `https://`) of your MinIO endpoint.
+#'   from `region`. For MinIO and Digital Ocean, use the full URL (including
+#'   scheme like `https://`) of your S3-compatible storage endpoint.
 #' @param profile Role to use from AWS shared credentials/config file.
 #' @export
 #' @examples
