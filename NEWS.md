@@ -6,7 +6,7 @@
 
 * Improved documentation for S3-compatible object storage (#853).
 
-* Pre-pends 'https://' to Databricks host if missing (#855)
+* Prepends 'https://' to Databricks host if missing (#855).
 
 # pins 1.4.0
 
