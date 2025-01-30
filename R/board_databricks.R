@@ -27,10 +27,10 @@
 #'
 #' @inheritParams new_board
 #' @param folder_url The path to the target folder inside Unity Catalog. The path
-#' must include the catalog, schema, and volume names, preceded by 'Volumes/', 
+#' must include the catalog, schema, and volume names, preceded by 'Volumes/',
 #' like `"/Volumes/my-catalog/my-schema/my-volume"`.
 #' @param host Your [Workspace Instance URL](https://docs.databricks.com/en/workspace/workspace-details.html#workspace-url).
-#' Defaults to `NULL`. If `NULL`, it will search for this URL in two different 
+#' Defaults to `NULL`. If `NULL`, it will search for this URL in two different
 #' environment variables, in this order:
 #' - 'DATABRICKS_HOST'
 #' - 'CONNECT_DATABRICKS_HOST'
@@ -319,9 +319,12 @@ db_list_contents <- function(board, path = NULL) {
 }
 
 db_req_init <- function(board, method, path) {
-  host_url <- httr2::url_parse(board$host)
-  if (is.null(host_url$scheme)) host_url$scheme <- "https"
-  out <- httr2::url_build(host_url)
+  host_url <- board$host
+  if (!grepl("^https?://", host_url)) {
+    host_url <- paste0("https://", host_url)
+  }
+  out <- httr2::url_parse(host_url)
+  out <- httr2::url_build(out)
   out <- httr2::request(out)
   out <- httr2::req_method(out, method)
   out <- httr2::req_auth_bearer_token(out, db_get_token())
