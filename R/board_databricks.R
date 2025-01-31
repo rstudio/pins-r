@@ -311,7 +311,10 @@ db_list_contents <- function(board, path = NULL) {
     if (inherits(cond, "httr2_http_404")) {
       return(list())
     } else {
-      return(cond)
+      cli::cli_abort(
+        message = unlist(strsplit(out, "\n")),
+        call = NULL
+        )
     }
   }
   out <- httr2::resp_body_json(out)
