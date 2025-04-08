@@ -152,10 +152,10 @@ authentication.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <ul><li><p>The functions in pins do not create a new bucket. You can create
-a new bucket from R with <a href="https://rdrr.io/pkg/paws.storage/man/s3_create_bucket.html" class="external-link">paws</a>.</p></li>
+a new bucket from R with <a href="https://paws-r.r-universe.dev/paws.storage/reference/s3_create_bucket.html" class="external-link">paws</a>.</p></li>
 <li><p>Some functions like <code><a href="pin_list.html">pin_list()</a></code> will work for an S3 board, but don't
 return useful output.</p></li>
-<li><p>You can pass arguments for <a href="https://rdrr.io/pkg/paws.storage/man/s3_put_object.html" class="external-link">paws.storage::s3_put_object</a> such as <code>Tagging</code>
+<li><p>You can pass arguments for <a href="https://paws-r.r-universe.dev/paws.storage/reference/s3_put_object.html" class="external-link">paws.storage::s3_put_object</a> such as <code>Tagging</code>
 and <code>ServerSideEncryption</code> through the dots of <code><a href="pin_read.html">pin_write()</a></code>. (Note that
 these are separate from <code><a href="pin_read.html">pin_write()</a></code> arguments like <code>tags</code>.)</p></li>
 <li><p>You can use <code>board_s3()</code> with S3-compatible object storage on non-AWS
