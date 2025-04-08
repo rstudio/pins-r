@@ -722,7 +722,11 @@ board_connect_test <- function(...) {
 # Use demo.posit.team PTD for local testing
 connect_has_ptd <- function() {
   accounts <- rsconnect::accounts()
-  "pub.demo.posit.team" %in% accounts$server
+  if (is.null(accounts) || nrow(accounts) == 0) {
+    FALSE
+  } else {
+    "pub.demo.posit.team" %in% accounts$server
+  }
 }
 
 board_connect_ptd <- function(...) {

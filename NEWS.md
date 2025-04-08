@@ -8,6 +8,8 @@
 
 * Prepends 'https://' to Databricks host if missing (#855).
 
+* Fixed handling of `rsconnect::accounts()` results (#861).
+
 # pins 1.4.0
 
 ## Lifecycle changes

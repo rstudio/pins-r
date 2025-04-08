@@ -60,14 +60,18 @@ rsc_server_manual <- function(server, key) {
 }
 
 rsc_rsconnect_is_configured <- function() {
-  is_installed("rsconnect") && !is.null(rsconnect::accounts())
+  if (is_installed("rsconnect")) {
+    accounts <- rsconnect::accounts()
+    return(!is.null(accounts) && nrow(accounts) > 0)
+  }
+  FALSE
 }
 
 rsc_server_rsconnect <- function(server = NULL, name = NULL) {
   check_installed("rsconnect")
 
   accounts <- rsconnect::accounts()
-  if (is.null(accounts)) {
+  if (is.null(accounts) || nrow(accounts) == 0) {
     abort("No Posit Connect servers have been registered")
   }
 
