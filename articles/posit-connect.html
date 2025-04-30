@@ -8,10 +8,10 @@
 <title>Posit Connect • pins</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Posit Connect">
 <!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KHBDBW7');</script><!-- End Google Tag Manager -->
 </head>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Posit Connect</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/v1.4.0/vignettes/posit-connect.Rmd" class="external-link"><code>vignettes/posit-connect.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/main/vignettes/posit-connect.Rmd" class="external-link"><code>vignettes/posit-connect.Rmd</code></a></small>
       <div class="d-none name"><code>posit-connect.Rmd</code></div>
     </div>
 
@@ -101,7 +101,7 @@ way that automatically flows into your app.</p>
 written a little code to scrape the BBC world news feed and turn it into
 a tidy dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org" class="external-link">xml2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"http://feeds.bbci.co.uk/news/rss.xml"</span><span class="op">)</span>  </span>
@@ -119,18 +119,18 @@ a tidy dataset:</p>
 <span><span class="op">)</span></span>
 <span><span class="va">bbc_news</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 71 × 3</span></span></span>
-<span><span class="co">#&gt;    title                                                       date  url  </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Diana interview: PM concerned after inquiry into BBC deceit Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Covid in Scotland: Glasgow to be only Scottish area in lev… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Prince Harry says heavy drinking masked pain of mum Diana'… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Coronavirus: Spain to lift restrictions for UK and Japanes… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Diana interview: Whistleblower wants apology from BBC boss… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Mayhill: Swansea rioters face robust action, police vow     Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> UK to offer Australia tariff-free trade deal despite farme… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Leonard Blavatnik named UK's richest person with £23bn for… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Lady Gaga had a 'psychotic break' after sexual assault lef… Fri,… http…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Big cats seized from park belonging to Tiger King couple    Fri,… http…</span></span>
+<span><span class="co">#&gt;    title                                                    date  url  </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Diana interview: PM concerned after inquiry into BBC de… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Covid in Scotland: Glasgow to be only Scottish area in … Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Prince Harry says heavy drinking masked pain of mum Dia… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Coronavirus: Spain to lift restrictions for UK and Japa… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Diana interview: Whistleblower wants apology from BBC b… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Mayhill: Swansea rioters face robust action, police vow  Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> UK to offer Australia tariff-free trade deal despite fa… Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Leonard Blavatnik named UK's richest person with £23bn … Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Lady Gaga had a 'psychotic break' after sexual assault … Fri,… http…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Big cats seized from park belonging to Tiger King couple Fri,… http…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 61 more rows</span></span></span></code></pre></div>
 <p>Wouldn’t it be nice to spare your colleagues the work of reproducing
 this data, and provide them directly with the tidy tibble? That’s easy
@@ -232,7 +232,7 @@ runs, you’ll see the data update automatically.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
   </div></footer>
