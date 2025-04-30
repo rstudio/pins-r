@@ -1,4 +1,4 @@
-# pins (development version)
+# pins 1.4.1
 
 * Support new `preview_data` parameter for pin previews on Posit Connect (#850).
 
@@ -6,9 +6,11 @@
 
 * Improved documentation for S3-compatible object storage (#853).
 
-* Prepends 'https://' to Databricks host if missing (#855).
+* Prepend 'https://' to Databricks host if missing (#855).
 
 * Fixed handling of `rsconnect::accounts()` results (#861).
+
+* Escalated gradual deprecation process for legacy pins functions such as `pin()` (#864).
 
 # pins 1.4.0
 

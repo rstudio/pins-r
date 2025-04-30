@@ -52,7 +52,7 @@ board object.}
 \details{
 To use a Google Cloud Storage board, you first need a Google Cloud Storage
 account, a Google Storage bucket, and an access token or the
-\href{https://cloud.google.com/sdk/}{Google Cloud SDK} properly installed and
+\href{https://cloud.google.com/sdk}{Google Cloud SDK} properly installed and
 configured. You can sign-up and create these from
 \url{https://console.cloud.google.com}
 }

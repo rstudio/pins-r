@@ -18,11 +18,13 @@
 #' board %>% pin_read("mtcars")
 #' @keywords internal
 #' @export
-board_register <- function(board,
-                           name = NULL,
-                           cache = NULL,
-                           versions = NULL,
-                           ...) {
+board_register <- function(
+  board,
+  name = NULL,
+  cache = NULL,
+  versions = NULL,
+  ...
+) {
   if (is_url(board)) {
     board <- legacy_datatxt(
       name = name,
@@ -34,10 +36,20 @@ board_register <- function(board,
   } else {
     fun <- paste0("board_register_", board)
     if (!exists(fun, mode = "function")) {
-      stop("Don't know how to create board of type '", board, "'", call. = FALSE)
+      stop(
+        "Don't know how to create board of type '",
+        board,
+        "'",
+        call. = FALSE
+      )
     }
     fun <- match.fun(fun)
-    board <- fun(name = name %||% board, cache = cache, versions = versions, ...)
+    board <- fun(
+      name = name %||% board,
+      cache = cache,
+      versions = versions,
+      ...
+    )
   }
 
   board_register2(board)
@@ -47,14 +59,16 @@ board_register <- function(board,
 
 #' @rdname board_register
 #' @export
-board_register_rsconnect <- function(name = "rsconnect",
-                                     server = NULL,
-                                     account = NULL,
-                                     key = NULL,
-                                     output_files = FALSE,
-                                     cache = NULL,
-                                     ...) {
-  lifecycle::deprecate_soft(
+board_register_rsconnect <- function(
+  name = "rsconnect",
+  server = NULL,
+  account = NULL,
+  key = NULL,
+  output_files = FALSE,
+  cache = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn(
     "1.4.0",
     "board_register_rsconnect()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -88,7 +102,10 @@ board_register_code <- function(board, name) {
     parent_call <- sys.call(sys.parent(parent_idx))
     if (!is.function(parent_func) || !is.call(parent_call)) break
 
-    this_parent_call <- tryCatch(match.call(definition = parent_func, call = parent_call), error = function(e) NULL)
+    this_parent_call <- tryCatch(
+      match.call(definition = parent_func, call = parent_call),
+      error = function(e) NULL
+    )
 
     if (is.null(this_parent_call)) break
     if (length(this_parent_call) < 1) break
@@ -105,8 +122,7 @@ board_register_code <- function(board, name) {
   header <- if (grepl("^pins::", function_name)) "" else "library(pins)\n"
   if (is.null(parent_call)) {
     paste0(header, "board_register(\"", board, "\", name = \"", name, "\")")
-  }
-  else {
+  } else {
     main_call <- paste(deparse(parent_call, width.cutoff = 500), collapse = " ")
     paste0(header, main_call)
   }
@@ -115,7 +131,8 @@ board_register_code <- function(board, name) {
 #' @rdname board_register
 #' @export
 board_deregister <- function(name, ...) {
-  if (!name %in% board_registry_list()) stop("Board '", name, "' is not registered.")
+  if (!name %in% board_registry_list())
+    stop("Board '", name, "' is not registered.")
 
   board <- board_get(name)
   board_registry_set(name, NULL)
@@ -151,7 +168,12 @@ board_get <- function(name) {
     } else if (name %in% board_list()) {
       board_registry_get(name)
     } else {
-      stop("Board '", name, "' not a board, available boards: ", paste(board_list(), collapse = ", "))
+      stop(
+        "Board '",
+        name,
+        "' not a board, available boards: ",
+        paste(board_list(), collapse = ", ")
+      )
     }
   } else {
     stop("Invalid board specification", call. = FALSE)

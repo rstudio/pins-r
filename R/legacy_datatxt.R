@@ -29,23 +29,25 @@
 #' pin_find(board = "txtexample")
 #' @export
 #' @keywords internal
-legacy_datatxt <- function(url,
-                          headers = NULL,
-                          cache = NULL,
-                          needs_index = TRUE,
-                          browse_url = url,
-                          index_updated = NULL,
-                          index_randomize = FALSE,
-                          path = NULL,
-                          versions = FALSE,
-                          name = NULL,
-                          ...) {
-
+legacy_datatxt <- function(
+  url,
+  headers = NULL,
+  cache = NULL,
+  needs_index = TRUE,
+  browse_url = url,
+  index_updated = NULL,
+  index_randomize = FALSE,
+  path = NULL,
+  versions = FALSE,
+  name = NULL,
+  ...
+) {
   # use only subdomain as friendly name which is also used as cache folder
   name <- name %||% gsub("https?://|\\..*", "", url)
   cache <- cache %||% board_cache_path(name)
 
-  board <- new_board_v0("pins_board_datatxt",
+  board <- new_board_v0(
+    "pins_board_datatxt",
     name = name,
     cache = cache,
     versions = versions,
@@ -65,12 +67,14 @@ legacy_datatxt <- function(url,
 
 #' @rdname legacy_datatxt
 #' @export
-board_register_datatxt <- function(url,
-                                   name = NULL,
-                                   headers = NULL,
-                                   cache = NULL,
-                                   ...) {
-  lifecycle::deprecate_soft(
+board_register_datatxt <- function(
+  url,
+  name = NULL,
+  headers = NULL,
+  cache = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn(
     "1.4.0",
     "board_register_datatxt()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -118,13 +122,15 @@ datatxt_refresh_index <- function(board) {
     if (!identical(board$needs_index, FALSE)) {
       stop("Failed to retrieve data.txt file from ", board$url)
     }
-  }
-  else {
+  } else {
     new_index <- board_manifest_get(temp_index)
 
     # retain cache when refreshing board to avoid redownloads after board_register
     new_index <- lapply(new_index, function(new_entry) {
-      current_entry <- Filter(function(e) identical(e$path, new_entry$path), current_index)
+      current_entry <- Filter(
+        function(e) identical(e$path, new_entry$path),
+        current_index
+      )
       if (length(current_entry) == 1) {
         new_entry$cache <- current_entry[[1]]$cache
       }
@@ -150,15 +156,15 @@ datatxt_pin_download_info <- function(board, name, ...) {
   index_entry <- NULL
   if (length(index) > 0) {
     index_entry <- index[[1]]
-  }
-  else {
+  } else {
     # if there is no index, fallback to downloading data.txt for the pin,
     # this can happen with incomplete indexes.
     index_entry <- list(path = name)
   }
 
   # try to download index as well
-  path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index_entry$path[1])) dirname(index_entry$path[1]) else index_entry$path[1]
+  path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index_entry$path[1]))
+    dirname(index_entry$path[1]) else index_entry$path[1]
 
   # if `path_guess` already has a scheme, don't prepend board URL
   path_guess <- if (grepl("^https?://", path_guess)) {
@@ -179,7 +185,8 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
   index_entry <- pin_info$index_entry
 
   download_path <- file.path(path_guess, "data.txt")
-  pin_download_files(download_path,
+  pin_download_files(
+    download_path,
     name,
     board,
     can_fail = TRUE,
@@ -195,8 +202,20 @@ datatxt_refresh_manifest <- function(board, name, download = TRUE, ...) {
 }
 
 #' @export
-board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, version = NULL, download = TRUE, ...) {
-  manifest_paths <- datatxt_refresh_manifest(board, name, download = download, ...)
+board_pin_get.pins_board_datatxt <- function(
+  board,
+  name,
+  extract = NULL,
+  version = NULL,
+  download = TRUE,
+  ...
+) {
+  manifest_paths <- datatxt_refresh_manifest(
+    board,
+    name,
+    download = download,
+    ...
+  )
   path_guess <- manifest_paths$path_guess
   index_entry <- manifest_paths$index_entry
   download_path <- manifest_paths$download_path
@@ -211,7 +230,8 @@ board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, versio
 
     download_path <- file.path(path_guess, version, "data.txt")
     local_path <- file.path(local_path, version)
-    pin_download_files(download_path,
+    pin_download_files(
+      download_path,
       name,
       board,
       can_fail = TRUE,
@@ -236,13 +256,11 @@ board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, versio
           download_paths <- c(download_paths, file.path(path_guess, path))
         }
       }
-    }
-    else {
+    } else {
       index_entry$path <- NULL
       pin_manifest_create(local_path, index_entry, index_entry$path)
     }
-  }
-  else {
+  } else {
     # attempt to download from path when index not available
     download_paths <- file_path_null(board$url, board$subpath, name)
   }
@@ -252,7 +270,8 @@ board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, versio
       path <- file_path_null(board$url, board$subpath, path)
     }
 
-    local_path <- pin_download_files(path,
+    local_path <- pin_download_files(
+      path,
       name,
       board,
       extract = identical(extract, TRUE),
@@ -265,7 +284,13 @@ board_pin_get.pins_board_datatxt <- function(board, name, extract = NULL, versio
 }
 
 #' @export
-board_pin_find.pins_board_datatxt <- function(board, text, name, extended = FALSE, ...) {
+board_pin_find.pins_board_datatxt <- function(
+  board,
+  text,
+  name,
+  extended = FALSE,
+  ...
+) {
   datatxt_refresh_index(board)
 
   entries <- board_manifest_get(pin_registry_path(board, "data.txt"))
@@ -275,10 +300,22 @@ board_pin_find.pins_board_datatxt <- function(board, text, name, extended = FALS
   }
 
   results <- data.frame(
-    name = sapply(entries, function(e) if (is.null(e$name)) basename(e$path) else e$name),
-    description = sapply(entries, function(e) if (is.null(e$description)) "" else e$description),
-    type = sapply(entries, function(e) if (is.null(e$type)) "files" else e$type),
-    metadata = sapply(entries, function(e) jsonlite::toJSON(e, auto_unbox = TRUE)),
+    name = sapply(
+      entries,
+      function(e) if (is.null(e$name)) basename(e$path) else e$name
+    ),
+    description = sapply(
+      entries,
+      function(e) if (is.null(e$description)) "" else e$description
+    ),
+    type = sapply(
+      entries,
+      function(e) if (is.null(e$type)) "files" else e$type
+    ),
+    metadata = sapply(
+      entries,
+      function(e) jsonlite::toJSON(e, auto_unbox = TRUE)
+    ),
     stringsAsFactors = FALSE
   )
 
@@ -294,10 +331,19 @@ board_pin_find.pins_board_datatxt <- function(board, text, name, extended = FALS
 
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
-    path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) dirname(metadata$path) else metadata$path
-    datatxt_path <- file_path_null(board$url, board$subpath, path_guess[[1]], "data.txt")
+    path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path))
+      dirname(metadata$path) else metadata$path
+    datatxt_path <- file_path_null(
+      board$url,
+      board$subpath,
+      path_guess[[1]],
+      "data.txt"
+    )
 
-    response <- httr::GET(datatxt_path, board_datatxt_headers(board, datatxt_path))
+    response <- httr::GET(
+      datatxt_path,
+      board_datatxt_headers(board, datatxt_path)
+    )
     if (!httr::http_error(response)) {
       pin_metadata <- board_manifest_load(datatxt_response_content(response))
 
@@ -319,7 +365,13 @@ datatxt_response_content <- function(response) {
   content
 }
 
-datatxt_update_index <- function(board, path, operation, name = NULL, metadata = NULL) {
+datatxt_update_index <- function(
+  board,
+  path,
+  operation,
+  name = NULL,
+  metadata = NULL
+) {
   index_file <- "data.txt"
   index_url <- file_path_null(board$url, board$subpath, index_file)
 
@@ -337,17 +389,19 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   index <- list()
   if (httr::http_error(response)) {
     if (identical(operation, "remove")) {
-      stop("Failed to retrieve latest data.txt file, the pin was partially removed.")
+      stop(
+        "Failed to retrieve latest data.txt file, the pin was partially removed."
+      )
     }
-  }
-  else {
+  } else {
     content <- datatxt_response_content(response)
 
     index <- board_manifest_load(content)
   }
 
   index_matches <- sapply(index, function(e) identical(e$path, path))
-  index_pos <- if (length(index_matches) > 0) which(index_matches) else length(index) + 1
+  index_pos <- if (length(index_matches) > 0) which(index_matches) else
+    length(index) + 1
   if (length(index_pos) == 0) index_pos <- length(index) + 1
 
   if (identical(operation, "create")) {
@@ -358,11 +412,9 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
       if (!is.null(name)) list(name = name) else NULL,
       metadata
     )
-  }
-  else if (identical(operation, "remove")) {
+  } else if (identical(operation, "remove")) {
     if (index_pos <= length(index)) index[[index_pos]] <- NULL
-  }
-  else {
+  } else {
     stop("Operation ", operation, " is unsupported")
   }
 
@@ -370,9 +422,15 @@ datatxt_update_index <- function(board, path, operation, name = NULL, metadata =
   index_file_put <- file_path_null(board$subpath, "data.txt")
   board_manifest_create(index, index_file)
 
-  response <- httr::PUT(index_url,
+  response <- httr::PUT(
+    index_url,
     body = httr::upload_file(normalizePath(index_file)),
-    board_datatxt_headers(board, index_file_put, verb = "PUT", file = normalizePath(index_file))
+    board_datatxt_headers(
+      board,
+      index_file_put,
+      verb = "PUT",
+      file = normalizePath(index_file)
+    )
   )
 
   if (httr::http_error(response)) {
@@ -390,14 +448,22 @@ datatxt_upload_files <- function(board, name, files, path) {
     upload_url <- file.path(board$url, subpath)
 
     file_path <- normalizePath(file.path(path, file))
-    response <- httr::PUT(upload_url,
+    response <- httr::PUT(
+      upload_url,
       body = httr::upload_file(file_path),
       http_utils_progress("up", size = file.info(file_path)$size),
       board_datatxt_headers(board, subpath, verb = "PUT", file = file_path)
     )
 
     if (httr::http_error(response)) {
-      stop("Failed to upload '", file, "' to '", upload_url, "'. Error: ", datatxt_response_content(response))
+      stop(
+        "Failed to upload '",
+        file,
+        "' to '",
+        upload_url,
+        "'. Error: ",
+        datatxt_response_content(response)
+      )
     }
   }
 }
@@ -405,12 +471,20 @@ datatxt_upload_files <- function(board, name, files, path) {
 datatxt_invalid_name <- function(name) {
   # see https://stackoverflow.com/questions/7116450/what-are-valid-s3-key-names-that-can-be-accessed-via-the-s3-rest-api
   if (grepl("[&@:,$=+?; \\^`><{}\\[#%~|]", name)) {
-    stop("The 'name' should not contain the following characters: '&@:,$=+?; \\^`><{}[]#%~|'")
+    stop(
+      "The 'name' should not contain the following characters: '&@:,$=+?; \\^`><{}[]#%~|'"
+    )
   }
 }
 
 #' @export
-board_pin_create.pins_board_datatxt <- function(board, path, name, metadata, ...) {
+board_pin_create.pins_board_datatxt <- function(
+  board,
+  path,
+  name,
+  metadata,
+  ...
+) {
   datatxt_invalid_name(name)
   board_versions_create(board, name, path)
 
@@ -446,7 +520,8 @@ datatxt_pin_files <- function(board, name) {
 
     download_path <- file.path(path_guess, version, "data.txt")
     local_path <- pin_registry_path(board, name, version)
-    pin_download_files(download_path,
+    pin_download_files(
+      download_path,
       name,
       board,
       can_fail = TRUE,
@@ -455,7 +530,11 @@ datatxt_pin_files <- function(board, name) {
     )
     manifest <- pin_manifest_get(local_path)
 
-    files <- c(files, file.path(name, version, manifest$path), file.path(name, version, "data.txt"))
+    files <- c(
+      files,
+      file.path(name, version, manifest$path),
+      file.path(name, version, "data.txt")
+    )
   }
 
   files
@@ -478,7 +557,14 @@ board_pin_remove.pins_board_datatxt <- function(board, name, ...) {
     )
 
     if (httr::http_error(response)) {
-      warning("Failed to remove '", delete_path, "' from '", board$name, "' board. Error: ", datatxt_response_content(response))
+      warning(
+        "Failed to remove '",
+        delete_path,
+        "' from '",
+        board$name,
+        "' board. Error: ",
+        datatxt_response_content(response)
+      )
     }
   }
 
@@ -527,18 +613,18 @@ board_datatxt_headers <- function(board, path, verb = "GET", file = NULL) {
 
   if (is.list(board$headers)) {
     httr::add_headers(.headers = unlist(board$headers))
-  }
-  else if (is.character(board$headers)) {
+  } else if (is.character(board$headers)) {
     httr::add_headers(.headers = board$headers)
-  }
-  else if ("request" %in% class(board$headers) || is.null(board$headers)) {
+  } else if ("request" %in% class(board$headers) || is.null(board$headers)) {
     board$headers
-  }
-  else if (is.function(board$headers)) {
+  } else if (is.function(board$headers)) {
     board$headers(board, verb, path, file)
-  }
-  else {
-    stop("Unsupported '", class(board$headers)[[1]], "' class for board headers.")
+  } else {
+    stop(
+      "Unsupported '",
+      class(board$headers)[[1]],
+      "' class for board headers."
+    )
   }
 }
 
@@ -558,5 +644,9 @@ board_manifest_create <- function(index, file) {
 }
 
 pin_entries_to_dataframe <- function(entries) {
-  jsonlite::fromJSON(jsonlite::toJSON(entries, null = "null", auto_unbox = TRUE))
+  jsonlite::fromJSON(jsonlite::toJSON(
+    entries,
+    null = "null",
+    auto_unbox = TRUE
+  ))
 }

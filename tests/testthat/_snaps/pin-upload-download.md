@@ -30,17 +30,3 @@
       Error in `pin_upload()`:
       ! Can't pin file called `data.txt`
 
-# informative error for legacy boards
-
-    Code
-      board <- legacy_temp()
-      board %>% pin_upload(1:10, "x")
-    Condition
-      Error in `pin_upload()`:
-      ! Use `pin()` with this board, not `pin_upload()`
-    Code
-      board %>% pin_download("x")
-    Condition
-      Error in `pin_download()`:
-      ! Use `pin_get()` with this board, not `pin_download()`
-

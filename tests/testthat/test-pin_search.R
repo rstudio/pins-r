@@ -22,10 +22,3 @@ test_that("empty search returns empty columns", {
   expect_s3_class(out, "tbl_df")
   expect_equal(dim(out), c(0, 6))
 })
-
-test_that("informative error for legacy boards", {
-  expect_snapshot(error = TRUE, {
-    board <- legacy_temp()
-    board %>% pin_search("x")
-  })
-})

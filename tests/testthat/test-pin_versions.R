@@ -1,17 +1,5 @@
 skip_if_not_installed("filelock")
 
-test_that("can use old pin_versions() api", {
-  withr::local_options(lifecycle_verbosity = "quiet")
-  board <- legacy_local()
-  pin(x = 1:5, "x", board = board)
-  withr::defer(pin_remove("x", board))
-
-  expect_snapshot({
-    x <- pin_versions("x")
-    x <- pin_versions("x", "local")
-    x <- pin_versions("x", board)
-  })
-})
 
 test_that("can't swap arguments or omit name with modern api", {
   board <- board_temp()
@@ -28,7 +16,9 @@ test_that("can parse versions from path", {
 })
 
 test_that("informative error for writing with same version", {
-  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
+  local_mocked_bindings(
+    version_name = function(metadata) "20120304T050607Z-xxxxx"
+  )
   board <- board_temp(versioned = TRUE)
   expect_snapshot(error = TRUE, {
     board %>% pin_write(1:10, "x")

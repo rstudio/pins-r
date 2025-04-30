@@ -8,8 +8,6 @@
       Sys.setenv(R_USER_DATA_DIR = tempfile())
     }
   }
-
-  board_register_local()
 }
 
 .globals <- new.env(parent = emptyenv())

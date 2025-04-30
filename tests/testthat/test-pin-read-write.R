@@ -12,9 +12,9 @@ test_that("can round trip all types", {
   pin_write(board, df, "df-2", type = "parquet")
   expect_equal(
     withr::with_options(
-      list(nanoparquet.class = c("tbl_df", "tbl")), 
+      list(nanoparquet.class = c("tbl_df", "tbl")),
       pin_read(board, "df-2")
-    ), 
+    ),
     df
   )
 
@@ -65,7 +65,9 @@ test_that("guess_type() works as expected", {
 
 test_that("pin_write() noisily generates name and type", {
   ui_loud()
-  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
+  local_mocked_bindings(
+    version_name = function(metadata) "20120304T050607Z-xxxxx"
+  )
   expect_snapshot(error = TRUE, {
     b <- board_temp()
     pin_write(b, mtcars)
@@ -76,7 +78,13 @@ test_that("pin_write() noisily generates name and type", {
 test_that("user can supply metadata", {
   board <- board_temp()
 
-  pin_write(board, 1:10, "x", metadata = list(name = "Susan"), description = "A vector")
+  pin_write(
+    board,
+    1:10,
+    "x",
+    metadata = list(name = "Susan"),
+    description = "A vector"
+  )
   meta <- pin_meta(board, "x")
   expect_equal(meta$user, list(name = "Susan"))
   expect_equal(meta$description, "A vector")
@@ -86,7 +94,7 @@ test_that("can request specific hash", {
   local_mocked_bindings(
     version_name = function(metadata) "20120304T050607Z-xxxxx",
     write_rds = write_rds_test
-    )
+  )
   ui_loud()
   expect_snapshot(error = TRUE, {
     b <- board_temp()
@@ -94,12 +102,3 @@ test_that("can request specific hash", {
     pin_read(b, "mtcars", hash = "ABCD")
   })
 })
-
-test_that("informative error for legacy boards", {
-  expect_snapshot(error = TRUE, {
-    board <- legacy_temp()
-    board %>% pin_write(1:10, "x")
-    board %>% pin_read("x")
-  })
-})
-

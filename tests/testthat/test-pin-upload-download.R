@@ -10,7 +10,9 @@ test_that("can round-trip a file", {
 })
 
 test_that("pin_upload generated useful messages", {
-  local_mocked_bindings(version_name = function(metadata) "20120304T050607Z-xxxxx")
+  local_mocked_bindings(
+    version_name = function(metadata) "20120304T050607Z-xxxxx"
+  )
   ui_loud()
   board <- board_temp()
 
@@ -52,17 +54,16 @@ test_that("user can supply metadata", {
   writeLines("Hi!", path1)
 
   board <- board_temp()
-  pin_upload(board, path1, "x", metadata = list(name = "Susan"), description = "A vector", tags = c("blue", "green"))
+  pin_upload(
+    board,
+    path1,
+    "x",
+    metadata = list(name = "Susan"),
+    description = "A vector",
+    tags = c("blue", "green")
+  )
   meta <- pin_meta(board, "x")
   expect_equal(meta$user, list(name = "Susan"))
   expect_equal(meta$description, "A vector")
   expect_equal(meta$tags, c("blue", "green"))
-})
-
-test_that("informative error for legacy boards", {
-  expect_snapshot(error = TRUE, {
-    board <- legacy_temp()
-    board %>% pin_upload(1:10, "x")
-    board %>% pin_download("x")
-  })
 })

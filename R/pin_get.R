@@ -31,21 +31,29 @@
 #' pin_get("mtcars", board = board)
 #' @export
 #' @keywords internal
-pin_get <- function(name,
-                    board = NULL,
-                    cache = TRUE,
-                    extract = NULL,
-                    version = NULL,
-                    files = FALSE,
-                    signature = NULL,
-                    ...) {
-  lifecycle::deprecate_soft("1.4.0", "pin_get()", "pin_read()")
+pin_get <- function(
+  name,
+  board = NULL,
+  cache = TRUE,
+  extract = NULL,
+  version = NULL,
+  files = FALSE,
+  signature = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn("1.4.0", "pin_get()", "pin_read()")
   board <- board_get(board)
 
   if (!cache) {
     pin_register_reset_cache(board, name)
   }
-  result <- board_pin_get(board, name, extract = extract, version = version, ...)
+  result <- board_pin_get(
+    board,
+    name,
+    extract = extract,
+    version = version,
+    ...
+  )
 
   meta <- read_meta(result)
   meta$type <- meta$type %||% "files"
@@ -60,7 +68,11 @@ pin_get <- function(name,
   if (!is.null(signature)) {
     pin_signature <- pin_version_signature(result_files)
     if (!identical(signature, pin_signature)) {
-      stop("Pin signature '", pin_signature, "' does not match given signature.")
+      stop(
+        "Pin signature '",
+        pin_signature,
+        "' does not match given signature."
+      )
     }
   }
 
