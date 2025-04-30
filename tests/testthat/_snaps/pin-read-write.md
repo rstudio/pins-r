@@ -81,17 +81,3 @@
       Error in `pin_read()`:
       ! Specified hash "ABCD" doesn't match pin hash "dfa6c1c109362781".
 
-# informative error for legacy boards
-
-    Code
-      board <- legacy_temp()
-      board %>% pin_write(1:10, "x")
-    Condition
-      Error in `pin_write()`:
-      ! Use `pin()` with this board, not `pin_write()`
-    Code
-      board %>% pin_read("x")
-    Condition
-      Error in `pin_read()`:
-      ! Use `pin_get()` with this board, not `pin_read()`
-
