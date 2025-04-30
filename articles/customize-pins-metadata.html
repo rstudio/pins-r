@@ -81,7 +81,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Create consistent metadata for pins</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/main/vignettes/customize-pins-metadata.Rmd" class="external-link"><code>vignettes/customize-pins-metadata.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/v1.4.1/vignettes/customize-pins-metadata.Rmd" class="external-link"><code>vignettes/customize-pins-metadata.Rmd</code></a></small>
       <div class="d-none name"><code>customize-pins-metadata.Rmd</code></div>
     </div>
 
@@ -137,7 +137,7 @@ metadata:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ten_letters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, levels <span class="op">=</span> <span class="va">letters</span><span class="op">)</span></span>
 <span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write_factor_json</span><span class="op">(</span><span class="va">ten_letters</span>, <span class="st">"letters-as-json"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T130204Z-099e2'</span></span>
+<span><span class="co">#&gt; Creating new version '20250430T195246Z-099e2'</span></span>
 <span><span class="co">#&gt; Writing to pin 'letters-as-json'</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="a-function-to-read-factors">A function to read factors<a class="anchor" aria-label="anchor" href="#a-function-to-read-factors"></a>
