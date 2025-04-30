@@ -10,6 +10,8 @@
 
 * Fixed handling of `rsconnect::accounts()` results (#861).
 
+* Escalated gradual deprecation process for legacy pins functions such as `pin()` (#864).
+
 # pins 1.4.0
 
 ## Lifecycle changes
