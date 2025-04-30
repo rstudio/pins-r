@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = rlang::is_installed("filelock")
+  eval = FALSE
 )
 ```
 
