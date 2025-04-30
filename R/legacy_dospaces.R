@@ -25,18 +25,22 @@
 #' @export
 #' @keywords internal
 legacy_dospace <- function(
-                          space = Sys.getenv("DO_SPACE"),
-                          key = Sys.getenv("DO_ACCESS_KEY_ID"),
-                          secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
-                          datacenter = Sys.getenv("DO_DATACENTER"),
-                          cache = NULL,
-                          host = "digitaloceanspaces.com",
-                          name = "dospace",
-                          ...) {
-  if (nchar(space) == 0) stop("The 'dospace' board requires a 'space' parameter.")
+  space = Sys.getenv("DO_SPACE"),
+  key = Sys.getenv("DO_ACCESS_KEY_ID"),
+  secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+  datacenter = Sys.getenv("DO_DATACENTER"),
+  cache = NULL,
+  host = "digitaloceanspaces.com",
+  name = "dospace",
+  ...
+) {
+  if (nchar(space) == 0)
+    stop("The 'dospace' board requires a 'space' parameter.")
   if (nchar(key) == 0) stop("The 'dospace' board requires a 'key' parameter.")
-  if (nchar(secret) == 0) stop("The 'dospace' board requires a 'secret' parameter.")
-  if (nchar(datacenter) == 0) stop("The 'dospace' board requires a 'datacenter' parameter.")
+  if (nchar(secret) == 0)
+    stop("The 'dospace' board requires a 'secret' parameter.")
+  if (nchar(datacenter) == 0)
+    stop("The 'dospace' board requires a 'datacenter' parameter.")
 
   legacy_datatxt(
     name = name,
@@ -58,16 +62,18 @@ legacy_dospace <- function(
 
 #' @rdname legacy_dospace
 #' @export
-board_register_dospace <- function(name = "dospace",
-                                   space = Sys.getenv("DO_SPACE"),
-                                   key = Sys.getenv("DO_ACCESS_KEY_ID"),
-                                   secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
-                                   datacenter = Sys.getenv("DO_DATACENTER"),
-                                   cache = NULL,
-                                   host = "digitaloceanspaces.com",
-                                   path = NULL,
-                                   ...) {
-  lifecycle::deprecate_soft(
+board_register_dospace <- function(
+  name = "dospace",
+  space = Sys.getenv("DO_SPACE"),
+  key = Sys.getenv("DO_ACCESS_KEY_ID"),
+  secret = Sys.getenv("DO_SECRET_ACCESS_KEY"),
+  datacenter = Sys.getenv("DO_DATACENTER"),
+  cache = NULL,
+  host = "digitaloceanspaces.com",
+  path = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn(
     "1.4.0",
     "board_register_dospace()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

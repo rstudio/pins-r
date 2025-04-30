@@ -23,13 +23,15 @@
 #' board %>% pin_meta("mtcars")
 #' @export
 #' @keywords internal
-pin_info <- function(name,
-                     board = NULL,
-                     extended = TRUE,
-                     metadata = TRUE,
-                     signature = FALSE,
-                     ...) {
-  lifecycle::deprecate_soft("1.4.0", "pin_info()", "pin_meta()")
+pin_info <- function(
+  name,
+  board = NULL,
+  extended = TRUE,
+  metadata = TRUE,
+  signature = FALSE,
+  ...
+) {
+  lifecycle::deprecate_warn("1.4.0", "pin_info()", "pin_meta()")
 
   if (is.board(board) && !0 %in% board$api) {
     this_not_that("pin_meta", "pin_info")
@@ -64,7 +66,11 @@ pin_info <- function(name,
 
   entry_ext <- as.list(entry)
   entry_ext$metadata <- NULL
-  entry_ext <- Filter(function(e) !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0, entry_ext)
+  entry_ext <- Filter(
+    function(e)
+      !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0,
+    entry_ext
+  )
   for (name in names(metadata)) {
     entry_ext[[name]] <- metadata[[name]]
   }
@@ -77,9 +83,19 @@ pin_info <- function(name,
 print.pin_info <- function(x, ...) {
   info <- x
 
-  cat(cli::col_silver(paste0("# Source: ", info$board, "<", info$name, "> [", info$type, "]\n")))
-  if (nchar(info$description) > 0) cat(cli::col_silver(paste0("# Description: ", info$description, "\n")))
-  if (!is.null(info$signature)) cat(cli::col_silver(paste0("# Signature: ", info$signature, "\n")))
+  cat(cli::col_silver(paste0(
+    "# Source: ",
+    info$board,
+    "<",
+    info$name,
+    "> [",
+    info$type,
+    "]\n"
+  )))
+  if (nchar(info$description) > 0)
+    cat(cli::col_silver(paste0("# Description: ", info$description, "\n")))
+  if (!is.null(info$signature))
+    cat(cli::col_silver(paste0("# Signature: ", info$signature, "\n")))
 
   info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 
@@ -88,9 +104,11 @@ print.pin_info <- function(x, ...) {
 
     for (i in names(info)) {
       entry <- info[[i]]
-      if ((is.list(entry) && length(entry) == 0) ||
-        (is.character(entry) && identical(nchar(entry), 0L)) ||
-        identical(i, "path")) {
+      if (
+        (is.list(entry) && length(entry) == 0) ||
+          (is.character(entry) && identical(nchar(entry), 0L)) ||
+          identical(i, "path")
+      ) {
         info[[i]] <- NULL
       }
     }

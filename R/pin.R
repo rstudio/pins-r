@@ -42,7 +42,7 @@
 #' @export
 #' @keywords internal
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
-  lifecycle::deprecate_soft("1.4.0", "pin()", "pin_write()")
+  lifecycle::deprecate_warn("1.4.0", "pin()", "pin_write()")
   UseMethod("pin")
 }
 
@@ -70,17 +70,19 @@ pin_load <- function(path, ...) {
 #' @export
 #' @keywords internal
 #' @rdname custom-pins
-board_pin_store <- function(board,
-                            path,
-                            name,
-                            pin_metadata,
-                            extract = TRUE,
-                            retrieve = TRUE,
-                            zip = FALSE,
-                            cache = TRUE,
-                            metadata = NULL,
-                            custom_metadata = NULL,
-                            ...) {
+board_pin_store <- function(
+  board,
+  path,
+  name,
+  pin_metadata,
+  extract = TRUE,
+  retrieve = TRUE,
+  zip = FALSE,
+  cache = TRUE,
+  metadata = NULL,
+  custom_metadata = NULL,
+  ...
+) {
   check_store_path(path)
   check_store_zip(zip)
 
@@ -91,7 +93,14 @@ board_pin_store <- function(board,
   }
 
   board <- board_get(board)
-  pin_log("Storing ", name, " into board ", board$name, " with type ", metadata$type)
+  pin_log(
+    "Storing ",
+    name,
+    " into board ",
+    board$name,
+    " with type ",
+    metadata$type
+  )
 
   store_path <- withr::local_tempdir()
   for (single_path in path) {
@@ -161,7 +170,13 @@ pin_load.default <- function(path, ...) {
 
 #' @keywords internal
 #' @export
-pin.data.frame <- function(x, name = NULL, description = NULL, board = NULL, ...) {
+pin.data.frame <- function(
+  x,
+  name = NULL,
+  description = NULL,
+  board = NULL,
+  ...
+) {
   if (is.null(name)) {
     name <- pin_default_name(deparse(substitute(x)), board)
   }
@@ -230,7 +245,15 @@ pin_load.table <- function(path, ...) {
 
 #' @keywords internal
 #' @export
-pin.character <- function(x, name = NULL, description = NULL, board = NULL, cache = TRUE, extract = TRUE, ...) {
+pin.character <- function(
+  x,
+  name = NULL,
+  description = NULL,
+  board = NULL,
+  cache = TRUE,
+  extract = TRUE,
+  ...
+) {
   if (is.null(name)) {
     name <- pin_default_name(fs::path_ext_remove(basename(x[[1]])), board)
   }
@@ -238,7 +261,8 @@ pin.character <- function(x, name = NULL, description = NULL, board = NULL, cach
   if (length(x) == 1 && is_url(x)) {
     board <- board_get(board)
     details <- as.environment(list(something_changed = TRUE))
-    path <- pin_download_files(x,
+    path <- pin_download_files(
+      x,
       name,
       board,
       extract = extract,
@@ -301,7 +325,6 @@ pin_load.package <- function(path, ...) {
 
 # helpers -----------------------------------------------------------------
 
-
 #' Create Pin Name
 #'
 #' Creates a pin name from an character expression generated with `deparse(substitute(x))`.
@@ -324,14 +347,13 @@ pin_default_name <- function(x, board) {
   if (nchar(sanitized) == 0) stop(error)
 
   # kaggle boards require five or more character names
-  if (identical(board, "kaggle") && nchar(sanitized) < 5) sanitized <- paste(sanitized, "pin", sep = "-")
+  if (identical(board, "kaggle") && nchar(sanitized) < 5)
+    sanitized <- paste(sanitized, "pin", sep = "-")
 
   sanitized
 }
 
-pin_metadata <- function(type,
-                         description = NULL,
-                         ...) {
+pin_metadata <- function(type, description = NULL, ...) {
   type <- match.arg(type, c("default", "files", "table"))
   list(
     type = type,
@@ -339,4 +361,3 @@ pin_metadata <- function(type,
     ...
   )
 }
-

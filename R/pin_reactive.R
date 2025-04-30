@@ -18,8 +18,14 @@
 #'
 #' @export
 #' @keywords internal
-pin_reactive <- function(name, board, interval = 5000, session = NULL, extract = NULL) {
-  lifecycle::deprecate_soft("1.4.0", "pin_reactive()", "pin_reactive_read()")
+pin_reactive <- function(
+  name,
+  board,
+  interval = 5000,
+  session = NULL,
+  extract = NULL
+) {
+  lifecycle::deprecate_warn("1.4.0", "pin_reactive()", "pin_reactive_read()")
 
   board_object <- board_get(board)
 
@@ -95,7 +101,7 @@ pin_reactive_download <- function(board, name, interval = 5000) {
   )
 }
 
-get_pin_hash <- function(board, name){
+get_pin_hash <- function(board, name) {
   meta <- pin_meta(board, name)
   meta$pin_hash
 }

@@ -4,7 +4,7 @@
 #'
 #' To use a Google Cloud Storage board, you first need a Google Cloud Storage
 #' account, a Google Storage bucket, and an access token or the
-#' [Google Cloud SDK](https://cloud.google.com/sdk/) properly installed and
+#' [Google Cloud SDK](https://cloud.google.com/sdk) properly installed and
 #' configured. You can sign-up and create these from
 #' <https://console.cloud.google.com>
 #'
@@ -26,11 +26,12 @@
 #' @export
 #' @keywords internal
 legacy_gcloud <- function(
-                         bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
-                         token = NULL,
-                         cache = NULL,
-                         name = "gcloud",
-                         ...) {
+  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+  token = NULL,
+  cache = NULL,
+  name = "gcloud",
+  ...
+) {
   if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
 
   if (is.null(token)) {
@@ -38,10 +39,15 @@ legacy_gcloud <- function(
     if (nchar(token) == 0) {
       gcloud <- gcloud_binary()
       if (!is.null(gcloud)) {
-        token <- system2(gcloud_binary(), args = c("auth", "print-access-token"), stdout = TRUE)
-      }
-      else {
-        stop("Board 'gcloud' requires an 'access' parameter with a Google Cloud Access Token.")
+        token <- system2(
+          gcloud_binary(),
+          args = c("auth", "print-access-token"),
+          stdout = TRUE
+        )
+      } else {
+        stop(
+          "Board 'gcloud' requires an 'access' parameter with a Google Cloud Access Token."
+        )
       }
     }
   }
@@ -55,7 +61,10 @@ legacy_gcloud <- function(
     bucket = bucket,
     token = token,
     connect = FALSE,
-    browse_url = paste0("https://console.cloud.google.com/storage/browser/", bucket),
+    browse_url = paste0(
+      "https://console.cloud.google.com/storage/browser/",
+      bucket
+    ),
     index_randomize = TRUE,
     index_updated = gcloud_index_updated,
     ...
@@ -65,13 +74,15 @@ legacy_gcloud <- function(
 
 #' @rdname legacy_gcloud
 #' @export
-board_register_gcloud <- function(name = "gcloud",
-                                  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
-                                  token = NULL,
-                                  cache = NULL,
-                                  path = NULL,
-                                  ...) {
-  lifecycle::deprecate_soft(
+board_register_gcloud <- function(
+  name = "gcloud",
+  bucket = Sys.getenv("GCLOUD_STORAGE_BUCKET"),
+  token = NULL,
+  cache = NULL,
+  path = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn(
     "1.4.0",
     "board_register_gcloud()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -104,22 +115,37 @@ gcloud_headers <- function(board, verb, path, file) {
 }
 
 gcloud_index_updated <- function(board) {
-  metadata <- list(cacheControl = "private, max-age=0, no-transform", name = "data.txt")
+  metadata <- list(
+    cacheControl = "private, max-age=0, no-transform",
+    name = "data.txt"
+  )
 
-  response <- httr::VERB("PATCH",
-    paste0("https://storage.googleapis.com/storage/v1/b/", board$bucket, "/o/", "data.txt"),
+  response <- httr::VERB(
+    "PATCH",
+    paste0(
+      "https://storage.googleapis.com/storage/v1/b/",
+      board$bucket,
+      "/o/",
+      "data.txt"
+    ),
     body = metadata,
     board_datatxt_headers(board, "o/data.txt", verb = "PATCH"),
     encode = "json"
   )
 
   if (httr::http_error(response)) {
-    warning("Failed to update data.txt metadata: ", datatxt_response_content(response))
+    warning(
+      "Failed to update data.txt metadata: ",
+      datatxt_response_content(response)
+    )
   }
 }
 
 gcloud_binary <- function() {
-  user_path <- Sys.getenv("gcloud.binary.path", getOption("gcloud.binary.path", ""))
+  user_path <- Sys.getenv(
+    "gcloud.binary.path",
+    getOption("gcloud.binary.path", "")
+  )
   if (nchar(user_path) > 0) {
     return(normalizePath(user_path))
   }
@@ -141,9 +167,24 @@ gcloud_candidates <- function(binary) {
     binary_name <- paste(binary, "cmd", sep = ".")
 
     c(
-      function() file.path(appdata, "Google/Cloud SDK/google-cloud-sdk/bin", binary_name),
-      function() file.path(Sys.getenv("ProgramFiles"), "/Google/Cloud SDK/google-cloud-sdk/bin", binary_name),
-      function() file.path(Sys.getenv("ProgramFiles(x86)"), "/Google/Cloud SDK/google-cloud-sdk/bin", binary_name)
+      function()
+        file.path(
+          appdata,
+          "Google/Cloud SDK/google-cloud-sdk/bin",
+          binary_name
+        ),
+      function()
+        file.path(
+          Sys.getenv("ProgramFiles"),
+          "/Google/Cloud SDK/google-cloud-sdk/bin",
+          binary_name
+        ),
+      function()
+        file.path(
+          Sys.getenv("ProgramFiles(x86)"),
+          "/Google/Cloud SDK/google-cloud-sdk/bin",
+          binary_name
+        )
     )
   } else {
     binary_name <- binary
@@ -151,7 +192,12 @@ gcloud_candidates <- function(binary) {
     c(
       function() Sys.which(binary_name),
       function() paste("~/google-cloud-sdk/bin", binary_name, sep = "/"),
-      function() file.path(Sys.getenv("GCLOUD_INSTALL_PATH", "~/google-cloud-sdk"), "bin", binary_name)
+      function()
+        file.path(
+          Sys.getenv("GCLOUD_INSTALL_PATH", "~/google-cloud-sdk"),
+          "bin",
+          binary_name
+        )
     )
   }
 }

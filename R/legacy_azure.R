@@ -2,7 +2,7 @@
 #'
 #' @description
 #' `r lifecycle::badge('deprecated')`
-#' 
+#'
 #' To use Microsoft Azure Storage as a board, you'll need an Azure Storage
 #' account, an Azure Storage container, and an Azure Storage key.
 #' @inheritParams legacy_datatxt
@@ -27,14 +27,17 @@
 #' @export
 #' @keywords internal
 legacy_azure <- function(
-                        container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
-                        account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
-                        key = Sys.getenv("AZURE_STORAGE_KEY"),
-                        cache = NULL,
-                        name = "azure",
-                        ...) {
-  if (nchar(container) == 0) stop("The 'azure' board requires a 'container' parameter.")
-  if (nchar(account) == 0) stop("The 'azure' board requires an 'account' parameter.")
+  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+  key = Sys.getenv("AZURE_STORAGE_KEY"),
+  cache = NULL,
+  name = "azure",
+  ...
+) {
+  if (nchar(container) == 0)
+    stop("The 'azure' board requires a 'container' parameter.")
+  if (nchar(account) == 0)
+    stop("The 'azure' board requires an 'account' parameter.")
   if (nchar(key) == 0) stop("The 'azure' board requires a 'key' parameter.")
 
   azure_url <- paste0("https://", account, ".blob.core.windows.net/", container)
@@ -56,14 +59,16 @@ legacy_azure <- function(
 
 #' @rdname legacy_azure
 #' @export
-board_register_azure <- function(name = "azure",
-                                 container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
-                                 account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
-                                 key = Sys.getenv("AZURE_STORAGE_KEY"),
-                                 cache = NULL,
-                                 path = NULL,
-                                 ...) {
-  lifecycle::deprecate_soft(
+board_register_azure <- function(
+  name = "azure",
+  container = Sys.getenv("AZURE_STORAGE_CONTAINER"),
+  account = Sys.getenv("AZURE_STORAGE_ACCOUNT"),
+  key = Sys.getenv("AZURE_STORAGE_KEY"),
+  cache = NULL,
+  path = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn(
     "1.4.0",
     "board_register_azure()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -120,7 +125,10 @@ azure_headers <- function(board, verb, path, file) {
     sep = "\n"
   )
 
-  signature <- openssl::sha256(charToRaw(content), key = jsonlite::base64_dec(board$key)) %>%
+  signature <- openssl::sha256(
+    charToRaw(content),
+    key = jsonlite::base64_dec(board$key)
+  ) %>%
     jsonlite::base64_enc()
 
   headers <- httr::add_headers(

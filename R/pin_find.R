@@ -17,13 +17,15 @@
 #' board %>% pin_search("cars")
 #' @export
 #' @keywords internal
-pin_find <- function(text = NULL,
-                     board = NULL,
-                     name = NULL,
-                     extended = FALSE,
-                     metadata = FALSE,
-                     ...) {
-  lifecycle::deprecate_soft("1.4.0", "pin_find()", "pin_search()")
+pin_find <- function(
+  text = NULL,
+  board = NULL,
+  name = NULL,
+  extended = FALSE,
+  metadata = FALSE,
+  ...
+) {
+  lifecycle::deprecate_warn("1.4.0", "pin_find()", "pin_search()")
 
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)
@@ -38,7 +40,13 @@ pin_find <- function(text = NULL,
   text <- text %||% name
 
   results <- lapply(boards, function(board) {
-    board_pins <- board_pin_find(board, text, name = name, extended = extended, ...)
+    board_pins <- board_pin_find(
+      board,
+      text,
+      name = name,
+      extended = extended,
+      ...
+    )
     board_pins$board <- rep(board$name, nrow(board_pins))
     board_pins
   })

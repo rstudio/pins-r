@@ -30,14 +30,15 @@
 #' @export
 #' @keywords internal
 legacy_s3 <- function(
-                     bucket = Sys.getenv("AWS_BUCKET"),
-                     key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-                     secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                     cache = NULL,
-                     region = NULL,
-                     host = "s3.amazonaws.com",
-                     name = "s3",
-                     ...) {
+  bucket = Sys.getenv("AWS_BUCKET"),
+  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  cache = NULL,
+  region = NULL,
+  host = "s3.amazonaws.com",
+  name = "s3",
+  ...
+) {
   if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
   if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
   if (nchar(secret) == 0) stop("The 's3' board requires a 'secret' parameter.")
@@ -53,7 +54,11 @@ legacy_s3 <- function(
     bucket = bucket,
     region = region,
     connect = FALSE,
-    browse_url = paste0("https://s3.console.aws.amazon.com/s3/buckets/", bucket, "/"),
+    browse_url = paste0(
+      "https://s3.console.aws.amazon.com/s3/buckets/",
+      bucket,
+      "/"
+    ),
     host = host,
     ...
   )
@@ -61,16 +66,18 @@ legacy_s3 <- function(
 
 #' @rdname legacy_s3
 #' @export
-board_register_s3 <- function(name = "s3",
-                              bucket = Sys.getenv("AWS_BUCKET"),
-                              key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-                              secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-                              cache = NULL,
-                              host = "s3.amazonaws.com",
-                              region = NULL,
-                              path = NULL,
-                              ...) {
-  lifecycle::deprecate_soft(
+board_register_s3 <- function(
+  name = "s3",
+  bucket = Sys.getenv("AWS_BUCKET"),
+  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  cache = NULL,
+  host = "s3.amazonaws.com",
+  region = NULL,
+  path = NULL,
+  ...
+) {
+  lifecycle::deprecate_warn(
     "1.4.0",
     "board_register_s3()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -103,7 +110,11 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
   if (!is.null(filepath)) {
     amz_content_sha256 <- digest::digest(filepath, file = TRUE, algo = "sha256")
   } else {
-    amz_content_sha256 <- digest::digest(enc2utf8(""), serialize = FALSE, algo = "sha256")
+    amz_content_sha256 <- digest::digest(
+      enc2utf8(""),
+      serialize = FALSE,
+      algo = "sha256"
+    )
   }
   content_type <- "application/octet-stream"
 
@@ -150,9 +161,15 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
   # Note that there is a trailing \n.
   canonical_headers <- paste0(
     # "content-type:", content_type, "\n",
-    "host:", host, "\n",
-    "x-amz-content-sha256:", amz_content_sha256, "\n",
-    "x-amz-date:", amzdate, "\n",
+    "host:",
+    host,
+    "\n",
+    "x-amz-content-sha256:",
+    amz_content_sha256,
+    "\n",
+    "x-amz-date:",
+    amzdate,
+    "\n",
     # "x-amz-storage-class:", amz_storage_class, "\n",
     ""
   )
@@ -166,29 +183,70 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
   payload_hash <- amz_content_sha256
 
   # Step 7: Combine elements to create canonical request
-  canonical_request <- paste0(method, "\n", canonical_uri, "\n", canonical_querystring, "\n", canonical_headers, "\n", signed_headers, "\n", payload_hash)
+  canonical_request <- paste0(
+    method,
+    "\n",
+    canonical_uri,
+    "\n",
+    canonical_querystring,
+    "\n",
+    canonical_headers,
+    "\n",
+    signed_headers,
+    "\n",
+    payload_hash
+  )
 
   # ************* TASK 2: CREATE THE STRING TO SIGN*************
   # Match the algorithm to the hashing algorithm you use, either SHA-1 or
   # SHA-256 (recommended)
   algorithm <- "AWS4-HMAC-SHA256"
-  credential_scope <- paste0(datestamp, "/", board$region, "/", service, "/", "aws4_request")
-  string_to_sign <- paste0(algorithm, "\n", amzdate, "\n", credential_scope, "\n", digest::digest(enc2utf8(canonical_request), serialize = FALSE, algo = "sha256"))
+  credential_scope <- paste0(
+    datestamp,
+    "/",
+    board$region,
+    "/",
+    service,
+    "/",
+    "aws4_request"
+  )
+  string_to_sign <- paste0(
+    algorithm,
+    "\n",
+    amzdate,
+    "\n",
+    credential_scope,
+    "\n",
+    digest::digest(
+      enc2utf8(canonical_request),
+      serialize = FALSE,
+      algo = "sha256"
+    )
+  )
 
   # ************* TASK 3: CALCULATE THE SIGNATURE *************
   # Create the signing key using the function defined above.
   signing_key <- getSignatureKey(secret_key, datestamp, region, service)
 
   # Sign the string_to_sign using the signing_key
-  signature <- openssl::sha256(string_to_sign, key = signing_key) %>% as.character()
+  signature <- openssl::sha256(string_to_sign, key = signing_key) %>%
+    as.character()
 
   # ************* TASK 4: ADD SIGNING INFORMATION TO THE REQUEST *************
   # Put the signature information in a header named Authorization.
   authorization_header <- paste0(
-    algorithm, " ",
-    "Credential=", board$key, "/", credential_scope, ", ",
-    "SignedHeaders=", signed_headers, ", ",
-    "Signature=", signature
+    algorithm,
+    " ",
+    "Credential=",
+    board$key,
+    "/",
+    credential_scope,
+    ", ",
+    "SignedHeaders=",
+    signed_headers,
+    ", ",
+    "Signature=",
+    signature
   )
 
   headers <- httr::add_headers(
@@ -217,8 +275,7 @@ s3_headers <- function(board, verb, path, file) {
 
   if (!identical(board$region, NULL)) {
     headers <- s3_headers_v4(board, verb, path, file)
-  }
-  else {
+  } else {
     content <- paste(
       verb,
       "",
