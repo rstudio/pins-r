@@ -17,7 +17,8 @@
 #'   system if you run out of disk space.
 #' @export
 #' @keywords internal
-#' @examplesIf rlang::is_installed("filelock")
+#' @examples
+#' \dontrun{
 #' # Old api
 #' pin(data.frame(x = 1:3), "test")
 #' pin_get("test")
@@ -26,6 +27,7 @@
 #' board <- board_local()
 #' board %>% pin_write(data.frame(x = 1:3), "test")
 #' board %>% pin_read("test")
+#' }
 legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   path <- path %||% board_cache_path(name)
   fs::dir_create(path)
