@@ -58,6 +58,7 @@ Suggests:
     openssl,
     paws.storage,
     qs,
+    qs2,
     R.utils,
     rmarkdown,
     rsconnect,

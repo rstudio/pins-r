@@ -56,10 +56,12 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "json", "rds", "parquet", "arrow", or "qs". If not supplied, will
+#'   "csv", "json", "rds", "parquet", "arrow", "qs" or "qs2". If not supplied, will
 #'   use JSON for bare lists and RDS for everything else. Be aware that CSV and
-#'   JSON are plain text formats, while RDS, Parquet, Arrow, and
-#'   [qs](https://CRAN.R-project.org/package=qs) are binary formats.
+#'   JSON are plain text formats, while RDS, Parquet, Arrow,
+#'   [qs](https://CRAN.R-project.org/package=qs) and
+#'   [qs2](https://CRAN.R-project.org/package=qs2)
+#'   are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
@@ -162,7 +164,8 @@ object_write <- function(x, path, type = "rds") {
     pickle = abort("'pickle' pins not supported in R"),
     joblib = abort("'joblib' pins not supported in R"),
     csv = utils::write.csv(x, path, row.names = FALSE),
-    qs = write_qs(x, path)
+    qs = write_qs(x, path),
+    qs2 = write_qs2(x, path)
   )
 
   path
@@ -189,7 +192,14 @@ write_rds_test <- function(x, path) {
 
 write_qs <- function(x, path) {
   check_installed("qs")
+  # TODO: Add deprecation warning
   qs::qsave(x, path)
+  invisible(path)
+}
+
+write_qs2 <- function(x, path) {
+  check_installed("qs2")
+  qs2::qs_save(x, path)
   invisible(path)
 }
 
@@ -205,7 +215,8 @@ write_arrow <- function(x, path) {
   invisible(path)
 }
 
-object_types <- c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "file")
+object_types <- 
+  c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "qs2", "file")
 
 object_read <- function(meta) {
   path <- fs::path(meta$local$dir, meta$file)
@@ -226,6 +237,7 @@ object_read <- function(meta) {
       joblib = abort("'joblib' pins not supported in R"),
       csv = utils::read.csv(path),
       qs = read_qs(path),
+      qs2 = read_qs2(path),
       file = cli_abort(c(
         "Cannot automatically read pin:",
         "*" = "Is your pin specified as a full path? Retrieve it with {.code pin_download()}",
@@ -248,6 +260,11 @@ object_read <- function(meta) {
 read_qs <- function(path) {
   check_installed("qs")
   qs::qread(path, strict = TRUE)
+}
+
+read_qs2 <- function(path) {
+  check_installed("qs2")
+  qs2::qs_read(path) # TODO: check the behaviour of qs_read if the path is invalid
 }
 
 read_parquet <- function(path) {

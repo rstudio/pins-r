@@ -40,10 +40,12 @@ you expect. You can find the hash of an existing pin by looking for
 \item{x}{An object (typically a data frame) to pin.}
 
 \item{type}{File type used to save \code{x} to disk. Must be one of
-"csv", "json", "rds", "parquet", "arrow", or "qs". If not supplied, will
+"csv", "json", "rds", "parquet", "arrow", "qs" or "qs2". If not supplied, will
 use JSON for bare lists and RDS for everything else. Be aware that CSV and
-JSON are plain text formats, while RDS, Parquet, Arrow, and
-\href{https://CRAN.R-project.org/package=qs}{qs} are binary formats.}
+JSON are plain text formats, while RDS, Parquet, Arrow,
+\href{https://CRAN.R-project.org/package=qs}{qs} and
+\href{https://CRAN.R-project.org/package=qs2}{qs2}
+are binary formats.}
 
 \item{title}{A title for the pin; most important for shared boards so that
 others can understand what the pin contains. If omitted, a brief
