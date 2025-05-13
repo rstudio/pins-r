@@ -192,7 +192,15 @@ write_rds_test <- function(x, path) {
 
 write_qs <- function(x, path) {
   check_installed("qs")
-  # TODO: Add deprecation warning
+  lifecycle::deprecate_warn(
+    when = "1.4.1.9000",
+    what = "pin_write(type = 'qs')",
+    details = paste0(
+      "The `qs` format is soon to be depreceated, ",
+      "please use the `qs2` format instead, ",
+      "i.e. `pin_write(type = 'qs2')`"
+    )
+  )
   qs::qsave(x, path)
   invisible(path)
 }
@@ -264,7 +272,7 @@ read_qs <- function(path) {
 
 read_qs2 <- function(path) {
   check_installed("qs2")
-  qs2::qs_read(path) # TODO: check the behaviour of qs_read if the path is invalid
+  qs2::qs_read(path)
 }
 
 read_parquet <- function(path) {
