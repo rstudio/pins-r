@@ -56,10 +56,10 @@ pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "json", "rds", "parquet", "arrow", "qs" or "qs2". If not supplied, will
+#'   "csv", "json", "rds", "parquet", "arrow", "qs", or "qs2". If not supplied, will
 #'   use JSON for bare lists and RDS for everything else. Be aware that CSV and
 #'   JSON are plain text formats, while RDS, Parquet, Arrow,
-#'   [qs](https://CRAN.R-project.org/package=qs) and
+#'   [qs](https://CRAN.R-project.org/package=qs), and
 #'   [qs2](https://CRAN.R-project.org/package=qs2)
 #'   are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
@@ -88,6 +88,14 @@ pin_write <- function(board, x,
   dots <- list2(...)
   if (!missing(...) && (is.null(names(dots)) || names(dots)[[1]] == "")) {
     cli::cli_abort('Arguments after the dots `...` must be named, like {.code type = "json"}.')
+  }
+  if (!is_null(type) && type == "qs") {
+    lifecycle::deprecate_soft(
+      when = "1.4.2",
+      what = I('The file type "qs"'),
+      with = I('`type = "qs2"`'),
+      details = "The `qs` format will be deprecated soon: https://github.com/qsbase/qs/issues/103"
+    )
   }
 
   if (is.null(name)) {
@@ -192,15 +200,6 @@ write_rds_test <- function(x, path) {
 
 write_qs <- function(x, path) {
   check_installed("qs")
-  lifecycle::deprecate_warn(
-    when = "1.4.1.9000",
-    what = "pin_write(type = 'qs')",
-    details = paste0(
-      "The `qs` format is soon to be depreceated, ",
-      "please use the `qs2` format instead, ",
-      "i.e. `pin_write(type = 'qs2')`"
-    )
-  )
   qs::qsave(x, path)
   invisible(path)
 }

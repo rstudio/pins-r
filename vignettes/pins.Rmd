@@ -77,7 +77,7 @@ But you can choose another option depending on your goals:
 -   `type = "arrow"` uses `arrow::write_feather()` to create an Arrow/Feather file.
 -   `type = "json"` uses `jsonlite::write_json()` to create a JSON file. Pretty much every programming language can read json files, but they only work well for nested lists.
 -   `type = "qs"` uses `qs::qsave()` to create a binary R data file, like `writeRDS()`. This format achieves faster read/write speeds than RDS, and compresses data more efficiently, making it a good choice for larger objects. Read more on the [qs package](https://github.com/qsbase/qs).
--   `type = "qs2"` uses `qs2::qs_save()` to create a binary R data file, like `qs::qsave()`. The [qs2](https://github.com/qsbase/qs2) format is the successor to the [qs package](https://github.com/qsbase/qs), but not compatible with the original `qs` format.
+-   `type = "qs2"` uses `qs2::qs_save()` to create a binary R data file, similar to `type = "qs"`. The [qs2](https://github.com/qsbase/qs2) format is the successor to the [qs package](https://github.com/qsbase/qs), but is not compatible with the original `qs` format.
 
 Note that when the data lives elsewhere, pins takes care of downloading and caching so that it's only re-downloaded when needed.
 That said, most boards transmit pins over HTTP, and this is going to be slow and possibly unreliable for very large pins.
