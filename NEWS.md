@@ -1,5 +1,7 @@
 # pins (development version)
 
+* Added support of the `qs2` format (#865, @atsyplenkov).
+
 # pins 1.4.1
 
 * Support new `preview_data` parameter for pin previews on Posit Connect (#850).

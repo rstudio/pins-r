@@ -29,7 +29,7 @@
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition
       Error in `object_write()`:
-      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", or "qs", not "froopy-loops".
+      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", or "qs2", not "froopy-loops".
     Code
       pin_write(board, mtcars, name = "mtcars", metadata = 1)
     Condition

@@ -1,5 +1,6 @@
 test_that("can round trip all types", {
   skip_if_not_installed("qs")
+  skip_if_not_installed("qs2")
   skip_if_not_installed("arrow")
   skip_if_not_installed("nanoparquet")
   board <- board_temp()
@@ -24,8 +25,12 @@ test_that("can round trip all types", {
   pin_write(board, df, "df-4", type = "csv")
   expect_equal(pin_read(board, "df-4"), as.data.frame(df))
 
-  pin_write(board, df, "df-5", type = "qs")
-  expect_equal(pin_read(board, "df-5"), df)
+  expect_warning(
+    pin_write(board, df, "df-5", type = "qs")
+  )
+
+  pin_write(board, df, "df-6", type = "qs2")
+  expect_equal(pin_read(board, "df-6"), df)
 
   # List
   x <- list(a = 1:5, b = 1:10)
