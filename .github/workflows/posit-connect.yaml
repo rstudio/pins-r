@@ -38,10 +38,10 @@ jobs:
       - name: initialize Connect users
         shell: Rscript {0}
         run: |
-          admin_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com", provider = "pam")
+          admin_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com")
 
-          susan_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "susan", password = "susan", email = "susan@example.com", provider = "pam")
-          derek_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "derek", password = "derek", email = "derek@example.com", provider = "pam")
+          susan_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "susan", password = "susan", email = "susan@example.com")
+          derek_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "derek", password = "derek", email = "derek@example.com")
 
           saveRDS(
             list(
