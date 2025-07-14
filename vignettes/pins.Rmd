@@ -122,7 +122,7 @@ board %>% pin_write(mtcars,
   metadata = list(
     source = "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."
   ),
-  # Necessary if only changing metadata but file content is the same
+  # Necessary if only changing pin metadata but pin content is the same
   force_identical_write = TRUE
 )
 board %>% pin_meta("mtcars")
