@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.2
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   customize-pins-metadata: customize-pins-metadata.html
@@ -8,7 +8,7 @@ articles:
   pins: pins.html
   posit-connect: posit-connect.html
   using-board-url: using-board-url.html
-last_built: 2025-05-18T00:16Z
+last_built: 2025-07-14T00:54Z
 urls:
   reference: https://pins.rstudio.com/reference
   article: https://pins.rstudio.com/articles

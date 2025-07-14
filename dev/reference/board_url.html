@@ -161,27 +161,36 @@ not public (see <code><a href="board_connect_url.html">board_connect_url()</a></
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"rds"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in map2_chr(meta$local$file_url, meta$file, function(url, file) {    http_download(url = url, path_dir = meta$local$dir, path_file = file,         use_cache_on_failure = board$use_cache_on_failure, headers = board$headers)}):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `http_download()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Too Many Requests (RFC 6585) (HTTP 429).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10</span>
 <span class="r-in"><span><span class="va">b1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_browse.html">pin_browse</a></span><span class="op">(</span><span class="st">"rds"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Pin at <span style="color: #0000BB; font-style: italic;">&lt;~/.cache/pins/url/5e3ed054e0c263a996340d449a12324b&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"files"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in http_download(url = paste0(url, "data.txt"), path_dir = cache_dir,     path_file = "data.txt", use_cache_on_failure = board$use_cache_on_failure,     headers = board$headers):</span> Too Many Requests (RFC 6585) (HTTP 429).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "~/.cache/pins/url/6a19374ae8fd88eaccc9cbd6e3022001/first.txt" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "~/.cache/pins/url/6a19374ae8fd88eaccc9cbd6e3022001/second.txt"</span>
 <span class="r-in"><span><span class="va">b1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "~/.cache/pins/url/4bb0af0abae87c78f4a1b6fbe7e2642c/first.txt"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## with a manifest file:</span></span></span>
 <span class="r-in"><span><span class="va">b2</span> <span class="op">&lt;-</span> <span class="fu">board_url</span><span class="op">(</span><span class="fu">github_raw</span><span class="op">(</span><span class="st">"rstudio/pins-r/main/tests/testthat/pin-board/"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in board_url(github_raw("rstudio/pins-r/main/tests/testthat/pin-board/")):</span> Failed to access manifest file at</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/rstudio/pins-r/main/tests/testthat/pin-board/_pins.yaml&gt;</span>:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `doTryCatch()`:</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Too Many Requests (RFC 6585) (HTTP 429).</span>
 <span class="r-in"><span><span class="va">b2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'b2' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "x" "y"</span>
 <span class="r-in"><span><span class="va">b2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'b2' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20221215T180357Z-9ae7a 2022-12-15 <span style="color: #949494;">18:03:57</span> 9ae7a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20221215T180400Z-b81d5 2022-12-15 <span style="color: #949494;">18:04:00</span> b81d5</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -195,7 +204,7 @@ not public (see <code><a href="board_connect_url.html">board_connect_url()</a></
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
   </div></footer></body></html>

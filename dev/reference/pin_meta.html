@@ -154,7 +154,7 @@ find out which versions are available and when they were created.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Hadley"</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250518T001656Z-1a718'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250714T005438Z-67142'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the pin</span></span></span>
@@ -170,50 +170,50 @@ find out which versions are available and when they were created.</p></dd>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_meta</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 424</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "1a7181a6bed2794a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "67142809ad57db77"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-05-18 00:16:56"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-07-14 00:54:38"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       :List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Hadley: logi TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpUpVnII/pins-1d0c40113d16/mtcars/20250518T001656Z-1a718"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpabkDK2/pins-1ea6200482a2/mtcars/20250714T005438Z-67142"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250518T001656Z-1a718"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250714T005438Z-67142"</span>
 <span class="r-in"><span><span class="co"># Get path to underlying data</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpUpVnII/pins-1d0c40113d16/mtcars/20250518T001656Z-1a718/mtcars.rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpabkDK2/pins-1ea6200482a2/mtcars/20250714T005438Z-67142/mtcars.rds"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use tags instead</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fuel-efficiency"</span>, <span class="st">"automotive"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Replacing version '20250518T001656Z-1a718' with</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> '20250518T001656Z-90e1c'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Replacing version '20250714T005438Z-67142' with</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> '20250714T005438Z-db1ef'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_meta</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 464</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "90e1c2031abe3b40"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "db1ef32ff80e254f"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-05-18 00:16:56"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-07-14 00:54:38"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpUpVnII/pins-1d0c40113d16/mtcars/20250518T001656Z-90e1c"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpabkDK2/pins-1ea6200482a2/mtcars/20250714T005438Z-db1ef"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250518T001656Z-90e1c"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250714T005438Z-db1ef"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -228,7 +228,7 @@ find out which versions are available and when they were created.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
   </div></footer></body></html>
