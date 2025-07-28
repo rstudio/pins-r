@@ -133,7 +133,7 @@ is_rcmd_check <- function() {
 # adapted from ps:::is_cran_check()
 # nocov start
 
-is_cran_check <- function() {
+is_cran_check <- function () {
   if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     FALSE
   } else {
@@ -141,4 +141,4 @@ is_cran_check <- function() {
   }
 }
 
-# nocov end
+#nocov end
