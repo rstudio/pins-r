@@ -71,12 +71,17 @@ test_that("raw pin download includes progress bar or not", {
 
   progress_bar_end <- "100%"
 
-  board |>
-    pin_download("raw") |>
-    testthat::expect_output(progress_bar_end)
+  with_mocked_bindings(
+    http_utils_progress = function(...) httr::progress(type = "down"),
+    {
+      board |>
+        pin_download("raw") |>
+        expect_output(progress_bar_end)
+    }
+  )
 
-  withr::with_options(
-    list(pins.progress = FALSE),
+  with_mocked_bindings(
+    http_utils_progress = function(...) NULL,
     {
       board |>
         pin_download("raw") |>
