@@ -18,7 +18,7 @@ pins_show_progress <- function(size, is_interactive) {
     (is.null(size) || is_large_enough(size))
 }
 
-is_large_enough <- function(size, wants_progress) {
+is_large_enough <- function(size) {
   large_file <- getOption("pins.progress.size", 10^7)
   identical(size > large_file, TRUE)
 }
