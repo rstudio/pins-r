@@ -64,6 +64,33 @@ test_that("raw pins can only be downloaded", {
     expect_equal("abcdefg")
 })
 
+test_that("raw pin download includes progress bar or not", {
+  board <- board_url_test(c(
+    raw = github_raw("rstudio/pins-r/master/tests/testthat/pin-files/first.txt")
+  ))
+
+  progress_bar_end <- "100%"
+
+  with_mocked_bindings(
+    http_utils_progress = function(...) httr::progress(type = "down"),
+    {
+      board |>
+        pin_download("raw") |>
+        expect_output(progress_bar_end)
+    }
+  )
+
+  with_mocked_bindings(
+    http_utils_progress = function(...) NULL,
+    {
+      board |>
+        pin_download("raw") |>
+        capture_output() |>
+        expect_no_match(progress_bar_end)
+    }
+  )
+})
+
 test_that("can download pin from board_folder version dir", {
   b1 <- board_folder(withr::local_tempfile())
   b1 %>% pin_write(1:10, "x")

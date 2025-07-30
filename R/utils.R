@@ -1,16 +1,26 @@
-http_utils_progress <- function(type = "down", size = 0) {
-  if (pins_show_progress(size = size)) {
+http_utils_progress <- function(
+  type = "down",
+  size = NULL,
+  is_interactive = interactive()
+) {
+  if (pins_show_progress(size, is_interactive)) {
     httr::progress(type = type)
   } else {
     NULL
   }
 }
 
-pins_show_progress <- function(size = 0) {
+pins_show_progress <- function(size, is_interactive) {
   if (is.character(size)) size <- as.integer(size)
 
+  is_interactive &&
+    getOption("pins.progress", TRUE) &&
+    (is.null(size) || is_large_enough(size))
+}
+
+is_large_enough <- function(size, wants_progress) {
   large_file <- getOption("pins.progress.size", 10^7)
-  identical(getOption("pins.progress", size > large_file), TRUE) && interactive()
+  identical(size > large_file, TRUE)
 }
 
 has_envvars <- function(x) {

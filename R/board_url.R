@@ -206,15 +206,20 @@ pin_fetch.pins_board_url <- function(board, name, version = NULL, ...) {
   meta <- pin_meta(board, name, version = version)
   cache_touch(board, meta)
 
-  path <- map2_chr(meta$local$file_url, meta$file, function(url, file) {
-    http_download(
-      url = url,
-      path_dir = meta$local$dir,
-      path_file = file,
-      use_cache_on_failure = board$use_cache_on_failure,
-      headers = board$headers
-    )
-  })
+  purrr::imap(
+    meta$local$file_url,
+    function(url, i) {
+      http_download(
+        url = url,
+        path_dir = meta$local$dir,
+        path_file = meta$file[[i]],
+        use_cache_on_failure = board$use_cache_on_failure,
+        headers = board$headers,
+        # Sets size = NULL when meta has no file_size
+        http_utils_progress(size = meta$file_size[[i]])
+      )
+    }
+  )
 
   meta
 }
