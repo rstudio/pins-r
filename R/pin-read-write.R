@@ -37,14 +37,21 @@
 #' b %>% pin_read("x", version = .Last.value$version[[1]])
 #' # (Normally you'd specify the version with a string, but since the
 #' # version includes the date-time I can't do that in an example)
-pin_read <- function(board, name, version = NULL, hash = NULL, ...) {
+pin_read <- function(
+  board,
+  name,
+  version = NULL,
+  hash = NULL,
+  type = NULL,
+  ...
+) {
   check_dots_used()
   check_board(board, "pin_read", "pin_get")
 
   meta <- pin_fetch(board, name, version = version, ...)
   check_hash(meta, hash)
 
-  object_read(meta)
+  object_read(meta, type)
 }
 
 #' @param x An object (typically a data frame) to pin.
@@ -89,7 +96,7 @@ pin_write <- function(board, x,
   if (!missing(...) && (is.null(names(dots)) || names(dots)[[1]] == "")) {
     cli::cli_abort('Arguments after the dots `...` must be named, like {.code type = "json"}.')
   }
-  if (!is_null(type) && type == "qs") {
+  if (!is_null(type) && any("qs" %in% type)) {
     lifecycle::deprecate_soft(
       when = "1.4.2",
       what = I('The file type "qs"'),
@@ -119,12 +126,11 @@ pin_write <- function(board, x,
     pins_inform("Guessing `type = '{type}'`")
   }
 
-  path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
-  object_write(x, path, type = type)
-  withr::defer(fs::file_delete(path))
+  paths <- write_objects(x, name, type)
+  withr::defer(fs::file_delete(paths))
 
   meta <- standard_meta(
-    paths = path,
+    paths = paths,
     type = type,
     title = title %||% default_title(name, data = x),
     description = description,
@@ -145,9 +151,18 @@ pin_write <- function(board, x,
   }
 
   check_dots_used()
-  name <- pin_store(board, name, path, meta, versioned = versioned, x = x, ...)
+  name <- pin_store(board, name, paths, meta, versioned = versioned, x = x, ...)
   pins_inform("Writing to pin '{name}'")
   invisible(name)
+}
+
+write_objects <- function(x, name, types) {
+  types |>
+    purrr::map_chr(function(type) {
+      path <- fs::path_temp(fs::path_ext_set(fs::path_file(name), type))
+      object_write(x, path, type = type)
+      path
+    })
 }
 
 guess_type <- function(x) {
@@ -225,15 +240,33 @@ write_arrow <- function(x, path) {
 object_types <- 
   c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "qs2", "file")
 
-object_read <- function(meta) {
+object_read <- function(meta, type) {
   path <- fs::path(meta$local$dir, meta$file)
+
   missing <- !fs::file_exists(path)
   if (any(missing)) {
     abort(c("Cache failure. Missing files:", path[!missing]))
   }
 
+  if (is.null(type)) {
+    type <- meta$type[1]
+    if (length(meta$type) > 1) {
+      cli::cli_warn(
+        paste0(
+          "An arbitrary type ({type}) is being read because there is more than",
+          " one available for this file. It is suggested to pass the expected",
+          " type explicitly."
+        )
+      )
+    }
+  }
+
+  path <- path |>
+    purrr::detect(~ fs::path_ext(.x) == type)
+
   if (meta$api_version == 1) {
-    type <- arg_match0(meta$type, object_types)
+    type <- arg_match0(type, object_types)
+    type <- arg_match0(type, meta$type)
 
     switch(type,
       rds = readRDS(path),
