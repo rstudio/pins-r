@@ -28,7 +28,9 @@
     Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition
-      Error in `object_write()`:
+      Error in `purrr::map_chr()`:
+      i In index: 1.
+      Caused by error in `object_write()`:
       ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", or "qs2", not "froopy-loops".
     Code
       pin_write(board, mtcars, name = "mtcars", metadata = 1)
@@ -80,4 +82,31 @@
     Condition
       Error in `pin_read()`:
       ! Specified hash "ABCD" doesn't match pin hash "dfa6c1c109362781".
+
+# can write and read multiple types
+
+    Code
+      pin_read(board, "df-1", type = "froopy-loops")
+    Condition
+      Error in `object_read()`:
+      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "qs2", or "file", not "froopy-loops".
+    Code
+      pin_read(board, "df-1")
+    Condition
+      Warning:
+      An arbitrary type (rds) is being read because there is more than one available for this file. It is suggested to pass the expected type explicitly.
+    Output
+      # A tibble: 10 x 1
+             x
+         <int>
+       1     1
+       2     2
+       3     3
+       4     4
+       5     5
+       6     6
+       7     7
+       8     8
+       9     9
+      10    10
 

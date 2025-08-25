@@ -107,3 +107,34 @@ test_that("can request specific hash", {
     pin_read(b, "mtcars", hash = "ABCD")
   })
 })
+
+test_that("can write and read multiple types", {
+  board <- board_temp()
+
+  # Data frames
+  df <- tibble::tibble(x = 1:10)
+  pin_write(board, df, "df-1", type = c("rds", "csv"))
+
+  expect_warning(
+    board |>
+      pin_read("df-1") |>
+      expect_equal(df)
+  )
+
+  board |>
+    pin_read("df-1", type = "rds") |>
+    expect_equal(df)
+
+  board |>
+    pin_read("df-1", type = "csv") |>
+    tibble::as_tibble() |>
+    expect_equal(df)
+
+  expect_snapshot(error = TRUE, {
+    board |>
+      pin_read("df-1", type = "froopy-loops")
+    # No error, only snapshot for warning
+    board |>
+      pin_read("df-1")
+  })
+})
