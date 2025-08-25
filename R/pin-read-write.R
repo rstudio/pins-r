@@ -15,6 +15,9 @@
 #' @param hash Specify a hash to verify that you get exactly the dataset that
 #'   you expect. You can find the hash of an existing pin by looking for
 #'   `pin_hash` in [pin_meta()].
+#' @param type Retrieve the pin from this specific type. If not supplied and
+#'   the pin has multiple types stored, one will be chosen arbitrarily. In
+#'   order to avoid this, it is recommended to pass a type explicitly.
 #' @param ... Additional arguments passed on to methods for a specific board.
 #' @return `pin_read()` returns an R object read from the pin;
 #'   `pin_write()` returns the fully qualified name of the new pin, invisibly.
@@ -37,6 +40,12 @@
 #' b %>% pin_read("x", version = .Last.value$version[[1]])
 #' # (Normally you'd specify the version with a string, but since the
 #' # version includes the date-time I can't do that in an example)
+#'
+#'  # Pin with multiple types
+#'  b %>% pin_write(1:10, "y", type = c("rds", "json"))
+#'  b %>% pin_read("y", type = "json")
+#'  # Automatically chooses one of the available types
+#'  b %>% pin_read("y")
 pin_read <- function(
   board,
   name,
@@ -62,13 +71,13 @@ pin_read <- function(
 #' @param metadata A list containing additional metadata to store with the pin.
 #'   When retrieving the pin, this will be stored in the `user` key, to
 #'   avoid potential clashes with the metadata that pins itself uses.
-#' @param type File type used to save `x` to disk. Must be one of
-#'   "csv", "json", "rds", "parquet", "arrow", "qs", or "qs2". If not supplied, will
-#'   use JSON for bare lists and RDS for everything else. Be aware that CSV and
-#'   JSON are plain text formats, while RDS, Parquet, Arrow,
-#'   [qs](https://CRAN.R-project.org/package=qs), and
-#'   [qs2](https://CRAN.R-project.org/package=qs2)
-#'   are binary formats.
+#' @param type File types used to save `x` to disk. It supports a single
+#'   type or a vector of types, meaning the object can also be pinned in more
+#'   than one format. Each type must be one of "csv", "json", "rds", "parquet",
+#'   "arrow", "qs", or "qs2". If not supplied, will use JSON for bare lists and
+#'   RDS for everything else. Be aware that CSV and JSON are plain text formats,
+#'   while RDS, Parquet, Arrow, [qs](https://CRAN.R-project.org/package=qs), and
+#'   [qs2](https://CRAN.R-project.org/package=qs2) are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
