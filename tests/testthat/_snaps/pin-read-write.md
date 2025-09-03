@@ -28,9 +28,7 @@
     Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition
-      Error in `purrr::map2()`:
-      i In index: 1.
-      Caused by error in `map2_()`:
+      Error:
       ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", or "qs2", not "froopy-loops".
     Code
       pin_write(board, mtcars, name = "mtcars", metadata = 1)

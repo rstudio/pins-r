@@ -144,11 +144,9 @@ pin_write <- function(
     fs::path_file(rep_along(type, name)),
     type
   ))
-  purrr::map2(
-    paths,
-    type,
-    ~ object_write(x, path = .x, type = .y, call = caller_env())
-  )
+  for (i in seq_along(paths)) {
+    object_write(x, paths[i], type = type[i], call = caller_env())
+  }
   withr::defer(fs::file_delete(paths))
 
   meta <- standard_meta(
