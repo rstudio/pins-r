@@ -1,3 +1,13 @@
+# can get info with or without board
+
+    `pin()` was deprecated in pins 1.4.0 and is now defunct.
+    i Please use `pin_write()` instead.
+
+---
+
+    `pin()` was deprecated in pins 1.4.0 and is now defunct.
+    i Please use `pin_write()` instead.
+
 # gives useful errors
 
     Code

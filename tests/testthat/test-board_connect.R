@@ -11,18 +11,6 @@ test_that("get useful error for rebranding", {
   expect_snapshot(board <- board_rsconnect(), error = TRUE)
 })
 
-test_that("can round-trip a pin (v0)", {
-  board <- board_connect_ptd()
-  ptd_user_name <- rsconnect::accounts(server = "pub.demo.posit.team")$name
-
-  df1 <- data.frame(x = 1:5)
-  pin(df1, "test-df1", board = board)
-  withr::defer(pin_delete(board, paste0(ptd_user_name, "/test-df1")))
-
-  df2 <- pin_get(paste0(ptd_user_name, "/test-df1"), board = board)
-  expect_equal(df1, df2)
-})
-
 test_that("can find/search pins", {
   board <- board_connect_test()
   name <- pin_write(board, 1:5, "test-xyzxyzxyzxyz", title = "defdefdef")
