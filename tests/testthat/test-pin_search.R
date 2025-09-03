@@ -4,8 +4,8 @@ test_that("default search looks in name and description", {
   board |> pin_write(1:5, "ay", title = "z")
 
   expect_equal(board |> pin_search("a") |> nrow(), 2)
-  expect_equal(board |> pin_search("x") |> .$name, "ax")
-  expect_equal(board |> pin_search("z") |> .$name, "ay")
+  expect_equal(board |> pin_search("x") |> pluck("name"), "ax")
+  expect_equal(board |> pin_search("z") |> pluck("name"), "ay")
 })
 
 test_that("empty search returns all pins", {
