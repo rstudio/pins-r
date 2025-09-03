@@ -3,26 +3,31 @@
     Code
       pin_get(1, board = board)
     Condition
-      Error in `board_pin_get()`:
-      ! A package pin must be a string
+      Error:
+      ! `pin_get()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_read()` instead.
     Code
       pin_get("a", board = board)
     Condition
-      Error in `board_pin_get()`:
-      ! A package pin must have structure 'package/dataset'
+      Error:
+      ! `pin_get()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_read()` instead.
     Code
       pin_get("a/b/c", board = board)
     Condition
-      Error in `board_pin_get()`:
-      ! A package pin must have structure 'package/dataset'
+      Error:
+      ! `pin_get()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_read()` instead.
     Code
       pin_get("datasets/BJsales", board = board)
     Condition
-      Error in `board_pin_get()`:
-      ! 'datasets/BJsales' isn't a single dataset
+      Error:
+      ! `pin_get()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_read()` instead.
     Code
       pin_get("packagethatdoesntexist/x", board = board)
     Condition
-      Error in `board_pin_get()`:
-      ! The package "packagethatdoesntexist" is required.
+      Error:
+      ! `pin_get()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_read()` instead.
 
