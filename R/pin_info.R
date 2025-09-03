@@ -31,7 +31,7 @@ pin_info <- function(
   signature = FALSE,
   ...
 ) {
-  lifecycle::deprecate_warn("1.4.0", "pin_info()", "pin_meta()")
+  lifecycle::deprecate_stop("1.4.0", "pin_info()", "pin_meta()")
 
   if (is.board(board) && !0 %in% board$api) {
     this_not_that("pin_meta", "pin_info")

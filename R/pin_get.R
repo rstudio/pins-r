@@ -41,7 +41,7 @@ pin_get <- function(
   signature = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn("1.4.0", "pin_get()", "pin_read()")
+  lifecycle::deprecate_stop("1.4.0", "pin_get()", "pin_read()")
   board <- board_get(board)
 
   if (!cache) {

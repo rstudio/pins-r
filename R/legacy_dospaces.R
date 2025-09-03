@@ -73,7 +73,7 @@ board_register_dospace <- function(
   path = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_dospace()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

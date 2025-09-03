@@ -68,7 +68,7 @@ board_register_azure <- function(
   path = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_azure()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

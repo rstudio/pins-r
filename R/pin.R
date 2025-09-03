@@ -42,7 +42,7 @@
 #' @export
 #' @keywords internal
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
-  lifecycle::deprecate_warn("1.4.0", "pin()", "pin_write()")
+  lifecycle::deprecate_stop("1.4.0", "pin()", "pin_write()")
   UseMethod("pin")
 }
 

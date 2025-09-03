@@ -56,7 +56,7 @@ board_register_kaggle <- function(
   cache = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_kaggle()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

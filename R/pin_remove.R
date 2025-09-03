@@ -20,7 +20,7 @@
 #' @export
 #' @keywords internal
 pin_remove <- function(name, board = NULL) {
-  lifecycle::deprecate_warn("1.4.0", "pin_remove()", "pin_delete()")
+  lifecycle::deprecate_stop("1.4.0", "pin_remove()", "pin_delete()")
   board <- board_get(board)
   board_pin_remove(board, name)
   invisible(NULL)
