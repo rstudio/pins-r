@@ -63,7 +63,7 @@ it.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pin_read</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, version <span class="op">=</span> <span class="cn">NULL</span>, hash <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pin_read</span><span class="op">(</span><span class="va">board</span>, <span class="va">name</span>, version <span class="op">=</span> <span class="cn">NULL</span>, hash <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">pin_write</span><span class="op">(</span></span>
 <span>  <span class="va">board</span>,</span>
@@ -105,22 +105,22 @@ you expect. You can find the hash of an existing pin by looking for
 <code>pin_hash</code> in <code><a href="pin_meta.html">pin_meta()</a></code>.</p></dd>
 
 
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>File types used to save <code>x</code> to disk. Supports a single type or a
+vector of types (to pin in more than one format. Each type must be one of
+"csv", "json", "rds", "parquet", "arrow", "qs", or "qs2". If not supplied,
+will use JSON for bare lists and RDS for everything else. Be aware that CSV
+and JSON are plain text formats, while RDS, Parquet, Arrow,
+<a href="https://CRAN.R-project.org/package=qs" class="external-link">qs</a>, and
+<a href="https://CRAN.R-project.org/package=qs2" class="external-link">qs2</a> are binary formats.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments passed on to methods for a specific board.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object (typically a data frame) to pin.</p></dd>
-
-
-<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>File type used to save <code>x</code> to disk. Must be one of
-"csv", "json", "rds", "parquet", "arrow", "qs" or "qs2". If not supplied, will
-use JSON for bare lists and RDS for everything else. Be aware that CSV and
-JSON are plain text formats, while RDS, Parquet, Arrow,
-<a href="https://CRAN.R-project.org/package=qs" class="external-link">qs</a> and
-<a href="https://CRAN.R-project.org/package=qs2" class="external-link">qs2</a>
-are binary formats.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
@@ -178,11 +178,11 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"x"</span>, description <span class="op">=</span> <span class="st">"10 numbers"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250813T031537Z-23075'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250903T193433Z-23075'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span><span class="va">b</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pin board <span style="color: #0000BB;">&lt;pins_board_folder&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/Rtmp5FBCLB/pins-1e7a528c172f'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/RtmpYxbKOp/pins-1ed97285bb65'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cache size: 0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
@@ -195,21 +195,21 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: chr "10 numbers"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-08-13 03:15:37"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-09-03 19:34:33"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp5FBCLB/pins-1e7a528c172f/x/20250813T031537Z-23075"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpYxbKOp/pins-1ed97285bb65/x/20250903T193433Z-23075"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250813T031537Z-23075"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250903T193433Z-23075"</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add a new version</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span>, <span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250813T031537Z-c3be4'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250903T193433Z-c3be4'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  2  3  4  5  6  7  8  9 10 11</span>
@@ -219,12 +219,25 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20250813T031537Z-23075 2025-08-13 <span style="color: #949494;">03:15:37</span> 23075</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20250813T031537Z-c3be4 2025-08-13 <span style="color: #949494;">03:15:37</span> c3be4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20250903T193433Z-23075 2025-09-03 <span style="color: #949494;">19:34:33</span> 23075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20250903T193433Z-c3be4 2025-09-03 <span style="color: #949494;">19:34:33</span> c3be4</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="va">.Last.value</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  2  3  4  5  6  7  8  9 10 11</span>
 <span class="r-in"><span><span class="co"># (Normally you'd specify the version with a string, but since the</span></span></span>
 <span class="r-in"><span><span class="co"># version includes the date-time I can't do that in an example)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Pin with multiple types</span></span></span>
+<span class="r-in"><span> <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"y"</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250903T193433Z-85d7a'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'y'</span>
+<span class="r-in"><span> <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"y"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
+<span class="r-in"><span> <span class="co"># Automatically chooses one of the available types</span></span></span>
+<span class="r-in"><span> <span class="va">b</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBB00;">!</span> Pin <span style="color: #0000BB;">"y"</span> has multiple types: <span style="color: #0000BB;">"rds"</span> and <span style="color: #0000BB;">"json"</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Automatically choosing <span style="color: #0000BB;">"rds"</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> To avoid this warning, specify the `type` explicitly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
