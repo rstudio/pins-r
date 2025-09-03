@@ -48,8 +48,8 @@ pin_get("mtcars")
 
 # new api
 board <- board_local()
-board \%>\% pin_write(mtcars)
-board \%>\% pin_read("mtcars")
+board |> pin_write(mtcars)
+board |> pin_read("mtcars")
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

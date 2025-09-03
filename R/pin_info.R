@@ -19,8 +19,8 @@
 #'
 #' # new API
 #' board <- board_temp()
-#' board %>% pin_write(mtcars)
-#' board %>% pin_meta("mtcars")
+#' board |> pin_write(mtcars)
+#' board |> pin_meta("mtcars")
 #' @export
 #' @keywords internal
 pin_info <- function(
@@ -113,9 +113,9 @@ print.pin_info <- function(x, ...) {
       }
     }
 
-    yaml_str <- yaml::as.yaml(info) %>%
-      strsplit("\n") %>%
-      sapply(function(e) paste("#  ", e)) %>%
+    yaml_str <- yaml::as.yaml(info) |>
+      strsplit("\n") |>
+      sapply(function(e) paste("#  ", e)) |>
       paste0(collapse = "\n")
     cat(cli::col_silver(yaml_str))
   }

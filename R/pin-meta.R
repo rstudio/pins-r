@@ -29,18 +29,18 @@
 #' @export
 #' @examples
 #' b <- board_temp()
-#' b %>% pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
+#' b |> pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
 #'
 #' # Get the pin
-#' b %>% pin_read("mtcars")
+#' b |> pin_read("mtcars")
 #' # Get its metadata
-#' b %>% pin_meta("mtcars")
+#' b |> pin_meta("mtcars")
 #' # Get path to underlying data
-#' b %>% pin_download("mtcars")
+#' b |> pin_download("mtcars")
 #'
 #' # Use tags instead
-#' b %>% pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
-#' b %>% pin_meta("mtcars")
+#' b |> pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
+#' b |> pin_meta("mtcars")
 #'
 pin_meta <- function(board, name, version = NULL, ...) {
   check_board(board, "pin_meta", "pin_info")

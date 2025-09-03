@@ -45,7 +45,7 @@ pin_write(board, mtcars, "mtcars-json", type = "json")
 write_board_manifest(board)
 
 # see the manifest's format:
-fs::path(board$path, "_pins.yaml") \%>\% readLines() \%>\% cat(sep = "\n")
+fs::path(board$path, "_pins.yaml") |> readLines() |> cat(sep = "\n")
 
 # if you write another pin, the manifest file is out of date:
 pin_write(board, 1:10, "nice-numbers", type = "json")

@@ -128,7 +128,7 @@ azure_headers <- function(board, verb, path, file) {
   signature <- openssl::sha256(
     charToRaw(content),
     key = jsonlite::base64_dec(board$key)
-  ) %>%
+  ) |>
     jsonlite::base64_enc()
 
   headers <- httr::add_headers(

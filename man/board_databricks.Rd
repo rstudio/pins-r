@@ -67,8 +67,8 @@ add \code{requireNamespace("httr2")} to your app or document for \href{https://d
 \examples{
 \dontrun{
 board <- board_databricks("/Volumes/my-catalog/my-schema/my-volume")
-board \%>\% pin_write(mtcars)
-board \%>\% pin_read("mtcars")
+board |> pin_write(mtcars)
+board |> pin_read("mtcars")
 
 # A prefix allows you to have multiple independent boards in the same folder.
 project_1 <- board_databricks(

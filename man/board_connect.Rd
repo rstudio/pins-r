@@ -84,7 +84,7 @@ After you've shared the pin, it will be automatically available to others.
 If your Posit Connect instance allows it, you can share a pin publicly by
 setting the access type to \code{all}:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{board \%>\% pin_write(my_df, access_type = "all")
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{board |> pin_write(my_df, access_type = "all")
 }\if{html}{\out{</div>}}
 
 (You can also do this in Posit Connect by setting "Access" to
@@ -95,7 +95,7 @@ Now anyone can read your pin through \code{\link[=board_url]{board_url()}}:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{board <- board_url(c(
   numbers = "https://pub.current.posit.team/public/great-numbers/"
 ))
-board \%>\% pin_read("numbers")
+board |> pin_read("numbers")
 }\if{html}{\out{</div>}}
 
 You can find the URL of a pin with \code{\link[=pin_browse]{pin_browse()}}.
@@ -106,7 +106,7 @@ When you write a pin to Posit Connect, a landing page is created and
 published together with the pin file. This HTML landing page shows a
 table preview for rectangular data, but you can opt out of the table preview:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{board \%>\% pin_write(my_df, preview_data = FALSE)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{board |> pin_write(my_df, preview_data = FALSE)
 }\if{html}{\out{</div>}}
 }
 
@@ -114,10 +114,10 @@ table preview for rectangular data, but you can opt out of the table preview:
 \dontrun{
 board <- board_connect()
 # Share the mtcars with your team
-board \%>\% pin_write(mtcars, "mtcars")
+board |> pin_write(mtcars, "mtcars")
 
 # Download a shared dataset
-board \%>\% pin_read("timothy/mtcars")
+board |> pin_read("timothy/mtcars")
 }
 }
 \seealso{

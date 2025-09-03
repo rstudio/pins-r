@@ -14,7 +14,7 @@
 #' pin_find("cars")
 #' # ->
 #' board <- board_local()
-#' board %>% pin_search("cars")
+#' board |> pin_search("cars")
 #' @export
 #' @keywords internal
 pin_find <- function(

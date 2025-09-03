@@ -29,7 +29,6 @@ Imports:
     httr,
     jsonlite,
     lifecycle,
-    magrittr,
     purrr (>= 1.0.0),
     rappdirs,
     rlang (>= 1.1.0),

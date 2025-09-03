@@ -14,33 +14,33 @@
 # useful errors for unsupported methods
 
     Code
-      board %>% pin_write(1:5, "x")
+      pin_write(board, 1:5, "x")
     Condition
       Error in `pin_store()`:
       ! `board_url()` is read only
     Code
-      board %>% pin_delete("x")
+      pin_delete(board, "x")
     Condition
       Error in `pin_delete()`:
       ! `board_url()` is read only
     Code
-      board %>% pin_meta("froofy", version = "x")
+      pin_meta(board, "froofy", version = "x")
     Condition
       Error in `pin_meta()`:
       ! Can't find pin called "froofy"
       i Use `pin_list()` to see all available pins in this board
     Code
-      board %>% pin_meta("x", version = "x")
+      pin_meta(board, "x", version = "x")
     Condition
       Error in `pin_meta()`:
       ! This `board_url()` is not versioned
     Code
-      board %>% pin_versions("x")
+      pin_versions(board, "x")
     Condition
       Error in `pin_versions_modern()`:
       ! This `board_url()` is not versioned
     Code
-      board %>% pin_version_delete("x")
+      pin_version_delete(board, "x")
     Condition
       Error in `pin_version_delete()`:
       ! `board_url()` is read only

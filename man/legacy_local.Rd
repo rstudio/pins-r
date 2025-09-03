@@ -48,8 +48,8 @@ pin_get("test")
 
 # New api
 board <- board_local()
-board \%>\% pin_write(data.frame(x = 1:3), "test")
-board \%>\% pin_read("test")
+board |> pin_write(data.frame(x = 1:3), "test")
+board |> pin_read("test")
 }
 }
 \keyword{internal}

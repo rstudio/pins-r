@@ -15,8 +15,8 @@
 #'
 #' # new API
 #' board <- board_local()
-#' board %>% pin_write(mtcars)
-#' board %>% pin_delete("mtcars")
+#' board |> pin_write(mtcars)
+#' board |> pin_delete("mtcars")
 #' @export
 #' @keywords internal
 pin_remove <- function(name, board = NULL) {

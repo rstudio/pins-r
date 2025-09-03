@@ -86,25 +86,25 @@ if you want to perform the serialisation yourself and work just with files.
 \examples{
 b <- board_temp(versioned = TRUE)
 
-b \%>\% pin_write(1:10, "x", description = "10 numbers")
+b |> pin_write(1:10, "x", description = "10 numbers")
 b
 
-b \%>\% pin_meta("x")
-b \%>\% pin_read("x")
+b |> pin_meta("x")
+b |> pin_read("x")
 
 # Add a new version
-b \%>\% pin_write(2:11, "x")
-b \%>\% pin_read("x")
+b |> pin_write(2:11, "x")
+b |> pin_read("x")
 
 # Retrieve an older version
-b \%>\% pin_versions("x")
-b \%>\% pin_read("x", version = .Last.value$version[[1]])
+b |> pin_versions("x")
+b |> pin_read("x", version = .Last.value$version[[1]])
 # (Normally you'd specify the version with a string, but since the
 # version includes the date-time I can't do that in an example)
 
  # Pin with multiple types
- b \%>\% pin_write(1:10, "y", type = c("rds", "json"))
- b \%>\% pin_read("y", type = "json")
+ b |> pin_write(1:10, "y", type = c("rds", "json"))
+ b |> pin_read("y", type = "json")
  # Automatically chooses one of the available types
- b \%>\% pin_read("y")
+ b |> pin_read("y")
 }

@@ -97,7 +97,7 @@ board_register_s3 <- function(
 
 
 # See https://docs.amazonaws.cn/en_us/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-get-auth-header
-# httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) %>% httr::text_content()
+# httr::GET("https://ec2.amazonaws.com?Action=DescribeRegions&Version=2013-10-15", pins:::s3_headers_v4()) |> httr::text_content()
 s3_headers_v4 <- function(board, verb, path, filepath) {
   check_installed("openssl")
   service <- "s3"
@@ -229,7 +229,7 @@ s3_headers_v4 <- function(board, verb, path, filepath) {
   signing_key <- getSignatureKey(secret_key, datestamp, region, service)
 
   # Sign the string_to_sign using the signing_key
-  signature <- openssl::sha256(string_to_sign, key = signing_key) %>%
+  signature <- openssl::sha256(string_to_sign, key = signing_key) |>
     as.character()
 
   # ************* TASK 4: ADD SIGNING INFORMATION TO THE REQUEST *************
@@ -285,7 +285,7 @@ s3_headers <- function(board, verb, path, file) {
       sep = "\n"
     )
 
-    signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
+    signature <- openssl::sha1(charToRaw(content), key = board$secret) |>
       jsonlite::base64_enc()
 
     headers <- httr::add_headers(

@@ -15,13 +15,13 @@
 #' @examples
 #' board <- board_temp()
 #'
-#' board %>% pin_write(1:5, "x", title = "Some numbers")
-#' board %>% pin_write(letters[c(1, 5, 10, 15, 21)], "y", title = "My favourite letters")
-#' board %>% pin_write(runif(20), "z", title = "Random numbers")
+#' board |> pin_write(1:5, "x", title = "Some numbers")
+#' board |> pin_write(letters[c(1, 5, 10, 15, 21)], "y", title = "My favourite letters")
+#' board |> pin_write(runif(20), "z", title = "Random numbers")
 #'
-#' board %>% pin_search()
-#' board %>% pin_search("number")
-#' board %>% pin_search("letters")
+#' board |> pin_search()
+#' board |> pin_search("number")
+#' board |> pin_search("letters")
 pin_search <- function(board, search = NULL, ...) {
   check_board(board, "pin_search", "pin_find")
   check_dots_used()

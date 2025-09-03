@@ -78,7 +78,7 @@ pin_get("worldbank/world-development-indicators")
 The `Indicators.csv` file contains all the indicators, so let's load it with [readr](https://readr.tidyverse.org/):
 
 ```r
-indicators <- pin_get("worldbank/world-development-indicators")[6] %>%
+indicators <- pin_get("worldbank/world-development-indicators")[6] |>
   readr::read_csv()
 ```
 

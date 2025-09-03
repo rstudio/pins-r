@@ -54,7 +54,7 @@ if (requireNamespace("AzureStor")) {
   url <- "https://pins.blob.core.windows.net/public-data"
   container <- AzureStor::blob_container(url)
   board <- board_azure(container)
-  board \%>\% pin_read("mtcars")
+  board |> pin_read("mtcars")
 }
 
 \dontrun{
@@ -64,7 +64,7 @@ if (requireNamespace("AzureStor")) {
 url <- "https://myaccount.blob.core.windows.net/mycontainer"
 container <- AzureStor::blob_container(url, sas = "my-sas")
 board <- board_azure(container, "path/to/board")
-board \%>\% pin_write(iris)
+board |> pin_write(iris)
 
 # ADLSgen2 is a modern, efficient way to access blobs
 # - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API
@@ -74,7 +74,7 @@ board \%>\% pin_write(iris)
 adls_url <- "https://myaccount.dfs.core.windows.net/mycontainer"
 container <- AzureStor::storage_container(adls_url, sas = "my-sas")
 board <- board_azure(container, "path/to/board")
-board \%>\% pin_list()
-board \%>\% pin_read("iris")
+board |> pin_list()
+board |> pin_read("iris")
 }
 }

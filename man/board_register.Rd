@@ -44,8 +44,8 @@ pin_get("mtcars", board = "myboard")
 
 # modern API (not available for all boards)
 board <- board_temp()
-board \%>\% pin_write(mtcars)
-board \%>\% pin_read("mtcars")
+board |> pin_write(mtcars)
+board |> pin_read("mtcars")
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

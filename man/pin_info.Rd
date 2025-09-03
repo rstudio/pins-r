@@ -41,8 +41,8 @@ pin_info("mtcars", "local")
 
 # new API
 board <- board_temp()
-board \%>\% pin_write(mtcars)
-board \%>\% pin_meta("mtcars")
+board |> pin_write(mtcars)
+board |> pin_meta("mtcars")
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

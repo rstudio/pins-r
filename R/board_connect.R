@@ -16,7 +16,7 @@
 #' setting the access type to `all`:
 #'
 #' ```r
-#' board %>% pin_write(my_df, access_type = "all")
+#' board |> pin_write(my_df, access_type = "all")
 #' ```
 #'
 #' (You can also do this in Posit Connect by setting "Access" to
@@ -28,7 +28,7 @@
 #' board <- board_url(c(
 #'   numbers = "https://pub.current.posit.team/public/great-numbers/"
 #' ))
-#' board %>% pin_read("numbers")
+#' board |> pin_read("numbers")
 #' ```
 #'
 #' You can find the URL of a pin with [pin_browse()].
@@ -40,7 +40,7 @@
 #' table preview for rectangular data, but you can opt out of the table preview:
 #'
 #' ```r
-#' board %>% pin_write(my_df, preview_data = FALSE)
+#' board |> pin_write(my_df, preview_data = FALSE)
 #' ```
 #'
 #' @inheritParams new_board
@@ -74,10 +74,10 @@
 #' \dontrun{
 #' board <- board_connect()
 #' # Share the mtcars with your team
-#' board %>% pin_write(mtcars, "mtcars")
+#' board |> pin_write(mtcars, "mtcars")
 #'
 #' # Download a shared dataset
-#' board %>% pin_read("timothy/mtcars")
+#' board |> pin_read("timothy/mtcars")
 #' }
 board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
                           server = NULL,

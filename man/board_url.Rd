@@ -79,7 +79,7 @@ board <- board_url(
   headers = gh_pat_auth
 )
 
-board \%>\% pin_list()
+board |> pin_list()
 }\if{html}{\out{</div>}}
 }
 
@@ -94,16 +94,16 @@ b1 <- board_url(c(
   raw = github_raw("rstudio/pins-r/main/tests/testthat/pin-files/first.txt")
 ))
 
-b1 \%>\% pin_read("rds")
-b1 \%>\% pin_browse("rds", local = TRUE)
+b1 |> pin_read("rds")
+b1 |> pin_browse("rds", local = TRUE)
 
-b1 \%>\% pin_download("files")
-b1 \%>\% pin_download("raw")
+b1 |> pin_download("files")
+b1 |> pin_download("raw")
 
 ## with a manifest file:
 b2 <- board_url(github_raw("rstudio/pins-r/main/tests/testthat/pin-board/"))
-b2 \%>\% pin_list()
-b2 \%>\% pin_versions("y")
+b2 |> pin_list()
+b2 |> pin_versions("y")
 \dontshow{\}) # examplesIf}
 }
 \seealso{

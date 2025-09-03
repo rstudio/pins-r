@@ -42,7 +42,7 @@
 #' # A board in your personal OneDrive
 #' od <- Microsoft365R::get_personal_onedrive()
 #' board <- board_ms365(od, "myboard")
-#' board %>% pin_write(iris)
+#' board |> pin_write(iris)
 #'
 #' # A board in OneDrive for Business
 #' odb <- Microsoft365R::get_business_onedrive(tenant = "mytenant")

@@ -25,8 +25,8 @@
 #' @examples
 #' \dontrun{
 #' board <- board_gdrive("folder-for-my-pins")
-#' board %>% pin_write(1:10, "great-integers", type = "json")
-#' board %>% pin_read("great-integers")
+#' board |> pin_write(1:10, "great-integers", type = "json")
+#' board |> pin_read("great-integers")
 #' }
 board_gdrive <- function(path,
                          versioned = TRUE,

@@ -115,7 +115,7 @@ dospace_headers <- function(board, verb, path, file) {
     sep = "\n"
   )
 
-  signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
+  signature <- openssl::sha1(charToRaw(content), key = board$secret) |>
     jsonlite::base64_enc()
 
   headers <- httr::add_headers(

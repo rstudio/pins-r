@@ -46,7 +46,7 @@ We're using a temporary board for this demonstration, but in practice, you might
 Let's make the `mtcars` dataset available as a JSON file:
 
 ```{r}
-board %>% pin_write(mtcars, type = "json")
+board |> pin_write(mtcars, type = "json")
 ```
 
 Let's make a new version of this data by adding a column: `lper100km`, consumption in liters per 100 km.
@@ -64,15 +64,15 @@ Sys.sleep(2)
 mtcars_metric <- mtcars
 mtcars_metric$lper100km <- 235.215 / mtcars$mpg
 
-board %>% pin_write(mtcars_metric, name = "mtcars", type = "json")
+board |> pin_write(mtcars_metric, name = "mtcars", type = "json")
 ```
 
 Let's check our board to ensure we have one pin named `"mtcars"`, with two versions:
 
 ```{r board-pin-list}
-board %>% pin_list()
+board |> pin_list()
 
-board %>% pin_versions("mtcars")
+board |> pin_versions("mtcars")
 ```
 
 Because a `board_url()` is consumed over the web, it doesn't have access to a file system the way, for example, a `board_folder()` has; we can work around this by creating a manifest file.
@@ -82,7 +82,7 @@ The manifest file is the key to `board_url()`'s ability to discover pins as if i
 After writing pins but *before* publishing, call `write_board_manifest()`:
 
 ```{r}
-board %>% write_board_manifest()
+board |> write_board_manifest()
 ```
 
 The maintenance of this manifest file is not automated; it is your responsibility as the board publisher to keep the manifest up to date.
@@ -125,9 +125,9 @@ The `board_url()` function reads the manifest file to discover the pins and vers
 
 ```{r}
 #| message: false
-web_board %>% pin_list()
+web_board |> pin_list()
 
-versions <- web_board %>% pin_versions("mtcars")
+versions <- web_board |> pin_versions("mtcars")
 versions
 ```
 
@@ -135,14 +135,14 @@ We can read the most-recent version of the `"mtcars"` pin:
 
 ```{r}
 #| message: false
-web_board %>% pin_read("mtcars") %>% head()
+web_board |> pin_read("mtcars") |> head()
 ```
 
 We can also read the first version:
 
 ```{r}
 #| message: false
-web_board %>% pin_read("mtcars", version = versions$version[[1]]) %>% head()
+web_board |> pin_read("mtcars", version = versions$version[[1]]) |> head()
 ```
 
 ## Publishing platforms

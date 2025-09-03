@@ -6,7 +6,7 @@
 #' * `pin_version_delete()` deletes a single version.
 #'
 #' @param board,name A pair of board and pin name. For modern boards,
-#'   use `board %>% pin_versions(name)`. For backward compatibility with the
+#'   use `board |> pin_versions(name)`. For backward compatibility with the
 #'   legacy API, you can also use `pin_versions(name)` or
 #'   `pin_version(name, board)`.
 #' @param ... Additional arguments passed on to methods for a specific board.
@@ -15,21 +15,21 @@
 #' @examples
 #' board <- board_temp(versioned = TRUE)
 #'
-#' board %>% pin_write(data.frame(x = 1:5), name = "df")
-#' board %>% pin_write(data.frame(x = 2:6), name = "df")
-#' board %>% pin_write(data.frame(x = 3:7), name = "df")
+#' board |> pin_write(data.frame(x = 1:5), name = "df")
+#' board |> pin_write(data.frame(x = 2:6), name = "df")
+#' board |> pin_write(data.frame(x = 3:7), name = "df")
 #'
 #' # pin_read() returns the latest version by default
-#' board %>% pin_read("df")
+#' board |> pin_read("df")
 #'
 #' # but you can return earlier versions if needed
-#' board %>% pin_versions("df")
+#' board |> pin_versions("df")
 #'
 #' ver <- pin_versions(board, "df")$version[[1]]
-#' board %>% pin_read("df", version = ver)
+#' board |> pin_read("df", version = ver)
 #'
 #' # delete all versions created more than 30 days ago
-#' board %>% pin_versions_prune("df", days = 30)
+#' board |> pin_versions_prune("df", days = 30)
 #' @export
 pin_versions <- function(board, name, ...) {
   check_dots_used()

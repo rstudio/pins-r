@@ -7,16 +7,16 @@ library(pins)
 library(xml2)
 
 xml <- read_xml("http://feeds.bbci.co.uk/news/rss.xml")
-items <- xml %>% xml_find_all("//item")
+items <- xml |> xml_find_all("//item")
 
 bbc_news <- tibble::tibble(
-  title = items %>% xml_find_first("./title") %>% xml_text(),
-  date = items %>% xml_find_first("./pubDate") %>% xml_text(),
-  url = items %>% xml_find_first("./guid") %>% xml_text()
+  title = items |> xml_find_first("./title") |> xml_text(),
+  date = items |> xml_find_first("./pubDate") |> xml_text(),
+  url = items |> xml_find_first("./guid") |> xml_text()
 )
 
 board <- board_connect()
-board %>% pin_write(bbc_news)
+board |> pin_write(bbc_news)
 ```
 
 ```{r}

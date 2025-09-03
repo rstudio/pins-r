@@ -14,7 +14,7 @@ pin_versions_prune(board, name, n = NULL, days = NULL, ...)
 }
 \arguments{
 \item{board, name}{A pair of board and pin name. For modern boards,
-use \code{board \%>\% pin_versions(name)}. For backward compatibility with the
+use \code{board |> pin_versions(name)}. For backward compatibility with the
 legacy API, you can also use \code{pin_versions(name)} or
 \code{pin_version(name, board)}.}
 
@@ -41,19 +41,19 @@ provided additional data.
 \examples{
 board <- board_temp(versioned = TRUE)
 
-board \%>\% pin_write(data.frame(x = 1:5), name = "df")
-board \%>\% pin_write(data.frame(x = 2:6), name = "df")
-board \%>\% pin_write(data.frame(x = 3:7), name = "df")
+board |> pin_write(data.frame(x = 1:5), name = "df")
+board |> pin_write(data.frame(x = 2:6), name = "df")
+board |> pin_write(data.frame(x = 3:7), name = "df")
 
 # pin_read() returns the latest version by default
-board \%>\% pin_read("df")
+board |> pin_read("df")
 
 # but you can return earlier versions if needed
-board \%>\% pin_versions("df")
+board |> pin_versions("df")
 
 ver <- pin_versions(board, "df")$version[[1]]
-board \%>\% pin_read("df", version = ver)
+board |> pin_read("df", version = ver)
 
 # delete all versions created more than 30 days ago
-board \%>\% pin_versions_prune("df", days = 30)
+board |> pin_versions_prune("df", days = 30)
 }

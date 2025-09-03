@@ -311,7 +311,7 @@ board_pin_find.pins_board_kaggle <- function(
       board,
       text,
       base_url = "https://www.kaggle.com/api/v1/competitions/list?"
-    ) %>%
+    ) |>
       lapply(function(e) {
         e$ref <- paste0("c/", e$ref)
         e
@@ -345,7 +345,7 @@ board_pin_find.pins_board_kaggle <- function(
       length(results$ref)
     ),
     stringsAsFactors = FALSE
-  ) %>%
+  ) |>
     unique()
 }
 

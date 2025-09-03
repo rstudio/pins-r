@@ -36,6 +36,6 @@ Search for pins in legacy boards.
 pin_find("cars")
 # ->
 board <- board_local()
-board \%>\% pin_search("cars")
+board |> pin_search("cars")
 }
 \keyword{internal}

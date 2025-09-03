@@ -25,8 +25,8 @@
 #'
 #' # New api
 #' board <- board_local()
-#' board %>% pin_write(data.frame(x = 1:3), "test")
-#' board %>% pin_read("test")
+#' board |> pin_write(data.frame(x = 1:3), "test")
+#' board |> pin_read("test")
 #' }
 legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   path <- path %||% board_cache_path(name)

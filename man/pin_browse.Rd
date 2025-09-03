@@ -24,9 +24,9 @@ internet or on your local file system.
 }
 \examples{
 board <- board_temp(versioned = TRUE)
-board \%>\% pin_write(1:10, "x")
-board \%>\% pin_write(1:11, "x")
-board \%>\% pin_write(1:12, "x")
+board |> pin_write(1:10, "x")
+board |> pin_write(1:11, "x")
+board |> pin_write(1:12, "x")
 
-board \%>\% pin_browse("x", local = TRUE)
+board |> pin_browse("x", local = TRUE)
 }

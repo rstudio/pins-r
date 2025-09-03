@@ -36,8 +36,8 @@
 #'
 #' # new api
 #' board <- board_local()
-#' board %>% pin_write(mtcars)
-#' board %>% pin_read("mtcars")
+#' board |> pin_write(mtcars)
+#' board |> pin_read("mtcars")
 #'
 #' @export
 #' @keywords internal
