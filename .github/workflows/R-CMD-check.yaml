@@ -52,12 +52,6 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
-
-      - name: "Set LOGNAME environment variable to get _R_CHECK_THINGS_IN_OTHER_DIRS_ to work"
-        run: |
-          cat("LOGNAME=", Sys.info()[["user"]], "\n", sep = "", file = Sys.getenv("GITHUB_ENV"), append = TRUE)
-        shell: Rscript {0}
-
       - uses: r-lib/actions/check-r-package@v2
         with:
           error-on: '"note"'
