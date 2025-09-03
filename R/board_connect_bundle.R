@@ -62,7 +62,7 @@ rsc_bundle_preview_index <- function(board, name, x, metadata, preview_data = TR
     data_preview_style = if ( is.data.frame(x) && preview_data ) "" else "display:none",
     urls = paste0("<a href=\"", metadata$urls, "\">", metadata$urls, "</a>", collapse = ", "),
     url_preview_style = if (!is.null(metadata$urls)) "" else "display:none",
-    show_python_style = if (metadata$type %in% c("rds", "qs", "qs2")) "display:none" else "",
+    show_python_style = if (all(metadata$type %in% c("rds", "qs", "qs2"))) "display:none" else "",
     pin_name = paste0(owner, "/", name$name),
     pin_metadata = list(
       as_yaml = yaml::as.yaml(metadata),

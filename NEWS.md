@@ -4,6 +4,8 @@
 
 * Added download progress bar for `board_url()` (#872, @lbm364dl).
 
+* Added support for writing pins with multiple types, like `type = c("rds", "csv")` (#877, @lbm364dl).
+
 # pins 1.4.1
 
 * Support new `preview_data` parameter for pin previews on Posit Connect (#850).
