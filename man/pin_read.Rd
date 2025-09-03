@@ -35,12 +35,12 @@ find out which versions are available and when they were created.}
 you expect. You can find the hash of an existing pin by looking for
 \code{pin_hash} in \code{\link[=pin_meta]{pin_meta()}}.}
 
-\item{type}{File types used to save \code{x} to disk. It supports a single
-type or a vector of types, meaning the object can also be pinned in more
-than one format. Each type must be one of "csv", "json", "rds", "parquet",
-"arrow", "qs", or "qs2". If not supplied, will use JSON for bare lists and
-RDS for everything else. Be aware that CSV and JSON are plain text formats,
-while RDS, Parquet, Arrow, \href{https://CRAN.R-project.org/package=qs}{qs}, and
+\item{type}{File types used to save \code{x} to disk. Supports a single type or a
+vector of types (to pin in more than one format. Each type must be one of
+"csv", "json", "rds", "parquet", "arrow", "qs", or "qs2". If not supplied,
+will use JSON for bare lists and RDS for everything else. Be aware that CSV
+and JSON are plain text formats, while RDS, Parquet, Arrow,
+\href{https://CRAN.R-project.org/package=qs}{qs}, and
 \href{https://CRAN.R-project.org/package=qs2}{qs2} are binary formats.}
 
 \item{...}{Additional arguments passed on to methods for a specific board.}

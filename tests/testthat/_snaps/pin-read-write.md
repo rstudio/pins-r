@@ -28,9 +28,9 @@
     Code
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition
-      Error in `purrr::map_chr()`:
+      Error in `purrr::map2()`:
       i In index: 1.
-      Caused by error in `object_write()`:
+      Caused by error in `map2_()`:
       ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", or "qs2", not "froopy-loops".
     Code
       pin_write(board, mtcars, name = "mtcars", metadata = 1)
@@ -88,13 +88,15 @@
     Code
       pin_read(board, "df-1", type = "froopy-loops")
     Condition
-      Error in `object_read()`:
+      Error in `pin_read()`:
       ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "qs2", or "file", not "froopy-loops".
     Code
       pin_read(board, "df-1")
     Condition
       Warning:
-      An arbitrary type (rds) is being read because there is more than one available for this file. It is suggested to pass the expected type explicitly.
+      ! Pin "df-1" has multiple types: "rds" and "csv"
+      * Automatically choosing "rds"
+      * To avoid this warning, specify the `type` explicitly
     Output
       # A tibble: 10 x 1
              x
