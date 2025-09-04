@@ -6,6 +6,10 @@
 
 * Added support for writing pins with multiple types, like `type = c("rds", "csv")` (#877, @lbm364dl).
 
+* Switched to using the native pipe in examples and documentation (#879).
+
+* Further escalated gradual deprecation process for legacy pins functions such as `pin()` (#879).
+
 # pins 1.4.1
 
 * Support new `preview_data` parameter for pin previews on Posit Connect (#850).
