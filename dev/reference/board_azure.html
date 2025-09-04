@@ -122,7 +122,7 @@ when deploying content to a server like <a href="https://www.shinyapps.io" class
 <span class="r-in"><span>  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pins.blob.core.windows.net/public-data"</span></span></span>
 <span class="r-in"><span>  <span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">blob_container</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: AzureStor</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
@@ -199,7 +199,7 @@ when deploying content to a server like <a href="https://www.shinyapps.io" class
 <span class="r-in"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://myaccount.blob.core.windows.net/mycontainer"</span></span></span>
 <span class="r-in"><span><span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/blob_container.html" class="external-link">blob_container</a></span><span class="op">(</span><span class="va">url</span>, sas <span class="op">=</span> <span class="st">"my-sas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span>, <span class="st">"path/to/board"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ADLSgen2 is a modern, efficient way to access blobs</span></span></span>
 <span class="r-in"><span><span class="co"># - Use 'dfs' instead of 'blob' in the account URL to use the ADLSgen2 API</span></span></span>
@@ -209,8 +209,8 @@ when deploying content to a server like <a href="https://www.shinyapps.io" class
 <span class="r-in"><span><span class="va">adls_url</span> <span class="op">&lt;-</span> <span class="st">"https://myaccount.dfs.core.windows.net/mycontainer"</span></span></span>
 <span class="r-in"><span><span class="va">container</span> <span class="op">&lt;-</span> <span class="fu">AzureStor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AzureStor/man/generics.html" class="external-link">storage_container</a></span><span class="op">(</span><span class="va">adls_url</span>, sas <span class="op">=</span> <span class="st">"my-sas"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu">board_azure</span><span class="op">(</span><span class="va">container</span>, <span class="st">"path/to/board"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

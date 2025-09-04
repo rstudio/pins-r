@@ -58,6 +58,8 @@
 <ul><li><p>Added support of the <code>qs2</code> format (<a href="https://github.com/rstudio/pins-r/issues/865" class="external-link">#865</a>, <a href="https://github.com/atsyplenkov" class="external-link">@atsyplenkov</a>).</p></li>
 <li><p>Added download progress bar for <code><a href="../reference/board_url.html">board_url()</a></code> (<a href="https://github.com/rstudio/pins-r/issues/872" class="external-link">#872</a>, <a href="https://github.com/lbm364dl" class="external-link">@lbm364dl</a>).</p></li>
 <li><p>Added support for writing pins with multiple types, like <code>type = c("rds", "csv")</code> (<a href="https://github.com/rstudio/pins-r/issues/877" class="external-link">#877</a>, <a href="https://github.com/lbm364dl" class="external-link">@lbm364dl</a>).</p></li>
+<li><p>Switched to using the native pipe in examples and documentation (<a href="https://github.com/rstudio/pins-r/issues/879" class="external-link">#879</a>).</p></li>
+<li><p>Further escalated gradual deprecation process for legacy pins functions such as <code><a href="../reference/pin.html">pin()</a></code> (<a href="https://github.com/rstudio/pins-r/issues/879" class="external-link">#879</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.1" id="pins-141">pins 1.4.1<a class="anchor" aria-label="anchor" href="#pins-141"></a></h2><p class="text-muted">CRAN release: 2025-04-30</p>
@@ -177,8 +179,8 @@
 <p>pins 1.0.0 includes a new, more explicit, API that includes robust support for versioning. In the modern API, you create a board object which is passed to every <code>pin_</code> function instead of “registering” a board that is later refereed to with a string. This leads to code like this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></code></pre></div>
 <p>The legacy API (<code><a href="../reference/pin.html">pin()</a></code>, <code><a href="../reference/pin_get.html">pin_get()</a></code>, and <code><a href="../reference/board_register.html">board_register()</a></code>) will continue to work, but new features will only be implemented with the new API, so we encourage you to switch to the modern API as quickly as possible. Learn more in <code><a href="../articles/pins-update.html">vignette("pins-update")</a></code>.</p>
 <div class="section level3">
 <h3 id="modern-pin-functions-1-0-0">Modern pin functions<a class="anchor" aria-label="anchor" href="#modern-pin-functions-1-0-0"></a></h3>

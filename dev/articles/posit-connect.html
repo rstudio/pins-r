@@ -111,12 +111,12 @@ a tidy dataset:</p>
 <span>  <span class="va">xml</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="st">"bbc-news.xml"</span><span class="op">)</span>  </span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">items</span> <span class="op">&lt;-</span> <span class="va">xml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="st">"//item"</span><span class="op">)</span></span>
+<span><span class="va">items</span> <span class="op">&lt;-</span> <span class="va">xml</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="st">"//item"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">bbc_news</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>  title <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./title"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  date <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./pubDate"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  url <span class="op">=</span> <span class="va">items</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./guid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  title <span class="op">=</span> <span class="va">items</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./title"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  date <span class="op">=</span> <span class="va">items</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./pubDate"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  url <span class="op">=</span> <span class="va">items</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_first</a></span><span class="op">(</span><span class="st">"./guid"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">bbc_news</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 71 × 3</span></span></span>
@@ -138,16 +138,16 @@ this data, and provide them directly with the tidy tibble? That’s easy
 to do with pins:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_connect.html">board_connect</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">bbc_news</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">bbc_news</span><span class="op">)</span></span></code></pre></div>
 <p>If you open the pin on RSC (e.g. by running
-<code>board %&gt;% pin_browse("news_total")</code>), you’ll see some
+<code>board |&gt; pin_browse("news_total")</code>), you’ll see some
 metadata about the pin, a preview of the data, and a control panel which
 allows you to control who can see the data. Assuming you’ve given your
 colleagues access, they can now easily pull down the data for their own
 analysis:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_connect.html">board_connect</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"your_name/bbc_news"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"your_name/bbc_news"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="automating">Automating<a class="anchor" aria-label="anchor" href="#automating"></a>
@@ -167,16 +167,16 @@ library(pins)
 library(xml2)
 
 xml &lt;- read_xml("http://feeds.bbci.co.uk/news/rss.xml")
-items &lt;- xml %&gt;% xml_find_all("//item")
+items &lt;- xml |&gt; xml_find_all("//item")
 
 bbc_news &lt;- tibble::tibble(
-  title = items %&gt;% xml_find_first("./title") %&gt;% xml_text(),
-  date = items %&gt;% xml_find_first("./pubDate") %&gt;% xml_text(),
-  url = items %&gt;% xml_find_first("./guid") %&gt;% xml_text()
+  title = items |&gt; xml_find_first("./title") |&gt; xml_text(),
+  date = items |&gt; xml_find_first("./pubDate") |&gt; xml_text(),
+  url = items |&gt; xml_find_first("./guid") |&gt; xml_text()
 )
 
 board &lt;- board_connect()
-board %&gt;% pin_write(bbc_news)
+board |&gt; pin_write(bbc_news)
 ```
 
 ```{r}
@@ -206,7 +206,7 @@ your app will automatically update shortly after the data changes:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">news</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_reactive_read.html">pin_reactive_read</a></span><span class="op">(</span><span class="st">"hadley/bbc_news"</span><span class="op">)</span></span>
+<span>  <span class="va">news</span> <span class="op">&lt;-</span> <span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_reactive_read.html">pin_reactive_read</a></span><span class="op">(</span><span class="st">"hadley/bbc_news"</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="va">output</span><span class="op">$</span><span class="va">news</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">title</span> <span class="op">&lt;-</span> <span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/htmlEscape.html" class="external-link">htmlEscape</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/news.html" class="external-link">news</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">title</span><span class="op">)</span></span>

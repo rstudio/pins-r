@@ -103,58 +103,6 @@
     <p>Retrieve metadata for pins in legacy boards.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># old API</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="legacy_local.html">board_register_local</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="pin.html">pin</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">pin_info</span><span class="op">(</span><span class="st">"mtcars"</span>, <span class="st">"local"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`pin_info()` was deprecated in pins 1.4.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `pin_meta()` instead.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Source: local&lt;mtcars&gt; [table]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;"># Properties:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#   rows: 32</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#   cols: 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#   columns:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     mpg: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     cyl: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     disp: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     hp: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     drat: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     wt: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     qsec: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     vs: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     am: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     gear: numeric</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">#     carb: numeric</span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># new API</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Using `name = 'mtcars'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250903T193431Z-1a322'</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 1.19K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "1a3227afc73b5e9e"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2025-09-03 19:34:31"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpYxbKOp/pins-1ed9349431a7/mtcars/20250903T193431Z-1a322"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20250903T193431Z-1a322"</span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

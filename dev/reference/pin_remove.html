@@ -80,25 +80,6 @@
     <p>Deletes pins from a legacy board.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># old API</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="legacy_local.html">board_register_local</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="pin.html">pin</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">pin_remove</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`pin_remove()` was deprecated in pins 1.4.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `pin_delete()` instead.</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># new API</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Using `name = 'mtcars'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> The hash of pin <span style="color: #0000BB;">"mtcars"</span> has not changed.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Your pin will not be stored.</span>
-<span class="r-in"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="pin_delete.html">pin_delete</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

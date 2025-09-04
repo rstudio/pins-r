@@ -124,8 +124,8 @@ want to use the pipe:</p>
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pinning-files">Pinning files<a class="anchor" aria-label="anchor" href="#pinning-files"></a>
 </h3>
@@ -143,8 +143,8 @@ pinning a file, so here instead of <code><a href="../reference/pin_read.html">pi
 <code><a href="../reference/pin_download.html">pin_download()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">path</span>, <span class="st">"alphabet"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"alphabet"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pinning-a-url">Pinning a url<a class="anchor" aria-label="anchor" href="#pinning-a-url"></a>
@@ -164,7 +164,7 @@ need to use <code><a href="../reference/pin_download.html">pin_download()</a></c
 <span><span class="va">board_github</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_url.html">board_url</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  raw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base</span>, <span class="st">"pin-files/first.txt"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">board_github</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board_github</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"raw"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="implicit-board">Implicit board<a class="anchor" aria-label="anchor" href="#implicit-board"></a>
@@ -182,8 +182,8 @@ it automatically uses a local board:</p>
 <code class="sourceCode R"><span><span class="co"># Modern API</span></span>
 <span><span class="va">board</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_local</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"test-data"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"test-data"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
