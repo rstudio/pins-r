@@ -10,11 +10,6 @@
 #' @param extended Should additional board-specific columns be shown?
 #' @param metadata Include pin metadata in results?
 #' @param ... Additional parameters.
-#' @examples
-#' pin_find("cars")
-#' # ->
-#' board <- board_local()
-#' board |> pin_search("cars")
 #' @export
 #' @keywords internal
 pin_find <- function(

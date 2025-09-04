@@ -11,16 +11,6 @@
 #' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
 #'
-#' @examplesIf rlang::is_installed("filelock")
-#' # old API
-#' board_register_local(cache = tempfile())
-#' pin(mtcars)
-#' pin_info("mtcars", "local")
-#'
-#' # new API
-#' board <- board_temp()
-#' board |> pin_write(mtcars)
-#' board |> pin_meta("mtcars")
 #' @export
 #' @keywords internal
 pin_info <- function(
