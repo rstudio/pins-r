@@ -5,17 +5,6 @@
 #'
 #' The legacy pins API uses a board registry, where you first register a board
 #' then refer to it by name in calls to pin functions.
-#'
-#' @examplesIf rlang::is_installed("filelock")
-#' # legacy API
-#' board_register_local("myboard", cache = tempfile())
-#' pin(mtcars, board = "myboard")
-#' pin_get("mtcars", board = "myboard")
-#'
-#' # modern API (not available for all boards)
-#' board <- board_temp()
-#' board |> pin_write(mtcars)
-#' board |> pin_read("mtcars")
 #' @keywords internal
 #' @export
 board_register <- function(
