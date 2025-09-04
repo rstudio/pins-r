@@ -17,12 +17,12 @@
 # can browse
 
     Code
-      b %>% pin_browse("x")
+      pin_browse(b, "x")
     Condition
       Error in `pin_browse()`:
       ! pin doesn't have remote url
     Code
-      b %>% pin_browse("x", local = TRUE)
+      pin_browse(b, "x", local = TRUE)
     Message
       i Pin at <redacted>
 

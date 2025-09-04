@@ -197,7 +197,7 @@ board_deparse.pins_board <- function(board, ...) {
 #' write_board_manifest(board)
 #'
 #' # see the manifest's format:
-#' fs::path(board$path, "_pins.yaml") %>% readLines() %>% cat(sep = "\n")
+#' fs::path(board$path, "_pins.yaml") |> readLines() |> cat(sep = "\n")
 #'
 #' # if you write another pin, the manifest file is out of date:
 #' pin_write(board, 1:10, "nice-numbers", type = "json")
@@ -223,8 +223,8 @@ make_manifest <- function(board) {
 
   result <- map(
     pin_names,
-    ~fs::path(.x, pin_versions(board, name = .x)$version) %>%
-      end_with_slash() %>% # versions usually don't include slash
+    ~fs::path(.x, pin_versions(board, name = .x)$version) |>
+      end_with_slash() |> # versions usually don't include slash
       as.list()
   )
   names(result) <- pin_names

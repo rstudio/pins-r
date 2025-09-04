@@ -25,7 +25,7 @@ pin_reactive <- function(
   session = NULL,
   extract = NULL
 ) {
-  lifecycle::deprecate_warn("1.4.0", "pin_reactive()", "pin_reactive_read()")
+  lifecycle::deprecate_stop("1.4.0", "pin_reactive()", "pin_reactive_read()")
 
   board_object <- board_get(board)
 

@@ -61,7 +61,7 @@ We can use this new function to write a pin as JSON with our specific metadata:
 
 ```{r}
 ten_letters <- factor(sample(letters, size = 10), levels = letters)
-board %>% pin_write_factor_json(ten_letters, "letters-as-json")
+board |> pin_write_factor_json(ten_letters, "letters-as-json")
 ```
 
 ## A function to read factors
@@ -69,7 +69,7 @@ board %>% pin_write_factor_json(ten_letters, "letters-as-json")
 It's possible to read this pin using the regular `pin_read()` function, but the object we get is no longer a factor!
 
 ```{r}
-board %>% pin_read("letters-as-json")
+board |> pin_read("letters-as-json")
 ```
 
 Instead, we can also write a special function for reading, to reconstruct the factor including its levels:
@@ -81,7 +81,7 @@ pin_read_factor_json <- function(board, name, version = NULL, hash = NULL, ...) 
   factor(ret, levels = meta$user$factor_levels)
 }
 
-board %>% pin_read_factor_json("letters-as-json")
+board |> pin_read_factor_json("letters-as-json")
 ```
 
 ## Examples of using consistent metadata

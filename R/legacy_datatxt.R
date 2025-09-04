@@ -16,17 +16,6 @@
 #'   query string to defeat caching?
 #' @param path Subdirectory within `url`
 #' @param versions Should this board be registered with support for versions?
-#' @examples
-#'
-#' # register website board using datatxt file
-#' board_register_datatxt(
-#'   url = "https://datatxt.org/data.txt",
-#'   name = "txtexample",
-#'   cache = tempfile()
-#' )
-#'
-#' # find pins
-#' pin_find(board = "txtexample")
 #' @export
 #' @keywords internal
 legacy_datatxt <- function(
@@ -74,7 +63,7 @@ board_register_datatxt <- function(
   cache = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_datatxt()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

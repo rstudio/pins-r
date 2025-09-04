@@ -32,17 +32,4 @@ pin_info(
 \details{
 Retrieve metadata for pins in legacy boards.
 }
-\examples{
-\dontshow{if (rlang::is_installed("filelock")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# old API
-board_register_local(cache = tempfile())
-pin(mtcars)
-pin_info("mtcars", "local")
-
-# new API
-board <- board_temp()
-board \%>\% pin_write(mtcars)
-board \%>\% pin_meta("mtcars")
-\dontshow{\}) # examplesIf}
-}
 \keyword{internal}

@@ -44,8 +44,8 @@ library(pins)
 
 weather_url <- "https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22"
 
-pin(weather_url, "weather") %>%
-  jsonlite::read_json() %>%
+pin(weather_url, "weather") |>
+  jsonlite::read_json() |>
   as.data.frame()
 ```
 ```
@@ -70,7 +70,7 @@ pin_info("weather", signature = TRUE)
 You can then validate the remote dataset has not changed by specifying its signature:
 
 ```r
-pin(weather_url, "weather", signature = "624cca260666c6f090b93c37fd76878e3a12a79b") %>%
+pin(weather_url, "weather", signature = "624cca260666c6f090b93c37fd76878e3a12a79b") |>
   jsonlite::read_json()
 ```
 

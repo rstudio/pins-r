@@ -82,7 +82,7 @@ board_register_gcloud <- function(
   path = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_gcloud()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

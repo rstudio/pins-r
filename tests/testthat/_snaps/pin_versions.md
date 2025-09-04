@@ -1,10 +1,3 @@
-# can use old pin_versions() api
-
-    Code
-      x <- pin_versions("x")
-      x <- pin_versions("x", "local")
-      x <- pin_versions("x", board)
-
 # can't swap arguments or omit name with modern api
 
     Code
@@ -24,8 +17,8 @@
 # informative error for writing with same version
 
     Code
-      board %>% pin_write(1:10, "x")
-      board %>% pin_write(1:10, "x", force_identical_write = TRUE)
+      pin_write(board, 1:10, "x")
+      pin_write(board, 1:10, "x", force_identical_write = TRUE)
     Condition
       Error in `pin_store()`:
       ! The new version "20120304T050607Z-xxxxx" is the same as the most recent version.

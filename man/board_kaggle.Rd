@@ -101,8 +101,8 @@ These boards work best with \code{pin_download()} and \code{pin_upload()} since
 board <- board_kaggle_competitions()
 board
 
-board \%>\% pin_meta("titanic")
-paths <- board \%>\% pin_download("titanic")
+board |> pin_meta("titanic")
+paths <- board |> pin_download("titanic")
 paths
 head(read.csv(paths[[1]]))
 head(read.csv(paths[[2]]))
@@ -110,12 +110,12 @@ head(read.csv(paths[[2]]))
 \dontrun{
 board <- board_kaggle_dataset()
 
-board \%>\% pin_search("cats")
-board \%>\% pin_exists("rturley/pet-breed-characteristics")
-board \%>\% pin_meta("rturley/pet-breed-characteristics")
-board \%>\% pin_versions("rturley/pet-breed-characteristics")
+board |> pin_search("cats")
+board |> pin_exists("rturley/pet-breed-characteristics")
+board |> pin_meta("rturley/pet-breed-characteristics")
+board |> pin_versions("rturley/pet-breed-characteristics")
 
-board \%>\% pin_versions("imsparsh/animal-breed-cats-and-dogs")
+board |> pin_versions("imsparsh/animal-breed-cats-and-dogs")
 }
 }
 \keyword{internal}

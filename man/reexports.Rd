@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{\%>\%}
 \alias{required_pkgs}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -13,7 +12,5 @@ below to see their documentation.
 
 \describe{
   \item{generics}{\code{\link[generics]{required_pkgs}}}
-
-  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 }}
 

@@ -39,17 +39,4 @@ force saving a pin in R's native format only, you can use \code{pin(I(data))}.
 This can improve performance and size at the cost of making the pin unreadable from other
 tools and programming languages.
 }
-\examples{
-\dontshow{if (rlang::is_installed("filelock")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# old API
-board_register_local(cache = tempfile())
-pin(mtcars)
-pin_get("mtcars")
-
-# new api
-board <- board_local()
-board \%>\% pin_write(mtcars)
-board \%>\% pin_read("mtcars")
-\dontshow{\}) # examplesIf}
-}
 \keyword{internal}

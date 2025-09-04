@@ -29,11 +29,11 @@ test_that("can upload/download multiple files", {
 
 test_that("can browse", {
   b <- board_folder(withr::local_tempfile())
-  b %>% pin_write(1:10, "x")
+  b |> pin_write(1:10, "x")
 
   expect_snapshot({
-    b %>% pin_browse("x")
-    b %>% pin_browse("x", local = TRUE)
+    b |> pin_browse("x")
+    b |> pin_browse("x", local = TRUE)
   }, error = TRUE, transform = ~ gsub("<.*>", "<redacted>", .x))
 })
 

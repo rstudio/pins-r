@@ -9,11 +9,11 @@
 #' @export
 #' @examples
 #' board <- board_temp(versioned = TRUE)
-#' board %>% pin_write(1:10, "x")
-#' board %>% pin_write(1:11, "x")
-#' board %>% pin_write(1:12, "x")
+#' board |> pin_write(1:10, "x")
+#' board |> pin_write(1:11, "x")
+#' board |> pin_write(1:12, "x")
 #'
-#' board %>% pin_browse("x", local = TRUE)
+#' board |> pin_browse("x", local = TRUE)
 pin_browse <- function(board, name, version = NULL, local = FALSE) {
   meta <- pin_meta(board, name, version = version)
 

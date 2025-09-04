@@ -10,11 +10,11 @@
 #' @examples
 #' board <- board_temp()
 #'
-#' board %>% pin_write(1:5, "x")
-#' board %>% pin_write(letters, "y")
-#' board %>% pin_write(runif(20), "z")
+#' board |> pin_write(1:5, "x")
+#' board |> pin_write(letters, "y")
+#' board |> pin_write(runif(20), "z")
 #'
-#' board %>% pin_list()
+#' board |> pin_list()
 pin_list <- function(board, ...) {
   check_dots_used()
   UseMethod("pin_list")

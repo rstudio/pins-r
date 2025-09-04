@@ -123,7 +123,7 @@ board_register_github <- function(
   cache = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_github()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -683,7 +683,7 @@ board_pin_find.pins_board_github <- function(board, text, ...) {
       content <- rawToChar(jsonlite::base64_dec(content$content))
     }
 
-    result <- board_manifest_load(content) %>%
+    result <- board_manifest_load(content) |>
       pin_results_from_rows()
   } else {
     pin_log(
@@ -758,7 +758,7 @@ github_branches <- function(board) {
   if (httr::http_error(response))
     stop(httr::content(response, encoding = "UTF-8"))
 
-  httr::content(response, encoding = "UTF-8") %>%
+  httr::content(response, encoding = "UTF-8") |>
     sapply(function(e) gsub("refs/heads/", "", e$ref))
 }
 
@@ -848,7 +848,7 @@ github_download_files <- function(index, temp_path, board) {
         file$url,
         github_headers(board),
         http_utils_progress()
-      ) %>%
+      ) |>
         httr::content(encoding = "UTF-8")
       github_download_files(sub_index, file.path(temp_path, file$name), board)
     } else {

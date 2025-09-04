@@ -122,7 +122,7 @@ To publish resources in Kaggle, you would first need to register the Kaggle boar
 ```r
 board_register_kaggle(token = "<path-to-kaggle.json>")
 
-pin_get("hpiR/seattle_sales") %>%
+pin_get("hpiR/seattle_sales") |>
   pin(name = "seattle_sales", board = "kaggle")
 ```
 
@@ -149,9 +149,9 @@ You can then **share** local resources using the RStudio Connect board. Lets use
 ``` r
 board_register_rsconnect()
 
-pin_get("hpiR/seattle_sales") %>%
-  group_by(baths = ceiling(baths)) %>%
-  summarise(sale = floor(mean(sale_price))) %>%
+pin_get("hpiR/seattle_sales") |>
+  group_by(baths = ceiling(baths)) |>
+  summarise(sale = floor(mean(sale_price))) |>
   pin("sales-by-baths", board = "rsconnect")
 ```
 
@@ -167,7 +167,7 @@ For instance, a colleague can reuse the `sales-by-baths` pin by retrieving it fr
 library(pins)
 board_register_rsconnect()
 
-pin_get("sales-by-baths") %>%
+pin_get("sales-by-baths") |>
   ggplot(aes(x = baths, y = sale)) +
     geom_point() + geom_smooth(method = 'lm', formula = y ~ exp(x))
 ```

@@ -25,8 +25,8 @@
 #'
 #' # New api
 #' board <- board_local()
-#' board %>% pin_write(data.frame(x = 1:3), "test")
-#' board %>% pin_read("test")
+#' board |> pin_write(data.frame(x = 1:3), "test")
+#' board |> pin_read("test")
 #' }
 legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
   path <- path %||% board_cache_path(name)
@@ -44,7 +44,7 @@ legacy_local <- function(path = NULL, name = "local", versions = FALSE) {
 #' @rdname legacy_local
 #' @export
 board_register_local <- function(name = "local", cache = NULL, ...) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_local()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'

@@ -57,16 +57,4 @@ Use board that for a website that uses the \href{https://datatxt.org}{data.txt}
 specification. A \code{data.txt} file is a YAML that provides some basic metadata
 about a directory of files.
 }
-\examples{
-
-# register website board using datatxt file
-board_register_datatxt(
-  url = "https://datatxt.org/data.txt",
-  name = "txtexample",
-  cache = tempfile()
-)
-
-# find pins
-pin_find(board = "txtexample")
-}
 \keyword{internal}

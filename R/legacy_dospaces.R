@@ -73,7 +73,7 @@ board_register_dospace <- function(
   path = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_dospace()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -115,7 +115,7 @@ dospace_headers <- function(board, verb, path, file) {
     sep = "\n"
   )
 
-  signature <- openssl::sha1(charToRaw(content), key = board$secret) %>%
+  signature <- openssl::sha1(charToRaw(content), key = board$secret) |>
     jsonlite::base64_enc()
 
   headers <- httr::add_headers(

@@ -10,11 +10,6 @@
 #' @param extended Should additional board-specific columns be shown?
 #' @param metadata Include pin metadata in results?
 #' @param ... Additional parameters.
-#' @examples
-#' pin_find("cars")
-#' # ->
-#' board <- board_local()
-#' board %>% pin_search("cars")
 #' @export
 #' @keywords internal
 pin_find <- function(
@@ -25,7 +20,7 @@ pin_find <- function(
   metadata = FALSE,
   ...
 ) {
-  lifecycle::deprecate_warn("1.4.0", "pin_find()", "pin_search()")
+  lifecycle::deprecate_stop("1.4.0", "pin_find()", "pin_search()")
 
   if (is.null(board)) {
     boards <- lapply(board_list(), board_get)

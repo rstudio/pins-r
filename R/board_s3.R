@@ -76,8 +76,8 @@
 #' @examples
 #' \dontrun{
 #' board <- board_s3("pins-test-hadley", region = "us-east-2")
-#' board %>% pin_write(mtcars)
-#' board %>% pin_read("mtcars")
+#' board |> pin_write(mtcars)
+#' board |> pin_read("mtcars")
 #'
 #' # A prefix allows you to have multiple independent boards in the same pin.
 #' board_sales <- board_s3("company-pins", prefix = "sales/")
@@ -85,7 +85,7 @@
 #' # You can make the hierarchy arbitrarily deep.
 #'
 #' # Pass S3 arguments like `Tagging` through the dots of `pin_write`:
-#' board %>% pin_write(mtcars, Tagging = "key1=value1&key2=value2")
+#' board |> pin_write(mtcars, Tagging = "key1=value1&key2=value2")
 #'
 #' }
 board_s3 <- function(

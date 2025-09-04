@@ -28,21 +28,10 @@
 #' This can improve performance and size at the cost of making the pin unreadable from other
 #' tools and programming languages.
 #'
-#' @examplesIf rlang::is_installed("filelock")
-#' # old API
-#' board_register_local(cache = tempfile())
-#' pin(mtcars)
-#' pin_get("mtcars")
-#'
-#' # new api
-#' board <- board_local()
-#' board %>% pin_write(mtcars)
-#' board %>% pin_read("mtcars")
-#'
 #' @export
 #' @keywords internal
 pin <- function(x, name = NULL, description = NULL, board = NULL, ...) {
-  lifecycle::deprecate_warn("1.4.0", "pin()", "pin_write()")
+  lifecycle::deprecate_stop("1.4.0", "pin()", "pin_write()")
   UseMethod("pin")
 }
 

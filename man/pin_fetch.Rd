@@ -45,8 +45,8 @@ developing new board types, and should not generally be called directly.
 \examples{
 board <- board_temp()
 
-board \%>\% pin_upload(system.file("CITATION"))
-path <- board \%>\% pin_download("CITATION")
+board |> pin_upload(system.file("CITATION"))
+path <- board |> pin_download("CITATION")
 path
 readLines(path)[1:5]
 }

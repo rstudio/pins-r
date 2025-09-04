@@ -35,8 +35,8 @@
 #' @examples
 #' \dontrun{
 #' board <- board_gcs("pins-testing")
-#' board %>% pin_write(mtcars)
-#' board %>% pin_read("mtcars")
+#' board |> pin_write(mtcars)
+#' board |> pin_read("mtcars")
 #'
 #' # A prefix allows you to have multiple independent boards in the same pin.
 #' board_sales <- board_gcs("company-pins", prefix = "sales/")
@@ -44,7 +44,7 @@
 #' # You can make the hierarchy arbitrarily deep.
 #'
 #' # Pass arguments like `predefinedAcl` through the dots of `pin_write`:
-#' board %>% pin_write(mtcars, predefinedAcl = "publicRead")
+#' board |> pin_write(mtcars, predefinedAcl = "publicRead")
 #' }
 board_gcs <- function(bucket,
                       prefix = NULL,

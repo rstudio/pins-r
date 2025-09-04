@@ -17,17 +17,4 @@ pin_remove(name, board = NULL)
 \details{
 Deletes pins from a legacy board.
 }
-\examples{
-\dontshow{if (rlang::is_installed("filelock")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# old API
-board_register_local(cache = tempfile())
-pin(mtcars)
-pin_remove("mtcars")
-
-# new API
-board <- board_local()
-board \%>\% pin_write(mtcars)
-board \%>\% pin_delete("mtcars")
-\dontshow{\}) # examplesIf}
-}
 \keyword{internal}

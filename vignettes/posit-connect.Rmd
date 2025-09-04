@@ -36,12 +36,12 @@ if (interactive()) {
   xml <- read_xml("bbc-news.xml")  
 }
 
-items <- xml %>% xml_find_all("//item")
+items <- xml |> xml_find_all("//item")
 
 bbc_news <- tibble::tibble(
-  title = items %>% xml_find_first("./title") %>% xml_text(),
-  date = items %>% xml_find_first("./pubDate") %>% xml_text(),
-  url = items %>% xml_find_first("./guid") %>% xml_text()
+  title = items |> xml_find_first("./title") |> xml_text(),
+  date = items |> xml_find_first("./pubDate") |> xml_text(),
+  url = items |> xml_find_first("./guid") |> xml_text()
 )
 bbc_news
 ```
@@ -51,15 +51,15 @@ That's easy to do with pins:
 
 ```{r eval = FALSE}
 board <- board_connect()
-board %>% pin_write(bbc_news)
+board |> pin_write(bbc_news)
 ```
 
-If you open the pin on RSC (e.g. by running `board %>% pin_browse("news_total")`), you'll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data.
+If you open the pin on RSC (e.g. by running `board |> pin_browse("news_total")`), you'll see some metadata about the pin, a preview of the data, and a control panel which allows you to control who can see the data.
 Assuming you've given your colleagues access, they can now easily pull down the data for their own analysis:
 
 ```{r eval=FALSE}
 board <- board_connect()
-board %>% pin_read("your_name/bbc_news")
+board |> pin_read("your_name/bbc_news")
 ```
 
 ## Automating
@@ -93,7 +93,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-  news <- board %>% pin_reactive_read("hadley/bbc_news")
+  news <- board |> pin_reactive_read("hadley/bbc_news")
   
   output$news <- renderUI({
     title <- htmltools::htmlEscape(news()$title)

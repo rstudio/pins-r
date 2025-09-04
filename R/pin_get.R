@@ -22,13 +22,6 @@
 #' If a board is not specified, it will use `pin_find()` to find the pin across
 #' all boards and retrieve the one that matches by name.
 #'
-#' @examplesIf rlang::is_installed("filelock")
-#' # define temporary board
-#' board <- legacy_temp()
-#' pin(mtcars, board = board)
-#'
-#' # retrieve the mtcars pin
-#' pin_get("mtcars", board = board)
 #' @export
 #' @keywords internal
 pin_get <- function(
@@ -41,7 +34,7 @@ pin_get <- function(
   signature = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn("1.4.0", "pin_get()", "pin_read()")
+  lifecycle::deprecate_stop("1.4.0", "pin_get()", "pin_read()")
   board <- board_get(board)
 
   if (!cache) {

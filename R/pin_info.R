@@ -11,16 +11,6 @@
 #' @param signature Should a signature to identify this pin be shown?
 #' @param ... Additional parameters.
 #'
-#' @examplesIf rlang::is_installed("filelock")
-#' # old API
-#' board_register_local(cache = tempfile())
-#' pin(mtcars)
-#' pin_info("mtcars", "local")
-#'
-#' # new API
-#' board <- board_temp()
-#' board %>% pin_write(mtcars)
-#' board %>% pin_meta("mtcars")
 #' @export
 #' @keywords internal
 pin_info <- function(
@@ -31,7 +21,7 @@ pin_info <- function(
   signature = FALSE,
   ...
 ) {
-  lifecycle::deprecate_warn("1.4.0", "pin_info()", "pin_meta()")
+  lifecycle::deprecate_stop("1.4.0", "pin_info()", "pin_meta()")
 
   if (is.board(board) && !0 %in% board$api) {
     this_not_that("pin_meta", "pin_info")
@@ -113,9 +103,9 @@ print.pin_info <- function(x, ...) {
       }
     }
 
-    yaml_str <- yaml::as.yaml(info) %>%
-      strsplit("\n") %>%
-      sapply(function(e) paste("#  ", e)) %>%
+    yaml_str <- yaml::as.yaml(info) |>
+      strsplit("\n") |>
+      sapply(function(e) paste("#  ", e)) |>
       paste0(collapse = "\n")
     cat(cli::col_silver(yaml_str))
   }

@@ -31,8 +31,8 @@ NULL
 #' board <- board_kaggle_competitions()
 #' board
 #'
-#' board %>% pin_meta("titanic")
-#' paths <- board %>% pin_download("titanic")
+#' board |> pin_meta("titanic")
+#' paths <- board |> pin_download("titanic")
 #' paths
 #' head(read.csv(paths[[1]]))
 #' head(read.csv(paths[[2]]))
@@ -185,12 +185,12 @@ board_deparse.pins_board_kaggle_competition <- function(board, ...) {
 #' \dontrun{
 #' board <- board_kaggle_dataset()
 #'
-#' board %>% pin_search("cats")
-#' board %>% pin_exists("rturley/pet-breed-characteristics")
-#' board %>% pin_meta("rturley/pet-breed-characteristics")
-#' board %>% pin_versions("rturley/pet-breed-characteristics")
+#' board |> pin_search("cats")
+#' board |> pin_exists("rturley/pet-breed-characteristics")
+#' board |> pin_meta("rturley/pet-breed-characteristics")
+#' board |> pin_versions("rturley/pet-breed-characteristics")
 #'
-#' board %>% pin_versions("imsparsh/animal-breed-cats-and-dogs")
+#' board |> pin_versions("imsparsh/animal-breed-cats-and-dogs")
 #' }
 board_kaggle_dataset <- function(username = NULL, key = NULL, cache = NULL) {
   auth_info <- kaggle_authenticate(username, key)

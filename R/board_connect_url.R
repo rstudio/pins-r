@@ -25,7 +25,7 @@
 #'     my_vanity_url_pin = "https://pub.current.posit.team/public/great-numbers/"
 #' ))
 #'
-#' board %>% pin_read("my_vanity_url_pin")
+#' board |> pin_read("my_vanity_url_pin")
 #'
 board_connect_url <- function(vanity_urls,
                               cache = NULL,

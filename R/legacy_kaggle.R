@@ -56,7 +56,7 @@ board_register_kaggle <- function(
   cache = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_kaggle()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -311,7 +311,7 @@ board_pin_find.pins_board_kaggle <- function(
       board,
       text,
       base_url = "https://www.kaggle.com/api/v1/competitions/list?"
-    ) %>%
+    ) |>
       lapply(function(e) {
         e$ref <- paste0("c/", e$ref)
         e
@@ -345,7 +345,7 @@ board_pin_find.pins_board_kaggle <- function(
       length(results$ref)
     ),
     stringsAsFactors = FALSE
-  ) %>%
+  ) |>
     unique()
 }
 

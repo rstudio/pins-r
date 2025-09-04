@@ -68,7 +68,7 @@ board_register_azure <- function(
   path = NULL,
   ...
 ) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.4.0",
     "board_register_azure()",
     details = 'Learn more at <https://pins.rstudio.com/articles/pins-update.html>'
@@ -128,7 +128,7 @@ azure_headers <- function(board, verb, path, file) {
   signature <- openssl::sha256(
     charToRaw(content),
     key = jsonlite::base64_dec(board$key)
-  ) %>%
+  ) |>
     jsonlite::base64_enc()
 
   headers <- httr::add_headers(

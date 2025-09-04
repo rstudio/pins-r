@@ -56,7 +56,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpnDw9qb/pins-2466c59aefe'
+#> '/var/folders/hv/hzsmmyk9393_m7q3nscx1slc0000gn/T/RtmpYCNIH0/pins-28a721e60d44'
 #> Cache size: 0
 ```
 
@@ -64,9 +64,9 @@ You can “pin” (save) data to a board with `pin_write()`. It takes three
 arguments: the board to pin to, an object, and a name:
 
 ``` r
-board %>% pin_write(head(mtcars), "mtcars")
+board |> pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'rds'`
-#> Creating new version '20250430T000649Z-1a718'
+#> Creating new version '20250903T205250Z-1a718'
 #> Writing to pin 'mtcars'
 ```
 
@@ -78,7 +78,7 @@ file.
 You can later retrieve the pinned data with `pin_read()`:
 
 ``` r
-board %>% pin_read("mtcars")
+board |> pin_read("mtcars")
 #>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
@@ -98,7 +98,7 @@ Connect](https://posit.co/products/enterprise/connect/) you can use
 ``` r
 board <- board_connect()
 #> Connecting to Posit Connect 2024.08.0 at <https://pub.current.posit.team>
-board %>% pin_write(tidy_sales_data, "sales-summary", type = "rds")
+board |> pin_write(tidy_sales_data, "sales-summary", type = "rds")
 #> Writing to pin 'hadley/sales-summary'
 ```
 
@@ -107,7 +107,7 @@ pin:
 
 ``` r
 board <- board_connect()
-board %>% pin_read("hadley/sales-summary")
+board |> pin_read("hadley/sales-summary")
 ```
 
 You can easily control who gets to access the data using the Posit

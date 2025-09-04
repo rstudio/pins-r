@@ -1,46 +1,39 @@
 # can get info with or without board
 
-    Code
-      b <- legacy_temp()
-      pin(mtcars[1:2], "mtcars2", board = b)
-      pin_info("mtcars2", b)
-    Output
-      # Source: temp<mtcars2> [table]
-      # Properties:
-      #   rows: 32
-      #   cols: 2
-      #   columns:
-      #     mpg: numeric
-      #     cyl: numeric
+    `pin()` was deprecated in pins 1.4.0 and is now defunct.
+    i Please use `pin_write()` instead.
 
 ---
 
-    Code
-      pin(mtcars[1:2], "mtcars3", board = "test")
-      pin_info("mtcars3", board = "test")
-    Output
-      # Source: test<mtcars3> [table]
-      # Properties:
-      #   rows: 32
-      #   cols: 2
-      #   columns:
-      #     mpg: numeric
-      #     cyl: numeric
+    `pin()` was deprecated in pins 1.4.0 and is now defunct.
+    i Please use `pin_write()` instead.
 
 # gives useful errors
 
     Code
       pin_info("mtcars2")
     Condition
-      Error in `pin_info()`:
-      ! Pin 'mtcars2' was not found.
+      Error:
+      ! `pin_info()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_meta()` instead.
     Code
       pin(mtcars[1:2], "mtcars2", board = "test1")
+    Condition
+      Error:
+      ! `pin()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_write()` instead.
+    Code
       pin(mtcars[1:2], "mtcars2", board = "test2")
+    Condition
+      Error:
+      ! `pin()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_write()` instead.
+    Code
       pin_info("mtcars2")
     Condition
-      Error in `pin_info()`:
-      ! Pin 'mtcars2' was found in multiple boards: test1,test2
+      Error:
+      ! `pin_info()` was deprecated in pins 1.4.0 and is now defunct.
+      i Please use `pin_meta()` instead.
 
 # gives informative error if used with modern board
 
@@ -48,9 +41,7 @@
       board <- board_temp()
       pin_info("mtcars", board = board)
     Condition
-      Warning:
-      `pin_info()` was deprecated in pins 1.4.0.
+      Error:
+      ! `pin_info()` was deprecated in pins 1.4.0 and is now defunct.
       i Please use `pin_meta()` instead.
-      Error in `pin_info()`:
-      ! Use `pin_meta()` with this board, not `pin_info()`
 
