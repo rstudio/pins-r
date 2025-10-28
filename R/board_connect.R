@@ -730,32 +730,3 @@ rsc_version <- function(board) {
 rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
 }
-
-# Testing setup -----------------------------------------------------------
-
-board_connect_test <- function(...) {
-  if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
-    board_connect(auth = "envvar", ...)
-  } else if (connect_has_ptd()) {
-    board_connect(
-      ...,
-      server = "pub.demo.posit.team",
-      auth = "rsconnect",
-      cache = fs::file_temp()
-    )
-  } else {
-    testthat::skip(
-      "board_connect_test() requires CONNECT_API_KEY or Posit's demo PTD server"
-    )
-  }
-}
-
-# Use demo.posit.team PTD for local testing
-connect_has_ptd <- function() {
-  accounts <- rsconnect::accounts()
-  if (is.null(accounts) || nrow(accounts) == 0) {
-    FALSE
-  } else {
-    "pub.demo.posit.team" %in% accounts$server
-  }
-}
