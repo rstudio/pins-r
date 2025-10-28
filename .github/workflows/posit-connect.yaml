@@ -14,10 +14,7 @@ jobs:
       RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: run Connect
-        run: docker compose up -d --build
+      - uses: actions/checkout@v5
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -26,38 +23,12 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
-            any::rcmdcheck
-            rstudio/connectapi
-          needs: check
+            local::.
 
-      - name: create Connect users
-        run: |
-          curl -s --retry 10 --retry-connrefused http://localhost:3939
-          docker compose exec -T rsconnect bash < .github/setup-connect/add-users.sh
-
-      - name: initialize Connect users
-        shell: Rscript {0}
-        run: |
-          admin_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "admin", password = "admin0", email = "admin@example.com")
-
-          susan_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "susan", password = "susan", email = "susan@example.com")
-          derek_key <- connectapi:::create_first_admin(url = "http://localhost:3939", user = "derek", password = "derek", email = "derek@example.com")
-
-          saveRDS(
-            list(
-              admin_key = admin_key$api_key,
-              susan_key = susan_key$api_key,
-              derek_key = derek_key$api_key
-            ),
-            "tests/testthat/creds.rds"
-          )
-
-      - uses: r-lib/actions/check-r-package@v2
+      - name: Run Connect integration tests
+        uses: nealrichardson/with-connect@dev
         with:
-          upload-snapshots: true
+          license: ${{ secrets.RSC_LICENSE }}
+          command: Rscript -e 'testthat::test_local(".", filter="board_connect")'
 
-      - name: shutdown Posit Connect
-        if: always()
-        run: |
-          docker compose down
 
