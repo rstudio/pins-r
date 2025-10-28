@@ -32,7 +32,9 @@ legacy_gcloud <- function(
   name = "gcloud",
   ...
 ) {
-  if (nchar(bucket) == 0) stop("Board 'gcloud' requires a 'bucket' parameter.")
+  if (nchar(bucket) == 0) {
+    stop("Board 'gcloud' requires a 'bucket' parameter.")
+  }
 
   if (is.null(token)) {
     token <- Sys.getenv("GOOGLE_STORAGE_ACCESS_TOKEN")
@@ -167,24 +169,27 @@ gcloud_candidates <- function(binary) {
     binary_name <- paste(binary, "cmd", sep = ".")
 
     c(
-      function()
+      function() {
         file.path(
           appdata,
           "Google/Cloud SDK/google-cloud-sdk/bin",
           binary_name
-        ),
-      function()
+        )
+      },
+      function() {
         file.path(
           Sys.getenv("ProgramFiles"),
           "/Google/Cloud SDK/google-cloud-sdk/bin",
           binary_name
-        ),
-      function()
+        )
+      },
+      function() {
         file.path(
           Sys.getenv("ProgramFiles(x86)"),
           "/Google/Cloud SDK/google-cloud-sdk/bin",
           binary_name
         )
+      }
     )
   } else {
     binary_name <- binary
@@ -192,12 +197,13 @@ gcloud_candidates <- function(binary) {
     c(
       function() Sys.which(binary_name),
       function() paste("~/google-cloud-sdk/bin", binary_name, sep = "/"),
-      function()
+      function() {
         file.path(
           Sys.getenv("GCLOUD_INSTALL_PATH", "~/google-cloud-sdk"),
           "bin",
           binary_name
         )
+      }
     )
   }
 }

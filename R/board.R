@@ -124,7 +124,7 @@ board_cache_path <- function(name) {
   # R_CONFIG_ACTIVE suggests we're in a production environment
   if (has_envvars("R_CONFIG_ACTIVE") || has_envvars("PINS_USE_CACHE")) {
     path <- fs::dir_create(tempdir(), "pins")
-  } else if (has_envvars("PINS_CACHE_DIR") ) {
+  } else if (has_envvars("PINS_CACHE_DIR")) {
     path <- Sys.getenv("PINS_CACHE_DIR")
   } else {
     path <- cache_dir()
@@ -208,7 +208,9 @@ board_deparse.pins_board <- function(board, ...) {
 write_board_manifest <- function(board, ...) {
   manifest <- make_manifest(board)
   write_board_manifest_yaml(board, manifest, ...)
-  pins_inform("Manifest file written to root folder of board, as `{manifest_pin_yaml_filename}`")
+  pins_inform(
+    "Manifest file written to root folder of board, as `{manifest_pin_yaml_filename}`"
+  )
   invisible(board)
 }
 
@@ -223,7 +225,7 @@ make_manifest <- function(board) {
 
   result <- map(
     pin_names,
-    ~fs::path(.x, pin_versions(board, name = .x)$version) |>
+    ~ fs::path(.x, pin_versions(board, name = .x)$version) |>
       end_with_slash() |> # versions usually don't include slash
       as.list()
   )
@@ -267,4 +269,3 @@ board_empty_results <- function() {
     class = character()
   )
 }
-

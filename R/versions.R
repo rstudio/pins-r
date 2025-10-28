@@ -3,7 +3,9 @@ pin_versions_path_name <- function() {
 }
 
 pin_version_signature <- function(hash_files) {
-  signature <- sapply(hash_files, function(x) digest::digest(x, algo = "sha1", file = TRUE))
+  signature <- sapply(hash_files, function(x) {
+    digest::digest(x, algo = "sha1", file = TRUE)
+  })
 
   if (length(signature) > 1) {
     signature <- paste(signature, collapse = ",")
@@ -19,11 +21,18 @@ pin_versions_path <- function(storage_path) {
 
   version <- pin_version_signature(hash_files)
 
-  normalizePath(file.path(normalizePath(storage_path), pin_versions_path_name(), version), mustWork = FALSE)
+  normalizePath(
+    file.path(normalizePath(storage_path), pin_versions_path_name(), version),
+    mustWork = FALSE
+  )
 }
 
 board_versions_enabled <- function(board, default = FALSE) {
-  if (default) !identical(board$versions, FALSE) else identical(board$versions, TRUE)
+  if (default) {
+    !identical(board$versions, FALSE)
+  } else {
+    identical(board$versions, TRUE)
+  }
 }
 
 board_versions_create <- function(board, name, path) {
@@ -42,7 +51,9 @@ board_versions_create <- function(board, name, path) {
       versions <- versions[versions != version_relative]
     }
 
-    if (dir.exists(version_path)) unlink(version_path, recursive = TRUE)
+    if (dir.exists(version_path)) {
+      unlink(version_path, recursive = TRUE)
+    }
     dir.create(version_path, recursive = TRUE)
 
     files <- dir(path, full.names = TRUE)
@@ -104,7 +115,11 @@ board_versions_expand <- function(versions, version) {
   version_index <- which(shortened == version)
 
   if (length(version_index) == 0) {
-    stop("Version '", version, "' is not valid, please select from pin_versions().")
+    stop(
+      "Version '",
+      version,
+      "' is not valid, please select from pin_versions()."
+    )
   }
 
   versions[version_index]

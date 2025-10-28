@@ -67,7 +67,13 @@
 #' board_folder <- shared_items$remoteItem[[which(shared_items$name == "myboard")]]
 #' board <- board_ms365(od, board_folder)
 #' }
-board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_item = FALSE) {
+board_ms365 <- function(
+  drive,
+  path,
+  versioned = TRUE,
+  cache = NULL,
+  delete_by_item = FALSE
+) {
   check_installed("Microsoft365R")
 
   if (!inherits(drive, "ms_drive")) {
@@ -81,8 +87,7 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
     # try to create the board folder: ignore error if folder already exists
     try(drive$create_folder(path), silent = TRUE)
     folder <- drive$get_item(path)
-  }
-  else {
+  } else {
     folder <- path
     # ensure we have the correct properties for a shared item in OneDrive
     folder$sync_fields()
@@ -93,7 +98,8 @@ board_ms365 <- function(drive, path, versioned = TRUE, cache = NULL, delete_by_i
     abort("Invalid path specified")
   }
 
-  cache <- cache %||% board_cache_path(paste0("ms365-", hash(folder$properties$id)))
+  cache <- cache %||%
+    board_cache_path(paste0("ms365-", hash(folder$properties$id)))
   new_board_v1(
     "pins_board_ms365",
     folder = folder,
@@ -195,10 +201,21 @@ pin_fetch.pins_board_ms365 <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_ms365 <- function(board, name, paths, metadata,
-                                       versioned = NULL, ...) {
+pin_store.pins_board_ms365 <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  ...
+) {
   check_pin_name(name)
-  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
 
   version_dir <- fs::path(name, version)
 

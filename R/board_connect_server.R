@@ -8,15 +8,23 @@ rsc_server <- function(auth, server = NULL, account = NULL, key = NULL) {
     rsc_server_manual(server, key)
   } else if (auth == "envvar") {
     rsc_server_manual(
-      server %||% envvar_get("CONNECT_SERVER") %||% abort("Can't find CONNECT_SERVER env var"),
-      key %||% envvar_get("CONNECT_API_KEY") %||% abort("Can't find CONNECT_API_KEY env var")
+      server %||%
+        envvar_get("CONNECT_SERVER") %||%
+        abort("Can't find CONNECT_SERVER env var"),
+      key %||%
+        envvar_get("CONNECT_API_KEY") %||%
+        abort("Can't find CONNECT_API_KEY env var")
     )
   } else {
     rsc_server_rsconnect(server, account)
   }
 }
 
-check_auth <- function(auth = c("auto", "manual", "envvar", "rsconnect"), server = NULL, key = NULL) {
+check_auth <- function(
+  auth = c("auto", "manual", "envvar", "rsconnect"),
+  server = NULL,
+  key = NULL
+) {
   auth <- arg_match(auth)
   if (auth != "auto") {
     return(auth)
@@ -87,12 +95,12 @@ rsc_server_rsconnect <- function(server = NULL, name = NULL) {
     accounts <- accounts[accounts$name == name, , drop = FALSE]
   }
 
-  if (nrow(accounts) > 1) (
-    abort(c(
+  if (nrow(accounts) > 1) {
+    (abort(c(
       "Found multiple matching Posit Connect servers",
       i = "Please disambiguate with `server` and/or `account`"
-    ))
-  )
+    )))
+  }
 
   server_info <- rsconnect::serverInfo(accounts$server)
   account_info <- rsconnect::accountInfo(accounts$name, accounts$server)

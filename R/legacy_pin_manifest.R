@@ -8,7 +8,9 @@ pin_manifest_get <- function(path) {
     manifest <- suppressWarnings(yaml::read_yaml(data_txt, eval.expr = FALSE))
   }
 
-  if (is.null(manifest$type)) manifest$type <- "files"
+  if (is.null(manifest$type)) {
+    manifest$type <- "files"
+  }
 
   manifest
 }
@@ -26,9 +28,12 @@ pin_manifest_exists <- function(path) {
 }
 
 pin_manifest_create <- function(path, metadata, files) {
-  entries <- c(list(
-    path = files
-  ), metadata)
+  entries <- c(
+    list(
+      path = files
+    ),
+    metadata
+  )
 
   entries[sapply(entries, is.null)] <- NULL
 
@@ -61,17 +66,18 @@ pin_manifest_download <- function(path, namemap = FALSE) {
     }
 
     mapped
-  }
-  else {
+  } else {
     downloads
   }
 }
 
 pin_manifest_merge <- function(base_manifest, resource_manifest) {
   # path requires special merge
-  if (!is.null(resource_manifest$path) &&
-    !is.null(base_manifest$path) &&
-    !grepl("https?://", base_manifest$path)) {
+  if (
+    !is.null(resource_manifest$path) &&
+      !is.null(base_manifest$path) &&
+      !grepl("https?://", base_manifest$path)
+  ) {
     base_manifest$path <- file.path(base_manifest$path, resource_manifest$path)
   }
 

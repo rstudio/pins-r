@@ -86,11 +86,12 @@
 #' b2 |> pin_list()
 #' b2 |> pin_versions("y")
 #'
-board_url <- function(urls,
-                      cache = NULL,
-                      use_cache_on_failure = is_interactive(),
-                      headers = NULL) {
-
+board_url <- function(
+  urls,
+  cache = NULL,
+  use_cache_on_failure = is_interactive(),
+  headers = NULL
+) {
   check_headers(headers)
   url_format <- get_url_format(urls)
   if (url_format == "pins_yaml") {
@@ -189,7 +190,6 @@ pin_meta.pins_board_url <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_versions.pins_board_url <- function(board, name, ...) {
-
   if (!board$versioned) {
     abort_board_not_versioned("board_url")
   }
@@ -239,8 +239,14 @@ pin_delete.pins_board_url <- function(board, names, ...) {
 }
 
 #' @export
-pin_store.pins_board_url <- function(board, name, paths, metadata,
-                                     versioned = NULL, ...) {
+pin_store.pins_board_url <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  ...
+) {
   abort_board_read_only("board_url")
 }
 
@@ -259,7 +265,9 @@ write_board_manifest_yaml.pins_board_url <- function(board, manifest, ...) {
 get_url_format <- function(urls) {
   if (is_scalar_character(urls) && !is_named(urls)) {
     "pins_yaml"
-  } else if (is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))) {
+  } else if (
+    is_list(urls) && is_named(urls) && all(map_lgl(urls, is_character))
+  ) {
     "manifest_content"
   } else if (is.character(urls) && is_named(urls)) {
     "vector_of_urls"
@@ -328,10 +336,15 @@ get_manifest <- function(url, headers, call = rlang::caller_env()) {
   manifest
 }
 
-http_download <- function(url, path_dir, path_file, ...,
-                          use_cache_on_failure = FALSE,
-                          headers = NULL,
-                          on_failure = NULL) {
+http_download <- function(
+  url,
+  path_dir,
+  path_file,
+  ...,
+  use_cache_on_failure = FALSE,
+  headers = NULL,
+  on_failure = NULL
+) {
   cache_path <- download_cache_path(path_dir)
   cache <- read_cache(cache_path)[[url]]
 
@@ -365,22 +378,30 @@ http_download <- function(url, path_dir, path_file, ...,
   )
 
   if (is.null(req)) {
-    warn(glue("Downloading '{path_file}' failed; falling back to cached version"))
+    warn(glue(
+      "Downloading '{path_file}' failed; falling back to cached version"
+    ))
     cache$path
   } else if (httr::status_code(req) <= 200) {
     signal("", "pins_cache_downloaded")
-    if (fs::file_exists(path)) fs::file_chmod(path, "u+w")
+    if (fs::file_exists(path)) {
+      fs::file_chmod(path, "u+w")
+    }
     fs::file_copy(tmp_path, path, overwrite = TRUE)
     fs::file_chmod(path, "u=r")
 
     info <- httr::cache_info(req)
     if (info$cacheable) {
-      update_cache(cache_path, url, list(
-        expires = info$expires,
-        etag = info$etag,
-        modified = unclass(info$modified),
-        path = path
-      ))
+      update_cache(
+        cache_path,
+        url,
+        list(
+          expires = info$expires,
+          etag = info$etag,
+          modified = unclass(info$modified),
+          path = path
+        )
+      )
     } else {
       cli::cli_alert("{.url {url}} is not cacheable")
     }
@@ -391,7 +412,9 @@ http_download <- function(url, path_dir, path_file, ...,
     cache$path
   } else {
     if (!is.null(cache) && use_cache_on_failure) {
-      warn(glue("Downloading '{path_file}' failed; falling back to cached version"))
+      warn(glue(
+        "Downloading '{path_file}' failed; falling back to cached version"
+      ))
       httr::warn_for_status(req)
       cache$path
     } else {
@@ -443,7 +466,12 @@ http_date <- function(x = Sys.time(), tz = "UTC") {
 
 check_headers <- function(x, arg = caller_arg(x), call = caller_env()) {
   if (!is.null(x) && (!is_character(x) || !is_named(x))) {
-    stop_input_type(x, "a named character vector", allow_null = TRUE, arg = arg, call = call)
+    stop_input_type(
+      x,
+      "a named character vector",
+      allow_null = TRUE,
+      arg = arg,
+      call = call
+    )
   }
-
 }

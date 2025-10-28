@@ -8,4 +8,3 @@ test_that("can deparse", {
   board <- board_s3_test()
   expect_snapshot(board_deparse(board))
 })
-

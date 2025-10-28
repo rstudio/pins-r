@@ -28,9 +28,7 @@
 #' board |> pin_write(1:10, "great-integers", type = "json")
 #' board |> pin_read("great-integers")
 #' }
-board_gdrive <- function(path,
-                         versioned = TRUE,
-                         cache = NULL) {
+board_gdrive <- function(path, versioned = TRUE, cache = NULL) {
   check_installed("googledrive")
   dribble <- googledrive::as_dribble(path)
 
@@ -75,7 +73,7 @@ pin_delete.pins_board_gdrive <- function(board, names, ...) {
   for (name in names) {
     check_pin_exists(board, name)
     dribble <- googledrive::drive_ls(board$dribble)
-    dribble <- dribble[dribble$name == name,]
+    dribble <- dribble[dribble$name == name, ]
     googledrive::drive_trash(dribble)
   }
   invisible(board)
@@ -85,9 +83,9 @@ pin_delete.pins_board_gdrive <- function(board, names, ...) {
 pin_version_delete.pins_board_gdrive <- function(board, name, version, ...) {
   check_pin_exists(board, name)
   pin_dribble <- googledrive::drive_ls(board$dribble)
-  pin_dribble <- pin_dribble[pin_dribble$name == name,]
+  pin_dribble <- pin_dribble[pin_dribble$name == name, ]
   version_dribble <- googledrive::drive_ls(pin_dribble)
-  version_dribble <- version_dribble[version_dribble$name == version,]
+  version_dribble <- version_dribble[version_dribble$name == version, ]
   googledrive::drive_trash(version_dribble)
   invisible()
 }
@@ -96,7 +94,7 @@ pin_version_delete.pins_board_gdrive <- function(board, name, version, ...) {
 pin_versions.pins_board_gdrive <- function(board, name, ...) {
   check_pin_exists(board, name)
   dribble <- googledrive::drive_ls(board$dribble)
-  dribble <- dribble[dribble$name == name,]
+  dribble <- dribble[dribble$name == name, ]
   path <- googledrive::as_dribble(dribble)
   version_from_path(sort(googledrive::drive_ls(path)$name))
 }
@@ -140,11 +138,22 @@ pin_fetch.pins_board_gdrive <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_gdrive <- function(board, name, paths, metadata,
-                                        versioned = NULL, ...) {
+pin_store.pins_board_gdrive <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  ...
+) {
   googledrive::local_drive_quiet()
   check_pin_name(name)
-  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
 
   dir_dribble <- gdrive_mkdir(board$dribble, name)
   version_dir_dribble <- gdrive_mkdir(dir_dribble, version)
@@ -189,7 +198,7 @@ gdrive_file_exists <- function(board, name) {
   dribble <- googledrive::drive_ls(board$dribble)
   path_components <- purrr::pluck(fs::path_split(fs::path_dir(name)), 1)
   for (path_component in path_components) {
-    dribble <- dribble[dribble$name == path_component,]
+    dribble <- dribble[dribble$name == path_component, ]
     dribble <- possibly_drive_ls(dribble)
   }
   name <- fs::path_file(name)
@@ -201,7 +210,7 @@ gdrive_download <- function(board, key) {
   if (!fs::file_exists(path)) {
     dribble <- googledrive::as_dribble(fs::path_dir(key))
     dribble <- googledrive::drive_ls(dribble)
-    dribble <- dribble[dribble$name == fs::path_file(key),]
+    dribble <- dribble[dribble$name == fs::path_file(key), ]
     googledrive::drive_download(dribble, path)
     fs::file_chmod(path, "u=r")
   }
@@ -210,7 +219,7 @@ gdrive_download <- function(board, key) {
 
 gdrive_mkdir <- function(dribble, name) {
   dir_dribble <- googledrive::drive_ls(dribble, type = "folder")
-  dir_dribble <- dir_dribble[dir_dribble$name == name,]
+  dir_dribble <- dir_dribble[dir_dribble$name == name, ]
   if (googledrive::no_file(dir_dribble)) {
     dir_dribble <- googledrive::drive_mkdir(name, dribble, overwrite = FALSE)
   }

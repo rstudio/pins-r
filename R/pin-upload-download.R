@@ -28,21 +28,24 @@ pin_download <- function(board, name, version = NULL, hash = NULL, ...) {
 #' @export
 #' @rdname pin_download
 #' @param paths A character vector of file paths to upload to `board`.
-pin_upload <- function(board,
-                       paths,
-                       name = NULL,
-                       ...,
-                       title = NULL,
-                       description = NULL,
-                       metadata = NULL,
-                       tags = NULL,
-                       urls = NULL) {
+pin_upload <- function(
+  board,
+  paths,
+  name = NULL,
+  ...,
+  title = NULL,
+  description = NULL,
+  metadata = NULL,
+  tags = NULL,
+  urls = NULL
+) {
   check_board(board, "pin_upload", "pin")
   dots <- list2(...)
   if (!missing(...) && (is.null(names(dots)) || names(dots)[[1]] == "")) {
-    cli::cli_abort('Arguments after the dots `...` must be named, like {.code tags = "my-great-tag"}.')
+    cli::cli_abort(
+      'Arguments after the dots `...` must be named, like {.code tags = "my-great-tag"}.'
+    )
   }
-
 
   if (!is.character(paths)) {
     abort("`path` must be a character vector")
@@ -67,7 +70,12 @@ pin_upload <- function(board,
   is_dir <- fs::is_dir(paths)
   if (any(is_dir)) {
     paths <- as.list(paths)
-    paths[is_dir] <- map(paths[is_dir], fs::dir_ls, recurse = TRUE, type = c("file", "symlink"))
+    paths[is_dir] <- map(
+      paths[is_dir],
+      fs::dir_ls,
+      recurse = TRUE,
+      type = c("file", "symlink")
+    )
     paths <- as.character(unlist(paths, use.names = FALSE))
   }
 

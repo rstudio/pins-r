@@ -46,11 +46,7 @@
 #' # Pass arguments like `predefinedAcl` through the dots of `pin_write`:
 #' board |> pin_write(mtcars, predefinedAcl = "publicRead")
 #' }
-board_gcs <- function(bucket,
-                      prefix = NULL,
-                      versioned = TRUE,
-                      cache = NULL) {
-
+board_gcs <- function(bucket, prefix = NULL, versioned = TRUE, cache = NULL) {
   check_installed("googleCloudStorageR")
 
   # Check that have access to the bucket
@@ -68,14 +64,21 @@ board_gcs <- function(bucket,
 }
 
 board_gcs_test <- function(...) {
-
   skip_if_missing_envvars(
     tests = "board_gcs()",
     envvars = c("PINS_GCS_PASSWORD")
   )
 
-  path_to_encrypted_json <- fs::path_package("pins", "secret", "pins-gcs-testing.json")
-  raw <- readBin(path_to_encrypted_json, "raw", file.size(path_to_encrypted_json))
+  path_to_encrypted_json <- fs::path_package(
+    "pins",
+    "secret",
+    "pins-gcs-testing.json"
+  )
+  raw <- readBin(
+    path_to_encrypted_json,
+    "raw",
+    file.size(path_to_encrypted_json)
+  )
   pw <- Sys.getenv("PINS_GCS_PASSWORD", "")
   json <- sodium::data_decrypt(
     bin = raw,
@@ -165,12 +168,24 @@ pin_fetch.pins_board_gcs <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_gcs <- function(board, name, paths, metadata,
-                                     versioned = NULL, x = NULL, ...) {
+pin_store.pins_board_gcs <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  x = NULL,
+  ...
+) {
   withr::local_options(list(googleAuthR.verbose = 4))
   check_dots_used()
   check_pin_name(name)
-  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
   version_dir <- fs::path(name, version)
   gcs_upload_yaml(
     board,

@@ -39,9 +39,15 @@ legacy_s3 <- function(
   name = "s3",
   ...
 ) {
-  if (nchar(bucket) == 0) stop("The 's3' board requires a 'bucket' parameter.")
-  if (nchar(key) == 0) stop("The 's3' board requires a 'key' parameter.")
-  if (nchar(secret) == 0) stop("The 's3' board requires a 'secret' parameter.")
+  if (nchar(bucket) == 0) {
+    stop("The 's3' board requires a 'bucket' parameter.")
+  }
+  if (nchar(key) == 0) {
+    stop("The 's3' board requires a 'key' parameter.")
+  }
+  if (nchar(secret) == 0) {
+    stop("The 's3' board requires a 'secret' parameter.")
+  }
 
   legacy_datatxt(
     name = name,

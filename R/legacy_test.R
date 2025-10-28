@@ -11,10 +11,13 @@
 #'
 #' @keywords internal
 #' @export
-board_test <- function(board,
-                       exclude = list(),
-                       suite = c("default", "versions")) {
-  suite <- switch(arg_match(suite),
+board_test <- function(
+  board,
+  exclude = list(),
+  suite = c("default", "versions")
+) {
+  suite <- switch(
+    arg_match(suite),
     default = board_test_default,
     versions = board_test_versions
   )
@@ -63,7 +66,9 @@ board_test_default <- function(board, exclude) {
   })
 
   testthat::test_that(paste("can pin_remove() file from", name), {
-    if ("remove" %in% exclude) testthat::succeed()
+    if ("remove" %in% exclude) {
+      testthat::succeed()
+    }
 
     result <- pin_remove(pin_name, board = board)
     testthat::expect_equal(result, NULL)
@@ -73,7 +78,9 @@ board_test_default <- function(board, exclude) {
   })
 
   testthat::test_that(paste("can pin_remove() dataset from", name), {
-    if ("remove" %in% exclude) testthat::succeed()
+    if ("remove" %in% exclude) {
+      testthat::succeed()
+    }
 
     result <- pin_remove(dataset_name, board = board)
     testthat::expect_equal(result, NULL)
@@ -101,25 +108,39 @@ board_test_versions <- function(board, exclude, name) {
     testthat::expect_gte(length(versions$version), 2)
 
     testthat::expect_equal(
-      as.character(pin_get(pin_name, version = versions$version[length(versions$version)], board = board)),
+      as.character(pin_get(
+        pin_name,
+        version = versions$version[length(versions$version)],
+        board = board
+      )),
       as.character(version_a)
     )
 
     testthat::expect_equal(
-      as.character(pin_get(pin_name, version = versions$version[length(versions$version) - 1], board = board)),
+      as.character(pin_get(
+        pin_name,
+        version = versions$version[length(versions$version) - 1],
+        board = board
+      )),
       as.character(version_b)
     )
   })
 
   testthat::test_that(paste("can pin_remove() a pin with versions", name), {
-    if ("remove" %in% exclude) testthat::skip("This test is in the excluded list")
+    if ("remove" %in% exclude) {
+      testthat::skip("This test is in the excluded list")
+    }
 
     result <- pin_remove(pin_name, board = board)
     testthat::expect_equal(result, NULL)
 
     results <- pin_find(name = pin_name, board = board)
     if (nrow(results) > 0) {
-      testthat::fail(paste0("Pin '", paste(results$name, collapse = ","), "' still exists after removal."))
+      testthat::fail(paste0(
+        "Pin '",
+        paste(results$name, collapse = ","),
+        "' still exists after removal."
+      ))
     }
   })
 }

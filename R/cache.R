@@ -44,7 +44,9 @@ cache_prune <- function(days = 30) {
   }
 
   size <- dir_size(to_delete)
-  pins_inform("Delete {length(to_delete)} pin versions, freeing {format(size)} ?")
+  pins_inform(
+    "Delete {length(to_delete)} pin versions, freeing {format(size)} ?"
+  )
 
   if (utils::menu(c("Yes", "No")) == 1) {
     fs::dir_delete(to_delete)

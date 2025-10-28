@@ -88,7 +88,9 @@ file_path_null <- function(...) {
 }
 
 datatxt_refresh_index <- function(board) {
-  if (is.null(board$url)) stop("Invalid 'url' in '", board$name, "' board.")
+  if (is.null(board$url)) {
+    stop("Invalid 'url' in '", board$name, "' board.")
+  }
 
   index_file <- "data.txt"
   if (identical(board$index_randomize, TRUE)) {
@@ -152,8 +154,11 @@ datatxt_pin_download_info <- function(board, name, ...) {
   }
 
   # try to download index as well
-  path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index_entry$path[1]))
-    dirname(index_entry$path[1]) else index_entry$path[1]
+  path_guess <- if (grepl(".*/.*\\.[a-zA-Z]+$", index_entry$path[1])) {
+    dirname(index_entry$path[1])
+  } else {
+    index_entry$path[1]
+  }
 
   # if `path_guess` already has a scheme, don't prepend board URL
   path_guess <- if (grepl("^https?://", path_guess)) {
@@ -320,8 +325,11 @@ board_pin_find.pins_board_datatxt <- function(
 
   if (nrow(results) == 1) {
     metadata <- jsonlite::fromJSON(results$metadata)
-    path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path))
-      dirname(metadata$path) else metadata$path
+    path_guess <- if (grepl("\\.[a-zA-Z]+$", metadata$path)) {
+      dirname(metadata$path)
+    } else {
+      metadata$path
+    }
     datatxt_path <- file_path_null(
       board$url,
       board$subpath,
@@ -389,9 +397,14 @@ datatxt_update_index <- function(
   }
 
   index_matches <- sapply(index, function(e) identical(e$path, path))
-  index_pos <- if (length(index_matches) > 0) which(index_matches) else
+  index_pos <- if (length(index_matches) > 0) {
+    which(index_matches)
+  } else {
     length(index) + 1
-  if (length(index_pos) == 0) index_pos <- length(index) + 1
+  }
+  if (length(index_pos) == 0) {
+    index_pos <- length(index) + 1
+  }
 
   if (identical(operation, "create")) {
     metadata$columns <- NULL
@@ -499,7 +512,9 @@ board_pin_create.pins_board_datatxt <- function(
 datatxt_pin_files <- function(board, name) {
   entry <- pin_find(name = name, board = board, metadata = TRUE)
 
-  if (nrow(entry) != 1) stop("Pin '", name, "' not found.")
+  if (nrow(entry) != 1) {
+    stop("Pin '", name, "' not found.")
+  }
   metadata <- jsonlite::fromJSON(as.list(entry)$metadata)
 
   files <- metadata$path

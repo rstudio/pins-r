@@ -57,8 +57,9 @@ pin_info <- function(
   entry_ext <- as.list(entry)
   entry_ext$metadata <- NULL
   entry_ext <- Filter(
-    function(e)
-      !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0,
+    function(e) {
+      !is.list(e) || length(e) != 1 || !is.list(e[[1]]) || length(e[[1]]) > 0
+    },
     entry_ext
   )
   for (name in names(metadata)) {
@@ -82,10 +83,12 @@ print.pin_info <- function(x, ...) {
     info$type,
     "]\n"
   )))
-  if (nchar(info$description) > 0)
+  if (nchar(info$description) > 0) {
     cat(cli::col_silver(paste0("# Description: ", info$description, "\n")))
-  if (!is.null(info$signature))
+  }
+  if (!is.null(info$signature)) {
     cat(cli::col_silver(paste0("# Signature: ", info$signature, "\n")))
+  }
 
   info$board <- info$name <- info$type <- info$description <- info$signature <- NULL
 

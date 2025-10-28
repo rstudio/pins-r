@@ -25,7 +25,8 @@ board_folder <- function(path, versioned = FALSE) {
   fs::dir_create(path)
   path <- fs::path_norm(path)
 
-  new_board_v1("pins_board_folder",
+  new_board_v1(
+    "pins_board_folder",
     cache = NA_character_,
     path = path,
     versioned = versioned
@@ -52,7 +53,7 @@ board_temp <- function(versioned = FALSE) {
 
 #' @export
 pin_list.pins_board_folder <- function(board, ...) {
- fs::path_file(fs::dir_ls(board$path, type = "directory"))
+  fs::path_file(fs::dir_ls(board$path, type = "directory"))
 }
 
 #' @export
@@ -70,10 +71,21 @@ pin_delete.pins_board_folder <- function(board, names, ...) {
 }
 
 #' @export
-pin_store.pins_board_folder <- function(board, name, paths, metadata,
-                                              versioned = NULL, ...) {
+pin_store.pins_board_folder <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  ...
+) {
   check_pin_name(name)
-  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
 
   version_dir <- fs::path(board$path, name, version)
   fs::dir_create(version_dir)

@@ -20,7 +20,15 @@ pin_fetch <- function(board, name, version = NULL, ...) {
 #' @export
 #' @rdname pin_fetch
 #' @inherit pin_upload
-pin_store <- function(board, name, paths, metadata, versioned = NULL, x = NULL, ...) {
+pin_store <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  x = NULL,
+  ...
+) {
   check_dots_used()
   UseMethod("pin_store")
 }

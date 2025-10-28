@@ -139,7 +139,11 @@ pin_registry_path <- function(board, ...) {
 
 # I think this is used so that the rsconnect board can match x to any user
 pin_registry_qualify_name <- function(name, entries) {
-  name_pattern <- if (grepl("/", name)) paste0("^", name, "$") else paste0(".*/", name, "$")
+  name_pattern <- if (grepl("/", name)) {
+    paste0("^", name, "$")
+  } else {
+    paste0(".*/", name, "$")
+  }
   name_candidate <- names(entries)[grepl(name_pattern, names(entries))]
 
   if (length(name_candidate) == 1) {
