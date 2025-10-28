@@ -46,3 +46,40 @@ board_connect_url <- function(
 connect_auth_headers <- function(key = Sys.getenv("CONNECT_API_KEY")) {
   c(Authorization = paste("Key", key))
 }
+
+# Test helpers ------------------------------------------------------------
+vanity_url_test <- function(env = parent.frame()) {
+  board <- board_connect_test()
+  name <- pin_write(board, 1:10, random_pin_name())
+  withr::defer(if (pin_exists(board, name)) pin_delete(board, name), env)
+
+  vanity_slug <- ids::adjective_animal()
+  body_path <- withr::local_tempfile()
+  body <- list(force = FALSE, path = glue("/{vanity_slug}/"))
+  jsonlite::write_json(body, body_path, auto_unbox = TRUE)
+  body <- httr::upload_file(body_path, "application/json")
+
+  meta <- pin_meta(board, name)
+  path <- glue("v1/content/{meta$local$content_id}/vanity")
+  path <- rsc_path(board, path)
+  auth <- rsc_auth(board, path, "PUT", body_path)
+  resp <- httr::PUT(board$url, path = path, body = body, auth)
+  httr::stop_for_status(resp)
+
+  glue("{board$url}/{vanity_slug}/")
+}
+
+board_connect_url_test <- function(...) {
+  if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
+    board_connect_url(
+      ...,
+      headers = connect_auth_headers(Sys.getenv("CONNECT_API_KEY"))
+    )
+  } else if (connect_has_ptd()) {
+    board_connect_url(..., cache = fs::file_temp())
+  } else {
+    testthat::skip(
+      "board_connect_url_test() requires CONNECT_API_KEY or Posit's demo PTD server"
+    )
+  }
+}
