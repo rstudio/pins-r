@@ -70,26 +70,16 @@ vanity_url_test <- function(env = parent.frame()) {
 }
 
 board_connect_url_test <- function(...) {
-  if (connect_has_ptd()) {
-    board_connect_url_ptd(...)
+  if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
+    board_connect_url(
+      ...,
+      headers = connect_auth_headers(Sys.getenv("CONNECT_API_KEY"))
+    )
+  } else if (connect_has_ptd()) {
+    board_connect_url(..., cache = fs::file_temp())
   } else {
-    board_connect_url_susan(...)
-  }
-}
-
-board_connect_url_ptd <- function(...) {
-  if (!connect_has_ptd()) {
     testthat::skip(
-      "board_connect_url_ptd() only works with Posit's demo server"
+      "board_connect_url_test() requires CONNECT_API_KEY or Posit's demo PTD server"
     )
   }
-  board_connect_url(..., cache = fs::file_temp())
-}
-
-board_connect_url_susan <- function(...) {
-  creds <- read_creds()
-  board_connect_url(
-    ...,
-    headers = connect_auth_headers(creds$susan_key)
-  )
 }
