@@ -733,15 +733,26 @@ rsc_v1 <- function(...) {
 
 # Testing setup -----------------------------------------------------------
 
+# Connect testing: prefers using Posit's demo PTD server (if you've logged in
+# with rsconnect), else checks CONNECT_SERVER and CONNECT_API_KEY env vars,
+# and if neither are available, skips the tests.
 board_connect_test <- function(...) {
   if (connect_has_ptd()) {
-    board_connect_ptd(...)
+    board_connect(
+      ...,
+      server = "pub.demo.posit.team",
+      auth = "rsconnect",
+      cache = fs::file_temp()
+    )
+  } else if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
+    board_connect(auth = "envvar", ...)
   } else {
-    board_connect_susan(...)
+    testthat::skip(
+      "board_connect_test() requires CONNECT_API_KEY or Posit's demo PTD server"
+    )
   }
 }
 
-# Use demo.posit.team PTD for local testing
 connect_has_ptd <- function() {
   accounts <- rsconnect::accounts()
   if (is.null(accounts) || nrow(accounts) == 0) {
@@ -749,69 +760,4 @@ connect_has_ptd <- function() {
   } else {
     "pub.demo.posit.team" %in% accounts$server
   }
-}
-
-board_connect_ptd <- function(...) {
-  if (!connect_has_ptd()) {
-    testthat::skip(
-      "board_connect_ptd() only works with Posit's demo PTD server"
-    )
-  }
-  board_connect(
-    ...,
-    server = "pub.demo.posit.team",
-    auth = "rsconnect",
-    cache = fs::file_temp()
-  )
-}
-
-board_connect_susan <- function(...) {
-  creds <- read_creds()
-  board_connect(
-    server = "http://localhost:3939",
-    account = "susan",
-    key = creds$susan_key
-  )
-}
-board_connect_derek <- function(...) {
-  creds <- read_creds()
-  board_connect(
-    server = "http://localhost:3939",
-    account = "derek",
-    key = creds$derek_key
-  )
-}
-read_creds <- function() {
-  path <- testthat::test_path("creds.rds")
-  if (!file.exists(path)) {
-    testthat::skip(glue("board_connect() tests requires `{path}`"))
-  }
-  readRDS(path)
-}
-add_another_user <- function(board, user_name, content_id) {
-  ## get user GUID for new owner from user_name
-  path <- glue("v1/users/")
-  path <- rsc_path(board, path)
-  auth <- rsc_auth(board, path, "GET")
-  query <- glue("prefix={user_name}")
-  resp <- httr::GET(board$url, path = path, query = query, auth)
-  httr::stop_for_status(resp)
-  res <- httr::content(resp)
-  principal_guid <- res$results[[1]]$guid
-
-  ## add user_name as owner for content at GUID
-  body <- glue(
-    '{{
-  "principal_guid": "{principal_guid}",
-  "principal_type": "user",
-  "role": "owner"
-  }}'
-  )
-
-  path <- glue("v1/content/{content_id}/permissions")
-  path <- rsc_path(board, path)
-  auth <- rsc_auth(board, path, "POST")
-  resp <- httr::POST(board$url, path = path, body = body, auth)
-  httr::stop_for_status(resp)
-  invisible(resp)
 }

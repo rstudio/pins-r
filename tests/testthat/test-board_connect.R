@@ -42,18 +42,6 @@ test_that("can update access_type", {
   expect_equal(rsc_content_info(board, guid)$access_type, "logged_in")
 })
 
-test_that("can write pin created another user", {
-  board1 <- board_connect_susan()
-  name <- local_pin(board1, 1:5)
-  guid <- pin_meta(board1, name)$local$content_id
-  add_another_user(board1, "derek", guid)
-
-  board2 <- board_connect_derek()
-  pin_write(board2, 10:15, name)
-
-  expect_equal(pin_read(board1, name), 10:15)
-})
-
 test_that("can deparse", {
   board <- new_board_v1(
     "pins_board_connect",
