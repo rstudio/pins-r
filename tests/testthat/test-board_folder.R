@@ -31,10 +31,14 @@ test_that("can browse", {
   b <- board_folder(withr::local_tempfile())
   b |> pin_write(1:10, "x")
 
-  expect_snapshot({
-    b |> pin_browse("x")
-    b |> pin_browse("x", local = TRUE)
-  }, error = TRUE, transform = ~ gsub("<.*>", "<redacted>", .x))
+  expect_snapshot(
+    {
+      b |> pin_browse("x")
+      b |> pin_browse("x", local = TRUE)
+    },
+    error = TRUE,
+    transform = ~ gsub("<.*>", "<redacted>", .x)
+  )
 })
 
 test_that("can deparse", {
@@ -81,7 +85,7 @@ test_that("generates useful messages", {
     "20130204T050607Z-yyyyy",
     "20130304T050607Z-zzzzz"
   )
- local_mocked_bindings(version_name = mock_version_name)
+  local_mocked_bindings(version_name = mock_version_name)
 
   ui_loud()
   b <- board_temp()

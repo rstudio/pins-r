@@ -32,12 +32,14 @@ write_meta <- function(x, path) {
 
 # pin metadata ------------------------------------------------------------
 
-standard_meta <- function(paths,
-                          type,
-                          title = NULL,
-                          description = NULL,
-                          tags = NULL,
-                          urls = NULL) {
+standard_meta <- function(
+  paths,
+  type,
+  title = NULL,
+  description = NULL,
+  tags = NULL,
+  urls = NULL
+) {
   list(
     file = fs::path_file(paths),
     file_size = as.integer(fs::file_size(paths)),
@@ -89,15 +91,16 @@ default_title <- function(name, data = NULL, path = NULL) {
 }
 
 friendly_type <- function(x) {
-  switch(typeof(x),
-         logical = "logical vector",
-         integer = "integer vector",
-         numeric = ,
-         double = "double vector",
-         complex = "complex vector",
-         character = "character vector",
-         raw = "raw vector",
-         list = "list",
-         typeof(x)
+  switch(
+    typeof(x),
+    logical = "logical vector",
+    integer = "integer vector",
+    numeric = ,
+    double = "double vector",
+    complex = "complex vector",
+    character = "character vector",
+    raw = "raw vector",
+    list = "list",
+    typeof(x)
   )
 }

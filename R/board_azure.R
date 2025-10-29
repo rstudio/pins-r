@@ -56,7 +56,13 @@
 #' board |> pin_list()
 #' board |> pin_read("iris")
 #' }
-board_azure <- function(container, path = "", n_processes = 10, versioned = TRUE, cache = NULL) {
+board_azure <- function(
+  container,
+  path = "",
+  n_processes = 10,
+  versioned = TRUE,
+  cache = NULL
+) {
   check_installed("AzureStor")
 
   if (path == "/") {
@@ -66,7 +72,10 @@ board_azure <- function(container, path = "", n_processes = 10, versioned = TRUE
   cache <- cache %||% board_cache_path(paste0("azure-", hash(board_path)))
   if (path != "") {
     if (inherits(container, "file_share")) {
-      try(AzureStor::create_storage_dir(container, path, recursive = TRUE), silent = TRUE)
+      try(
+        AzureStor::create_storage_dir(container, path, recursive = TRUE),
+        silent = TRUE
+      )
     } else {
       AzureStor::create_storage_dir(container, path)
     }
@@ -88,8 +97,11 @@ board_azure_test <- function(path, type = c("blob", "file", "dfs"), ...) {
 
   type <- arg_match(type)
   acct_name <- Sys.getenv("PINS_AZURE_ACCOUNT")
-  acct_url <- sprintf("https://%s.%s.core.windows.net/pins-rstats-testing-ci",
-                      acct_name, type)
+  acct_url <- sprintf(
+    "https://%s.%s.core.windows.net/pins-rstats-testing-ci",
+    acct_name,
+    type
+  )
 
   container <- AzureStor::storage_container(
     acct_url,
@@ -135,7 +147,9 @@ pin_meta.pins_board_azure <- function(board, name, version = NULL, ...) {
   metadata_blob <- fs::path(name, version, "data.txt")
 
   metadata_absolute_path <- azure_normalize_path(board, metadata_blob)
-  if (!AzureStor::storage_file_exists(board$container, metadata_absolute_path)) {
+  if (
+    !AzureStor::storage_file_exists(board$container, metadata_absolute_path)
+  ) {
     abort_pin_version_missing(version)
   }
   path_version <- fs::path(board$cache, name, version)
@@ -162,10 +176,21 @@ pin_fetch.pins_board_azure <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_azure <- function(board, name, paths, metadata,
-                                       versioned = NULL, ...) {
+pin_store.pins_board_azure <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  ...
+) {
   check_pin_name(name)
-  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
 
   version_dir <- azure_normalize_path(board, name, version)
 
@@ -203,7 +228,6 @@ board_deparse.pins_board_azure <- function(board, ...) {
 
 #' @export
 write_board_manifest_yaml.pins_board_azure <- function(board, manifest, ...) {
-
   paths <- AzureStor::list_storage_files(board$container, info = "name")
 
   if (manifest_pin_yaml_filename %in% paths) {
@@ -254,8 +278,14 @@ azure_dir_exists <- function(board, path) {
   AzureStor::storage_dir_exists(board$container, dir)
 }
 
-local_azure_progress <- function(progress = is_interactive(), env = parent.frame()) {
-  withr::local_options(list(azure_storage_progress_bar = progress), .local_envir = env)
+local_azure_progress <- function(
+  progress = is_interactive(),
+  env = parent.frame()
+) {
+  withr::local_options(
+    list(azure_storage_progress_bar = progress),
+    .local_envir = env
+  )
 }
 
 azure_download <- function(board, keys, progress = is_interactive()) {
@@ -266,7 +296,9 @@ azure_download <- function(board, keys, progress = is_interactive()) {
   needed <- !fs::file_exists(paths)
   if (any(needed)) {
     AzureStor::storage_multidownload(
-      board$container, keys[needed], paths[needed],
+      board$container,
+      keys[needed],
+      paths[needed],
       max_concurrent_transfers = board$n_processes
     )
     fs::file_chmod(paths[needed], "u=r")

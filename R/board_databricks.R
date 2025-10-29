@@ -57,12 +57,12 @@
 #' }
 #' @export
 board_databricks <- function(
-    folder_url,
-    host = NULL,
-    prefix = NULL,
-    versioned = TRUE,
-    cache = NULL) {
-
+  folder_url,
+  host = NULL,
+  prefix = NULL,
+  versioned = TRUE,
+  cache = NULL
+) {
   check_installed("httr2")
 
   cache_path <- tolower(fs::path("databricks", folder_url, prefix %||% ""))
@@ -117,7 +117,12 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
     abort_pin_version_missing(version)
   }
   db_download_file(board, name, version, "data.txt")
-  path_version <- fs::path(board$cache, board$prefix %||% "", name, version %||% "")
+  path_version <- fs::path(
+    board$cache,
+    board$prefix %||% "",
+    name,
+    version %||% ""
+  )
   local_meta(
     x = read_meta(path_version),
     name = name,
@@ -127,8 +132,15 @@ pin_meta.pins_board_databricks <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_databricks <- function(board, name, paths, metadata,
-                                            versioned = NULL, x = NULL, ...) {
+pin_store.pins_board_databricks <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  x = NULL,
+  ...
+) {
   check_dots_used()
   check_pin_name(name)
   version <- version_setup(
@@ -181,7 +193,12 @@ pin_delete.pins_board_databricks <- function(board, names, ...) {
 }
 
 #' @export
-pin_version_delete.pins_board_databricks <- function(board, name, version, ...) {
+pin_version_delete.pins_board_databricks <- function(
+  board,
+  name,
+  version,
+  ...
+) {
   db_delete_pin(board, fs::path(name, version))
 }
 
@@ -230,7 +247,12 @@ db_download_file <- function(board, name = "", version = "", file_name = "") {
     return(invisible())
   }
   try(fs::dir_create(cache_path))
-  full_path <- fs::path("/api/2.0/fs/files", board$folder_url, base_path, file_name)
+  full_path <- fs::path(
+    "/api/2.0/fs/files",
+    board$folder_url,
+    base_path,
+    file_name
+  )
   out <- db_req_init(board, "GET", full_path)
   out <- httr2::req_perform(out, path = local_path)
   fs::file_chmod(local_path, "u=r")
@@ -314,7 +336,7 @@ db_list_contents <- function(board, path = NULL) {
       cli::cli_abort(
         message = unlist(strsplit(out, "\n")),
         call = NULL
-        )
+      )
     }
   }
   out <- httr2::resp_body_json(out)

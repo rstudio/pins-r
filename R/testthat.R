@@ -15,7 +15,11 @@ skip_if_missing_envvars <- function(tests, envvars) {
     return()
   }
 
-  testthat::skip(paste0(tests, " tests require ", paste0(envvars, collapse = ", ")))
+  testthat::skip(paste0(
+    tests,
+    " tests require ",
+    paste0(envvars, collapse = ", ")
+  ))
 }
 
 # These functions are used to test families of invariants that apply to the
@@ -114,7 +118,6 @@ test_api_basic <- function(board) {
   testthat::test_that("can find board required pkgs", {
     testthat::expect_snapshot(required_pkgs(board))
   })
-
 }
 
 test_api_versioning <- function(board) {
@@ -189,7 +192,6 @@ test_api_versioning <- function(board) {
       class = "pins_pin_versioned"
     )
   })
-
 }
 
 test_api_manifest <- function(board) {
@@ -206,7 +208,6 @@ test_api_manifest <- function(board) {
       class = "pins_pin_missing"
     )
   })
-
 }
 
 local_httpbin_app <- function() {
@@ -220,11 +221,14 @@ local_httpbin_app <- function() {
 # errors live here for now since they're closely bound to the tests
 
 abort_pin_missing <- function(name, call = caller_env()) {
-  cli_abort(c(
-    "Can't find pin called {.val {name}}",
-    i = "Use {.fun pin_list} to see all available pins in this board"
-  ),
-  class = "pins_pin_missing", call = call)
+  cli_abort(
+    c(
+      "Can't find pin called {.val {name}}",
+      i = "Use {.fun pin_list} to see all available pins in this board"
+    ),
+    class = "pins_pin_missing",
+    call = call
+  )
 }
 
 abort_pin_version_missing <- function(version, call = caller_env()) {
@@ -236,12 +240,13 @@ abort_pin_version_missing <- function(version, call = caller_env()) {
 }
 
 abort_pin_versioned <- function(call = caller_env()) {
-  cli_abort(c(
-    "Pin is versioned, but you have requested a write without versions",
-    i = "To un-version a pin, you must delete it"
-  ),
-  class = "pins_pin_versioned",
-  call = call
+  cli_abort(
+    c(
+      "Pin is versioned, but you have requested a write without versions",
+      i = "To un-version a pin, you must delete it"
+    ),
+    class = "pins_pin_versioned",
+    call = call
   )
 }
 

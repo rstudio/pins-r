@@ -83,19 +83,18 @@ test_that("can create and delete content", {
   board <- board_connect_test()
 
   rsc_content_create(board, "test-1", list())
-  expect_snapshot(error = TRUE,
-    rsc_content_create(board, "test-1", list())
-  )
+  expect_snapshot(error = TRUE, rsc_content_create(board, "test-1", list()))
 
   rsc_content_delete(board, paste0(board$account, "/test-1"))
-  expect_snapshot(error = TRUE,
-    rsc_content_delete(board, "test-1")
-  )
+  expect_snapshot(error = TRUE, rsc_content_delete(board, "test-1"))
 })
 
 test_that("can parse user & pin name", {
   expect_equal(rsc_parse_name("x"), list(owner = NULL, name = "x", full = NULL))
-  expect_equal(rsc_parse_name("y/x"), list(owner = "y", name = "x", full = "y/x"))
+  expect_equal(
+    rsc_parse_name("y/x"),
+    list(owner = "y", name = "x", full = "y/x")
+  )
 })
 
 test_that("can find cached versions", {
@@ -109,7 +108,10 @@ test_that("can find cached versions", {
 
   pin_write(board, 2, name)
   # Cached version hasn't changed since we haven't read
-  expect_message(expect_equal(rsc_content_version_cached(board, guid), cached_v))
+  expect_message(expect_equal(
+    rsc_content_version_cached(board, guid),
+    cached_v
+  ))
 })
 
 test_that("rsc_path() always includes leading /", {

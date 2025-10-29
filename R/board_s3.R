@@ -89,18 +89,18 @@
 #'
 #' }
 board_s3 <- function(
-    bucket,
-    prefix = NULL,
-    versioned = TRUE,
-    access_key = NULL,
-    secret_access_key = NULL,
-    session_token = NULL,
-    credential_expiration = NULL,
-    profile = NULL,
-    region = NULL,
-    endpoint = NULL,
-    cache = NULL) {
-
+  bucket,
+  prefix = NULL,
+  versioned = TRUE,
+  access_key = NULL,
+  secret_access_key = NULL,
+  session_token = NULL,
+  credential_expiration = NULL,
+  profile = NULL,
+  region = NULL,
+  endpoint = NULL,
+  cache = NULL
+) {
   check_installed("paws.storage")
 
   config <- compact(list(
@@ -121,13 +121,14 @@ board_s3 <- function(
   svc$head_bucket(bucket)
 
   cache <- cache %||% board_cache_path(paste0("s3-", bucket))
-  new_board_v1("pins_board_s3",
-               name = "s3",
-               bucket = bucket,
-               prefix = prefix,
-               svc = svc,
-               cache = cache,
-               versioned = versioned
+  new_board_v1(
+    "pins_board_s3",
+    name = "s3",
+    bucket = bucket,
+    prefix = prefix,
+    svc = svc,
+    cache = cache,
+    versioned = versioned
   )
 }
 
@@ -137,18 +138,18 @@ board_s3_test <- function(...) {
     envvars = c("PINS_AWS_ACCESS_KEY", "PINS_AWS_SECRET_ACCESS_KEY")
   )
 
-  board_s3("pins-test-hadley",
-           region = "us-east-2",
-           cache = tempfile(),
-           access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
-           secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
-           ...
+  board_s3(
+    "pins-test-hadley",
+    region = "us-east-2",
+    cache = tempfile(),
+    access_key = Sys.getenv("PINS_AWS_ACCESS_KEY"),
+    secret_access_key = Sys.getenv("PINS_AWS_SECRET_ACCESS_KEY"),
+    ...
   )
 }
 
 #' @export
 pin_list.pins_board_s3 <- function(board, ...) {
-
   resp <- board$svc$list_objects_v2(
     Bucket = board$bucket,
     Prefix = board$prefix,
@@ -157,12 +158,13 @@ pin_list.pins_board_s3 <- function(board, ...) {
 
   final_list <- resp$CommonPrefixes
 
-  while(!is_empty(resp$NextContinuationToken)) {
+  while (!is_empty(resp$NextContinuationToken)) {
     resp <- board$svc$list_objects_v2(
       Bucket = board$bucket,
       Prefix = board$prefix,
       Delimiter = "/",
-      ContinuationToken = resp$NextContinuationToken)
+      ContinuationToken = resp$NextContinuationToken
+    )
     final_list <- c(final_list, resp$CommonPrefixes)
   }
 
@@ -191,16 +193,18 @@ pin_versions.pins_board_s3 <- function(board, name, ...) {
   resp <- board$svc$list_objects_v2(
     Bucket = board$bucket,
     Prefix = paste0(board$prefix, name, "/"),
-    Delimiter = "/")
+    Delimiter = "/"
+  )
 
   final_list <- resp$CommonPrefixes
 
-  while(!is_empty(resp$NextContinuationToken)) {
+  while (!is_empty(resp$NextContinuationToken)) {
     resp <- board$svc$list_objects_v2(
       Bucket = board$bucket,
       Prefix = paste0(board$prefix, name, "/"),
       Delimiter = "/",
-      ContinuationToken = resp$NextContinuationToken)
+      ContinuationToken = resp$NextContinuationToken
+    )
     final_list <- c(final_list, resp$CommonPrefixes)
   }
 
@@ -249,11 +253,23 @@ pin_fetch.pins_board_s3 <- function(board, name, version = NULL, ...) {
 }
 
 #' @export
-pin_store.pins_board_s3 <- function(board, name, paths, metadata,
-                                    versioned = NULL, x = NULL, ...) {
+pin_store.pins_board_s3 <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  x = NULL,
+  ...
+) {
   check_dots_used()
   check_pin_name(name)
-  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+  version <- version_setup(
+    board,
+    name,
+    version_name(metadata),
+    versioned = versioned
+  )
 
   version_dir <- fs::path(name, version)
   s3_upload_yaml(board, fs::path(version_dir, "data.txt"), metadata, ...)

@@ -34,13 +34,18 @@ legacy_dospace <- function(
   name = "dospace",
   ...
 ) {
-  if (nchar(space) == 0)
+  if (nchar(space) == 0) {
     stop("The 'dospace' board requires a 'space' parameter.")
-  if (nchar(key) == 0) stop("The 'dospace' board requires a 'key' parameter.")
-  if (nchar(secret) == 0)
+  }
+  if (nchar(key) == 0) {
+    stop("The 'dospace' board requires a 'key' parameter.")
+  }
+  if (nchar(secret) == 0) {
     stop("The 'dospace' board requires a 'secret' parameter.")
-  if (nchar(datacenter) == 0)
+  }
+  if (nchar(datacenter) == 0) {
     stop("The 'dospace' board requires a 'datacenter' parameter.")
+  }
 
   legacy_datatxt(
     name = name,

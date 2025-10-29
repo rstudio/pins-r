@@ -95,14 +95,16 @@ pin_versions_prune <- function(board, name, n = NULL, days = NULL, ...) {
   if (!all(keep)) {
     to_delete <- versions$version[!keep]
 
-    pins_inform(paste0("Deleting versions: ", paste0(to_delete, collapse = ", ")))
+    pins_inform(paste0(
+      "Deleting versions: ",
+      paste0(to_delete, collapse = ", ")
+    ))
     for (version in to_delete) {
       pin_version_delete(board, name, version, ...)
     }
   } else {
     pins_inform("No old versions to delete")
   }
-
 }
 
 versions_keep <- function(created, n = NULL, days = NULL) {
@@ -156,22 +158,29 @@ version_from_path <- function(x) {
   out
 }
 
-version_setup <- function(board, name, new_version, versioned = NULL, call = caller_env()) {
-  
+version_setup <- function(
+  board,
+  name,
+  new_version,
+  versioned = NULL,
+  call = caller_env()
+) {
   n_versions <- 0
-  
+
   if (pin_exists(board, name)) {
     versions <- pin_versions(board, name)
     n_versions <- nrow(versions)
-    
+
     if (n_versions > 0) {
       old_version <- versions$version[[1]]
       if (old_version == new_version) {
-        cli::cli_abort(c(
-          "The new version {.val {new_version}} is the same as the most recent version.",
-          i = "Did you try to create a new version with the same timestamp as the last version?"
-        ),
-        call = call)
+        cli::cli_abort(
+          c(
+            "The new version {.val {new_version}} is the same as the most recent version.",
+            i = "Did you try to create a new version with the same timestamp as the last version?"
+          ),
+          call = call
+        )
       }
     }
   }

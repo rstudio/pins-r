@@ -79,15 +79,16 @@
 #' # Download a shared dataset
 #' board |> pin_read("timothy/mtcars")
 #' }
-board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
-                          server = NULL,
-                          account = NULL,
-                          key = NULL,
-                          cache = NULL,
-                          name = "posit-connect",
-                          versioned = TRUE,
-                          use_cache_on_failure = is_interactive()) {
-
+board_connect <- function(
+  auth = c("auto", "manual", "envvar", "rsconnect"),
+  server = NULL,
+  account = NULL,
+  key = NULL,
+  cache = NULL,
+  name = "posit-connect",
+  versioned = TRUE,
+  use_cache_on_failure = is_interactive()
+) {
   server <- rsc_server(auth, server, account, key)
   cache <- cache %||% board_cache_path(paste0("connect-", hash(server$url)))
 
@@ -97,7 +98,7 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
     name = name,
     cache = cache,
     url = server$url,
-    account = server$account,         # for full name of pin
+    account = server$account, # for full name of pin
     server_name = server$server_name, # for board_connect(server = "...") in template
     auth = server$auth,
     versioned = versioned,
@@ -127,16 +128,17 @@ board_connect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
 
 #' @rdname board_connect
 #' @export
-board_rsconnect <- function(auth = c("auto", "manual", "envvar", "rsconnect"),
-                            server = NULL,
-                            account = NULL,
-                            key = NULL,
-                            output_files = FALSE,
-                            cache = NULL,
-                            name = "posit-connect",
-                            versioned = TRUE,
-                            use_cache_on_failure = is_interactive()) {
-
+board_rsconnect <- function(
+  auth = c("auto", "manual", "envvar", "rsconnect"),
+  server = NULL,
+  account = NULL,
+  key = NULL,
+  output_files = FALSE,
+  cache = NULL,
+  name = "posit-connect",
+  versioned = TRUE,
+  use_cache_on_failure = is_interactive()
+) {
   lifecycle::deprecate_stop("1.1.0", "board_rsconnect()", "board_connect()")
 
   board_connect(
@@ -258,16 +260,16 @@ pin_fetch.pins_board_connect <- function(board, name, version = NULL, ...) {
 
 #' @export
 pin_store.pins_board_connect <- function(
-    board,
-    name,
-    paths,
-    metadata,
-    versioned = NULL,
-    x = NULL,
-    ...,
-    access_type = NULL,
-    preview_data = TRUE)
-{
+  board,
+  name,
+  paths,
+  metadata,
+  versioned = NULL,
+  x = NULL,
+  ...,
+  access_type = NULL,
+  preview_data = TRUE
+) {
   # https://docs.posit.co/connect/1.8.0.4/cookbook/deploying/
 
   check_pin_name(rsc_parse_name(name)$name)
@@ -290,7 +292,14 @@ pin_store.pins_board_connect <- function(
   )
 
   # Make .tar.gz bundle containing data.txt + index.html + pin data
-  bundle_dir <- rsc_bundle(board, name, paths, metadata, x, preview_data = preview_data)
+  bundle_dir <- rsc_bundle(
+    board,
+    name,
+    paths,
+    metadata,
+    x,
+    preview_data = preview_data
+  )
   bundle_file <- fs::file_temp(ext = "tar.gz")
 
   # suppress warnings about "invalid uid value" / "invalid gid value"
@@ -306,7 +315,8 @@ pin_store.pins_board_connect <- function(
   # Upload bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/content/{guid}/bundles
   json <- rsc_POST(
-    board, rsc_v1("content", content_guid, "bundles"),
+    board,
+    rsc_v1("content", content_guid, "bundles"),
     body = httr::upload_file(bundle_file)
   )
   bundle_id <- json$id
@@ -314,7 +324,8 @@ pin_store.pins_board_connect <- function(
   # Deploy bundle
   # https://docs.rstudio.com/connect/api/#post-/v1/experimental/content/{guid}/deploy
   json <- rsc_POST(
-    board, rsc_v1("content", content_guid, "deploy"),
+    board,
+    rsc_v1("content", content_guid, "deploy"),
     body = list(bundle_id = bundle_id),
   )
   task_id <- json$task_id
@@ -324,7 +335,8 @@ pin_store.pins_board_connect <- function(
   json <- rsc_GET(board, rsc_v1("tasks", task_id), list(wait = 1))
   while (!json$finished) {
     json <- rsc_GET(
-      board, rsc_v1("tasks", task_id),
+      board,
+      rsc_v1("tasks", task_id),
       list(wait = 1, first = json$last)
     )
   }
@@ -382,19 +394,27 @@ required_pkgs.pins_board_connect <- function(x, ...) {
 # v0 ----------------------------------------------------------------------
 
 #' @export
-board_pin_get.pins_board_connect <- function(board, name, version = NULL, ...,
-                                             extract = NULL) {
-
+board_pin_get.pins_board_connect <- function(
+  board,
+  name,
+  version = NULL,
+  ...,
+  extract = NULL
+) {
   meta <- pin_fetch(board, name, version = version, ...)
   meta$local$dir
 }
 
 #' @export
-board_pin_create.pins_board_connect <- function(board, path, name,
-                                                metadata, code = NULL,
-                                                search_all = FALSE,
-                                                ...) {
-
+board_pin_create.pins_board_connect <- function(
+  board,
+  path,
+  name,
+  metadata,
+  code = NULL,
+  search_all = FALSE,
+  ...
+) {
   path <- fs::dir_ls(path)
   metadata$file <- fs::path_file(path)
 
@@ -408,13 +428,14 @@ board_pin_create.pins_board_connect <- function(board, path, name,
 }
 
 #' @export
-board_pin_find.pins_board_connect <- function(board,
-                                              text = NULL,
-                                              name = NULL,
-                                              extended = FALSE,
-                                              metadata = FALSE,
-                                              ...) {
-
+board_pin_find.pins_board_connect <- function(
+  board,
+  text = NULL,
+  name = NULL,
+  extended = FALSE,
+  metadata = FALSE,
+  ...
+) {
   params <- list(
     search = text,
     filter = "content_type:pin",
@@ -436,7 +457,6 @@ board_pin_find.pins_board_connect <- function(board,
 # Content -----------------------------------------------------------------
 
 rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
-
   name <- rsc_parse_name(name)
 
   # https://docs.rstudio.com/connect/api/#get-/v1/content
@@ -457,7 +477,9 @@ rsc_content_find <- function(board, name, version = NULL, warn = TRUE) {
     name$full <- paste0(owner, "/", name$name)
 
     if (warn) {
-      cli::cli_alert_warning("Use a fully specified name including user name: {.val {name$full}}, not {.val {name$name}}.")
+      cli::cli_alert_warning(
+        "Use a fully specified name including user name: {.val {name$full}}, not {.val {name$name}}."
+      )
     }
     selected <- json[[1]]
   } else {
@@ -551,7 +573,9 @@ rsc_content_version_cached <- function(board, guid) {
   if (length(meta) == 0) {
     abort("Failed to connect to Posit Connect")
   } else {
-    cli::cli_alert_danger("Failed to connect to Posit Connect; using cached version")
+    cli::cli_alert_danger(
+      "Failed to connect to Posit Connect; using cached version"
+    )
 
     info <- fs::file_info(meta)
     meta <- meta[order(info$modification_time, decreasing = TRUE)]
@@ -685,9 +709,7 @@ rsc_auth <- function(board, path, verb, body_path) {
 }
 
 rsc_check_status <- function(req) {
-  if (httr::status_code(req) < 400) {
-
-  } else {
+  if (httr::status_code(req) < 400) {} else {
     type <- httr::parse_media(httr::headers(req)$`content-type`)
     if (type$complete == "application/json") {
       json <- httr::content(req)
@@ -731,9 +753,16 @@ connect_has_ptd <- function() {
 
 board_connect_ptd <- function(...) {
   if (!connect_has_ptd()) {
-    testthat::skip("board_connect_ptd() only works with Posit's demo PTD server")
+    testthat::skip(
+      "board_connect_ptd() only works with Posit's demo PTD server"
+    )
   }
-  board_connect(..., server = "pub.demo.posit.team", auth = "rsconnect", cache = fs::file_temp())
+  board_connect(
+    ...,
+    server = "pub.demo.posit.team",
+    auth = "rsconnect",
+    cache = fs::file_temp()
+  )
 }
 
 board_connect_susan <- function(...) {
@@ -760,7 +789,6 @@ read_creds <- function() {
   readRDS(path)
 }
 add_another_user <- function(board, user_name, content_id) {
-
   ## get user GUID for new owner from user_name
   path <- glue("v1/users/")
   path <- rsc_path(board, path)
@@ -772,11 +800,13 @@ add_another_user <- function(board, user_name, content_id) {
   principal_guid <- res$results[[1]]$guid
 
   ## add user_name as owner for content at GUID
-  body <- glue('{{
+  body <- glue(
+    '{{
   "principal_guid": "{principal_guid}",
   "principal_type": "user",
   "role": "owner"
-  }}')
+  }}'
+  )
 
   path <- glue("v1/content/{content_id}/permissions")
   path <- rsc_path(board, path)

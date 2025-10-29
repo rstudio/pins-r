@@ -89,19 +89,27 @@ board_register_code <- function(board, name) {
   while (parent_idx < length(sys.parents())) {
     parent_func <- sys.function(sys.parent(parent_idx))
     parent_call <- sys.call(sys.parent(parent_idx))
-    if (!is.function(parent_func) || !is.call(parent_call)) break
+    if (!is.function(parent_func) || !is.call(parent_call)) {
+      break
+    }
 
     this_parent_call <- tryCatch(
       match.call(definition = parent_func, call = parent_call),
       error = function(e) NULL
     )
 
-    if (is.null(this_parent_call)) break
-    if (length(this_parent_call) < 1) break
+    if (is.null(this_parent_call)) {
+      break
+    }
+    if (length(this_parent_call) < 1) {
+      break
+    }
 
     this_function_name <- deparse(this_parent_call[[1]])
 
-    if (!grepl("(^|::)board_register", this_function_name)) break
+    if (!grepl("(^|::)board_register", this_function_name)) {
+      break
+    }
 
     parent_call <- this_parent_call
     function_name <- this_function_name
@@ -120,8 +128,9 @@ board_register_code <- function(board, name) {
 #' @rdname board_register
 #' @export
 board_deregister <- function(name, ...) {
-  if (!name %in% board_registry_list())
+  if (!name %in% board_registry_list()) {
     stop("Board '", name, "' is not registered.")
+  }
 
   board <- board_get(name)
   board_registry_set(name, NULL)

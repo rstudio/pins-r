@@ -90,15 +90,18 @@ kaggle_auth <- function(board) {
 
 kaggle_qualify_name <- function(name, board) {
   qualified <- name
-  if (!grepl("/", qualified))
+  if (!grepl("/", qualified)) {
     qualified <- paste0(kaggle_auth_info(board)$username, "/", name)
+  }
 
   qualified
 }
 
 kaggle_upload_resource <- function(path, board) {
   path <- normalizePath(path)
-  if (!file.exists(path)) stop("Invalid path: ", path)
+  if (!file.exists(path)) {
+    stop("Invalid path: ", path)
+  }
 
   content_length <- file.info(path)$size
   modified <- as.integer(file.info(path)$mtime)
@@ -116,13 +119,15 @@ kaggle_upload_resource <- function(path, board) {
     kaggle_auth(board)
   )
 
-  if (httr::http_error(results))
+  if (httr::http_error(results)) {
     stop("Upload registration failed with status ", httr::status_code(results))
+  }
 
   parsed <- httr::content(results, encoding = "UTF-8")
 
-  if (!identical(parsed$error, NULL))
+  if (!identical(parsed$error, NULL)) {
     stop("Upload registration failed: ", parsed$error)
+  }
 
   upload_url <- parsed$createUrl
   token <- parsed$token
@@ -134,12 +139,15 @@ kaggle_upload_resource <- function(path, board) {
     http_utils_progress("up", size = file.info(normalizePath(path))$size)
   )
 
-  if (httr::http_error(results))
+  if (httr::http_error(results)) {
     stop("Upload failed with status ", httr::status_code(results))
+  }
 
   parsed <- httr::content(results, encoding = "UTF-8")
 
-  if (!identical(parsed$error, NULL)) stop("Upload failed: ", parsed$error)
+  if (!identical(parsed$error, NULL)) {
+    stop("Upload failed: ", parsed$error)
+  }
 
   token
 }
@@ -162,7 +170,9 @@ kaggle_create_resource <- function(
       sep = "/"
     )
 
-    if (is.null(notes)) notes <- paste("Updated version")
+    if (is.null(notes)) {
+      notes <- paste("Updated version")
+    }
 
     body <- list(
       convertToCsv = jsonlite::unbox(FALSE),
@@ -192,13 +202,15 @@ kaggle_create_resource <- function(
 
   results <- httr::POST(url, body = body, kaggle_auth(board), encode = "json")
 
-  if (httr::http_error(results))
+  if (httr::http_error(results)) {
     stop("Resource creation failed with status ", httr::status_code(results))
+  }
 
   parsed <- httr::content(results, encoding = "UTF-8")
 
-  if (!identical(parsed$error, NULL))
+  if (!identical(parsed$error, NULL)) {
     stop("Resource creation failed: ", parsed$error)
+  }
 
   parsed$url
 }
@@ -236,9 +248,12 @@ board_pin_create.pins_board_kaggle <- function(
   description <- metadata$description
   type <- metadata$type
 
-  if (is.null(description) || nchar(description) == 0)
+  if (is.null(description) || nchar(description) == 0) {
     description <- paste("A pin for the", gsub("-pin$", "", name), "dataset")
-  if (!file.exists(path)) stop("File does not exist: ", path)
+  }
+  if (!file.exists(path)) {
+    stop("File does not exist: ", path)
+  }
 
   if (identical(list(...)$use_zip, TRUE)) {
     temp_bundle <- kaggle_create_bundle(path, type, description)
@@ -282,8 +297,9 @@ board_pin_search_kaggle <- function(
   url <- utils::URLencode(paste0(base_url, params))
 
   results <- httr::GET(url, kaggle_auth(board))
-  if (httr::http_error(results))
+  if (httr::http_error(results)) {
     stop("Finding pin failed with status ", httr::status_code(results))
+  }
 
   httr::content(results, encoding = "UTF-8")
 }
@@ -295,7 +311,9 @@ board_pin_find.pins_board_kaggle <- function(
   extended = FALSE,
   ...
 ) {
-  if (is.null(text)) text <- ""
+  if (is.null(text)) {
+    text <- ""
+  }
 
   # clear name searches
   text <- gsub("^[^/]+/", "", text)
@@ -356,8 +374,9 @@ kaggle_competition_files <- function(board, name) {
   )
 
   results <- httr::GET(url, kaggle_auth(board))
-  if (httr::http_error(results))
+  if (httr::http_error(results)) {
     stop("Finding pin failed with status ", httr::status_code(results))
+  }
 
   httr::content(results, encoding = "UTF-8")
 }
@@ -385,16 +404,23 @@ board_pin_get.pins_board_kaggle <- function(
     etag <- max(sapply(files, function(e) e$creationDate))
     content_length <- sum(sapply(files, function(e) e$totalBytes))
   } else {
-    if (!grepl("/", name))
+    if (!grepl("/", name)) {
       name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+    }
     url <- paste0("https://www.kaggle.com/api/v1/datasets/download/", name)
 
     extended <- pin_find(name = name, board = board, extended = TRUE)
 
-    etag <- if (is.null(extended$lastUpdated)) "" else
+    etag <- if (is.null(extended$lastUpdated)) {
+      ""
+    } else {
       as.character(extended$lastUpdated)
-    content_length <- if (is.null(extended$totalBytes)) 0 else
+    }
+    content_length <- if (is.null(extended$totalBytes)) {
+      0
+    } else {
       as.integer(extended$totalBytes)
+    }
   }
 
   subpath <- name
@@ -435,15 +461,17 @@ board_browse.pins_board_kaggle <- function(board, ...) {
 
 #' @export
 board_pin_versions.pins_board_kaggle <- function(board, name, ...) {
-  if (!grepl("/", name))
+  if (!grepl("/", name)) {
     name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+  }
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/view/", name)
 
   response <- httr::GET(url, kaggle_auth(board))
 
-  if (httr::http_error(response))
+  if (httr::http_error(response)) {
     stop("Failed to view dataset with status ", httr::status_code(response))
+  }
 
   parsed <- httr::content(response, encoding = "UTF-8")
 
@@ -460,8 +488,9 @@ board_pin_versions.pins_board_kaggle <- function(board, name, ...) {
 }
 
 kaggle_resource_exists <- function(board, name) {
-  if (!grepl("/", name))
+  if (!grepl("/", name)) {
     name <- paste(kaggle_auth_info(board)$username, name, sep = "/")
+  }
 
   url <- paste0("https://www.kaggle.com/api/v1/datasets/view/", name)
 

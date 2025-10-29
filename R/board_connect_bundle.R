@@ -1,4 +1,12 @@
-rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tempfile(), preview_data = TRUE) {
+rsc_bundle <- function(
+  board,
+  name,
+  paths,
+  metadata,
+  x = NULL,
+  bundle_path = tempfile(),
+  preview_data = TRUE
+) {
   fs::dir_create(bundle_path)
 
   # Bundle contains:
@@ -13,7 +21,11 @@ rsc_bundle <- function(board, name, paths, metadata, x = NULL, bundle_path = tem
 
   # * manifest.json (used for deployment)
   manifest <- rsc_bundle_manifest(board, bundle_path)
-  jsonlite::write_json(manifest, fs::path(bundle_path, "manifest.json"), auto_unbox = TRUE)
+  jsonlite::write_json(
+    manifest,
+    fs::path(bundle_path, "manifest.json"),
+    auto_unbox = TRUE
+  )
 
   invisible(bundle_path)
 }
@@ -39,7 +51,14 @@ rsc_bundle_manifest <- function(board, path) {
   )
 }
 
-rsc_bundle_preview_create <- function(board, name, x, metadata, path, preview_data) {
+rsc_bundle_preview_create <- function(
+  board,
+  name,
+  x,
+  metadata,
+  path,
+  preview_data
+) {
   # Copy support files
   template <- fs::dir_ls(fs::path_package("pins", "preview"))
   file.copy(template, path, recursive = TRUE)
@@ -51,18 +70,46 @@ rsc_bundle_preview_create <- function(board, name, x, metadata, path, preview_da
   invisible(path)
 }
 
-rsc_bundle_preview_index <- function(board, name, x, metadata, preview_data = TRUE) {
+rsc_bundle_preview_index <- function(
+  board,
+  name,
+  x,
+  metadata,
+  preview_data = TRUE
+) {
   data_preview <- rsc_bundle_preview_data(x, preview_data)
   name <- rsc_parse_name(name)
   owner <- name$owner %||% board$account
 
   data <- list(
-    pin_files = paste0("<a href=\"", metadata$file, "\">", metadata$file, "</a>", collapse = ", "),
+    pin_files = paste0(
+      "<a href=\"",
+      metadata$file,
+      "\">",
+      metadata$file,
+      "</a>",
+      collapse = ", "
+    ),
     data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
-    data_preview_style = if ( is.data.frame(x) && preview_data ) "" else "display:none",
-    urls = paste0("<a href=\"", metadata$urls, "\">", metadata$urls, "</a>", collapse = ", "),
+    data_preview_style = if (is.data.frame(x) && preview_data) {
+      ""
+    } else {
+      "display:none"
+    },
+    urls = paste0(
+      "<a href=\"",
+      metadata$urls,
+      "\">",
+      metadata$urls,
+      "</a>",
+      collapse = ", "
+    ),
     url_preview_style = if (!is.null(metadata$urls)) "" else "display:none",
-    show_python_style = if (all(metadata$type %in% c("rds", "qs", "qs2"))) "display:none" else "",
+    show_python_style = if (all(metadata$type %in% c("rds", "qs", "qs2"))) {
+      "display:none"
+    } else {
+      ""
+    },
     pin_name = paste0(owner, "/", name$name),
     pin_metadata = list(
       as_yaml = yaml::as.yaml(metadata),
@@ -79,7 +126,7 @@ rsc_bundle_preview_index <- function(board, name, x, metadata, preview_data = TR
 }
 
 rsc_bundle_preview_data <- function(df, preview = TRUE, n = 100) {
-  if ( !is.data.frame(df) || !preview ) {
+  if (!is.data.frame(df) || !preview) {
     return(list(data = list(), columns = list()))
   }
 
@@ -108,7 +155,12 @@ rsc_bundle_preview_data <- function(df, preview = TRUE, n = 100) {
 
 sanitise_col <- function(x) {
   # Basic classes can be left as is
-  if (is_bare_atomic(x) || is.factor(x) || inherits(x, "Date") || inherits(x, "POSIXt")) {
+  if (
+    is_bare_atomic(x) ||
+      is.factor(x) ||
+      inherits(x, "Date") ||
+      inherits(x, "POSIXt")
+  ) {
     return(x)
   }
 

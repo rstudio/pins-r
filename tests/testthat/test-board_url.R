@@ -148,7 +148,6 @@ test_that("pin_meta() works for versioned board", {
     b2 |> pin_meta("y", version = versions$version[[1]]),
     "pins_meta"
   )
-
 })
 
 test_that("useful error for missing or unparseable manifest file", {
@@ -175,7 +174,6 @@ test_that("useful error for missing or unparseable manifest file", {
     board_url(b4$url()),
     "Failed to parse manifest file at URL"
   )
-
 })
 
 test_that("useful errors for unsupported methods", {

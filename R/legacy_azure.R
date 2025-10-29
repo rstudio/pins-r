@@ -34,11 +34,15 @@ legacy_azure <- function(
   name = "azure",
   ...
 ) {
-  if (nchar(container) == 0)
+  if (nchar(container) == 0) {
     stop("The 'azure' board requires a 'container' parameter.")
-  if (nchar(account) == 0)
+  }
+  if (nchar(account) == 0) {
     stop("The 'azure' board requires an 'account' parameter.")
-  if (nchar(key) == 0) stop("The 'azure' board requires a 'key' parameter.")
+  }
+  if (nchar(key) == 0) {
+    stop("The 'azure' board requires a 'key' parameter.")
+  }
 
   azure_url <- paste0("https://", account, ".blob.core.windows.net/", container)
 

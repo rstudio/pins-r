@@ -8,7 +8,7 @@
 #'
 #' @param vanity_urls A named character vector of
 #'   [Connect vanity URLs](https://docs.posit.co/connect/user/content-settings/#custom-url),
-#'   including trailing slash. This board is read only, and the best way to write to a pin 
+#'   including trailing slash. This board is read only, and the best way to write to a pin
 #'   on Connect is [board_connect()].
 #' @family boards
 #' @inheritParams new_board
@@ -27,10 +27,12 @@
 #'
 #' board |> pin_read("my_vanity_url_pin")
 #'
-board_connect_url <- function(vanity_urls,
-                              cache = NULL,
-                              use_cache_on_failure = is_interactive(),
-                              headers = connect_auth_headers()) {
+board_connect_url <- function(
+  vanity_urls,
+  cache = NULL,
+  use_cache_on_failure = is_interactive(),
+  headers = connect_auth_headers()
+) {
   board_url(
     urls = vanity_urls,
     cache = cache,
@@ -77,7 +79,9 @@ board_connect_url_test <- function(...) {
 
 board_connect_url_ptd <- function(...) {
   if (!connect_has_ptd()) {
-    testthat::skip("board_connect_url_ptd() only works with Posit's demo server")
+    testthat::skip(
+      "board_connect_url_ptd() only works with Posit's demo server"
+    )
   }
   board_connect_url(..., cache = fs::file_temp())
 }

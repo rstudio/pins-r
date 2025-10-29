@@ -1,4 +1,3 @@
-
 #' Custom Boards
 #'
 #' `r lifecycle::badge('deprecated')`

@@ -11,7 +11,9 @@ http_utils_progress <- function(
 }
 
 pins_show_progress <- function(size, is_interactive) {
-  if (is.character(size)) size <- as.integer(size)
+  if (is.character(size)) {
+    size <- as.integer(size)
+  }
 
   is_interactive &&
     getOption("pins.progress", TRUE) &&
@@ -133,7 +135,7 @@ is_rcmd_check <- function() {
 # adapted from ps:::is_cran_check()
 # nocov start
 
-is_cran_check <- function () {
+is_cran_check <- function() {
   if (identical(Sys.getenv("NOT_CRAN"), "true")) {
     FALSE
   } else {

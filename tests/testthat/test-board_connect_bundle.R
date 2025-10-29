@@ -34,7 +34,12 @@ test_that("generates index files", {
     api_version = "1.0",
     user = list(my_meta = "User defined metadata")
   )
-  expect_snapshot_output(cat(rsc_bundle_preview_index(board, "test", df, metadata)))
+  expect_snapshot_output(cat(rsc_bundle_preview_index(
+    board,
+    "test",
+    df,
+    metadata
+  )))
 })
 
 test_that("generates preview data", {
