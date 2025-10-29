@@ -120,15 +120,15 @@ provided additional data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250904T024506Z-f8860'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20251029T025130Z-f8860'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250904T024506Z-34f15'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20251029T025130Z-34f15'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20250904T024506Z-c2961'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20251029T025130Z-c2961'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># pin_read() returns the latest version by default</span></span></span>
@@ -145,9 +145,9 @@ provided additional data.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20250904T024506Z-34f15 2025-09-04 <span style="color: #949494;">02:45:06</span> 34f15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20250904T024506Z-c2961 2025-09-04 <span style="color: #949494;">02:45:06</span> c2961</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20250904T024506Z-f8860 2025-09-04 <span style="color: #949494;">02:45:06</span> f8860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20251029T025130Z-34f15 2025-10-29 <span style="color: #949494;">02:51:30</span> 34f15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20251029T025130Z-c2961 2025-10-29 <span style="color: #949494;">02:51:30</span> c2961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20251029T025130Z-f8860 2025-10-29 <span style="color: #949494;">02:51:30</span> f8860</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span></span>
