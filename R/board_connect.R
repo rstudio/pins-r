@@ -731,7 +731,7 @@ rsc_v1 <- function(...) {
   paste0(c("v1", ...), collapse = "/")
 }
 
-# Testing -----------------------------------------------------------------
+# Testing setup -----------------------------------------------------------
 
 # Connect testing: prefers using CONNECT_SERVER and CONNECT_API_KEY env vars,
 # but can fall back to Posit's demo PTD server if you've logged in with rsconnect
