@@ -733,18 +733,19 @@ rsc_v1 <- function(...) {
 
 # Testing setup -----------------------------------------------------------
 
-# Connect testing: prefers using CONNECT_SERVER and CONNECT_API_KEY env vars,
-# but can fall back to Posit's demo PTD server if you've logged in with rsconnect
+# Connect testing: prefers using Posit's demo PTD server (if you've logged in
+# with rsconnect), else checks CONNECT_SERVER and CONNECT_API_KEY env vars,
+# and if neither are available, skips the tests.
 board_connect_test <- function(...) {
-  if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
-    board_connect(auth = "envvar", ...)
-  } else if (connect_has_ptd()) {
+  if (connect_has_ptd()) {
     board_connect(
       ...,
       server = "pub.demo.posit.team",
       auth = "rsconnect",
       cache = fs::file_temp()
     )
+  } else if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
+    board_connect(auth = "envvar", ...)
   } else {
     testthat::skip(
       "board_connect_test() requires CONNECT_API_KEY or Posit's demo PTD server"

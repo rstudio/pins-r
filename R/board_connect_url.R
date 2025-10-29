@@ -70,13 +70,13 @@ vanity_url_test <- function(env = parent.frame()) {
 }
 
 board_connect_url_test <- function(...) {
-  if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
+  if (connect_has_ptd()) {
+    board_connect_url(..., cache = fs::file_temp())
+  } else if (nzchar(Sys.getenv("CONNECT_API_KEY"))) {
     board_connect_url(
       ...,
       headers = connect_auth_headers(Sys.getenv("CONNECT_API_KEY"))
     )
-  } else if (connect_has_ptd()) {
-    board_connect_url(..., cache = fs::file_temp())
   } else {
     testthat::skip(
       "board_connect_url_test() requires CONNECT_API_KEY or Posit's demo PTD server"
