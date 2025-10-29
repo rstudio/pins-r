@@ -35,7 +35,7 @@ jobs:
             local::.
 
       - name: Run Connect integration tests
-        uses: nealrichardson/with-connect@dev
+        uses: posit-dev/with-connect@main
         with:
           # This license is valid until 2026-10-28
           license: ${{ secrets.CONNECT_LICENSE }}
