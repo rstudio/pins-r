@@ -97,7 +97,26 @@ secret_nonce <- function() {
 
 #' @export
 pin_list.pins_board_gcs <- function(board, ...) {
-  NA
+  resp <- googleCloudStorageR::gcs_list_objects(
+    bucket = board$bucket,
+    prefix = board$prefix
+  )
+
+  if (nrow(resp) == 0) {
+    return(character(0))
+  }
+
+  # Strip prefix and extract pin names (first path component)
+  paths <- strip_prefix(resp$name, board$prefix)
+
+  # Extract first component from each path
+  pin_names <- vapply(
+    fs::path_split(paths),
+    function(components) if (length(components) > 0) components[[1L]] else "",
+    character(1)
+  )
+
+  unique(sort(pin_names[pin_names != ""]))
 }
 
 #' @export
@@ -269,4 +288,14 @@ gcs_file_exists <- function(board, name) {
     prefix = paste0(board$prefix, name)
   )
   nrow(resp) > 0
+}
+
+strip_prefix <- function(x, prefix) {
+  if (is.null(prefix)) {
+    return(x)
+  }
+
+  to_strip <- startsWith(x, prefix)
+  x[to_strip] <- substr(x[to_strip], nchar(prefix) + 1, nchar(x[to_strip]))
+  x
 }

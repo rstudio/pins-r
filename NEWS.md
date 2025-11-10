@@ -10,6 +10,8 @@
 
 * Further escalated gradual deprecation process for legacy pins functions such as `pin()` (#879).
 
+* Added support for `pin_list()` to `board_gcs()` for Google Cloud Storage (#889, @sverrirarnors).
+
 # pins 1.4.1
 
 * Support new `preview_data` parameter for pin previews on Posit Connect (#850).
