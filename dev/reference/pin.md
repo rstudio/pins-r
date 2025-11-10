@@ -1,0 +1,52 @@
+# Pin a resource (legacy API)
+
+**\[deprecated\]**
+
+## Usage
+
+``` r
+pin(x, name = NULL, description = NULL, board = NULL, ...)
+```
+
+## Arguments
+
+- x:
+
+  An object, local file or remote URL to pin.
+
+- name:
+
+  The name for the dataset or object.
+
+- description:
+
+  Optional description for this pin.
+
+- board:
+
+  The board where this pin will be placed.
+
+- ...:
+
+  Additional parameters.
+
+## Details
+
+Pins the given resource locally or to the given board.
+
+`pin()` allows you to cache remote resources and intermediate results
+with ease. When caching remote resources, usually URLs, it will check
+for HTTP caching headers to avoid re-downloading when the remote result
+has not changed.
+
+This makes it ideal to support reproducible research by requiring manual
+instruction to download resources before running your R script.
+
+In addition, `pin()` still works when working offline or when the remote
+resource becomes unavailable; when this happens, a warning will be
+triggered but your code will continue to work.
+
+`pin()` stores data frames in two files, an R native file (RDS) and a
+'CSV' file. To force saving a pin in R's native format only, you can use
+`pin(I(data))`. This can improve performance and size at the cost of
+making the pin unreadable from other tools and programming languages.
