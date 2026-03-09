@@ -55,11 +55,11 @@ pin_write(
 
   File types used to save `x` to disk. Supports a single type or a
   vector of types (to pin in more than one format. Each type must be one
-  of "csv", "json", "rds", "parquet", "arrow", "qs", or "qs2". If not
+  of "csv", "json", "rds", "parquet", "arrow", or "qs2". If not
   supplied, will use JSON for bare lists and RDS for everything else. Be
   aware that CSV and JSON are plain text formats, while RDS, Parquet,
-  Arrow, [qs](https://CRAN.R-project.org/package=qs), and
-  [qs2](https://CRAN.R-project.org/package=qs2) are binary formats.
+  Arrow, and [qs2](https://CRAN.R-project.org/package=qs2) are binary
+  formats.
 
 - ...:
 
@@ -126,11 +126,11 @@ b <- board_temp(versioned = TRUE)
 
 b |> pin_write(1:10, "x", description = "10 numbers")
 #> Guessing `type = 'rds'`
-#> Creating new version '20251110T190127Z-8bc1c'
+#> Creating new version '20260309T150958Z-8bc1c'
 #> Writing to pin 'x'
 b
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpbRmCNq/pins-1ea9b868635'
+#> Path: '/tmp/RtmpAsTszR/pins-1af6366b7862'
 #> Cache size: 0
 
 b |> pin_meta("x")
@@ -143,21 +143,21 @@ b |> pin_meta("x")
 #>  $ description: chr "10 numbers"
 #>  $ tags       : NULL
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2025-11-10 19:01:27"
+#>  $ created    : POSIXct[1:1], format: "2026-03-09 15:09:58"
 #>  $ api_version: int 1
 #>  $ user       : list()
 #>  $ name       : chr "x"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpbRmCNq/pins-1ea9b868635/x/20251110T190127Z-8bc1c"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpAsTszR/pins-1af6366b7862/x/20260309T150958Z-8bc1c"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20251110T190127Z-8bc1c"
+#>   ..$ version: chr "20260309T150958Z-8bc1c"
 b |> pin_read("x")
 #>  [1]  1  2  3  4  5  6  7  8  9 10
 
 # Add a new version
 b |> pin_write(2:11, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20251110T190127Z-a2f05'
+#> Creating new version '20260309T150958Z-a2f05'
 #> Writing to pin 'x'
 b |> pin_read("x")
 #>  [1]  2  3  4  5  6  7  8  9 10 11
@@ -167,8 +167,8 @@ b |> pin_versions("x")
 #> # A tibble: 2 × 3
 #>   version                created             hash 
 #>   <chr>                  <dttm>              <chr>
-#> 1 20251110T190127Z-8bc1c 2025-11-10 19:01:27 8bc1c
-#> 2 20251110T190127Z-a2f05 2025-11-10 19:01:27 a2f05
+#> 1 20260309T150958Z-8bc1c 2026-03-09 15:09:58 8bc1c
+#> 2 20260309T150958Z-a2f05 2026-03-09 15:09:58 a2f05
 b |> pin_read("x", version = .Last.value$version[[1]])
 #>  [1]  2  3  4  5  6  7  8  9 10 11
 # (Normally you'd specify the version with a string, but since the
@@ -176,7 +176,7 @@ b |> pin_read("x", version = .Last.value$version[[1]])
 
  # Pin with multiple types
  b |> pin_write(1:10, "y", type = c("rds", "json"))
-#> Creating new version '20251110T190127Z-2e574'
+#> Creating new version '20260309T150958Z-2e574'
 #> Writing to pin 'y'
  b |> pin_read("y", type = "json")
 #>  [1]  1  2  3  4  5  6  7  8  9 10

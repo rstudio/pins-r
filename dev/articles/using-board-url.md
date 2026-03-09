@@ -54,7 +54,7 @@ Let’s make the `mtcars` dataset available as a JSON file:
 ``` r
 board |> pin_write(mtcars, type = "json")
 #> Using `name = 'mtcars'`
-#> Creating new version '20251110T190153Z-c2702'
+#> Creating new version '20260309T151019Z-c2702'
 #> Writing to pin 'mtcars'
 ```
 
@@ -67,7 +67,7 @@ mtcars_metric <- mtcars
 mtcars_metric$lper100km <- 235.215 / mtcars$mpg
 
 board |> pin_write(mtcars_metric, name = "mtcars", type = "json")
-#> Creating new version '20251110T190155Z-8416c'
+#> Creating new version '20260309T151021Z-8416c'
 #> Writing to pin 'mtcars'
 ```
 
@@ -82,8 +82,8 @@ board |> pin_versions("mtcars")
 #> # A tibble: 2 × 3
 #>   version                created             hash 
 #>   <chr>                  <dttm>              <chr>
-#> 1 20251110T190153Z-c2702 2025-11-10 19:01:53 c2702
-#> 2 20251110T190155Z-8416c 2025-11-10 19:01:55 8416c
+#> 1 20260309T151019Z-c2702 2026-03-09 15:10:19 c2702
+#> 2 20260309T151021Z-8416c 2026-03-09 15:10:21 8416c
 ```
 
 Because a
@@ -121,8 +121,8 @@ version of each pin:
 
 ``` yaml
 mtcars:
-- mtcars/20251110T190153Z-c2702/
-- mtcars/20251110T190155Z-8416c/
+- mtcars/20260309T151019Z-c2702/
+- mtcars/20260309T151021Z-8416c/
 ```
 
 At this point, we would publish the folder containing the board as a
@@ -155,8 +155,8 @@ versions
 #> # A tibble: 2 × 3
 #>   version                created             hash 
 #>   <chr>                  <dttm>              <chr>
-#> 1 20251110T190153Z-c2702 2025-11-10 19:01:53 c2702
-#> 2 20251110T190155Z-8416c 2025-11-10 19:01:55 8416c
+#> 1 20260309T151019Z-c2702 2026-03-09 15:10:19 c2702
+#> 2 20260309T151021Z-8416c 2026-03-09 15:10:21 8416c
 ```
 
 We can read the most-recent version of the `"mtcars"` pin:

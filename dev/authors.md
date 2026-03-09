@@ -18,13 +18,13 @@
 Source:
 [`DESCRIPTION`](https://github.com/rstudio/pins-r/blob/main/DESCRIPTION)
 
-Silge J, Wickham H, Luraschi J (2025). *pins: Pin, Discover, and Share
-Resources*. R package version 1.4.1.9000, <https://pins.rstudio.com/>.
+Silge J, Wickham H, Luraschi J (2026). *pins: Pin, Discover, and Share
+Resources*. R package version 1.4.2.9000, <https://pins.rstudio.com/>.
 
     @Manual{,
       title = {pins: Pin, Discover, and Share Resources},
       author = {Julia Silge and Hadley Wickham and Javier Luraschi},
-      year = {2025},
-      note = {R package version 1.4.1.9000},
+      year = {2026},
+      note = {R package version 1.4.2.9000},
       url = {https://pins.rstudio.com/},
     }

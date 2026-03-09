@@ -2,9 +2,14 @@
 
 ## pins (development version)
 
+## pins 1.4.2
+
 - Added support of the `qs2` format
   ([\#865](https://github.com/rstudio/pins-r/issues/865),
   [@atsyplenkov](https://github.com/atsyplenkov)).
+
+- Removed support for the `qs` format
+  ([\#895](https://github.com/rstudio/pins-r/issues/895)).
 
 - Added download progress bar for
   [`board_url()`](https://pins.rstudio.com/dev/reference/board_url.md)
