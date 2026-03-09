@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Using web-hosted boards</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/v1.4.1/vignettes/using-board-url.Rmd" class="external-link"><code>vignettes/using-board-url.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/main/vignettes/using-board-url.Rmd" class="external-link"><code>vignettes/using-board-url.Rmd</code></a></small>
       <div class="d-none name"><code>using-board-url.Rmd</code></div>
     </div>
 
@@ -126,9 +126,9 @@ or GitHub repo, or perhaps <code><a href="../reference/board_s3.html">board_s3()
 <p>Let’s make the <code>mtcars</code> dataset available as a JSON
 file:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using `name = 'mtcars'`</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195303Z-c2702'</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143733Z-c2702'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>Let’s make a new version of this data by adding a column:
 <code>lper100km</code>, consumption in liters per 100 km. This could
@@ -137,21 +137,21 @@ make our data friendlier to folks outside the United States.</p>
 <code class="sourceCode R"><span><span class="va">mtcars_metric</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
 <span><span class="va">mtcars_metric</span><span class="op">$</span><span class="va">lper100km</span> <span class="op">&lt;-</span> <span class="fl">235.215</span> <span class="op">/</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span></span>
 <span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars_metric</span>, name <span class="op">=</span> <span class="st">"mtcars"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195306Z-8416c'</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars_metric</span>, name <span class="op">=</span> <span class="st">"mtcars"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143736Z-8416c'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>Let’s check our board to ensure we have one pin named
 <code>"mtcars"</code>, with two versions:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "mtcars"</span></span>
 <span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20250430T195303Z-c2702 2025-04-30 <span style="color: #949494;">19:53:03</span> c2702</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20250430T195306Z-8416c 2025-04-30 <span style="color: #949494;">19:53:06</span> 8416c</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20260309T143733Z-c2702 2026-03-09 <span style="color: #949494;">14:37:33</span> c2702</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20260309T143736Z-8416c 2026-03-09 <span style="color: #949494;">14:37:36</span> 8416c</span></span></code></pre></div>
 <p>Because a <code><a href="../reference/board_url.html">board_url()</a></code> is consumed over the web, it
 doesn’t have access to a file system the way, for example, a
 <code><a href="../reference/board_folder.html">board_folder()</a></code> has; we can work around this by creating a
@@ -163,7 +163,7 @@ file-system-based board.</p>
 <p>After writing pins but <em>before</em> publishing, call
 <code><a href="../reference/write_board_manifest.html">write_board_manifest()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/write_board_manifest.html">write_board_manifest</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/write_board_manifest.html">write_board_manifest</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Manifest file written to root folder of board, as `_pins.yaml`</span></span></code></pre></div>
 <p>The maintenance of this manifest file is not automated; it is your
 responsibility as the board publisher to keep the manifest up to
@@ -176,8 +176,8 @@ date.</p>
 <p>We can inspect its contents to see each pin in the board, and each
 version of each pin:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">mtcars</span><span class="kw">:</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20250430T195303Z-c2702/</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20250430T195306Z-8416c/</span></span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20260309T143733Z-c2702/</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="kw">-</span><span class="at"> mtcars/20260309T143736Z-8416c/</span></span></code></pre></div>
 <p>At this point, we would publish the folder containing the board as a
 part of a web site. Let’s pretend that we have served the folder from
 our fake website, <code>https://not.real.website.co/pins/</code>.</p>
@@ -193,20 +193,20 @@ create a <code><a href="../reference/board_url.html">board_url()</a></code> usin
 <p>The <code><a href="../reference/board_url.html">board_url()</a></code> function reads the manifest file to
 discover the pins and versions:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">web_board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">web_board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_list.html">pin_list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "mtcars"</span></span>
 <span></span>
-<span><span class="va">versions</span> <span class="op">&lt;-</span> <span class="va">web_board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="va">versions</span> <span class="op">&lt;-</span> <span class="va">web_board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="va">versions</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20250430T195303Z-c2702 2025-04-30 <span style="color: #949494;">19:53:03</span> c2702</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20250430T195306Z-8416c 2025-04-30 <span style="color: #949494;">19:53:06</span> 8416c</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20260309T143733Z-c2702 2026-03-09 <span style="color: #949494;">14:37:33</span> c2702</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20260309T143736Z-8416c 2026-03-09 <span style="color: #949494;">14:37:36</span> 8416c</span></span></code></pre></div>
 <p>We can read the most-recent version of the <code>"mtcars"</code>
 pin:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">web_board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">web_board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
 <span><span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
 <span><span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
@@ -223,7 +223,7 @@ pin:</p>
 <span><span class="co">#&gt; Valiant             12.9953</span></span></code></pre></div>
 <p>We can also read the first version:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">web_board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span>, version <span class="op">=</span> <span class="va">versions</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">web_board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span>, version <span class="op">=</span> <span class="va">versions</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
 <span><span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
 <span><span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
@@ -318,7 +318,7 @@ setting up a board like:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>

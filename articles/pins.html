@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pins</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Get started with pins</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/v1.4.1/vignettes/pins.Rmd" class="external-link"><code>vignettes/pins.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/main/vignettes/pins.Rmd" class="external-link"><code>vignettes/pins.Rmd</code></a></small>
       <div class="d-none name"><code>pins.Rmd</code></div>
     </div>
 
@@ -117,9 +117,9 @@ the data. Here are a few options:</p>
 <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195254Z-75180'</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143725Z-bbc0c'</span></span>
 <span><span class="co">#&gt; Writing to pin 'mtcars'</span></span></code></pre></div>
 <p>The first argument is the object to save (usually a data frame, but
 it can be any R object), and the second argument gives the “name” of the
@@ -129,7 +129,7 @@ name is that it can’t contain slashes.</p>
 <p>After you’ve pinned an object, you can read it back with
 <code><a href="../reference/pin_read.html">pin_read()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 11</span></span></span>
 <span><span class="co">#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -177,10 +177,10 @@ to create an Arrow/Feather file.</li>
 to create a JSON file. Pretty much every programming language can read
 json files, but they only work well for nested lists.</li>
 <li>
-<code>type = "qs"</code> uses <code><a href="https://rdrr.io/pkg/qs/man/qsave.html" class="external-link">qs::qsave()</a></code> to create a
-binary R data file, like <code>writeRDS()</code>. This format achieves
-faster read/write speeds than RDS, and compresses data more efficiently,
-making it a good choice for larger objects. Read more on the <a href="https://github.com/qsbase/qs" class="external-link">qs package</a>.</li>
+<code>type = "qs2"</code> uses <code><a href="https://rdrr.io/pkg/qs2/man/qs_save.html" class="external-link">qs2::qs_save()</a></code> to create
+a binary R data file. The <a href="https://github.com/qsbase/qs2" class="external-link">qs2</a> format achieves faster
+read/write speeds than RDS, and compresses data more efficiently, making
+it a good choice for larger objects.</li>
 </ul>
 <p>Note that when the data lives elsewhere, pins takes care of
 downloading and caching so that it’s only re-downloaded when needed.
@@ -208,24 +208,24 @@ from users, who may be using the app at the same time</li>
 <p>Every pin is accompanied by some metadata that you can access with
 <code><a href="../reference/pin_meta.html">pin_meta()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 13</span></span>
 <span><span class="co">#&gt;  $ file       : chr "mtcars.rds"</span></span>
-<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 900</span></span>
-<span><span class="co">#&gt;  $ pin_hash   : chr "751804002004db04"</span></span>
+<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 901</span></span>
+<span><span class="co">#&gt;  $ pin_hash   : chr "bbc0cc50cb7f7daf"</span></span>
 <span><span class="co">#&gt;  $ type       : chr "rds"</span></span>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
 <span><span class="co">#&gt;  $ description: NULL</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
 <span><span class="co">#&gt;  $ urls       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2025-04-30 19:52:54"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2026-03-09 14:37:25"</span></span>
 <span><span class="co">#&gt;  $ api_version: int 1</span></span>
 <span><span class="co">#&gt;  $ user       : list()</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpbG3pXC/pins-235f4342de50/mtcars/20250430T195254Z-75180"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpApkK4M/pins-22aea43cd21/mtcars/20260309T143725Z-bbc0c"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20250430T195254Z-75180"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20260309T143725Z-bbc0c"</span></span></code></pre></div>
 <p>This shows you the metadata that’s generated by default. This
 includes:</p>
 <ul>
@@ -243,34 +243,38 @@ that you expect.</p></li>
 <p>When creating the pin, you can override the default description or
 provide additional metadata that is stored with the data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, </span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, </span>
 <span>  description <span class="op">=</span> <span class="st">"Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)."</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    source <span class="op">=</span> <span class="st">"Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="co"># Necessary if only changing pin metadata but pin content is the same</span></span>
+<span>  force_identical_write <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Using `name = 'mtcars'`</span></span>
 <span><span class="co">#&gt; Guessing `type = 'rds'`</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> The hash of pin <span style="color: #0000BB;">"mtcars"</span> has not changed.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Your pin will not be stored.</span></span>
-<span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Replacing version '20260309T143725Z-bbc0c' with</span></span>
+<span><span class="co">#&gt; '20260309T143726Z-bbc0c'</span></span>
+<span><span class="co">#&gt; Writing to pin 'mtcars'</span></span>
+<span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 13</span></span>
 <span><span class="co">#&gt;  $ file       : chr "mtcars.rds"</span></span>
-<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 900</span></span>
-<span><span class="co">#&gt;  $ pin_hash   : chr "751804002004db04"</span></span>
+<span><span class="co">#&gt;  $ file_size  : 'fs_bytes' int 901</span></span>
+<span><span class="co">#&gt;  $ pin_hash   : chr "bbc0cc50cb7f7daf"</span></span>
 <span><span class="co">#&gt;  $ type       : chr "rds"</span></span>
 <span><span class="co">#&gt;  $ title      : chr "mtcars: a pinned 32 x 11 data frame"</span></span>
-<span><span class="co">#&gt;  $ description: NULL</span></span>
+<span><span class="co">#&gt;  $ description: chr "Data extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobi"| __truncated__</span></span>
 <span><span class="co">#&gt;  $ tags       : NULL</span></span>
 <span><span class="co">#&gt;  $ urls       : NULL</span></span>
-<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2025-04-30 19:52:54"</span></span>
+<span><span class="co">#&gt;  $ created    : POSIXct[1:1], format: "2026-03-09 14:37:26"</span></span>
 <span><span class="co">#&gt;  $ api_version: int 1</span></span>
-<span><span class="co">#&gt;  $ user       : list()</span></span>
+<span><span class="co">#&gt;  $ user       :List of 1</span></span>
+<span><span class="co">#&gt;   ..$ source: chr "Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."</span></span>
 <span><span class="co">#&gt;  $ name       : chr "mtcars"</span></span>
 <span><span class="co">#&gt;  $ local      :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpbG3pXC/pins-235f4342de50/mtcars/20250430T195254Z-75180"</span></span>
+<span><span class="co">#&gt;   ..$ dir    : 'fs_path' chr "/tmp/RtmpApkK4M/pins-22aea43cd21/mtcars/20260309T143726Z-bbc0c"</span></span>
 <span><span class="co">#&gt;   ..$ url    : NULL</span></span>
-<span><span class="co">#&gt;   ..$ version: chr "20250430T195254Z-75180"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ version: chr "20260309T143726Z-bbc0c"</span></span></code></pre></div>
 <p>While we’ll do our best to keep the automatically generated metadata
 consistent over time, I’d recommend manually capturing anything you
 really care about in <code>metadata</code>.</p>
@@ -293,7 +297,7 @@ in that board:</p>
 versioning be turned on for that pin:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="va">mtcars</span>, versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </li>
 </ul>
 <p>Most boards have versioning on by default. The primary exception is
@@ -304,37 +308,37 @@ will create a new version:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">board2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/board_folder.html">board_temp</a></span><span class="op">(</span>versioned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195255Z-3e7d9'</span></span>
+<span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143727Z-796ae'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
-<span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195255Z-c3b0c'</span></span>
+<span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143727Z-b2fbc'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span>
-<span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195255Z-1feb9'</span></span>
+<span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_write</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span>, name <span class="op">=</span> <span class="st">"x"</span>, type <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143727Z-dbf3d'</span></span>
 <span><span class="co">#&gt; Writing to pin 'x'</span></span></code></pre></div>
 <p>You can list all the available versions with
 <code><a href="../reference/pin_versions.html">pin_versions()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_versions.html">pin_versions</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   version                created             hash </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20250430T195255Z-1feb9 2025-04-30 <span style="color: #949494;">19:52:55</span> 1feb9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20250430T195255Z-3e7d9 2025-04-30 <span style="color: #949494;">19:52:55</span> 3e7d9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20250430T195255Z-c3b0c 2025-04-30 <span style="color: #949494;">19:52:55</span> c3b0c</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20260309T143727Z-796ae 2026-03-09 <span style="color: #949494;">14:37:27</span> 796ae</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20260309T143727Z-b2fbc 2026-03-09 <span style="color: #949494;">14:37:27</span> b2fbc</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20260309T143727Z-dbf3d 2026-03-09 <span style="color: #949494;">14:37:27</span> dbf3d</span></span></code></pre></div>
 <p>You can delete a specific older version with
 <code><a href="../reference/pin_versions.html">pin_version_delete()</a></code> or sets of older versions with
 <code><a href="../reference/pin_versions.html">pin_versions_prune()</a></code>.</p>
 <p>By default, <code><a href="../reference/pin_read.html">pin_read()</a></code> will return the most recent
 version:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2 3 4 5 6</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 3 4 5 6 7</span></span></code></pre></div>
 <p>But you can request an older version by supplying the
 <code>version</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="st">"20210520T173110Z-49519"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board2</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="st">"20210520T173110Z-49519"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="reading-and-writing-files">Reading and writing files<a class="anchor" aria-label="anchor" href="#reading-and-writing-files"></a>
@@ -353,20 +357,20 @@ creating a few files in the temp directory:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">letters</span>, <span class="va">paths</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Now I can upload those to the board:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating new version '20250430T195256Z-e9d42'</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_download.html">pin_upload</a></span><span class="op">(</span><span class="va">paths</span>, <span class="st">"example"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating new version '20260309T143727Z-e9d42'</span></span></code></pre></div>
 <p><code><a href="../reference/pin_download.html">pin_download()</a></code> returns a vector of paths:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpbG3pXC/pins-235f4342de50/example/20250430T195256Z-e9d42/mtcars.csv"  </span></span>
-<span><span class="co">#&gt; [2] "/tmp/RtmpbG3pXC/pins-235f4342de50/example/20250430T195256Z-e9d42/alphabet.txt"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "/tmp/RtmpApkK4M/pins-22aea43cd21/example/20260309T143727Z-e9d42/mtcars.csv"  </span></span>
+<span><span class="co">#&gt; [2] "/tmp/RtmpApkK4M/pins-22aea43cd21/example/20260309T143727Z-e9d42/alphabet.txt"</span></span></code></pre></div>
 <p>It’s now your job to handle them. You should treat these paths as
 internal implementation details — never modify them and never save them
 for use outside of pins.</p>
 <p>Note that you can’t <code><a href="../reference/pin_read.html">pin_read()</a></code> something you pinned with
 <code><a href="../reference/pin_download.html">pin_upload()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `object_read()`:</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Cannot automatically read pin:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> Is your pin specified as a full path? Retrieve it with</span></span>
@@ -376,8 +380,8 @@ for use outside of pins.</p>
 <p>But you can <code><a href="../reference/pin_download.html">pin_download()</a></code> something that you’ve pinned
 with <code><a href="../reference/pin_read.html">pin_write()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">board</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpbG3pXC/pins-235f4342de50/mtcars/20250430T195254Z-75180/mtcars.rds"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "/tmp/RtmpApkK4M/pins-22aea43cd21/mtcars/20260309T143726Z-bbc0c/mtcars.rds"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
@@ -401,11 +405,11 @@ refers to some fun data I found on GitHub:</p>
 <p>You can read this data by combining <code><a href="../reference/pin_download.html">pin_download()</a></code> with
 <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Here I’m using &lt;code&gt;&lt;a href="https://rdrr.io/r/utils/read.table.html" class="external-link"&gt;read.csv()&lt;/a&gt;&lt;/code&gt; to the reduce the
 dependencies of the pins package. For real code I’d recommend using
-&lt;code&gt;&lt;a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link"&gt;data.table::fread()&lt;/a&gt;&lt;/code&gt; or &lt;code&gt;readr::read_csv().&lt;/code&gt;&lt;/p&gt;'><sup>1</sup></a>:</p>
+&lt;code&gt;&lt;a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link"&gt;data.table::fread()&lt;/a&gt;&lt;/code&gt; or &lt;code&gt;readr::read_csv().&lt;/code&gt;&lt;/p&gt;'><sup>1</sup></a>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 344 × 17</span></span></span>
 <span><span class="co">#&gt;    studyName `Sample Number` Species                Region Island Stage</span></span>
@@ -445,7 +449,7 @@ data will only be re-downloaded when it changes.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>
