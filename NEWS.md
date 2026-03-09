@@ -1,3 +1,5 @@
+# pins (development version)
+
 # pins 1.4.2
 
 * Added support of the `qs2` format (#865, @atsyplenkov).
