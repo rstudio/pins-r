@@ -84,7 +84,7 @@ board |> pin_list()
 }
 
 \examples{
-\dontshow{if (!pins:::is_cran_check()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (!pins:::is_cran_check()) withAutoprint(\{ # examplesIf}
 github_raw <- function(x) paste0("https://raw.githubusercontent.com/", x)
 
 ## with a named vector of URLs to specific pins:

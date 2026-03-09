@@ -45,7 +45,7 @@ This board is a thin wrapper around \code{\link[=board_url]{board_url()}} which 
 \code{connect_auth_headers()} for authentication via environment variable.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 connect_auth_headers()
 
 board <- board_connect_url(c(
