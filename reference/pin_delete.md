@@ -32,16 +32,16 @@ pin_delete(board, names, ...)
 board <- board_temp()
 board |> pin_write(1:5, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143710Z-796ae'
+#> Creating new version '20260309T150729Z-796ae'
 #> Writing to pin 'x'
 board |> pin_write(mtcars)
 #> Using `name = 'mtcars'`
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143710Z-e4808'
+#> Creating new version '20260309T150729Z-e4808'
 #> Writing to pin 'mtcars'
 board |> pin_write(runif(1e6), "y")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143711Z-0de2d'
+#> Creating new version '20260309T150730Z-0de2d'
 #> Writing to pin 'y'
 board |> pin_list()
 #> [1] "mtcars" "x"      "y"     

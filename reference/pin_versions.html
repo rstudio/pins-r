@@ -62,7 +62,7 @@ pin_version_delete() deletes a single version.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>List, delete, and prune pin versions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/main/R/pin_versions.R" class="external-link"><code>R/pin_versions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rstudio/pins-r/blob/v1.4.2/R/pin_versions.R" class="external-link"><code>R/pin_versions.R</code></a></small>
       <div class="d-none name"><code>pin_versions.Rd</code></div>
     </div>
 
@@ -120,43 +120,43 @@ provided additional data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T143714Z-dc8e8'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T150734Z-dc8e8'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T143715Z-3e72e'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T150734Z-3e72e'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T143715Z-62504'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T150734Z-62504'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># pin_read() returns the latest version by default</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 7</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># but you can return earlier versions if needed</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20260309T143714Z-dc8e8 2026-03-09 <span style="color: #949494;">14:37:14</span> dc8e8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20260309T143715Z-3e72e 2026-03-09 <span style="color: #949494;">14:37:15</span> 3e72e</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20260309T143715Z-62504 2026-03-09 <span style="color: #949494;">14:37:15</span> 62504</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 5</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># but you can return earlier versions if needed</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20260309T150734Z-3e72e 2026-03-09 <span style="color: #949494;">15:07:34</span> 3e72e</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20260309T150734Z-62504 2026-03-09 <span style="color: #949494;">15:07:34</span> 62504</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20260309T150734Z-dc8e8 2026-03-09 <span style="color: #949494;">15:07:34</span> dc8e8</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 6</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># delete all versions created more than 30 days ago</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu">pin_versions_prune</span><span class="op">(</span><span class="st">"df"</span>, days <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>

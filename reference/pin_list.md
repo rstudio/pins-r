@@ -35,15 +35,15 @@ board <- board_temp()
 
 board |> pin_write(1:5, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143712Z-796ae'
+#> Creating new version '20260309T150731Z-796ae'
 #> Writing to pin 'x'
 board |> pin_write(letters, "y")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143712Z-471d8'
+#> Creating new version '20260309T150731Z-471d8'
 #> Writing to pin 'y'
 board |> pin_write(runif(20), "z")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143712Z-8d62d'
+#> Creating new version '20260309T150731Z-8d62d'
 #> Writing to pin 'z'
 
 board |> pin_list()

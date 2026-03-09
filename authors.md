@@ -16,7 +16,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/rstudio/pins-r/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/rstudio/pins-r/blob/v1.4.2/DESCRIPTION)
 
 Silge J, Wickham H, Luraschi J (2026). *pins: Pin, Discover, and Share
 Resources*. R package version 1.4.2, <https://pins.rstudio.com/>.

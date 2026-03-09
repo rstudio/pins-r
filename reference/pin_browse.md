@@ -40,17 +40,17 @@ pin_browse(board, name, version = NULL, local = FALSE)
 board <- board_temp(versioned = TRUE)
 board |> pin_write(1:10, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143709Z-8bc1c'
+#> Creating new version '20260309T150728Z-8bc1c'
 #> Writing to pin 'x'
 board |> pin_write(1:11, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143709Z-5f8f8'
+#> Creating new version '20260309T150728Z-5f8f8'
 #> Writing to pin 'x'
 board |> pin_write(1:12, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143709Z-709f8'
+#> Creating new version '20260309T150728Z-709f8'
 #> Writing to pin 'x'
 
 board |> pin_browse("x", local = TRUE)
-#> ℹ Pin at </tmp/RtmpeOc4gX/pins-1ba92449b8e6/x/20260309T143709Z-8bc1c>
+#> ℹ Pin at </tmp/RtmpZz6t6S/pins-1b1275ba37f5/x/20260309T150728Z-8bc1c>
 ```

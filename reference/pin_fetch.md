@@ -75,10 +75,10 @@ board <- board_temp()
 
 board |> pin_upload(system.file("CITATION"))
 #> Guessing `name = 'CITATION'`
-#> Creating new version '20260309T143711Z-f5b9d'
+#> Creating new version '20260309T150730Z-f5b9d'
 path <- board |> pin_download("CITATION")
 path
-#> [1] "/tmp/RtmpeOc4gX/pins-1ba9761f551f/CITATION/20260309T143711Z-f5b9d/CITATION"
+#> [1] "/tmp/RtmpZz6t6S/pins-1b12343b40d4/CITATION/20260309T150730Z-f5b9d/CITATION"
 readLines(path)[1:5]
 #> [1] "bibentry(\"Manual\","                                                         
 #> [2] "         title = \"R: A Language and Environment for Statistical Computing\","

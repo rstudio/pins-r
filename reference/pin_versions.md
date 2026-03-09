@@ -52,43 +52,43 @@ board <- board_temp(versioned = TRUE)
 
 board |> pin_write(data.frame(x = 1:5), name = "df")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143714Z-dc8e8'
+#> Creating new version '20260309T150734Z-dc8e8'
 #> Writing to pin 'df'
 board |> pin_write(data.frame(x = 2:6), name = "df")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143715Z-3e72e'
+#> Creating new version '20260309T150734Z-3e72e'
 #> Writing to pin 'df'
 board |> pin_write(data.frame(x = 3:7), name = "df")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143715Z-62504'
+#> Creating new version '20260309T150734Z-62504'
 #> Writing to pin 'df'
 
 # pin_read() returns the latest version by default
 board |> pin_read("df")
-#>   x
-#> 1 3
-#> 2 4
-#> 3 5
-#> 4 6
-#> 5 7
-
-# but you can return earlier versions if needed
-board |> pin_versions("df")
-#> # A tibble: 3 × 3
-#>   version                created             hash 
-#>   <chr>                  <dttm>              <chr>
-#> 1 20260309T143714Z-dc8e8 2026-03-09 14:37:14 dc8e8
-#> 2 20260309T143715Z-3e72e 2026-03-09 14:37:15 3e72e
-#> 3 20260309T143715Z-62504 2026-03-09 14:37:15 62504
-
-ver <- pin_versions(board, "df")$version[[1]]
-board |> pin_read("df", version = ver)
 #>   x
 #> 1 1
 #> 2 2
 #> 3 3
 #> 4 4
 #> 5 5
+
+# but you can return earlier versions if needed
+board |> pin_versions("df")
+#> # A tibble: 3 × 3
+#>   version                created             hash 
+#>   <chr>                  <dttm>              <chr>
+#> 1 20260309T150734Z-3e72e 2026-03-09 15:07:34 3e72e
+#> 2 20260309T150734Z-62504 2026-03-09 15:07:34 62504
+#> 3 20260309T150734Z-dc8e8 2026-03-09 15:07:34 dc8e8
+
+ver <- pin_versions(board, "df")$version[[1]]
+board |> pin_read("df", version = ver)
+#>   x
+#> 1 2
+#> 2 3
+#> 3 4
+#> 4 5
+#> 5 6
 
 # delete all versions created more than 30 days ago
 board |> pin_versions_prune("df", days = 30)

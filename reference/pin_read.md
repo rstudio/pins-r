@@ -126,11 +126,11 @@ b <- board_temp(versioned = TRUE)
 
 b |> pin_write(1:10, "x", description = "10 numbers")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143713Z-8bc1c'
+#> Creating new version '20260309T150733Z-8bc1c'
 #> Writing to pin 'x'
 b
 #> Pin board <pins_board_folder>
-#> Path: '/tmp/RtmpeOc4gX/pins-1ba97d0a3876'
+#> Path: '/tmp/RtmpZz6t6S/pins-1b124c0b8cc9'
 #> Cache size: 0
 
 b |> pin_meta("x")
@@ -143,21 +143,21 @@ b |> pin_meta("x")
 #>  $ description: chr "10 numbers"
 #>  $ tags       : NULL
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-09 14:37:13"
+#>  $ created    : POSIXct[1:1], format: "2026-03-09 15:07:33"
 #>  $ api_version: int 1
 #>  $ user       : list()
 #>  $ name       : chr "x"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpeOc4gX/pins-1ba97d0a3876/x/20260309T143713Z-8bc1c"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpZz6t6S/pins-1b124c0b8cc9/x/20260309T150733Z-8bc1c"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260309T143713Z-8bc1c"
+#>   ..$ version: chr "20260309T150733Z-8bc1c"
 b |> pin_read("x")
 #>  [1]  1  2  3  4  5  6  7  8  9 10
 
 # Add a new version
 b |> pin_write(2:11, "x")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143714Z-a2f05'
+#> Creating new version '20260309T150733Z-a2f05'
 #> Writing to pin 'x'
 b |> pin_read("x")
 #>  [1]  2  3  4  5  6  7  8  9 10 11
@@ -167,8 +167,8 @@ b |> pin_versions("x")
 #> # A tibble: 2 × 3
 #>   version                created             hash 
 #>   <chr>                  <dttm>              <chr>
-#> 1 20260309T143713Z-8bc1c 2026-03-09 14:37:13 8bc1c
-#> 2 20260309T143714Z-a2f05 2026-03-09 14:37:14 a2f05
+#> 1 20260309T150733Z-8bc1c 2026-03-09 15:07:33 8bc1c
+#> 2 20260309T150733Z-a2f05 2026-03-09 15:07:33 a2f05
 b |> pin_read("x", version = .Last.value$version[[1]])
 #>  [1]  2  3  4  5  6  7  8  9 10 11
 # (Normally you'd specify the version with a string, but since the
@@ -176,7 +176,7 @@ b |> pin_read("x", version = .Last.value$version[[1]])
 
  # Pin with multiple types
  b |> pin_write(1:10, "y", type = c("rds", "json"))
-#> Creating new version '20260309T143714Z-2e574'
+#> Creating new version '20260309T150733Z-2e574'
 #> Writing to pin 'y'
  b |> pin_read("y", type = "json")
 #>  [1]  1  2  3  4  5  6  7  8  9 10

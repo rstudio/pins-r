@@ -77,7 +77,7 @@ A list.
 b <- board_temp()
 b |> pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
 #> Guessing `type = 'rds'`
-#> Creating new version '20260309T143712Z-5d990'
+#> Creating new version '20260309T150732Z-5d990'
 #> Writing to pin 'mtcars'
 
 # Get the pin
@@ -100,24 +100,24 @@ b |> pin_meta("mtcars")
 #>  $ description: NULL
 #>  $ tags       : NULL
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-09 14:37:12"
+#>  $ created    : POSIXct[1:1], format: "2026-03-09 15:07:32"
 #>  $ api_version: int 1
 #>  $ user       :List of 1
 #>   ..$ Hadley: logi TRUE
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpeOc4gX/pins-1ba9302d2d5f/mtcars/20260309T143712Z-5d990"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpZz6t6S/pins-1b12418acac9/mtcars/20260309T150732Z-5d990"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260309T143712Z-5d990"
+#>   ..$ version: chr "20260309T150732Z-5d990"
 # Get path to underlying data
 b |> pin_download("mtcars")
-#> [1] "/tmp/RtmpeOc4gX/pins-1ba9302d2d5f/mtcars/20260309T143712Z-5d990/mtcars.rds"
+#> [1] "/tmp/RtmpZz6t6S/pins-1b12418acac9/mtcars/20260309T150732Z-5d990/mtcars.rds"
 
 # Use tags instead
 b |> pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
 #> Guessing `type = 'rds'`
-#> Replacing version '20260309T143712Z-5d990' with
-#> '20260309T143713Z-5ec39'
+#> Replacing version '20260309T150732Z-5d990' with
+#> '20260309T150732Z-5ec39'
 #> Writing to pin 'mtcars'
 b |> pin_meta("mtcars")
 #> List of 13
@@ -129,12 +129,12 @@ b |> pin_meta("mtcars")
 #>  $ description: NULL
 #>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-09 14:37:13"
+#>  $ created    : POSIXct[1:1], format: "2026-03-09 15:07:32"
 #>  $ api_version: int 1
 #>  $ user       : list()
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpeOc4gX/pins-1ba9302d2d5f/mtcars/20260309T143713Z-5ec39"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpZz6t6S/pins-1b12418acac9/mtcars/20260309T150732Z-5ec39"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260309T143713Z-5ec39"
+#>   ..$ version: chr "20260309T150732Z-5ec39"
 ```
