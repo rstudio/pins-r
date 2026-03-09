@@ -73,10 +73,9 @@ pin_read <- function(
 #'   avoid potential clashes with the metadata that pins itself uses.
 #' @param type File types used to save `x` to disk. Supports a single type or a
 #'   vector of types (to pin in more than one format. Each type must be one of
-#'   "csv", "json", "rds", "parquet", "arrow", "qs", or "qs2". If not supplied,
+#'   "csv", "json", "rds", "parquet", "arrow", or "qs2". If not supplied,
 #'   will use JSON for bare lists and RDS for everything else. Be aware that CSV
-#'   and JSON are plain text formats, while RDS, Parquet, Arrow,
-#'   [qs](https://CRAN.R-project.org/package=qs), and
+#'   and JSON are plain text formats, while RDS, Parquet, Arrow, and
 #'   [qs2](https://CRAN.R-project.org/package=qs2) are binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
@@ -111,11 +110,11 @@ pin_write <- function(
     )
   }
   if (!is_null(type) && any("qs" %in% type)) {
-    lifecycle::deprecate_soft(
+    lifecycle::deprecate_stop(
       when = "1.4.2",
       what = I('The file type "qs"'),
       with = I('`type = "qs2"`'),
-      details = "The `qs` format will be deprecated soon: https://github.com/qsbase/qs/issues/103"
+      details = "The qs package has been archived."
     )
   }
 
@@ -199,7 +198,6 @@ object_write <- function(x, path, type = "rds", call) {
     pickle = abort("'pickle' pins not supported in R"),
     joblib = abort("'joblib' pins not supported in R"),
     csv = utils::write.csv(x, path, row.names = FALSE),
-    qs = write_qs(x, path),
     qs2 = write_qs2(x, path)
   )
 
@@ -225,12 +223,6 @@ write_rds_test <- function(x, path) {
   invisible(path)
 }
 
-write_qs <- function(x, path) {
-  check_installed("qs")
-  qs::qsave(x, path)
-  invisible(path)
-}
-
 write_qs2 <- function(x, path) {
   check_installed("qs2")
   qs2::qs_save(x, path)
@@ -250,7 +242,7 @@ write_arrow <- function(x, path) {
 }
 
 object_types <-
-  c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "qs2", "file")
+  c("rds", "json", "parquet", "arrow", "pickle", "csv", "qs2", "file")
 
 object_read <- function(meta, type, call = caller_env()) {
   path <- fs::path(meta$local$dir, meta$file)
@@ -287,7 +279,6 @@ object_read <- function(meta, type, call = caller_env()) {
       pickle = abort("'pickle' pins not supported in R"),
       joblib = abort("'joblib' pins not supported in R"),
       csv = utils::read.csv(path),
-      qs = read_qs(path),
       qs2 = read_qs2(path),
       file = cli_abort(c(
         "Cannot automatically read pin:",
@@ -307,11 +298,6 @@ object_read <- function(meta, type, call = caller_env()) {
       files = pin_load.files(path)
     )
   }
-}
-
-read_qs <- function(path) {
-  check_installed("qs")
-  qs::qread(path, strict = TRUE)
 }
 
 read_qs2 <- function(path) {

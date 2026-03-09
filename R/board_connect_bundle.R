@@ -105,7 +105,7 @@ rsc_bundle_preview_index <- function(
       collapse = ", "
     ),
     url_preview_style = if (!is.null(metadata$urls)) "" else "display:none",
-    show_python_style = if (all(metadata$type %in% c("rds", "qs", "qs2"))) {
+    show_python_style = if (all(metadata$type %in% c("rds", "qs2"))) {
       "display:none"
     } else {
       ""
