@@ -1,5 +1,4 @@
 test_that("can round trip all types", {
-  skip_if_not_installed("qs")
   skip_if_not_installed("qs2")
   skip_if_not_installed("arrow")
   skip_if_not_installed("nanoparquet")
@@ -25,7 +24,7 @@ test_that("can round trip all types", {
   pin_write(board, df, "df-4", type = "csv")
   expect_equal(pin_read(board, "df-4"), as.data.frame(df))
 
-  expect_warning(
+  expect_error(
     pin_write(board, df, "df-5", type = "qs")
   )
 

@@ -1,6 +1,8 @@
-# pins (development version)
+# pins 1.4.2
 
 * Added support of the `qs2` format (#865, @atsyplenkov).
+
+* Removed support for the `qs` format (#895).
 
 * Added download progress bar for `board_url()` (#872, @lbm364dl).
 

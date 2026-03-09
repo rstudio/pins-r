@@ -16,3 +16,4 @@
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
 ^docker-compose.yml$
+^.claude/
