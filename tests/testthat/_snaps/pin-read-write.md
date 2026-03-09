@@ -29,7 +29,7 @@
       pin_write(board, mtcars, name = "mtcars", type = "froopy-loops")
     Condition
       Error:
-      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", or "qs2", not "froopy-loops".
+      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", or "qs2", not "froopy-loops".
     Code
       pin_write(board, mtcars, name = "mtcars", metadata = 1)
     Condition
@@ -87,7 +87,7 @@
       pin_read(board, "df-1", type = "froopy-loops")
     Condition
       Error in `pin_read()`:
-      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs", "qs2", or "file", not "froopy-loops".
+      ! `type` must be one of "rds", "json", "parquet", "arrow", "pickle", "csv", "qs2", or "file", not "froopy-loops".
     Code
       pin_read(board, "df-1")
     Condition
