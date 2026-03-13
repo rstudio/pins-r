@@ -177,38 +177,38 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"x"</span>, description <span class="op">=</span> <span class="st">"10 numbers"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T150958Z-8bc1c'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260313T165848Z-8c3c9'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span><span class="va">b</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pin board <span style="color: #0000BB;">&lt;pins_board_folder&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/RtmpAsTszR/pins-1af6366b7862'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Path: '/tmp/RtmpxKttBg/pins-1e481396a5fd'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cache size: 0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_meta.html">pin_meta</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "x.rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "8bc1c070404bf0eb"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "8c3c9a25ef4991ce"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "x: a pinned integer vector"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: chr "10 numbers"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2026-03-09 15:09:58"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2026-03-13 16:58:48"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "x"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpAsTszR/pins-1af6366b7862/x/20260309T150958Z-8bc1c"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKttBg/pins-1e481396a5fd/x/20260313T165848Z-8c3c9"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20260309T150958Z-8bc1c"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20260313T165848Z-8c3c9"</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add a new version</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">11</span>, <span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T150958Z-a2f05'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260313T165848Z-bcc36'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'x'</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  2  3  4  5  6  7  8  9 10 11</span>
@@ -218,8 +218,8 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20260309T150958Z-8bc1c 2026-03-09 <span style="color: #949494;">15:09:58</span> 8bc1c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20260309T150958Z-a2f05 2026-03-09 <span style="color: #949494;">15:09:58</span> a2f05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20260313T165848Z-8c3c9 2026-03-13 <span style="color: #949494;">16:58:48</span> 8c3c9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20260313T165848Z-bcc36 2026-03-13 <span style="color: #949494;">16:58:48</span> bcc36</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"x"</span>, version <span class="op">=</span> <span class="va">.Last.value</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  2  3  4  5  6  7  8  9 10 11</span>
 <span class="r-in"><span><span class="co"># (Normally you'd specify the version with a string, but since the</span></span></span>
@@ -227,7 +227,7 @@ if you want to perform the serialisation yourself and work just with files.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Pin with multiple types</span></span></span>
 <span class="r-in"><span> <span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_write</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="st">"y"</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260309T150958Z-2e574'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260313T165848Z-a6b34'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'y'</span>
 <span class="r-in"><span> <span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_read</span><span class="op">(</span><span class="st">"y"</span>, type <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>

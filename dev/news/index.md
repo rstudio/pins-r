@@ -4,6 +4,8 @@
 
 ## pins 1.4.2
 
+CRAN release: 2026-03-09
+
 - Added support of the `qs2` format
   ([\#865](https://github.com/rstudio/pins-r/issues/865),
   [@atsyplenkov](https://github.com/atsyplenkov)).
