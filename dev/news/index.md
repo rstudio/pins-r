@@ -1,7 +1,5 @@
 # Changelog
 
-## pins (development version)
-
 ## pins 1.4.2
 
 CRAN release: 2026-03-09

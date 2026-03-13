@@ -153,67 +153,69 @@ find out which versions are available and when they were created.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="board_folder.html">board_temp</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Hadley"</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260313T165847Z-d3684'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'parquet'`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260313T210907Z-c8df2'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the pin</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 6 × 11</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  21       6   160   110  3.9   2.88  17.0     0     1     4     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  18.1     6   225   105  2.76  3.46  20.2     1     0     3     1</span>
 <span class="r-in"><span><span class="co"># Get its metadata</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_meta</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 425</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "d368458c1e1ab524"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 2.02K</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "c8df285b5d49c7cf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "parquet"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2026-03-13 16:58:47"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2026-03-13 21:09:07"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       :List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Hadley: logi TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKttBg/pins-1e481a50893f/mtcars/20260313T165847Z-d3684"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-c8df2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20260313T165847Z-d3684"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20260313T210907Z-c8df2"</span>
 <span class="r-in"><span><span class="co"># Get path to underlying data</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_download.html">pin_download</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpxKttBg/pins-1e481a50893f/mtcars/20260313T165847Z-d3684/mtcars.rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-c8df2/mtcars.parquet"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use tags instead</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="st">"mtcars"</span>, tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fuel-efficiency"</span>, <span class="st">"automotive"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'rds'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Replacing version '20260313T165847Z-d3684' with</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> '20260313T165847Z-21aa2'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'parquet'`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Replacing version '20260313T210907Z-c8df2' with</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> '20260313T210907Z-627e6'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'mtcars'</span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">|&gt;</span> <span class="fu">pin_meta</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.rds"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 465</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "21aa2b764c9e4060"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "rds"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file       : chr "mtcars.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ file_size  : 'fs_bytes' int 2.04K</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ pin_hash   : chr "627e6be766bf57af"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type       : chr "parquet"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ description: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ urls       : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2026-03-13 16:58:47"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created    : POSIXct[1:1], format: "2026-03-13 21:09:07"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ api_version: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ user       : list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ name       : chr "mtcars"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local      :List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKttBg/pins-1e481a50893f/mtcars/20260313T165847Z-21aa2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ dir    : 'fs_path' chr "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-627e6"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ url    : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20260313T165847Z-21aa2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ version: chr "20260313T210907Z-627e6"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

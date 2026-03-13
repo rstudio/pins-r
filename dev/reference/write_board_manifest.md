@@ -52,10 +52,10 @@ modern boards.
 ``` r
 board <- board_temp()
 pin_write(board, mtcars, "mtcars-csv", type = "csv")
-#> Creating new version '20260313T165850Z-48c73'
+#> Creating new version '20260313T210910Z-48c73'
 #> Writing to pin 'mtcars-csv'
 pin_write(board, mtcars, "mtcars-json", type = "json")
-#> Creating new version '20260313T165850Z-c2702'
+#> Creating new version '20260313T210910Z-c2702'
 #> Writing to pin 'mtcars-json'
 
 write_board_manifest(board)
@@ -64,13 +64,13 @@ write_board_manifest(board)
 # see the manifest's format:
 fs::path(board$path, "_pins.yaml") |> readLines() |> cat(sep = "\n")
 #> mtcars-csv:
-#> - mtcars-csv/20260313T165850Z-48c73/
+#> - mtcars-csv/20260313T210910Z-48c73/
 #> mtcars-json:
-#> - mtcars-json/20260313T165850Z-c2702/
+#> - mtcars-json/20260313T210910Z-c2702/
 
 # if you write another pin, the manifest file is out of date:
 pin_write(board, 1:10, "nice-numbers", type = "json")
-#> Creating new version '20260313T165850Z-c3943'
+#> Creating new version '20260313T210910Z-c3943'
 #> Writing to pin 'nice-numbers'
 
 # you decide when to update the manifest:

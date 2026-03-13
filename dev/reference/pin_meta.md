@@ -76,65 +76,67 @@ A list.
 ``` r
 b <- board_temp()
 b |> pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
-#> Guessing `type = 'rds'`
-#> Creating new version '20260313T165847Z-d3684'
+#> Guessing `type = 'parquet'`
+#> Creating new version '20260313T210907Z-c8df2'
 #> Writing to pin 'mtcars'
 
 # Get the pin
 b |> pin_read("mtcars")
-#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+#> # A data frame: 6 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
+#> 4  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1
+#> 5  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2
+#> 6  18.1     6   225   105  2.76  3.46  20.2     1     0     3     1
 # Get its metadata
 b |> pin_meta("mtcars")
 #> List of 13
-#>  $ file       : chr "mtcars.rds"
-#>  $ file_size  : 'fs_bytes' int 425
-#>  $ pin_hash   : chr "d368458c1e1ab524"
-#>  $ type       : chr "rds"
+#>  $ file       : chr "mtcars.parquet"
+#>  $ file_size  : 'fs_bytes' int 2.02K
+#>  $ pin_hash   : chr "c8df285b5d49c7cf"
+#>  $ type       : chr "parquet"
 #>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"
 #>  $ description: NULL
 #>  $ tags       : NULL
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-13 16:58:47"
+#>  $ created    : POSIXct[1:1], format: "2026-03-13 21:09:07"
 #>  $ api_version: int 1
 #>  $ user       :List of 1
 #>   ..$ Hadley: logi TRUE
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKttBg/pins-1e481a50893f/mtcars/20260313T165847Z-d3684"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-c8df2"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260313T165847Z-d3684"
+#>   ..$ version: chr "20260313T210907Z-c8df2"
 # Get path to underlying data
 b |> pin_download("mtcars")
-#> [1] "/tmp/RtmpxKttBg/pins-1e481a50893f/mtcars/20260313T165847Z-d3684/mtcars.rds"
+#> [1] "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-c8df2/mtcars.parquet"
 
 # Use tags instead
 b |> pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
-#> Guessing `type = 'rds'`
-#> Replacing version '20260313T165847Z-d3684' with
-#> '20260313T165847Z-21aa2'
+#> Guessing `type = 'parquet'`
+#> Replacing version '20260313T210907Z-c8df2' with
+#> '20260313T210907Z-627e6'
 #> Writing to pin 'mtcars'
 b |> pin_meta("mtcars")
 #> List of 13
-#>  $ file       : chr "mtcars.rds"
-#>  $ file_size  : 'fs_bytes' int 465
-#>  $ pin_hash   : chr "21aa2b764c9e4060"
-#>  $ type       : chr "rds"
+#>  $ file       : chr "mtcars.parquet"
+#>  $ file_size  : 'fs_bytes' int 2.04K
+#>  $ pin_hash   : chr "627e6be766bf57af"
+#>  $ type       : chr "parquet"
 #>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"
 #>  $ description: NULL
 #>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-13 16:58:47"
+#>  $ created    : POSIXct[1:1], format: "2026-03-13 21:09:07"
 #>  $ api_version: int 1
 #>  $ user       : list()
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpxKttBg/pins-1e481a50893f/mtcars/20260313T165847Z-21aa2"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-627e6"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260313T165847Z-21aa2"
+#>   ..$ version: chr "20260313T210907Z-627e6"
 ```
