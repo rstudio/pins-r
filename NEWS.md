@@ -1,4 +1,8 @@
-# pins (development version)
+# pins (development version to be released as 1.5.0)
+
+## Breaking changes
+
+* Changed the default file type for data frames from RDS to Parquet when writing a pin without an explicit `type`. Parquet offers better interoperability with other languages, especially Python (#898).
 
 # pins 1.4.2
 

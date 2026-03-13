@@ -58,7 +58,7 @@
       pin_write(b, mtcars)
     Message
       Using `name = 'mtcars'`
-      Guessing `type = 'rds'`
+      Guessing `type = 'parquet'`
       Creating new version '20120304T050607Z-xxxxx'
       Writing to pin 'mtcars'
     Code
