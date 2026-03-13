@@ -74,9 +74,10 @@ pin_read <- function(
 #' @param type File types used to save `x` to disk. Supports a single type or a
 #'   vector of types (to pin in more than one format. Each type must be one of
 #'   "csv", "json", "rds", "parquet", "arrow", or "qs2". If not supplied,
-#'   will use JSON for bare lists and RDS for everything else. Be aware that CSV
-#'   and JSON are plain text formats, while RDS, Parquet, Arrow, and
-#'   [qs2](https://CRAN.R-project.org/package=qs2) are binary formats.
+#'   will use JSON for bare lists, Parquet for data frames, and RDS for
+#'   everything else. Be aware that CSV and JSON are plain text formats, while
+#'   RDS, Parquet, Arrow, and [qs2](https://CRAN.R-project.org/package=qs2) are
+#'   binary formats.
 #' @param versioned Should the pin be versioned? The default, `NULL`, will
 #'   use the default for `board`
 #' @param tags A character vector of tags for the pin; most important for
@@ -177,8 +178,7 @@ pin_write <- function(
 
 guess_type <- function(x) {
   if (is.data.frame(x)) {
-    "rds"
-    # Might consider switch to arrow in the future
+    "parquet"
   } else if (is_bare_list(x)) {
     "json"
   } else {

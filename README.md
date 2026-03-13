@@ -56,7 +56,7 @@ board <- board_temp()
 board
 #> Pin board <pins_board_folder>
 #> Path:
-#> '/var/folders/hl/v1lzqxfd07b3hgd2tt5cjcs40000gp/T/Rtmpcv8YZU/pins-2b2828988b4b'
+#> '/var/folders/hl/v1lzqxfd07b3hgd2tt5cjcs40000gp/T/Rtmpp4kE0d/pins-2a644bd98c4c'
 #> Cache size: 0
 ```
 
@@ -65,27 +65,29 @@ arguments: the board to pin to, an object, and a name:
 
 ``` r
 board |> pin_write(head(mtcars), "mtcars")
-#> Guessing `type = 'rds'`
-#> Creating new version '20260309T003903Z-5d990'
+#> Guessing `type = 'parquet'`
+#> Creating new version '20260313T164232Z-c8df2'
 #> Writing to pin 'mtcars'
 ```
 
-As you can see, the data saved as an `.rds` by default, but depending on
-what you’re saving and who else you want to read it, you might use the
-`type` argument to instead save it as a Parquet, Arrow, CSV, or JSON
-file.
+As you can see, the data frame was saved as a `.parquet` file by
+default. Depending on what you’re saving and who else you want to read
+it, you might use the `type` argument to instead save it as an RDS,
+Arrow, CSV, or JSON file.
 
 You can later retrieve the pinned data with `pin_read()`:
 
 ``` r
 board |> pin_read("mtcars")
-#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+#> # A data frame: 6 × 11
+#>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
+#> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+#> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
+#> 4  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1
+#> 5  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2
+#> 6  18.1     6   225   105  2.76  3.46  20.2     1     0     3     1
 ```
 
 A board on your computer is good place to start, but the real power of

@@ -62,7 +62,7 @@ test_that("useful errors on bad inputs", {
 })
 
 test_that("guess_type() works as expected", {
-  expect_equal(guess_type(mtcars), "rds")
+  expect_equal(guess_type(mtcars), "parquet")
   expect_equal(guess_type(lm(mpg ~ disp, data = mtcars)), "rds")
   expect_equal(guess_type(list(x = 1)), "json")
 })
