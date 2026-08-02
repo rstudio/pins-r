@@ -363,6 +363,7 @@ board that is later refereed to with a string. This leads to code like
 this:
 
 ``` r
+
 board <- board_local()
 board %>% pin_write(mtcars, "mtcars")
 board %>% pin_read("mtcars")

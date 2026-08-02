@@ -39,6 +39,7 @@ For this first demonstration, we’ll start by creating a board, and
 finish by showing how the board works after being served.
 
 ``` r
+
 library(pins)
 board <- board_temp(versioned = TRUE)
 ```
@@ -52,9 +53,10 @@ in a project folder or GitHub repo, or perhaps
 Let’s make the `mtcars` dataset available as a JSON file:
 
 ``` r
+
 board |> pin_write(mtcars, type = "json")
 #> Using `name = 'mtcars'`
-#> Creating new version '20260313T210929Z-c2702'
+#> Creating new version '20260802T194627Z-c2702'
 #> Writing to pin 'mtcars'
 ```
 
@@ -63,11 +65,12 @@ consumption in liters per 100 km. This could make our data friendlier to
 folks outside the United States.
 
 ``` r
+
 mtcars_metric <- mtcars
 mtcars_metric$lper100km <- 235.215 / mtcars$mpg
 
 board |> pin_write(mtcars_metric, name = "mtcars", type = "json")
-#> Creating new version '20260313T210931Z-8416c'
+#> Creating new version '20260802T194629Z-8416c'
 #> Writing to pin 'mtcars'
 ```
 
@@ -75,6 +78,7 @@ Let’s check our board to ensure we have one pin named `"mtcars"`, with
 two versions:
 
 ``` r
+
 board |> pin_list()
 #> [1] "mtcars"
 
@@ -82,8 +86,8 @@ board |> pin_versions("mtcars")
 #> # A tibble: 2 × 3
 #>   version                created             hash 
 #>   <chr>                  <dttm>              <chr>
-#> 1 20260313T210929Z-c2702 2026-03-13 21:09:29 c2702
-#> 2 20260313T210931Z-8416c 2026-03-13 21:09:31 8416c
+#> 1 20260802T194627Z-c2702 2026-08-02 19:46:27 c2702
+#> 2 20260802T194629Z-8416c 2026-08-02 19:46:29 8416c
 ```
 
 Because a
@@ -102,6 +106,7 @@ After writing pins but *before* publishing, call
 [`write_board_manifest()`](https://pins.rstudio.com/dev/reference/write_board_manifest.md):
 
 ``` r
+
 board |> write_board_manifest()
 #> Manifest file written to root folder of board, as `_pins.yaml`
 ```
@@ -112,6 +117,7 @@ responsibility as the board publisher to keep the manifest up to date.
 Let’s confirm that there is a file called `_pins.yaml`:
 
 ``` r
+
 withr::with_dir(board$path, fs::dir_ls())
 #> _pins.yaml mtcars
 ```
@@ -121,8 +127,8 @@ version of each pin:
 
 ``` yaml
 mtcars:
-- mtcars/20260313T210929Z-c2702/
-- mtcars/20260313T210931Z-8416c/
+- mtcars/20260802T194627Z-c2702/
+- mtcars/20260802T194629Z-8416c/
 ```
 
 At this point, we would publish the folder containing the board as a
@@ -140,6 +146,7 @@ Let’s create a
 using our fake URL:
 
 ``` r
+
 web_board <- board_url("https://not.real.website.co/pins/")
 ```
 
@@ -147,6 +154,7 @@ The [`board_url()`](https://pins.rstudio.com/dev/reference/board_url.md)
 function reads the manifest file to discover the pins and versions:
 
 ``` r
+
 web_board |> pin_list()
 #> [1] "mtcars"
 
@@ -155,13 +163,14 @@ versions
 #> # A tibble: 2 × 3
 #>   version                created             hash 
 #>   <chr>                  <dttm>              <chr>
-#> 1 20260313T210929Z-c2702 2026-03-13 21:09:29 c2702
-#> 2 20260313T210931Z-8416c 2026-03-13 21:09:31 8416c
+#> 1 20260802T194627Z-c2702 2026-08-02 19:46:27 c2702
+#> 2 20260802T194629Z-8416c 2026-08-02 19:46:29 8416c
 ```
 
 We can read the most-recent version of the `"mtcars"` pin:
 
 ``` r
+
 web_board |> pin_read("mtcars") |> head()
 #>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
@@ -182,6 +191,7 @@ web_board |> pin_read("mtcars") |> head()
 We can also read the first version:
 
 ``` r
+
 web_board |> pin_read("mtcars", version = versions$version[[1]]) |> head()
 #>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
@@ -241,6 +251,7 @@ too large for CRAN or extended versions of your data. A consumer can
 read your pins by setting up a board like:
 
 ``` r
+
 board <- board_url("https://user-name.github.io/repo-name/pins-board/")
 ```
 
@@ -270,5 +281,6 @@ who has access to your bucket, they can read your pins by setting up a
 board like:
 
 ``` r
+
 board <- board_url("https://your-existing-bucket.s3.us-west-2.amazonaws.com/")
 ```

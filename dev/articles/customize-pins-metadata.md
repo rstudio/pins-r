@@ -16,6 +16,7 @@ file(s) in a customized way, see
 We’ll begin by creating a temporary board for demonstration:
 
 ``` r
+
 library(pins)
 
 board <- board_temp()
@@ -30,6 +31,7 @@ creates the standardized metadata we are interested in and writes it in
 a consistent way.
 
 ``` r
+
 pin_write_factor_json <- function(board, 
                                   x, 
                                   name, 
@@ -59,9 +61,10 @@ We can use this new function to write a pin as JSON with our specific
 metadata:
 
 ``` r
+
 ten_letters <- factor(sample(letters, size = 10), levels = letters)
 board |> pin_write_factor_json(ten_letters, "letters-as-json")
-#> Creating new version '20260313T210912Z-099e2'
+#> Creating new version '20260802T194609Z-099e2'
 #> Writing to pin 'letters-as-json'
 ```
 
@@ -72,6 +75,7 @@ It’s possible to read this pin using the regular
 function, but the object we get is no longer a factor!
 
 ``` r
+
 board |> pin_read("letters-as-json")
 #>  [1] "m" "w" "l" "e" "f" "o" "u" "d" "v" "i"
 ```
@@ -80,6 +84,7 @@ Instead, we can also write a special function for reading, to
 reconstruct the factor including its levels:
 
 ``` r
+
 pin_read_factor_json <- function(board, name, version = NULL, hash = NULL, ...) {
   ret <- pin_read(board = board, name = name, version = version, hash = hash, ...)
   meta <- pin_meta(board = board, name = name, version = version, ...)

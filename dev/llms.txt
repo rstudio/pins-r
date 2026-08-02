@@ -18,12 +18,14 @@ for Python](https://rstudio.github.io/pins-python/).
 You can install pins from CRAN with:
 
 ``` r
+
 install.packages("pins")
 ```
 
 You can install the development version from GitHub:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("rstudio/pins-r")
 ```
@@ -43,6 +45,7 @@ session ends. This is great for examples, but obviously you shouldn’t
 use it for real work!
 
 ``` r
+
 library(pins)
 
 board <- board_temp()
@@ -58,6 +61,7 @@ You can “pin” (save) data to a board with
 takes three arguments: the board to pin to, an object, and a name:
 
 ``` r
+
 board |> pin_write(head(mtcars), "mtcars")
 #> Guessing `type = 'parquet'`
 #> Creating new version '20260313T164232Z-c8df2'
@@ -73,6 +77,7 @@ You can later retrieve the pinned data with
 [`pin_read()`](https://pins.rstudio.com/dev/reference/pin_read.md):
 
 ``` r
+
 board |> pin_read("mtcars")
 #> # A data frame: 6 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -94,6 +99,7 @@ Connect](https://posit.co/products/enterprise/connect/) you can use
 [`board_connect()`](https://pins.rstudio.com/dev/reference/board_connect.md):
 
 ``` r
+
 board <- board_connect()
 #> Connecting to Posit Connect 2024.08.0 at <https://pub.current.posit.team>
 board |> pin_write(tidy_sales_data, "sales-summary", type = "rds")
@@ -104,6 +110,7 @@ Then, someone else (or an automated Quarto report) can read and use your
 pin:
 
 ``` r
+
 board <- board_connect()
 board |> pin_read("hadley/sales-summary")
 ```

@@ -141,13 +141,13 @@ b1 |> pin_read("rds")
 #> 9   9
 #> 10 10
 b1 |> pin_browse("rds", local = TRUE)
-#> ℹ Pin at <~/.cache/pins/url/5e3ed054e0c263a996340d449a12324b>
+#> ℹ Pin at <~/.cache/pins/url/f25a5e07e918e80723e64d45a1b9e672>
 
 b1 |> pin_download("files")
-#> [1] "~/.cache/pins/url/6a19374ae8fd88eaccc9cbd6e3022001/first.txt" 
-#> [2] "~/.cache/pins/url/6a19374ae8fd88eaccc9cbd6e3022001/second.txt"
+#> [1] "~/.cache/pins/url/cc71420dd2ea4db3fcdb1ba2bce02273/first.txt" 
+#> [2] "~/.cache/pins/url/cc71420dd2ea4db3fcdb1ba2bce02273/second.txt"
 b1 |> pin_download("raw")
-#> [1] "~/.cache/pins/url/4bb0af0abae87c78f4a1b6fbe7e2642c/first.txt"
+#> [1] "~/.cache/pins/url/35b513ff2b971e6edd6b33b9a56d687a/first.txt"
 
 ## with a manifest file:
 b2 <- board_url(github_raw("rstudio/pins-r/main/tests/testthat/pin-board/"))

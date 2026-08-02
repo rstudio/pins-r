@@ -9,6 +9,7 @@ and pins makes it easy to schedule data updates in a way that
 automatically flows into your app.
 
 ``` r
+
 library(pins)
 ```
 
@@ -19,6 +20,7 @@ written a little code to scrape the BBC world news feed and turn it into
 a tidy dataset:
 
 ``` r
+
 library(xml2)
 
 if (interactive()) {
@@ -57,6 +59,7 @@ this data, and provide them directly with the tidy tibble? That’s easy
 to do with pins:
 
 ``` r
+
 board <- board_connect()
 board |> pin_write(bbc_news)
 ```
@@ -68,6 +71,7 @@ control who can see the data. Assuming you’ve given your colleagues
 access, they can now easily pull down the data for their own analysis:
 
 ``` r
+
 board <- board_connect()
 board |> pin_read("your_name/bbc_news")
 ```
@@ -124,6 +128,7 @@ to create a reactive dependency so that your app will automatically
 update shortly after the data changes:
 
 ``` r
+
 library(shiny)
 library(pins)
 

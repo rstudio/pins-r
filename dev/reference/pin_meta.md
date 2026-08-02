@@ -77,7 +77,7 @@ A list.
 b <- board_temp()
 b |> pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
 #> Guessing `type = 'parquet'`
-#> Creating new version '20260313T210907Z-c8df2'
+#> Creating new version '20260802T194604Z-49eb1'
 #> Writing to pin 'mtcars'
 
 # Get the pin
@@ -95,48 +95,48 @@ b |> pin_read("mtcars")
 b |> pin_meta("mtcars")
 #> List of 13
 #>  $ file       : chr "mtcars.parquet"
-#>  $ file_size  : 'fs_bytes' int 2.02K
-#>  $ pin_hash   : chr "c8df285b5d49c7cf"
+#>  $ file_size  : 'fs_bytes' int 2.01K
+#>  $ pin_hash   : chr "49eb1302df17cd09"
 #>  $ type       : chr "parquet"
 #>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"
 #>  $ description: NULL
 #>  $ tags       : NULL
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-13 21:09:07"
+#>  $ created    : POSIXct[1:1], format: "2026-08-02 19:46:04"
 #>  $ api_version: int 1
 #>  $ user       :List of 1
 #>   ..$ Hadley: logi TRUE
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-c8df2"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpJxLNB7/pins-1c7031156ea0/mtcars/20260802T194604Z-49eb1"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260313T210907Z-c8df2"
+#>   ..$ version: chr "20260802T194604Z-49eb1"
 # Get path to underlying data
 b |> pin_download("mtcars")
-#> [1] "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-c8df2/mtcars.parquet"
+#> [1] "/tmp/RtmpJxLNB7/pins-1c7031156ea0/mtcars/20260802T194604Z-49eb1/mtcars.parquet"
 
 # Use tags instead
 b |> pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
 #> Guessing `type = 'parquet'`
-#> Replacing version '20260313T210907Z-c8df2' with
-#> '20260313T210907Z-627e6'
+#> Replacing version '20260802T194604Z-49eb1' with
+#> '20260802T194604Z-04548'
 #> Writing to pin 'mtcars'
 b |> pin_meta("mtcars")
 #> List of 13
 #>  $ file       : chr "mtcars.parquet"
-#>  $ file_size  : 'fs_bytes' int 2.04K
-#>  $ pin_hash   : chr "627e6be766bf57af"
+#>  $ file_size  : 'fs_bytes' int 2.03K
+#>  $ pin_hash   : chr "04548b95452cc1d7"
 #>  $ type       : chr "parquet"
 #>  $ title      : chr "mtcars: a pinned 6 x 11 data frame"
 #>  $ description: NULL
 #>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-03-13 21:09:07"
+#>  $ created    : POSIXct[1:1], format: "2026-08-02 19:46:04"
 #>  $ api_version: int 1
 #>  $ user       : list()
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpGqXXm7/pins-1d2a48258053/mtcars/20260313T210907Z-627e6"
+#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpJxLNB7/pins-1c7031156ea0/mtcars/20260802T194604Z-04548"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260313T210907Z-627e6"
+#>   ..$ version: chr "20260802T194604Z-04548"
 ```
