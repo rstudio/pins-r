@@ -263,12 +263,11 @@ object_read <- function(meta, type, call = caller_env()) {
     }
   }
 
-  path <- path |>
-    purrr::detect(~ fs::path_ext(.x) == type)
-
   if (meta$api_version == 1) {
     type <- arg_match0(type, object_types, error_call = call)
     type <- arg_match0(type, meta$type, error_call = call)
+    path <- path |>
+      purrr::detect(~ fs::path_ext(.x) == type)
 
     switch(
       type,
