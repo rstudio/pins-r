@@ -1,0 +1,205 @@
+---
+title: "How to create a new board"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{create-new-board}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The pins package provides a number of [pin boards](https://pins.rstudio.com/reference/index.html#boards), from a folder on your computer to the major cloud storage providers. If the pins package does not provide the specific board you need, you can extend pins by creating your own board. To be able to extend pins in this way, you need to know that pins uses [S3 methods](https://rstudio-education.github.io/hopr/s3.html) to specify how different tasks need to work for different boards.
+
+```{r setup}
+library(pins)
+```
+
+## Wrap an existing board
+
+If the board you need is very similar to an existing board, you may be able to set up your new board by wrapping an existing board. This is the way `board_connect_url()` (a read-only board for [Posit Connect](https://posit.co/products/enterprise/connect/)) works:
+
+```{r}
+board_connect_url <- function(vanity_urls,
+                              cache = NULL,
+                              use_cache_on_failure = is_interactive(),
+                              headers = connect_auth_headers()) {
+  board_url(
+    urls = vanity_urls,
+    cache = cache,
+    use_cache_on_failure = use_cache_on_failure,
+    headers = headers
+  )
+}
+```
+
+We created a new kind of board by wrapping `board_url()` with the specific arguments (like `headers = connect_auth_headers()`) for the new implementation. This works because the new board can inherit all the methods for the original board.
+
+## Create a board from scratch
+
+If none of the existing boards can be wrapped in a straightforward way, then you'll need to start from scratch. Let's use `board_gdrive()`, a board that uses Google Drive via the [googledrive](https://googledrive.tidyverse.org/) package, as an example. First, we need to make the board constructor function:
+
+```{r}
+board_gdrive <- function(path, versioned = TRUE, cache = NULL) {
+  dribble <- googledrive::as_dribble(path)
+  cache <- cache %||% board_cache_path(paste0("gdrive-", hash(dribble$id)))
+  pins:::new_board_v1(
+    "pins_board_gdrive",
+    dribble = dribble,
+    cache = cache,
+    versioned = versioned
+  )
+}
+```
+
+The real implementation contains a bit more error checking, but the basic idea here is to return a `new_board_v1()` object that includes the specific information needed to write to a Google Drive folder, as well as the defaults for whether to version the board and the local cache.
+
+Now that we have a board constructor function to make a board of class `"pins_board_gdrive"`, it's time to start on the methods. We recommend that you start with the easiest ones, for example, the `required_pkgs` method keeps track of what packages are needed to run the board:
+
+```{r}
+required_pkgs.pins_board_gdrive <- function(x, ...) {
+  "googledrive"
+}
+```
+
+The methods to list all the pins on a board and to check if a specific pin exists are also typically pretty straightforward. The specific code you'll need to implement `pin_list()` and `pin_exists()` for your board will be different from the code need for our Google Drive board.
+
+```{r}
+pin_list.pins_board_gdrive <- function(board, ...) {
+  googledrive::drive_ls(board$dribble)$name
+}
+
+pin_exists.pins_board_gdrive <- function(board, name, ...) {
+  all_names <- googledrive::drive_ls(board$dribble$name)$name
+  name %in% all_names
+}
+```
+
+The versions of a pin are subdirectories inside of the pin directory. To implement `pin_versions()`, you can use the internal function `pins:::version_from_path()` to get versions from the paths to those subdirectories:
+
+```{r}
+pin_versions.pins_board_gdrive <- function(board, name, ...) {
+  pins:::check_pin_exists(board, name)
+  path <- fs::path(board$dribble$path, name)
+  pins:::version_from_path(sort(googledrive::drive_ls(path)$name))
+}
+```
+
+We don't have functions to _write_ pins yet, but let's set up our methods for deleting a pin version and an entire pin. Remember that these are all directories.
+
+```{r}
+pin_version_delete.pins_board_gdrive <- function(board, name, version, ...) {
+  path <- fs::path(board$dribble$path, fs::path(name, version))
+  googledrive::drive_trash(path)
+}
+
+pin_delete.pins_board_gdrive <- function(board, names, ...) {
+  for (name in names) {
+    pins:::check_pin_exists(board, name)
+    path <- fs::path(board$dribble$path, name)
+    googledrive::drive_trash(path)
+  }
+  invisible(board)
+}
+```
+
+The metadata for each pin is stored in a file `data.txt` (it's actually YAML) in the version subdirectory next to the pin content file(s). Let's create a method to download the metadata file and return a `pins:::local_meta()` object.
+
+```{r}
+pin_meta.pins_board_gdrive <- function(board, name, version = NULL, ...) {
+  pins:::check_pin_exists(board, name)
+  version <- pins:::check_pin_version(board, name, version)
+  metadata_key <- fs::path(name, version, "data.txt")
+  path_version <- fs::path(board$cache, name, version)
+  fs::dir_create(path_version)
+  
+  gdrive_download(board, metadata_key)
+  pins:::local_meta(
+    read_meta(fs::path(board$cache, name, version)),
+    name = name,
+    dir = path_version,
+    version = version
+  )
+}
+```
+
+It's finally time to write a method to fetch the pin contents itself. This method will need to use the `pin_meta` method we just made:
+
+```{r}
+pin_fetch.pins_board_gdrive <- function(board, name, version = NULL, ...) {
+  meta <- pin_meta(board, name, version = version)
+  cache_touch(board, meta)
+
+  for (file in meta$file) {
+    key <- fs::path(name, meta$local$version, file)
+    gdrive_download(board, key)
+  }
+
+  meta
+}
+```
+
+Notice that these last two methods both use a helper function `gdrive_download()`. Often when developing a new board, you need to take the same kind of actions in multiple contexts (deleting or downloading, for example) and can create reusable helper functions specific to your board.
+
+```{r}
+gdrive_download <- function(board, key) {
+  path <- fs::path(board$cache, key)
+  if (!fs::file_exists(path)) {
+    googledrive::drive_download(key, path)
+    fs::file_chmod(path, "u=r")
+  }
+  path
+}
+```
+
+Last but not least, you need to implement the method to store a pin on your board:
+
+```{r}
+pin_store.pins_board_gdrive <- function(board, name, paths, metadata,
+                                        versioned = NULL, ...) {
+  check_pin_name(name)
+  version <- version_setup(board, name, version_name(metadata), versioned = versioned)
+
+  gdrive_mkdir(board$dribble$name, name)
+  gdrive_mkdir(fs::path(board$dribble$name, name), version)
+
+  version_dir <- fs::path(name, version)
+
+  # Upload metadata
+  temp_file <- withr::local_tempfile()
+  yaml::write_yaml(metadata, file = temp_file)
+  googledrive::drive_upload(
+    temp_file,
+    fs::path(board$dribble$path, version_dir, "data.txt")
+  )
+
+  # Upload files
+  for (path in paths) {
+    googledrive::drive_upload(
+      path,
+      fs::path(board$dribble$path, version_dir, fs::path_file(path))
+    )
+  }
+
+  name
+}
+```
+
+This vignette presents writing these methods as if the process is perfectly linear, but you'll probably revisit earlier steps as you continue creating your methods. To make sure your methods all work as expected, considering using these pins testing functions with a test board `board`: 
+
+- `test_api_basic(board)`
+- `test_api_versioning(board)`
+- `test_api_meta(board)`
+
+## Where does the code for extending pins go?
+
+Once you have written the functions and/or methods for extending pins, you need to make them available for your analysis. You have a couple of options for how to do this:
+
+- You can inline these functions/methods into the script where you will use the new pin board. This is great for getting started, but you will likely find that you need to copy and paste these same components in each new script.
+- If you organize all your work with pins in an [RStudio project](https://r4ds.had.co.nz/workflow-projects.html), you can put your functions/methods in the project and `source()` that file for each analysis.
+- You can make these new pins functions/methods reusable as an R package. Your new R package will need to import each pins generic that you provide a method for, like `@importFrom pins pin_store`. Read more about providing methods for generics in another package in [the _R Packages_ book](https://r-pkgs.org/dependencies-in-practice.html#imports-and-exports-related-to-s3).
