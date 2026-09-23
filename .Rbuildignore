@@ -17,4 +17,4 @@
 ^CRAN-SUBMISSION$
 ^docker-compose.yml$
 ^.claude/
-^claude\.md$
+^agents\.md$
