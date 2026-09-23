@@ -4,6 +4,10 @@
 
 * Changed the default file type for data frames from RDS to Parquet when writing a pin without an explicit `type`. Parquet offers better interoperability with other languages, especially Python (#898).
 
+## Other improvements
+
+* Fixed `pin_read()` for legacy pins (`api_version` 0), which failed with "a character vector argument expected" in pins 1.4.2 (#904).
+
 # pins 1.4.2
 
 * Added support of the `qs2` format (#865, @atsyplenkov).

@@ -137,3 +137,65 @@ test_that("can write and read multiple types", {
       pin_read("df-1")
   })
 })
+
+# Legacy (api_version 0) pins ---------------------------------------------
+
+local_legacy_pin <- function(type, path, env = parent.frame()) {
+  dir <- withr::local_tempdir(.local_envir = env)
+  yaml::write_yaml(list(path = path, type = type), fs::path(dir, "data.txt"))
+  dir
+}
+
+legacy_meta <- function(dir) {
+  meta <- read_meta(dir)
+  meta$local <- list(dir = dir)
+  meta
+}
+
+test_that("can read legacy 'default' pin", {
+  dir <- local_legacy_pin("default", "data.rds")
+  saveRDS(list(a = 1), fs::path(dir, "data.rds"))
+  meta <- legacy_meta(dir)
+
+  expect_equal(meta$api_version, 0L)
+  expect_equal(object_read(meta, NULL), list(a = 1))
+})
+
+test_that("can read legacy 'table' pin", {
+  df <- data.frame(x = 1:3, y = c("a", "b", "c"))
+  dir <- local_legacy_pin("table", "data.csv")
+  utils::write.csv(df, fs::path(dir, "data.csv"), row.names = FALSE)
+
+  expect_equal(object_read(legacy_meta(dir), NULL), df)
+})
+
+test_that("can read legacy 'files' pin with multiple files", {
+  dir <- local_legacy_pin("files", c("a.txt", "b.txt"))
+  writeLines("a", fs::path(dir, "a.txt"))
+  writeLines("b", fs::path(dir, "b.txt"))
+
+  out <- object_read(legacy_meta(dir), NULL)
+  expect_equal(sort(basename(out)), c("a.txt", "b.txt"))
+})
+
+test_that("explicit type doesn't affect reading legacy pins", {
+  dir <- local_legacy_pin("default", "data.rds")
+  saveRDS(1:3, fs::path(dir, "data.rds"))
+
+  expect_equal(object_read(legacy_meta(dir), "rds"), 1:3)
+})
+
+test_that("cache failure error lists the missing files", {
+  dir <- withr::local_tempdir()
+  writeLines("x", fs::path(dir, "present.txt"))
+  meta <- list(
+    api_version = 1L,
+    type = "rds",
+    file = c("present.txt", "absent.rds"),
+    local = list(dir = dir)
+  )
+
+  err <- expect_error(object_read(meta, "rds"), "Cache failure")
+  expect_match(conditionMessage(err), "absent.rds", fixed = TRUE)
+  expect_no_match(conditionMessage(err), "present.txt", fixed = TRUE)
+})
