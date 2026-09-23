@@ -42,33 +42,33 @@ board <- board_temp()
 
 board |> pin_write(1:5, "x", title = "Some numbers")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260923T004102Z-1d21e'
+#> Creating new version '20260923T005614Z-1d21e'
 #> Writing to pin 'x'
 board |> pin_write(letters[c(1, 5, 10, 15, 21)], "y", title = "My favourite letters")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260923T004102Z-0fa67'
+#> Creating new version '20260923T005614Z-0fa67'
 #> Writing to pin 'y'
 board |> pin_write(runif(20), "z", title = "Random numbers")
 #> Guessing `type = 'rds'`
-#> Creating new version '20260923T004102Z-63388'
+#> Creating new version '20260923T005614Z-63388'
 #> Writing to pin 'z'
 
 board |> pin_search()
 #> # A tibble: 3 × 6
 #>   name  type  title            created             file_size meta      
 #>   <chr> <chr> <chr>            <dttm>              <fs::byt> <list>    
-#> 1 x     rds   Some numbers     2026-09-23 00:41:02        50 <pins_met>
-#> 2 y     rds   My favourite le… 2026-09-23 00:41:02        58 <pins_met>
-#> 3 z     rds   Random numbers   2026-09-23 00:41:02       166 <pins_met>
+#> 1 x     rds   Some numbers     2026-09-23 00:56:14        50 <pins_met>
+#> 2 y     rds   My favourite le… 2026-09-23 00:56:14        58 <pins_met>
+#> 3 z     rds   Random numbers   2026-09-23 00:56:14       166 <pins_met>
 board |> pin_search("number")
 #> # A tibble: 2 × 6
 #>   name  type  title          created               file_size meta      
 #>   <chr> <chr> <chr>          <dttm>              <fs::bytes> <list>    
-#> 1 x     rds   Some numbers   2026-09-23 00:41:02          50 <pins_met>
-#> 2 z     rds   Random numbers 2026-09-23 00:41:02         166 <pins_met>
+#> 1 x     rds   Some numbers   2026-09-23 00:56:14          50 <pins_met>
+#> 2 z     rds   Random numbers 2026-09-23 00:56:14         166 <pins_met>
 board |> pin_search("letters")
 #> # A tibble: 1 × 6
 #>   name  type  title            created             file_size meta      
 #>   <chr> <chr> <chr>            <dttm>              <fs::byt> <list>    
-#> 1 y     rds   My favourite le… 2026-09-23 00:41:02        58 <pins_met>
+#> 1 y     rds   My favourite le… 2026-09-23 00:56:14        58 <pins_met>
 ```

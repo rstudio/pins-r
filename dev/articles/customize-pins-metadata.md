@@ -64,7 +64,7 @@ metadata:
 
 ten_letters <- factor(sample(letters, size = 10), levels = letters)
 board |> pin_write_factor_json(ten_letters, "letters-as-json")
-#> Creating new version '20260923T004105Z-099e2'
+#> Creating new version '20260923T005618Z-099e2'
 #> Writing to pin 'letters-as-json'
 ```
 
