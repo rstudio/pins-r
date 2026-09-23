@@ -184,3 +184,18 @@ test_that("explicit type doesn't affect reading legacy pins", {
 
   expect_equal(object_read(legacy_meta(dir), "rds"), 1:3)
 })
+
+test_that("cache failure error lists the missing files", {
+  dir <- withr::local_tempdir()
+  writeLines("x", fs::path(dir, "present.txt"))
+  meta <- list(
+    api_version = 1L,
+    type = "rds",
+    file = c("present.txt", "absent.rds"),
+    local = list(dir = dir)
+  )
+
+  err <- expect_error(object_read(meta, "rds"), "Cache failure")
+  expect_match(conditionMessage(err), "absent.rds", fixed = TRUE)
+  expect_no_match(conditionMessage(err), "present.txt", fixed = TRUE)
+})

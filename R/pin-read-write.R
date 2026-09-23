@@ -249,7 +249,7 @@ object_read <- function(meta, type, call = caller_env()) {
 
   missing <- !fs::file_exists(path)
   if (any(missing)) {
-    abort(c("Cache failure. Missing files:", path[!missing]))
+    abort(c("Cache failure. Missing files:", path[missing]))
   }
 
   if (is.null(type)) {
