@@ -120,19 +120,39 @@ provided additional data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'parquet'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260923T003849Z-b3722'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260923T004102Z-b3722'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'parquet'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260923T003849Z-7e49b'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260923T004103Z-7e49b'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_write</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Guessing `type = 'parquet'`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260923T003849Z-3bf53'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating new version '20260923T004103Z-3bf53'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing to pin 'df'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># pin_read() returns the latest version by default</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 5 × 1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     6</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># but you can return earlier versions if needed</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20260923T004102Z-b3722 2026-09-23 <span style="color: #949494;">00:41:02</span> b3722</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20260923T004103Z-3bf53 2026-09-23 <span style="color: #949494;">00:41:03</span> 3bf53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20260923T004103Z-7e49b 2026-09-23 <span style="color: #949494;">00:41:03</span> 7e49b</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 5 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -141,26 +161,6 @@ provided additional data.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     5</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># but you can return earlier versions if needed</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="st">"df"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   version                created             hash </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 20260923T003849Z-3bf53 2026-09-23 <span style="color: #949494;">00:38:49</span> 3bf53</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 20260923T003849Z-7e49b 2026-09-23 <span style="color: #949494;">00:38:49</span> 7e49b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 20260923T003849Z-b3722 2026-09-23 <span style="color: #949494;">00:38:49</span> b3722</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ver</span> <span class="op">&lt;-</span> <span class="fu">pin_versions</span><span class="op">(</span><span class="va">board</span>, <span class="st">"df"</span><span class="op">)</span><span class="op">$</span><span class="va">version</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu"><a href="pin_read.html">pin_read</a></span><span class="op">(</span><span class="st">"df"</span>, version <span class="op">=</span> <span class="va">ver</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 5 × 1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     7</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># delete all versions created more than 30 days ago</span></span></span>
 <span class="r-in"><span><span class="va">board</span> <span class="op">|&gt;</span> <span class="fu">pin_versions_prune</span><span class="op">(</span><span class="st">"df"</span>, days <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>

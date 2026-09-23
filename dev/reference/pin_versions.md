@@ -52,19 +52,39 @@ board <- board_temp(versioned = TRUE)
 
 board |> pin_write(data.frame(x = 1:5), name = "df")
 #> Guessing `type = 'parquet'`
-#> Creating new version '20260923T003849Z-b3722'
+#> Creating new version '20260923T004102Z-b3722'
 #> Writing to pin 'df'
 board |> pin_write(data.frame(x = 2:6), name = "df")
 #> Guessing `type = 'parquet'`
-#> Creating new version '20260923T003849Z-7e49b'
+#> Creating new version '20260923T004103Z-7e49b'
 #> Writing to pin 'df'
 board |> pin_write(data.frame(x = 3:7), name = "df")
 #> Guessing `type = 'parquet'`
-#> Creating new version '20260923T003849Z-3bf53'
+#> Creating new version '20260923T004103Z-3bf53'
 #> Writing to pin 'df'
 
 # pin_read() returns the latest version by default
 board |> pin_read("df")
+#> # A data frame: 5 × 1
+#>       x
+#>   <int>
+#> 1     2
+#> 2     3
+#> 3     4
+#> 4     5
+#> 5     6
+
+# but you can return earlier versions if needed
+board |> pin_versions("df")
+#> # A tibble: 3 × 3
+#>   version                created             hash 
+#>   <chr>                  <dttm>              <chr>
+#> 1 20260923T004102Z-b3722 2026-09-23 00:41:02 b3722
+#> 2 20260923T004103Z-3bf53 2026-09-23 00:41:03 3bf53
+#> 3 20260923T004103Z-7e49b 2026-09-23 00:41:03 7e49b
+
+ver <- pin_versions(board, "df")$version[[1]]
+board |> pin_read("df", version = ver)
 #> # A data frame: 5 × 1
 #>       x
 #>   <int>
@@ -73,26 +93,6 @@ board |> pin_read("df")
 #> 3     3
 #> 4     4
 #> 5     5
-
-# but you can return earlier versions if needed
-board |> pin_versions("df")
-#> # A tibble: 3 × 3
-#>   version                created             hash 
-#>   <chr>                  <dttm>              <chr>
-#> 1 20260923T003849Z-3bf53 2026-09-23 00:38:49 3bf53
-#> 2 20260923T003849Z-7e49b 2026-09-23 00:38:49 7e49b
-#> 3 20260923T003849Z-b3722 2026-09-23 00:38:49 b3722
-
-ver <- pin_versions(board, "df")$version[[1]]
-board |> pin_read("df", version = ver)
-#> # A data frame: 5 × 1
-#>       x
-#>   <int>
-#> 1     3
-#> 2     4
-#> 3     5
-#> 4     6
-#> 5     7
 
 # delete all versions created more than 30 days ago
 board |> pin_versions_prune("df", days = 30)
