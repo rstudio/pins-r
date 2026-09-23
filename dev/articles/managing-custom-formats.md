@@ -51,7 +51,7 @@ path <- fs::path_temp(fs::path_ext_set(pin_name, "arrow"))
 arrow::write_feather(mtcars, path, compression = "uncompressed")
 
 pin_upload(board, paths = path, name = pin_name)
-#> Creating new version '20260802T194612Z-99499'
+#> Creating new version '20260923T003855Z-99499'
 ```
 
 Reading from the downloaded pin is straightforward;
@@ -102,7 +102,7 @@ This helper function is designed to work like
 ``` r
 
 pin_upload_arrow(board, x = mtcars, name = "mtcars-arrow2")
-#> Creating new version '20260802T194612Z-99499'
+#> Creating new version '20260923T003855Z-99499'
 ```
 
 As before, you can pipe the result of

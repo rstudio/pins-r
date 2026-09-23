@@ -77,7 +77,7 @@ A list.
 b <- board_temp()
 b |> pin_write(head(mtcars), "mtcars", metadata = list("Hadley" = TRUE))
 #> Guessing `type = 'parquet'`
-#> Creating new version '20260802T194604Z-49eb1'
+#> Creating new version '20260923T003847Z-49eb1'
 #> Writing to pin 'mtcars'
 
 # Get the pin
@@ -102,24 +102,24 @@ b |> pin_meta("mtcars")
 #>  $ description: NULL
 #>  $ tags       : NULL
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-08-02 19:46:04"
+#>  $ created    : POSIXct[1:1], format: "2026-09-23 00:38:47"
 #>  $ api_version: int 1
 #>  $ user       :List of 1
 #>   ..$ Hadley: logi TRUE
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpJxLNB7/pins-1c7031156ea0/mtcars/20260802T194604Z-49eb1"
+#>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp0zlwl8/pins-1aa95defb16b/mtcars/20260923T003847Z-49eb1"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260802T194604Z-49eb1"
+#>   ..$ version: chr "20260923T003847Z-49eb1"
 # Get path to underlying data
 b |> pin_download("mtcars")
-#> [1] "/tmp/RtmpJxLNB7/pins-1c7031156ea0/mtcars/20260802T194604Z-49eb1/mtcars.parquet"
+#> [1] "/tmp/Rtmp0zlwl8/pins-1aa95defb16b/mtcars/20260923T003847Z-49eb1/mtcars.parquet"
 
 # Use tags instead
 b |> pin_write(tail(mtcars), "mtcars", tags = c("fuel-efficiency", "automotive"))
 #> Guessing `type = 'parquet'`
-#> Replacing version '20260802T194604Z-49eb1' with
-#> '20260802T194604Z-04548'
+#> Replacing version '20260923T003847Z-49eb1' with
+#> '20260923T003847Z-04548'
 #> Writing to pin 'mtcars'
 b |> pin_meta("mtcars")
 #> List of 13
@@ -131,12 +131,12 @@ b |> pin_meta("mtcars")
 #>  $ description: NULL
 #>  $ tags       : chr [1:2] "fuel-efficiency" "automotive"
 #>  $ urls       : NULL
-#>  $ created    : POSIXct[1:1], format: "2026-08-02 19:46:04"
+#>  $ created    : POSIXct[1:1], format: "2026-09-23 00:38:47"
 #>  $ api_version: int 1
 #>  $ user       : list()
 #>  $ name       : chr "mtcars"
 #>  $ local      :List of 3
-#>   ..$ dir    : 'fs_path' chr "/tmp/RtmpJxLNB7/pins-1c7031156ea0/mtcars/20260802T194604Z-04548"
+#>   ..$ dir    : 'fs_path' chr "/tmp/Rtmp0zlwl8/pins-1aa95defb16b/mtcars/20260923T003847Z-04548"
 #>   ..$ url    : NULL
-#>   ..$ version: chr "20260802T194604Z-04548"
+#>   ..$ version: chr "20260923T003847Z-04548"
 ```
