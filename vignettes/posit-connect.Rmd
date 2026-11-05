@@ -107,3 +107,25 @@ shinyApp(ui, server)
 ```
 
 If you deploy this app and watch it while your scheduled reported runs, you'll see the data update automatically.
+
+### Reading pins as the viewer
+
+The `board_connect()` call above uses the content owner's key from `CONNECT_API_KEY`.
+To read pins as the viewer, exchange the viewer's session token for a visitor API key with connectapi:
+
+```{r eval=FALSE}
+server <- function(input, output, session) {
+  visitor <- connectapi::connect(token = session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN)
+  board <- board_connect(
+    auth = "manual",
+    server = Sys.getenv("CONNECT_SERVER"),
+    key = visitor$api_key,
+    cache = tempfile()
+  )
+  news <- board |> pin_reactive_read("hadley/bbc_news")
+  # render news() as in the previous example
+}
+```
+
+Create the board inside `server()` with its own `cache`, so that viewers do not share keys or cached files.
+For setup requirements, such as the Visitor API Key integration, `audience`, and Connect versions, see the [Connect documentation](https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-visitor-api-key).
