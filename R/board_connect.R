@@ -279,18 +279,6 @@ pin_store.pins_board_connect <- function(
     access_type <- arg_match0(access_type, c("acl", "logged_in", "all"))
   }
 
-  # Find/create content item
-  content_guid <- tryCatch(
-    {
-      guid <- rsc_content_find(board, name, warn = FALSE)$guid
-      rsc_content_update(board, guid, metadata, access_type = access_type)
-      guid
-    },
-    pins_pin_missing = function(e) {
-      rsc_content_create(board, name, metadata, access_type = access_type)$guid
-    }
-  )
-
   # Make .tar.gz bundle containing data.txt + index.html + pin data
   bundle_dir <- rsc_bundle(
     board,
@@ -310,6 +298,18 @@ pin_store.pins_board_connect <- function(
       compression = "gzip",
       tar = Sys.getenv("RSCONNECT_TAR", "internal")
     ))
+  )
+
+  # Find/create content item
+  content_guid <- tryCatch(
+    {
+      guid <- rsc_content_find(board, name, warn = FALSE)$guid
+      rsc_content_update(board, guid, metadata, access_type = access_type)
+      guid
+    },
+    pins_pin_missing = function(e) {
+      rsc_content_create(board, name, metadata, access_type = access_type)$guid
+    }
   )
 
   # Upload bundle

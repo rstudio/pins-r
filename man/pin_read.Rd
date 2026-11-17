@@ -19,7 +19,8 @@ pin_write(
   versioned = NULL,
   tags = NULL,
   urls = NULL,
-  force_identical_write = FALSE
+  force_identical_write = FALSE,
+  data_dict = NULL
 )
 }
 \arguments{
@@ -66,8 +67,17 @@ discoverability on shared boards.}
 link to a wiki or other documentation.}
 
 \item{force_identical_write}{Store the pin even if the pin contents are
-identical to the last version (compared using the hash). Only the pin
-contents are compared, not the pin metadata. Defaults to \code{FALSE}.}
+identical to the last version (compared using the hash). The hash covers
+pin contents, not metadata, so set this to \code{TRUE} to store
+metadata-only changes. Defaults to \code{FALSE}.}
+
+\item{data_dict}{Optional YAML file path, or \code{TRUE} to draft a dictionary
+from a data frame (\code{pin_write()}) or Parquet files (\code{pin_upload()}). You
+can also pass YAML text in \code{metadata[["data_dict"]]}. For Connect, the
+publisher renders \code{dictionary.html}; \code{index.html} keeps the pin overview
+and adds a dictionary view. Drafting and rendering require
+the optional datadict package with an installed binary, or the \code{data-dict}
+CLI on PATH.}
 }
 \value{
 \code{pin_read()} returns an R object read from the pin;

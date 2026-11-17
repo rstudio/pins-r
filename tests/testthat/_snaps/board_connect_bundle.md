@@ -1,48 +1,84 @@
 # generates index files
 
     <!doctype html>
-    <html>
+    <html lang="en">
       <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="theme.js"></script>
+        <title>TEST/test · Data pin</title>
         <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
-        <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
+        <script src="pagedtable-1.1/pagedtable.js" defer></script>
         <link rel="stylesheet" href="highlight.js-9.15.9/qtcreator_light.css">
-        <script src="highlight.js-9.15.9/highlight.js"></script>
-        <style>
-          body {
-            font-size: 16px;
-            font-family: 'Lato', sans-serif;
-            color: #333;
-          }
-          section {
-            border-left: solid 6px #dddddd;
-            padding: 0.5em 0 0.5em 10px;
-            margin-bottom: 1em;
-          }
-          pre {
-            margin: 0;
-            padding: 1em;
-          }
-          h3 {
-            font-weight: normal;
-            color: #888;
-            margin: 0 0 0.5em 0;
-          }
-        </style>
+        <script src="highlight.js-9.15.9/highlight.js" defer></script>
+        <link rel="stylesheet" href="pin.css">
+        <script src="pin.js" defer></script>
       </head>
       <body>
+        <a class="skip-link" href="#main">Skip to content</a>
+        <header class="topbar">
+          <div class="topbar-inner">
+            <div class="brand">
+              <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 8L16 3l10 5v16l-10 5-10-5V8zM6 8l10 5 10-5M16 13v16M6 16l10 5 10-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Posit Connect <small>Shared data</small>
+            </div>
+            <span class="badge">Data pin</span>
+          </div>
+        </header>
+        <main id="main">
+          <header class="hero">
+            <p class="eyebrow">Published from R</p>
+            <h1>TEST/test</h1>
+            <p class="description">Some simple data to test with</p>
+            <dl class="facts">
+              <div><dt>Format</dt><dd>rds</dd></div>
+              <div><dt>Last updated</dt><dd>2021-11-11 11:39:56 UTC</dd></div>
+              <div><dt>Pin API</dt><dd>v1.0</dd></div>
+              <div><dt>Content hash</dt><dd>77fee172a9275a62</dd></div>
+            </dl>
+          </header>
+          <nav class="views" aria-label="Pin views">
+            <a href="#overview" data-pin-view="overview" aria-current="page">Overview</a>
+            <a href="#metadata" data-pin-view="metadata">Metadata</a>
+          </nav>
+          <section id="overview" data-pin-panel aria-label="Pin overview">
+            <div class="overview-grid">
+              <div class="stack">
+                <section class="card">
+                  <div class="card-head"><div><h2>Data preview</h2><p>Up to 100 rows from this version</p></div></div>
+                  <div class="table-wrap">
+                    <div data-pagedtable>
+                      <script data-pagedtable-source type="application/json">{"data":[{"x":1,"y":2},{"x":2,"y":1}],"columns":[{"name":"x","label":"x","align":"right","type":""},{"name":"y","label":"y","align":"right","type":""}],"options":{"columns":{"max":10},"rows":{"min":2,"total":2,"max":10}}}</script>
+                    </div>
+                  </div>
+                </section>
+                <section class="card" aria-labelledby="use-data">
+                  <div class="card-head"><div><h2 id="use-data">Use this data</h2><p>Connect with your account, then read the pin.</p></div></div>
+                  <div class="code-block">
+                    <div class="code-label"><h3>R</h3><button class="copy" type="button" data-copy-code="pin-r" aria-label="Copy R code" hidden>Copy</button></div>
+                    <pre class="pin-code"><code id="pin-r" class="r">library(pins)
     
-        <section>
-           <h3>TEST/test</h3>
-           <p>
-             <b>Last updated from R:</b> 2021-11-11 11:39:56 &bull;
-             <b>Format:</b> rds &bull;
-             <b>API:</b> v1.0
-           </p>
-           <p>Some simple data to test with</p>
-           <p>Download data: <a href="test.csv">test.csv</a></p>
-           <details>
-             <summary>Raw metadata</summary>
-             <pre>file: test.csv
+    board &lt;- board_connect(auth = &quot;envvar&quot;)
+    pin_read(board, &quot;TEST/test&quot;)</code></pre>
+                  </div>
+                </section>
+              </div>
+              <aside class="stack sidebar" aria-label="Files">
+                <section class="card">
+                  <div class="card-head"><h2>Download files</h2></div>
+                  <div class="card-body files">
+                    <a class="file-link" href="test.csv" download><span>test.csv</span><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 13v4h12v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                    <p class="helper">Files from this published version.</p>
+                  </div>
+                </section>
+              </aside>
+            </div>
+          </section>
+          <section id="metadata" class="stack" data-pin-panel aria-label="Pin metadata">
+            <section class="card">
+              <div class="card-head"><h2>Pin metadata</h2></div>
+              <div class="card-body"><p class="helper">test: a pinned 2 x 2 data frame</p></div>
+              <div class="metadata"><pre>file: test.csv
     file_size: 2908.0
     pin_hash: 77fee172a9275a62
     type: rds
@@ -55,45 +91,17 @@
     api_version: '1.0'
     user:
       my_meta: User defined metadata
-    </pre>
-           </details>
-        </section>
-    
-        <section style="">
-          <h3>Learn more about this pin at:</h3>
-          <p><a href="https://posit.co/">https://posit.co/</a>, <a href="https://www.tidyverse.org/">https://www.tidyverse.org/</a></p>
-        </section>
-    
-        <section>
-          <h3>R Code</h3>
-            <pre id="pin-r" class="pin-code"><code class="r">library(pins)
-    board <- board_connect(auth = "envvar")
-    pin_read(board, "TEST/test")</code></pre>
-          <script type="text/javascript">
-            hljs.registerLanguage("r", highlight_r);
-            hljs.registerLanguage("python", highlight_python);
-            hljs.initHighlightingOnLoad();
-          </script>
-        </section>
-    
-        <section style="display:none">
-          <h3>Python Code</h3>
-            <pre id="pin-python" class="pin-code"><code class="python">import pins
-    from dotenv import load_dotenv
-    load_dotenv()
-    
-    board = pins.board_connect()
-    board.pin_read(board, "TEST/test")</code></pre>
-        </section>
-    
-        <section style="">
-          <h3>Preview <small>(up to 100 rows)</small></h3>
-          <div data-pagedtable style="height: 25em;">
-            <script data-pagedtable-source type="application/json">
-              {"data":[{"x":1,"y":2},{"x":2,"y":1}],"columns":[{"name":"x","label":"x","align":"right","type":""},{"name":"y","label":"y","align":"right","type":""}],"options":{"columns":{"max":10},"rows":{"min":1,"total":2}}}
-            </script>
-          </div>
-        </section>
+    </pre><p class="metadata-download"><a href="data.txt" download>Download metadata</a></p></div>
+            </section>
+            <section class="card">
+              <div class="card-head"><h2>Related resources</h2></div>
+              <div class="card-body related-links">
+                <a href="https://posit.co/" rel="noopener">https://posit.co/</a><a href="https://www.tidyverse.org/" rel="noopener">https://www.tidyverse.org/</a>
+              </div>
+            </section>
+          </section>
+          <p class="footer">Published with pins for R · Data and metadata stay together in this pin.</p>
+        </main>
       </body>
     </html>
 

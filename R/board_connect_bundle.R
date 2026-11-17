@@ -7,6 +7,7 @@ rsc_bundle <- function(
   bundle_path = tempfile(),
   preview_data = TRUE
 ) {
+  rsc_bundle_check_files(metadata)
   fs::dir_create(bundle_path)
 
   # Bundle contains:
@@ -51,6 +52,21 @@ rsc_bundle_manifest <- function(board, path) {
   )
 }
 
+rsc_bundle_check_files <- function(metadata) {
+  template_path <- fs::path_package("pins", "preview")
+  reserved <- c("data.txt", "manifest.json", as.character(fs::path_rel(
+    fs::dir_ls(template_path, recurse = TRUE), template_path
+  )))
+  if (!is.null(metadata[["user"]][["data_dict"]])) {
+    reserved <- c(reserved, "dictionary.html")
+  }
+  overlap <- metadata[["file"]][tolower(metadata[["file"]]) %in% tolower(reserved)]
+  if (length(overlap)) {
+    cli::cli_abort("Generating a pin preview would overwrite: {paste(overlap, collapse = ', ')}")
+  }
+  invisible(NULL)
+}
+
 rsc_bundle_preview_create <- function(
   board,
   name,
@@ -59,9 +75,16 @@ rsc_bundle_preview_create <- function(
   path,
   preview_data
 ) {
-  # Copy support files
-  template <- fs::dir_ls(fs::path_package("pins", "preview"))
-  file.copy(template, path, recursive = TRUE)
+  rsc_bundle_check_files(metadata)
+  dictionary <- metadata[["user"]][["data_dict"]]
+  template_path <- fs::path_package("pins", "preview")
+  if (!is.null(dictionary)) {
+    data_dict_render(dictionary, path, metadata[["file"]], filename = "dictionary.html")
+  }
+  template <- fs::dir_ls(template_path)
+  if (!all(file.copy(template, path, recursive = TRUE))) {
+    cli::cli_abort("Could not copy pin preview assets.")
+  }
 
   # Update index template with pin data
   index <- rsc_bundle_preview_index(board, name, x, metadata, preview_data)
@@ -78,44 +101,40 @@ rsc_bundle_preview_index <- function(
   preview_data = TRUE
 ) {
   data_preview <- rsc_bundle_preview_data(x, preview_data)
+  if (is.data.frame(x) && preview_data) {
+    data_preview$options$rows$min <- max(1L, min(10L, nrow(x)))
+    data_preview$options$rows$max <- 10L
+  }
   name <- rsc_parse_name(name)
   owner <- name$owner %||% board$account
 
+  pin_name <- paste0(owner, "/", name$name)
+  urls <- metadata[["urls"]]
+  urls <- urls[grepl("^https?://", urls)]
   data <- list(
-    pin_files = paste0(
-      "<a href=\"",
-      metadata$file,
-      "\">",
-      metadata$file,
-      "</a>",
-      collapse = ", "
+    pin_files = lapply(metadata[["file"]], function(file) {
+      list(name = file, url = utils::URLencode(file, reserved = TRUE))
+    }),
+    data_preview = gsub(
+      "<", "\\u003c", jsonlite::toJSON(data_preview, auto_unbox = TRUE), fixed = TRUE
     ),
-    data_preview = jsonlite::toJSON(data_preview, auto_unbox = TRUE),
-    data_preview_style = if (is.data.frame(x) && preview_data) {
-      ""
-    } else {
-      "display:none"
-    },
-    urls = paste0(
-      "<a href=\"",
-      metadata$urls,
-      "\">",
-      metadata$urls,
-      "</a>",
-      collapse = ", "
-    ),
-    url_preview_style = if (!is.null(metadata$urls)) "" else "display:none",
-    show_python_style = if (all(metadata$type %in% c("rds", "qs2"))) {
-      "display:none"
-    } else {
-      ""
-    },
-    pin_name = paste0(owner, "/", name$name),
+    has_preview = is.data.frame(x) && preview_data,
+    has_dictionary = !is.null(metadata[["user"]][["data_dict"]]),
+    urls = lapply(urls, function(url) list(url = url)),
+    has_urls = length(urls) > 0L,
+    show_python = !all(metadata$type %in% c("rds", "qs2")),
+    read_method = if (identical(metadata$type, "file")) "pin_download" else "pin_read",
+    pin_name = pin_name,
+    pin_name_literal = as.character(jsonlite::toJSON(pin_name, auto_unbox = TRUE)),
     pin_metadata = list(
       as_yaml = yaml::as.yaml(metadata),
-      date = format(parse_8601_compact(metadata$created), tz = "UTC"),
-      format = metadata$type,
+      title = metadata$title,
+      date = if (is.null(metadata$created)) NULL else {
+        format(parse_8601_compact(metadata$created), tz = "UTC")
+      },
+      format = paste(metadata$type, collapse = ", "),
       api_version = metadata$api_version %||% "0",
+      hash = metadata$pin_hash,
       description = metadata$description
     ),
     board_deparse = paste0(expr_deparse(board_deparse(board)), collapse = "\n")
