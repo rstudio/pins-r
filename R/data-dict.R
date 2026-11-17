@@ -1,14 +1,48 @@
 data_dict_cli <- function() {
-  binary <- ""
-  if (requireNamespace("datadict", quietly = TRUE)) {
-    binary <- datadict::dd_path(check = FALSE)
+  executable <- function(path) {
+    length(path) == 1L && !is.na(path) && nzchar(path) &&
+      file.exists(path) && !dir.exists(path) &&
+      (.Platform$OS.type == "windows" || file.access(path, 1L) == 0L)
   }
-  if (!nzchar(binary)) {
+
+  binary <- Sys.getenv("DATA_DICT")
+  if (!executable(binary)) {
+    binary <- file.path(tools::R_user_dir("datadict", "cache"),
+      if (.Platform$OS.type == "windows") "data-dict.exe" else "data-dict")
+  }
+  if (!executable(binary)) {
     binary <- unname(Sys.which("data-dict"))
   }
-  if (!nzchar(binary)) {
+  if (!executable(binary)) {
     cli::cli_abort(
-      "Install the optional datadict package and run datadict::dd_install(), or put data-dict on PATH."
+      paste0(
+        "Install the optional datadict package and run datadict::dd_install(), ",
+        "set DATA_DICT to its executable, or put data-dict on PATH."
+      )
+    )
+  }
+
+  output <- tryCatch(
+    suppressWarnings(system2(binary, "--version", stdout = TRUE, stderr = TRUE, timeout = 5)),
+    error = function(error) cli::cli_abort(
+      "Could not check data-dict version: {conditionMessage(error)}", parent = error
+    )
+  )
+  status <- attr(output, "status") %||% 0L
+  if (status != 0L) {
+    cli::cli_abort(
+      "Could not check data-dict version (status {status}): {paste(output, collapse = '\n')}"
+    )
+  }
+  version_output <- paste(output, collapse = "\n")
+  version <- regmatches(
+    version_output,
+    regexpr("[0-9]+\\.[0-9]+\\.[0-9]+[[:alnum:].+-]*", version_output)
+  )
+  if (!length(version) || !identical(version, "0.0.3")) {
+    version <- if (length(version)) version else "unknown"
+    cli::cli_abort(
+      "Unsupported data-dict CLI version {.val {version}}; pins requires version {.val 0.0.3}."
     )
   }
   binary
@@ -132,6 +166,37 @@ data_dict_metadata <- function(metadata, data_dict, x, upload = FALSE) {
   metadata
 }
 
+data_dict_secure_html <- function(html, theme = FALSE) {
+  head <- regexpr("<head\\b[^>]*>", html, perl = TRUE, ignore.case = TRUE)
+  if (head[[1L]] < 0L || !grepl("</head>", html, fixed = TRUE)) {
+    cli::cli_abort("data-dict produced HTML without a complete head element.")
+  }
+  security <- paste(readLines(
+    fs::path_package("pins", "preview", "dictionary.js"), encoding = "UTF-8", warn = FALSE
+  ), collapse = "\n")
+  integration <- paste0("<script>", security, "</script>")
+  if (theme) {
+    integration <- paste0(integration,
+      '<script src="theme.js"></script><style>#theme-toggle{display:none}</style>')
+  }
+  html <- sub("</head>", paste0(integration, "</head>"), html, fixed = TRUE)
+  scripts <- regmatches(html, gregexpr(
+    "(?is)<script\\b[^>]*>(.*?)</script\\s*>", html, perl = TRUE
+  ))[[1L]]
+  scripts <- sub("(?is)^<script\\b[^>]*>", "", scripts, perl = TRUE)
+  scripts <- sub("(?is)</script\\s*>$", "", scripts, perl = TRUE)
+  hashes <- vapply(scripts, function(script) {
+    paste0("'sha256-", jsonlite::base64_enc(digest::digest(
+      charToRaw(enc2utf8(script)), algo = "sha256", serialize = FALSE, raw = TRUE
+    )), "'")
+  }, character(1))
+  policy <- paste0("script-src 'self' ", paste(hashes, collapse = " "),
+    "; object-src 'none'; base-uri 'none'")
+  meta <- paste0('<meta http-equiv="Content-Security-Policy" content="', policy, '">')
+  at <- head[[1L]] + attr(head, "match.length") - 1L
+  paste0(substr(html, 1L, at), meta, substr(html, at + 1L, nchar(html)))
+}
+
 data_dict_render <- function(
   text, directory, files = character(), filename = "index.html"
 ) {
@@ -157,12 +222,9 @@ data_dict_render <- function(
   if (!file.exists(html_path)) {
     cli::cli_abort("data-dict did not produce {.file {filename}}.")
   }
-  if (filename == "dictionary.html") {
-    html <- paste(readLines(html_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
-    integration <- '<script src="theme.js"></script><style>#theme-toggle{display:none}</style>'
-    html <- sub("</head>", paste0(integration, "</head>"), html, fixed = TRUE)
-    writeBin(charToRaw(enc2utf8(paste0(html, "\n"))), html_path)
-  }
+  html <- paste(readLines(html_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  html <- data_dict_secure_html(html, theme = filename == "dictionary.html")
+  writeBin(charToRaw(enc2utf8(paste0(html, "\n"))), html_path)
   complete <- TRUE
   invisible(html_path)
 }

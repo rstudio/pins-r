@@ -54,7 +54,12 @@ jobs:
           needs: check
       - name: Install data-dict CLI
         if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
-        run: Rscript -e 'datadict::dd_install(version = "0.0.3")'
+        run: |
+          Rscript -e 'install.packages("pak")'
+          Rscript -e 'pak::pak("tidyverse/data-dict/r")'
+          Rscript -e 'datadict::dd_install(version = "0.0.3")'
+          data_dict_path="$(Rscript -e 'cat(datadict::dd_path(check = FALSE))')"
+          echo "DATA_DICT=$data_dict_path" >> "$GITHUB_ENV"
 
       - uses: r-lib/actions/check-r-package@v2
         env:

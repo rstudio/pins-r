@@ -6,7 +6,7 @@ The default `CONNECT_SERVER` value is `https://connect.example.com`, so bundle c
 Set `CONNECT_SERVER` to your server URL when preparing a deployment bundle.
 The script uses sample data.
 
-Run from the repository root with the development dependencies installed:
+Run from the repository root with `pkgload` and the package development dependencies installed:
 
 ```{.sh filename="Terminal"}
 Rscript examples/data-dict/create-bundle.R /tmp/pins-r-data-dict-bundle examples/data-dict/data-dict.yaml
@@ -22,7 +22,9 @@ You can also pass YAML text through `metadata[["data_dict"]]` when calling `pin_
 Dictionary-only changes require `force_identical_write = TRUE` because pins compares data hashes when deciding whether to write.
 Review draft `todo` notes before relying on them.
 
-Drafting and rendering require the optional datadict package and its CLI.
+Drafting and rendering require the optional `data-dict` CLI.
+The `datadict` R package installs the CLI into its user cache.
+Pins searches `DATA_DICT`, that cache directory, and `PATH`; it does not require the R wrapper at runtime.
 Install them with:
 
 ```{.r filename="Terminal"}
@@ -49,3 +51,8 @@ env -u CONNECT_SERVER uv tool run --from rsconnect-python rsconnect deploy manif
 
 The bundle keeps the pin metadata and Parquet file alongside the rendered dictionary page.
 The manifest sets `index.html` as the primary page.
+
+The CLI is optional and the supported version is `0.0.3`.
+Ordinary pins do not require it.
+Generated dictionary pages block executable links and remove links with unsafe URL schemes.
+Dictionary-only edits require the force option; skipped writes do not draft or render a dictionary.

@@ -138,7 +138,12 @@ pin_write <- function(
     }
   }
   check_metadata(metadata)
-  metadata <- data_dict_metadata(metadata, data_dict, x)
+  if (isTRUE(data_dict) && !is.null(metadata[["data_dict"]])) {
+    cli::cli_abort("Supply data_dict or metadata$data_dict, not both.")
+  }
+  if (!isTRUE(data_dict)) {
+    metadata <- data_dict_metadata(metadata, data_dict, x)
+  }
   check_character(tags, allow_null = TRUE)
   check_character(urls, allow_null = TRUE)
   if (!is_string(name)) {
@@ -180,6 +185,9 @@ pin_write <- function(
     }
   }
 
+  if (isTRUE(data_dict)) {
+    meta$user <- data_dict_metadata(metadata, data_dict, x)
+  }
   check_dots_used()
   name <- pin_store(board, name, paths, meta, versioned = versioned, x = x, ...)
   pins_inform("Writing to pin '{name}'")

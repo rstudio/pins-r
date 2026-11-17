@@ -14,7 +14,7 @@ test_that("bundle contains expected files", {
   files <- files[!fs::is_dir(files)]
   expect_setequal(
     fs::path_file(files),
-    c("data.txt", "index.html", "manifest.json", "pin.css", "pin.js", "theme.js", "test.rds")
+    c("data.txt", "dictionary.js", "index.html", "manifest.json", "pin.css", "pin.js", "theme.js", "test.rds")
   )
 })
 

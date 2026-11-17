@@ -108,6 +108,42 @@ test_that("missing CLI and entrypoint collisions fail clearly", {
   expect_equal(readLines(file.path(path, "index.html")), "publisher's original")
 })
 
+test_that("the data-dict CLI is optional", {
+  cli <- data_dict_cli
+  test_env <- new.env(parent = environment(cli))
+  test_env$Sys.getenv <- function(...) ""
+  test_env$file.exists <- function(...) FALSE
+  test_env$Sys.which <- function(...) ""
+  environment(cli) <- test_env
+
+  expect_error(cli(), "Install the optional datadict package")
+})
+
+test_that("only the supported data-dict CLI version is accepted", {
+  withr::local_envvar(DATA_DICT = unname(Sys.which("Rscript")))
+  expect_error(data_dict_cli(), "Unsupported data-dict CLI version")
+})
+
+test_that("the CLI version guard rejects suffixed versions", {
+  cli <- data_dict_cli
+  test_env <- new.env(parent = environment(cli))
+  test_env$Sys.getenv <- function(...) unname(Sys.which("Rscript"))
+  test_env$system2 <- function(...) "data-dict version 0.0.3.dev1"
+  environment(cli) <- test_env
+
+  expect_error(cli(), "Unsupported data-dict CLI version")
+})
+
+test_that("a failed CLI version check reports its status and output", {
+  cli <- data_dict_cli
+  test_env <- new.env(parent = environment(cli))
+  test_env$Sys.getenv <- function(...) unname(Sys.which("Rscript"))
+  test_env$system2 <- function(...) structure("version check failed", status = 4L)
+  environment(cli) <- test_env
+
+  expect_error(cli(), "status 4.*version check failed")
+})
+
 test_that("draft removes source paths from every table", {
   draft <- paste(
     "$version: 0.1.0",
@@ -134,7 +170,7 @@ test_that("render adds a source only for one Parquet file and one table", {
   rendered <- NULL
   local_mocked_bindings(data_dict_run = function(args) {
     rendered <<- yaml::read_yaml(args[[2L]])
-    writeLines("rendered", args[[4L]])
+    writeLines("<html><head></head><body>rendered</body></html>", args[[4L]])
   })
 
   uppercase <- withr::local_tempdir()
@@ -242,14 +278,13 @@ test_that("Connect Parquet rendering embeds profiles without changing pin metada
   expect_equal(yaml::read_yaml(file.path(output, "data.txt"))$user, metadata$user)
   expect_false("source" %in% names(yaml::yaml.load(metadata$user[["data_dict"]])[["tables"]][[1L]]))
   expect_setequal(list.files(output), c(
-    "index.html", "dictionary.html", "data.txt", "manifest.json",
+    "index.html", "dictionary.html", "dictionary.js", "data.txt", "manifest.json",
     "highlight.js-9.15.9", "pagedtable-1.1", "pin.css", "pin.js", "theme.js",
     as.character(metadata$file)
   ))
   expect_false(grepl(output, html, fixed = TRUE))
   expect_equal(as.data.frame(nanoparquet::read_parquet(file.path(output, metadata$file))), frame)
 })
-
 
 test_that("failed renders remove partial HTML and temporary YAML", {
   local_mocked_bindings(data_dict_run = function(args) {
@@ -260,7 +295,6 @@ test_that("failed renders remove partial HTML and temporary YAML", {
   expect_error(data_dict_render(dictionary, output, filename = "dictionary.html"), "Render failed")
   expect_length(list.files(output), 0L)
 })
-
 
 test_that("drafting removes sources from every table and resolves upload paths", {
   arguments <- NULL
@@ -277,7 +311,6 @@ test_that("drafting removes sources from every table and resolves upload paths",
   expect_true(all(vapply(document[["tables"]], function(table) is.null(table[["source"]]), logical(1))))
   expect_equal(arguments[2:3], as.character(fs::path_abs(c("first.parquet", "second.parquet"))))
 })
-
 
 test_that("render preserves a pre-existing dangling output symlink", {
   skip_on_os("windows")
