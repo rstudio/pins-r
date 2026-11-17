@@ -120,8 +120,19 @@ test_that("the data-dict CLI is optional", {
 })
 
 test_that("only the supported data-dict CLI version is accepted", {
-  withr::local_envvar(DATA_DICT = unname(Sys.which("Rscript")))
-  expect_error(data_dict_cli(), "Unsupported data-dict CLI version")
+  cli <- data_dict_cli
+  test_env <- new.env(parent = environment(cli))
+  binary <- unname(Sys.which("Rscript"))
+  test_env$Sys.getenv <- function(...) binary
+  version <- "data-dict 0.0.3"
+  test_env$system2 <- function(...) version
+  environment(cli) <- test_env
+
+  expect_identical(cli(), binary)
+  version <- "data-dict 0.0.4"
+  expect_error(cli(), "Unsupported data-dict CLI version.*0.0.4")
+  version <- "unrecognized version"
+  expect_error(cli(), "Unsupported data-dict CLI version.*unknown")
 })
 
 test_that("the CLI version guard rejects suffixed versions", {
