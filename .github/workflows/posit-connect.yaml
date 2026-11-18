@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   push:
     branches: [main, master]
   pull_request:
@@ -13,17 +14,30 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - "jammy" # As long as we're building on ubuntu 22.04, this will track the latest release
-          - "2024.09.0" # jammy
-          - "2023.09.0" # jammy
-          - "2022.10.0" # bionic
+          - "preview"
+          - "release"
+          # Latest patches of the four preceding monthly releases.
+          - "2026.10.0"
+          - "2026.09.0"
+          - "2026.08.1"
+          - "2026.07.0"
+          # Six-month samples; use the preceding release if a month has none.
+          - "2026.01.1"
+          - "2025.07.0"
+          - "2025.01.0"
+          - "2024.06.0"
+          - "2024.01.0"
+          - "2023.07.0"
+          - "2023.01.1"
+          # with-connect's bootstrap authentication requires 2022.10.0 or newer.
+          - "2022.10.0"
     name: Posit Connect ${{ matrix.version }}
 
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork == false
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -35,11 +49,8 @@ jobs:
             local::.
 
       - name: Run Connect integration tests
-        uses: posit-dev/with-connect@main
+        uses: posit-dev/with-connect@0783dabdd24e360e985a4588ce1239c3dc31c542 # main
         with:
-          # This license is valid until 2026-10-28
           license: ${{ secrets.CONNECT_LICENSE }}
           version: ${{ matrix.version }}
           command: Rscript -e 'testthat::test_local(".", filter="board_connect")'
-
-
