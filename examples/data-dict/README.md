@@ -16,19 +16,19 @@ Rscript examples/data-dict/create-bundle.R /tmp/pins-r-standard-pin-bundle --no-
 The output directory must be empty.
 Replace the YAML path with your authored dictionary.
 Omit the YAML path to draft a dictionary, or pass `--no-dictionary` to prepare a standard pin bundle.
-Authored dictionaries must omit table `source` fields.
+To author a dictionary before publishing, run `data-dict draft data.parquet` and edit the resulting `data-dict.yaml` to resolve its `todo` entries.
+Keep its table `source` fields while running `data-dict validate-data data-dict.yaml` against the original data.
+For the pin, save a copy with the table `source` fields removed and pass that copy to `data_dict`.
 When a bundle contains one Parquet file and one dictionary table, the renderer adds the bundle-relative path to a temporary copy and embeds column profiles in the dictionary page.
 You can also pass YAML text through `metadata[["data_dict"]]` when calling `pin_write()`.
 Dictionary-only changes require `force_identical_write = TRUE` because pins compares data hashes when deciding whether to write.
-Review draft `todo` notes before relying on them.
 
-Drafting and rendering require the optional `data-dict` CLI.
-The `datadict` R package installs the CLI into its user cache.
-Pins searches `DATA_DICT`, that cache directory, and `PATH`; it does not require the R wrapper at runtime.
+Drafting and rendering use the `datadict` R package and version `0.0.3` of the CLI.
+The R package finds the CLI through `DATA_DICT`, its installer cache, or `PATH`.
 Install them with:
 
 ```{.r filename="Terminal"}
-pak::pak("tidyverse/data-dict/r")
+install.packages("datadict")
 datadict::dd_install(version = "0.0.3")
 ```
 

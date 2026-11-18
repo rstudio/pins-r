@@ -87,7 +87,7 @@ test_that("unless their format method isn't designed for columns", {
 
 
 test_that("the preview keeps pin information and escapes content", {
-  local_mocked_bindings(data_dict_cli = function() stop("Unexpected CLI lookup"))
+  local_mocked_bindings(data_dict_check_cli = function() stop("Unexpected CLI lookup"))
   attack <- '</script><script>alert("unexpected")</script>'
   board <- structure(
     list(account = "TEST", url = "https://connect.example.com"),

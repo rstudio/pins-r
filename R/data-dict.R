@@ -1,81 +1,27 @@
-data_dict_cli <- function() {
-  executable <- function(path) {
-    length(path) == 1L && !is.na(path) && nzchar(path) &&
-      file.exists(path) && !dir.exists(path) &&
-      (.Platform$OS.type == "windows" || file.access(path, 1L) == 0L)
+data_dict_check_cli <- function() {
+  check_installed("datadict", reason = "to draft or render a pin data dictionary")
+  output <- datadict::dd_run("--version", timeout = 5)$output
+  if (!"data-dict 0.0.3" %in% output) {
+    cli::cli_abort(c(
+      "Unsupported data-dict CLI version: {.val {paste(output, collapse = ' ')}}.",
+      "i" = "Install the supported version with {.code datadict::dd_install(version = '0.0.3')}."
+    ))
   }
-
-  binary <- Sys.getenv("DATA_DICT")
-  if (!executable(binary)) {
-    binary <- file.path(tools::R_user_dir("datadict", "cache"),
-      if (.Platform$OS.type == "windows") "data-dict.exe" else "data-dict")
-  }
-  if (!executable(binary)) {
-    binary <- unname(Sys.which("data-dict"))
-  }
-  if (!executable(binary)) {
-    cli::cli_abort(
-      paste0(
-        "Install the optional datadict package and run datadict::dd_install(), ",
-        "set DATA_DICT to its executable, or put data-dict on PATH."
-      )
-    )
-  }
-
-  output <- tryCatch(
-    suppressWarnings(system2(binary, "--version", stdout = TRUE, stderr = TRUE, timeout = 5)),
-    error = function(error) cli::cli_abort(
-      "Could not check data-dict version: {conditionMessage(error)}", parent = error
-    )
-  )
-  status <- attr(output, "status") %||% 0L
-  if (status != 0L) {
-    cli::cli_abort(
-      "Could not check data-dict version (status {status}): {paste(output, collapse = '\n')}"
-    )
-  }
-  version_output <- paste(output, collapse = "\n")
-  version <- regmatches(
-    version_output,
-    regexpr("[0-9]+\\.[0-9]+\\.[0-9]+[[:alnum:].+-]*", version_output)
-  )
-  if (!length(version) || !identical(version, "0.0.3")) {
-    version <- if (length(version)) version else "unknown"
-    cli::cli_abort(
-      "Unsupported data-dict CLI version {.val {version}}; pins requires version {.val 0.0.3}."
-    )
-  }
-  binary
 }
 
 data_dict_run <- function(args) {
-  binary <- data_dict_cli()
-  output <- tempfile()
-  withr::defer(unlink(output))
-  status <- tryCatch(
-    suppressWarnings(system2(
-      binary, shQuote(args), stdout = output, stderr = output,
-      timeout = 300
-    )),
-    error = function(error) cli::cli_abort(
-      "Could not run data-dict: {conditionMessage(error)}", parent = error
-    )
-  )
-  if (status != 0L) {
-    message <- paste(readLines(output, warn = FALSE), collapse = "\n")
-    cli::cli_abort("data-dict failed (status {status}): {message}")
-  }
-  invisible(NULL)
+  data_dict_check_cli()
+  datadict::dd_run(args, timeout = 300)
 }
 
-data_dict_parse <- function(text, allow_source = FALSE) {
+data_dict_parse <- function(text, allow_source = FALSE, call = caller_env()) {
   if (!is_string(text)) {
-    cli::cli_abort("metadata$data_dict must contain YAML text.")
+    cli::cli_abort("metadata$data_dict must contain YAML text.", call = call)
   }
   document <- tryCatch(
     yaml::yaml.load(text, eval.expr = FALSE, handlers = list(seq = as.list)),
     error = function(error) cli::cli_abort(
-      "Invalid data dictionary YAML: {conditionMessage(error)}", parent = error
+      "Invalid data dictionary YAML: {conditionMessage(error)}", parent = error, call = call
     )
   )
   tables <- if (is.list(document)) document[["tables"]] else NULL
@@ -84,12 +30,12 @@ data_dict_parse <- function(text, allow_source = FALSE) {
       !all(vapply(tables, function(table) {
         is.list(table) && !is.null(names(table))
       }, logical(1)))) {
-    cli::cli_abort("A data dictionary must contain a list of table mappings.")
+    cli::cli_abort("A data dictionary must contain a list of table mappings.", call = call)
   }
   if (!allow_source && any(vapply(tables, function(table) {
     "source" %in% names(table)
   }, logical(1)))) {
-    cli::cli_abort("Pin data dictionaries must omit table source fields.")
+    cli::cli_abort("Pin data dictionaries must omit table source fields.", call = call)
   }
   document
 }
@@ -123,13 +69,13 @@ data_dict_draft <- function(x, upload) {
   yaml::as.yaml(document)
 }
 
-data_dict_metadata <- function(metadata, data_dict, x, upload = FALSE) {
+data_dict_metadata <- function(metadata, data_dict, x, upload = FALSE, call = caller_env()) {
   dictionary <- metadata[["data_dict"]]
   if (is.null(data_dict) && is.null(dictionary)) {
     return(metadata)
   }
   if (!is.null(data_dict) && !is.null(dictionary)) {
-    cli::cli_abort("Supply data_dict or metadata$data_dict, not both.")
+    cli::cli_abort("Supply data_dict or metadata$data_dict, not both.", call = call)
   }
   if (isTRUE(data_dict)) {
     metadata[["data_dict"]] <- data_dict_draft(x, upload)
@@ -137,32 +83,26 @@ data_dict_metadata <- function(metadata, data_dict, x, upload = FALSE) {
     path <- fs::path_expand(data_dict)
     if (!fs::is_file(path)) {
       cli::cli_abort(
-        "Data dictionary file {.file {path}} does not exist or is not a file."
+        "Data dictionary file {.file {path}} does not exist or is not a file.",
+        call = call
       )
     }
-    bytes <- tryCatch(
-      readBin(path, "raw", n = fs::file_size(path)),
-      error = function(error) cli::cli_abort(
-        "Could not read data dictionary file {.file {path}}: {conditionMessage(error)}",
-        parent = error
-      )
-    )
     text <- tryCatch(
-      rawToChar(bytes),
+      rawToChar(readBin(path, "raw", n = fs::file_size(path))),
       error = function(error) cli::cli_abort(
         "Could not read data dictionary file {.file {path}}: {conditionMessage(error)}",
-        parent = error
+        parent = error, call = call
       )
     )
     if (!validUTF8(text)) {
-      cli::cli_abort("Data dictionary file {.file {path}} must contain valid UTF-8.")
+      cli::cli_abort("Data dictionary file {.file {path}} must contain valid UTF-8.", call = call)
     }
     Encoding(text) <- "UTF-8"
     metadata[["data_dict"]] <- text
   } else if (!is.null(data_dict)) {
-    cli::cli_abort("data_dict must be NULL, TRUE, or a YAML file path.")
+    cli::cli_abort("data_dict must be NULL, TRUE, or a YAML file path.", call = call)
   }
-  data_dict_parse(metadata[["data_dict"]])
+  data_dict_parse(metadata[["data_dict"]], call = call)
   metadata
 }
 

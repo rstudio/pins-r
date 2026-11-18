@@ -25,15 +25,8 @@ test_that("hash-identical writes avoid drafting and keep the pin readable", {
   frame <- data.frame(id = 1:2)
   board <- board_temp()
   pin_write(board, frame, "data", type = "csv")
-  local_mocked_bindings(data_dict_cli = function() stop("Skipped write consulted CLI"))
+  local_mocked_bindings(data_dict_check_cli = function() stop("Skipped write consulted CLI"))
   ui_loud()
   expect_message(pin_write(board, frame, "data", type = "csv", data_dict = TRUE), "force_identical_write")
   expect_equal(pin_read(board, "data"), frame)
-})
-
-test_that("the explicit binary works when the R user cache changes", {
-  skip_if_not(nzchar(Sys.which("data-dict")), "data-dict is not on PATH")
-  binary <- unname(Sys.which("data-dict"))
-  withr::local_envvar(c(DATA_DICT = binary, R_USER_CACHE_DIR = withr::local_tempdir()))
-  expect_identical(data_dict_cli(), binary)
 })

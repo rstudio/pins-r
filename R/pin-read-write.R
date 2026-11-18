@@ -93,8 +93,8 @@ pin_read <- function(
 #'   can also pass YAML text in `metadata[["data_dict"]]`. For Connect, the
 #'   publisher renders `dictionary.html`; `index.html` keeps the pin overview
 #'   and adds a dictionary view. Drafting and rendering require
-#'   the optional datadict package with an installed binary, or the `data-dict`
-#'   CLI on PATH.
+#'   the `datadict` R package and version `0.0.3` of the `data-dict` CLI.
+#'   Install the CLI with `datadict::dd_install(version = "0.0.3")`.
 #' @rdname pin_read
 #' @export
 pin_write <- function(
@@ -179,7 +179,8 @@ pin_write <- function(
     if (identical(old_hash, meta$pin_hash)) {
       pins_inform(c(
         "!" = "The hash of pin {.val {name}} has not changed.",
-        "*" = "Your pin will not be stored. The hash covers contents, not metadata; use `force_identical_write = TRUE` to store metadata-only changes."
+        "*" = "Your pin will not be stored.",
+        "i" = "The hash covers pin contents. Use {.code force_identical_write = TRUE} to store metadata-only changes."
       ))
       return(invisible(name))
     }

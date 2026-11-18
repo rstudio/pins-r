@@ -4,18 +4,18 @@ dictionary <- paste0(
 )
 
 data_dict_cli_or_skip <- function() {
-  binary <- tryCatch(data_dict_cli(), error = function(error) "")
-  if (nzchar(binary)) {
-    return(binary)
+  error <- tryCatch(data_dict_check_cli(), error = identity)
+  if (is.null(error)) {
+    return(invisible(NULL))
   }
   if (identical(Sys.getenv("PINS_REQUIRE_DATA_DICT_CLI"), "1")) {
-    testthat::fail("PINS_REQUIRE_DATA_DICT_CLI=1 but the data-dict CLI is unavailable.")
+    stop(error)
   }
   testthat::skip("Optional data-dict CLI not installed")
 }
 
 test_that("authored metadata roundtrips without a CLI", {
-  local_mocked_bindings(data_dict_cli = function() stop("Unexpected CLI lookup"))
+  local_mocked_bindings(data_dict_check_cli = function() stop("Unexpected CLI lookup"))
   path <- withr::local_tempfile(fileext = ".yaml")
   writeBin(charToRaw(dictionary), path)
   expect_equal(data_dict_metadata(NULL, path, NULL)[["data_dict"]], dictionary)
@@ -43,7 +43,7 @@ test_that("authored metadata roundtrips without a CLI", {
 test_that("metadata-only dictionary updates can be forced", {
   version <- 0L
   local_mocked_bindings(
-    data_dict_cli = function() stop("Unexpected CLI lookup"),
+    data_dict_check_cli = function() stop("Unexpected CLI lookup"),
     version_name = function(metadata) {
       version <<- version + 1L
       c("20130104T050607Z-xxxxx", "20130204T050607Z-yyyyy")[[version]]
@@ -83,76 +83,42 @@ test_that("invalid options, conflicts and unsafe sources are rejected", {
   expect_error(data_dict_metadata(NULL, TRUE, "data.csv", upload = TRUE), "Parquet")
 })
 
-test_that("dictionary file errors name the path", {
+test_that("dictionary file errors name the path and public call", {
+  board <- board_temp()
   directory <- withr::local_tempdir()
   missing <- file.path(directory, "missing.yaml")
-  missing_error <- tryCatch(data_dict_metadata(NULL, missing, NULL), error = identity)
+  missing_error <- tryCatch(pin_write(board, 1, "data", data_dict = missing), error = identity)
   expect_s3_class(missing_error, "error")
+  expect_identical(conditionCall(missing_error)[[1]], quote(pin_write))
   expect_match(conditionMessage(missing_error), "does not exist or is not a file")
   expect_match(conditionMessage(missing_error), fs::path_expand(missing), fixed = TRUE)
 
   invalid <- file.path(directory, "invalid-utf8.yaml")
-  writeBin(as.raw(c(0xc3, 0x28)), invalid)
-  utf8_error <- tryCatch(data_dict_metadata(NULL, invalid, NULL), error = identity)
+  writeBin(c(charToRaw(dictionary), as.raw(0xff)), invalid)
+  utf8_error <- tryCatch(pin_upload(board, invalid, "data", data_dict = invalid), error = identity)
   expect_s3_class(utf8_error, "error")
+  expect_identical(conditionCall(utf8_error)[[1]], quote(pin_upload))
   expect_match(conditionMessage(utf8_error), "valid UTF-8")
   expect_match(conditionMessage(utf8_error), fs::path_expand(invalid), fixed = TRUE)
 })
 
-test_that("missing CLI and entrypoint collisions fail clearly", {
-  local_mocked_bindings(data_dict_cli = function() cli::cli_abort("Missing data-dict CLI"))
-  expect_error(data_dict_run("--version"), "Missing data-dict CLI")
+test_that("rendering preserves an existing entrypoint", {
   path <- withr::local_tempdir()
   writeLines("publisher's original", file.path(path, "index.html"))
   expect_error(data_dict_render(dictionary, path), "overwrite.*index.html")
   expect_equal(readLines(file.path(path, "index.html")), "publisher's original")
 })
 
-test_that("the data-dict CLI is optional", {
-  cli <- data_dict_cli
-  test_env <- new.env(parent = environment(cli))
-  test_env$Sys.getenv <- function(...) ""
-  test_env$file.exists <- function(...) FALSE
-  test_env$Sys.which <- function(...) ""
-  environment(cli) <- test_env
-
-  expect_error(cli(), "Install the optional datadict package")
-})
-
-test_that("only the supported data-dict CLI version is accepted", {
-  cli <- data_dict_cli
-  test_env <- new.env(parent = environment(cli))
-  binary <- unname(Sys.which("Rscript"))
-  test_env$Sys.getenv <- function(...) binary
-  version <- "data-dict 0.0.3"
-  test_env$system2 <- function(...) version
-  environment(cli) <- test_env
-
-  expect_identical(cli(), binary)
-  version <- "data-dict 0.0.4"
-  expect_error(cli(), "Unsupported data-dict CLI version.*0.0.4")
-  version <- "unrecognized version"
-  expect_error(cli(), "Unsupported data-dict CLI version.*unknown")
-})
-
-test_that("the CLI version guard rejects suffixed versions", {
-  cli <- data_dict_cli
-  test_env <- new.env(parent = environment(cli))
-  test_env$Sys.getenv <- function(...) unname(Sys.which("Rscript"))
-  test_env$system2 <- function(...) "data-dict version 0.0.3.dev1"
-  environment(cli) <- test_env
-
-  expect_error(cli(), "Unsupported data-dict CLI version")
-})
-
-test_that("a failed CLI version check reports its status and output", {
-  cli <- data_dict_cli
-  test_env <- new.env(parent = environment(cli))
-  test_env$Sys.getenv <- function(...) unname(Sys.which("Rscript"))
-  test_env$system2 <- function(...) structure("version check failed", status = 4L)
-  environment(cli) <- test_env
-
-  expect_error(cli(), "status 4.*version check failed")
+test_that("only the supported CLI release can draft or render pins", {
+  skip_if_not_installed("datadict")
+  version <- c("launcher message", "data-dict 0.0.3")
+  local_mocked_bindings(dd_run = function(args, ...) {
+    if (identical(args, "--version")) list(output = version) else args
+  }, .package = "datadict")
+  expect_equal(data_dict_run("draft"), "draft")
+  for (version in c("data-dict 0.0.4", "data-dict 0.0.3.dev1", "unknown")) {
+    expect_error(data_dict_run("draft"), "Unsupported data-dict CLI version")
+  }
 })
 
 test_that("draft removes source paths from every table", {
@@ -202,18 +168,6 @@ test_that("render adds a source only for one Parquet file and one table", {
   expect_true(all(vapply(rendered[["tables"]], function(table) {
     !"source" %in% names(table)
   }, logical(1))))
-})
-
-test_that("CLI failures report their exit status and output", {
-  binary <- file.path(
-    R.home("bin"),
-    if (.Platform$OS.type == "windows") "Rscript.exe" else "Rscript"
-  )
-  local_mocked_bindings(data_dict_cli = function() binary)
-  expect_error(
-    data_dict_run(c("-e", "message('invalid dictionary'); quit(status = 7)")),
-    "data-dict failed \\(status 7\\): invalid dictionary"
-  )
 })
 
 test_that("real CLI drafts portable YAML and renders the Connect entrypoint", {

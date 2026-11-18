@@ -58,8 +58,8 @@ from a data frame (\code{pin_write()}) or Parquet files (\code{pin_upload()}). Y
 can also pass YAML text in \code{metadata[["data_dict"]]}. For Connect, the
 publisher renders \code{dictionary.html}; \code{index.html} keeps the pin overview
 and adds a dictionary view. Drafting and rendering require
-the optional datadict package with an installed binary, or the \code{data-dict}
-CLI on PATH.}
+the \code{datadict} R package and version \code{0.0.3} of the \code{data-dict} CLI.
+Install the CLI with \code{datadict::dd_install(version = "0.0.3")}.}
 }
 \value{
 \code{pin_download()} returns a character vector of file paths;
