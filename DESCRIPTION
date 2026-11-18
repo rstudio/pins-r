@@ -43,6 +43,7 @@ Suggests:
     AzureStor,
     covr,
     data.table,
+    datadict,
     datasets,
     filelock,
     gitcreds,

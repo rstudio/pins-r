@@ -18,3 +18,4 @@
 ^docker-compose.yml$
 ^.claude/
 ^agents\.md$
+^examples$

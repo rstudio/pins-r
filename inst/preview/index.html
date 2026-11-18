@@ -1,85 +1,125 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="theme.js"></script>
+    <title>{{pin_name}} · Data pin</title>
     <link rel="stylesheet" href="pagedtable-1.1/pagedtable.css">
-    <script language="javascript" src="pagedtable-1.1/pagedtable.js"></script>
+    <script src="pagedtable-1.1/pagedtable.js" defer></script>
     <link rel="stylesheet" href="highlight.js-9.15.9/qtcreator_light.css">
-    <script src="highlight.js-9.15.9/highlight.js"></script>
-    <style>
-      body {
-        font-size: 16px;
-        font-family: 'Lato', sans-serif;
-        color: #333;
-      }
-      section {
-        border-left: solid 6px #dddddd;
-        padding: 0.5em 0 0.5em 10px;
-        margin-bottom: 1em;
-      }
-      pre {
-        margin: 0;
-        padding: 1em;
-      }
-      h3 {
-        font-weight: normal;
-        color: #888;
-        margin: 0 0 0.5em 0;
-      }
-    </style>
+    <script src="highlight.js-9.15.9/highlight.js" defer></script>
+    <link rel="stylesheet" href="pin.css">
+    <script src="pin.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 8L16 3l10 5v16l-10 5-10-5V8zM6 8l10 5 10-5M16 13v16M6 16l10 5 10-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          Posit Connect <small>Shared data</small>
+        </div>
+        <span class="badge">Data pin</span>
+      </div>
+    </header>
+    <main id="main">
+      <header class="hero">
+        <p class="eyebrow">Published from R</p>
+        <h1>{{pin_name}}</h1>
+        {{#pin_metadata}}
+        {{#description}}<p class="description">{{.}}</p>{{/description}}
+        <dl class="facts">
+          <div><dt>Format</dt><dd>{{format}}</dd></div>
+          {{#date}}<div><dt>Last updated</dt><dd>{{.}} UTC</dd></div>{{/date}}
+          <div><dt>Pin API</dt><dd>v{{api_version}}</dd></div>
+          {{#hash}}<div><dt>Content hash</dt><dd>{{.}}</dd></div>{{/hash}}
+        </dl>
+        {{/pin_metadata}}
+      </header>
+      <nav class="views" aria-label="Pin views">
+        <a href="#overview" data-pin-view="overview" aria-current="page">Overview</a>
+        <a href="#metadata" data-pin-view="metadata">Metadata</a>
+        {{#has_dictionary}}
+        <a href="#dictionary" data-pin-view="dictionary">Data dictionary</a>
+        {{/has_dictionary}}
+      </nav>
+      <section id="overview" data-pin-panel aria-label="Pin overview">
+        <div class="overview-grid">
+          <div class="stack">
+            {{#has_preview}}
+            <section class="card">
+              <div class="card-head"><div><h2>Data preview</h2><p>Up to 100 rows from this version</p></div></div>
+              <div class="table-wrap">
+                <div data-pagedtable>
+                  <script data-pagedtable-source type="application/json">{{{data_preview}}}</script>
+                </div>
+              </div>
+            </section>
+            {{/has_preview}}
+            <section class="card" aria-labelledby="use-data">
+              <div class="card-head"><div><h2 id="use-data">Use this data</h2><p>Connect with your account, then read the pin.</p></div></div>
+              <div class="code-block">
+                <div class="code-label"><h3>R</h3><button class="copy" type="button" data-copy-code="pin-r" aria-label="Copy R code" hidden>Copy</button></div>
+                <pre class="pin-code"><code id="pin-r" class="r">library(pins)
 
-    <section>
-       <h3>{{{pin_name}}}</h3>
-       {{#pin_metadata}}
-       <p>
-         {{#date}}<b>Last updated from R:</b> {{{.}}} &bull;{{/date}}
-         <b>Format:</b> {{{format}}} &bull;
-         <b>API:</b> v{{{api_version}}}
-       </p>
-       <p>{{{description}}}</p>
-       <p>Download data: {{{pin_files}}}</p>
-       <details>
-         <summary>Raw metadata</summary>
-         <pre>{{{as_yaml}}}</pre>
-       </details>
-       {{/pin_metadata}}
-    </section>
-
-    <section style="{{url_preview_style}}">
-      <h3>Learn more about this pin at:</h3>
-      <p>{{{urls}}}</p>
-    </section>
-
-    <section>
-      <h3>R Code</h3>
-        <pre id="pin-r" class="pin-code"><code class="r">library(pins)
-board <- {{{board_deparse}}}
-pin_read(board, "{{pin_name}}")</code></pre>
-      <script type="text/javascript">
-        hljs.registerLanguage("r", highlight_r);
-        hljs.registerLanguage("python", highlight_python);
-        hljs.initHighlightingOnLoad();
-      </script>
-    </section>
-
-    <section style="{{show_python_style}}">
-      <h3>Python Code</h3>
-        <pre id="pin-python" class="pin-code"><code class="python">import pins
+board &lt;- {{board_deparse}}
+{{read_method}}(board, {{pin_name_literal}})</code></pre>
+                {{#show_python}}
+                <div class="code-label"><h3>Python</h3><button class="copy" type="button" data-copy-code="pin-python" aria-label="Copy Python code" hidden>Copy</button></div>
+                <pre class="pin-code"><code id="pin-python" class="python">import pins
 from dotenv import load_dotenv
 load_dotenv()
 
 board = pins.board_connect()
-board.pin_read(board, "{{pin_name}}")</code></pre>
-    </section>
-
-    <section style="{{data_preview_style}}">
-      <h3>Preview <small>(up to 100 rows)</small></h3>
-      <div data-pagedtable style="height: 25em;">
-        <script data-pagedtable-source type="application/json">
-          {{{data_preview}}}
-        </script>
-      </div>
-    </section>
+board.{{read_method}}({{pin_name_literal}})</code></pre>
+                {{/show_python}}
+              </div>
+            </section>
+          </div>
+          <aside class="stack sidebar" aria-label="Files">
+            <section class="card">
+              <div class="card-head"><h2>Download files</h2></div>
+              <div class="card-body files">
+                {{#pin_files}}
+                <a class="file-link" href="{{url}}" download><span>{{name}}</span><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 13v4h12v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                {{/pin_files}}
+                {{#has_dictionary}}
+                <a class="file-link" href="dictionary.html" target="_blank" rel="noopener"><span>Open data dictionary</span><span aria-hidden="true">↗</span></a>
+                {{/has_dictionary}}
+                <p class="helper">Files from this published version.</p>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </section>
+      <section id="metadata" class="stack" data-pin-panel aria-label="Pin metadata">
+        <section class="card">
+          <div class="card-head"><h2>Pin metadata</h2></div>
+          <div class="card-body"><p class="helper">{{pin_metadata.title}}</p></div>
+          <div class="metadata"><pre>{{pin_metadata.as_yaml}}</pre><p class="metadata-download"><a href="data.txt" download>Download metadata</a></p></div>
+        </section>
+        {{#has_urls}}
+        <section class="card">
+          <div class="card-head"><h2>Related resources</h2></div>
+          <div class="card-body related-links">
+            {{#urls}}<a href="{{url}}" rel="noopener">{{url}}</a>{{/urls}}
+          </div>
+        </section>
+        {{/has_urls}}
+      </section>
+      {{#has_dictionary}}
+      <section id="dictionary" data-pin-panel aria-label="Data dictionary">
+        <div class="card">
+          <div class="dictionary-toolbar">
+            <div><h2>Data dictionary</h2><p>Explore column definitions, constraints, and available profiles.</p></div>
+            <a href="dictionary.html" target="_blank" rel="noopener">Open full page ↗</a>
+          </div>
+          <iframe class="dictionary-frame" src="dictionary.html" title="Data dictionary" loading="lazy"></iframe>
+        </div>
+      </section>
+      {{/has_dictionary}}
+      <p class="footer">Published with pins for R · Data and metadata stay together in this pin.</p>
+    </main>
   </body>
 </html>

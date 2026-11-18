@@ -37,7 +37,8 @@ pin_upload <- function(
   description = NULL,
   metadata = NULL,
   tags = NULL,
-  urls = NULL
+  urls = NULL,
+  data_dict = NULL
 ) {
   check_board(board, "pin_upload", "pin")
   dots <- list2(...)
@@ -78,6 +79,8 @@ pin_upload <- function(
     )
     paths <- as.character(unlist(paths, use.names = FALSE))
   }
+
+  metadata <- data_dict_metadata(metadata, data_dict, paths, upload = TRUE)
 
   meta <- standard_meta(
     paths = paths,

@@ -6,6 +6,10 @@
 
 ## Other improvements
 
+* Connect previews reject payload filenames that collide with preview assets or bundle metadata, and related resource links accept HTTP and HTTPS URLs. Hash-identical writes explain how to save metadata-only edits.
+
+* Added data dictionary support to `pin_write()` and `pin_upload()` for pins displayed in Posit Connect. The refreshed preview preserves usage code, downloads, and metadata, and adds a dictionary view when one is attached.
+
 * Fixed `pin_read()` for legacy pins (`api_version` 0), which failed with "a character vector argument expected" in pins 1.4.2 (#904).
 
 # pins 1.4.2

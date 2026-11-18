@@ -16,7 +16,8 @@ pin_upload(
   description = NULL,
   metadata = NULL,
   tags = NULL,
-  urls = NULL
+  urls = NULL,
+  data_dict = NULL
 )
 }
 \arguments{
@@ -51,6 +52,14 @@ discoverability on shared boards.}
 
 \item{urls}{A character vector of URLs for more info on the pin, such as a
 link to a wiki or other documentation.}
+
+\item{data_dict}{Optional YAML file path, or \code{TRUE} to draft a dictionary
+from a data frame (\code{pin_write()}) or Parquet files (\code{pin_upload()}). You
+can also pass YAML text in \code{metadata[["data_dict"]]}. For Connect, the
+publisher renders \code{dictionary.html}; \code{index.html} keeps the pin overview
+and adds a dictionary view. Drafting and rendering require
+the \code{datadict} R package and version \code{0.0.3} of the \code{data-dict} CLI.
+Install the CLI with \code{datadict::dd_install(version = "0.0.3")}.}
 }
 \value{
 \code{pin_download()} returns a character vector of file paths;

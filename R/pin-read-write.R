@@ -85,8 +85,16 @@ pin_read <- function(
 #' @param urls A character vector of URLs for more info on the pin, such as a
 #'   link to a wiki or other documentation.
 #' @param force_identical_write Store the pin even if the pin contents are
-#'   identical to the last version (compared using the hash). Only the pin
-#'   contents are compared, not the pin metadata. Defaults to `FALSE`.
+#'   identical to the last version (compared using the hash). The hash covers
+#'   pin contents, not metadata, so set this to `TRUE` to store metadata-only
+#'   changes. Defaults to `FALSE`.
+#' @param data_dict Optional YAML file path, or `TRUE` to draft a dictionary
+#'   from a data frame (`pin_write()`) or Parquet files (`pin_upload()`). You
+#'   can also pass YAML text in `metadata[["data_dict"]]`. For Connect, the
+#'   publisher renders `dictionary.html`; `index.html` keeps the pin overview
+#'   and adds a dictionary view. Drafting and rendering require
+#'   the `datadict` R package and version `0.0.3` of the `data-dict` CLI.
+#'   Install the CLI with `datadict::dd_install(version = "0.0.3")`.
 #' @rdname pin_read
 #' @export
 pin_write <- function(
@@ -101,7 +109,8 @@ pin_write <- function(
   versioned = NULL,
   tags = NULL,
   urls = NULL,
-  force_identical_write = FALSE
+  force_identical_write = FALSE,
+  data_dict = NULL
 ) {
   check_board(board, "pin_write", "pin")
   dots <- list2(...)
@@ -129,6 +138,12 @@ pin_write <- function(
     }
   }
   check_metadata(metadata)
+  if (isTRUE(data_dict) && !is.null(metadata[["data_dict"]])) {
+    cli::cli_abort("Supply data_dict or metadata$data_dict, not both.")
+  }
+  if (!isTRUE(data_dict)) {
+    metadata <- data_dict_metadata(metadata, data_dict, x)
+  }
   check_character(tags, allow_null = TRUE)
   check_character(urls, allow_null = TRUE)
   if (!is_string(name)) {
@@ -164,12 +179,16 @@ pin_write <- function(
     if (identical(old_hash, meta$pin_hash)) {
       pins_inform(c(
         "!" = "The hash of pin {.val {name}} has not changed.",
-        "*" = "Your pin will not be stored."
+        "*" = "Your pin will not be stored.",
+        "i" = "The hash covers pin contents. Use {.code force_identical_write = TRUE} to store metadata-only changes."
       ))
       return(invisible(name))
     }
   }
 
+  if (isTRUE(data_dict)) {
+    meta$user <- data_dict_metadata(metadata, data_dict, x)
+  }
   check_dots_used()
   name <- pin_store(board, name, paths, meta, versioned = versioned, x = x, ...)
   pins_inform("Writing to pin '{name}'")

@@ -1,0 +1,25 @@
+$version: 0.1.0
+$learn_more: https://data-dict.tidyverse.org/
+label: Pins sample data
+description: >-
+  Three synthetic observations used to demonstrate publishing a data dictionary
+  alongside a Parquet pin from R and Python.
+tables:
+  - name: data
+    columns:
+      - name: id
+        type: number(id)
+        description: Unique identifier for a synthetic observation.
+        constraints: [primary_key]
+        examples: [1, 2, 3]
+      - name: value
+        type: number
+        description: Synthetic numeric value used to demonstrate a numeric column.
+        constraints: [required]
+        range: [10, 30]
+        examples: [10, 20, 30]
+      - name: group
+        type: string
+        description: Synthetic grouping label; a and b identify the two example groups.
+        constraints: [required]
+        examples: [a, b]
